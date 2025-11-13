@@ -27,10 +27,5 @@ export default defineConfig({
         drop_debugger: true
       }
     }
-  },
-  server: {
-    hmr: {
-      overlay: false
-    }
   }
 });
