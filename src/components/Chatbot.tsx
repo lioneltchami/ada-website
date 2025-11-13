@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Bot, User, Mail, Phone, ExternalLink } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -108,7 +108,7 @@ export default function Chatbot({ onEmailRequest }: ChatbotProps) {
         );
       } else if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('email') || lowerMessage.includes('phone')) {
         addBotMessage(
-          "You can reach ADA at info@apotidevelopment.org or call us at +237 XXX XXX XXX (Mon-Fri 8AM-5PM CAT). We're based in Cameroon, Central Africa. We typically respond to emails within 24 hours.",
+          "You can reach ADA at info@apotidevelopment.org. We're based in Cameroon, Central Africa, and we typically respond to emails within 24 hours. You can also fill out our contact form for any inquiries.",
           [
             { label: "Contact Form", action: () => window.location.href = '/contact' },
             { label: "Send Email Now", action: () => handleEmailRequest('general') }
