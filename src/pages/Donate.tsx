@@ -687,8 +687,8 @@ export default function Donate() {
               <div className="mt-8 p-6 bg-blue-50 rounded-lg">
                 <h4 className="font-semibold text-blue-900 mb-2">Important Tax Information</h4>
                 <p className="text-blue-800 text-sm mb-3">
-                  Apoti Development Association (ADA) is a registered nonprofit organization. 
-                  Tax ID: XX-XXXXXXX (for US tax purposes)
+                  Apoti Development Association (ADA) is a registered nonprofit organization.
+                  Tax ID: {import.meta.env.VITE_TAX_ID} (for US tax purposes)
                 </p>
                 <p className="text-blue-700 text-sm">
                   <strong>Disclaimer:</strong> This information is provided for general guidance only. 

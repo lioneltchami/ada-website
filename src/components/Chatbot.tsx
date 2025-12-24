@@ -108,7 +108,7 @@ export default function Chatbot({ onEmailRequest }: ChatbotProps) {
         );
       } else if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('email') || lowerMessage.includes('phone')) {
         addBotMessage(
-          "You can reach ADA at info@apotidevelopment.org. We're based in Cameroon, Central Africa, and we typically respond to emails within 24 hours. You can also fill out our contact form for any inquiries.",
+          `You can reach ADA at ${import.meta.env.VITE_ORG_EMAIL}. We're based in ${import.meta.env.VITE_ORG_LOCATION}, and we typically respond to emails within 24 hours. You can also fill out our contact form for any inquiries.`,
           [
             { label: "Contact Form", action: () => window.location.href = '/contact' },
             { label: "Send Email Now", action: () => handleEmailRequest('general') }
@@ -180,10 +180,10 @@ Please contact me at your earliest convenience.
 Thank you!`;
 
     if (onEmailRequest) {
-      onEmailRequest('info@apotidevelopment.org', subjects[type], message);
+      onEmailRequest(import.meta.env.VITE_ORG_EMAIL, subjects[type], message);
     } else {
       // Fallback to mailto
-      const mailtoLink = `mailto:info@apotidevelopment.org?subject=${encodeURIComponent(subjects[type])}&body=${encodeURIComponent(message)}`;
+      const mailtoLink = `mailto:${import.meta.env.VITE_ORG_EMAIL}?subject=${encodeURIComponent(subjects[type])}&body=${encodeURIComponent(message)}`;
       window.location.href = mailtoLink;
     }
     

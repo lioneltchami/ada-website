@@ -14,8 +14,7 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+    // TODO: Implement actual form submission logic in Phase 2
     alert('Thank you for your message! We will get back to you within 24 hours.');
   };
 
@@ -30,19 +29,19 @@ export default function Contact() {
     {
       icon: Mail,
       title: "Email Us",
-      details: "info@apotidevelopment.org",
+      details: import.meta.env.VITE_ORG_EMAIL,
       description: "Send us an email anytime"
     },
     {
       icon: Phone,
       title: "Call Us",
-      details: "+237 XXX XXX XXX",
+      details: import.meta.env.VITE_ORG_PHONE,
       description: "Mon-Fri 8AM-5PM (CAT)"
     },
     {
       icon: MapPin,
       title: "Visit Us",
-      details: "Cameroon, Central Africa",
+      details: import.meta.env.VITE_ORG_LOCATION,
       description: "Schedule an appointment"
     },
     {
@@ -248,21 +247,21 @@ export default function Contact() {
                     <Mail className="w-6 h-6 text-primary-200 mt-1" />
                     <div>
                       <h4 className="font-semibold mb-1">Email</h4>
-                      <p className="text-primary-100">info@apotidevelopment.org</p>
+                      <p className="text-primary-100">{import.meta.env.VITE_ORG_EMAIL}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
                     <Phone className="w-6 h-6 text-primary-200 mt-1" />
                     <div>
                       <h4 className="font-semibold mb-1">Phone</h4>
-                      <p className="text-primary-100">+237 XXX XXX XXX</p>
+                      <p className="text-primary-100">{import.meta.env.VITE_ORG_PHONE}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
                     <MapPin className="w-6 h-6 text-primary-200 mt-1" />
                     <div>
                       <h4 className="font-semibold mb-1">Location</h4>
-                      <p className="text-primary-100">Cameroon, Central Africa</p>
+                      <p className="text-primary-100">{import.meta.env.VITE_ORG_LOCATION}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">

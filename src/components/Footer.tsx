@@ -23,13 +23,13 @@ export default function Footer() {
               young girls, and promoting sustainable community development across our region.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+              <a href={import.meta.env.VITE_SOCIAL_FACEBOOK} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
                 <Facebook className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+              <a href={import.meta.env.VITE_SOCIAL_INSTAGRAM} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
                 <Instagram className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+              <a href={import.meta.env.VITE_SOCIAL_TWITTER} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary-400 transition-colors duration-200">
                 <Twitter className="w-6 h-6" />
               </a>
             </div>
@@ -53,15 +53,15 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <MapPin className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-300 text-sm">Cameroon, Central Africa</span>
+                <span className="text-gray-300 text-sm">{import.meta.env.VITE_ORG_LOCATION}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-300 text-sm">info@apotidevelopment.org</span>
+                <span className="text-gray-300 text-sm">{import.meta.env.VITE_ORG_EMAIL}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-300 text-sm">+237 XXX XXX XXX</span>
+                <span className="text-gray-300 text-sm">{import.meta.env.VITE_ORG_PHONE}</span>
               </div>
             </div>
           </div>
