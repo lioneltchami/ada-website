@@ -1,28 +1,79 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Users } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Users, Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
+import emailjs from '@emailjs/browser';
+import { contactFormSchema, ContactFormData } from '../utils/validationSchemas';
 
 export default function Contact() {
-  const [contactType, setContactType] = useState('general');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-    type: 'general'
+  const [contactType, setContactType] = useState<'general' | 'volunteer' | 'partnership'>('general');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      type: 'general',
+    },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement actual form submission logic in Phase 2
-    alert('Thank you for your message! We will get back to you within 24 hours.');
+  // Update contact type in form
+  const handleContactTypeChange = (type: 'general' | 'volunteer' | 'partnership') => {
+    setContactType(type);
+    setValue('type', type);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
+
+    try {
+      // EmailJS integration
+      const templateParams = {
+        from_name: data.name,
+        from_email: data.email,
+        phone: data.phone || 'Not provided',
+        subject: data.subject,
+        message: data.message,
+        contact_type: data.type || contactType,
+        to_email: import.meta.env.VITE_ORG_EMAIL,
+      };
+
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      // Success notification
+      toast.success(
+        'Thank you for your message! We will get back to you within 24 hours.',
+        {
+          duration: 5000,
+          icon: '✉️',
+        }
+      );
+
+      // Reset form
+      reset();
+      setContactType('general');
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast.error(
+        'Failed to send message. Please try again or contact us directly via email.',
+        {
+          duration: 6000,
+        }
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -54,19 +105,19 @@ export default function Contact() {
 
   const contactTypes = [
     {
-      id: 'general',
+      id: 'general' as const,
       icon: MessageCircle,
       title: 'General Inquiry',
       description: 'Questions about our organization or programs'
     },
     {
-      id: 'volunteer',
+      id: 'volunteer' as const,
       icon: Users,
       title: 'Volunteer',
       description: 'Join our team and make a difference'
     },
     {
-      id: 'partnership',
+      id: 'partnership' as const,
       icon: Users,
       title: 'Partnership',
       description: 'Collaborate with us on projects'
@@ -83,7 +134,7 @@ export default function Contact() {
               Get In Touch
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Have questions about our work? Want to volunteer or partner with us? 
+              Have questions about our work? Want to volunteer or partner with us?
               We'd love to hear from you. Reach out and let's start a conversation.
             </p>
           </div>
@@ -116,7 +167,7 @@ export default function Contact() {
               {/* Form */}
               <div className="p-8 lg:p-12">
                 <h2 className="text-3xl font-bold text-gray-900 mb-8">Send Us a Message</h2>
-                
+
                 {/* Contact Type Selection */}
                 <div className="mb-8">
                   <label className="block text-sm font-medium text-gray-700 mb-4">
@@ -127,12 +178,13 @@ export default function Contact() {
                       <button
                         key={type.id}
                         type="button"
-                        onClick={() => setContactType(type.id)}
+                        onClick={() => handleContactTypeChange(type.id)}
+                        disabled={isSubmitting}
                         className={`p-4 border rounded-lg text-left transition-all duration-200 ${
                           contactType === type.id
                             ? 'border-primary-500 bg-primary-50'
                             : 'border-gray-200 hover:border-gray-300'
-                        }`}
+                        } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                       >
                         <div className="flex items-center space-x-3">
                           <type.icon className={`w-5 h-5 ${
@@ -148,7 +200,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -157,12 +209,15 @@ export default function Contact() {
                       <input
                         type="text"
                         id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+                        {...register('name')}
+                        disabled={isSubmitting}
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${
+                          errors.name ? 'border-red-500' : 'border-gray-300'
+                        } ${isSubmitting ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                       />
+                      {errors.name && (
+                        <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -171,12 +226,15 @@ export default function Contact() {
                       <input
                         type="email"
                         id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+                        {...register('email')}
+                        disabled={isSubmitting}
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${
+                          errors.email ? 'border-red-500' : 'border-gray-300'
+                        } ${isSubmitting ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                       />
+                      {errors.email && (
+                        <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                      )}
                     </div>
                   </div>
 
@@ -187,11 +245,15 @@ export default function Contact() {
                     <input
                       type="tel"
                       id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+                      {...register('phone')}
+                      disabled={isSubmitting}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${
+                        errors.phone ? 'border-red-500' : 'border-gray-300'
+                      } ${isSubmitting ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                     />
+                    {errors.phone && (
+                      <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+                    )}
                   </div>
 
                   <div>
@@ -201,12 +263,15 @@ export default function Contact() {
                     <input
                       type="text"
                       id="subject"
-                      name="subject"
-                      required
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+                      {...register('subject')}
+                      disabled={isSubmitting}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${
+                        errors.subject ? 'border-red-500' : 'border-gray-300'
+                      } ${isSubmitting ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                     />
+                    {errors.subject && (
+                      <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>
+                    )}
                   </div>
 
                   <div>
@@ -215,21 +280,38 @@ export default function Contact() {
                     </label>
                     <textarea
                       id="message"
-                      name="message"
                       rows={6}
-                      required
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none"
+                      {...register('message')}
+                      disabled={isSubmitting}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none ${
+                        errors.message ? 'border-red-500' : 'border-gray-300'
+                      } ${isSubmitting ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                     ></textarea>
+                    {errors.message && (
+                      <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
+                    )}
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-4 px-6 rounded-lg font-semibold hover:from-primary-600 hover:to-secondary-600 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                    disabled={isSubmitting}
+                    className={`w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-4 px-6 rounded-lg font-semibold transition-all duration-200 shadow-lg flex items-center justify-center space-x-2 ${
+                      isSubmitting
+                        ? 'opacity-75 cursor-not-allowed'
+                        : 'hover:from-primary-600 hover:to-secondary-600 hover:shadow-xl'
+                    }`}
                   >
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
                   </button>
                 </form>
               </div>
@@ -238,7 +320,7 @@ export default function Contact() {
               <div className="bg-gradient-to-br from-primary-600 to-secondary-600 p-8 lg:p-12 text-white">
                 <h3 className="text-2xl font-bold mb-6">Let's Connect</h3>
                 <p className="text-primary-100 mb-8">
-                  We're here to answer your questions and explore how we can work together 
+                  We're here to answer your questions and explore how we can work together
                   to make a positive impact in our communities.
                 </p>
 
@@ -276,7 +358,7 @@ export default function Contact() {
                 <div className="mt-8 p-6 bg-white/10 rounded-lg backdrop-blur-sm">
                   <h4 className="font-semibold mb-2">Quick Response Guarantee</h4>
                   <p className="text-primary-100 text-sm">
-                    We typically respond to all inquiries within 24 hours during business days. 
+                    We typically respond to all inquiries within 24 hours during business days.
                     For urgent matters, please call us directly.
                   </p>
                 </div>

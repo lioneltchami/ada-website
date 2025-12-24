@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Heart, 
-  CreditCard, 
-  Shield, 
-  Users, 
-  Globe, 
-  Award, 
-  CheckCircle, 
+import {
+  Heart,
+  CreditCard,
+  Shield,
+  Users,
+  Globe,
+  Award,
+  CheckCircle,
   Gift,
   Repeat,
   Calendar,
@@ -16,8 +16,10 @@ import {
   Download,
   Building2,
   Target,
-  DollarSign
+  DollarSign,
+  Loader2
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function Donate() {
   const [selectedAmount, setSelectedAmount] = useState('50');
@@ -25,6 +27,7 @@ export default function Donate() {
   const [customAmount, setCustomAmount] = useState('');
   const [giftType, setGiftType] = useState('monetary');
   const [showMatchingGifts, setShowMatchingGifts] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const predefinedAmounts = ['25', '50', '100', '250', '500', '1000'];
 
@@ -145,16 +148,58 @@ export default function Donate() {
     'ExxonMobil', 'Chevron', 'General Electric', 'Boeing'
   ];
 
-  const handleDonate = () => {
+  const handleDonate = async () => {
     const amount = customAmount || selectedAmount;
-    const type = giftType === 'monetary' ? 'monetary donation' : giftType === 'in-kind' ? 'in-kind donation' : 'legacy gift inquiry';
-    
-    if (giftType === 'legacy') {
-      alert(`Thank you for your interest in legacy giving! Our development team will contact you within 24 hours to discuss planned giving options.`);
-    } else if (giftType === 'in-kind') {
-      alert(`Thank you for your interest in in-kind donations! Please contact us at donations@apotidevelopment.org to discuss your specific donation.`);
-    } else {
-      alert(`Thank you for your generous ${donationType} donation of $${amount}! You will be redirected to our secure payment processor.`);
+
+    // Validation for monetary donations
+    if (giftType === 'monetary') {
+      if (!amount || parseFloat(amount) <= 0) {
+        toast.error('Please select or enter a valid donation amount', {
+          duration: 4000,
+        });
+        return;
+      }
+    }
+
+    setIsProcessing(true);
+
+    // Simulate processing delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    try {
+      if (giftType === 'legacy') {
+        toast.success(
+          'Thank you for your interest in legacy giving! Our development team will contact you within 24 hours to discuss planned giving options.',
+          {
+            duration: 6000,
+            icon: '🎁',
+          }
+        );
+      } else if (giftType === 'in-kind') {
+        toast.success(
+          `Thank you for your interest in in-kind donations! Please contact us at ${import.meta.env.VITE_ORG_EMAIL} to discuss your specific donation.`,
+          {
+            duration: 6000,
+            icon: '📦',
+          }
+        );
+      } else {
+        toast.success(
+          `Thank you for your generous ${donationType} donation of $${amount}! You will be redirected to our secure payment processor.`,
+          {
+            duration: 5000,
+            icon: '💚',
+          }
+        );
+        // In a real implementation, redirect to payment processor here
+        // window.location.href = `https://payment-processor.com?amount=${amount}&type=${donationType}`;
+      }
+    } catch {
+      toast.error('An error occurred. Please try again or contact us directly.', {
+        duration: 5000,
+      });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -490,16 +535,30 @@ export default function Donate() {
                 {/* Donate Button */}
                 <button
                   onClick={handleDonate}
-                  className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-4 px-6 rounded-lg font-semibold hover:from-primary-600 hover:to-secondary-600 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                  disabled={isProcessing}
+                  className={`w-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white py-4 px-6 rounded-lg font-semibold transition-all duration-200 shadow-lg flex items-center justify-center space-x-2 ${
+                    isProcessing
+                      ? 'opacity-75 cursor-not-allowed'
+                      : 'hover:from-primary-600 hover:to-secondary-600 hover:shadow-xl'
+                  }`}
                 >
-                  {giftType === 'monetary' && <CreditCard className="w-5 h-5" />}
-                  {giftType === 'in-kind' && <Gift className="w-5 h-5" />}
-                  {giftType === 'legacy' && <Award className="w-5 h-5" />}
-                  <span>
-                    {giftType === 'monetary' ? 'Donate Now - Secure Payment' : 
-                     giftType === 'in-kind' ? 'Contact Us About In-Kind Donation' : 
-                     'Learn About Legacy Giving'}
-                  </span>
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Processing...</span>
+                    </>
+                  ) : (
+                    <>
+                      {giftType === 'monetary' && <CreditCard className="w-5 h-5" />}
+                      {giftType === 'in-kind' && <Gift className="w-5 h-5" />}
+                      {giftType === 'legacy' && <Award className="w-5 h-5" />}
+                      <span>
+                        {giftType === 'monetary' ? 'Donate Now - Secure Payment' :
+                         giftType === 'in-kind' ? 'Contact Us About In-Kind Donation' :
+                         'Learn About Legacy Giving'}
+                      </span>
+                    </>
+                  )}
                 </button>
 
                 {giftType === 'monetary' && (

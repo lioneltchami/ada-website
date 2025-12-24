@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Calendar, MapPin, Users, Filter, Search, Grid, List, FolderOpen, Image as ImageIcon, ZoomIn, Download, Share2, Heart } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 interface GalleryImage {
   id: string;
@@ -167,7 +168,10 @@ export default function Gallery({
     } else {
       // Fallback: copy to clipboard
       navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      toast.success('Link copied to clipboard!', {
+        icon: '📋',
+        duration: 3000,
+      });
     }
   };
 
