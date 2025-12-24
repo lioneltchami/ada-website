@@ -47,6 +47,7 @@ export default function Chatbot({ onEmailRequest }: ChatbotProps) {
         );
       }, 500);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   const addBotMessage = (text: string, actions?: Array<{ label: string; action: () => void }>) => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Users, Star, Quote, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { Heart, Quote, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 
 interface ImpactStory {
   id: string;

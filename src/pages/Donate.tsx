@@ -12,10 +12,8 @@ import {
   Repeat,
   Calendar,
   TrendingUp,
-  Star,
   Download,
   Building2,
-  Target,
   DollarSign,
   Loader2
 } from 'lucide-react';

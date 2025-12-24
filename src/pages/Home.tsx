@@ -12,7 +12,7 @@ import DonationTracker from '../components/DonationTracker';
 import VolunteerSpotlight from '../components/VolunteerSpotlight';
 import InteractiveButton from '../components/InteractiveButton';
 import ParallaxSection from '../components/ParallaxSection';
-import { Heart, Users, Globe, Lightbulb, ArrowRight, Award, Handshake, Target } from 'lucide-react';
+import { Heart, Users, Globe, Lightbulb, ArrowRight, Award, Handshake } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Home() {

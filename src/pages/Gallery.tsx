@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Gallery from '../components/Gallery';
-import { Camera, Upload, Image as ImageIcon, Cloud, Database, Settings } from 'lucide-react';
+import { Camera, Cloud, Database, Settings } from 'lucide-react';
 
 export default function GalleryPage() {
   // Enhanced gallery images with hierarchical structure

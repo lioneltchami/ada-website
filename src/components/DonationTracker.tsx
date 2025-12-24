@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, Target, TrendingUp, Users, Calendar, Gift } from 'lucide-react';
+import { DollarSign, Target, Users, Calendar, Gift } from 'lucide-react';
 
 interface DonationGoal {
   id: string;
@@ -26,12 +26,11 @@ interface DonationTrackerProps {
 
 export default function DonationTracker({ goals, showRecentDonations = true }: DonationTrackerProps) {
   const [selectedGoal, setSelectedGoal] = useState(0);
-  const [animatedAmounts, setAnimatedAmounts] = useState<number[]>([]);
 
   useEffect(() => {
     // Animate the progress bars
     const timer = setTimeout(() => {
-      setAnimatedAmounts(goals.map(goal => goal.currentAmount));
+      // Animation logic would go here
     }, 500);
     return () => clearTimeout(timer);
   }, [goals]);

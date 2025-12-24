@@ -1,30 +1,23 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Users, 
-  Heart, 
-  Megaphone, 
-  Building2, 
-  Download, 
-  CheckCircle, 
+import {
+  Users,
+  Heart,
+  Megaphone,
+  Building2,
+  Download,
+  CheckCircle,
   Star,
-  ArrowRight,
   Mail,
-  Phone,
-  Globe,
-  Award,
-  Target,
-  Handshake,
   X,
   Send,
   Calendar,
-  FileText,
-  ExternalLink
+  FileText
 } from 'lucide-react';
 
 export default function GetInvolved() {
   const [selectedVolunteerRole, setSelectedVolunteerRole] = useState('');
-  const [selectedMembershipTier, setSelectedMembershipTier] = useState('');
+  const [selectedMembershipTier] = useState('');
   const [showMembershipModal, setShowMembershipModal] = useState(false);
   const [showPartnershipModal, setShowPartnershipModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
@@ -287,7 +280,7 @@ export default function GetInvolved() {
     });
   };
 
-  const handleDownload = (resource: any) => {
+  const handleDownload = (resource: { title: string; format: string; size: string }) => {
     // Simulate download
     alert(`Downloading ${resource.title}... This would normally start a download of the ${resource.format} file (${resource.size}). Thank you for helping spread awareness about ADA's mission!`);
   };
