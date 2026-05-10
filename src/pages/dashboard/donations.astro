@@ -1,0 +1,29 @@
+---
+export const prerender = false;
+
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+---
+
+<PageLayout title="Donation History" description="View your donation history." noIndex>
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-heading font-bold text-gray-900">Donation History</h1>
+        <a href="/dashboard" class="text-sm text-primary-600 hover:underline">← Dashboard</a>
+      </div>
+
+      <!-- Empty State -->
+      <div class="bg-white rounded-card shadow-card p-8 text-center">
+        <span class="text-4xl">📭</span>
+        <h2 class="mt-4 text-lg font-semibold text-gray-900">No Donations Yet</h2>
+        <p class="mt-2 text-sm text-gray-600">
+          When you make a donation, it will appear here with receipt details.
+        </p>
+        <a href="/donate" class="mt-4 inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700">
+          Make Your First Donation
+        </a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>

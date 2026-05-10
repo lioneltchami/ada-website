@@ -1,0 +1,27 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+---
+
+<PageLayout title="Thank You" description="Your donation has been received. Thank you for supporting ADA." noIndex>
+  <Section background="white" padding="lg">
+    <div class="text-center py-12 max-w-lg mx-auto">
+      <span class="text-5xl">🎉</span>
+      <h1 class="mt-4 text-3xl font-heading font-bold text-gray-900">Thank You!</h1>
+      <p class="mt-4 text-lg text-gray-600">
+        Your generous donation has been received. A receipt has been sent to your email.
+      </p>
+      <p class="mt-2 text-gray-500">
+        Your support makes a real difference in the lives of vulnerable communities in Cameroon.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/" class="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
+          Return Home
+        </a>
+        <a href="/projects" class="px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
+          See Our Projects
+        </a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>

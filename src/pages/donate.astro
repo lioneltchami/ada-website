@@ -1,0 +1,110 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/layout/PageHero.astro";
+import Section from "../components/layout/Section.astro";
+import DonationForm from "../components/islands/DonationForm";
+import { getDonationTiers, getProjects, getSiteSettings, type SanityDonationTier, type SanityProject } from '../lib/sanity';
+
+let contactEmail = 'info@apotidev.org';
+try {
+  const settings = await getSiteSettings();
+  if (settings?.contactEmail) contactEmail = settings.contactEmail;
+} catch {}
+
+const pageTitle = 'Make a Difference';
+const pageSubtitle = 'Every contribution helps us reach more vulnerable communities in Cameroon.';
+const pageBadge = 'Support Our Mission';
+
+const trustIndicators = [
+  { icon: '🔒', text: 'Secure & Encrypted' },
+  { icon: '📊', text: '80% to Direct Aid' },
+  { icon: '📧', text: 'Receipt Emailed Instantly' },
+];
+
+const otherWaysToGive = [
+  { icon: '📦', title: 'In-Kind Donations', description: `Contact <a href="mailto:${contactEmail}" class="text-primary-600 hover:underline">${contactEmail}</a>` },
+  { icon: '🏢', title: 'Corporate Matching', description: 'Ask your employer about matching programs' },
+  { icon: '💌', title: 'Legacy Giving', description: '<a href="/contact" class="text-primary-600 hover:underline">Contact us</a> to learn more' },
+];
+
+let impactExamples = [
+  { amount: '$25', impact: 'School supplies for 2 children' },
+  { amount: '$50', impact: 'Widow support for a week' },
+  { amount: '$100', impact: 'Skills training for one woman' },
+  { amount: '$250', impact: 'Healthcare for 5 families' },
+  { amount: '$500', impact: 'Agricultural training for 3 farmers' },
+  { amount: '$1,000', impact: 'Community clean-up initiative' },
+];
+
+let projectOptions: { slug: string; title: string }[] = [];
+try {
+  const projects = await getProjects();
+  if (projects?.length) {
+    projectOptions = projects
+      .filter((p: SanityProject) => p.status === 'active')
+      .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+  }
+} catch {}
+
+try {
+  const tiers = await getDonationTiers();
+  if (tiers?.length) {
+    impactExamples = tiers.map((t: SanityDonationTier) => ({
+      amount: `$${t.amount.toLocaleString()}`,
+      impact: t.impactDescription,
+    }));
+  }
+} catch {}
+---
+
+<PageLayout title="Donate" description="Support ADA's mission to empower vulnerable communities in Cameroon. Every contribution makes a difference.">
+  <PageHero
+    title={pageTitle}
+    subtitle={pageSubtitle}
+    badge={pageBadge}
+  />
+
+  <!-- Trust Indicators -->
+  <Section background="white" padding="sm">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+      {trustIndicators.map((item) => (
+        <div class="flex items-center justify-center gap-2">
+          <span>{item.icon}</span>
+          <span class="text-sm text-gray-600">{item.text}</span>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Donation Form -->
+  <Section background="gray" padding="lg">
+    <DonationForm client:load projects={projectOptions} />
+  </Section>
+
+  <!-- Impact Examples -->
+  <Section background="white" padding="lg">
+    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">Your Impact</h2>
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
+      {impactExamples.map((item) => (
+        <div class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg">
+          <span class="text-lg font-bold text-primary-700">{item.amount}</span>
+          <span class="text-sm text-gray-700">= {item.impact}</span>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Other Ways to Give -->
+  <Section background="gray" padding="md">
+    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">Other Ways to Give</h2>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+      {otherWaysToGive.map((item) => (
+        <div class="text-center">
+          <span class="text-2xl">{item.icon}</span>
+          <h3 class="mt-2 text-sm font-semibold text-gray-900">{item.title}</h3>
+          <p class="mt-1 text-xs text-gray-600" set:html={item.description} />
+        </div>
+      ))}
+    </div>
+  </Section>
+</PageLayout>

@@ -1,0 +1,89 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import Section from '../components/layout/Section.astro';
+import { getGalleryImages } from '../lib/sanity';
+
+const categoryMap: Record<string, string> = {
+  'food-distribution': 'Food Distribution',
+  'skills-training': 'Skills Training',
+  'education': 'Education',
+  'community': 'Community',
+  'events': 'Events',
+};
+
+interface GalleryItem {
+  title: string;
+  category: string;
+}
+
+let galleryImages: GalleryItem[] = [];
+try {
+  const images = await getGalleryImages();
+  if (images?.length) {
+    galleryImages = images.map((img: any) => ({
+      title: img.title,
+      category: img.category || 'community',
+    }));
+  }
+} catch {}
+
+let categories = ['All', 'Food Distribution', 'Skills Training', 'Education', 'Community'];
+if (galleryImages.length > 0) {
+  const uniqueCats = [...new Set(galleryImages.map(img => img.category))];
+  categories = ['All', ...uniqueCats.map(c => categoryMap[c] || c)];
+}
+
+const heroTitle = 'Gallery';
+const heroSubtitle = 'Moments of impact, hope, and transformation from our programs.';
+const heroBadge = 'Our Work in Pictures';
+---
+
+<PageLayout title="Gallery" description="Photos and moments from ADA programs including food distribution, skills training, education support, and community events in Cameroon.">
+  <PageHero title={heroTitle} subtitle={heroSubtitle} badge={heroBadge} compact />
+
+  <Section background="white" padding="lg">
+    <!-- Filter -->
+    <div class="flex flex-wrap gap-2 mb-8">
+      {categories.map((cat, i) => (
+        <button
+          class:list={["px-4 py-2 text-sm font-medium rounded-full transition-colors", i === 0 ? "bg-primary-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"]}
+          data-filter={cat.toLowerCase().replace(" ", "-")}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+
+    {galleryImages.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {galleryImages.map((img) => (
+          <div class="aspect-[4/3] bg-gradient-to-br from-primary-100 to-primary-200 rounded-card flex items-center justify-center">
+            <div class="text-center">
+              <span class="text-4xl">📷</span>
+              <p class="mt-2 text-sm text-primary-700">{img.title}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <div class="aspect-[4/3] bg-gradient-to-br from-primary-100 to-primary-200 rounded-card flex items-center justify-center">
+            <div class="text-center">
+              <span class="text-4xl">📷</span>
+              <p class="mt-2 text-sm text-primary-700">Photo {i + 1}</p>
+              <p class="text-xs text-primary-600/60">Upload via Sanity CMS</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {galleryImages.length === 0 && (
+      <p class="mt-8 text-center text-gray-500 text-sm">
+        Real photos will be loaded from Sanity CMS once uploaded by the ADA team.
+      </p>
+    )}
+  </Section>
+</PageLayout>

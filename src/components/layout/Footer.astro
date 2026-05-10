@@ -1,0 +1,127 @@
+---
+import { getSiteSettings, getProjects, type SanityProject } from '../../lib/sanity';
+
+const currentYear = new Date().getFullYear();
+
+let contactEmail = 'info@apotidev.org';
+let contactPhone = '+237 676 282 346';
+let officeHours = 'Mon–Fri, 8AM–5PM CAT';
+let tagline = 'Empowering vulnerable communities in Cameroon through faith-based programs supporting widows, orphans, and young women since 2021.';
+
+try {
+  const settings = await getSiteSettings();
+  if (settings) {
+    contactEmail = settings.contactEmail || contactEmail;
+    contactPhone = settings.contactPhone || contactPhone;
+    officeHours = settings.officeHours || officeHours;
+    tagline = settings.tagline || tagline;
+  }
+} catch {}
+
+const quickLinks = [
+  { href: "/about", label: "About Us" },
+  { href: "/projects", label: "Our Projects" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/team", label: "Our Team" },
+  { href: "/get-involved", label: "Get Involved" },
+  { href: "/contact", label: "Contact" },
+  { href: "/donate", label: "Donate" },
+];
+
+let programs = [
+  { label: "Widow Support Program", href: "/projects/widow-support" },
+  { label: "Education for Orphans", href: "/projects/education-orphans" },
+  { label: "Young Women Empowerment", href: "/projects/women-empowerment" },
+  { label: "Emergency Relief", href: "/projects/emergency-relief" },
+];
+
+try {
+  const projects = await getProjects();
+  if (projects?.length) {
+    programs = projects
+      .filter((p: SanityProject) => p.status === 'active')
+      .slice(0, 4)
+      .map((p: SanityProject) => ({ label: p.title, href: `/projects/${p.slug.current}` }));
+  }
+} catch {}
+---
+
+<footer class="bg-gray-900 text-gray-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+            <span class="text-white font-bold text-sm">ADA</span>
+          </div>
+          <span class="text-lg font-bold text-white">Apoti Dev Association</span>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          {tagline}
+        </p>
+      </div>
+
+      <!-- Quick Links & Programs -->
+      <nav aria-label="Footer">
+        <div>
+          <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            {quickLinks.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-gray-400 hover:text-primary-400 transition-colors">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mt-8 md:mt-0">
+          <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Programs</h3>
+          <ul class="space-y-2">
+            {programs.map((program) => (
+              <li>
+                <a href={program.href} class="text-sm text-gray-400 hover:text-primary-400 transition-colors">
+                  {program.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Contact Us</h3>
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li>
+            <a href={`mailto:${contactEmail}`} class="hover:text-primary-400 transition-colors">
+              {contactEmail}
+            </a>
+          </li>
+          <li>
+            <a href={`tel:${contactPhone.replace(/\s/g, '')}`} class="hover:text-primary-400 transition-colors">
+              {contactPhone}
+            </a>
+          </li>
+          <li>{officeHours}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="mt-10 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-gray-500">
+        &copy; {currentYear} Apoti Development Association. All rights reserved.
+      </p>
+      <div class="flex items-center gap-4 text-xs text-gray-500">
+        <a href="/privacy" class="hover:text-gray-300">Privacy Policy</a>
+        <a href="/terms" class="hover:text-gray-300">Terms of Service</a>
+      </div>
+      <p class="text-xs text-gray-500">
+        Made with ❤️ for the people of Cameroon
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,105 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import Section from '../components/layout/Section.astro';
+import { getTeamMembers, getImpactMetrics } from '../lib/sanity';
+
+interface TeamMember {
+  name: string;
+  role: string;
+  bio?: string;
+}
+
+let teamMembers: TeamMember[] = [];
+try {
+  const members = await getTeamMembers();
+  if (members?.length) {
+    teamMembers = members.map((m: any) => ({
+      name: m.name,
+      role: m.role,
+      bio: m.bio || '',
+    }));
+  }
+} catch {}
+
+let teamStats = [
+  { value: '10', label: 'Active Volunteers' },
+  { value: '5', label: 'Years of Service' },
+  { value: '5', label: 'Communities' },
+];
+
+try {
+  const metrics = await getImpactMetrics();
+  if (metrics?.length) {
+    const communities = metrics.find(m => m.label.includes('Communities'));
+    const years = metrics.find(m => m.label.includes('Years'));
+    teamStats = [
+      { value: '10', label: 'Active Volunteers' },
+      { value: years ? `${years.value}${years.suffix || ''}` : '5', label: 'Years of Service' },
+      { value: communities ? `${communities.value}${communities.suffix || ''}` : '5', label: 'Communities' },
+    ];
+  }
+} catch {}
+
+const heroTitle = 'Our Team';
+const heroSubtitle = 'Dedicated individuals working together to serve vulnerable communities.';
+const heroBadge = 'The People Behind ADA';
+---
+
+<PageLayout title="Our Team" description="Meet the dedicated team and volunteers behind Apoti Development Association serving communities across Cameroon.">
+  <PageHero title={heroTitle} subtitle={heroSubtitle} badge={heroBadge} compact />
+
+  <Section background="white" padding="lg">
+    {teamMembers.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {teamMembers.map((member) => (
+          <div class="text-center">
+            <div class="w-32 h-32 mx-auto rounded-full bg-primary-100 flex items-center justify-center">
+              <span class="text-3xl font-bold text-primary-600">
+                {member.name.split(" ").map((n) => n[0]).join("")}
+              </span>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-gray-900">{member.name}</h3>
+            <p class="text-sm text-primary-600">{member.role}</p>
+            <p class="mt-2 text-sm text-gray-600">{member.bio}</p>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <span class="text-5xl">👥</span>
+        <h2 class="mt-4 text-xl font-semibold text-gray-900">Team Profiles Coming Soon</h2>
+        <p class="mt-2 text-gray-600 max-w-md mx-auto">
+          Our team profiles will be available once added to the CMS.
+          In the meantime, feel free to reach out to learn more about us.
+        </p>
+        <a href="/contact" class="mt-6 inline-flex items-center px-4 py-2 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
+          Contact Us
+        </a>
+      </div>
+    )}
+  </Section>
+
+  <!-- Stats -->
+  <Section background="gray" padding="md">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+      {teamStats.map((stat) => (
+        <div>
+          <p class="text-3xl font-bold text-primary-700">{stat.value}</p>
+          <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- CTA -->
+  <Section background="dark" padding="md">
+    <div class="text-center">
+      <h2 class="text-2xl font-heading font-bold">Join Our Team</h2>
+      <p class="mt-2 text-white/80">We're always looking for passionate volunteers.</p>
+      <a href="/get-involved" class="mt-4 inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">
+        Get Involved
+      </a>
+    </div>
+  </Section>
+</PageLayout>

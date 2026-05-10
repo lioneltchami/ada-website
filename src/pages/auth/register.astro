@@ -1,0 +1,22 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+import RegisterForm from "../../components/islands/RegisterForm";
+---
+
+<PageLayout title="Create Account" description="Create your ADA account to track donations and manage your profile." noIndex>
+  <Section background="gray" padding="lg">
+    <div class="max-w-md mx-auto">
+      <div class="text-center mb-8">
+        <div class="w-12 h-12 mx-auto rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+          <span class="text-white font-bold text-sm">ADA</span>
+        </div>
+        <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">Create Your Account</h1>
+        <p class="mt-1 text-sm text-gray-600">Join our community of supporters.</p>
+      </div>
+      <div class="bg-white p-6 rounded-card shadow-card">
+        <RegisterForm client:load />
+      </div>
+    </div>
+  </Section>
+</PageLayout>

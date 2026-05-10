@@ -1,0 +1,99 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+import { getProjects, type SanityProject } from '../../lib/sanity';
+import { projects as fallbackProjects } from '../../data/projects';
+
+export async function getStaticPaths() {
+  let projectData;
+  try {
+    const sanityProjects = await getProjects();
+    if (sanityProjects?.length) {
+      projectData = sanityProjects.map((p: SanityProject) => ({
+        slug: p.slug.current,
+        title: p.title,
+        location: p.location,
+        status: p.status,
+        description: p.description,
+        beneficiaries: p.beneficiaries,
+        goal: p.goalAmount,
+        raised: p.raisedAmount,
+      }));
+    } else {
+      projectData = fallbackProjects;
+    }
+  } catch {
+    projectData = fallbackProjects;
+  }
+
+  return projectData.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const progress = Math.min(100, (project.raised / project.goal) * 100);
+---
+
+<PageLayout title={project.title} description={project.description.slice(0, 160)}>
+  <!-- Hero -->
+  <section class="relative py-20 md:py-28 bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <a href="/projects" class="inline-flex items-center text-sm text-white/70 hover:text-white mb-6">
+        ← Back to Projects
+      </a>
+      <div class="flex items-center gap-2 mb-4">
+        <span class:list={["px-2 py-0.5 text-xs font-medium rounded-full", project.status === "active" ? "bg-green-400/20 text-green-200" : project.status === "completed" ? "bg-gray-400/20 text-gray-200" : "bg-yellow-400/20 text-yellow-200"]}>
+          {project.status === "active" ? "Active" : project.status === "completed" ? "Completed" : "Paused"}
+        </span>
+        <span class="text-sm text-white/70">📍 {project.location}</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-heading font-bold">{project.title}</h1>
+    </div>
+  </section>
+
+  <Section background="white" padding="lg">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <!-- Content -->
+      <div class="lg:col-span-2 space-y-6">
+        <h2 class="text-2xl font-heading font-bold text-gray-900">About This Project</h2>
+        <p class="text-gray-600 leading-relaxed">{project.description}</p>
+
+        <div class="grid grid-cols-2 gap-4 mt-8">
+          <div class="p-4 bg-primary-50 rounded-card">
+            <p class="text-2xl font-bold text-primary-700">{project.beneficiaries}</p>
+            <p class="text-sm text-gray-600">Beneficiaries</p>
+          </div>
+          <div class="p-4 bg-primary-50 rounded-card">
+            <p class="text-2xl font-bold text-primary-700">{project.location}</p>
+            <p class="text-sm text-gray-600">Location</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        <div class="p-6 bg-gray-50 rounded-card border border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-900">Fundraising Progress</h3>
+          <div class="mt-4">
+            <div class="flex justify-between text-sm mb-2">
+              <span class="font-medium text-gray-900">${project.raised.toLocaleString()}</span>
+              <span class="text-gray-500">of ${project.goal.toLocaleString()}</span>
+            </div>
+            <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin="0" aria-valuemax="100" aria-label="Fundraising progress">
+              <div class="h-full bg-primary-500 rounded-full" style={`width: ${progress}%`}></div>
+            </div>
+            <p class="mt-2 text-sm text-gray-500">{Math.round(progress)}% funded</p>
+          </div>
+          <a
+            href={`/donate?project=${project.slug}`}
+            class="mt-6 block w-full text-center px-4 py-3 text-base font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+          >
+            Support This Project
+          </a>
+        </div>
+      </div>
+    </div>
+  </Section>
+</PageLayout>

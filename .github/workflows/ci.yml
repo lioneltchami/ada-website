@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Verify pages generated
+        run: |
+          count=$(find dist/client -name '*.html' | wc -l)
+          echo "Pages generated: $count"
+          if [ "$count" -lt 20 ]; then
+            echo "ERROR: Expected at least 20 pages, got $count"
+            exit 1
+          fi

@@ -1,0 +1,172 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/layout/PageHero.astro";
+import Section from "../components/layout/Section.astro";
+import { getAboutPage, type SanityAboutPage } from '../lib/sanity';
+
+// Fallbacks
+let missionStatement = 'Shine the light of Jesus Christ by empowering vulnerable communities in Cameroon through food distribution, education, skills training, and healthcare programs that restore dignity and build self-sufficiency.';
+let storyHeading = 'Called to Serve';
+let storyParagraphs = [
+  'Founded in 2021, Apoti Development Association was born from a deep conviction that faith must be expressed through action. In the heart of Cameroon, where widows, orphans, and young women face daily challenges of poverty and marginalization, we saw an opportunity to make a tangible difference.',
+  'What began as a small group of committed individuals has grown into a community-driven organization serving 5 communities across Cameroon, touching over 200 lives through our programs.',
+];
+let coreValues = [
+  { icon: '\u2764\ufe0f', title: 'Faith & Love', desc: 'Grounded in Christian faith, we serve with unconditional love and compassion.' },
+  { icon: '\ud83d\ude4f', title: 'Dignity & Respect', desc: 'Every person we serve is treated with the dignity they deserve as God\'s creation.' },
+  { icon: '\ud83c\udf31', title: 'Empowerment & Growth', desc: 'We equip people with skills and resources to build their own futures.' },
+  { icon: '\ud83d\udd0d', title: 'Transparency & Integrity', desc: 'We are accountable to our donors, partners, and the communities we serve.' },
+  { icon: '\ud83e\udd1d', title: 'Community Partnership', desc: 'We work alongside local leaders and organizations for lasting impact.' },
+  { icon: '\u267b\ufe0f', title: 'Sustainable Impact', desc: 'Our programs are designed to create long-term change, not temporary relief.' },
+];
+let programs = [
+  { icon: '\ud83c\udf5a', title: 'Food Distribution', desc: 'Regular food packages for widows and families in need.' },
+  { icon: '\u2702\ufe0f', title: 'Skills Training', desc: 'Vocational training in tailoring, hairdressing, and crafts for young women.' },
+  { icon: '\ud83c\udfe5', title: 'Hospital Visits', desc: 'Medical support and hospital visits for community members.' },
+  { icon: '\ud83d\udcda', title: 'Back-to-School Support', desc: 'School supplies, uniforms, and tuition for orphaned children.' },
+  { icon: '\ud83d\udca7', title: 'Clean Water Initiative', desc: 'Access to clean water for underserved communities.' },
+  { icon: '\ud83e\uddf9', title: 'Community Clean-Up', desc: 'Environmental stewardship through community clean-up drives.' },
+];
+let financialSplit = [
+  { percentage: 80, label: 'Direct Aid' },
+  { percentage: 15, label: 'Program Ops' },
+  { percentage: 5, label: 'Admin' },
+];
+let timeline = [
+  { year: '2021', event: 'Founded in Cameroon with a mission to serve the vulnerable' },
+  { year: '2022', event: 'Launched first Widow Support Program' },
+  { year: '2023', event: 'Orphan Care and Education program begins' },
+  { year: '2024', event: 'Expanded to 5 communities, 200+ lives impacted' },
+];
+
+try {
+  const page = await getAboutPage();
+  if (page) {
+    missionStatement = page.missionStatement || missionStatement;
+    storyHeading = page.storyHeading || storyHeading;
+    if (page.storyParagraphs?.length) storyParagraphs = page.storyParagraphs;
+    if (page.coreValues?.length) coreValues = page.coreValues.map(v => ({ icon: v.icon, title: v.title, desc: v.description }));
+    if (page.programs?.length) programs = page.programs.map(p => ({ icon: p.icon, title: p.title, desc: p.description }));
+    if (page.financialSplit?.length) financialSplit = page.financialSplit;
+    if (page.timeline?.length) timeline = page.timeline;
+  }
+} catch {}
+
+const ctaHeading = 'Join Our Mission';
+const ctaSubtitle = 'Whether through giving, volunteering, or prayer, you can make a difference.';
+const programsSubtitle = 'Six focused programs addressing the most pressing needs in our communities.';
+const financialSubtitle = 'We are committed to responsible stewardship of every donation.';
+
+const metaTitle = 'About Us';
+const metaDescription = 'Learn about Apoti Development Association\'s mission to empower vulnerable communities in Cameroon through faith-based programs.';
+---
+
+<PageLayout title={metaTitle} description={metaDescription}>
+  <PageHero
+    title="About Us"
+    subtitle="Faith-based charity empowering vulnerable communities in Cameroon since 2021."
+    badge="Our Story"
+  />
+
+  <!-- Mission & Vision -->
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Our Mission</h2>
+      <p class="mt-6 text-lg text-gray-600 leading-relaxed">
+        {missionStatement}
+      </p>
+    </div>
+  </Section>
+
+  <!-- Our Story -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">{storyHeading}</h2>
+      <div class="mt-8 space-y-4 text-gray-600 leading-relaxed">
+        {storyParagraphs.map(p => <p>{p}</p>)}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Core Values -->
+  <Section background="white" padding="lg">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Core Values</h2>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {coreValues.map((value) => (
+        <div class="p-6 bg-gray-50 rounded-card shadow-card">
+          <span class="text-3xl">{value.icon}</span>
+          <h3 class="mt-3 text-lg font-semibold text-gray-900">{value.title}</h3>
+          <p class="mt-2 text-sm text-gray-600">{value.desc}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Programs -->
+  <Section background="gray" padding="lg">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Programs</h2>
+    <p class="mt-4 text-lg text-gray-600 text-center max-w-2xl mx-auto">
+      {programsSubtitle}
+    </p>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {programs.map((program) => (
+        <div class="p-6 bg-white rounded-card shadow-card">
+          <span class="text-3xl">{program.icon}</span>
+          <h3 class="mt-3 text-lg font-semibold text-gray-900">{program.title}</h3>
+          <p class="mt-2 text-sm text-gray-600">{program.desc}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Financial Transparency -->
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Financial Transparency</h2>
+      <p class="mt-4 text-gray-600">{financialSubtitle}</p>
+      <div class="mt-8 grid grid-cols-3 gap-4">
+        {financialSplit.map((item) => (
+          <div class="p-4 bg-primary-50 rounded-card">
+            <p class="text-2xl font-bold text-primary-700">{item.percentage}%</p>
+            <p class="text-sm text-gray-600">{item.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Timeline -->
+  <Section background="gray" padding="lg">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Journey</h2>
+    <ol class="mt-12 max-w-2xl mx-auto space-y-8 list-none">
+      {timeline.map((milestone) => (
+        <li class="flex gap-4">
+          <div class="flex-shrink-0 w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center">
+            <span class="text-white font-bold text-sm">{milestone.year}</span>
+          </div>
+          <div class="pt-4">
+            <p class="text-gray-700 font-medium">{milestone.event}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <!-- CTA -->
+  <Section background="dark" padding="lg">
+    <div class="text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold">{ctaHeading}</h2>
+      <p class="mt-4 text-white/80 max-w-2xl mx-auto">
+        {ctaSubtitle}
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="/donate" class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">
+          Donate Now
+        </a>
+        <a href="/get-involved" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">
+          Get Involved
+        </a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>

@@ -1,0 +1,57 @@
+---
+export const prerender = false;
+
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+
+const user = Astro.locals.user;
+const name = user?.user_metadata?.full_name || "Supporter";
+---
+
+<PageLayout title="Dashboard" description="Your ADA donor dashboard." noIndex>
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <!-- Welcome -->
+      <div class="mb-8">
+        <h1 class="text-2xl font-heading font-bold text-gray-900">Welcome back, {name}</h1>
+        <p class="text-gray-600">Manage your donations and profile.</p>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="p-4 bg-white rounded-card shadow-card text-center">
+          <p class="text-2xl font-bold text-primary-700">$0</p>
+          <p class="text-xs text-gray-500">Total Donated</p>
+        </div>
+        <div class="p-4 bg-white rounded-card shadow-card text-center">
+          <p class="text-2xl font-bold text-primary-700">0</p>
+          <p class="text-xs text-gray-500">Donations</p>
+        </div>
+        <div class="p-4 bg-white rounded-card shadow-card text-center">
+          <p class="text-2xl font-bold text-primary-700">0</p>
+          <p class="text-xs text-gray-500">Subscriptions</p>
+        </div>
+        <div class="p-4 bg-white rounded-card shadow-card text-center">
+          <p class="text-2xl font-bold text-primary-700">New</p>
+          <p class="text-xs text-gray-500">Member Since</p>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <a href="/donate" class="p-4 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center">
+          <span class="text-2xl">💝</span>
+          <p class="mt-2 text-sm font-medium text-gray-900">Make a Donation</p>
+        </a>
+        <a href="/dashboard/donations" class="p-4 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center">
+          <span class="text-2xl">📋</span>
+          <p class="mt-2 text-sm font-medium text-gray-900">Donation History</p>
+        </a>
+        <a href="/dashboard/profile" class="p-4 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center">
+          <span class="text-2xl">👤</span>
+          <p class="mt-2 text-sm font-medium text-gray-900">Update Profile</p>
+        </a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>

@@ -1,0 +1,147 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Section from "../components/layout/Section.astro";
+import { getImpactMetrics, getHomePage, type SanityImpactMetric, type SanityHomePage } from '../lib/sanity';
+
+let stats = [
+  { value: '200+', label: 'Lives Impacted' },
+  { value: '5', label: 'Communities Served' },
+  { value: '15+', label: 'Widows Supported' },
+  { value: '5', label: 'Years of Service' },
+];
+
+try {
+  const metrics = await getImpactMetrics();
+  if (metrics?.length) {
+    stats = metrics.map((m: SanityImpactMetric) => ({
+      value: `${m.value}${m.suffix || ''}`,
+      label: m.label,
+    }));
+  }
+} catch {}
+
+// Fallback content
+let heroBadge = 'Faith-Based Charity \u00b7 Cameroon';
+let heroHeadline = 'Empowering Vulnerable\nCommunities in Cameroon';
+let heroSubtitle = 'Supporting widows, orphans, and young women through food distribution, skills training, healthcare, and education programs since 2021.';
+let missionHeading = 'Our Mission';
+let missionBody = 'To provide holistic support to vulnerable communities in Cameroon through faith-based programs that address immediate needs while building long-term self-sufficiency.';
+let missionCards = [
+  { icon: '🤝', title: 'Widow Support', description: 'Financial aid, skills training, and community for widows rebuilding their lives.' },
+  { icon: '📚', title: 'Education', description: 'School supplies, tuition support, and mentorship for orphaned children.' },
+  { icon: '💪', title: 'Empowerment', description: 'Vocational training and microfinance for young women seeking independence.' },
+];
+let ctaHeading = 'Make a Difference Today';
+let ctaBody = 'Every contribution helps us reach more vulnerable communities in Cameroon. Join us in building a brighter future.';
+
+try {
+  const page = await getHomePage();
+  if (page) {
+    heroBadge = page.heroBadge || heroBadge;
+    heroHeadline = page.heroHeadline || heroHeadline;
+    heroSubtitle = page.heroSubtitle || heroSubtitle;
+    missionHeading = page.missionHeading || missionHeading;
+    missionBody = page.missionBody || missionBody;
+    if (page.missionCards?.length) missionCards = page.missionCards;
+    ctaHeading = page.ctaHeading || ctaHeading;
+    ctaBody = page.ctaBody || ctaBody;
+  }
+} catch {}
+---
+
+<PageLayout
+  title="Empowering Communities in Cameroon"
+  description="Empowering vulnerable communities in Cameroon through faith-based programs supporting widows, orphans, and young women since 2021."
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden py-24 md:py-32 bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white">
+    <div class="absolute inset-0 opacity-10" aria-hidden="true">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-primary-300 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-10 right-10 w-96 h-96 bg-accent-300 rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+        {heroBadge}
+      </span>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight">
+        {heroHeadline}
+      </h1>
+      <p class="mt-6 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+        {heroSubtitle}
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/donate"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+          data-umami-event="hero-donate-cta"
+        >
+          Donate Now
+        </a>
+        <a
+          href="/projects"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+        >
+          Our Projects
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Stats -->
+  <Section background="white" padding="md">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {stats.map((stat) => (
+        <div>
+          <p class="text-3xl md:text-4xl font-bold text-primary-700">{stat.value}</p>
+          <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Mission Section -->
+  <Section background="gray" padding="lg">
+    <div class="text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">{missionHeading}</h2>
+      <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        {missionBody}
+      </p>
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {missionCards.map((card) => (
+          <div class="p-6 bg-white rounded-card shadow-card">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary-100 flex items-center justify-center">
+              <span class="text-2xl">{card.icon}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">{card.title}</h3>
+            <p class="mt-2 text-sm text-gray-600">{card.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- CTA Section -->
+  <Section background="dark" padding="lg">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold">{ctaHeading}</h2>
+      <p class="mt-4 text-lg text-white/80">
+        {ctaBody}
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/donate"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors"
+          data-umami-event="cta-donate"
+        >
+          Donate Now
+        </a>
+        <a
+          href="/get-involved"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+        >
+          Volunteer With Us
+        </a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>

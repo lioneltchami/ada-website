@@ -1,0 +1,25 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Section from "../components/layout/Section.astro";
+---
+
+<PageLayout title="Page Not Found" description="The page you're looking for doesn't exist." noIndex>
+  <Section background="white" padding="lg">
+    <div class="text-center py-12">
+      <p class="text-6xl font-bold text-primary-200">404</p>
+      <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">Page Not Found</h1>
+      <p class="mt-2 text-gray-600">The page you're looking for doesn't exist or has been moved.</p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/" class="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
+          Go Home
+        </a>
+        <a href="/projects" class="px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
+          View Projects
+        </a>
+        <a href="/contact" class="px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>

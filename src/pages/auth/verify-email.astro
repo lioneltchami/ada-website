@@ -1,0 +1,23 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+---
+
+<PageLayout title="Verify Email" description="Check your email for a verification link." noIndex>
+  <Section background="gray" padding="lg">
+    <div class="max-w-md mx-auto text-center">
+      <span class="text-5xl">📧</span>
+      <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">Check Your Email</h1>
+      <p class="mt-2 text-gray-600">
+        We've sent a verification link to your email address. Click the link to activate your account.
+      </p>
+      <p class="mt-4 text-sm text-gray-500">
+        Didn't receive it? Check your spam folder or
+        <a href="/auth/register" class="text-primary-600 hover:underline">try again</a>.
+      </p>
+      <a href="/auth/login" class="mt-6 inline-block px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50">
+        Back to Login
+      </a>
+    </div>
+  </Section>
+</PageLayout>

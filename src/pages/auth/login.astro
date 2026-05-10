@@ -1,0 +1,22 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+import LoginForm from "../../components/islands/LoginForm";
+---
+
+<PageLayout title="Login" description="Sign in to your ADA account." noIndex>
+  <Section background="gray" padding="lg">
+    <div class="max-w-md mx-auto">
+      <div class="text-center mb-8">
+        <div class="w-12 h-12 mx-auto rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+          <span class="text-white font-bold text-sm">ADA</span>
+        </div>
+        <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">Welcome Back</h1>
+        <p class="mt-1 text-sm text-gray-600">Sign in to view your donation history and profile.</p>
+      </div>
+      <div class="bg-white p-6 rounded-card shadow-card">
+        <LoginForm client:load />
+      </div>
+    </div>
+  </Section>
+</PageLayout>

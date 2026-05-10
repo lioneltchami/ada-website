@@ -1,0 +1,134 @@
+---
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/projects", label: "Projects" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/team", label: "Team" },
+  { href: "/get-involved", label: "Get Involved" },
+  { href: "/contact", label: "Contact" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+          <span class="text-white font-bold text-sm">ADA</span>
+        </div>
+        <div class="hidden sm:block">
+          <span class="text-lg font-bold text-gray-900">Apoti Dev</span>
+          <span class="block text-xs text-gray-500 -mt-1">Association</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <ul class="hidden lg:flex items-center gap-1">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class:list={[
+                "px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                currentPath === link.href
+                  ? "text-primary-700 bg-primary-50"
+                  : "text-gray-600 hover:text-primary-700 hover:bg-gray-50",
+              ]}
+              aria-current={currentPath === link.href ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- CTA + Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a
+          href="/donate"
+          class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg hover:from-primary-700 hover:to-primary-800 transition-all shadow-sm"
+          data-umami-event="nav-donate"
+        >
+          Donate
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          type="button"
+          class="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          id="mobile-menu-btn"
+        >
+          <span class="sr-only">Open menu</span>
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden pb-4" aria-label="Mobile navigation">
+      <ul class="space-y-1 pt-2 border-t border-gray-100">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class:list={[
+                "block px-3 py-2 text-base font-medium rounded-md",
+                currentPath === link.href
+                  ? "text-primary-700 bg-primary-50"
+                  : "text-gray-600 hover:text-primary-700 hover:bg-gray-50",
+              ]}
+              aria-current={currentPath === link.href ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+        <li class="pt-2">
+          <a
+            href="/donate"
+            class="block px-3 py-2 text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg text-center"
+          >
+            Donate Now
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+
+  function openMenu() {
+    btn?.setAttribute("aria-expanded", "true");
+    menu?.classList.remove("hidden");
+    const firstLink = menu?.querySelector("a");
+    firstLink?.focus();
+  }
+
+  function closeMenu() {
+    btn?.setAttribute("aria-expanded", "false");
+    menu?.classList.add("hidden");
+    btn?.focus();
+  }
+
+  btn?.addEventListener("click", () => {
+    const expanded = btn.getAttribute("aria-expanded") === "true";
+    expanded ? closeMenu() : openMenu();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !menu?.classList.contains("hidden")) {
+      closeMenu();
+    }
+  });
+</script>
