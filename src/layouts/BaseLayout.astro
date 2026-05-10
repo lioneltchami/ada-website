@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+
 interface Props {
   title: string;
   description: string;
@@ -58,6 +60,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
         "sameAs": ["https://facebook.com/apotidev", "https://instagram.com/apotidev", "https://twitter.com/apotidev"]
       })} />
     )}
+    <ViewTransitions />
   </head>
   <body>
     <slot />

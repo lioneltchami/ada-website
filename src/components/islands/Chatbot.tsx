@@ -15,6 +15,8 @@ const FALLBACK_RESPONSES: [RegExp, string][] = [
   [/volunteer|help|join/i, "We welcome volunteers in Cameroon and remotely! Roles include education mentoring, community outreach, and digital communications."],
   [/contact|email|phone/i, "Email info@apotidev.org or WhatsApp +237 676 282 346. Mon-Fri 8AM-5PM CAT."],
   [/impact|result/i, "Since 2021, we have impacted 200+ lives across 5 communities in Cameroon."],
+  [/hours|open|when/i, "Our office is open Mon–Fri, 8AM–5PM CAT. You can also reach us anytime via WhatsApp at +237 676 282 346."],
+  [/location|where|address/i, "We operate across Cameroon, with programs in Bamenda, Douala, Yaoundé, and rural communities in the Central Region."],
 ];
 
 const DEFAULT = "I can help with info about our projects, donations, volunteering, or contact details. What would you like to know?";
@@ -25,6 +27,7 @@ export default function Chatbot({ faqs = [] }: Props) {
     { from: "bot", text: DEFAULT },
   ]);
   const [input, setInput] = useState("");
+  const [typing, setTyping] = useState(false);
   const logRef = useRef<HTMLDivElement>(null);
 
   function getReply(msg: string): string {
@@ -43,7 +46,7 @@ export default function Chatbot({ faqs = [] }: Props) {
 
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
-  }, [messages]);
+  }, [messages, typing]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
@@ -54,8 +57,14 @@ export default function Chatbot({ faqs = [] }: Props) {
   const send = () => {
     const text = input.trim();
     if (!text) return;
-    setMessages((m) => [...m, { from: "user", text }, { from: "bot", text: getReply(text) }]);
+    const reply = getReply(text);
+    setMessages((m) => [...m, { from: "user", text }]);
     setInput("");
+    setTyping(true);
+    setTimeout(() => {
+      setMessages((m) => [...m, { from: "bot", text: reply }]);
+      setTyping(false);
+    }, 600);
   };
 
   return (
@@ -78,10 +87,29 @@ export default function Chatbot({ faqs = [] }: Props) {
           </div>
           <div ref={logRef} role="log" aria-live="polite" className="flex-1 overflow-y-auto p-3 space-y-2 text-sm">
             {messages.map((m, i) => (
-              <div key={i} className={`max-w-[85%] px-3 py-2 rounded-lg ${m.from === "bot" ? "bg-gray-100 text-gray-800 self-start" : "bg-green-600 text-white self-end ml-auto"}`}>
-                {m.text}
+              <div key={i} className={`flex items-start gap-2 ${m.from === "user" ? "flex-row-reverse" : ""}`}>
+                {m.from === "bot" ? (
+                  <span className="w-6 h-6 rounded-full bg-primary-600 flex items-center justify-center text-[8px] text-white font-bold flex-shrink-0">ADA</span>
+                ) : (
+                  <span className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] text-white flex-shrink-0">👤</span>
+                )}
+                <div className={`max-w-[75%] px-3 py-2 rounded-lg ${m.from === "bot" ? "bg-gray-100 text-gray-800" : "bg-green-600 text-white"}`}>
+                  {m.text}
+                </div>
               </div>
             ))}
+            {typing && (
+              <div className="flex items-start gap-2">
+                <span className="w-6 h-6 rounded-full bg-primary-600 flex items-center justify-center text-[8px] text-white font-bold flex-shrink-0">ADA</span>
+                <div className="px-3 py-2 bg-gray-100 rounded-lg">
+                  <span className="flex gap-1">
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
           <form onSubmit={(e) => { e.preventDefault(); send(); }} className="flex border-t border-gray-200">
             <input
