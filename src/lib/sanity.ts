@@ -136,3 +136,21 @@ export async function getAboutPage(): Promise<SanityAboutPage | null> {
 export async function getFaqResponses(): Promise<SanityFaqResponse[]> {
   return getSanityClient().fetch(`*[_type == "faqResponse"] | order(sortOrder asc)`);
 }
+
+export interface SanityBlogPost {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt: string;
+  body: string;
+  publishedAt: string;
+  category: string;
+}
+
+export async function getBlogPosts(): Promise<SanityBlogPost[]> {
+  return getSanityClient().fetch(`*[_type == "blogPost"] | order(publishedAt desc)`);
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<SanityBlogPost | null> {
+  return getSanityClient().fetch(`*[_type == "blogPost" && slug.current == $slug][0]`, { slug });
+}

@@ -8,9 +8,25 @@ export default function NewsletterSignup() {
     e.preventDefault();
     if (!email) return;
     setStatus('loading');
-    // Placeholder - will connect to Supabase/Resend later
-    await new Promise(resolve => setTimeout(resolve, 800));
-    setStatus('success');
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      setStatus(res.ok ? 'success' : 'error');
+    } catch {
+      setStatus('error');
+    }
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="text-center" role="alert">
+        <p className="text-sm text-red-600">Something went wrong. Please try again.</p>
+        <button onClick={() => setStatus('idle')} className="mt-2 text-sm text-primary-600 hover:underline">Try again</button>
+      </div>
+    );
   }
 
   if (status === 'success') {

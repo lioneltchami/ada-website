@@ -9,6 +9,7 @@ import testimonial from './testimonial';
 import homePage from './homePage';
 import aboutPage from './aboutPage';
 import faqResponse from './faqResponse';
+import blogPost from './blogPost';
 
 export const schemaTypes = [
   project,
@@ -22,4 +23,5 @@ export const schemaTypes = [
   homePage,
   aboutPage,
   faqResponse,
+  blogPost,
 ];

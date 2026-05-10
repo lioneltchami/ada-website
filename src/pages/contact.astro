@@ -104,16 +104,34 @@ const heroBadge = 'Get in Touch';
 </PageLayout>
 
 <script>
-  document.getElementById('contact-form')!.addEventListener('submit', (e) => {
+  const form = document.getElementById('contact-form');
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = (e.target as HTMLFormElement).querySelector('button[type="submit"]') as HTMLButtonElement;
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     btn.disabled = true;
-    btn.textContent = 'Sent!';
-    const msg = document.createElement('p');
-    msg.className = 'mt-4 text-sm text-green-700 font-medium';
-    msg.setAttribute('role', 'alert');
-    msg.setAttribute('aria-live', 'polite');
-    msg.textContent = 'Message sent! We will respond within 24-48 hours.';
-    (e.target as HTMLElement).appendChild(msg);
+    btn.textContent = 'Sending...';
+    const data = Object.fromEntries(new FormData(form as HTMLFormElement));
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const msg = document.createElement('p');
+      msg.setAttribute('role', 'alert');
+      msg.setAttribute('aria-live', 'polite');
+      if (res.ok) {
+        msg.className = 'mt-4 text-sm text-green-700 font-medium';
+        msg.textContent = 'Message sent! We will respond within 24-48 hours.';
+        (form as HTMLFormElement).reset();
+      } else {
+        msg.className = 'mt-4 text-sm text-red-600';
+        msg.textContent = 'Failed to send. Please try again.';
+      }
+      form.appendChild(msg);
+    } catch {
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+    }
   });
 </script>

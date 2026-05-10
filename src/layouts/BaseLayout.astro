@@ -60,6 +60,13 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
         "sameAs": ["https://facebook.com/apotidev", "https://instagram.com/apotidev", "https://twitter.com/apotidev"]
       })} />
     )}
+    {import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
+      <script
+        defer
+        src={`${import.meta.env.PUBLIC_UMAMI_URL || 'https://cloud.umami.is'}/script.js`}
+        data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID}
+      />
+    )}
     <ClientRouter />
   </head>
   <body>

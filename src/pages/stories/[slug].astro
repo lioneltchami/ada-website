@@ -1,0 +1,35 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Section from '../../components/layout/Section.astro';
+import { getBlogPosts, type SanityBlogPost } from '../../lib/sanity';
+
+export async function getStaticPaths() {
+  let posts: SanityBlogPost[] = [];
+  try { posts = await getBlogPosts(); } catch {}
+  return posts.map((post) => ({
+    params: { slug: post.slug.current },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<PageLayout title={post.title} description={post.excerpt}>
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl mx-auto">
+      <a href="/stories" class="text-sm text-primary-600 hover:underline">← All Stories</a>
+      <h1 class="mt-4 text-3xl md:text-4xl font-heading font-bold text-gray-900">{post.title}</h1>
+      <div class="mt-2 flex items-center gap-3 text-sm text-gray-500">
+        <span class="uppercase text-primary-600 font-medium">{post.category || 'update'}</span>
+        {post.publishedAt && <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>}
+      </div>
+      <div class="mt-8 prose prose-gray max-w-none">
+        {post.body?.split('\n').map((p) => p.trim() && <p>{p}</p>)}
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-200 text-center">
+        <a href="/donate" class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700">Support Our Mission</a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>
