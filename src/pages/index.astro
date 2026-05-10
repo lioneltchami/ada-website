@@ -1,7 +1,8 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
-import { getImpactMetrics, getHomePage, type SanityImpactMetric, type SanityHomePage } from '../lib/sanity';
+import NewsletterSignup from '../components/islands/NewsletterSignup';
+import { getImpactMetrics, getHomePage, getTestimonials, type SanityImpactMetric, type SanityHomePage } from '../lib/sanity';
 
 let stats = [
   { value: '200+', label: 'Lives Impacted' },
@@ -45,6 +46,26 @@ try {
     if (page.missionCards?.length) missionCards = page.missionCards;
     ctaHeading = page.ctaHeading || ctaHeading;
     ctaBody = page.ctaBody || ctaBody;
+  }
+} catch {}
+
+interface Testimonial {
+  name: string;
+  quote: string;
+  location: string;
+  program: string;
+}
+
+let testimonials: Testimonial[] = [];
+try {
+  const data = await getTestimonials();
+  if (data?.length) {
+    testimonials = data.map((t: any) => ({
+      name: t.name,
+      quote: t.quote,
+      location: t.location || '',
+      program: t.program || '',
+    }));
   }
 } catch {}
 ---
@@ -120,6 +141,25 @@ try {
     </div>
   </Section>
 
+  <!-- Testimonials Section -->
+  {testimonials.length > 0 && (
+    <Section background="white" padding="lg">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Stories of Impact</h2>
+      <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">Real stories from the people we serve.</p>
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {testimonials.map((t) => (
+          <div class="p-6 bg-gray-50 rounded-card shadow-card">
+            <p class="text-gray-700 italic leading-relaxed">"{t.quote}"</p>
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <p class="text-sm font-semibold text-gray-900">{t.name}</p>
+              <p class="text-xs text-gray-500">{t.program}{t.location ? ` \u2022 ${t.location}` : ''}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
+  )}
+
   <!-- CTA Section -->
   <Section background="dark" padding="lg">
     <div class="max-w-4xl mx-auto text-center">
@@ -141,6 +181,17 @@ try {
         >
           Volunteer With Us
         </a>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Newsletter Section -->
+  <Section background="gray" padding="lg">
+    <div class="text-center">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">Stay Connected</h2>
+      <p class="mt-2 text-gray-600 max-w-lg mx-auto">Get updates on our impact, stories, and upcoming projects delivered to your inbox.</p>
+      <div class="mt-6">
+        <NewsletterSignup client:visible />
       </div>
     </div>
   </Section>

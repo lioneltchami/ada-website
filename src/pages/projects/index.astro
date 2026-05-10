@@ -40,6 +40,18 @@ const metaDescription = 'Explore ADA\'s programs supporting widows, orphans, and
 const heroTitle = 'Our Projects';
 const heroSubtitle = 'Active programs making a real difference in communities across Cameroon.';
 const heroBadge = 'Programs & Campaigns';
+
+function getProjectVisual(slug: string): { gradient: string; icon: string } {
+  const visuals: Record<string, { gradient: string; icon: string }> = {
+    'widow-support': { gradient: 'from-rose-100 to-rose-200', icon: '🤝' },
+    'education-orphans': { gradient: 'from-blue-100 to-blue-200', icon: '📚' },
+    'women-empowerment': { gradient: 'from-purple-100 to-purple-200', icon: '💪' },
+    'emergency-relief': { gradient: 'from-amber-100 to-amber-200', icon: '🚨' },
+    'education-drive': { gradient: 'from-cyan-100 to-cyan-200', icon: '🎒' },
+    'christmas-giving': { gradient: 'from-red-100 to-red-200', icon: '🎁' },
+  };
+  return visuals[slug] || { gradient: 'from-primary-100 to-primary-200', icon: '🌍' };
+}
 ---
 
 <PageLayout title={metaTitle} description={metaDescription}>
@@ -50,8 +62,8 @@ const heroBadge = 'Programs & Campaigns';
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {projects.map((project) => (
         <article class="bg-white rounded-card shadow-card overflow-hidden border border-gray-100 hover:shadow-card-hover transition-shadow" data-status={project.status}>
-          <div class="h-48 bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
-            <span class="text-4xl">🌍</span>
+          <div class={`h-48 bg-gradient-to-br ${getProjectVisual(project.slug).gradient} flex items-center justify-center`}>
+            <span class="text-5xl">{getProjectVisual(project.slug).icon}</span>
           </div>
           <div class="p-6">
             <div class="flex items-center gap-2 mb-3">

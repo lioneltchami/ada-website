@@ -1,0 +1,16 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#15803d"/>
+      <stop offset="100%" style="stop-color:#052e16"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="80" y="200" width="80" height="80" rx="16" fill="rgba(255,255,255,0.15)"/>
+  <text x="95" y="255" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="white">ADA</text>
+  <text x="80" y="330" font-family="Arial, sans-serif" font-size="52" font-weight="bold" fill="white">Apoti Development</text>
+  <text x="80" y="390" font-family="Arial, sans-serif" font-size="52" font-weight="bold" fill="white">Association</text>
+  <text x="80" y="450" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.8)">Empowering vulnerable communities in Cameroon</text>
+  <text x="80" y="490" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.8)">through faith-based programs since 2021</text>
+  <text x="80" y="560" font-family="Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.5)">apotidev.org</text>
+</svg>
