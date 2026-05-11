@@ -1,0 +1,49 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Section from '../../components/layout/Section.astro';
+---
+
+<PageLayout title="Politique de Confidentialité" description="Comment Apoti Development Association collecte, utilise et protège vos informations personnelles.">
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl mx-auto prose prose-gray">
+      <h1 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Politique de Confidentialité</h1>
+      <p class="text-sm text-gray-500">Dernière mise à jour : Mai 2026</p>
+      <h2>Données Collectées</h2>
+      <p>Lorsque vous utilisez notre site, nous pouvons collecter :</p>
+      <ul>
+        <li><strong>Informations de compte</strong> — nom, adresse email et mot de passe lors de l'inscription</li>
+        <li><strong>Informations de don</strong> — détails de paiement traités de manière sécurisée via Stripe</li>
+        <li><strong>Soumissions de formulaire</strong> — nom, email et contenu du message</li>
+        <li><strong>Données d'utilisation</strong> — pages visitées et données d'interaction basiques (pas de cookies de suivi)</li>
+      </ul>
+      <h2>Utilisation des Données</h2>
+      <ul>
+        <li>Traiter et émettre des reçus de dons</li>
+        <li>Gérer votre compte et historique de dons</li>
+        <li>Répondre aux demandes et requêtes de support</li>
+        <li>Envoyer des mises à jour sur nos programmes (avec votre consentement)</li>
+      </ul>
+      <h2>Services Tiers</h2>
+      <ul>
+        <li><strong>Stripe</strong> — traitement des paiements</li>
+        <li><strong>Supabase</strong> — authentification et hébergement de base de données</li>
+        <li><strong>Sanity</strong> — système de gestion de contenu</li>
+        <li><strong>Cloudflare</strong> — hébergement, CDN et protection DDoS</li>
+        <li><strong>Resend/useSend</strong> — envoi d'emails transactionnels</li>
+        <li><strong>Umami</strong> — analytique respectueuse de la vie privée, sans cookies</li>
+      </ul>
+      <p>Nous ne vendons ni ne partageons vos données personnelles à des fins marketing.</p>
+      <h2>Cookies</h2>
+      <p>Nous utilisons un seul cookie de session d'authentification. Pas de cookies de suivi ni de publicité.</p>
+      <h2>Vos Droits</h2>
+      <ul>
+        <li>Accéder aux données personnelles que nous détenons</li>
+        <li>Demander la correction de données inexactes</li>
+        <li>Demander la suppression de vos données</li>
+        <li>Retirer votre consentement aux communications</li>
+      </ul>
+      <h2>Contact</h2>
+      <p>Pour les demandes relatives aux données, contactez-nous à <a href="mailto:info@apotidev.org">info@apotidev.org</a>.</p>
+    </div>
+  </Section>
+</PageLayout>

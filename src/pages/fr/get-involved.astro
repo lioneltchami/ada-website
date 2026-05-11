@@ -1,0 +1,98 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import Section from '../../components/layout/Section.astro';
+import { getVolunteerRoles, getSiteSettings, type SanityVolunteerRole } from '../../lib/sanity';
+
+const fallbackRoles = [
+  { title: 'Coordinateur Communautaire', time: '10-15 h/semaine', location: 'Sur place', desc: 'Diriger l\'engagement communautaire et la mise en œuvre des programmes.' },
+  { title: 'Mentor Éducatif', time: '5-10 h/semaine', location: 'Sur place', desc: 'Encadrer et accompagner les enfants orphelins dans notre programme éducatif.' },
+  { title: 'Formateur Professionnel', time: '8-12 h/semaine', location: 'Sur place', desc: 'Enseigner des compétences professionnelles aux jeunes femmes.' },
+  { title: 'Bénévole Santé', time: '5-8 h/semaine', location: 'Sur place', desc: 'Aider aux visites hospitalières et aux campagnes de sensibilisation.' },
+  { title: 'Médias & Communication', time: '5-10 h/semaine', location: 'À distance', desc: 'Gérer les réseaux sociaux, créer du contenu et raconter notre histoire.' },
+  { title: 'Collecte de Fonds', time: 'Flexible', location: 'À distance', desc: 'Aider à planifier des campagnes et coordonner des événements.' },
+];
+
+let volunteerRoles = fallbackRoles;
+try {
+  const roles = await getVolunteerRoles();
+  if (roles?.length) volunteerRoles = roles.map((r: SanityVolunteerRole) => ({ title: r.title, time: r.timeCommitment, location: r.location === 'On-site' ? 'Sur place' : 'À distance', desc: r.description }));
+} catch {}
+
+let socialFacebook = 'https://facebook.com/apotidev';
+let socialInstagram = 'https://instagram.com/apotidev';
+let socialTwitter = 'https://twitter.com/apotidev';
+try {
+  const settings = await getSiteSettings();
+  if (settings) { socialFacebook = settings.socialFacebook || socialFacebook; socialInstagram = settings.socialInstagram || socialInstagram; socialTwitter = settings.socialTwitter || socialTwitter; }
+} catch {}
+
+const partnershipTiers = [
+  { tier: 'Partenaire Communautaire', range: '5K–15K$/an', desc: 'Logo sur le site, rapports trimestriels, reconnaissance sur les réseaux sociaux.' },
+  { tier: 'Sponsor de Programme', range: '15K–50K$/an', desc: 'Parrainage complet d\'un programme, droits de dénomination, visite annuelle.' },
+  { tier: 'Alliance Stratégique', range: '50K+$/an', desc: 'Partenariat pluriannuel, rôle consultatif, campagnes co-marquées.' },
+];
+---
+
+<PageLayout title="S'Impliquer" description="Rejoignez ADA en tant que bénévole, donateur mensuel ou partenaire corporatif.">
+  <PageHero title="S'Impliquer" subtitle="Il existe de nombreuses façons de soutenir notre mission. Trouvez celle qui vous convient." badge="Faites la Différence" />
+
+  <Section background="white" padding="lg">
+    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Comment Aider</h2>
+    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {[{ icon: '🙋', title: 'Bénévolat', desc: 'Donnez votre temps et vos compétences', href: '#benevole' },
+        { icon: '💝', title: 'Don Mensuel', desc: 'Rejoignez notre communauté de donateurs', href: '/fr/donate' },
+        { icon: '📢', title: 'Sensibiliser', desc: 'Partagez notre mission', href: '#sensibiliser' },
+        { icon: '🏢', title: 'Partenariat', desc: 'Partenariats corporatifs', href: '#partenariats' },
+      ].map((way) => (
+        <a href={way.href} class="p-6 bg-gray-50 rounded-card hover:bg-primary-50 transition-colors text-center group">
+          <span class="text-3xl">{way.icon}</span>
+          <h3 class="mt-3 text-lg font-semibold text-gray-900 group-hover:text-primary-700">{way.title}</h3>
+          <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="benevole" background="gray" padding="lg">
+    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Opportunités de Bénévolat</h2>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {volunteerRoles.map((role) => (
+        <div class="p-5 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+          <h3 class="text-base font-semibold text-gray-900">{role.title}</h3>
+          <div class="mt-2 flex gap-2">
+            <span class="px-2 py-0.5 text-xs bg-primary-100 text-primary-700 rounded-full">{role.time}</span>
+            <span class="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">{role.location}</span>
+          </div>
+          <p class="mt-3 text-sm text-gray-600">{role.desc}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="partenariats" background="gray" padding="lg">
+    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Partenariats Corporatifs</h2>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {partnershipTiers.map((p) => (
+        <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+          <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
+          <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
+          <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
+          <a href="/fr/contact" class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline">Renseignements →</a>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="sensibiliser" background="dark" padding="md">
+    <div class="text-center">
+      <h2 class="text-2xl font-heading font-bold">Partagez Notre Mission</h2>
+      <p class="mt-2 text-white/80">Partagez sur les réseaux sociaux et aidez-nous à toucher plus de personnes.</p>
+      <div class="mt-4 flex items-center justify-center gap-4">
+        <a href={socialFacebook} target="_blank" rel="noopener" class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors">Facebook</a>
+        <a href={socialInstagram} target="_blank" rel="noopener" class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors">Instagram</a>
+        <a href={socialTwitter} target="_blank" rel="noopener" class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors">Twitter/X</a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>
