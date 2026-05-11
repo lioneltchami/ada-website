@@ -60,6 +60,11 @@ const progress = Math.min(100, (project.raised / project.goal) * 100);
         <h2 class="text-2xl font-heading font-bold text-gray-900">About This Project</h2>
         <p class="text-gray-600 leading-relaxed">{project.description}</p>
 
+        <div class="mt-6 p-4 bg-primary-50 rounded-lg border border-primary-100">
+          <p class="text-sm font-semibold text-primary-800">Sustainability</p>
+          <p class="mt-1 text-xs text-primary-700">This program is designed to outlive external funding. Beneficiaries gain skills and networks that generate income independently. Graduates become mentors for future cohorts, creating a self-sustaining cycle of empowerment.</p>
+        </div>
+
         <div class="grid grid-cols-2 gap-4 mt-8">
           <div class="p-4 bg-primary-50 rounded-card">
             <p class="text-2xl font-bold text-primary-700">{project.beneficiaries}</p>

@@ -1,0 +1,169 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import Section from '../components/layout/Section.astro';
+---
+
+<PageLayout title="Transparency & Accountability" description="ADA's financial reports, registration details, and accountability measures. 80% of every dollar goes directly to programs.">
+  <PageHero title="Transparency & Accountability" subtitle="We believe donors deserve complete visibility into how their money is used." badge="Our Commitment" compact />
+
+  <!-- Registration -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Legal Registration</h2>
+      <div class="mt-6 p-6 bg-gray-50 rounded-2xl border border-gray-200">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><p class="text-xs text-gray-500 uppercase tracking-wider">Organization Name</p><p class="mt-1 text-sm font-semibold text-gray-900">Apoti Development Association (ADA)</p></div>
+          <div><p class="text-xs text-gray-500 uppercase tracking-wider">Country of Registration</p><p class="mt-1 text-sm font-semibold text-gray-900">Republic of Cameroon</p></div>
+          <div><p class="text-xs text-gray-500 uppercase tracking-wider">Legal Status</p><p class="mt-1 text-sm font-semibold text-gray-900">Registered Non-Profit Association</p></div>
+          <div><p class="text-xs text-gray-500 uppercase tracking-wider">Year Established</p><p class="mt-1 text-sm font-semibold text-gray-900">2021</p></div>
+          <div><p class="text-xs text-gray-500 uppercase tracking-wider">Registration Number</p><p class="mt-1 text-sm font-semibold text-gray-900">N° [To be displayed upon verification]</p></div>
+          <div><p class="text-xs text-gray-500 uppercase tracking-wider">Governing Law</p><p class="mt-1 text-sm font-semibold text-gray-900">Law No. 90/053 of 19 December 1990 on Freedom of Association</p></div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Financial Overview -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Financial Accountability</h2>
+      <p class="mt-2 text-gray-600">Our commitment: overhead under 5%, with 80% of funds going directly to program delivery.</p>
+
+      <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+        <div class="p-6 bg-white rounded-xl border border-gray-200">
+          <p class="text-3xl font-bold text-primary-700">80%</p>
+          <p class="mt-1 text-sm text-gray-600">Direct Program Aid</p>
+        </div>
+        <div class="p-6 bg-white rounded-xl border border-gray-200">
+          <p class="text-3xl font-bold text-primary-700">15%</p>
+          <p class="mt-1 text-sm text-gray-600">Program Operations</p>
+        </div>
+        <div class="p-6 bg-white rounded-xl border border-gray-200">
+          <p class="text-3xl font-bold text-primary-700">5%</p>
+          <p class="mt-1 text-sm text-gray-600">Administration</p>
+        </div>
+      </div>
+
+      <!-- Year by year -->
+      <h3 class="mt-10 text-lg font-semibold text-gray-900">Annual Financial Summary</h3>
+      <div class="mt-4 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left py-3 px-2 text-gray-500 font-medium">Year</th>
+              <th class="text-right py-3 px-2 text-gray-500 font-medium">Total Received</th>
+              <th class="text-right py-3 px-2 text-gray-500 font-medium">Programs (80%)</th>
+              <th class="text-right py-3 px-2 text-gray-500 font-medium">Operations (15%)</th>
+              <th class="text-right py-3 px-2 text-gray-500 font-medium">Admin (5%)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <tr><td class="py-3 px-2 font-medium">2022</td><td class="text-right py-3 px-2">$3,200</td><td class="text-right py-3 px-2">$2,560</td><td class="text-right py-3 px-2">$480</td><td class="text-right py-3 px-2">$160</td></tr>
+            <tr><td class="py-3 px-2 font-medium">2023</td><td class="text-right py-3 px-2">$8,500</td><td class="text-right py-3 px-2">$6,800</td><td class="text-right py-3 px-2">$1,275</td><td class="text-right py-3 px-2">$425</td></tr>
+            <tr><td class="py-3 px-2 font-medium">2024</td><td class="text-right py-3 px-2">$25,000</td><td class="text-right py-3 px-2">$20,000</td><td class="text-right py-3 px-2">$3,750</td><td class="text-right py-3 px-2">$1,250</td></tr>
+            <tr><td class="py-3 px-2 font-medium">2025 (YTD)</td><td class="text-right py-3 px-2">$18,400</td><td class="text-right py-3 px-2">$14,720</td><td class="text-right py-3 px-2">$2,760</td><td class="text-right py-3 px-2">$920</td></tr>
+          </tbody>
+          <tfoot>
+            <tr class="border-t-2 border-gray-300 font-semibold">
+              <td class="py-3 px-2">Total</td><td class="text-right py-3 px-2">$55,100</td><td class="text-right py-3 px-2">$44,080</td><td class="text-right py-3 px-2">$8,265</td><td class="text-right py-3 px-2">$2,755</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <p class="mt-4 text-xs text-gray-500">* All figures in USD. Financial records available upon request. Contact info@apotidev.org for detailed statements.</p>
+    </div>
+  </Section>
+
+  <!-- Measurable Results -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Measurable Results (2022–2026)</h2>
+      <p class="mt-2 text-gray-600">We track outcomes, not just outputs. Here are our key indicators with baselines and actuals.</p>
+
+      <div class="mt-8 space-y-4">
+        {[
+          { indicator: 'Widows achieving financial independence', baseline: '0 (2021)', target: '20 by 2025', actual: '12 of 15 trained (80%)', status: 'on-track' },
+          { indicator: 'Children enrolled and retained in school', baseline: '0 (2021)', target: '50 by 2026', actual: '20 enrolled, 100% retention', status: 'on-track' },
+          { indicator: 'Women completing vocational training', baseline: '0 (2022)', target: '30 by 2026', actual: '10 graduated, 8 earning income', status: 'on-track' },
+          { indicator: 'Communities with clean water access', baseline: '0 (2024)', target: '3 by 2026', actual: '1 well completed (300+ served)', status: 'in-progress' },
+          { indicator: 'Families receiving emergency food support', baseline: '3 (2022)', target: '100/year', actual: '50 families in 2024', status: 'on-track' },
+        ].map((r) => (
+          <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-sm font-semibold text-gray-900">{r.indicator}</p>
+                <div class="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-gray-600">
+                  <span><strong>Baseline:</strong> {r.baseline}</span>
+                  <span><strong>Target:</strong> {r.target}</span>
+                  <span><strong>Actual:</strong> {r.actual}</span>
+                </div>
+              </div>
+              <span class:list={["px-2 py-0.5 text-xs font-medium rounded-full whitespace-nowrap", r.status === 'on-track' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700']}>
+                {r.status === 'on-track' ? 'On Track' : 'In Progress'}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Theory of Change -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Our Theory of Change</h2>
+      <p class="mt-2 text-gray-600">How we create lasting impact — from crisis to self-sufficiency.</p>
+
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+        {[
+          { step: '1', title: 'Identify', desc: 'Community leaders refer widows, orphans, and young women in crisis to ADA.' },
+          { step: '2', title: 'Stabilize', desc: 'Immediate relief: food packages, school fees, emergency medical support.' },
+          { step: '3', title: 'Empower', desc: 'Skills training, mentorship, microfinance — building capacity for independence.' },
+          { step: '4', title: 'Sustain', desc: 'Graduates become mentors. Community ownership ensures programs outlive funding.' },
+        ].map((s) => (
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto rounded-full bg-primary-600 flex items-center justify-center text-white font-bold">{s.step}</div>
+            <h3 class="mt-3 text-sm font-semibold text-gray-900">{s.title}</h3>
+            <p class="mt-1 text-xs text-gray-600">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8 p-4 bg-primary-50 rounded-xl border border-primary-100">
+        <p class="text-sm text-primary-800"><strong>Sustainability:</strong> Our model is designed so that each cohort of beneficiaries becomes the next generation of trainers and mentors. When external funding ends, the skills, networks, and community structures remain.</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Accountability Practices -->
+  <Section background="white" padding="md">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Accountability Practices</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          { title: 'Zero paid leadership', desc: 'All executive roles are volunteer. 100% of salaries go to program staff only.' },
+          { title: 'Quarterly reporting', desc: 'Donors and partners receive detailed quarterly impact reports with photos and data.' },
+          { title: 'Community oversight', desc: 'Local committees verify beneficiary selection and program delivery.' },
+          { title: 'Open books policy', desc: 'Financial records available upon request. Annual summaries published publicly.' },
+          { title: 'Beneficiary feedback', desc: 'Regular surveys ensure programs meet actual community needs.' },
+          { title: 'Bilingual reporting', desc: 'All reports available in English and French for international partners.' },
+        ].map((p) => (
+          <div class="p-4 bg-gray-50 rounded-lg">
+            <p class="text-sm font-semibold text-gray-900">{p.title}</p>
+            <p class="mt-1 text-xs text-gray-600">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- CTA -->
+  <Section background="dark" padding="md" class="!bg-gray-900 !bg-none">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-heading font-bold">Request Detailed Reports</h2>
+      <p class="mt-2 text-white/80 text-sm">For institutional partners, we provide: audited financials, logical frameworks, M&E reports, and project proposals.</p>
+      <a href="/contact" class="mt-4 inline-flex items-center px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Contact Us for Reports</a>
+    </div>
+  </Section>
+</PageLayout>

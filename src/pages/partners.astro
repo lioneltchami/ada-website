@@ -1,0 +1,126 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import Section from '../components/layout/Section.astro';
+---
+
+<PageLayout title="For Partners & Funders" description="Partnership information for institutional funders, embassies, and foundations. ADA offers transparent reporting, measurable results, and bilingual capacity.">
+  <PageHero title="Partner With Us" subtitle="Institutional partnerships that create measurable, sustainable impact in Cameroon." badge="For Funders & Institutions" compact />
+
+  <!-- Why Partner -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Why Partner with ADA?</h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          { icon: '🎯', title: 'Gender Equality Focus', desc: '85% of our beneficiaries are women and girls. Our programs directly advance gender equality through economic empowerment and education access.' },
+          { icon: '📊', title: 'Measurable Results', desc: 'Logical framework with clear indicators, baselines, and targets. We track outcomes (income generated) not just outputs (people trained).' },
+          { icon: '💰', title: '5% Overhead', desc: 'Industry-leading efficiency. Zero paid leadership. 80% of every dollar reaches beneficiaries directly.' },
+          { icon: '🌱', title: 'Locally Owned', desc: 'Founded, led, and staffed by Cameroonians. Programs designed WITH communities, not imposed on them.' },
+          { icon: '♻️', title: 'Sustainability Built In', desc: 'Our train-the-trainer model means programs outlive funding. Graduates become mentors for the next cohort.' },
+          { icon: '🌍', title: 'Bilingual Capacity', desc: 'Full reporting in English and French. Quarterly updates, annual reports, and M&E data on schedule.' },
+        ].map((item) => (
+          <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
+            <span class="text-2xl">{item.icon}</span>
+            <h3 class="mt-2 text-sm font-semibold text-gray-900">{item.title}</h3>
+            <p class="mt-1 text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Alignment -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Alignment with International Priorities</h2>
+      <div class="mt-6 space-y-3">
+        {[
+          { framework: 'Canada\'s Feminist International Assistance Policy', alignment: 'Gender equality is central to all ADA programs. 85% women/girl beneficiaries.' },
+          { framework: 'UN Sustainable Development Goals', alignment: 'SDG 1 (No Poverty), SDG 2 (Zero Hunger), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 6 (Clean Water)' },
+          { framework: 'African Union Agenda 2063', alignment: 'Youth empowerment, gender parity, community-driven development.' },
+          { framework: 'Paris Agreement / Climate Action', alignment: 'Clean water infrastructure, community clean-up programs, environmental stewardship education.' },
+        ].map((a) => (
+          <div class="p-4 bg-white rounded-lg border border-gray-200">
+            <p class="text-sm font-semibold text-gray-900">{a.framework}</p>
+            <p class="mt-1 text-xs text-gray-600">{a.alignment}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- What We Offer Partners -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">What We Provide to Partners</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          'Detailed project proposals with logical frameworks',
+          'Quarterly narrative and financial reports',
+          'Annual audited financial statements',
+          'Monitoring & Evaluation data with indicators',
+          'Photo and video documentation of activities',
+          'Beneficiary testimonials and case studies',
+          'Site visit coordination for due diligence',
+          'Reports in English and French',
+        ].map((item) => (
+          <div class="flex items-start gap-2">
+            <span class="text-primary-600 mt-0.5">✓</span>
+            <p class="text-sm text-gray-700">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Partnership Tiers -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Partnership Opportunities</h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
+          <h3 class="text-lg font-semibold text-gray-900">Project Funding</h3>
+          <p class="mt-1 text-2xl font-bold text-primary-700">$5K–$50K</p>
+          <p class="mt-3 text-xs text-gray-600">Fund a specific program or campaign with full reporting and accountability.</p>
+        </div>
+        <div class="p-6 bg-white rounded-xl border-2 border-primary-500 text-center shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900">Multi-Year Partnership</h3>
+          <p class="mt-1 text-2xl font-bold text-primary-700">$50K–$200K</p>
+          <p class="mt-3 text-xs text-gray-600">Strategic partnership with board advisory role, co-design, and deep impact measurement.</p>
+        </div>
+        <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
+          <h3 class="text-lg font-semibold text-gray-900">Technical Assistance</h3>
+          <p class="mt-1 text-2xl font-bold text-primary-700">In-Kind</p>
+          <p class="mt-3 text-xs text-gray-600">Capacity building, training, technology, or expertise to strengthen our operations.</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Track Record -->
+  <Section background="white" padding="md">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Our Track Record</h2>
+      <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div><p class="text-2xl font-bold text-primary-700">200+</p><p class="text-xs text-gray-600">Lives impacted</p></div>
+        <div><p class="text-2xl font-bold text-primary-700">85%</p><p class="text-xs text-gray-600">Women & girls</p></div>
+        <div><p class="text-2xl font-bold text-primary-700">5%</p><p class="text-xs text-gray-600">Admin overhead</p></div>
+        <div><p class="text-2xl font-bold text-primary-700">4 yrs</p><p class="text-xs text-gray-600">Continuous operation</p></div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- CTA -->
+  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-heading font-bold">Start a Conversation</h2>
+      <p class="mt-2 text-white/80 text-sm">We welcome partnerships with embassies, foundations, international NGOs, and corporate sponsors aligned with our mission.</p>
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/contact" class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Contact Our Team</a>
+        <a href="/transparency" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">View Transparency Report</a>
+      </div>
+      <p class="mt-4 text-xs text-white/50">info@apotidev.org · +237 676 282 346 · Cameroon</p>
+    </div>
+  </Section>
+</PageLayout>
