@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/layout/PageHero.astro';
 import Section from '../components/layout/Section.astro';
-import { getGalleryImages } from '../lib/sanity';
+import { getGalleryImages, sanityImageUrl } from '../lib/sanity';
 
 const categoryMap: Record<string, string> = {
   'food-distribution': 'Food Distribution',
@@ -15,6 +15,8 @@ const categoryMap: Record<string, string> = {
 interface GalleryItem {
   title: string;
   category: string;
+  photoUrl: string;
+  alt: string;
 }
 
 let galleryImages: GalleryItem[] = [];
@@ -24,6 +26,8 @@ try {
     galleryImages = images.map((img: any) => ({
       title: img.title,
       category: img.category || 'community',
+      photoUrl: img.photo?.asset?._ref ? sanityImageUrl(img.photo.asset._ref, 600) : '',
+      alt: img.photo?.alt || img.title,
     }));
   }
 } catch {}
@@ -58,11 +62,14 @@ const heroBadge = 'Our Work in Pictures';
     {galleryImages.length > 0 ? (
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {galleryImages.map((img) => (
-          <div class="aspect-[4/3] bg-gradient-to-br from-primary-100 to-primary-200 rounded-card flex items-center justify-center">
-            <div class="text-center">
-              <span class="text-4xl">📷</span>
-              <p class="mt-2 text-sm text-primary-700">{img.title}</p>
-            </div>
+          <div class="aspect-[4/3] rounded-card overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+            {img.photoUrl ? (
+              <img src={img.photoUrl} alt={img.alt} class="w-full h-full object-cover" loading="lazy" />
+            ) : (
+              <div class="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                <span class="text-4xl">📷</span>
+              </div>
+            )}
           </div>
         ))}
       </div>

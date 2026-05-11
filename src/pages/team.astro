@@ -2,24 +2,17 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/layout/PageHero.astro';
 import Section from '../components/layout/Section.astro';
-import { getTeamMembers, getImpactMetrics } from '../lib/sanity';
+import { getTeamMembers, getImpactMetrics, sanityImageUrl } from '../lib/sanity';
 
-interface TeamMember {
-  name: string;
-  role: string;
-  bio?: string;
-}
-
-let teamMembers: TeamMember[] = [];
+let teamMembers: { name: string; role: string; bio: string; photoUrl: string }[] = [];
 try {
-  const members = await getTeamMembers();
-  if (members?.length) {
-    teamMembers = members.map((m: any) => ({
-      name: m.name,
-      role: m.role,
-      bio: m.bio || '',
-    }));
-  }
+  const m = await getTeamMembers();
+  if (m?.length) teamMembers = m.map((m: any) => ({
+    name: m.name,
+    role: m.role,
+    bio: m.bio || '',
+    photoUrl: m.photo?.asset?._ref ? sanityImageUrl(m.photo.asset._ref, 400) : '',
+  }));
 } catch {}
 
 let teamStats = [
@@ -54,11 +47,15 @@ const heroBadge = 'The People Behind ADA';
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {teamMembers.map((member) => (
           <div class="text-center">
-            <div class="w-32 h-32 mx-auto rounded-full bg-primary-100 flex items-center justify-center">
-              <span class="text-3xl font-bold text-primary-600">
-                {member.name.split(" ").map((n) => n[0]).join("")}
-              </span>
-            </div>
+            {member.photoUrl ? (
+              <img src={member.photoUrl} alt={member.name} class="w-32 h-32 mx-auto rounded-full object-cover shadow-md" loading="lazy" />
+            ) : (
+              <div class="w-32 h-32 mx-auto rounded-full bg-primary-100 flex items-center justify-center">
+                <span class="text-3xl font-bold text-primary-600">
+                  {member.name.split(" ").map((n) => n[0]).join("")}
+                </span>
+              </div>
+            )}
             <h3 class="mt-4 text-lg font-semibold text-gray-900">{member.name}</h3>
             <p class="text-sm text-primary-600">{member.role}</p>
             <p class="mt-2 text-sm text-gray-600">{member.bio}</p>
