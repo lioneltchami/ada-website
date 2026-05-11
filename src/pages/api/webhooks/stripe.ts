@@ -49,7 +49,13 @@ export const POST: APIRoute = async ({ request }) => {
   switch (event.type) {
     case "payment_intent.succeeded": {
       const pi = event.data.object;
-      console.log(`[webhook] payment_intent.succeeded: ${pi.id} amount=${pi.amount}`);
+      const { sendDonationReceipt } = await import("../../../lib/email");
+      const email = pi.metadata?.donor_email || pi.receipt_email;
+      const name = pi.metadata?.donor_name || "Supporter";
+      const project = pi.metadata?.project_slug;
+      if (email) {
+        await sendDonationReceipt({ email, name, amount: pi.amount / 100, project }).catch(() => {});
+      }
       break;
     }
     case "invoice.payment_succeeded": {

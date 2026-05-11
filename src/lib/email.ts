@@ -1,7 +1,7 @@
 // useSend email client (API-compatible with Resend)
 // Sign up at https://app.usesend.com to get your API key
 
-const USESEND_API_KEY = (import.meta as any).env?.USESEND_API_KEY;
+const RESEND_API_KEY = (import.meta as any).env?.RESEND_API_KEY;
 const FROM_EMAIL = (import.meta as any).env?.FROM_EMAIL || "ADA <noreply@apotidev.org>";
 
 interface SendEmailOptions {
@@ -13,18 +13,18 @@ interface SendEmailOptions {
 }
 
 export async function sendEmail({ to, subject, html, text, replyTo }: SendEmailOptions) {
-  if (!USESEND_API_KEY) {
+  if (!RESEND_API_KEY) {
     console.log(`[email] Would send to ${to}: ${subject}`);
     return { success: true, simulated: true };
   }
 
-  const res = await fetch("https://app.usesend.com/api/v1/emails", {
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${USESEND_API_KEY}`,
+      Authorization: `Bearer ${RESEND_API_KEY}`,
     },
-    body: JSON.stringify({ from: FROM_EMAIL, to, subject, html, text, replyTo }),
+    body: JSON.stringify({ from: FROM_EMAIL, to, subject, html, text, reply_to: replyTo }),
   });
 
   if (!res.ok) {
