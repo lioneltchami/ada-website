@@ -8,5 +8,10 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "routes": [
+    { "pattern": "apotidev.org/*", "zone_name": "apotidev.org" },
+    { "pattern": "www.apotidev.org/*", "zone_name": "apotidev.org" }
+  ],
+  "workers_dev": true
 }
