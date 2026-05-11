@@ -1,0 +1,175 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import Section from '../../components/layout/Section.astro';
+---
+
+<PageLayout title="Pour les Partenaires et Bailleurs de Fonds" description="Informations de partenariat pour les bailleurs institutionnels, ambassades et fondations. ADA offre des rapports transparents, des résultats mesurables et une capacité bilingue.">
+  <PageHero title="Devenez Partenaire" subtitle="Partenariats institutionnels qui créent un impact mesurable et durable au Cameroun." badge="Pour les Bailleurs et Institutions" compact />
+
+  <!-- Pourquoi S'Associer -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Pourquoi S'Associer à ADA ?</h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          { icon: '🎯', title: 'Accent sur l\'Égalité des Genres', desc: '85% de nos bénéficiaires sont des femmes et des filles. Nos programmes font directement progresser l\'égalité des genres par l\'autonomisation économique et l\'accès à l\'éducation.' },
+          { icon: '📊', title: 'Résultats Mesurables', desc: 'Cadre logique avec des indicateurs clairs, des références et des cibles. Nous suivons les résultats (revenus générés) et pas seulement les extrants (personnes formées).' },
+          { icon: '💰', title: '5% de Frais Généraux', desc: 'Efficacité de pointe dans le secteur. Zéro dirigeant rémunéré. 80% de chaque dollar atteint directement les bénéficiaires.' },
+          { icon: '🌱', title: 'Propriété Locale', desc: 'Fondée, dirigée et composée de Camerounais. Programmes conçus AVEC les communautés, pas imposés à elles.' },
+          { icon: '♻️', title: 'Durabilité Intégrée', desc: 'Notre modèle de formation de formateurs signifie que les programmes survivent au financement. Les diplômés deviennent mentors pour la cohorte suivante.' },
+          { icon: '🌍', title: 'Capacité Bilingue', desc: 'Rapports complets en anglais et en français. Mises à jour trimestrielles, rapports annuels et données de S&E dans les délais.' },
+        ].map((item) => (
+          <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
+            <span class="text-2xl">{item.icon}</span>
+            <h3 class="mt-2 text-sm font-semibold text-gray-900">{item.title}</h3>
+            <p class="mt-1 text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Égalité des Genres -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Égalité des Genres : Au Cœur de Tout Ce Que Nous Faisons</h2>
+      <p class="mt-2 text-gray-600">Les programmes d'ADA sont conçus à travers un prisme de genre, faisant directement progresser l'autonomisation économique des femmes et l'accès des filles à l'éducation.</p>
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">85%</p><p class="text-xs text-gray-600">Bénéficiaires sont des femmes et filles</p></div>
+        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">100%</p><p class="text-xs text-gray-600">Programmes de compétences ciblent les femmes</p></div>
+        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">15</p><p class="text-xs text-gray-600">Veuves désormais financièrement indépendantes</p></div>
+        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">80%</p><p class="text-xs text-gray-600">Diplômées gagnant leur propre revenu</p></div>
+      </div>
+      <div class="mt-6 p-4 bg-accent-50 rounded-xl border border-accent-100">
+        <p class="text-sm text-gray-700"><strong>Comment nos programmes bénéficient spécifiquement aux femmes et aux filles :</strong></p>
+        <ul class="mt-2 space-y-1 text-xs text-gray-600">
+          <li>• <strong>Soutien aux Veuves :</strong> Restaure l'autonomie économique des femmes qui ont tout perdu après le décès de leur conjoint</li>
+          <li>• <strong>Formation Professionnelle :</strong> Cible exclusivement les jeunes femmes avec formation professionnelle + microfinance pour le lancement d'entreprise</li>
+          <li>• <strong>Éducation :</strong> Priorise les filles qui sont les premières retirées de l'école lorsque les familles font face à des pressions financières</li>
+          <li>• <strong>Eau Potable :</strong> Libère les filles des corvées d'eau (souvent 2+ heures/jour), permettant la fréquentation scolaire</li>
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Alignement -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Alignement avec les Priorités Internationales</h2>
+      <div class="mt-6 space-y-3">
+        {[
+          { framework: 'Politique d\'Aide Internationale Féministe du Canada', alignment: 'L\'égalité des genres est au cœur de tous les programmes d\'ADA. 85% de bénéficiaires femmes/filles.' },
+          { framework: 'Objectifs de Développement Durable de l\'ONU', alignment: 'ODD 1 (Pas de Pauvreté), ODD 2 (Faim Zéro), ODD 4 (Éducation de Qualité), ODD 5 (Égalité des Genres), ODD 6 (Eau Propre)' },
+          { framework: 'Agenda 2063 de l\'Union Africaine', alignment: 'Autonomisation des jeunes, parité des genres, développement communautaire.' },
+          { framework: 'Accord de Paris / Action Climatique', alignment: 'Infrastructure d\'eau potable, programmes communautaires de nettoyage, éducation à la gestion environnementale.' },
+        ].map((a) => (
+          <div class="p-4 bg-white rounded-lg border border-gray-200">
+            <p class="text-sm font-semibold text-gray-900">{a.framework}</p>
+            <p class="mt-1 text-xs text-gray-600">{a.alignment}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Ce Que Nous Offrons aux Partenaires -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Ce Que Nous Offrons aux Partenaires</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          'Propositions de projets détaillées avec cadres logiques',
+          'Rapports narratifs et financiers trimestriels',
+          'États financiers annuels audités',
+          'Données de Suivi & Évaluation avec indicateurs',
+          'Documentation photo et vidéo des activités',
+          'Témoignages de bénéficiaires et études de cas',
+          'Coordination de visites de terrain pour la diligence raisonnable',
+          'Rapports en anglais et en français',
+        ].map((item) => (
+          <div class="flex items-start gap-2">
+            <span class="text-primary-600 mt-0.5">✓</span>
+            <p class="text-sm text-gray-700">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Opportunités de Partenariat -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Opportunités de Partenariat</h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
+          <h3 class="text-lg font-semibold text-gray-900">Financement de Projet</h3>
+          <p class="mt-1 text-2xl font-bold text-primary-700">5K$–50K$</p>
+          <p class="mt-3 text-xs text-gray-600">Financez un programme ou une campagne spécifique avec rapports complets et redevabilité.</p>
+        </div>
+        <div class="p-6 bg-white rounded-xl border-2 border-primary-500 text-center shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900">Partenariat Pluriannuel</h3>
+          <p class="mt-1 text-2xl font-bold text-primary-700">50K$–200K$</p>
+          <p class="mt-3 text-xs text-gray-600">Partenariat stratégique avec rôle consultatif au conseil, co-conception et mesure d'impact approfondie.</p>
+        </div>
+        <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
+          <h3 class="text-lg font-semibold text-gray-900">Assistance Technique</h3>
+          <p class="mt-1 text-2xl font-bold text-primary-700">En Nature</p>
+          <p class="mt-3 text-xs text-gray-600">Renforcement des capacités, formation, technologie ou expertise pour renforcer nos opérations.</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Bilan -->
+  <Section background="white" padding="md">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Notre Bilan</h2>
+      <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div><p class="text-2xl font-bold text-primary-700">200+</p><p class="text-xs text-gray-600">Vies impactées</p></div>
+        <div><p class="text-2xl font-bold text-primary-700">85%</p><p class="text-xs text-gray-600">Femmes et filles</p></div>
+        <div><p class="text-2xl font-bold text-primary-700">5%</p><p class="text-xs text-gray-600">Frais administratifs</p></div>
+        <div><p class="text-2xl font-bold text-primary-700">4 ans</p><p class="text-xs text-gray-600">Opération continue</p></div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Capacité de Partenariat -->
+  <Section background="gray" padding="md">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Notre Capacité de Partenariat</h2>
+      <p class="mt-2 text-gray-600">Nous avons les systèmes et les compétences pour gérer les partenariats institutionnels de manière professionnelle.</p>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          { title: 'Rapports Bilingues', desc: 'Tous les rapports, propositions et communications livrés en anglais et en français. Équipe bilingue.' },
+          { title: 'Gestion des Délais', desc: 'Rapports trimestriels livrés dans les délais depuis 2022. Zéro échéance manquée avec les partenaires existants.' },
+          { title: 'Gestion Financière', desc: 'Comptabilité dédiée, rapprochement bancaire et suivi transparent des fonds. Comptes séparés par projet.' },
+          { title: 'Cadre de S&E', desc: 'Cadre logique avec indicateurs SMART. Données de référence collectées. Suivi des résultats (pas seulement des extrants).' },
+          { title: 'Documentation', desc: 'Documentation photo/vidéo de toutes les activités. Formulaires de consentement des bénéficiaires. Sites de projet géolocalisés.' },
+          { title: 'Gouvernance', desc: 'Conseil d\'administration avec réunions trimestrielles. Politique de conflit d\'intérêts. Protection des lanceurs d\'alerte.' },
+        ].map((item) => (
+          <div class="flex items-start gap-3 p-3 bg-white rounded-lg">
+            <span class="text-primary-600 mt-0.5 font-bold">✓</span>
+            <div>
+              <p class="text-sm font-semibold text-gray-900">{item.title}</p>
+              <p class="mt-0.5 text-xs text-gray-600">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- CTA -->
+  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-heading font-bold">Entamons une Conversation</h2>
+      <p class="mt-2 text-white/80 text-sm">Nous accueillons les partenariats avec les ambassades, fondations, ONG internationales et sponsors corporatifs alignés avec notre mission.</p>
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/fr/contact" class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Contactez Notre Équipe</a>
+        <a href="/fr/transparency" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Voir le Rapport de Transparence</a>
+      </div>
+      <p class="mt-4 text-xs text-white/50">info@apotidev.org · +237 676 282 346 · Cameroun</p>
+    </div>
+  </Section>
+</PageLayout>
