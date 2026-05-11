@@ -2,7 +2,7 @@ import { Component, useState, useEffect, type ReactNode } from "react";
 import { loadStripe, type Stripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-const AMOUNTS = [25, 50, 100, 250, 500];
+const AMOUNTS = [10, 25, 50, 100, 250];
 
 const FALLBACK_PROJECT_NAMES: Record<string, string> = {
   'widow-support': 'Widow Support Program',
@@ -89,8 +89,8 @@ export default function DonationForm({ projects }: { projects?: { slug: string; 
     : FALLBACK_PROJECT_NAMES;
 
   const [step, setStep] = useState(1);
-  const [frequency, setFrequency] = useState<"one-time" | "monthly">("one-time");
-  const [amount, setAmount] = useState(50);
+  const [frequency, setFrequency] = useState<"one-time" | "monthly">("monthly");
+  const [amount, setAmount] = useState(25);
   const [customAmount, setCustomAmount] = useState("");
   const [donor, setDonor] = useState<DonorInfo>({ name: "", email: "", anonymous: false });
   const [clientSecret, setClientSecret] = useState("");

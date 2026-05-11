@@ -16,12 +16,14 @@ interface Props {
 const props = Astro.props;
 
 let faqData: { keywords: string[]; response: string }[] = [];
-try {
-  const faqs = await getFaqResponses();
-  if (faqs?.length) {
-    faqData = faqs.map(f => ({ keywords: f.keywords, response: f.response }));
-  }
-} catch {}
+if (Astro.url.pathname === '/' || Astro.url.pathname === '/contact' || Astro.url.pathname === '/donate') {
+  try {
+    const faqs = await getFaqResponses();
+    if (faqs?.length) {
+      faqData = faqs.map(f => ({ keywords: f.keywords, response: f.response }));
+    }
+  } catch {}
+}
 ---
 
 <BaseLayout {...props}>
@@ -47,5 +49,7 @@ try {
     Donate
   </a>
   <Footer />
-  <Chatbot client:idle faqs={faqData} />
+  {(Astro.url.pathname === '/' || Astro.url.pathname === '/contact' || Astro.url.pathname === '/donate') && (
+    <Chatbot client:idle faqs={faqData} />
+  )}
 </BaseLayout>
