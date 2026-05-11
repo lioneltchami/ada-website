@@ -1,7 +1,10 @@
 ---
 import { getSiteSettings, getProjects, type SanityProject } from '../../lib/sanity';
+import { getLocale, t, localePath } from '../../i18n';
 import NewsletterSignup from '../islands/NewsletterSignup';
 
+const locale = getLocale(Astro.url.pathname);
+const i18n = t(locale);
 const currentYear = new Date().getFullYear();
 
 let contactEmail = 'info@apotidev.org';
@@ -39,12 +42,12 @@ try {
 } catch {}
 
 const links = [
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/stories", label: "Stories" },
-  { href: "/get-involved", label: "Get Involved" },
-  { href: "/contact", label: "Contact" },
-  { href: "/donate", label: "Donate" },
+  { href: localePath("/about", locale), label: i18n.nav.about },
+  { href: localePath("/projects", locale), label: i18n.nav.projects },
+  { href: localePath("/stories", locale), label: i18n.nav.stories },
+  { href: localePath("/get-involved", locale), label: i18n.nav.getInvolved },
+  { href: localePath("/contact", locale), label: i18n.nav.contact },
+  { href: localePath("/donate", locale), label: i18n.nav.donate },
 ];
 ---
 
@@ -52,10 +55,10 @@ const links = [
 <section class="bg-gradient-to-r from-primary-700 to-primary-800 py-8">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
     <div class="text-center sm:text-left">
-      <p class="text-white font-semibold">Ready to make a difference?</p>
-      <p class="text-sm text-primary-200">80% of every dollar goes directly to programs.</p>
+      <p class="text-white font-semibold">{i18n.footer.ctaHeading}</p>
+      <p class="text-sm text-primary-200">{i18n.footer.ctaSubtitle}</p>
     </div>
-    <a href="/donate" class="px-6 py-2.5 text-sm font-semibold text-primary-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap">
+    <a href={localePath("/donate", locale)} class="px-6 py-2.5 text-sm font-semibold text-primary-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap">
       Donate Now
     </a>
   </div>
@@ -78,14 +81,14 @@ const links = [
         </p>
         <!-- Mini newsletter -->
         <div class="max-w-xs">
-          <p class="text-xs font-medium text-gray-300 mb-2">Get monthly impact updates</p>
+          <p class="text-xs font-medium text-gray-300 mb-2">{i18n.footer.updates}</p>
           <NewsletterSignup client:visible />
         </div>
       </div>
 
       <!-- Links -->
       <div>
-        <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-3">Navigate</h3>
+        <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-3">{i18n.footer.navigate}</h3>
         <ul class="space-y-1.5">
           {links.map((link) => (
             <li>
@@ -97,7 +100,7 @@ const links = [
 
       <!-- Programs + Contact -->
       <div>
-        <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-3">Programs</h3>
+        <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-3">{i18n.footer.programs}</h3>
         <ul class="space-y-1.5 mb-4">
           {programs.map((p) => (
             <li>
@@ -105,7 +108,7 @@ const links = [
             </li>
           ))}
         </ul>
-        <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-2">Contact</h3>
+        <h3 class="text-xs font-semibold text-white uppercase tracking-wider mb-2">{i18n.footer.contact}</h3>
         <ul class="space-y-1 text-xs text-gray-400">
           <li><a href={`mailto:${contactEmail}`} class="hover:text-primary-400 transition-colors">{contactEmail}</a></li>
           <li><a href={`https://wa.me/${contactPhone.replace(/[^0-9]/g, '')}`} class="hover:text-primary-400 transition-colors">{contactPhone}</a></li>
@@ -120,14 +123,12 @@ const links = [
       <!-- Left: copyright + legal -->
       <div class="flex items-center gap-3 text-[11px] text-gray-500">
         <span>&copy; {currentYear} ADA</span>
-        <a href="/privacy" class="hover:text-gray-300">Privacy</a>
-        <a href="/terms" class="hover:text-gray-300">Terms</a>
+        <a href={localePath("/privacy", locale)} class="hover:text-gray-300">{i18n.footer.privacy}</a>
+        <a href={localePath("/terms", locale)} class="hover:text-gray-300">{i18n.footer.terms}</a>
       </div>
 
       <!-- Center: trust badge -->
-      <p class="text-[11px] text-gray-500">
-        80% to programs · Registered non-profit · Cameroon
-      </p>
+      <p class="text-[11px] text-gray-500">{i18n.footer.trust}</p>
 
       <!-- Right: social icons -->
       <div class="flex items-center gap-3">
