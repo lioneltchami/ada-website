@@ -2,7 +2,16 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
 import NewsletterSignup from '../components/islands/NewsletterSignup';
-import { getImpactMetrics, getHomePage, getTestimonials, type SanityImpactMetric, type SanityHomePage } from '../lib/sanity';
+import { getImpactMetrics, getHomePage, getTestimonials, getProjects, type SanityImpactMetric, type SanityHomePage, type SanityProject, sanityImageUrl } from '../lib/sanity';
+
+let heroImageUrl = '';
+try {
+  const projects = await getProjects();
+  if (projects?.length) {
+    const withImage = projects.find((p: SanityProject) => p.mainImage?.asset?._ref);
+    if (withImage) heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
+  }
+} catch {}
 
 let stats = [
   { value: '200+', label: 'Lives Impacted' },
@@ -81,7 +90,11 @@ try {
   description="Empowering vulnerable communities in Cameroon through faith-based programs supporting widows, orphans, and young women since 2021."
 >
   <!-- Hero Section -->
-  <section class="relative overflow-hidden py-24 md:py-32 bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white">
+  <section class="relative overflow-hidden py-24 md:py-32 text-white">
+    {heroImageUrl ? (
+      <img src={heroImageUrl} alt="" class="absolute inset-0 w-full h-full object-cover" loading="eager" />
+    ) : null}
+    <div class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"></div>
     <div class="absolute inset-0 opacity-10" aria-hidden="true">
       <div class="absolute top-20 left-10 w-72 h-72 bg-primary-300 rounded-full blur-3xl"></div>
       <div class="absolute bottom-10 right-10 w-96 h-96 bg-accent-300 rounded-full blur-3xl"></div>
