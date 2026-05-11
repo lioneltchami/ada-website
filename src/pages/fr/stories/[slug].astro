@@ -1,7 +1,7 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
-import Section from '../../components/layout/Section.astro';
-import { getBlogPosts, type SanityBlogPost } from '../../lib/sanity';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Section from '../../../components/layout/Section.astro';
+import { getBlogPosts, type SanityBlogPost } from '../../../lib/sanity';
 
 export async function getStaticPaths() {
   let posts: SanityBlogPost[] = [];
@@ -15,47 +15,41 @@ const paragraphs = post.body?.split('\n\n').filter(Boolean) || [];
 
 <PageLayout title={post.title} description={post.excerpt}>
   <article>
-    <!-- Hero -->
     <section class="bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white py-16 md:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <a href="/stories" class="inline-flex items-center text-sm text-white/70 hover:text-white mb-6 transition-colors">← All Stories</a>
+        <a href="/fr/stories" class="inline-flex items-center text-sm text-white/70 hover:text-white mb-6 transition-colors">← Tous les Témoignages</a>
         <div class="flex items-center gap-3 mb-4">
-          <span class="px-3 py-1 text-xs font-medium uppercase bg-white/10 text-white/90 rounded-full border border-white/20">{post.category || 'update'}</span>
-          {post.publishedAt && <time class="text-sm text-white/60">{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>}
+          <span class="px-3 py-1 text-xs font-medium uppercase bg-white/10 text-white/90 rounded-full border border-white/20">{post.category === 'story' ? 'histoire' : post.category === 'update' ? 'actualité' : 'annonce'}</span>
+          {post.publishedAt && <time class="text-sm text-white/60">{new Date(post.publishedAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}</time>}
         </div>
         <h1 class="text-3xl md:text-4xl font-heading font-bold leading-tight">{post.title}</h1>
         <p class="mt-4 text-lg text-white/80 leading-relaxed">{post.excerpt}</p>
       </div>
     </section>
 
-    <!-- Body -->
     <Section background="white" padding="lg">
       <div class="max-w-3xl mx-auto prose prose-gray prose-lg">
         {paragraphs.map((para) => {
           const trimmed = para.trim();
           if (!trimmed) return null;
-          // Detect list items (lines starting with - or numbers)
           if (trimmed.split('\n').every(line => line.trim().startsWith('-') || line.trim().match(/^\d+\./))) {
             const items = trimmed.split('\n').map(l => l.trim().replace(/^[-\d.]+\s*/, ''));
             return <ul class="space-y-2 my-4">{items.map(item => <li class="text-gray-600">{item}</li>)}</ul>;
           }
-          // Detect headings (short lines ending with :)
           if (trimmed.length < 80 && trimmed.endsWith(':')) {
             return <h3 class="text-lg font-semibold text-gray-900 mt-8 mb-2">{trimmed}</h3>;
           }
-          // Regular paragraph - may contain multiple lines
           return <p class="text-gray-600 leading-relaxed mb-4">{trimmed}</p>;
         })}
       </div>
     </Section>
 
-    <!-- CTA -->
     <Section background="gray" padding="md">
       <div class="max-w-3xl mx-auto text-center">
-        <p class="text-gray-600">Inspired by this story?</p>
+        <p class="text-gray-600">Inspiré(e) par cette histoire ?</p>
         <div class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a href="/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors">Support Our Mission</a>
-          <a href="/stories" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">Read More Stories</a>
+          <a href="/fr/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors">Soutenir Notre Mission</a>
+          <a href="/fr/stories" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">Lire Plus d'Histoires</a>
         </div>
       </div>
     </Section>
