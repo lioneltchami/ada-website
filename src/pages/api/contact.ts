@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { z } from 'zod';
+import { sendContactNotification } from '../../lib/email';
 
 const Schema = z.object({
   name: z.string().min(2),
@@ -13,17 +14,21 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json();
     const data = Schema.parse(body);
 
-    // TODO: Store in Supabase contacts table
-    // TODO: Send notification email via Resend to info@apotidev.org
-    console.log(`[contact] From: ${data.name} <${data.email}> Subject: ${data.subject}`);
+    await sendContactNotification(data);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: 'Invalid submission' }), {
-      status: 400,
+    if (err.name === 'ZodError') {
+      return new Response(JSON.stringify({ error: 'Invalid submission' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    return new Response(JSON.stringify({ error: 'Failed to send message' }), {
+      status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   }
