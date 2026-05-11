@@ -61,7 +61,7 @@ function getProjectVisual(slug: string): { gradient: string; icon: string } {
     <h2 class="sr-only">All Projects</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {projects.map((project) => (
-        <article class="bg-white rounded-card shadow-card overflow-hidden border border-gray-100 hover:shadow-card-hover transition-shadow" data-status={project.status}>
+        <article class="bg-white rounded-card shadow-card overflow-hidden border border-gray-100 border-t-2 border-t-transparent hover:border-t-primary-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-300" data-status={project.status}>
           <div class={`h-48 bg-gradient-to-br ${getProjectVisual(project.slug).gradient} flex items-center justify-center`}>
             <span class="text-5xl">{getProjectVisual(project.slug).icon}</span>
           </div>

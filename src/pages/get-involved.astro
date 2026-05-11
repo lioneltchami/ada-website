@@ -84,7 +84,7 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
     </p>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {volunteerRoles.map((role) => (
-        <div class="p-5 bg-white rounded-card shadow-card">
+        <div class="p-5 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
           <h3 class="text-base font-semibold text-gray-900">{role.title}</h3>
           <div class="mt-2 flex gap-2">
             <span class="px-2 py-0.5 text-xs bg-primary-100 text-primary-700 rounded-full">{role.time}</span>
@@ -161,7 +161,7 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
     </p>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
       {partnershipTiers.map((p) => (
-        <div class="p-6 bg-white rounded-card shadow-card text-center">
+        <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
           <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
           <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
           <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
