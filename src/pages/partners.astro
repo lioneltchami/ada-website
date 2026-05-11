@@ -30,6 +30,29 @@ import Section from '../components/layout/Section.astro';
     </div>
   </Section>
 
+  <!-- Gender Lens -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Gender Equality: At the Core of Everything We Do</h2>
+      <p class="mt-2 text-gray-600">ADA's programs are designed through a gender lens, directly advancing women's economic empowerment and girls' access to education.</p>
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">85%</p><p class="text-xs text-gray-600">Beneficiaries are women & girls</p></div>
+        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">100%</p><p class="text-xs text-gray-600">Skills programs target women</p></div>
+        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">15</p><p class="text-xs text-gray-600">Widows now financially independent</p></div>
+        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">80%</p><p class="text-xs text-gray-600">Graduates earning own income</p></div>
+      </div>
+      <div class="mt-6 p-4 bg-accent-50 rounded-xl border border-accent-100">
+        <p class="text-sm text-gray-700"><strong>How our programs specifically benefit women and girls:</strong></p>
+        <ul class="mt-2 space-y-1 text-xs text-gray-600">
+          <li>• <strong>Widow Support:</strong> Restores economic agency to women who lost everything after spousal death</li>
+          <li>• <strong>Skills Training:</strong> Exclusively targets young women with vocational training + microfinance for business launch</li>
+          <li>• <strong>Education:</strong> Prioritizes girls who are first to be pulled from school when families face financial pressure</li>
+          <li>• <strong>Clean Water:</strong> Frees girls from water-fetching duties (often 2+ hours/day), enabling school attendance</li>
+        </ul>
+      </div>
+    </div>
+  </Section>
+
   <!-- Alignment -->
   <Section background="gray" padding="lg">
     <div class="max-w-4xl mx-auto">
@@ -107,6 +130,32 @@ import Section from '../components/layout/Section.astro';
         <div><p class="text-2xl font-bold text-primary-700">85%</p><p class="text-xs text-gray-600">Women & girls</p></div>
         <div><p class="text-2xl font-bold text-primary-700">5%</p><p class="text-xs text-gray-600">Admin overhead</p></div>
         <div><p class="text-2xl font-bold text-primary-700">4 yrs</p><p class="text-xs text-gray-600">Continuous operation</p></div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Partnership Capacity -->
+  <Section background="gray" padding="md">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Our Partnership Capacity</h2>
+      <p class="mt-2 text-gray-600">We have the systems and skills to manage institutional partnerships professionally.</p>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          { title: 'Bilingual Reporting', desc: 'All reports, proposals, and communications delivered in English and French. Team fluent in both languages.' },
+          { title: 'Deadline Management', desc: 'Quarterly reports delivered on schedule since 2022. Zero missed deadlines with existing partners.' },
+          { title: 'Financial Management', desc: 'Dedicated bookkeeping, bank reconciliation, and transparent fund tracking. Separate accounts per project.' },
+          { title: 'M&E Framework', desc: 'Logical framework with SMART indicators. Baseline data collected. Outcome tracking (not just outputs).' },
+          { title: 'Documentation', desc: 'Photo/video documentation of all activities. Beneficiary consent forms. GPS-tagged project sites.' },
+          { title: 'Governance', desc: 'Board of directors with quarterly meetings. Conflict of interest policy. Whistleblower protection.' },
+        ].map((item) => (
+          <div class="flex items-start gap-3 p-3 bg-white rounded-lg">
+            <span class="text-primary-600 mt-0.5 font-bold">✓</span>
+            <div>
+              <p class="text-sm font-semibold text-gray-900">{item.title}</p>
+              <p class="mt-0.5 text-xs text-gray-600">{item.desc}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </Section>
