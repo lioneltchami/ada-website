@@ -5,15 +5,14 @@ import Section from '../components/layout/Section.astro';
 import { sanityImageUrl } from '../lib/sanity';
 import { createClient } from '@sanity/client';
 
-// Fetch gallery images with project details
 let galleryData: any[] = [];
 try {
   const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
   const dataset = import.meta.env.SANITY_DATASET || 'production';
   const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
   galleryData = await client.fetch(`
-    *[_type == "galleryImage"] | order(year desc, dateTaken desc) {
-      _id, title, category, year, dateTaken, reportUrl,
+    *[_type == "galleryImage" && defined(photo)] | order(year desc, dateTaken desc) {
+      _id, title, category, year, reportUrl,
       photo { asset { _ref }, alt },
       "projectTitle": project->title,
       "projectSlug": project->slug.current
@@ -24,80 +23,65 @@ try {
 // Group by year
 const byYear: Record<number, any[]> = {};
 for (const img of galleryData) {
-  const year = img.year || new Date(img.dateTaken || '2024').getFullYear();
+  const year = img.year || 2024;
   if (!byYear[year]) byYear[year] = [];
   byYear[year].push(img);
 }
 const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
-
-// Group within each year by project
-function groupByProject(images: any[]) {
-  const groups: Record<string, { title: string; slug: string; images: any[] }> = {};
-  for (const img of images) {
-    const key = img.projectSlug || 'general';
-    if (!groups[key]) groups[key] = { title: img.projectTitle || 'General', slug: key, images: [] };
-    groups[key].images.push(img);
-  }
-  return Object.values(groups);
-}
 ---
 
-<PageLayout title="Photo Gallery" description="Browse photos from ADA's programs organized by year and project. See the real impact of our work in Cameroon.">
-  <PageHero title="Photo Gallery" subtitle="Real moments from our programs — organized by year and project." badge="Our Work in Pictures" compact />
+<PageLayout title="Photo Gallery" description="Browse photos from ADA's programs organized by year. See the real impact of our work across Cameroon.">
+  <PageHero title="Photo Gallery" subtitle="Real moments from our programs — browse by year." badge="Our Work in Pictures" compact />
 
   <Section background="white" padding="lg">
     {years.length > 0 ? (
-      <div class="space-y-16">
+      <div class="space-y-12">
         {years.map((year) => {
           const yearImages = byYear[year];
-          const projectGroups = groupByProject(yearImages);
           return (
             <div>
               {/* Year Header */}
-              <div class="flex items-center gap-4 mb-8">
-                <h2 class="text-3xl font-heading font-bold text-gray-900">{year}</h2>
-                <span class="px-3 py-1 text-xs font-medium bg-primary-100 text-primary-700 rounded-full">{yearImages.length} photos</span>
+              <div class="flex items-center gap-4 mb-6">
+                <h2 class="text-2xl font-heading font-bold text-gray-900">{year}</h2>
+                <span class="px-2.5 py-0.5 text-xs font-medium bg-primary-100 text-primary-700 rounded-full">{yearImages.length} photos</span>
                 <div class="flex-1 h-px bg-gray-200"></div>
               </div>
 
-              {/* Project Groups */}
-              <div class="space-y-10">
-                {projectGroups.map((group) => (
-                  <div>
-                    <div class="flex items-center gap-2 mb-4">
-                      <h3 class="text-lg font-semibold text-gray-700">{group.title}</h3>
-                      {group.slug !== 'general' && (
-                        <a href={`/projects/${group.slug}`} class="text-xs text-primary-600 hover:underline">View project →</a>
-                      )}
-                    </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                      {group.images.map((img) => (
-                        <div class="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-                          {img.photo?.asset?._ref ? (
-                            <img
-                              src={sanityImageUrl(img.photo.asset._ref, 400)}
-                              alt={img.photo?.alt || img.title}
-                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <div class="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
-                              <span class="text-3xl">📷</span>
-                            </div>
+              {/* Photo Grid - all photos for this year in one grid */}
+              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {yearImages.map((img) => (
+                  <a href={img.projectSlug ? `/projects/${img.projectSlug}` : '#'} class="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    {img.photo?.asset?._ref ? (
+                      <img
+                        src={sanityImageUrl(img.photo.asset._ref, 400)}
+                        alt={img.photo?.alt || img.title}
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div class="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                        <span class="text-3xl">📷</span>
+                      </div>
+                    )}
+                    {/* Always-visible project badge */}
+                    {img.projectTitle && (
+                      <span class="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium bg-black/50 text-white rounded-full backdrop-blur-sm">
+                        {img.projectTitle}
+                      </span>
+                    )}
+                    {/* Hover overlay with caption */}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div class="absolute bottom-0 left-0 right-0 p-3">
+                        <p class="text-white text-sm font-medium">{img.title}</p>
+                        <div class="flex items-center gap-2 mt-1">
+                          <span class="text-[10px] text-white/70">{year}</span>
+                          {img.reportUrl && (
+                            <span class="text-[10px] text-primary-300">📄 Report available</span>
                           )}
-                          {/* Overlay on hover */}
-                          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="absolute bottom-0 left-0 right-0 p-3">
-                              <p class="text-white text-xs font-medium truncate">{img.title}</p>
-                              {img.reportUrl && (
-                                <a href={img.reportUrl} target="_blank" rel="noopener" class="text-[10px] text-primary-300 hover:text-white">📄 View Report</a>
-                              )}
-                            </div>
-                          </div>
                         </div>
-                      ))}
+                      </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
