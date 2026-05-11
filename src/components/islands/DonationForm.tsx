@@ -4,6 +4,14 @@ import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-
 
 const AMOUNTS = [10, 25, 50, 100, 250];
 
+const IMPACT_MAP: Record<number, string> = {
+  10: 'Provides a meal for a family',
+  25: 'School supplies for 2 children',
+  50: 'Widow support for a week',
+  100: 'Skills training for one woman',
+  250: 'Healthcare for 5 families',
+};
+
 const FALLBACK_PROJECT_NAMES: Record<string, string> = {
   'widow-support': 'Widow Support Program',
   'education-orphans': 'Education for Orphans',
@@ -68,8 +76,11 @@ function PaymentStep({ onBack }: { onBack: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <PaymentElement />
+      <p className="text-xs text-gray-500 text-center mt-3 flex items-center justify-center gap-1">
+        <span>🔒</span> Secured by Stripe • 256-bit encryption • Cancel monthly anytime
+      </p>
       {error && (
-        <p role="alert" aria-live="polite" className="text-sm text-red-600">{error}</p>
+        <p className="text-sm text-red-600" role="alert" aria-live="polite">{error}</p>
       )}
       <div className="flex gap-3">
         <button type="button" onClick={onBack} className="px-4 py-2.5 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-50">
@@ -223,15 +234,20 @@ export default function DonationForm({ projects }: { projects?: { slug: string; 
                 <button
                   key={a}
                   type="button"
-                  onClick={() => { setAmount(a); setCustomAmount(""); }}
-                  // Issue 3: aria-pressed for selected state
+                  onClick={() => { setAmount(a); setCustomAmount(''); }}
                   aria-pressed={amount === a && !customAmount}
-                  className={`px-3 py-2.5 text-sm font-medium rounded-lg border-2 transition-colors ${amount === a && !customAmount ? "border-primary-500 bg-primary-50 text-primary-700" : "border-gray-200 text-gray-700 hover:border-gray-300"}`}
+                  className={`relative px-3 py-2.5 text-sm font-medium rounded-lg border-2 transition-colors ${amount === a && !customAmount ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-gray-200 text-gray-700 hover:border-gray-300'}`}
                 >
+                  {a === 25 && <span className="absolute -top-2 left-1/2 -translate-x-1/2 text-[9px] font-bold text-primary-600 bg-primary-50 px-1.5 rounded">Popular</span>}
                   ${a}
                 </button>
               ))}
             </div>
+            {!customAmount && IMPACT_MAP[amount] && (
+              <p className="text-sm text-primary-700 font-medium text-center mt-2">
+                ✨ Your ${amount}{frequency === 'monthly' ? '/mo' : ''} = {IMPACT_MAP[amount]}
+              </p>
+            )}
             {/* Issue 4: Proper label for custom amount input */}
             <label htmlFor="custom-amount" className="block text-sm font-medium text-gray-700 mt-3 mb-1">
               Custom amount
