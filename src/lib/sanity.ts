@@ -1,15 +1,25 @@
 import { createClient, type SanityClient } from "@sanity/client";
 
 let client: SanityClient | null = null;
+const PROJECT_ID = "rj2m21gk";
+const DATASET = "production";
 
 function getSanityClient(): SanityClient {
   if (!client) {
-    const projectId = import.meta.env.SANITY_PROJECT_ID;
-    const dataset = import.meta.env.SANITY_DATASET || "production";
+    const projectId = import.meta.env.SANITY_PROJECT_ID || PROJECT_ID;
+    const dataset = import.meta.env.SANITY_DATASET || DATASET;
     if (!projectId) throw new Error("SANITY_PROJECT_ID is required");
     client = createClient({ projectId, dataset, apiVersion: "2026-03-28", useCdn: true });
   }
   return client;
+}
+
+// Convert Sanity image reference to URL
+export function sanityImageUrl(ref: string, width = 800): string {
+  if (!ref) return '';
+  // ref format: image-{id}-{dimensions}-{format}
+  const [, id, dimensions, format] = ref.split('-');
+  return `https://cdn.sanity.io/images/${PROJECT_ID}/${DATASET}/${id}-${dimensions}.${format}?w=${width}&auto=format`;
 }
 
 export interface SanityProject {
@@ -23,6 +33,7 @@ export interface SanityProject {
   goalAmount: number;
   raisedAmount: number;
   sortOrder: number;
+  mainImage?: { asset: { _ref: string }; alt?: string };
 }
 
 export interface SanityImpactMetric {
