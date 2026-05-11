@@ -11,35 +11,38 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+<header id="site-header" class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-transparent transition-all duration-300">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
-    <div class="flex items-center justify-between h-16">
+    <div class="flex items-center justify-between h-[72px]">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+      <a href="/" class="flex items-center gap-2.5 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-sm shadow-primary-500/20 group-hover:shadow-md group-hover:shadow-primary-500/30 transition-shadow">
           <span class="text-white font-bold text-sm">ADA</span>
         </div>
-        <div class="hidden sm:block">
-          <span class="text-lg font-bold text-gray-900">Apoti Dev</span>
-          <span class="block text-xs text-gray-500 -mt-1">Association</span>
+        <div class="hidden xs:block">
+          <span class="text-base font-bold text-gray-900 tracking-tight">Apoti Development</span>
+          <span class="block text-[11px] text-gray-500 -mt-0.5 font-medium">Association</span>
         </div>
       </a>
 
       <!-- Desktop Nav -->
-      <ul class="hidden lg:flex items-center gap-1">
+      <ul class="hidden lg:flex items-center gap-0.5">
         {navLinks.map((link) => (
           <li>
             <a
               href={link.href}
               class:list={[
-                "px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                "relative px-3.5 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                 currentPath === link.href
-                  ? "text-primary-700 bg-primary-50"
-                  : "text-gray-600 hover:text-primary-700 hover:bg-gray-50",
+                  ? "text-primary-700"
+                  : "text-gray-600 hover:text-primary-700 hover:bg-primary-50/50",
               ]}
               aria-current={currentPath === link.href ? "page" : undefined}
             >
               {link.label}
+              {currentPath === link.href && (
+                <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-primary-600 rounded-full"></span>
+              )}
             </a>
           </li>
         ))}
@@ -49,23 +52,29 @@ const currentPath = Astro.url.pathname;
       <div class="flex items-center gap-3">
         <a
           href="/donate"
-          class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-secondary-500 to-secondary-600 rounded-lg hover:from-secondary-600 hover:to-secondary-700 transition-all shadow-sm shadow-secondary-500/20"
+          class="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-secondary-500 to-secondary-600 rounded-lg hover:from-secondary-600 hover:to-secondary-700 transition-all shadow-md shadow-secondary-500/25 hover:shadow-lg hover:shadow-secondary-500/30 hover:scale-[1.02] active:scale-[0.98] animate-subtle-pulse"
           data-umami-event="nav-donate"
         >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+          </svg>
           Donate
         </a>
 
         <!-- Mobile menu button -->
         <button
           type="button"
-          class="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+          class="lg:hidden p-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
           aria-expanded="false"
           aria-controls="mobile-menu"
           id="mobile-menu-btn"
         >
           <span class="sr-only">Open menu</span>
-          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <svg class="w-5 h-5 transition-transform duration-200" id="menu-icon-open" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          <svg class="w-5 h-5 hidden transition-transform duration-200" id="menu-icon-close" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
@@ -73,28 +82,32 @@ const currentPath = Astro.url.pathname;
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden lg:hidden pb-4" aria-label="Mobile navigation">
-      <ul class="space-y-1 pt-2 border-t border-gray-100">
+      <ul class="space-y-1 pt-3 border-t border-gray-100">
         {navLinks.map((link) => (
           <li>
             <a
               href={link.href}
               class:list={[
-                "block px-3 py-2 text-base font-medium rounded-md",
+                "flex items-center gap-2 px-3 py-2.5 text-base font-medium rounded-lg transition-colors",
                 currentPath === link.href
                   ? "text-primary-700 bg-primary-50"
                   : "text-gray-600 hover:text-primary-700 hover:bg-gray-50",
               ]}
               aria-current={currentPath === link.href ? "page" : undefined}
             >
+              {currentPath === link.href && <span class="w-1.5 h-1.5 rounded-full bg-primary-600"></span>}
               {link.label}
             </a>
           </li>
         ))}
-        <li class="pt-2">
+        <li class="pt-3">
           <a
             href="/donate"
-            class="block px-3 py-2 text-base font-semibold text-white bg-gradient-to-r from-secondary-500 to-secondary-600 rounded-lg text-center"
+            class="flex items-center justify-center gap-2 px-3 py-3 text-base font-semibold text-white bg-gradient-to-r from-secondary-500 to-secondary-600 rounded-lg shadow-sm"
           >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+            </svg>
             Donate Now
           </a>
         </li>
@@ -104,12 +117,27 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <script>
+  const header = document.getElementById("site-header");
   const btn = document.getElementById("mobile-menu-btn");
   const menu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("menu-icon-open");
+  const iconClose = document.getElementById("menu-icon-close");
+
+  // Shadow on scroll
+  let lastScroll = 0;
+  window.addEventListener("scroll", () => {
+    const scrolled = window.scrollY > 10;
+    header?.classList.toggle("shadow-sm", scrolled);
+    header?.classList.toggle("border-gray-200/60", scrolled);
+    header?.classList.toggle("border-transparent", !scrolled);
+    lastScroll = window.scrollY;
+  }, { passive: true });
 
   function openMenu() {
     btn?.setAttribute("aria-expanded", "true");
     menu?.classList.remove("hidden");
+    iconOpen?.classList.add("hidden");
+    iconClose?.classList.remove("hidden");
     const firstLink = menu?.querySelector("a");
     firstLink?.focus();
   }
@@ -117,6 +145,8 @@ const currentPath = Astro.url.pathname;
   function closeMenu() {
     btn?.setAttribute("aria-expanded", "false");
     menu?.classList.add("hidden");
+    iconOpen?.classList.remove("hidden");
+    iconClose?.classList.add("hidden");
     btn?.focus();
   }
 
