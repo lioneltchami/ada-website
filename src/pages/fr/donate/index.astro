@@ -1,0 +1,69 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHero from '../../../components/layout/PageHero.astro';
+import Section from '../../../components/layout/Section.astro';
+import DonationForm from '../../../components/islands/DonationForm';
+import { getDonationTiers, getProjects, getSiteSettings, type SanityDonationTier, type SanityProject } from '../../../lib/sanity';
+import { t } from '../../../i18n';
+
+const i18n = t('fr');
+
+let contactEmail = 'info@apotidev.org';
+try { const s = await getSiteSettings(); if (s?.contactEmail) contactEmail = s.contactEmail; } catch {}
+
+let impactExamples = [
+  { amount: '25$', impact: 'Fournitures scolaires pour 2 enfants' },
+  { amount: '50$', impact: "Soutien d'une veuve pendant une semaine" },
+  { amount: '100$', impact: "Formation professionnelle pour une femme" },
+  { amount: '250$', impact: 'Soins de santé pour 5 familles' },
+  { amount: '500$', impact: 'Formation agricole pour 3 agriculteurs' },
+  { amount: '1 000$', impact: 'Initiative de nettoyage communautaire' },
+];
+try {
+  const tiers = await getDonationTiers();
+  if (tiers?.length) impactExamples = tiers.map((t: SanityDonationTier) => ({ amount: `${t.amount.toLocaleString()}$`, impact: t.impactDescription }));
+} catch {}
+
+let projectOptions: { slug: string; title: string }[] = [];
+try {
+  const projects = await getProjects();
+  if (projects?.length) projectOptions = projects.filter((p: SanityProject) => p.status === 'active').map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+} catch {}
+---
+
+<PageLayout title="Faire un Don" description="Soutenez la mission d'ADA pour autonomiser les communautés vulnérables au Cameroun.">
+  <PageHero title={i18n.donate.title} subtitle={i18n.donate.subtitle} badge={i18n.donate.badge} />
+
+  <Section background="white" padding="sm">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+      <div class="flex items-center justify-center gap-2"><span>🔒</span><span class="text-sm text-gray-600">{i18n.donate.secure}</span></div>
+      <div class="flex items-center justify-center gap-2"><span>📊</span><span class="text-sm text-gray-600">{i18n.donate.directAid}</span></div>
+      <div class="flex items-center justify-center gap-2"><span>📧</span><span class="text-sm text-gray-600">{i18n.donate.receipt}</span></div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="lg">
+    <DonationForm client:load projects={projectOptions} />
+  </Section>
+
+  <Section background="white" padding="lg">
+    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">{i18n.donate.impact}</h2>
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
+      {impactExamples.map((item) => (
+        <div class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg">
+          <span class="text-lg font-bold text-primary-700">{item.amount}</span>
+          <span class="text-sm text-gray-700">= {item.impact}</span>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section background="gray" padding="md">
+    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">{i18n.donate.otherWays}</h2>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+      <div class="text-center"><span class="text-2xl">📦</span><h3 class="mt-2 text-sm font-semibold text-gray-900">{i18n.donate.inKind}</h3><p class="mt-1 text-xs text-gray-600">Contact <a href={`mailto:${contactEmail}`} class="text-primary-600 hover:underline">{contactEmail}</a></p></div>
+      <div class="text-center"><span class="text-2xl">🏢</span><h3 class="mt-2 text-sm font-semibold text-gray-900">{i18n.donate.matching}</h3><p class="mt-1 text-xs text-gray-600">{i18n.donate.matchingDesc}</p></div>
+      <div class="text-center"><span class="text-2xl">💌</span><h3 class="mt-2 text-sm font-semibold text-gray-900">{i18n.donate.legacy}</h3><p class="mt-1 text-xs text-gray-600"><a href="/fr/contact" class="text-primary-600 hover:underline">{i18n.donate.legacyDesc}</a></p></div>
+    </div>
+  </Section>
+</PageLayout>

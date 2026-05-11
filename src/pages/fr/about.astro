@@ -1,0 +1,129 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import Section from '../../components/layout/Section.astro';
+import { getAboutPage, type SanityAboutPage } from '../../lib/sanity';
+
+let missionStatement = "Faire briller la lumière de Jésus-Christ en autonomisant les communautés vulnérables du Cameroun à travers la distribution alimentaire, l'éducation, la formation professionnelle et les soins de santé.";
+let coreValues = [
+  { icon: '❤️', title: 'Foi et Amour', desc: 'Enracinés dans la foi chrétienne, nous servons avec un amour inconditionnel.' },
+  { icon: '🙏', title: 'Dignité et Respect', desc: 'Chaque personne est traitée avec la dignité qu\'elle mérite.' },
+  { icon: '🌱', title: 'Autonomisation', desc: 'Nous équipons les gens de compétences pour construire leur propre avenir.' },
+  { icon: '🔍', title: 'Transparence', desc: 'Nous sommes responsables envers nos donateurs et communautés.' },
+  { icon: '🤝', title: 'Partenariat Communautaire', desc: 'Nous travaillons aux côtés des leaders locaux.' },
+  { icon: '♻️', title: 'Impact Durable', desc: 'Nos programmes créent un changement à long terme.' },
+];
+let programs = [
+  { icon: '🍚', title: 'Distribution Alimentaire', desc: 'Colis alimentaires réguliers pour les veuves et familles.' },
+  { icon: '✂️', title: 'Formation Professionnelle', desc: 'Couture, coiffure et artisanat pour les jeunes femmes.' },
+  { icon: '🏥', title: 'Visites Hospitalières', desc: 'Soutien médical et visites aux membres de la communauté.' },
+  { icon: '📚', title: 'Soutien Scolaire', desc: 'Fournitures, uniformes et frais de scolarité pour les orphelins.' },
+  { icon: '💧', title: 'Eau Potable', desc: "Accès à l'eau potable pour les communautés défavorisées." },
+  { icon: '🧹', title: 'Nettoyage Communautaire', desc: "Gestion environnementale à travers des campagnes de nettoyage." },
+];
+let financialSplit = [
+  { percentage: 80, label: 'Aide Directe' },
+  { percentage: 15, label: 'Opérations' },
+  { percentage: 5, label: 'Administration' },
+];
+let timeline = [
+  { year: '2021', event: 'Fondée au Cameroun avec la mission de servir les vulnérables' },
+  { year: '2022', event: 'Lancement du premier Programme de Soutien aux Veuves' },
+  { year: '2023', event: "Début du programme d'éducation des orphelins" },
+  { year: '2024', event: 'Expansion à 5 communautés, 200+ vies impactées' },
+];
+
+try {
+  const page = await getAboutPage();
+  if (page) {
+    if (page.financialSplit?.length) financialSplit = page.financialSplit;
+    if (page.timeline?.length) timeline = page.timeline;
+  }
+} catch {}
+---
+
+<PageLayout title="À Propos" description="Découvrez la mission d'Apoti Development Association pour autonomiser les communautés vulnérables au Cameroun.">
+  <PageHero title="À Propos de Nous" subtitle="Association caritative chrétienne autonomisant les communautés vulnérables du Cameroun depuis 2021." badge="Notre Histoire" />
+
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Notre Mission</h2>
+      <p class="mt-6 text-lg text-gray-600 leading-relaxed">{missionStatement}</p>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="lg">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Appelés à Servir</h2>
+      <div class="mt-8 space-y-4 text-gray-600 leading-relaxed">
+        <p>Fondée en 2021, Apoti Development Association est née d'une conviction profonde que la foi doit s'exprimer par l'action. Au cœur du Cameroun, où les veuves, les orphelins et les jeunes femmes font face à des défis quotidiens, nous avons vu une opportunité de faire une différence tangible.</p>
+        <p>Ce qui a commencé comme un petit groupe d'individus engagés est devenu une organisation communautaire servant 5 communautés à travers le Cameroun, touchant plus de 200 vies.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Nos Valeurs</h2>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {coreValues.map((v) => (
+        <div class="p-6 bg-gray-50 rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+          <span class="text-3xl">{v.icon}</span>
+          <h3 class="mt-3 text-lg font-semibold text-gray-900">{v.title}</h3>
+          <p class="mt-2 text-sm text-gray-600">{v.desc}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section background="gray" padding="lg">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Nos Programmes</h2>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {programs.map((p) => (
+        <div class="p-6 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+          <span class="text-3xl">{p.icon}</span>
+          <h3 class="mt-3 text-lg font-semibold text-gray-900">{p.title}</h3>
+          <p class="mt-2 text-sm text-gray-600">{p.desc}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Transparence Financière</h2>
+      <div class="mt-8 grid grid-cols-3 gap-4">
+        {financialSplit.map((item) => (
+          <div class="p-4 bg-primary-50 rounded-card">
+            <p class="text-2xl font-bold text-primary-700">{item.percentage}%</p>
+            <p class="text-sm text-gray-600">{item.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="lg">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Notre Parcours</h2>
+    <ol class="mt-12 max-w-2xl mx-auto space-y-8">
+      {timeline.map((m) => (
+        <li class="flex gap-4">
+          <div class="flex-shrink-0 w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center">
+            <span class="text-white font-bold text-sm">{m.year}</span>
+          </div>
+          <div class="pt-4"><p class="text-gray-700 font-medium">{m.event}</p></div>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
+    <div class="text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold">Rejoignez Notre Mission</h2>
+      <p class="mt-4 text-white/80 max-w-2xl mx-auto">Que ce soit par un don, le bénévolat ou la prière, vous pouvez faire la différence.</p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="/fr/donate" class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Faire un Don</a>
+        <a href="/fr/get-involved" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">S'Impliquer</a>
+      </div>
+    </div>
+  </Section>
+</PageLayout>

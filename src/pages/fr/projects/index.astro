@@ -1,0 +1,84 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHero from '../../../components/layout/PageHero.astro';
+import Section from '../../../components/layout/Section.astro';
+import { getProjects, type SanityProject } from '../../../lib/sanity';
+import { projects as fallbackProjects } from '../../../data/projects';
+
+let projectData;
+try {
+  const sanityProjects = await getProjects();
+  if (sanityProjects?.length) {
+    projectData = sanityProjects.map((p: SanityProject) => ({
+      slug: p.slug.current, title: p.title, location: p.location, status: p.status,
+      description: p.description, beneficiaries: p.beneficiaries, goal: p.goalAmount, raised: p.raisedAmount,
+    }));
+  } else { projectData = fallbackProjects; }
+} catch { projectData = fallbackProjects; }
+
+const projects = projectData;
+const activeCount = projects.filter(p => p.status === 'active').length;
+const totalBeneficiaries = projects.reduce((sum, p) => sum + p.beneficiaries, 0);
+const totalRaised = projects.reduce((sum, p) => sum + p.raised, 0);
+
+function getProjectVisual(slug: string) {
+  const visuals: Record<string, { gradient: string; icon: string }> = {
+    'widow-support': { gradient: 'from-rose-100 to-rose-200', icon: '🤝' },
+    'education-orphans': { gradient: 'from-blue-100 to-blue-200', icon: '📚' },
+    'women-empowerment': { gradient: 'from-purple-100 to-purple-200', icon: '💪' },
+    'emergency-relief': { gradient: 'from-amber-100 to-amber-200', icon: '🚨' },
+    'education-drive': { gradient: 'from-cyan-100 to-cyan-200', icon: '🎒' },
+    'christmas-giving': { gradient: 'from-red-100 to-red-200', icon: '🎁' },
+  };
+  return visuals[slug] || { gradient: 'from-primary-100 to-primary-200', icon: '🌍' };
+}
+---
+
+<PageLayout title="Nos Projets" description="Découvrez les programmes d'ADA soutenant les veuves, orphelins et jeunes femmes au Cameroun.">
+  <PageHero title="Nos Projets" subtitle="Des programmes actifs qui font une vraie différence dans les communautés du Cameroun." badge="Programmes & Campagnes" />
+
+  <Section background="white" padding="lg">
+    <h2 class="sr-only">Tous les Projets</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map((project) => (
+        <article class="bg-white rounded-card shadow-card overflow-hidden border border-gray-100 border-t-2 border-t-transparent hover:border-t-primary-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div class={`h-48 bg-gradient-to-br ${getProjectVisual(project.slug).gradient} flex items-center justify-center`}>
+            <span class="text-5xl">{getProjectVisual(project.slug).icon}</span>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class:list={["px-2 py-0.5 text-xs font-medium rounded-full", project.status === "active" ? "bg-green-100 text-green-700" : project.status === "completed" ? "bg-gray-100 text-gray-600" : "bg-yellow-100 text-yellow-700"]}>
+                {project.status === "active" ? "Actif" : project.status === "completed" ? "Terminé" : "En pause"}
+              </span>
+              <span class="text-xs text-gray-500">📍 {project.location}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">{project.title}</h3>
+            <p class="mt-2 text-sm text-gray-600 line-clamp-2">{project.description}</p>
+            <div class="mt-4">
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-gray-600">${project.raised.toLocaleString()} collectés</span>
+                <span class="text-gray-500">sur ${project.goal.toLocaleString()}</span>
+              </div>
+              <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round((project.raised / project.goal) * 100)} aria-valuemin="0" aria-valuemax="100" aria-label={`Progression ${project.title}`}>
+                <div class="h-full bg-primary-500 rounded-full" style={`width: ${Math.min(100, (project.raised / project.goal) * 100)}%`}></div>
+              </div>
+            </div>
+            <div class="mt-4 flex gap-2">
+              <a href={`/fr/projects/${project.slug}`} class="flex-1 text-center px-3 py-2 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">Détails</a>
+              <a href={`/fr/donate?project=${project.slug}`} class="flex-1 text-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">Donner</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section background="dark" padding="md">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div><p class="text-3xl font-bold">{activeCount}</p><p class="mt-1 text-sm text-white/70">Programmes Actifs</p></div>
+      <div><p class="text-3xl font-bold">5</p><p class="mt-1 text-sm text-white/70">Communautés</p></div>
+      <div><p class="text-3xl font-bold">{totalBeneficiaries}+</p><p class="mt-1 text-sm text-white/70">Bénéficiaires</p></div>
+      <div><p class="text-3xl font-bold">${Math.round(totalRaised / 1000)}K+</p><p class="mt-1 text-sm text-white/70">Fonds Collectés</p></div>
+    </div>
+  </Section>
+</PageLayout>
