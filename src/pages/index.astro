@@ -56,7 +56,13 @@ interface Testimonial {
   program: string;
 }
 
-let testimonials: Testimonial[] = [];
+const fallbackTestimonials: Testimonial[] = [
+  { name: 'Amina N.', quote: 'After my husband passed, I did not know how I would feed my children. ADA provided food packages and enrolled me in tailoring training. Today I run a small shop and can support my family on my own.', location: 'Bamenda', program: 'Widow Support Program' },
+  { name: 'Marie F.', quote: 'ADA paid my school fees when my grandmother could not afford them. They gave me books, a uniform, and a mentor who checks on me every week. I want to become a nurse to help others.', location: 'Douala', program: 'Education for Orphans' },
+  { name: 'Esther K.', quote: 'The skills training program taught me hairdressing. ADA even helped me get my first set of tools. Now I have regular clients and I am saving to open my own salon.', location: 'Yaoundé', program: 'Young Women Empowerment' },
+];
+
+let testimonials: Testimonial[] = fallbackTestimonials;
 try {
   const data = await getTestimonials();
   if (data?.length) {
@@ -126,7 +132,7 @@ try {
       <div class="p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100">
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-sm font-semibold text-gray-900">2026 Education Drive</h3>
-          <span class="text-xs font-medium text-primary-700 bg-primary-100 px-2 py-0.5 rounded-full">Active Campaign</span>
+          <span class="text-xs font-medium text-red-700 bg-red-50 px-2 py-0.5 rounded-full">Ends Sept 1, 2026</span>
         </div>
         <p class="text-xs text-gray-600 mb-3">Help us send 50 children back to school this September.</p>
         <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100" aria-label="Campaign progress">
@@ -134,7 +140,7 @@ try {
         </div>
         <div class="flex items-center justify-between mt-2">
           <span class="text-sm font-bold text-primary-700">$2,200 raised</span>
-          <span class="text-xs text-gray-500">Goal: $5,000</span>
+          <span class="text-xs text-gray-500">Goal: $5,000 · 47 donors</span>
         </div>
         <a href="/donate?project=education-drive" class="mt-4 block w-full text-center px-4 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors shadow-sm">
           Contribute to This Campaign
@@ -165,23 +171,21 @@ try {
   </Section>
 
   <!-- Testimonials Section -->
-  {testimonials.length > 0 && (
-    <Section background="white" padding="lg">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Stories of Impact</h2>
-      <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">Real stories from the people we serve.</p>
-      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {testimonials.map((t) => (
-          <div class="p-6 bg-gray-50 rounded-card shadow-card">
-            <p class="text-gray-700 italic leading-relaxed">"{t.quote}"</p>
-            <div class="mt-4 pt-4 border-t border-gray-200">
-              <p class="text-sm font-semibold text-gray-900">{t.name}</p>
-              <p class="text-xs text-gray-500">{t.program}{t.location ? ` \u2022 ${t.location}` : ''}</p>
-            </div>
+  <Section background="white" padding="lg">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Stories of Impact</h2>
+    <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">Real stories from the people we serve.</p>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {testimonials.map((t) => (
+        <div class="p-6 bg-gray-50 rounded-card shadow-card">
+          <p class="text-gray-700 italic leading-relaxed">"{t.quote}"</p>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <p class="text-sm font-semibold text-gray-900">{t.name}</p>
+            <p class="text-xs text-gray-500">{t.program}{t.location ? ` \u2022 ${t.location}` : ''}</p>
           </div>
-        ))}
-      </div>
-    </Section>
-  )}
+        </div>
+      ))}
+    </div>
+  </Section>
 
   <!-- CTA Section -->
   <Section background="dark" padding="lg">
