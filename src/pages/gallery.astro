@@ -2,95 +2,114 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/layout/PageHero.astro';
 import Section from '../components/layout/Section.astro';
-import { getGalleryImages, sanityImageUrl } from '../lib/sanity';
+import { sanityImageUrl } from '../lib/sanity';
+import { createClient } from '@sanity/client';
 
-const categoryMap: Record<string, string> = {
-  'food-distribution': 'Food Distribution',
-  'skills-training': 'Skills Training',
-  'education': 'Education',
-  'community': 'Community',
-  'events': 'Events',
-};
-
-interface GalleryItem {
-  title: string;
-  category: string;
-  photoUrl: string;
-  alt: string;
-}
-
-let galleryImages: GalleryItem[] = [];
+// Fetch gallery images with project details
+let galleryData: any[] = [];
 try {
-  const images = await getGalleryImages();
-  if (images?.length) {
-    galleryImages = images.map((img: any) => ({
-      title: img.title,
-      category: img.category || 'community',
-      photoUrl: img.photo?.asset?._ref ? sanityImageUrl(img.photo.asset._ref, 600) : '',
-      alt: img.photo?.alt || img.title,
-    }));
-  }
+  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
+  const dataset = import.meta.env.SANITY_DATASET || 'production';
+  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
+  galleryData = await client.fetch(`
+    *[_type == "galleryImage"] | order(year desc, dateTaken desc) {
+      _id, title, category, year, dateTaken, reportUrl,
+      photo { asset { _ref }, alt },
+      "projectTitle": project->title,
+      "projectSlug": project->slug.current
+    }
+  `);
 } catch {}
 
-let categories = ['All', 'Food Distribution', 'Skills Training', 'Education', 'Community'];
-if (galleryImages.length > 0) {
-  const uniqueCats = [...new Set(galleryImages.map(img => img.category))];
-  categories = ['All', ...uniqueCats.map(c => categoryMap[c] || c)];
+// Group by year
+const byYear: Record<number, any[]> = {};
+for (const img of galleryData) {
+  const year = img.year || new Date(img.dateTaken || '2024').getFullYear();
+  if (!byYear[year]) byYear[year] = [];
+  byYear[year].push(img);
 }
+const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 
-const heroTitle = 'Gallery';
-const heroSubtitle = 'Moments of impact, hope, and transformation from our programs.';
-const heroBadge = 'Our Work in Pictures';
+// Group within each year by project
+function groupByProject(images: any[]) {
+  const groups: Record<string, { title: string; slug: string; images: any[] }> = {};
+  for (const img of images) {
+    const key = img.projectSlug || 'general';
+    if (!groups[key]) groups[key] = { title: img.projectTitle || 'General', slug: key, images: [] };
+    groups[key].images.push(img);
+  }
+  return Object.values(groups);
+}
 ---
 
-<PageLayout title="Gallery" description="Photos and moments from ADA programs including food distribution, skills training, education support, and community events in Cameroon.">
-  <PageHero title={heroTitle} subtitle={heroSubtitle} badge={heroBadge} compact />
+<PageLayout title="Photo Gallery" description="Browse photos from ADA's programs organized by year and project. See the real impact of our work in Cameroon.">
+  <PageHero title="Photo Gallery" subtitle="Real moments from our programs — organized by year and project." badge="Our Work in Pictures" compact />
 
   <Section background="white" padding="lg">
-    <!-- Filter -->
-    <div class="flex flex-wrap gap-2 mb-8">
-      {categories.map((cat, i) => (
-        <button
-          class:list={["px-4 py-2 text-sm font-medium rounded-full transition-colors", i === 0 ? "bg-primary-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"]}
-          data-filter={cat.toLowerCase().replace(" ", "-")}
-        >
-          {cat}
-        </button>
-      ))}
-    </div>
-
-    {galleryImages.length > 0 ? (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {galleryImages.map((img) => (
-          <div class="aspect-[4/3] rounded-card overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-            {img.photoUrl ? (
-              <img src={img.photoUrl} alt={img.alt} class="w-full h-full object-cover" loading="lazy" />
-            ) : (
-              <div class="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
-                <span class="text-4xl">📷</span>
+    {years.length > 0 ? (
+      <div class="space-y-16">
+        {years.map((year) => {
+          const yearImages = byYear[year];
+          const projectGroups = groupByProject(yearImages);
+          return (
+            <div>
+              {/* Year Header */}
+              <div class="flex items-center gap-4 mb-8">
+                <h2 class="text-3xl font-heading font-bold text-gray-900">{year}</h2>
+                <span class="px-3 py-1 text-xs font-medium bg-primary-100 text-primary-700 rounded-full">{yearImages.length} photos</span>
+                <div class="flex-1 h-px bg-gray-200"></div>
               </div>
-            )}
-          </div>
-        ))}
+
+              {/* Project Groups */}
+              <div class="space-y-10">
+                {projectGroups.map((group) => (
+                  <div>
+                    <div class="flex items-center gap-2 mb-4">
+                      <h3 class="text-lg font-semibold text-gray-700">{group.title}</h3>
+                      {group.slug !== 'general' && (
+                        <a href={`/projects/${group.slug}`} class="text-xs text-primary-600 hover:underline">View project →</a>
+                      )}
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                      {group.images.map((img) => (
+                        <div class="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+                          {img.photo?.asset?._ref ? (
+                            <img
+                              src={sanityImageUrl(img.photo.asset._ref, 400)}
+                              alt={img.photo?.alt || img.title}
+                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div class="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                              <span class="text-3xl">📷</span>
+                            </div>
+                          )}
+                          {/* Overlay on hover */}
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-0 left-0 right-0 p-3">
+                              <p class="text-white text-xs font-medium truncate">{img.title}</p>
+                              {img.reportUrl && (
+                                <a href={img.reportUrl} target="_blank" rel="noopener" class="text-[10px] text-primary-300 hover:text-white">📄 View Report</a>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
     ) : (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <div class="aspect-[4/3] bg-gradient-to-br from-primary-100 to-primary-200 rounded-card flex items-center justify-center">
-            <div class="text-center">
-              <span class="text-4xl">📷</span>
-              <p class="mt-2 text-sm text-primary-700">Photo {i + 1}</p>
-              <p class="text-xs text-primary-600/60">Upload via Sanity CMS</p>
-            </div>
-          </div>
-        ))}
+      <div class="text-center py-12">
+        <span class="text-5xl">📷</span>
+        <h2 class="mt-4 text-xl font-semibold text-gray-900">Photos Coming Soon</h2>
+        <p class="mt-2 text-gray-600">We're organizing our photo archive. Check back soon!</p>
       </div>
-    )}
-
-    {galleryImages.length === 0 && (
-      <p class="mt-8 text-center text-gray-500 text-sm">
-        Real photos will be loaded from Sanity CMS once uploaded by the ADA team.
-      </p>
     )}
   </Section>
 </PageLayout>
