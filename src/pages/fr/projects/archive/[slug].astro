@@ -1,0 +1,106 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import Section from '../../../../components/layout/Section.astro';
+import { sanityImageUrl } from '../../../../lib/sanity';
+import { createClient } from '@sanity/client';
+
+export async function getStaticPaths() {
+  let records: any[] = [];
+  try {
+    const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
+    const dataset = import.meta.env.SANITY_DATASET || 'production';
+    const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
+    records = await client.fetch('*[_type == "projectRecord"] { _id, title, titleFr, slug, demographic, year, status, description, descriptionFr, beneficiaries, budget, location, startDate, endDate, outcomes, outcomesFr, photo { asset { _ref } }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
+  } catch {}
+  return records.map(r => ({ params: { slug: r.slug.current }, props: { record: r } }));
+}
+
+const { record } = Astro.props;
+const demoLabels: Record<string, string> = { widows: 'Veuves', orphans: 'Orphelins', 'young-women': 'Jeunes Femmes', 'pregnant-women': 'Femmes Enceintes', idps: 'PDI', community: 'Communauté' };
+const title = record.titleFr || record.title;
+const description = record.descriptionFr || record.description;
+const outcomes = record.outcomesFr || record.outcomes;
+const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._ref, 800) : '';
+---
+
+<PageLayout title={title} description={description?.slice(0, 160)}>
+  <section class="bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white py-16 md:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol class="flex items-center gap-1.5 text-sm text-white/70">
+          <li><a href="/fr" class="hover:text-white transition-colors">Accueil</a></li>
+          <li class="text-white/40">/</li>
+          <li><a href="/fr/projects/archive" class="hover:text-white transition-colors">Archives des Projets</a></li>
+          <li class="text-white/40">/</li>
+          <li class="text-white/90 truncate max-w-[200px]">{title}</li>
+        </ol>
+      </nav>
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class:list={["px-3 py-1 text-xs font-semibold rounded-full", record.status === 'completed' ? 'bg-green-400/20 text-green-200 border border-green-400/30' : record.status === 'ongoing' ? 'bg-yellow-400/20 text-yellow-200 border border-yellow-400/30' : 'bg-gray-400/20 text-gray-200 border border-gray-400/30']}>
+          {record.status === 'completed' ? '✓ Terminé' : record.status === 'ongoing' ? '● En Cours' : '○ Planifié'}
+        </span>
+        <span class="px-3 py-1 text-xs font-medium bg-white/10 rounded-full border border-white/20">{demoLabels[record.demographic]}</span>
+        <span class="text-sm text-white/70">{record.year}</span>
+        {record.location && <span class="text-sm text-white/70">📍 {record.location}</span>}
+      </div>
+      <h1 class="text-3xl md:text-4xl font-heading font-bold leading-tight">{title}</h1>
+    </div>
+  </section>
+
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="md:col-span-2">
+        {photoUrl && <img src={photoUrl} alt={title} class="w-full rounded-xl mb-6" loading="eager" />}
+        {description && (
+          <div class="prose prose-gray">
+            {description.split('\n').filter(Boolean).map(p => <p class="text-gray-600 leading-relaxed">{p}</p>)}
+          </div>
+        )}
+        {outcomes?.length > 0 && (
+          <div class="mt-8">
+            <h2 class="text-lg font-heading font-semibold text-gray-900">Résultats Clés</h2>
+            <ul class="mt-4 space-y-2">
+              {outcomes.map((o: string) => (
+                <li class="flex items-start gap-2">
+                  <span class="text-green-600 mt-0.5">✓</span>
+                  <span class="text-sm text-gray-700">{o}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+      <div class="space-y-6">
+        <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
+          <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Détails du Projet</h3>
+          <dl class="mt-4 space-y-3">
+            <div class="flex justify-between"><dt class="text-xs text-gray-500">Statut</dt><dd class="text-xs font-medium text-gray-900 capitalize">{record.status}</dd></div>
+            <div class="flex justify-between"><dt class="text-xs text-gray-500">Démographique</dt><dd class="text-xs font-medium text-gray-900">{demoLabels[record.demographic]}</dd></div>
+            <div class="flex justify-between"><dt class="text-xs text-gray-500">Année</dt><dd class="text-xs font-medium text-gray-900">{record.year}</dd></div>
+            {record.beneficiaries && <div class="flex justify-between"><dt class="text-xs text-gray-500">Bénéficiaires</dt><dd class="text-xs font-medium text-gray-900">{record.beneficiaries}</dd></div>}
+            {record.budget && <div class="flex justify-between"><dt class="text-xs text-gray-500">Budget</dt><dd class="text-xs font-medium text-gray-900">${record.budget.toLocaleString()}</dd></div>}
+            {record.location && <div class="flex justify-between"><dt class="text-xs text-gray-500">Lieu</dt><dd class="text-xs font-medium text-gray-900">{record.location}</dd></div>}
+            {record.startDate && <div class="flex justify-between"><dt class="text-xs text-gray-500">Début</dt><dd class="text-xs font-medium text-gray-900">{new Date(record.startDate).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}</dd></div>}
+            {record.endDate && <div class="flex justify-between"><dt class="text-xs text-gray-500">Fin</dt><dd class="text-xs font-medium text-gray-900">{new Date(record.endDate).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}</dd></div>}
+          </dl>
+        </div>
+        {(record.torUrl || record.reportUrl) && (
+          <div class="p-5 bg-primary-50 rounded-xl border border-primary-100">
+            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Documents</h3>
+            <div class="mt-3 space-y-2">
+              {record.torUrl && <a href={record.torUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📄 Termes de Référence (PDF)</a>}
+              {record.reportUrl && <a href={record.reportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📊 Rapport Final (PDF)</a>}
+            </div>
+          </div>
+        )}
+        <a href="/fr/donate" class="block w-full text-center px-4 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-xl hover:bg-secondary-600 transition-colors">Soutenir Notre Travail</a>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="md">
+    <div class="max-w-4xl mx-auto text-center">
+      <a href="/fr/projects/archive" class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">← Retour aux Archives</a>
+    </div>
+  </Section>
+</PageLayout>
