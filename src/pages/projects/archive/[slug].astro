@@ -11,7 +11,9 @@ export async function getStaticPaths() {
     const dataset = import.meta.env.SANITY_DATASET || 'production';
     const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
     records = await client.fetch('*[_type == "projectRecord"] { _id, title, slug, demographic, year, status, description, beneficiaries, budget, location, startDate, endDate, outcomes, photo { asset { _ref } }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
-  } catch {}
+  } catch (e) {
+    console.error('[archive/[slug]] Failed to fetch project records:', e);
+  }
   return records.map(r => ({ params: { slug: r.slug.current }, props: { record: r } }));
 }
 
@@ -75,7 +77,7 @@ const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._
             <div class="flex justify-between"><dt class="text-xs text-gray-500">Demographic</dt><dd class="text-xs font-medium text-gray-900">{demoLabels[record.demographic]}</dd></div>
             <div class="flex justify-between"><dt class="text-xs text-gray-500">Year</dt><dd class="text-xs font-medium text-gray-900">{record.year}</dd></div>
             {record.beneficiaries && <div class="flex justify-between"><dt class="text-xs text-gray-500">Beneficiaries</dt><dd class="text-xs font-medium text-gray-900">{record.beneficiaries}</dd></div>}
-            {record.budget && <div class="flex justify-between"><dt class="text-xs text-gray-500">Budget</dt><dd class="text-xs font-medium text-gray-900">${record.budget.toLocaleString()}</dd></div>}
+            {record.budget && <div class="flex justify-between"><dt class="text-xs text-gray-500">Budget</dt><dd class="text-xs font-medium text-gray-900">${Number(record.budget).toLocaleString()}</dd></div>}
             {record.location && <div class="flex justify-between"><dt class="text-xs text-gray-500">Location</dt><dd class="text-xs font-medium text-gray-900">{record.location}</dd></div>}
             {record.startDate && <div class="flex justify-between"><dt class="text-xs text-gray-500">Started</dt><dd class="text-xs font-medium text-gray-900">{new Date(record.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</dd></div>}
             {record.endDate && <div class="flex justify-between"><dt class="text-xs text-gray-500">Ended</dt><dd class="text-xs font-medium text-gray-900">{new Date(record.endDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</dd></div>}

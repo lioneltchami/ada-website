@@ -74,7 +74,7 @@ const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._
         <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
           <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Détails du Projet</h3>
           <dl class="mt-4 space-y-3">
-            <div class="flex justify-between"><dt class="text-xs text-gray-500">Statut</dt><dd class="text-xs font-medium text-gray-900 capitalize">{record.status}</dd></div>
+            <div class="flex justify-between"><dt class="text-xs text-gray-500">Statut</dt><dd class="text-xs font-medium text-gray-900">{record.status === 'completed' ? 'Terminé' : record.status === 'ongoing' ? 'En Cours' : 'Planifié'}</dd></div>
             <div class="flex justify-between"><dt class="text-xs text-gray-500">Démographique</dt><dd class="text-xs font-medium text-gray-900">{demoLabels[record.demographic]}</dd></div>
             <div class="flex justify-between"><dt class="text-xs text-gray-500">Année</dt><dd class="text-xs font-medium text-gray-900">{record.year}</dd></div>
             {record.beneficiaries && <div class="flex justify-between"><dt class="text-xs text-gray-500">Bénéficiaires</dt><dd class="text-xs font-medium text-gray-900">{record.beneficiaries}</dd></div>}
