@@ -2,92 +2,114 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
-import { getAboutPage, type SanityAboutPage } from '../lib/sanity';
+import { getAboutPage, getProjects, type SanityAboutPage, type SanityProject, sanityImageUrl } from '../lib/sanity';
+import { createClient } from '@sanity/client';
+import { getLocale, t, localePath } from '../i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const i18n = t(locale);
 
 // Fallbacks
 let missionStatement = 'Shine the light of Jesus Christ by empowering vulnerable communities in Cameroon through food distribution, education, skills training, and healthcare programs that restore dignity and build self-sufficiency.';
-let storyHeading = 'Called to Serve';
 let storyParagraphs = [
   'Founded in 2021, Apoti Development Association was born from a deep conviction that faith must be expressed through action. In the heart of Cameroon, where widows, orphans, and young women face daily challenges of poverty and marginalization, we saw an opportunity to make a tangible difference.',
-  'What began as a small group of committed individuals has grown into a community-driven organization serving 5 communities across Cameroon, touching over 200 lives through our programs.',
+  'Pastor Emmanuel Tchami, witnessing the struggles of widows in his community who had lost everything — their husbands, their income, their dignity — felt called to act. He gathered a small group of committed believers and together they delivered their first food packages to three widows in Bamenda.',
+  'What began as a simple act of compassion has grown into a community-driven organization serving 5 communities across Cameroon, touching over 200 lives through six focused programs. Every program is designed not just to provide relief, but to build lasting self-sufficiency.',
 ];
 let coreValues = [
-  { icon: '\u2764\ufe0f', title: 'Faith & Love', desc: 'Grounded in Christian faith, we serve with unconditional love and compassion.' },
-  { icon: '\ud83d\ude4f', title: 'Dignity & Respect', desc: 'Every person we serve is treated with the dignity they deserve as God\'s creation.' },
-  { icon: '\ud83c\udf31', title: 'Empowerment & Growth', desc: 'We equip people with skills and resources to build their own futures.' },
-  { icon: '\ud83d\udd0d', title: 'Transparency & Integrity', desc: 'We are accountable to our donors, partners, and the communities we serve.' },
-  { icon: '\ud83e\udd1d', title: 'Community Partnership', desc: 'We work alongside local leaders and organizations for lasting impact.' },
-  { icon: '\u267b\ufe0f', title: 'Sustainable Impact', desc: 'Our programs are designed to create long-term change, not temporary relief.' },
+  { icon: '❤️', title: 'Faith & Love', desc: 'Grounded in Christian faith, we serve with unconditional love and compassion.' },
+  { icon: '🙏', title: 'Dignity & Respect', desc: 'Every person we serve is treated with the dignity they deserve as God\'s creation.' },
+  { icon: '🌱', title: 'Empowerment & Growth', desc: 'We equip people with skills and resources to build their own futures.' },
+  { icon: '🔍', title: 'Transparency & Integrity', desc: 'We are accountable to our donors, partners, and the communities we serve.' },
+  { icon: '🤝', title: 'Community Partnership', desc: 'We work alongside local leaders and organizations for lasting impact.' },
+  { icon: '♻️', title: 'Sustainable Impact', desc: 'Our programs are designed to create long-term change, not temporary relief.' },
 ];
 let programs = [
-  { icon: '\ud83c\udf5a', title: 'Food Distribution', desc: 'Regular food packages for widows and families in need.' },
-  { icon: '\u2702\ufe0f', title: 'Skills Training', desc: 'Vocational training in tailoring, hairdressing, and crafts for young women.' },
-  { icon: '\ud83c\udfe5', title: 'Hospital Visits', desc: 'Medical support and hospital visits for community members.' },
-  { icon: '\ud83d\udcda', title: 'Back-to-School Support', desc: 'School supplies, uniforms, and tuition for orphaned children.' },
-  { icon: '\ud83d\udca7', title: 'Clean Water Initiative', desc: 'Access to clean water for underserved communities, reducing waterborne disease and eliminating the need for environmentally harmful water-sourcing practices.' },
-  { icon: '\ud83e\uddf9', title: 'Community Clean-Up', desc: 'Environmental stewardship through community clean-up drives, tree planting, and waste management education \u2014 building climate resilience from the ground up.' },
+  { icon: '🍚', title: 'Food Distribution', desc: 'Regular food packages for widows and families in need.', slug: 'widow-support' },
+  { icon: '✂️', title: 'Skills Training', desc: 'Vocational training in tailoring, hairdressing, and crafts for young women.', slug: 'women-empowerment' },
+  { icon: '🏥', title: 'Hospital Visits', desc: 'Medical support and hospital visits for community members.', slug: 'emergency-relief' },
+  { icon: '📚', title: 'Back-to-School Support', desc: 'School supplies, uniforms, and tuition for orphaned children.', slug: 'education-orphans' },
+  { icon: '💧', title: 'Clean Water Initiative', desc: 'Access to clean water for underserved communities, reducing waterborne disease.', slug: 'widow-support' },
+  { icon: '🧹', title: 'Community Clean-Up', desc: 'Environmental stewardship through clean-up drives, tree planting, and waste management education.', slug: 'women-empowerment' },
 ];
 let timeline = [
-  { year: '2021', event: 'Founded in Cameroon with a mission to serve the vulnerable' },
-  { year: '2022', event: 'Launched first Widow Support Program' },
-  { year: '2023', event: 'Orphan Care and Education program begins' },
-  { year: '2024', event: 'Expanded to 5 communities, 200+ lives impacted' },
+  { year: '2021', event: 'Founded in Cameroon — first food packages delivered to 3 widows in Bamenda' },
+  { year: '2022', event: 'Launched Widow Support Program — 15 widows enrolled in vocational training' },
+  { year: '2023', event: 'Education program begins — 20 orphaned children sponsored for school' },
+  { year: '2024', event: 'Expanded to 5 communities — first clean water well completed (300+ served)' },
+  { year: '2025', event: '200+ lives impacted — community clean-up mobilizes 200 volunteers' },
+  { year: '2026', event: 'Pursuing Canadian institutional partnerships — planning second well and skills center' },
 ];
 
 try {
   const page = await getAboutPage();
   if (page) {
     missionStatement = page.missionStatement || missionStatement;
-    storyHeading = page.storyHeading || storyHeading;
     if (page.storyParagraphs?.length) storyParagraphs = page.storyParagraphs;
     if (page.coreValues?.length) coreValues = page.coreValues.map(v => ({ icon: v.icon, title: v.title, desc: v.description }));
-    if (page.programs?.length) programs = page.programs.map(p => ({ icon: p.icon, title: p.title, desc: p.description }));
     if (page.timeline?.length) timeline = page.timeline;
   }
 } catch {}
 
-const ctaHeading = 'Join Our Mission';
-const ctaSubtitle = 'Whether through giving, volunteering, or prayer, you can make a difference.';
-const programsSubtitle = 'Six focused programs addressing the most pressing needs in our communities.';
-
-const metaTitle = 'About Us';
-const metaDescription = 'Learn about Apoti Development Association\'s mission to empower vulnerable communities in Cameroon through faith-based programs.';
+// Fetch a community photo for the story section
+let communityPhotoUrl = '';
+try {
+  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
+  const dataset = import.meta.env.SANITY_DATASET || 'production';
+  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
+  const photo = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0] { "ref": photo.asset._ref }');
+  if (photo?.ref) communityPhotoUrl = sanityImageUrl(photo.ref, 800);
+} catch {}
 ---
 
-<PageLayout title={metaTitle} description={metaDescription}>
+<PageLayout title="About Us" description="Learn about Apoti Development Association's mission to empower vulnerable communities in Cameroon through faith-based programs.">
   <PageHero
     title="About Us"
     subtitle="Faith-based charity empowering vulnerable communities in Cameroon since 2021."
     badge="Our Story"
   />
 
-  <!-- Mission & Vision -->
+  <!-- Mission -->
   <Section background="white" padding="lg">
     <div class="max-w-3xl mx-auto text-center">
       <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Our Mission</h2>
-      <p class="mt-6 text-lg text-gray-600 leading-relaxed">
-        {missionStatement}
-      </p>
+      <p class="mt-6 text-lg text-gray-600 leading-relaxed">{missionStatement}</p>
+      <div class="mt-8 grid grid-cols-3 gap-4 max-w-md mx-auto">
+        <div class="text-center">
+          <p class="text-2xl font-bold text-primary-700">200+</p>
+          <p class="text-xs text-gray-500">Lives Changed</p>
+        </div>
+        <div class="text-center">
+          <p class="text-2xl font-bold text-primary-700">5</p>
+          <p class="text-xs text-gray-500">Communities</p>
+        </div>
+        <div class="text-center">
+          <p class="text-2xl font-bold text-primary-700">80%</p>
+          <p class="text-xs text-gray-500">To Programs</p>
+        </div>
+      </div>
     </div>
   </Section>
 
-  <!-- Our Story -->
+  <!-- Our Story + Photo -->
   <Section background="gray" padding="lg">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">{storyHeading}</h2>
-      <div class="mt-8 space-y-4 text-gray-600 leading-relaxed">
-        {storyParagraphs.map(p => <p>{p}</p>)}
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Called to Serve</h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
+        <div class="md:col-span-3 space-y-4 text-gray-600 leading-relaxed">
+          {storyParagraphs.map(p => <p>{p}</p>)}
+        </div>
+        {communityPhotoUrl && (
+          <div class="md:col-span-2">
+            <img src={communityPhotoUrl} alt="ADA community program in action" class="w-full rounded-2xl shadow-lg" loading="lazy" />
+          </div>
+        )}
       </div>
     </div>
   </Section>
 
   <!-- Core Values -->
   <Section background="white" padding="lg">
-    <div class="text-center mb-6">
-      <a href="/team" class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
-        👥 Meet Our Team →
-      </a>
-    </div>
     <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Core Values</h2>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {coreValues.map((value) => (
@@ -100,19 +122,18 @@ const metaDescription = 'Learn about Apoti Development Association\'s mission to
     </div>
   </Section>
 
-  <!-- Programs -->
+  <!-- Programs (linked to project pages) -->
   <Section background="gray" padding="lg">
     <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Programs</h2>
-    <p class="mt-4 text-lg text-gray-600 text-center max-w-2xl mx-auto">
-      {programsSubtitle}
-    </p>
+    <p class="mt-4 text-lg text-gray-600 text-center max-w-2xl mx-auto">Six focused programs addressing the most pressing needs in our communities.</p>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {programs.map((program) => (
-        <div class="p-6 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+        <a href={`/projects/${program.slug}`} class="group block p-6 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
           <span class="text-3xl">{program.icon}</span>
-          <h3 class="mt-3 text-lg font-semibold text-gray-900">{program.title}</h3>
+          <h3 class="mt-3 text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">{program.title}</h3>
           <p class="mt-2 text-sm text-gray-600">{program.desc}</p>
-        </div>
+          <span class="mt-3 inline-block text-xs font-medium text-primary-600 group-hover:text-primary-700">Learn more →</span>
+        </a>
       ))}
     </div>
   </Section>
@@ -120,34 +141,35 @@ const metaDescription = 'Learn about Apoti Development Association\'s mission to
   <!-- Timeline -->
   <Section background="white" padding="lg">
     <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Journey</h2>
-    <ol class="mt-12 max-w-2xl mx-auto space-y-8 list-none">
-      {timeline.map((milestone) => (
-        <li class="flex gap-4">
-          <div class="flex-shrink-0 w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center">
-            <span class="text-white font-bold text-sm">{milestone.year}</span>
-          </div>
-          <div class="pt-4">
-            <p class="text-gray-700 font-medium">{milestone.event}</p>
-          </div>
-        </li>
-      ))}
-    </ol>
+    <div class="mt-12 max-w-3xl mx-auto">
+      <div class="relative">
+        <!-- Vertical line -->
+        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-primary-200" aria-hidden="true"></div>
+        <ol class="space-y-8 list-none">
+          {timeline.map((milestone) => (
+            <li class="relative flex gap-6">
+              <div class="flex-shrink-0 w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center z-10 shadow-md">
+                <span class="text-white font-bold text-sm">{milestone.year}</span>
+              </div>
+              <div class="pt-4">
+                <p class="text-gray-700 font-medium leading-relaxed">{milestone.event}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
   </Section>
 
-  <!-- CTA -->
-  <Section background="dark" padding="lg">
+  <!-- Team + CTA -->
+  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
     <div class="text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold">{ctaHeading}</h2>
-      <p class="mt-4 text-white/80 max-w-2xl mx-auto">
-        {ctaSubtitle}
-      </p>
+      <h2 class="text-3xl md:text-4xl font-heading font-bold">Join Our Mission</h2>
+      <p class="mt-4 text-white/80 max-w-2xl mx-auto">Whether through giving, volunteering, or prayer, you can make a difference in the lives of widows, orphans, and young women in Cameroon.</p>
       <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="/donate" class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">
-          Donate Now
-        </a>
-        <a href="/get-involved" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">
-          Get Involved
-        </a>
+        <a href="/donate" class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Donate Now</a>
+        <a href="/get-involved" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Get Involved</a>
+        <a href="/team" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Meet Our Team</a>
       </div>
     </div>
   </Section>
