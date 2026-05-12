@@ -139,7 +139,7 @@ function filterCards() {
     else { el.style.display = 'none'; }
   });
   const counter = document.getElementById('results-count');
-  if (counter) counter.textContent = `${count} projet${count !== 1 ? 's' : ''}`;
+  if (counter) counter.textContent = `${count} projet${count > 1 ? 's' : ''}`;
 }
 
 setupFilters('demo-filters', 'demo');

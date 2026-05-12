@@ -33,26 +33,26 @@ const statusIcons: Record<string, string> = { completed: '✓', ongoing: '●', 
     {records.length > 0 ? (
       <div>
         <!-- Filters -->
-        <div class="space-y-3 mb-8">
-          <div class="flex flex-wrap gap-2" id="demo-filters">
+        <div class="space-y-3 mb-8" role="search" aria-label="Project filters">
+          <div class="flex flex-wrap gap-2" id="demo-filters" role="group" aria-label="Filter by demographic">
             <span class="text-xs font-medium text-gray-500 self-center mr-1">Demographic:</span>
             {demographics.map(d => (
-              <button data-demo={d} class:list={["px-3 py-1.5 text-xs font-medium rounded-full transition-colors", d === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']}>
+              <button data-demo={d} aria-pressed={d === 'all' ? 'true' : 'false'} class:list={["px-3 py-1.5 text-xs font-medium rounded-full transition-colors", d === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']}>
                 {demoLabels[d]}
               </button>
             ))}
           </div>
-          <div class="flex flex-wrap gap-2" id="year-filters">
+          <div class="flex flex-wrap gap-2" id="year-filters" role="group" aria-label="Filter by year">
             <span class="text-xs font-medium text-gray-500 self-center mr-1">Year:</span>
-            <button data-year="all" class="px-3 py-1.5 text-xs font-medium rounded-full bg-primary-600 text-white">All</button>
+            <button data-year="all" aria-pressed="true" class="px-3 py-1.5 text-xs font-medium rounded-full bg-primary-600 text-white">All</button>
             {years.map(y => (
-              <button data-year={String(y)} class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200">{y}</button>
+              <button data-year={String(y)} aria-pressed="false" class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200">{y}</button>
             ))}
           </div>
-          <div class="flex flex-wrap gap-2" id="status-filters">
+          <div class="flex flex-wrap gap-2" id="status-filters" role="group" aria-label="Filter by status">
             <span class="text-xs font-medium text-gray-500 self-center mr-1">Status:</span>
             {statuses.map(s => (
-              <button data-status={s} class:list={["px-3 py-1.5 text-xs font-medium rounded-full transition-colors", s === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']}>
+              <button data-status={s} aria-pressed={s === 'all' ? 'true' : 'false'} class:list={["px-3 py-1.5 text-xs font-medium rounded-full transition-colors", s === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']}>
                 {statusLabels[s]}
               </button>
             ))}
@@ -60,7 +60,7 @@ const statusIcons: Record<string, string> = { completed: '✓', ongoing: '●', 
         </div>
 
         <!-- Results count -->
-        <p class="text-sm text-gray-500 mb-4" id="results-count">{records.length} projects</p>
+        <p class="text-sm text-gray-500 mb-4" id="results-count" aria-live="polite" aria-atomic="true">{records.length} projects</p>
 
         <!-- Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="archive-grid">
@@ -99,7 +99,7 @@ const statusIcons: Record<string, string> = { completed: '✓', ongoing: '●', 
       </div>
     ) : (
       <div class="text-center py-12">
-        <span class="text-5xl">📁</span>
+        <span class="text-5xl" aria-hidden="true">📁</span>
         <h2 class="mt-4 text-xl font-semibold text-gray-900">Project Archive Coming Soon</h2>
         <p class="mt-2 text-gray-600">We're documenting our project history. Check back soon!</p>
       </div>
@@ -112,8 +112,14 @@ function setupFilters(containerId: string, dataAttr: string) {
   const buttons = document.querySelectorAll(`#${containerId} button`);
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
-      buttons.forEach(b => { b.classList.remove('bg-primary-600', 'text-white'); b.classList.add('bg-gray-100', 'text-gray-700'); });
-      btn.classList.remove('bg-gray-100', 'text-gray-700'); btn.classList.add('bg-primary-600', 'text-white');
+      buttons.forEach(b => {
+        b.classList.remove('bg-primary-600', 'text-white');
+        b.classList.add('bg-gray-100', 'text-gray-700');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.remove('bg-gray-100', 'text-gray-700');
+      btn.classList.add('bg-primary-600', 'text-white');
+      btn.setAttribute('aria-pressed', 'true');
       filterCards();
     });
   });
