@@ -1,0 +1,148 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHero from '../../../components/layout/PageHero.astro';
+import Section from '../../../components/layout/Section.astro';
+import { sanityImageUrl } from '../../../lib/sanity';
+import { createClient } from '@sanity/client';
+
+let records: any[] = [];
+try {
+  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
+  const dataset = import.meta.env.SANITY_DATASET || 'production';
+  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
+  records = await client.fetch(`*[_type == "projectRecord"] | order(year desc, title asc) {
+    _id, title, slug, demographic, year, status, description, beneficiaries, budget, location,
+    photo { asset { _ref } },
+    "hasToR": defined(termsOfReference),
+    "hasReport": defined(finalReport)
+  }`);
+} catch {}
+
+const demographics = ['all', 'widows', 'orphans', 'young-women', 'pregnant-women', 'idps', 'community'];
+const demoLabels: Record<string, string> = { all: 'All', widows: 'Widows', orphans: 'Orphans', 'young-women': 'Young Women', 'pregnant-women': 'Pregnant Women', idps: 'IDPs', community: 'Community' };
+const years = [...new Set(records.map(r => r.year))].sort((a, b) => b - a);
+const statuses = ['all', 'completed', 'ongoing', 'planned'];
+const statusLabels: Record<string, string> = { all: 'All', completed: 'Completed', ongoing: 'Ongoing', planned: 'Planned' };
+const statusIcons: Record<string, string> = { completed: '✓', ongoing: '●', planned: '○' };
+---
+
+<PageLayout title="Project Archive" description="Browse ADA's complete track record of projects from 2022 to present. Filter by demographic, year, and status.">
+  <PageHero title="Our Track Record" subtitle="Every project we've delivered since 2022 — filterable by demographic, year, and status. Download terms of reference and final reports." badge="Project Archive" compact />
+
+  <Section background="white" padding="lg">
+    {records.length > 0 ? (
+      <div>
+        <!-- Filters -->
+        <div class="space-y-3 mb-8">
+          <div class="flex flex-wrap gap-2" id="demo-filters">
+            <span class="text-xs font-medium text-gray-500 self-center mr-1">Demographic:</span>
+            {demographics.map(d => (
+              <button data-demo={d} class:list={["px-3 py-1.5 text-xs font-medium rounded-full transition-colors", d === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']}>
+                {demoLabels[d]}
+              </button>
+            ))}
+          </div>
+          <div class="flex flex-wrap gap-2" id="year-filters">
+            <span class="text-xs font-medium text-gray-500 self-center mr-1">Year:</span>
+            <button data-year="all" class="px-3 py-1.5 text-xs font-medium rounded-full bg-primary-600 text-white">All</button>
+            {years.map(y => (
+              <button data-year={String(y)} class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200">{y}</button>
+            ))}
+          </div>
+          <div class="flex flex-wrap gap-2" id="status-filters">
+            <span class="text-xs font-medium text-gray-500 self-center mr-1">Status:</span>
+            {statuses.map(s => (
+              <button data-status={s} class:list={["px-3 py-1.5 text-xs font-medium rounded-full transition-colors", s === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']}>
+                {statusLabels[s]}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Results count -->
+        <p class="text-sm text-gray-500 mb-4" id="results-count">{records.length} projects</p>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="archive-grid">
+          {records.map(r => (
+            <a href={`/projects/archive/${r.slug.current}`} class="group archive-card" data-demo={r.demographic} data-year={String(r.year)} data-status={r.status}>
+              <article class="h-full flex flex-col bg-white rounded-xl border border-gray-200 hover:border-primary-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                {r.photo?.asset?._ref && (
+                  <div class="h-36 overflow-hidden">
+                    <img src={sanityImageUrl(r.photo.asset._ref, 400)} alt={r.title} class="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                )}
+                <div class="p-5 flex flex-col flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class:list={["px-2 py-0.5 text-[10px] font-semibold uppercase rounded-full", r.status === 'completed' ? 'bg-green-100 text-green-700' : r.status === 'ongoing' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600']}>
+                      {statusIcons[r.status]} {r.status}
+                    </span>
+                    <span class="text-[10px] text-gray-400">{r.year}</span>
+                    <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">{demoLabels[r.demographic]}</span>
+                  </div>
+                  <h2 class="text-base font-semibold text-gray-900 group-hover:text-primary-700 transition-colors leading-tight">{r.title}</h2>
+                  {r.description && <p class="mt-2 text-xs text-gray-600 line-clamp-2">{r.description}</p>}
+                  <div class="mt-auto pt-3 flex items-center gap-3 text-xs text-gray-500">
+                    {r.beneficiaries && <span>👥 {r.beneficiaries}</span>}
+                    {r.location && <span>📍 {r.location}</span>}
+                    {r.budget && <span>💰 ${r.budget.toLocaleString()}</span>}
+                  </div>
+                  <div class="mt-2 flex gap-2">
+                    {r.hasToR && <span class="text-[10px] text-primary-600">📄 ToR</span>}
+                    {r.hasReport && <span class="text-[10px] text-primary-600">📊 Report</span>}
+                  </div>
+                </div>
+              </article>
+            </a>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <span class="text-5xl">📁</span>
+        <h2 class="mt-4 text-xl font-semibold text-gray-900">Project Archive Coming Soon</h2>
+        <p class="mt-2 text-gray-600">We're documenting our project history. Check back soon!</p>
+      </div>
+    )}
+  </Section>
+</PageLayout>
+
+<script>
+function setupFilters(containerId: string, dataAttr: string) {
+  const buttons = document.querySelectorAll(`#${containerId} button`);
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => { b.classList.remove('bg-primary-600', 'text-white'); b.classList.add('bg-gray-100', 'text-gray-700'); });
+      btn.classList.remove('bg-gray-100', 'text-gray-700'); btn.classList.add('bg-primary-600', 'text-white');
+      filterCards();
+    });
+  });
+}
+
+function getActive(containerId: string): string {
+  const active = document.querySelector(`#${containerId} .bg-primary-600`);
+  return active?.getAttribute(`data-${containerId.replace('-filters', '')}`) || 'all';
+}
+
+function filterCards() {
+  const demo = getActive('demo-filters');
+  const year = getActive('year-filters');
+  const status = getActive('status-filters');
+  const cards = document.querySelectorAll('.archive-card');
+  let count = 0;
+  cards.forEach(card => {
+    const el = card as HTMLElement;
+    const matchDemo = demo === 'all' || el.dataset.demo === demo;
+    const matchYear = year === 'all' || el.dataset.year === year;
+    const matchStatus = status === 'all' || el.dataset.status === status;
+    if (matchDemo && matchYear && matchStatus) { el.style.display = ''; count++; }
+    else { el.style.display = 'none'; }
+  });
+  const counter = document.getElementById('results-count');
+  if (counter) counter.textContent = `${count} project${count !== 1 ? 's' : ''}`;
+}
+
+setupFilters('demo-filters', 'demo');
+setupFilters('year-filters', 'year');
+setupFilters('status-filters', 'status');
+</script>

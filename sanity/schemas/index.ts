@@ -1,4 +1,5 @@
 import project from './project';
+import projectRecord from './projectRecord';
 import siteSettings from './siteSettings';
 import impactMetric from './impactMetric';
 import volunteerRole from './volunteerRole';
@@ -13,6 +14,7 @@ import blogPost from './blogPost';
 
 export const schemaTypes = [
   project,
+  projectRecord,
   siteSettings,
   impactMetric,
   volunteerRole,
