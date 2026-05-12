@@ -2,6 +2,7 @@
 import PageLayout from '../../../layouts/PageLayout.astro';
 import Section from '../../../components/layout/Section.astro';
 import PortableTextRenderer from '../../../components/PortableTextRenderer';
+import { sanityImageUrl } from '../../../lib/sanity';
 import { createClient } from '@sanity/client';
 
 export async function getStaticPaths() {
@@ -10,7 +11,7 @@ export async function getStaticPaths() {
     const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
     const dataset = import.meta.env.SANITY_DATASET || 'production';
     const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-    posts = await client.fetch('*[_type == "blogPost"] | order(publishedAt desc) { _id, title, titleFr, slug, excerpt, excerptFr, body, bodyFr, publishedAt, category }');
+    posts = await client.fetch('*[_type == "blogPost"] | order(publishedAt desc) { _id, title, titleFr, slug, excerpt, excerptFr, body, bodyFr, publishedAt, category, personPhoto { asset { _ref }, alt } }');
   } catch {}
   return posts.map((post) => ({ params: { slug: post.slug.current }, props: { post } }));
 }
@@ -19,6 +20,7 @@ const { post } = Astro.props;
 const title = post.titleFr || post.title;
 const excerpt = post.excerptFr || post.excerpt;
 const body = post.bodyFr || post.body;
+const photoUrl = post.personPhoto?.asset?._ref ? sanityImageUrl(post.personPhoto.asset._ref, 400) : '';
 ---
 
 <PageLayout title={title} description={excerpt}>
@@ -36,7 +38,13 @@ const body = post.bodyFr || post.body;
     </section>
 
     <Section background="white" padding="lg">
-      <div class="max-w-3xl mx-auto prose prose-gray prose-lg">
+      <div class="max-w-3xl mx-auto">
+        {photoUrl && (
+          <div class="mb-8 flex justify-center">
+            <img src={photoUrl} alt={post.personPhoto?.alt || title} class="w-48 h-48 rounded-2xl object-cover shadow-lg" loading="eager" />
+          </div>
+        )}
+        <div class="prose prose-gray prose-lg">
         {Array.isArray(body) ? (
           <PortableTextRenderer client:load value={body} />
         ) : (

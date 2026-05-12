@@ -2,15 +2,22 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import Section from '../../components/layout/Section.astro';
 import PortableTextRenderer from '../../components/PortableTextRenderer';
-import { getBlogPosts, type SanityBlogPost } from '../../lib/sanity';
+import { sanityImageUrl } from '../../lib/sanity';
+import { createClient } from '@sanity/client';
 
 export async function getStaticPaths() {
-  let posts: SanityBlogPost[] = [];
-  try { posts = await getBlogPosts(); } catch {}
+  let posts: any[] = [];
+  try {
+    const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
+    const dataset = import.meta.env.SANITY_DATASET || 'production';
+    const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
+    posts = await client.fetch('*[_type == "blogPost"] | order(publishedAt desc) { _id, title, slug, excerpt, body, publishedAt, category, personPhoto { asset { _ref }, alt } }');
+  } catch {}
   return posts.map((post) => ({ params: { slug: post.slug.current }, props: { post } }));
 }
 
 const { post } = Astro.props;
+const photoUrl = post.personPhoto?.asset?._ref ? sanityImageUrl(post.personPhoto.asset._ref, 400) : '';
 ---
 
 <PageLayout title={post.title} description={post.excerpt}>
@@ -30,7 +37,13 @@ const { post } = Astro.props;
 
     <!-- Body -->
     <Section background="white" padding="lg">
-      <div class="max-w-3xl mx-auto prose prose-gray prose-lg">
+      <div class="max-w-3xl mx-auto">
+        {photoUrl && (
+          <div class="mb-8 flex justify-center">
+            <img src={photoUrl} alt={post.personPhoto?.alt || post.title} class="w-48 h-48 rounded-2xl object-cover shadow-lg" loading="eager" />
+          </div>
+        )}
+        <div class="prose prose-gray prose-lg">
         {Array.isArray(post.body) ? (
           <PortableTextRenderer client:load value={post.body} />
         ) : (
