@@ -56,6 +56,16 @@ const photoUrl = post.personPhoto?.asset?._ref ? sanityImageUrl(post.personPhoto
       </div>
     </Section>
 
+    <!-- Share -->
+    <Section background="white" padding="sm">
+      <div class="max-w-3xl mx-auto flex items-center justify-center gap-3">
+        <span class="text-sm text-gray-500">Share this story:</span>
+        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=https://apotidev.org/stories/${post.slug.current}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">X</a>
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=https://apotidev.org/stories/${post.slug.current}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">Facebook</a>
+        <a href={`https://wa.me/?text=${encodeURIComponent(post.title + ' https://apotidev.org/stories/' + post.slug.current)}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">WhatsApp</a>
+      </div>
+    </Section>
+
     <!-- CTA -->
     <Section background="gray" padding="md">
       <div class="max-w-3xl mx-auto text-center">

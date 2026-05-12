@@ -1,9 +1,8 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
-import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
 import DonationForm from "../components/islands/DonationForm";
-import { getDonationTiers, getProjects, getSiteSettings, type SanityDonationTier, type SanityProject } from '../lib/sanity';
+import { getDonationTiers, getProjects, getSiteSettings, sanityImageUrl, type SanityDonationTier, type SanityProject } from '../lib/sanity';
 
 let contactEmail = 'info@apotidev.org';
 try {
@@ -37,12 +36,15 @@ let impactExamples = [
 ];
 
 let projectOptions: { slug: string; title: string }[] = [];
+let heroImageUrl = '';
 try {
   const projects = await getProjects();
   if (projects?.length) {
     projectOptions = projects
       .filter((p: SanityProject) => p.status === 'active')
       .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+    const withImage = projects.find((p: SanityProject) => p.mainImage?.asset?._ref && p.slug?.current === 'widow-support');
+    if (withImage) heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
   }
 } catch {}
 
@@ -58,11 +60,18 @@ try {
 ---
 
 <PageLayout title="Donate" description="Support ADA's mission to empower vulnerable communities in Cameroon. Every contribution makes a difference.">
-  <PageHero
-    title={pageTitle}
-    subtitle={pageSubtitle}
-    badge={pageBadge}
-  />
+  <!-- Hero with background image -->
+  <section class="relative overflow-hidden py-20 md:py-28 text-white">
+    {heroImageUrl ? (
+      <img src={heroImageUrl} alt="" class="absolute inset-0 w-full h-full object-cover" loading="eager" />
+    ) : null}
+    <div class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block px-4 py-1.5 mb-4 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20">{pageBadge}</span>
+      <h1 class="text-4xl md:text-5xl font-heading font-bold leading-tight">{pageTitle}</h1>
+      <p class="mt-4 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{pageSubtitle}</p>
+    </div>
+  </section>
 
   <!-- Trust Indicators -->
   <Section background="white" padding="sm">
