@@ -21,11 +21,6 @@ let programs = [
   { icon: '💧', title: 'Eau Potable', desc: "Accès à l'eau potable pour les communautés défavorisées." },
   { icon: '🧹', title: 'Nettoyage Communautaire', desc: "Gestion environnementale à travers des campagnes de nettoyage." },
 ];
-let financialSplit = [
-  { percentage: 80, label: 'Aide Directe' },
-  { percentage: 15, label: 'Opérations' },
-  { percentage: 5, label: 'Administration' },
-];
 let timeline = [
   { year: '2021', event: 'Fondée au Cameroun avec la mission de servir les vulnérables' },
   { year: '2022', event: 'Lancement du premier Programme de Soutien aux Veuves' },
@@ -36,7 +31,6 @@ let timeline = [
 try {
   const page = await getAboutPage();
   if (page) {
-    if (page.financialSplit?.length) financialSplit = page.financialSplit;
     if (page.timeline?.length) timeline = page.timeline;
   }
 } catch {}
@@ -89,20 +83,6 @@ try {
   </Section>
 
   <Section background="white" padding="lg">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Transparence Financière</h2>
-      <div class="mt-8 grid grid-cols-3 gap-4">
-        {financialSplit.map((item) => (
-          <div class="p-4 bg-primary-50 rounded-card">
-            <p class="text-2xl font-bold text-primary-700">{item.percentage}%</p>
-            <p class="text-sm text-gray-600">{item.label}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </Section>
-
-  <Section background="gray" padding="lg">
     <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Notre Parcours</h2>
     <ol class="mt-12 max-w-2xl mx-auto space-y-8">
       {timeline.map((m) => (
