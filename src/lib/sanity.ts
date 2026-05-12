@@ -153,7 +153,7 @@ export interface SanityBlogPost {
   title: string;
   slug: { current: string };
   excerpt: string;
-  body: string;
+  body: any; // Portable Text blocks (array) or legacy string
   publishedAt: string;
   category: string;
 }

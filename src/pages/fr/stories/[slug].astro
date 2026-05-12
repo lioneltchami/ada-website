@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../../layouts/PageLayout.astro';
 import Section from '../../../components/layout/Section.astro';
+import PortableTextRenderer from '../../../components/PortableTextRenderer';
 import { getBlogPosts, type SanityBlogPost } from '../../../lib/sanity';
 
 export async function getStaticPaths() {
@@ -10,7 +11,6 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const paragraphs = post.body?.split('\n\n').filter(Boolean) || [];
 ---
 
 <PageLayout title={post.title} description={post.excerpt}>
@@ -29,18 +29,15 @@ const paragraphs = post.body?.split('\n\n').filter(Boolean) || [];
 
     <Section background="white" padding="lg">
       <div class="max-w-3xl mx-auto prose prose-gray prose-lg">
-        {paragraphs.map((para) => {
-          const trimmed = para.trim();
-          if (!trimmed) return null;
-          if (trimmed.split('\n').every(line => line.trim().startsWith('-') || line.trim().match(/^\d+\./))) {
-            const items = trimmed.split('\n').map(l => l.trim().replace(/^[-\d.]+\s*/, ''));
-            return <ul class="space-y-2 my-4">{items.map(item => <li class="text-gray-600">{item}</li>)}</ul>;
-          }
-          if (trimmed.length < 80 && trimmed.endsWith(':')) {
-            return <h3 class="text-lg font-semibold text-gray-900 mt-8 mb-2">{trimmed}</h3>;
-          }
-          return <p class="text-gray-600 leading-relaxed mb-4">{trimmed}</p>;
-        })}
+        {Array.isArray(post.body) ? (
+          <PortableTextRenderer client:load value={post.body} />
+        ) : (
+          <div>
+            {(post.body || '').split('\n\n').filter(Boolean).map((para) => (
+              <p class="text-gray-600 leading-relaxed mb-4">{para.trim()}</p>
+            ))}
+          </div>
+        )}
       </div>
     </Section>
 
