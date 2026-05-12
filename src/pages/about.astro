@@ -45,7 +45,7 @@ try {
   const page = await getAboutPage();
   if (page) {
     missionStatement = page.missionStatement || missionStatement;
-    if (page.storyParagraphs?.length) storyParagraphs = page.storyParagraphs;
+    if (page.storyParagraphs?.length && typeof page.storyParagraphs[0] === 'string') storyParagraphs = page.storyParagraphs;
     if (page.coreValues?.length) coreValues = page.coreValues.map(v => ({ icon: v.icon, title: v.title, desc: v.description }));
     if (page.timeline?.length) timeline = page.timeline;
   }
