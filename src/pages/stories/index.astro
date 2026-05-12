@@ -13,6 +13,14 @@ try {
   posts = await client.fetch('*[_type == "blogPost"] | order(publishedAt desc) { _id, title, slug, excerpt, publishedAt, category, personPhoto { asset { _ref }, alt } }');
 } catch {}
 
+let galleryPhotos: any[] = [];
+try {
+  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
+  const dataset = import.meta.env.SANITY_DATASET || 'production';
+  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
+  galleryPhotos = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0...4] { _id, title, photo { asset { _ref }, alt } }');
+} catch {}
+
 const categories = ['all', 'story', 'update', 'announcement'];
 const categoryLabels: Record<string, string> = {
   all: 'All',
@@ -77,10 +85,20 @@ const categoryLabels: Record<string, string> = {
     )}
   </Section>
 
-  <Section background="gray" padding="sm">
+  <Section background="gray" padding="md">
     <div class="text-center">
-      <a href="/gallery" class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
-        📷 View Photo Gallery →
+      <h3 class="text-lg font-heading font-semibold text-gray-900 mb-4">📷 From Our Gallery</h3>
+      {galleryPhotos.length > 0 && (
+        <div class="flex justify-center gap-3 mb-4">
+          {galleryPhotos.map((img) => (
+            <a href="/gallery" class="block w-20 h-20 rounded-lg overflow-hidden hover:opacity-80 transition-opacity">
+              <img src={sanityImageUrl(img.photo.asset._ref, 160)} alt={img.photo?.alt || img.title} class="w-full h-full object-cover" loading="lazy" />
+            </a>
+          ))}
+        </div>
+      )}
+      <a href="/gallery" class="inline-flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">
+        View full gallery →
       </a>
     </div>
   </Section>

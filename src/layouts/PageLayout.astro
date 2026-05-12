@@ -16,7 +16,7 @@ interface Props {
 const props = Astro.props;
 
 let faqData: { keywords: string[]; response: string }[] = [];
-if (Astro.url.pathname === '/' || Astro.url.pathname === '/contact' || Astro.url.pathname === '/donate') {
+if (Astro.url.pathname === '/' || Astro.url.pathname === '/contact' || Astro.url.pathname === '/donate' || Astro.url.pathname === '/get-involved') {
   try {
     const faqs = await getFaqResponses();
     if (faqs?.length) {
@@ -49,7 +49,7 @@ if (Astro.url.pathname === '/' || Astro.url.pathname === '/contact' || Astro.url
     Donate
   </a>
   <Footer />
-  {(Astro.url.pathname === '/' || Astro.url.pathname === '/contact' || Astro.url.pathname === '/donate') && (
+  {(Astro.url.pathname === '/' || Astro.url.pathname === '/contact' || Astro.url.pathname === '/donate' || Astro.url.pathname === '/get-involved') && (
     <Chatbot client:idle faqs={faqData} />
   )}
 </BaseLayout>

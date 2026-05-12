@@ -25,7 +25,15 @@ const photoUrl = post.personPhoto?.asset?._ref ? sanityImageUrl(post.personPhoto
     <!-- Hero -->
     <section class="bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white py-16 md:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <a href="/stories" class="inline-flex items-center text-sm text-white/70 hover:text-white mb-6 transition-colors">← All Stories</a>
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex items-center gap-1.5 text-sm text-white/70">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="text-white/40">/</li>
+            <li><a href="/stories" class="hover:text-white transition-colors">Stories</a></li>
+            <li class="text-white/40">/</li>
+            <li class="text-white/90 truncate max-w-[200px]">{post.title}</li>
+          </ol>
+        </nav>
         <div class="flex items-center gap-3 mb-4">
           <span class="px-3 py-1 text-xs font-medium uppercase bg-white/10 text-white/90 rounded-full border border-white/20">{post.category || 'update'}</span>
           {post.publishedAt && <time class="text-sm text-white/60">{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>}
