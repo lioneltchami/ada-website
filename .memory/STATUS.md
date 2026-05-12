@@ -30,7 +30,7 @@
 ## What's Next (Priority Order)
 
 ### HIGH - Next Session
-1. **Migrate blog body to Portable Text** - Change blogPost schema from `text` to `array of block` for proper rich text (headings, lists, bold, tables). Requires schema update + content migration + renderer update.
+1. **ADD REGISTRATION NUMBER** — Update /transparency page with actual NGO registration number (currently placeholder)
 2. **Set up Sanity webhook** - Auto-rebuild on content change (so edits appear without manual deploy)
 3. **Custom domain** - Point apotidev.org to Cloudflare Workers
 4. **Switch Stripe to live mode** - When ready to accept real donations
