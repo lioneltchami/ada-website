@@ -44,6 +44,19 @@ export default defineType({
     defineField({ name: 'termsOfReference', title: 'Terms of Reference (PDF)', type: 'file' }),
     defineField({ name: 'finalReport', title: 'Final Report (PDF)', type: 'file' }),
     defineField({ name: 'photo', title: 'Project Photo', type: 'image', options: { hotspot: true } }),
+    defineField({
+      name: 'photos',
+      title: 'Project Photos',
+      type: 'array',
+      of: [{
+        type: 'image',
+        options: { hotspot: true },
+        fields: [
+          { name: 'caption', type: 'string', title: 'Caption' },
+          { name: 'captionFr', type: 'string', title: 'Caption (French)' },
+        ],
+      }],
+    }),
     defineField({ name: 'outcomes', title: 'Key Outcomes', type: 'array', of: [{ type: 'string' }] }),
     defineField({ name: 'outcomesFr', title: 'Key Outcomes (French)', type: 'array', of: [{ type: 'string' }] }),
   ],
