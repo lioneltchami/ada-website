@@ -3,6 +3,7 @@ import PageLayout from '../../../layouts/PageLayout.astro';
 import Section from '../../../components/layout/Section.astro';
 import { sanityImageUrl } from '../../../lib/sanity';
 import { createClient } from '@sanity/client';
+import PhotoLightbox from '../../../components/islands/PhotoLightbox';
 
 export async function getStaticPaths() {
   let records: any[] = [];
@@ -10,7 +11,7 @@ export async function getStaticPaths() {
     const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
     const dataset = import.meta.env.SANITY_DATASET || 'production';
     const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-    records = await client.fetch('*[_type == "projectRecord"] { _id, title, slug, demographic, year, status, description, beneficiaries, budget, location, startDate, endDate, outcomes, photo { asset { _ref } }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
+    records = await client.fetch('*[_type == "projectRecord"] { _id, title, slug, demographic, year, status, description, beneficiaries, budget, location, startDate, endDate, outcomes, photo { asset { _ref } }, photos[] { "url": asset->url, caption }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
   } catch (e) {
     console.error('[archive/[slug]] Failed to fetch project records:', e);
   }
@@ -66,6 +67,12 @@ const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+        {record.photos?.length > 0 && (
+          <div class="mt-8">
+            <h2 class="text-lg font-heading font-semibold text-gray-900 mb-4">Project Photos</h2>
+            <PhotoLightbox client:visible photos={record.photos} />
           </div>
         )}
       </div>
