@@ -19,130 +19,139 @@ try {
 } catch {}
 
 const demographics = ['all', 'widows', 'orphans', 'young-women', 'pregnant-women', 'idps', 'community'];
-const demoLabels: Record<string, string> = { all: 'Tous', widows: 'Veuves', orphans: 'Orphelins', 'young-women': 'Jeunes Femmes', 'pregnant-women': 'Femmes Enceintes', idps: 'PDI', community: 'Communauté' };
+const demoLabels: Record<string, string> = { all: 'Tous', widows: 'Veuves', orphans: 'Orphelins', 'young-women': 'Jeunes Femmes', 'pregnant-women': 'Femmes Enceintes', idps: 'PDI', community: 'Communaut\u00e9' };
+const statusIcons: Record<string, string> = { completed: '\u2713', ongoing: '\u25cf', planned: '\u25cb' };
+const statusColors: Record<string, string> = { completed: 'text-green-600', ongoing: 'text-yellow-600', planned: 'text-gray-400' };
+const statusLabels: Record<string, string> = { completed: 'Termin\u00e9', ongoing: 'En cours', planned: 'Planifi\u00e9' };
+
+const totalBeneficiaries = records.reduce((sum, r) => sum + (r.beneficiaries || 0), 0);
+const totalBudget = records.reduce((sum, r) => sum + (r.budget || 0), 0);
+const completedCount = records.filter(r => r.status === 'completed').length;
 const years = [...new Set(records.map(r => r.year))].sort((a, b) => b - a);
-const statuses = ['all', 'completed', 'ongoing', 'planned'];
-const statusLabels: Record<string, string> = { all: 'Tous', completed: 'Terminé', ongoing: 'En Cours', planned: 'Planifié' };
-const statusIcons: Record<string, string> = { completed: '✓', ongoing: '●', planned: '○' };
+
+const byYear: Record<number, any[]> = {};
+for (const r of records) {
+  if (!byYear[r.year]) byYear[r.year] = [];
+  byYear[r.year].push(r);
+}
 ---
 
-<PageLayout title="Archives des Projets" description="Parcourez l'historique complet des projets d'ADA de 2022 à aujourd'hui. Filtrez par démographique, année et statut.">
-  <PageHero title="Notre Bilan" subtitle="Tous les projets réalisés depuis 2022 — filtrables par démographique, année et statut. Téléchargez les termes de référence et rapports finaux." badge="Archives" compact />
+<PageLayout title="Archives des Projets" description="Parcourez le bilan complet des projets d'ADA depuis 2022.">
+  <PageHero title="Notre Bilan" subtitle="Tous les projets r\u00e9alis\u00e9s depuis 2022. Cliquez sur un d\u00e9mographique pour filtrer, ou parcourez la chronologie compl\u00e8te." badge="Archives" compact />
 
-  <Section background="white" padding="lg">
-    {records.length > 0 ? (
+  <Section background="white" padding="sm">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
       <div>
-        <!-- Filters -->
-        <div class="space-y-3 mb-8">
-          <div class="flex flex-wrap gap-2" id="demo-filters">
-            <span class="text-xs font-medium text-gray-500 self-center mr-1">Démographique:</span>
-            {demographics.map(d => (
-              <button data-demo={d} class:list={["px-3 py-1.5 text-xs font-medium rounded-full transition-colors", d === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']}>
-                {demoLabels[d]}
-              </button>
-            ))}
-          </div>
-          <div class="flex flex-wrap gap-2" id="year-filters">
-            <span class="text-xs font-medium text-gray-500 self-center mr-1">Année:</span>
-            <button data-year="all" class="px-3 py-1.5 text-xs font-medium rounded-full bg-primary-600 text-white">Tous</button>
-            {years.map(y => (
-              <button data-year={String(y)} class="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200">{y}</button>
-            ))}
-          </div>
-          <div class="flex flex-wrap gap-2" id="status-filters">
-            <span class="text-xs font-medium text-gray-500 self-center mr-1">Statut:</span>
-            {statuses.map(s => (
-              <button data-status={s} class:list={["px-3 py-1.5 text-xs font-medium rounded-full transition-colors", s === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200']}>
-                {statusLabels[s]}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <!-- Results count -->
-        <p class="text-sm text-gray-500 mb-4" id="results-count">{records.length} projets</p>
-
-        <!-- Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="archive-grid">
-          {records.map(r => (
-            <a href={`/fr/projects/archive/${r.slug.current}`} class="group archive-card" data-demo={r.demographic} data-year={String(r.year)} data-status={r.status}>
-              <article class="h-full flex flex-col bg-white rounded-xl border border-gray-200 hover:border-primary-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                {r.photo?.asset?._ref && (
-                  <div class="h-36 overflow-hidden">
-                    <img src={sanityImageUrl(r.photo.asset._ref, 400)} alt={r.titleFr || r.title} class="w-full h-full object-cover" loading="lazy" />
-                  </div>
-                )}
-                <div class="p-5 flex flex-col flex-1">
-                  <div class="flex items-center gap-2 mb-2">
-                    <span class:list={["px-2 py-0.5 text-[10px] font-semibold uppercase rounded-full", r.status === 'completed' ? 'bg-green-100 text-green-700' : r.status === 'ongoing' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600']}>
-                      {statusIcons[r.status]} {statusLabels[r.status]}
-                    </span>
-                    <span class="text-[10px] text-gray-400">{r.year}</span>
-                    <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">{demoLabels[r.demographic]}</span>
-                  </div>
-                  <h2 class="text-base font-semibold text-gray-900 group-hover:text-primary-700 transition-colors leading-tight">{r.titleFr || r.title}</h2>
-                  {(r.descriptionFr || r.description) && <p class="mt-2 text-xs text-gray-600 line-clamp-2">{r.descriptionFr || r.description}</p>}
-                  <div class="mt-auto pt-3 flex items-center gap-3 text-xs text-gray-500">
-                    {r.beneficiaries && <span>👥 {r.beneficiaries}</span>}
-                    {r.location && <span>📍 {r.location}</span>}
-                    {r.budget && <span>💰 ${r.budget.toLocaleString()}</span>}
-                  </div>
-                  <div class="mt-2 flex gap-2">
-                    {r.hasToR && <span class="text-[10px] text-primary-600">📄 TdR</span>}
-                    {r.hasReport && <span class="text-[10px] text-primary-600">📊 Rapport</span>}
-                  </div>
-                </div>
-              </article>
-            </a>
-          ))}
-        </div>
+        <p class="text-2xl font-bold text-primary-700">{totalBeneficiaries.toLocaleString()}</p>
+        <p class="text-xs text-gray-500">B\u00e9n\u00e9ficiaires Atteints</p>
       </div>
-    ) : (
-      <div class="text-center py-12">
-        <span class="text-5xl">📁</span>
-        <h2 class="mt-4 text-xl font-semibold text-gray-900">Archives des Projets Bientôt Disponibles</h2>
-        <p class="mt-2 text-gray-600">Nous documentons notre historique de projets. Revenez bientôt!</p>
+      <div>
+        <p class="text-2xl font-bold text-primary-700">{records.length}</p>
+        <p class="text-xs text-gray-500">Projets R\u00e9alis\u00e9s</p>
       </div>
-    )}
+      <div>
+        <p class="text-2xl font-bold text-primary-700">${totalBudget.toLocaleString()}</p>
+        <p class="text-xs text-gray-500">Total Investi</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-primary-700">{completedCount}/{records.length}</p>
+        <p class="text-xs text-gray-500">Termin\u00e9s</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="lg">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex flex-wrap gap-2 mb-8 justify-center" id="demo-tabs" role="tablist" aria-label="Filtrer par d\u00e9mographique">
+        {demographics.map(d => (
+          <button
+            role="tab"
+            aria-selected={d === 'all' ? 'true' : 'false'}
+            data-demo={d}
+            class:list={["px-4 py-2 text-sm font-medium rounded-full transition-all", d === 'all' ? 'bg-primary-600 text-white shadow-md' : 'bg-white text-gray-700 border border-gray-200 hover:border-primary-300 hover:text-primary-700']}
+          >
+            {demoLabels[d]}
+            <span class="ml-1 text-xs opacity-70">({d === 'all' ? records.length : records.filter(r => r.demographic === d).length})</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="relative">
+        <div class="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-primary-200" aria-hidden="true"></div>
+
+        {years.map(year => (
+          <div class="mb-8" data-year-group={year}>
+            <div class="relative flex items-center mb-4">
+              <div class="w-8 md:w-16 h-8 md:h-10 rounded-full bg-primary-600 flex items-center justify-center z-10 shadow-sm">
+                <span class="text-white font-bold text-xs md:text-sm">{year}</span>
+              </div>
+              <div class="ml-3 h-px flex-1 bg-primary-100"></div>
+            </div>
+
+            <div class="ml-12 md:ml-24 space-y-3">
+              {byYear[year].map(r => (
+                <a
+                  href={`/fr/projects/archive/${r.slug.current}`}
+                  class="group archive-item block p-4 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-200"
+                  data-demo={r.demographic}
+                >
+                  <div class="flex items-start justify-between gap-3">
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-2 mb-1">
+                        <span class:list={["text-sm", statusColors[r.status]]}>{statusIcons[r.status]}</span>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-primary-700 transition-colors truncate">{r.titleFr || r.title}</h3>
+                      </div>
+                      <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                        <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-full font-medium">{demoLabels[r.demographic]}</span>
+                        {r.beneficiaries && <span>👥 {r.beneficiaries}</span>}
+                        {r.location && <span>📍 {r.location}</span>}
+                        {r.hasToR && <span class="text-primary-600">📄 TdR</span>}
+                        {r.hasReport && <span class="text-primary-600">📊 Rapport</span>}
+                      </div>
+                    </div>
+                    <div class="text-right flex-shrink-0">
+                      {r.budget && <p class="text-sm font-semibold text-gray-900">${r.budget.toLocaleString()}</p>}
+                      <p class:list={["text-xs", statusColors[r.status]]}>{statusLabels[r.status]}</p>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   </Section>
 </PageLayout>
 
 <script>
-function setupFilters(containerId: string, dataAttr: string) {
-  const buttons = document.querySelectorAll(`#${containerId} button`);
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => { b.classList.remove('bg-primary-600', 'text-white'); b.classList.add('bg-gray-100', 'text-gray-700'); });
-      btn.classList.remove('bg-gray-100', 'text-gray-700'); btn.classList.add('bg-primary-600', 'text-white');
-      filterCards();
+  const tabs = document.querySelectorAll('#demo-tabs button');
+  const items = document.querySelectorAll('.archive-item');
+  const yearGroups = document.querySelectorAll('[data-year-group]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const demo = tab.getAttribute('data-demo');
+
+      tabs.forEach(t => {
+        t.classList.remove('bg-primary-600', 'text-white', 'shadow-md');
+        t.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+      tab.classList.add('bg-primary-600', 'text-white', 'shadow-md');
+      tab.setAttribute('aria-selected', 'true');
+
+      items.forEach(item => {
+        const el = item as HTMLElement;
+        el.style.display = (demo === 'all' || el.dataset.demo === demo) ? '' : 'none';
+      });
+
+      yearGroups.forEach(group => {
+        const el = group as HTMLElement;
+        const visibleItems = el.querySelectorAll('.archive-item:not([style*="display: none"])');
+        el.style.display = visibleItems.length > 0 ? '' : 'none';
+      });
     });
   });
-}
-
-function getActive(containerId: string): string {
-  const active = document.querySelector(`#${containerId} .bg-primary-600`);
-  return active?.getAttribute(`data-${containerId.replace('-filters', '')}`) || 'all';
-}
-
-function filterCards() {
-  const demo = getActive('demo-filters');
-  const year = getActive('year-filters');
-  const status = getActive('status-filters');
-  const cards = document.querySelectorAll('.archive-card');
-  let count = 0;
-  cards.forEach(card => {
-    const el = card as HTMLElement;
-    const matchDemo = demo === 'all' || el.dataset.demo === demo;
-    const matchYear = year === 'all' || el.dataset.year === year;
-    const matchStatus = status === 'all' || el.dataset.status === status;
-    if (matchDemo && matchYear && matchStatus) { el.style.display = ''; count++; }
-    else { el.style.display = 'none'; }
-  });
-  const counter = document.getElementById('results-count');
-  if (counter) counter.textContent = `${count} projet${count > 1 ? 's' : ''}`;
-}
-
-setupFilters('demo-filters', 'demo');
-setupFilters('year-filters', 'year');
-setupFilters('status-filters', 'status');
 </script>
