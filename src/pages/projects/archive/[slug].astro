@@ -11,7 +11,7 @@ export async function getStaticPaths() {
     const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
     const dataset = import.meta.env.SANITY_DATASET || 'production';
     const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-    records = await client.fetch('*[_type == "projectRecord"] { _id, title, slug, demographic, year, status, description, beneficiaries, budget, location, startDate, endDate, outcomes, photo { asset { _ref } }, photos[] { "url": asset->url, caption }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
+    records = await client.fetch('*[_type == "projectRecord"] { _id, title, slug, demographic, year, status, description, beneficiaries, budget, location, startDate, endDate, outcomes, photo { asset { _ref } }, photos[] { asset { _ref }, caption }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
   } catch (e) {
     console.error('[archive/[slug]] Failed to fetch project records:', e);
   }
@@ -21,6 +21,7 @@ export async function getStaticPaths() {
 const { record } = Astro.props;
 const demoLabels: Record<string, string> = { widows: 'Widows', orphans: 'Orphans', 'young-women': 'Young Women', 'pregnant-women': 'Pregnant Women', idps: 'IDPs', community: 'Community' };
 const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._ref, 800) : '';
+const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).map((p: any) => ({ url: sanityImageUrl(p.asset._ref, 800), caption: p.caption || '' }));
 ---
 
 <PageLayout title={record.title} description={record.description?.slice(0, 160)}>
@@ -69,10 +70,10 @@ const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._
             </ul>
           </div>
         )}
-        {record.photos?.length > 0 && (
+        {galleryPhotos.length > 0 && (
           <div class="mt-8">
             <h2 class="text-lg font-heading font-semibold text-gray-900 mb-4">Project Photos</h2>
-            <PhotoLightbox client:visible photos={record.photos} />
+            <PhotoLightbox client:visible photos={galleryPhotos} />
           </div>
         )}
       </div>
