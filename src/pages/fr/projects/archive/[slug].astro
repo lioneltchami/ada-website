@@ -11,7 +11,7 @@ export async function getStaticPaths() {
     const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
     const dataset = import.meta.env.SANITY_DATASET || 'production';
     const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-    records = await client.fetch('*[_type == "projectRecord"] { _id, title, titleFr, slug, demographic, year, status, description, descriptionFr, beneficiaries, budget, location, startDate, endDate, outcomes, outcomesFr, photo { asset { _ref } }, photos[] { "url": asset->url, "caption": coalesce(captionFr, caption) }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
+    records = await client.fetch('*[_type == "projectRecord"] { _id, title, titleFr, slug, demographic, year, status, description, descriptionFr, beneficiaries, budget, location, startDate, endDate, outcomes, outcomesFr, photo { asset { _ref } }, photos[] { asset { _ref }, "caption": coalesce(captionFr, caption) }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
   } catch {}
   return records.map(r => ({ params: { slug: r.slug.current }, props: { record: r } }));
 }
@@ -22,6 +22,7 @@ const title = record.titleFr || record.title;
 const description = record.descriptionFr || record.description;
 const outcomes = record.outcomesFr || record.outcomes;
 const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._ref, 800) : '';
+const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).map((p: any) => ({ url: sanityImageUrl(p.asset._ref, 800), caption: p.caption || '' }));
 ---
 
 <PageLayout title={title} description={description?.slice(0, 160)}>
@@ -70,10 +71,10 @@ const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._
             </ul>
           </div>
         )}
-        {record.photos?.length > 0 && (
+        {galleryPhotos.length > 0 && (
           <div class="mt-8">
             <h2 class="text-lg font-heading font-semibold text-gray-900 mb-4">Photos du Projet</h2>
-            <PhotoLightbox client:visible photos={record.photos} />
+            <PhotoLightbox client:visible photos={galleryPhotos} />
           </div>
         )}
       </div>
