@@ -11,7 +11,7 @@ export async function getStaticPaths() {
     const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
     const dataset = import.meta.env.SANITY_DATASET || 'production';
     const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-    records = await client.fetch('*[_type == "projectRecord"] { _id, title, titleFr, slug, demographic, year, status, description, descriptionFr, beneficiaries, budget, location, startDate, endDate, outcomes, outcomesFr, photo { asset { _ref } }, photos[] { asset { _ref }, "caption": coalesce(captionFr, caption) }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url }');
+    records = await client.fetch('*[_type == "projectRecord"] { _id, title, titleFr, slug, demographic, year, status, description, descriptionFr, beneficiaries, budget, location, startDate, endDate, outcomes, outcomesFr, photo { asset { _ref } }, photos[] { asset { _ref }, "caption": coalesce(captionFr, caption) }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url, "financialReportUrl": financialReport.asset->url }');
   } catch {}
   return records.map(r => ({ params: { slug: r.slug.current }, props: { record: r } }));
 }
@@ -92,12 +92,13 @@ const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).m
             {record.endDate && <div class="flex justify-between"><dt class="text-xs text-gray-500">Fin</dt><dd class="text-xs font-medium text-gray-900">{new Date(record.endDate).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}</dd></div>}
           </dl>
         </div>
-        {(record.torUrl || record.reportUrl) && (
+        {(record.torUrl || record.reportUrl || record.financialReportUrl) && (
           <div class="p-5 bg-primary-50 rounded-xl border border-primary-100">
             <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Documents</h3>
             <div class="mt-3 space-y-2">
               {record.torUrl && <a href={record.torUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📄 Termes de Référence (PDF)</a>}
               {record.reportUrl && <a href={record.reportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📊 Rapport Final (PDF)</a>}
+              {record.financialReportUrl && <a href={record.financialReportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">💰 Rapport Financier (PDF)</a>}
             </div>
           </div>
         )}

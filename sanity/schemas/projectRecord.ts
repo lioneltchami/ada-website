@@ -43,6 +43,7 @@ export default defineType({
     defineField({ name: 'endDate', title: 'End Date', type: 'date' }),
     defineField({ name: 'termsOfReference', title: 'Terms of Reference (PDF)', type: 'file' }),
     defineField({ name: 'finalReport', title: 'Final Report (PDF)', type: 'file' }),
+    defineField({ name: 'financialReport', title: 'Financial Report (PDF)', type: 'file' }),
     defineField({ name: 'photo', title: 'Project Photo', type: 'image', options: { hotspot: true } }),
     defineField({
       name: 'photos',
