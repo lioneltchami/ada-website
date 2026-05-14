@@ -63,40 +63,42 @@ function getProjectVisual(slug: string): { gradient: string; icon: string } {
     <h2 class="sr-only">All Projects</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {projects.map((project) => (
-        <article class="bg-white rounded-card shadow-card overflow-hidden border border-gray-100 border-t-2 border-t-transparent hover:border-t-primary-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-300" data-status={project.status}>
-          <div class={`h-48 ${project.imageUrl ? '' : 'bg-gradient-to-br ' + getProjectVisual(project.slug).gradient} flex items-center justify-center overflow-hidden`}>
-            {project.imageUrl ? (
-              <img src={project.imageUrl} alt={project.imageAlt} class="w-full h-full object-cover" loading="lazy" />
-            ) : (
-              <span class="text-5xl">{getProjectVisual(project.slug).icon}</span>
-            )}
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class:list={["px-2 py-0.5 text-xs font-medium rounded-full", project.status === "active" ? "bg-green-100 text-green-700" : project.status === "completed" ? "bg-gray-100 text-gray-600" : "bg-yellow-100 text-yellow-700"]}>
-                {project.status === "active" ? "Active" : project.status === "completed" ? "Completed" : "Paused"}
-              </span>
-              <span class="text-xs text-gray-500">📍 {project.location}</span>
+        <article class="relative bg-white rounded-card shadow-card overflow-hidden border border-gray-100 border-t-2 border-t-transparent hover:border-t-primary-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-300" data-status={project.status}>
+          <a href={`/projects/${project.slug}`} class="block">
+            <div class={`h-48 ${project.imageUrl ? '' : 'bg-gradient-to-br ' + getProjectVisual(project.slug).gradient} flex items-center justify-center overflow-hidden`}>
+              {project.imageUrl ? (
+                <img src={project.imageUrl} alt={project.imageAlt} class="w-full h-full object-cover" loading="lazy" />
+              ) : (
+                <span class="text-5xl">{getProjectVisual(project.slug).icon}</span>
+              )}
             </div>
-            <h3 class="text-lg font-semibold text-gray-900">{project.title}</h3>
-            <p class="mt-2 text-sm text-gray-600 line-clamp-2">{project.description}</p>
-            <div class="mt-4">
-              <div class="flex justify-between text-sm mb-1">
-                <span class="text-gray-600">${project.raised.toLocaleString()} raised</span>
-                <span class="text-gray-500">of ${project.goal.toLocaleString()}</span>
+            <div class="p-6 pb-20">
+              <div class="flex items-center gap-2 mb-3">
+                <span class:list={["px-2 py-0.5 text-xs font-medium rounded-full", project.status === "active" ? "bg-green-100 text-green-700" : project.status === "completed" ? "bg-gray-100 text-gray-600" : "bg-yellow-100 text-yellow-700"]}>
+                  {project.status === "active" ? "Active" : project.status === "completed" ? "Completed" : "Paused"}
+                </span>
+                <span class="text-xs text-gray-500">📍 {project.location}</span>
               </div>
-              <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round((project.raised / project.goal) * 100)} aria-valuemin="0" aria-valuemax="100" aria-label={`${project.title} fundraising progress`}>
-                <div class="h-full bg-primary-500 rounded-full" style={`width: ${Math.min(100, (project.raised / project.goal) * 100)}%`}></div>
+              <h3 class="text-lg font-semibold text-gray-900">{project.title}</h3>
+              <p class="mt-2 text-sm text-gray-600 line-clamp-2">{project.description}</p>
+              <div class="mt-4">
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-gray-600">${project.raised.toLocaleString()} raised</span>
+                  <span class="text-gray-500">of ${project.goal.toLocaleString()}</span>
+                </div>
+                <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round((project.raised / project.goal) * 100)} aria-valuemin="0" aria-valuemax="100" aria-label={`${project.title} fundraising progress`}>
+                  <div class="h-full bg-primary-500 rounded-full" style={`width: ${Math.min(100, (project.raised / project.goal) * 100)}%`}></div>
+                </div>
               </div>
             </div>
-            <div class="mt-4 flex gap-2">
-              <a href={`/projects/${project.slug}`} class="flex-1 text-center px-3 py-2 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
-                Details
-              </a>
-              <a href={`/donate?project=${project.slug}`} class="flex-1 text-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
-                Donate
-              </a>
-            </div>
+          </a>
+          <div class="absolute bottom-0 left-0 right-0 p-6 pt-0 flex gap-2">
+            <a href={`/projects/${project.slug}`} class="flex-1 text-center px-3 py-2 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
+              Details
+            </a>
+            <a href={`/donate?project=${project.slug}`} class="flex-1 text-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
+              Donate
+            </a>
           </div>
         </article>
       ))}
