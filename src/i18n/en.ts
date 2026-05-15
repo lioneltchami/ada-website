@@ -113,6 +113,7 @@ export default {
 		tor: "TOR",
 		completionReport: "Report",
 		download: "Download",
+		openLink: "Open",
 		funderDocs: "Due Diligence Package",
 		funderDocsDesc:
 			"Registration, policies, and governance documents for institutional partners.",
