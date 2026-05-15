@@ -108,14 +108,26 @@ export default {
     subtitle:
       "Téléchargez nos rapports annuels, documents de projet et états financiers.",
     annualReports: "Rapports Annuels",
-    projectDocs: "Documents de Projet",
-    financials: "Rapports Financiers",
-    tor: "Termes de Référence (TDR)",
-    completionReport: "Rapport de Fin de Projet",
-    download: "Télécharger le PDF",
+    projectDocs: "Documents de projet par année",
+    projectDocsIntro:
+      "{count} projets avec TDR, rapports financiers et rapports de fin.",
+    projectsInYear: "{count} projets",
+    annualReportForYear: "Rapport annuel {year} (PDF)",
+    financials: "Financier",
+    tor: "TDR",
+    completionReport: "Rapport",
+    download: "Télécharger",
     funderDocs: "Dossier de Diligence Raisonnable",
     funderDocsDesc:
       "Enregistrement, politiques et documents de gouvernance pour les partenaires institutionnels.",
+    demographics: {
+      widows: "Veuves",
+      orphans: "Orphelins et jeunes",
+      "young-women": "Jeunes femmes",
+      "pregnant-women": "Santé maternelle",
+      idps: "PDI et urgences",
+      community: "Communauté et environnement",
+    },
   },
   transparency: {
     impactCharts: "Progrès de l'Impact",
