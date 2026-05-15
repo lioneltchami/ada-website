@@ -60,7 +60,9 @@ import Section from '../components/layout/Section.astro';
       <div class="mt-6 space-y-3">
         {[
           { framework: 'Canada\'s Feminist International Assistance Policy', alignment: 'Gender equality is central to all ADA programs. 85% women/girl beneficiaries.' },
-          { framework: 'UN Sustainable Development Goals', alignment: 'SDG 1 (No Poverty), SDG 2 (Zero Hunger), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 6 (Clean Water)' },
+          { framework: 'US Foreign Assistance Framework (USAID)', alignment: 'Resilience, self-reliance, women\'s economic empowerment, youth development.' },
+          { framework: 'UN Sustainable Development Goals', alignment: 'SDG 1 (No Poverty), SDG 2 (Zero Hunger), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 6 (Clean Water), SDG 13 (Climate Action)' },
+          { framework: 'European Consensus on Development', alignment: 'People-centered approach, gender equality, youth empowerment, environmental sustainability.' },
           { framework: 'African Union Agenda 2063', alignment: 'Youth empowerment, gender parity, community-driven development.' },
           { framework: 'Paris Agreement / Climate Action', alignment: 'Clean water infrastructure, community clean-up programs, environmental stewardship education.' },
         ].map((a) => (
@@ -69,6 +71,126 @@ import Section from '../components/layout/Section.astro';
             <p class="mt-1 text-xs text-gray-600">{a.alignment}</p>
           </div>
         ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- For International Funders -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">For International Funders</h2>
+      <p class="mt-2 text-gray-600">ADA welcomes partnerships with funders worldwide. Here's how we align with your country's development priorities.</p>
+
+      <div class="mt-8 space-y-6">
+        <!-- Canada -->
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🇨🇦</span>
+            <h3 class="text-lg font-semibold text-gray-900">Canadian Funders</h3>
+          </div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>CFLI Eligible:</strong> ADA meets all criteria for the Canada Fund for Local Initiatives (CFLI) administered by the Canadian High Commission in Yaoundé.</p>
+            <p><strong>2022 Law Change:</strong> Canadian registered charities can now grant directly to foreign NGOs like ADA under the qualifying disbursement rules — no intermediary required.</p>
+            <p><strong>Policy Alignment:</strong> Our programs directly advance Canada's Feminist International Assistance Policy with 85% women/girl beneficiaries.</p>
+            <p><strong>Tax Receipts:</strong> Canadian donors can receive tax receipts through a Canadian fiscal sponsor arrangement. Contact us for details.</p>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">CFLI Eligible</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Bilingual EN/FR</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Gender Equality Focus</span>
+          </div>
+        </div>
+
+        <!-- USA -->
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🇺🇸</span>
+            <h3 class="text-lg font-semibold text-gray-900">US Funders</h3>
+          </div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>501(c)(3) Equivalency:</strong> ADA operates as a registered non-profit in Cameroon with governance structures equivalent to US 501(c)(3) requirements (independent board, financial oversight, public benefit mission).</p>
+            <p><strong>GlobalGiving:</strong> ADA is preparing for GlobalGiving Accelerator registration, which will provide US donors with tax-deductible giving through GlobalGiving's 501(c)(3) status.</p>
+            <p><strong>Foundation Grants:</strong> US private foundations can grant to ADA through expenditure responsibility or equivalency determination procedures.</p>
+            <p><strong>USAID Alignment:</strong> Our programs align with USAID's Journey to Self-Reliance framework — building local capacity, not dependency.</p>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">GlobalGiving (Pending)</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Equivalency Determination Available</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Self-Reliance Model</span>
+          </div>
+        </div>
+
+        <!-- Europe -->
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🇪🇺</span>
+            <h3 class="text-lg font-semibold text-gray-900">European Funders</h3>
+          </div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>EU Development Framework:</strong> ADA's work aligns with the European Consensus on Development — people-centered, rights-based, gender-responsive programming.</p>
+            <p><strong>French-Speaking Capacity:</strong> Full bilingual operations (English + French). All documentation, reports, and communications available in French — ideal for Francophone European funders.</p>
+            <p><strong>Embassy Partnerships:</strong> We welcome partnerships with European embassies in Cameroon through their local development cooperation programs.</p>
+            <p><strong>Climate & Environment:</strong> Our environmental programs (cleanups, tree planting, clean water) align with European Green Deal priorities.</p>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Francophone Capacity</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Climate Action</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Rights-Based Approach</span>
+          </div>
+        </div>
+
+        <!-- UK & Commonwealth -->
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🇬🇧</span>
+            <h3 class="text-lg font-semibold text-gray-900">UK & Commonwealth Funders</h3>
+          </div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>Commonwealth Connection:</strong> Cameroon is a Commonwealth member. ADA operates in the Anglophone regions (South-West and North-West) directly affected by the ongoing crisis.</p>
+            <p><strong>FCDO Alignment:</strong> Our programs align with UK Foreign, Commonwealth & Development Office priorities: women's empowerment, education, humanitarian response, and climate.</p>
+            <p><strong>Crisis Response:</strong> ADA has demonstrated emergency relief capacity in the Anglophone crisis context — serving IDPs, conflict-affected children, and displaced families.</p>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Commonwealth Member</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Anglophone Crisis Response</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">IDP Support</span>
+          </div>
+        </div>
+
+        <!-- Diaspora & Individual -->
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🌍</span>
+            <h3 class="text-lg font-semibold text-gray-900">Diaspora & Individual Donors (Worldwide)</h3>
+          </div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>Direct Impact:</strong> 80% of every dollar goes directly to programs. $50 sends a child to school for a year. $200 funds a complete vocational training.</p>
+            <p><strong>Full Transparency:</strong> Every project has downloadable Terms of Reference, completion reports, and financial reports on our website.</p>
+            <p><strong>Secure Giving:</strong> Stripe-powered donations with instant PDF receipts. Monthly recurring options available.</p>
+            <p><strong>Stay Connected:</strong> Quarterly impact updates with photos and stories from the field.</p>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Secure Online Donations</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Instant Receipts</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Full Accountability</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Due Diligence -->
+      <div class="mt-8 p-5 bg-primary-50 rounded-xl border border-primary-100">
+        <h3 class="text-sm font-semibold text-gray-900">Due Diligence Package (Available on Request)</h3>
+        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700">
+          <p>✓ Registration certificate (N° 415/G.37/D14/VolI/SAAJP)</p>
+          <p>✓ Board of Directors list with bios</p>
+          <p>✓ 4 years of annual reports (2021–2024)</p>
+          <p>✓ 25 project reports with financials</p>
+          <p>✓ Organizational policies (governance, finance, safeguarding)</p>
+          <p>✓ Logical framework and M&E plan</p>
+          <p>✓ References from community leaders and partners</p>
+          <p>✓ Site visit coordination</p>
+        </div>
+        <p class="mt-3 text-xs text-primary-700">Contact <a href="mailto:info@apotidev.org" class="underline">info@apotidev.org</a> to request the full due diligence package.</p>
       </div>
     </div>
   </Section>
