@@ -1,0 +1,151 @@
+---
+import Section from '../layout/Section.astro';
+import type { Locale } from '../../i18n';
+import type { YearDocumentGroup, ProjectDemographic } from '../../lib/project-archive';
+import { demographicLabel, projectDisplayTitle } from '../../lib/project-archive';
+
+interface DueDiligenceDoc {
+  title: string;
+  desc: string;
+  link: string;
+  external: boolean;
+}
+
+interface Props {
+  locale: Locale;
+  labels: {
+    annualReports: string;
+    projectDocs: string;
+    projectDocsIntro: string;
+    funderDocs: string;
+    funderDocsDesc: string;
+    tor: string;
+    financials: string;
+    completionReport: string;
+    download: string;
+    annualReportForYear: string;
+    projectsInYear: string;
+    demographics: Record<ProjectDemographic, string>;
+  };
+  dueDiligenceDocs: DueDiligenceDoc[];
+  yearGroups: YearDocumentGroup[];
+  totalProjects: number;
+}
+
+const { locale, labels, dueDiligenceDocs, yearGroups, totalProjects } = Astro.props;
+const latestYear = yearGroups[0]?.year;
+---
+
+<!-- Due diligence — compact list -->
+<Section background="gray" padding="lg">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="text-xl font-heading font-bold text-gray-900">{labels.funderDocs}</h2>
+    <p class="mt-1 text-sm text-gray-600">{labels.funderDocsDesc}</p>
+    <ul class="mt-5 divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white overflow-hidden">
+      {dueDiligenceDocs.map((doc) => (
+        <li>
+          <a
+            href={doc.link}
+            target={doc.external ? '_blank' : '_self'}
+            rel={doc.external ? 'noopener' : undefined}
+            class="flex items-center justify-between gap-4 px-4 py-3 text-sm hover:bg-primary-50/50 transition-colors"
+          >
+            <span>
+              <span class="font-medium text-gray-900">{doc.title}</span>
+              <span class="block text-xs text-gray-500 mt-0.5">{doc.desc}</span>
+            </span>
+            <span class="text-primary-700 font-medium shrink-0">{labels.download} →</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+<!-- Projects by year → demographic -->
+<Section background="white" padding="lg">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="text-xl font-heading font-bold text-gray-900">{labels.projectDocs}</h2>
+    <p class="mt-1 text-sm text-gray-600">
+      {labels.projectDocsIntro.replace('{count}', String(totalProjects))}
+    </p>
+
+    <div class="mt-6 space-y-3">
+      {yearGroups.map((yearGroup) => (
+        <details
+          class="group rounded-xl border border-gray-200 bg-gray-50/40 open:bg-white open:shadow-sm"
+          open={yearGroup.year === latestYear}
+        >
+          <summary class="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span class="font-heading font-bold text-gray-900">{yearGroup.year}</span>
+            <span class="text-xs text-gray-500">
+              {labels.projectsInYear.replace('{count}', String(yearGroup.projectCount))}
+            </span>
+            <span class="ml-auto text-gray-400 group-open:rotate-180 transition-transform" aria-hidden="true">▾</span>
+          </summary>
+
+          <div class="px-4 pb-4 pt-0 border-t border-gray-100">
+            {yearGroup.annualReportPath && (
+              <a
+                href={yearGroup.annualReportPath}
+                target="_blank"
+                rel="noopener"
+                class="mt-3 inline-flex items-center gap-2 text-sm font-medium text-primary-700 hover:text-primary-800"
+              >
+                <span aria-hidden="true">📊</span>
+                {labels.annualReportForYear.replace('{year}', String(yearGroup.year))}
+              </a>
+            )}
+
+            <div class="mt-4 space-y-5">
+              {yearGroup.demographics.map((demoGroup) => (
+                <div>
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-primary-700">
+                    {demographicLabel(demoGroup.demographic, labels.demographics)}
+                  </h3>
+                  <ul class="mt-2 space-y-2">
+                    {demoGroup.projects.map((project) => (
+                      <li class="rounded-lg border border-gray-100 bg-white px-3 py-2.5">
+                        <p class="text-sm font-medium text-gray-900">
+                          {projectDisplayTitle(project, locale)}
+                        </p>
+                        <p class="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                          <a
+                            href={`/docs/projects/${project.slug}/tor.pdf`}
+                            target="_blank"
+                            rel="noopener"
+                            class="text-primary-700 hover:underline"
+                          >
+                            {labels.tor}
+                          </a>
+                          <span class="text-gray-300" aria-hidden="true">·</span>
+                          <a
+                            href={`/docs/projects/${project.slug}/financial.pdf`}
+                            target="_blank"
+                            rel="noopener"
+                            class="text-primary-700 hover:underline"
+                          >
+                            {labels.financials}
+                          </a>
+                          <span class="text-gray-300" aria-hidden="true">·</span>
+                          <a
+                            href={`/docs/projects/${project.slug}/report.pdf`}
+                            target="_blank"
+                            rel="noopener"
+                            class="text-primary-700 hover:underline"
+                          >
+                            {labels.completionReport}
+                          </a>
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</Section>
