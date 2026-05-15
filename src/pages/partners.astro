@@ -2,10 +2,38 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/layout/PageHero.astro';
 import Section from '../components/layout/Section.astro';
+import { getLocale, t } from '../i18n';
+
+const locale = getLocale(Astro.url.pathname);
+const labels = t(locale);
 ---
 
 <PageLayout title="For Partners & Funders" description="Partnership information for institutional funders, embassies, and foundations. ADA offers transparent reporting, measurable results, and bilingual capacity.">
   <PageHero title="Partner With Us" subtitle="Institutional partnerships that create measurable, sustainable impact in Cameroon." badge="For Funders & Institutions" compact />
+
+  <!-- 2026 Funding Priorities -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.partners.prioritiesTitle}</h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          { emoji: '👩‍🌾', title: labels.partners.widowsTitle, desc: labels.partners.widowsDesc, amount: '$48,000' },
+          { emoji: '📚', title: labels.partners.educationTitle, desc: labels.partners.educationDesc, amount: '$35,000' },
+          { emoji: '🏥', title: labels.partners.healthTitle, desc: labels.partners.healthDesc, amount: '$62,000' },
+        ].map((item) => (
+          <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col h-full">
+            <div class="text-4xl mb-4" aria-hidden="true">{item.emoji}</div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+            <p class="text-gray-600 text-sm flex-grow">{item.desc}</p>
+            <div class="mt-6 pt-4 border-t border-gray-100">
+              <p class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">2026 Funding Goal</p>
+              <p class="text-2xl font-bold text-primary-600">{item.amount}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
 
   <!-- Why Partner -->
   <Section background="white" padding="lg">
@@ -21,7 +49,7 @@ import Section from '../components/layout/Section.astro';
           { icon: '🌍', title: 'Bilingual Capacity', desc: 'Full reporting in English and French. Quarterly updates, annual reports, and M&E data on schedule.' },
         ].map((item) => (
           <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
-            <span class="text-2xl">{item.icon}</span>
+            <span class="text-2xl" aria-hidden="true">{item.icon}</span>
             <h3 class="mt-2 text-sm font-semibold text-gray-900">{item.title}</h3>
             <p class="mt-1 text-xs text-gray-600 leading-relaxed">{item.desc}</p>
           </div>
@@ -85,7 +113,7 @@ import Section from '../components/layout/Section.astro';
         <!-- Canada -->
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
-            <span class="text-xl">🇨🇦</span>
+            <span class="text-xl" aria-hidden="true">🇨🇦</span>
             <h3 class="text-lg font-semibold text-gray-900">Canadian Funders</h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
@@ -104,7 +132,7 @@ import Section from '../components/layout/Section.astro';
         <!-- USA -->
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
-            <span class="text-xl">🇺🇸</span>
+            <span class="text-xl" aria-hidden="true">🇺🇸</span>
             <h3 class="text-lg font-semibold text-gray-900">US Funders</h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
@@ -123,7 +151,7 @@ import Section from '../components/layout/Section.astro';
         <!-- Europe -->
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
-            <span class="text-xl">🇪🇺</span>
+            <span class="text-xl" aria-hidden="true">🇪🇺</span>
             <h3 class="text-lg font-semibold text-gray-900">European Funders</h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
@@ -142,7 +170,7 @@ import Section from '../components/layout/Section.astro';
         <!-- UK & Commonwealth -->
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
-            <span class="text-xl">🇬🇧</span>
+            <span class="text-xl" aria-hidden="true">🇬🇧</span>
             <h3 class="text-lg font-semibold text-gray-900">UK & Commonwealth Funders</h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
@@ -160,7 +188,7 @@ import Section from '../components/layout/Section.astro';
         <!-- Diaspora & Individual -->
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
-            <span class="text-xl">🌍</span>
+            <span class="text-xl" aria-hidden="true">🌍</span>
             <h3 class="text-lg font-semibold text-gray-900">Diaspora & Individual Donors (Worldwide)</h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
@@ -179,18 +207,27 @@ import Section from '../components/layout/Section.astro';
 
       <!-- Due Diligence -->
       <div class="mt-8 p-5 bg-primary-50 rounded-xl border border-primary-100">
-        <h3 class="text-sm font-semibold text-gray-900">Due Diligence Package (Available on Request)</h3>
-        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700">
-          <p>✓ Registration certificate (N° 415/G.37/D14/VolI/SAAJP)</p>
-          <p>✓ Board of Directors list with bios</p>
-          <p>✓ 4 years of annual reports (2021–2024)</p>
-          <p>✓ 25 project reports with financials</p>
-          <p>✓ Organizational policies (governance, finance, safeguarding)</p>
-          <p>✓ Logical framework and M&E plan</p>
-          <p>✓ References from community leaders and partners</p>
-          <p>✓ Site visit coordination</p>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="flex-grow">
+            <h3 class="text-sm font-semibold text-gray-900">Due Diligence Package (Available on Request)</h3>
+            <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700">
+              <p><span aria-hidden="true">✓</span> Registration certificate (N° 415/G.37/D14/VolI/SAAJP)</p>
+              <p><span aria-hidden="true">✓</span> Board of Directors list with bios</p>
+              <p><span aria-hidden="true">✓</span> 4 years of annual reports (2021–2024)</p>
+              <p><span aria-hidden="true">✓</span> 25 project reports with financials</p>
+              <p><span aria-hidden="true">✓</span> Organizational policies (governance, finance, safeguarding)</p>
+              <p><span aria-hidden="true">✓</span> Logical framework and M&E plan</p>
+              <p><span aria-hidden="true">✓</span> References from community leaders and partners</p>
+              <p><span aria-hidden="true">✓</span> Site visit coordination</p>
+            </div>
+            <p class="mt-3 text-xs text-primary-700">Contact <a href="mailto:info@apotidev.org" class="underline">info@apotidev.org</a> to request the full due diligence package.</p>
+          </div>
+          <div class="flex-shrink-0">
+            <a href="/resources" class="inline-flex items-center px-6 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm">
+              {labels.resources.title} →
+            </a>
+          </div>
         </div>
-        <p class="mt-3 text-xs text-primary-700">Contact <a href="mailto:info@apotidev.org" class="underline">info@apotidev.org</a> to request the full due diligence package.</p>
       </div>
     </div>
   </Section>
@@ -211,7 +248,7 @@ import Section from '../components/layout/Section.astro';
           'Reports in English and French',
         ].map((item) => (
           <div class="flex items-start gap-2">
-            <span class="text-primary-600 mt-0.5">✓</span>
+            <span class="text-primary-600 mt-0.5" aria-hidden="true">✓</span>
             <p class="text-sm text-gray-700">{item}</p>
           </div>
         ))}
@@ -271,7 +308,7 @@ import Section from '../components/layout/Section.astro';
           { title: 'Governance', desc: 'Board of directors with quarterly meetings. Conflict of interest policy. Whistleblower protection.' },
         ].map((item) => (
           <div class="flex items-start gap-3 p-3 bg-white rounded-lg">
-            <span class="text-primary-600 mt-0.5 font-bold">✓</span>
+            <span class="text-primary-600 mt-0.5 font-bold" aria-hidden="true">✓</span>
             <div>
               <p class="text-sm font-semibold text-gray-900">{item.title}</p>
               <p class="mt-0.5 text-xs text-gray-600">{item.desc}</p>

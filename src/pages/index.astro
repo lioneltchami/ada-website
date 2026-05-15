@@ -92,7 +92,7 @@ try {
   <!-- Hero Section -->
   <section class="relative overflow-hidden py-24 md:py-32 text-white">
     {heroImageUrl ? (
-      <img src={heroImageUrl} alt="" class="absolute inset-0 w-full h-full object-cover" loading="eager" />
+      <img src={heroImageUrl} alt="Beneficiaries of ADA programs in Cameroon" class="absolute inset-0 w-full h-full object-cover" loading="eager" />
     ) : null}
     <div class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"></div>
     <div class="absolute inset-0 opacity-10" aria-hidden="true">
@@ -124,7 +124,7 @@ try {
           Our Projects
         </a>
       </div>
-      <p class="mt-6 text-sm text-white/60 flex flex-wrap items-center justify-center gap-3">
+      <p class="mt-6 text-sm text-white/80 flex flex-wrap items-center justify-center gap-3">
         <span class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20">200+ lives changed</span>
         <span class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20">5 communities</span>
         <span class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20">80% to programs</span>
@@ -174,16 +174,16 @@ try {
       <!-- Floating photos (decorative, blurred/opacity) -->
       {heroImageUrl && (
         <>
-          <div class="hidden lg:block absolute -left-4 top-8 w-32 h-44 rounded-xl overflow-hidden opacity-20 rotate-[-6deg] shadow-lg">
+          <div class="hidden lg:block absolute -left-4 top-8 w-32 h-44 rounded-xl overflow-hidden opacity-20 rotate-[-6deg] shadow-lg" aria-hidden="true">
             <img src={sanityImageUrl('image-85d73f4797b625e01e2a66df43cea27625e0ad72-800x600-jpg', 300)} alt="" class="w-full h-full object-cover blur-[1px]" loading="lazy" />
           </div>
-          <div class="hidden lg:block absolute -right-4 top-16 w-28 h-40 rounded-xl overflow-hidden opacity-20 rotate-[4deg] shadow-lg">
+          <div class="hidden lg:block absolute -right-4 top-16 w-28 h-40 rounded-xl overflow-hidden opacity-20 rotate-[4deg] shadow-lg" aria-hidden="true">
             <img src={sanityImageUrl('image-edc2f2636d0dc93ab0405ea0bd67f8b6f4f1f308-800x450-jpg', 300)} alt="" class="w-full h-full object-cover blur-[1px]" loading="lazy" />
           </div>
-          <div class="hidden lg:block absolute -left-2 bottom-12 w-24 h-36 rounded-xl overflow-hidden opacity-15 rotate-[3deg] shadow-lg">
+          <div class="hidden lg:block absolute -left-2 bottom-12 w-24 h-36 rounded-xl overflow-hidden opacity-15 rotate-[3deg] shadow-lg" aria-hidden="true">
             <img src={sanityImageUrl('image-c61680ea417e75d3fcb13f4a245138209cac4eef-800x600-jpg', 300)} alt="" class="w-full h-full object-cover blur-[1px]" loading="lazy" />
           </div>
-          <div class="hidden lg:block absolute -right-2 bottom-8 w-30 h-40 rounded-xl overflow-hidden opacity-15 rotate-[-5deg] shadow-lg">
+          <div class="hidden lg:block absolute -right-2 bottom-8 w-30 h-40 rounded-xl overflow-hidden opacity-15 rotate-[-5deg] shadow-lg" aria-hidden="true">
             <img src={sanityImageUrl('image-2152c5a90b06cad5a62b5f582b0d836a8b6c54e3-598x800-jpg', 300)} alt="" class="w-full h-full object-cover blur-[1px]" loading="lazy" />
           </div>
         </>
@@ -197,7 +197,7 @@ try {
         {missionCards.map((card) => (
           <div class="p-6 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
             <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary-100 flex items-center justify-center">
-              <span class="text-2xl">{card.icon}</span>
+              <span class="text-2xl" aria-hidden="true">{card.icon}</span>
             </div>
             <h3 class="text-lg font-semibold text-gray-900">{card.title}</h3>
             <p class="mt-2 text-sm text-gray-600">{card.description}</p>
