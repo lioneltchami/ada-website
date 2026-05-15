@@ -108,8 +108,32 @@ try {
     </div>
   </Section>
 
-  <!-- Core Values -->
+  <!-- Impact Video -->
   <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">See Our Impact</h2>
+      <p class="mt-4 text-lg text-gray-600">Watch how your support transforms lives in our communities.</p>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="rounded-2xl overflow-hidden shadow-lg">
+          <video controls preload="metadata" class="w-full aspect-video bg-gray-900" aria-label="ADA Back to School program video">
+            <source src="https://cdn.sanity.io/files/rj2m21gk/production/6d43bdec66014a0bddb4702538982688a8ec4412.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <p class="p-3 text-sm text-gray-600 bg-gray-50">Back to School Program 2022</p>
+        </div>
+        <div class="rounded-2xl overflow-hidden shadow-lg">
+          <video controls preload="metadata" class="w-full aspect-video bg-gray-900" aria-label="ADA community outreach video">
+            <source src="https://cdn.sanity.io/files/rj2m21gk/production/02cbff013caef81d8c01e96e68f95cb364ce3a01.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <p class="p-3 text-sm text-gray-600 bg-gray-50">Community Outreach</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Core Values -->
+  <Section background="gray" padding="lg">
     <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Core Values</h2>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {coreValues.map((value) => (
