@@ -2,6 +2,18 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/layout/PageHero.astro';
 import Section from '../../components/layout/Section.astro';
+import { getLocale, t } from '../../i18n';
+import {
+  annualReportPdfs,
+  impactGrowthByYear,
+  indicatorProgress,
+  measurableIndicatorsFr,
+} from '../../data/organization';
+
+const locale = getLocale(Astro.url.pathname);
+const labels = t(locale);
+const measurableIndicators = measurableIndicatorsFr;
+const impactChartMax = Math.max(...impactGrowthByYear.map((item) => item.value));
 ---
 
 <PageLayout title="Transparence et Responsabilité" description="Rapports financiers, détails d'enregistrement et mesures de responsabilité d'ADA. 80% de chaque dollar va directement aux programmes.">
@@ -10,7 +22,7 @@ import Section from '../../components/layout/Section.astro';
   <!-- Enregistrement -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Enregistrement Légal</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.transparency.legalRegistration}</h2>
       <div class="mt-6 p-6 bg-gray-50 rounded-2xl border border-gray-200">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div><p class="text-xs text-gray-500 uppercase tracking-wider">Nom de l'Organisation</p><p class="mt-1 text-sm font-semibold text-gray-900">Apoti Development Association (ADA)</p></div>
@@ -28,8 +40,8 @@ import Section from '../../components/layout/Section.astro';
   <!-- Gouvernance -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Structure de Gouvernance</h2>
-      <p class="mt-2 text-gray-600">ADA est dirigée par un conseil de 12 membres avec une séparation claire des pouvoirs, une supervision financière et un leadership local au Cameroun.</p>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.transparency.governanceStructure}</h2>
+      <p class="mt-2 text-gray-600 text-balance">ADA est dirigée par un conseil de 12 membres avec une séparation claire des pouvoirs, une supervision financière et un leadership local au Cameroun.</p>
 
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
@@ -87,7 +99,7 @@ import Section from '../../components/layout/Section.astro';
   <!-- Aperçu Financier -->
   <Section background="gray" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Responsabilité Financière</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.transparency.financialAccountability}</h2>
       <p class="mt-2 text-gray-600">Notre engagement : frais généraux inférieurs à 5%, avec 80% des fonds allant directement à l'exécution des programmes.</p>
 
       <div class="mt-8 grid grid-cols-3 gap-4 text-center">
@@ -135,10 +147,11 @@ import Section from '../../components/layout/Section.astro';
       <div class="mt-6">
         <h3 class="text-lg font-semibold text-gray-900">Rapports Annuels</h3>
         <div class="mt-3 space-y-2">
-          <a href="https://cdn.sanity.io/files/rj2m21gk/production/d00c10fc6d4413f5a099c94a605a5b8bb76fb8d4.pdf" target="_blank" rel="noopener" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-700 bg-white border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">📊 Rapport Annuel 2024 (PDF)</a>
-          <a href="https://cdn.sanity.io/files/rj2m21gk/production/659520c49f2c9b2ae0b776eb84592f3b46e3aeff.pdf" target="_blank" rel="noopener" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-700 bg-white border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">📊 Rapport Annuel 2023 (PDF)</a>
-          <a href="https://cdn.sanity.io/files/rj2m21gk/production/187686d98ee1786f3707d6598f7293688346b17b.pdf" target="_blank" rel="noopener" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-700 bg-white border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">📊 Rapport Annuel 2022 (PDF)</a>
-          <a href="https://cdn.sanity.io/files/rj2m21gk/production/1b84b2bd2523324528114466c397272462376c72.pdf" target="_blank" rel="noopener" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-700 bg-white border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">📊 Rapport Annuel 2021 (PDF)</a>
+          {annualReportPdfs.map((report) => (
+            <a href={report.path} target="_blank" rel="noopener" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-700 bg-white border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
+              <span aria-hidden="true">📊</span> Rapport Annuel {report.year} (PDF)
+            </a>
+          ))}
         </div>
       </div>
     </div>
@@ -147,31 +160,54 @@ import Section from '../../components/layout/Section.astro';
   <!-- Résultats Mesurables -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Résultats Mesurables (2022–2026)</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.transparency.measurableResults}</h2>
       <p class="mt-2 text-gray-600">Nous suivons les résultats, pas seulement les activités. Voici nos indicateurs clés avec les bases de référence et les réalisations.</p>
 
-      <div class="mt-8 space-y-4">
-        {[
-          { indicator: 'Veuves atteignant l\'indépendance financière', baseline: '0 (2021)', target: '20 d\'ici 2025', actual: '12 sur 15 formées (80%)', status: 'on-track' },
-          { indicator: 'Enfants inscrits et maintenus à l\'école', baseline: '0 (2021)', target: '50 d\'ici 2026', actual: '20 inscrits, 100% de rétention', status: 'on-track' },
-          { indicator: 'Femmes ayant terminé la formation professionnelle', baseline: '0 (2022)', target: '30 d\'ici 2026', actual: '10 diplômées, 8 génèrent des revenus', status: 'on-track' },
-          { indicator: 'Communautés avec accès à l\'eau potable', baseline: '0 (2024)', target: '3 d\'ici 2026', actual: '1 puits achevé (300+ desservis)', status: 'in-progress' },
-          { indicator: 'Familles recevant une aide alimentaire d\'urgence', baseline: '3 (2022)', target: '100/an', actual: '50 familles en 2024', status: 'on-track' },
-        ].map((r) => (
-          <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+      <div class="mt-8 space-y-6">
+        {measurableIndicators.map((r) => (
+          <div class="p-5 bg-gray-50 rounded-2xl border border-gray-100">
             <div class="flex items-start justify-between gap-4">
-              <div>
+              <div class="flex-1">
                 <p class="text-sm font-semibold text-gray-900">{r.indicator}</p>
-                <div class="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-gray-600">
-                  <span><strong>Base de référence :</strong> {r.baseline}</span>
-                  <span><strong>Cible :</strong> {r.target}</span>
-                  <span><strong>Réel :</strong> {r.actual}</span>
+                
+                <!-- Progress Bar -->
+                <div class="mt-3 w-full bg-gray-200 rounded-full h-2">
+                  <div class="bg-primary-600 h-2 rounded-full transition-all duration-1000" style={`width: ${indicatorProgress(r)}%`}></div>
+                </div>
+
+                <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] uppercase tracking-wider text-gray-500 font-medium">
+                  <span>{labels.transparency.baseline}: <span class="text-gray-900 font-bold">{r.baseline}</span></span>
+                  <span>{labels.transparency.target}: <span class="text-gray-900 font-bold">{r.target}</span></span>
+                  <span>{labels.transparency.actual}: <span class="text-primary-700 font-bold">{r.actual}</span></span>
                 </div>
               </div>
-              <span class:list={["px-2 py-0.5 text-xs font-medium rounded-full whitespace-nowrap", r.status === 'on-track' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700']}>
-                {r.status === 'on-track' ? 'En Bonne Voie' : 'En Cours'}
+              <span class:list={["px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full whitespace-nowrap", r.status === 'on-track' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700']}>
+                {r.status === 'on-track' ? labels.transparency.onTrack : labels.transparency.inProgress}
               </span>
             </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Impact Growth -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.transparency.historicalTrends}</h2>
+      <p class="mt-2 text-gray-600">{labels.transparency.livesImpactedGrowth}</p>
+      
+      <div class="mt-12 flex items-end justify-between gap-2 h-64 border-b border-gray-200 pb-2">
+        {impactGrowthByYear.map((item) => (
+          <div class="flex-1 flex flex-col items-center gap-2 group">
+            <div class="relative w-full flex flex-col items-center">
+              <span class="text-[10px] font-bold text-primary-700 opacity-0 group-hover:opacity-100 transition-opacity mb-1">{item.label}</span>
+              <div 
+                class="w-full max-w-[40px] bg-primary-100 border-x border-t border-primary-200 rounded-t-lg group-hover:bg-primary-600 transition-all duration-500" 
+                style={`height: ${(item.value / impactChartMax) * 180}px`}
+              ></div>
+            </div>
+            <span class="text-xs font-semibold text-gray-500">{item.year}</span>
           </div>
         ))}
       </div>
@@ -181,7 +217,7 @@ import Section from '../../components/layout/Section.astro';
   <!-- Théorie du Changement -->
   <Section background="gray" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Notre Théorie du Changement</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.transparency.theoryOfChange}</h2>
       <p class="mt-2 text-gray-600">Comment nous créons un impact durable — de la crise à l'autonomie.</p>
 
       <div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -208,7 +244,7 @@ import Section from '../../components/layout/Section.astro';
   <!-- Alignement ODD -->
   <Section background="gray" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">Alignement avec les Objectifs de Développement Durable</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">{labels.transparency.sdgAlignment}</h2>
       <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">Les programmes d'ADA contribuent directement à 7 des 17 Objectifs de Développement Durable des Nations Unies.</p>
       <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="p-4 bg-white rounded-xl border border-gray-200 text-center">
@@ -270,7 +306,7 @@ import Section from '../../components/layout/Section.astro';
   <!-- Climat et Environnement -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">Climat et Gestion Environnementale</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">{labels.transparency.environmentalStewardship}</h2>
       <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">Chaque programme ADA intègre la sensibilisation environnementale — car des communautés saines ont besoin d'une planète saine.</p>
       <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="p-5 bg-gray-50 rounded-xl border border-gray-200 border-t-2 border-t-transparent hover:border-t-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
@@ -303,7 +339,7 @@ import Section from '../../components/layout/Section.astro';
   <!-- Pratiques de Responsabilité -->
   <Section background="white" padding="md">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Pratiques de Responsabilité</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.transparency.accountabilityPractices}</h2>
       <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
           { title: 'Aucun dirigeant rémunéré', desc: 'Tous les postes de direction sont bénévoles. 100% des salaires vont uniquement au personnel de programme.' },

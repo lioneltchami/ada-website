@@ -1,4 +1,7 @@
 ---
+import { getLocale } from '../i18n';
+import { REGISTRATION_NUMBER, buildBreadcrumbList } from '../data/organization';
+
 interface Props {
   title: string;
   description: string;
@@ -13,11 +16,39 @@ const {
   noIndex = false,
 } = Astro.props;
 
+const locale = getLocale(Astro.url.pathname);
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "NonprofitOrganization",
+  "name": "Apoti Development Association",
+  "alternateName": "ADA",
+  "url": Astro.site?.toString() || "https://apotidev.org",
+  "description": "Faith-based charity empowering vulnerable communities in Cameroon",
+  "foundingDate": "2021",
+  "address": { "@type": "PostalAddress", "addressCountry": "CM" },
+  "contactPoint": { 
+    "@type": "ContactPoint", 
+    "email": "info@apotidev.org", 
+    "telephone": "+237676282346", 
+    "contactType": "general inquiries",
+    "availableLanguage": ["English", "French"]
+  },
+  "identifier": REGISTRATION_NUMBER,
+  "nonprofitStatus": `Registered Non-Profit Association, Cameroon (${REGISTRATION_NUMBER})`,
+  "sameAs": [
+    "https://facebook.com/apotidev", 
+    "https://instagram.com/apotidev", 
+    "https://twitter.com/apotidev"
+  ]
+};
+
+const breadcrumbList = buildBreadcrumbList(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,20 +74,9 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta name="theme-color" content="#15803d" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    {Astro.url.pathname === '/' && (
-      <script type="application/ld+json" set:html={JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "NGO",
-        "name": "Apoti Development Association",
-        "alternateName": "ADA",
-        "url": "https://apotidev.org",
-        "description": "Faith-based charity empowering vulnerable communities in Cameroon",
-        "foundingDate": "2021",
-        "address": { "@type": "PostalAddress", "addressCountry": "CM" },
-        "contactPoint": { "@type": "ContactPoint", "email": "info@apotidev.org", "telephone": "+237676282346", "contactType": "customer service" },
-        "sameAs": ["https://facebook.com/apotidev", "https://instagram.com/apotidev", "https://twitter.com/apotidev"]
-      })} />
-    )}
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {breadcrumbList && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbList)} />}
+    
     {import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
       <script
         defer
