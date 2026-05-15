@@ -60,15 +60,86 @@ import Section from '../../components/layout/Section.astro';
       <div class="mt-6 space-y-3">
         {[
           { framework: 'Politique d\'Aide Internationale Féministe du Canada', alignment: 'L\'égalité des genres est au cœur de tous les programmes d\'ADA. 85% de bénéficiaires femmes/filles.' },
-          { framework: 'Objectifs de Développement Durable de l\'ONU', alignment: 'ODD 1 (Pas de Pauvreté), ODD 2 (Faim Zéro), ODD 4 (Éducation de Qualité), ODD 5 (Égalité des Genres), ODD 6 (Eau Propre)' },
+          { framework: 'Cadre d\'Assistance Étrangère des États-Unis (USAID)', alignment: 'Résilience, autonomie, autonomisation économique des femmes, développement des jeunes.' },
+          { framework: 'Objectifs de Développement Durable de l\'ONU', alignment: 'ODD 1, 2, 4, 5, 6, 10, 13 — Pauvreté, Faim, Éducation, Genre, Eau, Inégalités, Climat.' },
+          { framework: 'Consensus Européen sur le Développement', alignment: 'Approche centrée sur les personnes, égalité des genres, autonomisation des jeunes, durabilité environnementale.' },
           { framework: 'Agenda 2063 de l\'Union Africaine', alignment: 'Autonomisation des jeunes, parité des genres, développement communautaire.' },
-          { framework: 'Accord de Paris / Action Climatique', alignment: 'Infrastructure d\'eau potable, programmes communautaires de nettoyage, éducation à la gestion environnementale.' },
+          { framework: 'Accord de Paris / Action Climatique', alignment: 'Infrastructure d\'eau potable, nettoyages communautaires, éducation environnementale.' },
         ].map((a) => (
           <div class="p-4 bg-white rounded-lg border border-gray-200">
             <p class="text-sm font-semibold text-gray-900">{a.framework}</p>
             <p class="mt-1 text-xs text-gray-600">{a.alignment}</p>
           </div>
         ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Pour les Bailleurs Internationaux -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">Pour les Bailleurs Internationaux</h2>
+      <p class="mt-2 text-gray-600">ADA accueille les partenariats avec des bailleurs du monde entier. Voici comment nous nous alignons avec les priorités de votre pays.</p>
+
+      <div class="mt-8 space-y-6">
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3"><span class="text-xl">🇨🇦</span><h3 class="text-lg font-semibold text-gray-900">Bailleurs Canadiens</h3></div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>Éligible au FCIL :</strong> ADA remplit tous les critères du Fonds canadien d'initiatives locales (FCIL) administré par le Haut-Commissariat du Canada à Yaoundé.</p>
+            <p><strong>Changement de loi 2022 :</strong> Les organismes de bienfaisance canadiens peuvent désormais accorder des subventions directement aux ONG étrangères comme ADA.</p>
+            <p><strong>Alignement politique :</strong> Nos programmes avancent directement la Politique d'aide internationale féministe du Canada avec 85% de bénéficiaires femmes/filles.</p>
+          </div>
+        </div>
+
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3"><span class="text-xl">🇺🇸</span><h3 class="text-lg font-semibold text-gray-900">Bailleurs Américains</h3></div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>Équivalence 501(c)(3) :</strong> ADA fonctionne avec des structures de gouvernance équivalentes aux exigences américaines (conseil indépendant, supervision financière, mission d'intérêt public).</p>
+            <p><strong>GlobalGiving :</strong> ADA prépare son inscription à l'Accélérateur GlobalGiving, offrant aux donateurs américains des dons déductibles d'impôts.</p>
+            <p><strong>Alignement USAID :</strong> Nos programmes s'alignent sur le cadre « Journey to Self-Reliance » — renforcer les capacités locales, pas la dépendance.</p>
+          </div>
+        </div>
+
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3"><span class="text-xl">🇪🇺</span><h3 class="text-lg font-semibold text-gray-900">Bailleurs Européens</h3></div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>Cadre de Développement UE :</strong> Le travail d'ADA s'aligne sur le Consensus Européen — approche centrée sur les personnes, basée sur les droits, sensible au genre.</p>
+            <p><strong>Capacité Francophone :</strong> Opérations entièrement bilingues (anglais + français). Toute documentation disponible en français.</p>
+            <p><strong>Climat & Environnement :</strong> Nos programmes environnementaux s'alignent sur les priorités du Pacte Vert européen.</p>
+          </div>
+        </div>
+
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3"><span class="text-xl">🇬🇧</span><h3 class="text-lg font-semibold text-gray-900">Bailleurs Britanniques & Commonwealth</h3></div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>Connexion Commonwealth :</strong> Le Cameroun est membre du Commonwealth. ADA opère dans les régions anglophones directement affectées par la crise.</p>
+            <p><strong>Réponse aux Crises :</strong> ADA a démontré sa capacité d'aide d'urgence dans le contexte de la crise anglophone — servant les PDI et familles déplacées.</p>
+          </div>
+        </div>
+
+        <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+          <div class="flex items-center gap-2 mb-3"><span class="text-xl">🌍</span><h3 class="text-lg font-semibold text-gray-900">Diaspora & Donateurs Individuels (Mondial)</h3></div>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>Impact Direct :</strong> 80% de chaque dollar va directement aux programmes. 50$ envoie un enfant à l'école. 200$ finance une formation professionnelle complète.</p>
+            <p><strong>Transparence Totale :</strong> Chaque projet a des termes de référence, rapports et bilans financiers téléchargeables.</p>
+            <p><strong>Don Sécurisé :</strong> Dons via Stripe avec reçus PDF instantanés. Options mensuelles disponibles.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 p-5 bg-primary-50 rounded-xl border border-primary-100">
+        <h3 class="text-sm font-semibold text-gray-900">Dossier de Diligence Raisonnable (Disponible sur Demande)</h3>
+        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700">
+          <p>✓ Certificat d'enregistrement (N° 415/G.37/D14/VolI/SAAJP)</p>
+          <p>✓ Liste du Conseil d'Administration</p>
+          <p>✓ 4 ans de rapports annuels (2021–2024)</p>
+          <p>✓ 25 rapports de projets avec bilans financiers</p>
+          <p>✓ Politiques organisationnelles</p>
+          <p>✓ Cadre logique et plan de suivi-évaluation</p>
+          <p>✓ Références de leaders communautaires</p>
+          <p>✓ Coordination de visites de terrain</p>
+        </div>
+        <p class="mt-3 text-xs text-primary-700">Contactez <a href="mailto:info@apotidev.org" class="underline">info@apotidev.org</a> pour demander le dossier complet.</p>
       </div>
     </div>
   </Section>
