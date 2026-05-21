@@ -19,5 +19,13 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      exclude: ["stripe", "zod"],
+    },
+    ssr: {
+      optimizeDeps: {
+        exclude: ["stripe", "zod"],
+      },
+    },
   },
 });

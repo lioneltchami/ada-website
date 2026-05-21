@@ -2,9 +2,28 @@ import { defineMiddleware } from "astro:middleware";
 import { createClient } from "@supabase/supabase-js";
 
 const PROTECTED_ROUTES = ["/dashboard"];
+const SENSITIVE_ROUTES = ["/api", "/auth", "/dashboard", "/donate/thank-you"];
+
+function applySecurityHeaders(response: Response, pathname: string, isHttps: boolean): Response {
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  if (pathname.startsWith("/api")) {
+    response.headers.set("X-Robots-Tag", "noindex");
+  }
+  if (SENSITIVE_ROUTES.some((route) => pathname.startsWith(route))) {
+    response.headers.set("X-Robots-Tag", "noindex");
+  }
+  if (isHttps) {
+    response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  }
+  return response;
+}
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { cookies, redirect, url } = context;
+  const secureCookie = url.protocol === "https:";
+  const finish = (response: Response) => applySecurityHeaders(response, url.pathname, secureCookie);
 
   context.locals.user = null;
 
@@ -15,9 +34,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   if (!supabaseUrl || !supabaseKey) {
     if (isProtected) {
-      return redirect("/auth/login");
+      return finish(redirect("/auth/login"));
     }
-    return next();
+    return finish(await next());
   }
 
   const accessToken = cookies.get("sb-access-token")?.value;
@@ -40,11 +59,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
         // Propagate refreshed tokens back to cookies
         if (session?.access_token && session.access_token !== accessToken) {
           cookies.set('sb-access-token', session.access_token, {
-            path: '/', httpOnly: true, secure: true, sameSite: 'lax', maxAge: 60 * 60,
+            path: '/', httpOnly: true, secure: secureCookie, sameSite: 'lax', maxAge: 60 * 60,
           });
           if (session.refresh_token) {
             cookies.set('sb-refresh-token', session.refresh_token, {
-              path: '/', httpOnly: true, secure: true, sameSite: 'lax', maxAge: 60 * 60 * 24 * 7,
+              path: '/', httpOnly: true, secure: secureCookie, sameSite: 'lax', maxAge: 60 * 60 * 24 * 7,
             });
           }
         }
@@ -56,12 +75,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   if (isProtected && !context.locals.user) {
-    return redirect(`/auth/login?redirect=${encodeURIComponent(url.pathname)}`);
+    return finish(redirect(`/auth/login?redirect=${encodeURIComponent(url.pathname)}`));
   }
 
   if ((url.pathname === "/auth/login" || url.pathname === "/auth/register") && context.locals.user) {
-    return redirect("/dashboard");
+    return finish(redirect("/dashboard"));
   }
 
-  return next();
+  return finish(await next());
 });

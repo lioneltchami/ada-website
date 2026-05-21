@@ -14,6 +14,100 @@ const locale = getLocale(Astro.url.pathname);
 const labels = t(locale);
 const measurableIndicators = measurableIndicatorsEn;
 const impactChartMax = Math.max(...impactGrowthByYear.map((item) => item.value));
+
+const fundControls = [
+  {
+    step: '1',
+    title: 'Gift received',
+    desc: 'Online donations are processed through Stripe and recorded with donor, amount, frequency, and project designation when provided.',
+  },
+  {
+    step: '2',
+    title: 'Receipt issued',
+    desc: 'A receipt is emailed for personal records. ADA does not currently issue tax-deductible receipts outside Cameroon.',
+  },
+  {
+    step: '3',
+    title: 'Funds reconciled',
+    desc: 'The Treasurer and Financial Secretary compare donation records, payment processor records, and program allocations.',
+  },
+  {
+    step: '4',
+    title: 'Program delivery',
+    desc: 'Funds are released for approved activities in Cameroon and supported by receipts, attendance lists, photos, or field notes where appropriate.',
+  },
+  {
+    step: '5',
+    title: 'Impact reported',
+    desc: 'Completed activities are documented through project updates, annual reports, archive entries, and direct partner reporting when requested.',
+  },
+];
+
+const internationalSupportNotes = [
+  {
+    region: 'Canada',
+    status: 'Supported today as a non-tax-deductible gift',
+    detail:
+      'Canadian supporters can give to ADA as international supporters. ADA is not currently presented as a Canadian registered charity, so gifts should not be treated as Canadian charitable donations unless a qualified Canadian fiscal sponsorship or charity partnership is confirmed.',
+  },
+  {
+    region: 'United States',
+    status: 'Supported today as a non-tax-deductible gift',
+    detail:
+      'US supporters can give for personal or institutional support records. ADA is not currently presented as a US 501(c)(3), so donors should not claim a US charitable deduction unless an eligible fiscal sponsor or US charity partner is formally in place.',
+  },
+  {
+    region: 'Europe',
+    status: 'Supported today as a non-tax-deductible gift',
+    detail:
+      'European supporters can give directly and request documentation for their records. Tax treatment varies by country, and ADA does not currently advertise country-specific charitable tax status in Europe.',
+  },
+];
+
+const dueDiligenceDocuments = [
+  'Cameroon registration certificate',
+  'Current board and officer list',
+  'Annual reports and program summaries',
+  'Financial summaries and allocation model',
+  'Project photos, field notes, attendance lists, or receipts where available',
+  'Partner-specific reporting package on request',
+];
+
+const thirdPartyProofItems = [
+  {
+    label: 'Government registration',
+    note: 'Registration certificate is linked above as the primary legal proof currently published.',
+  },
+  {
+    label: 'Partner references',
+    note: 'References from local leaders, schools, churches, or delivery partners can be assembled for serious due diligence requests.',
+  },
+  {
+    label: 'Independent verification',
+    note: 'ADA is open to partner-led site visits, reference checks, and document review. Public third-party ratings should only be added after they are confirmed.',
+  },
+];
+
+const moneyGoesItems = [
+  {
+    label: 'Direct Program Aid',
+    value: '80%',
+    width: '80%',
+    detail: 'Food aid, school support, emergency relief, clean water, skills training, and beneficiary support delivered in Cameroon.',
+  },
+  {
+    label: 'Program Operations',
+    value: '15%',
+    width: '15%',
+    detail: 'Transport, local coordination, monitoring, documentation, reporting, and supplies needed to deliver programs responsibly.',
+  },
+  {
+    label: 'Administration',
+    value: '5%',
+    width: '5%',
+    detail: 'Basic operating costs such as communications, records, payment processing, and compliance administration.',
+  },
+];
 ---
 
 <PageLayout title="Transparency & Accountability" description="ADA's financial reports, registration details, and accountability measures. 80% of every dollar goes directly to programs.">
@@ -96,25 +190,130 @@ const impactChartMax = Math.max(...impactGrowthByYear.map((item) => item.value))
     </div>
   </Section>
 
+  <!-- Fund Flow -->
+  <Section background="white" padding="lg">
+    <div class="max-w-5xl mx-auto">
+      <div class="max-w-3xl">
+        <span class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 rounded-full">Donor Assurance</span>
+        <h2 class="mt-4 text-2xl font-heading font-bold text-gray-900">How funds move from donor to program</h2>
+        <p class="mt-3 text-gray-600">
+          Our accountability system is designed for supporters who are giving from outside Cameroon and need to understand what happens after they donate.
+        </p>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-5 gap-4">
+        {fundControls.map((item) => (
+          <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
+            <div class="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center text-sm font-bold">{item.step}</div>
+            <h3 class="mt-4 text-sm font-semibold text-gray-900">{item.title}</h3>
+            <p class="mt-2 text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 items-center p-5 bg-amber-50 border border-amber-200 rounded-xl">
+        <p class="text-sm text-amber-900 leading-relaxed">
+          <strong>For international supporters:</strong> ADA is a registered non-profit association in Cameroon. Until ADA obtains registered charity status or a qualified fiscal sponsorship arrangement in your country, donations should be treated as non-tax-deductible gifts for personal records.
+        </p>
+        <a href="/contact?subject=Donor+Due+Diligence" class="inline-flex justify-center px-4 py-2 text-sm font-semibold text-amber-900 bg-white border border-amber-300 rounded-lg hover:bg-amber-100 transition-colors">Ask for documents</a>
+      </div>
+    </div>
+  </Section>
+
+  <!-- International Support -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-5xl mx-auto">
+      <div class="max-w-3xl">
+        <span class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-white rounded-full">International Support</span>
+        <h2 class="mt-4 text-2xl font-heading font-bold text-gray-900">Support from Canada, the US, and Europe</h2>
+        <p class="mt-3 text-gray-600">
+          ADA welcomes international support while being careful about tax language. The current public position is simple: ADA is registered in Cameroon, and international gifts should be treated as non-tax-deductible unless a qualified local arrangement is confirmed.
+        </p>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {internationalSupportNotes.map((item) => (
+          <div class="p-5 bg-white rounded-xl border border-gray-200">
+            <p class="text-xs font-semibold uppercase tracking-wider text-primary-700">{item.region}</p>
+            <h3 class="mt-3 text-base font-semibold text-gray-900">{item.status}</h3>
+            <p class="mt-3 text-sm text-gray-600 leading-relaxed">{item.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-6 p-5 bg-white rounded-xl border border-gray-200">
+        <h3 class="text-base font-semibold text-gray-900">Fiscal sponsorship: future path, not an active claim</h3>
+        <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+          ADA may pursue fiscal sponsorship or registered charity partnerships in Canada, the United States, or Europe to make giving easier for donors and institutions. This page does not claim that any fiscal sponsorship is active today. If one is confirmed, ADA should publish the sponsor name, country, donation instructions, eligible tax treatment, and agreement status before promoting tax-deductible giving.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Partner Due Diligence -->
+  <Section background="white" padding="lg">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-8 items-start">
+        <div>
+          <span class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 rounded-full">Partner Readiness</span>
+          <h2 class="mt-4 text-2xl font-heading font-bold text-gray-900">Documents for partner due diligence</h2>
+          <p class="mt-3 text-gray-600">
+            Foundations, churches, CSR teams, schools, and local partners can request a due diligence packet before funding, referring beneficiaries, or collaborating on a project.
+          </p>
+          <a href="/contact?subject=Partner+Due+Diligence" class="mt-5 inline-flex justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">Request due diligence packet</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {dueDiligenceDocuments.map((document) => (
+            <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <p class="text-sm font-semibold text-gray-900">{document}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {thirdPartyProofItems.map((item) => (
+          <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
+            <p class="text-sm font-semibold text-gray-900">{item.label}</p>
+            <p class="mt-2 text-xs text-gray-600 leading-relaxed">{item.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
   <!-- Financial Overview -->
   <Section background="gray" padding="lg">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-5xl mx-auto">
       <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.transparency.financialAccountability}</h2>
       <p class="mt-2 text-gray-600">Our commitment: overhead under 5%, with 80% of funds going directly to program delivery.</p>
 
-      <div class="mt-8 grid grid-cols-3 gap-4 text-center">
-        <div class="p-6 bg-white rounded-xl border border-gray-200">
-          <p class="text-3xl font-bold text-primary-700">80%</p>
-          <p class="mt-1 text-sm text-gray-600">Direct Program Aid</p>
+      <div class="mt-8 p-6 bg-white rounded-2xl border border-gray-200">
+        <div class="flex h-8 overflow-hidden rounded-full bg-gray-100" aria-label="Where your money goes: 80% direct program aid, 15% program operations, 5% administration">
+          <div class="bg-primary-600" style="width: 80%"></div>
+          <div class="bg-accent-500" style="width: 15%"></div>
+          <div class="bg-gray-500" style="width: 5%"></div>
         </div>
-        <div class="p-6 bg-white rounded-xl border border-gray-200">
-          <p class="text-3xl font-bold text-primary-700">15%</p>
-          <p class="mt-1 text-sm text-gray-600">Program Operations</p>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {moneyGoesItems.map((item) => (
+            <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-semibold text-gray-900">{item.label}</p>
+                <p class="text-2xl font-bold text-primary-700">{item.value}</p>
+              </div>
+              <div class="mt-3 h-2 rounded-full bg-white overflow-hidden">
+                <div class="h-full bg-primary-600 rounded-full" style={`width: ${item.width}`}></div>
+              </div>
+              <p class="mt-3 text-xs text-gray-600 leading-relaxed">{item.detail}</p>
+            </div>
+          ))}
         </div>
-        <div class="p-6 bg-white rounded-xl border border-gray-200">
-          <p class="text-3xl font-bold text-primary-700">5%</p>
-          <p class="mt-1 text-sm text-gray-600">Administration</p>
-        </div>
+
+        <p class="mt-5 text-xs text-gray-500">
+          Allocation percentages are ADA's operating commitment and should be read with the annual summaries below. Project-restricted gifts are tracked against donor designations when provided.
+        </p>
       </div>
 
       <!-- Year by year -->
@@ -362,7 +561,7 @@ const impactChartMax = Math.max(...impactGrowthByYear.map((item) => item.value))
   <Section background="dark" padding="md" class="!bg-gray-900 !bg-none">
     <div class="max-w-2xl mx-auto text-center">
       <h2 class="text-2xl font-heading font-bold">Request Detailed Reports</h2>
-      <p class="mt-2 text-white/80 text-sm">For institutional partners, we provide: audited financials, logical frameworks, M&E reports, and project proposals.</p>
+      <p class="mt-2 text-white/80 text-sm">For institutional partners, we provide: financial summaries, supporting records, logical frameworks, M&E reports, and project proposals.</p>
       <a href="/contact" class="mt-4 inline-flex items-center px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Contact Us for Reports</a>
     </div>
   </Section>

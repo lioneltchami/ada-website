@@ -1,5 +1,14 @@
 // Receipt PDF generation via Cloudflare Browser Rendering
 
+export function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export function generateReceiptHtml(data: {
   name: string;
   email: string;
@@ -8,6 +17,12 @@ export function generateReceiptHtml(data: {
   date: string;
   receiptId: string;
 }): string {
+  const receiptId = escapeHtml(data.receiptId);
+  const date = escapeHtml(data.date);
+  const name = escapeHtml(data.name);
+  const email = escapeHtml(data.email);
+  const project = data.project ? escapeHtml(data.project) : "";
+
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -48,21 +63,21 @@ export function generateReceiptHtml(data: {
     <div class="details">
       <div class="row">
         <span class="label">Receipt Number</span>
-        <span class="value">${data.receiptId}</span>
+        <span class="value">${receiptId}</span>
       </div>
       <div class="row">
         <span class="label">Date</span>
-        <span class="value">${data.date}</span>
+        <span class="value">${date}</span>
       </div>
       <div class="row">
         <span class="label">Donor</span>
-        <span class="value">${data.name}</span>
+        <span class="value">${name}</span>
       </div>
       <div class="row">
         <span class="label">Email</span>
-        <span class="value">${data.email}</span>
+        <span class="value">${email}</span>
       </div>
-      ${data.project ? `<div class="row"><span class="label">Designated To</span><span class="value">${data.project}</span></div>` : ''}
+      ${project ? `<div class="row"><span class="label">Designated To</span><span class="value">${project}</span></div>` : ''}
       <div class="row amount-row">
         <span class="label">Amount</span>
         <span class="value">$${data.amount.toFixed(2)} USD</span>
@@ -74,7 +89,7 @@ export function generateReceiptHtml(data: {
     </div>
 
     <div class="tax-note">
-      <strong>Tax Information:</strong> Apoti Development Association is a registered non-profit organization in Cameroon. Please consult your tax advisor regarding the deductibility of this donation in your jurisdiction.
+      <strong>Tax Information:</strong> This receipt is for your personal records only. Apoti Development Association is a registered NGO in Cameroon (N&deg; 415/G.37/D14/VolI/SAAJP) and is not registered as a charity in Canada, the US, the UK, or the EU. Donations are <strong>not tax-deductible</strong> in those jurisdictions.
     </div>
 
     <div class="footer">

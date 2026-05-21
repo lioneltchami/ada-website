@@ -198,11 +198,13 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
 async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
 	const projectId = import.meta.env.SANITY_PROJECT_ID || "rj2m21gk";
 	const dataset = import.meta.env.SANITY_DATASET || "production";
+	const token = import.meta.env.SANITY_TOKEN || import.meta.env.SANITY_API_TOKEN;
 	const client = createClient({
 		projectId,
 		dataset,
 		apiVersion: "2026-03-28",
-		useCdn: true,
+		token,
+		useCdn: !token,
 	});
 	const rows = await client.fetch<
 		{

@@ -1,5 +1,5 @@
 ---
-import { getLocale } from '../i18n';
+import { getLocale, switchLocalePath } from '../i18n';
 import { REGISTRATION_NUMBER, buildBreadcrumbList } from '../data/organization';
 
 interface Props {
@@ -18,6 +18,9 @@ const {
 
 const locale = getLocale(Astro.url.pathname);
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const alternateLocale = locale === 'fr' ? 'en' : 'fr';
+const alternateUrl = new URL(switchLocalePath(Astro.url.pathname), Astro.site);
+const emitLocaleAlternates = !noIndex;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -25,21 +28,33 @@ const jsonLd = {
   "name": "Apoti Development Association",
   "alternateName": "ADA",
   "url": Astro.site?.toString() || "https://apotidev.org",
-  "description": "Faith-based charity empowering vulnerable communities in Cameroon",
+  "logo": "https://apotidev.org/favicon.svg",
+  "description": "Faith-based charity empowering widows, orphans, and young women in Cameroon through food distribution, education, vocational training, and healthcare since 2021.",
   "foundingDate": "2021",
-  "address": { "@type": "PostalAddress", "addressCountry": "CM" },
-  "contactPoint": { 
-    "@type": "ContactPoint", 
-    "email": "info@apotidev.org", 
-    "telephone": "+237676282346", 
-    "contactType": "general inquiries",
-    "availableLanguage": ["English", "French"]
-  },
+  "foundingLocation": { "@type": "Place", "name": "Bamenda, Cameroon" },
+  "areaServed": { "@type": "Country", "name": "Cameroon" },
+  "address": { "@type": "PostalAddress", "addressCountry": "CM", "addressRegion": "South West Region", "addressLocality": "Buea" },
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "email": "info@apotidev.org",
+      "telephone": "+237676282346",
+      "contactType": "general inquiries",
+      "availableLanguage": ["English", "French"]
+    },
+    {
+      "@type": "ContactPoint",
+      "email": "info@apotidev.org",
+      "contactType": "donations",
+      "url": "https://apotidev.org/donate"
+    }
+  ],
   "identifier": REGISTRATION_NUMBER,
   "nonprofitStatus": `Registered Non-Profit Association, Cameroon (${REGISTRATION_NUMBER})`,
+  "knowsAbout": ["Widow empowerment", "Orphan education", "Women vocational training", "Clean water access", "Community development", "Cameroon"],
   "sameAs": [
-    "https://facebook.com/apotidev", 
-    "https://instagram.com/apotidev", 
+    "https://facebook.com/apotidev",
+    "https://instagram.com/apotidev",
     "https://twitter.com/apotidev"
   ]
 };
@@ -55,15 +70,30 @@ const breadcrumbList = buildBreadcrumbList(Astro.url.pathname, Astro.site);
     <title>{title} | Apoti Development Association</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    {emitLocaleAlternates && (
+      <>
+        <link rel="alternate" hreflang={locale === 'fr' ? 'fr' : 'en'} href={canonicalUrl} />
+        <link rel="alternate" hreflang={alternateLocale} href={alternateUrl} />
+        <link rel="alternate" hreflang="x-default" href={locale === 'fr' ? alternateUrl : canonicalUrl} />
+      </>
+    )}
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={locale === 'fr' ? 'fr_FR' : 'en_CA'} />
+    <meta property="og:site_name" content="Apoti Development Association" />
+    <meta property="og:image:alt" content="Apoti Development Association programs supporting widows, orphans, and young women in Cameroon" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:site" content="@apotidev" />
+    <meta name="twitter:creator" content="@apotidev" />
+    <meta name="author" content="Apoti Development Association" />
 
-    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    {noIndex && <meta name="robots" content="noindex, follow" />}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,6 +102,8 @@ const breadcrumbList = buildBreadcrumbList(Astro.url.pathname, Astro.site);
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" /></noscript>
 
     <meta name="theme-color" content="#15803d" />
+    <meta name="application-name" content="Apoti Development Association" />
+    <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

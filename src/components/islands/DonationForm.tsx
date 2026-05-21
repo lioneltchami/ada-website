@@ -45,7 +45,7 @@ function StripeErrorFallback() {
   );
 }
 
-function PaymentStep({ onBack }: { onBack: () => void }) {
+function PaymentStep({ onBack, frequency }: { onBack: () => void; frequency: "one-time" | "monthly" }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -60,7 +60,7 @@ function PaymentStep({ onBack }: { onBack: () => void }) {
     try {
       const { error: submitError } = await stripe.confirmPayment({
         elements,
-        confirmParams: { return_url: `${window.location.origin}/donate/thank-you` },
+        confirmParams: { return_url: `${window.location.origin}/donate/thank-you?frequency=${encodeURIComponent(frequency)}` },
       });
 
       if (submitError) {
@@ -77,7 +77,7 @@ function PaymentStep({ onBack }: { onBack: () => void }) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <PaymentElement />
       <p className="text-xs text-gray-500 text-center mt-3 flex items-center justify-center gap-1">
-        <span>🔒</span> Secured by Stripe • 256-bit encryption • Cancel monthly anytime
+        <span>🔒</span> Secured by Stripe • ADA never stores card details
       </p>
       {error && (
         <p className="text-sm text-red-600" role="alert" aria-live="polite">{error}</p>
@@ -120,6 +120,9 @@ export default function DonationForm({ projects }: { projects?: { slug: string; 
   }, []);
 
   const selectedAmount = customAmount ? Number(customAmount) : amount;
+  const selectedAmountLabel = Number.isFinite(selectedAmount) ? `$${selectedAmount}` : "Custom amount";
+  const selectedProjectName = project ? projectMap[project] : "General Fund";
+  const selectedImpact = !customAmount ? IMPACT_MAP[amount] : "Directed to urgent program needs";
 
   // Issue 6: Client-side validation for custom amounts
   function isValidAmount(): boolean {
@@ -225,6 +228,11 @@ export default function DonationForm({ projects }: { projects?: { slug: string; 
                 </button>
               ))}
             </div>
+            {frequency === "monthly" && (
+              <p className="mt-2 text-xs text-primary-700 bg-primary-50 border border-primary-100 rounded-lg px-3 py-2">
+                Monthly gifts provide steadier care and can be changed or cancelled anytime by contacting ADA.
+              </p>
+            )}
           </div>
 
           <div>
@@ -271,14 +279,31 @@ export default function DonationForm({ projects }: { projects?: { slug: string; 
             </p>
           )}
 
+          <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm">
+            <p className="font-semibold text-gray-900">Donation summary</p>
+            <dl className="mt-3 space-y-2 text-gray-600">
+              <div className="flex justify-between gap-4">
+                <dt>Gift</dt>
+                <dd className="font-medium text-gray-900">{selectedAmountLabel}{frequency === "monthly" && Number.isFinite(selectedAmount) ? "/month" : ""}</dd>
+              </div>
+              <div className="flex justify-between gap-4">
+                <dt>Project</dt>
+                <dd className="font-medium text-gray-900 text-right">{selectedProjectName}</dd>
+              </div>
+              <div className="flex justify-between gap-4">
+                <dt>Impact</dt>
+                <dd className="font-medium text-gray-900 text-right">{selectedImpact}</dd>
+              </div>
+            </dl>
+          </div>
+
           <button
             type="button"
             onClick={() => isValidAmount() && setStep(2)}
             disabled={!isValidAmount()}
             className="w-full px-4 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50"
           >
-            Continue — ${selectedAmount}
-            {frequency === "monthly" ? "/month" : ""}
+            Continue {Number.isFinite(selectedAmount) ? `— $${selectedAmount}${frequency === "monthly" ? "/month" : ""}` : ""}
           </button>
         </div>
       )}
@@ -324,6 +349,10 @@ export default function DonationForm({ projects }: { projects?: { slug: string; 
             <p role="alert" aria-live="polite" className="text-sm text-red-600">{error}</p>
           )}
 
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
+            ADA is registered in Cameroon. Donations are not tax-deductible in Canada, the US, the UK, or the EU. Monthly gifts renew automatically until cancelled by contacting ADA.
+          </div>
+
           <div className="flex gap-3">
             <button type="button" onClick={() => setStep(1)} className="px-4 py-2.5 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-50">
               Back
@@ -362,8 +391,9 @@ export default function DonationForm({ projects }: { projects?: { slug: string; 
               <Elements stripe={stripeInstance} options={{ clientSecret, appearance: { theme: "stripe" } }}>
                 <div className="mb-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-600">
                   <p><strong>${selectedAmount}{frequency === "monthly" ? "/month" : ""}</strong> — {donor.anonymous ? "Anonymous" : donor.name}</p>
+                  <p className="mt-1 text-xs">Project: {selectedProjectName}. Card details are handled securely by Stripe.</p>
                 </div>
-                <PaymentStep onBack={() => setStep(2)} />
+                <PaymentStep onBack={() => setStep(2)} frequency={frequency} />
               </Elements>
             </ErrorBoundary>
           )}

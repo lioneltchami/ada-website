@@ -6,7 +6,21 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({ name: 'title', title: 'Caption', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'photo', title: 'Photo', type: 'image', options: { hotspot: true }, validation: (r) => r.required(), fields: [{ name: 'alt', title: 'Alt Text', type: 'string' }] }),
+    defineField({
+      name: 'photo',
+      title: 'Photo',
+      type: 'image',
+      options: { hotspot: true },
+      validation: (r) => r.required(),
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          validation: (r) => r.required().max(160),
+        }),
+      ],
+    }),
     defineField({ name: 'category', title: 'Category', type: 'string', options: { list: ['food-distribution', 'skills-training', 'education', 'community', 'events', 'health', 'clean-water'] } }),
     defineField({ name: 'project', title: 'Project', type: 'reference', to: [{ type: 'project' }], description: 'Which project is this photo from?' }),
     defineField({ name: 'year', title: 'Year', type: 'number', validation: (r) => r.min(2021).max(2030), description: 'Year the photo was taken' }),

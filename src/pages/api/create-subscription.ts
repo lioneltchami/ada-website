@@ -1,36 +1,30 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
 import { getStripe } from "../../lib/stripe";
+import { jsonResponse, readJsonBody, rejectInvalidOrigin, rejectOversizedBody } from "../../lib/api-requests";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
-const ALLOWED_ORIGINS = PRIMARY_ORIGIN?.includes("localhost")
-  ? [PRIMARY_ORIGIN, "http://localhost:4321"]
-  : [PRIMARY_ORIGIN];
-const MAX_BODY_SIZE = 10 * 1024; // 10KB
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const SubscriptionSchema = z.object({
   amount: z.number().min(500).max(10000000),
   currency: z.enum(["usd"]).default("usd"),
   type: z.literal("monthly"),
-  donorName: z.string().min(2).max(100),
-  donorEmail: z.string().email(),
+  donorName: z.string().trim().min(2).max(100),
+  donorEmail: z.string().trim().toLowerCase().email(),
   isAnonymous: z.boolean().default(false),
-  projectSlug: z.string().optional(),
+  projectSlug: z.string().trim().regex(SLUG_PATTERN).max(80).nullable().optional().transform((value) => value || undefined),
 });
 
-export const POST: APIRoute = async ({ request }) => {
-  const origin = request.headers.get("origin");
-  if (!origin || !ALLOWED_ORIGINS.includes(origin)) {
-    return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { "Content-Type": "application/json" } });
-  }
+export const POST: APIRoute = async ({ request, url }) => {
+  const originError = rejectInvalidOrigin(request, url.href, PRIMARY_ORIGIN);
+  if (originError) return originError;
 
-  const contentLength = Number(request.headers.get("content-length") || 0);
-  if (contentLength > MAX_BODY_SIZE) {
-    return new Response(JSON.stringify({ error: "Payload too large" }), { status: 413, headers: { "Content-Type": "application/json" } });
-  }
+  const sizeError = rejectOversizedBody(request);
+  if (sizeError) return sizeError;
 
   try {
-    const body = await request.json();
+    const body = await readJsonBody(request);
     const data = SubscriptionSchema.parse(body);
     const stripe = getStripe();
 
@@ -72,21 +66,18 @@ export const POST: APIRoute = async ({ request }) => {
     const paymentIntent = invoice?.payment_intent;
 
     if (!paymentIntent?.client_secret) {
-      return new Response(JSON.stringify({ error: 'Payment setup failed. Please try again.' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return jsonResponse({ error: 'Payment setup failed. Please try again.' }, 500);
     }
 
-    return new Response(JSON.stringify({ clientSecret: paymentIntent.client_secret, subscriptionId: subscription.id }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return jsonResponse({ clientSecret: paymentIntent.client_secret, subscriptionId: subscription.id });
   } catch (err: any) {
-    if (err.name === "ZodError") {
-      return new Response(JSON.stringify({ error: "Invalid request data" }), { status: 400, headers: { "Content-Type": "application/json" } });
+    if (err.message === "INVALID_JSON") {
+      return jsonResponse({ error: "Invalid JSON" }, 400);
     }
-    return new Response(JSON.stringify({ error: "Subscription creation failed" }), { status: 500, headers: { "Content-Type": "application/json" } });
+    if (err.name === "ZodError") {
+      return jsonResponse({ error: "Invalid request data" }, 400);
+    }
+    return jsonResponse({ error: "Subscription creation failed" }, 500);
   }
 };
 

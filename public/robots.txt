@@ -3,5 +3,6 @@ Allow: /
 Disallow: /auth/
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /donate/thank-you
 
 Sitemap: https://apotidev.org/sitemap-index.xml

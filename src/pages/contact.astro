@@ -104,34 +104,51 @@ const heroBadge = 'Get in Touch';
 </PageLayout>
 
 <script>
+  // Pre-fill subject from URL params (e.g. ?subject=Partnership+Inquiry)
+  const urlParams = new URLSearchParams(window.location.search);
+  const subjectParam = urlParams.get('subject');
+  if (subjectParam) {
+    const subjectInput = document.getElementById('subject') as HTMLInputElement;
+    if (subjectInput) subjectInput.value = decodeURIComponent(subjectParam);
+  }
+
   const form = document.getElementById('contact-form');
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    // Remove any previous message
+    const prev = form.querySelector('[data-form-msg]');
+    if (prev) prev.remove();
     btn.disabled = true;
     btn.textContent = 'Sending...';
     const data = Object.fromEntries(new FormData(form as HTMLFormElement));
+    const msg = document.createElement('p');
+    msg.setAttribute('role', 'alert');
+    msg.setAttribute('aria-live', 'polite');
+    msg.setAttribute('data-form-msg', 'true');
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      const msg = document.createElement('p');
-      msg.setAttribute('role', 'alert');
-      msg.setAttribute('aria-live', 'polite');
       if (res.ok) {
         msg.className = 'mt-4 text-sm text-green-700 font-medium';
-        msg.textContent = 'Message sent! We will respond within 24-48 hours.';
+        msg.textContent = 'Message sent! We will respond within 24–48 hours.';
         (form as HTMLFormElement).reset();
+        btn.textContent = 'Message Sent';
       } else {
         msg.className = 'mt-4 text-sm text-red-600';
-        msg.textContent = 'Failed to send. Please try again.';
+        msg.textContent = 'Failed to send. Please try again or email info@apotidev.org directly.';
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
       }
-      form.appendChild(msg);
     } catch {
-      btn.textContent = 'Send Message';
+      msg.className = 'mt-4 text-sm text-red-600';
+      msg.textContent = 'Network error. Please check your connection and try again.';
       btn.disabled = false;
+      btn.textContent = 'Send Message';
     }
+    form.appendChild(msg);
   });
 </script>

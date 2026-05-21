@@ -3,6 +3,11 @@ export const prerender = false;
 
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
+import { getDonationsForEmail } from "../../lib/donations";
+
+const user = Astro.locals.user;
+const donations = user?.email ? await getDonationsForEmail(user.email) : [];
+const totalCents = donations.reduce((sum, donation) => sum + donation.amount_cents, 0);
 ---
 
 <PageLayout title="Donation History" description="View your donation history." noIndex>
@@ -13,17 +18,62 @@ import Section from "../../components/layout/Section.astro";
         <a href="/dashboard" class="text-sm text-primary-600 hover:underline">← Dashboard</a>
       </div>
 
-      <!-- Empty State -->
-      <div class="bg-white rounded-card shadow-card p-8 text-center">
-        <span class="text-4xl">📭</span>
-        <h2 class="mt-4 text-lg font-semibold text-gray-900">No Donations Yet</h2>
-        <p class="mt-2 text-sm text-gray-600">
-          When you make a donation, it will appear here with receipt details.
-        </p>
-        <a href="/donate" class="mt-4 inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700">
-          Make Your First Donation
-        </a>
-      </div>
+      {donations.length ? (
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-white rounded-card shadow-card p-4">
+              <p class="text-xs text-gray-500">Total Given</p>
+              <p class="mt-1 text-2xl font-bold text-gray-900">${(totalCents / 100).toFixed(2)}</p>
+            </div>
+            <div class="bg-white rounded-card shadow-card p-4">
+              <p class="text-xs text-gray-500">Donation Count</p>
+              <p class="mt-1 text-2xl font-bold text-gray-900">{donations.length}</p>
+            </div>
+            <div class="bg-white rounded-card shadow-card p-4">
+              <p class="text-xs text-gray-500">Latest Gift</p>
+              <p class="mt-1 text-sm font-semibold text-gray-900">{new Date(donations[0].paid_at).toLocaleDateString("en-CA")}</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-card shadow-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
+                  <tr>
+                    <th class="px-4 py-3">Date</th>
+                    <th class="px-4 py-3">Amount</th>
+                    <th class="px-4 py-3">Frequency</th>
+                    <th class="px-4 py-3">Project</th>
+                    <th class="px-4 py-3">Receipt</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  {donations.map((donation) => (
+                    <tr>
+                      <td class="px-4 py-3 text-gray-700">{new Date(donation.paid_at).toLocaleDateString("en-CA")}</td>
+                      <td class="px-4 py-3 font-semibold text-gray-900">${(donation.amount_cents / 100).toFixed(2)} {donation.currency.toUpperCase()}</td>
+                      <td class="px-4 py-3 text-gray-700">{donation.frequency === "monthly" ? "Monthly" : "One-time"}</td>
+                      <td class="px-4 py-3 text-gray-700">{donation.project_slug || "general"}</td>
+                      <td class="px-4 py-3 text-gray-500">{donation.receipt_id || "Emailed"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div class="bg-white rounded-card shadow-card p-8 text-center">
+          <span class="text-4xl">📭</span>
+          <h2 class="mt-4 text-lg font-semibold text-gray-900">No Donations Yet</h2>
+          <p class="mt-2 text-sm text-gray-600">
+            When you make a donation, it will appear here with receipt details.
+          </p>
+          <a href="/donate" class="mt-4 inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700">
+            Make Your First Donation
+          </a>
+        </div>
+      )}
     </div>
   </Section>
 </PageLayout>

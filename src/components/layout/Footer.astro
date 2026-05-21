@@ -62,7 +62,7 @@ const links = [
       <p class="text-sm text-primary-200">{i18n.footer.ctaSubtitle}</p>
     </div>
     <a href={localePath("/donate", locale)} class="px-6 py-2.5 text-sm font-semibold text-primary-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap">
-      Donate Now
+      {i18n.nav.donateNow}
     </a>
   </div>
 </section>
@@ -130,8 +130,11 @@ const links = [
         <a href={localePath("/terms", locale)} class="hover:text-gray-300">{i18n.footer.terms}</a>
       </div>
 
-      <!-- Center: trust badge -->
-      <p class="text-[11px] text-gray-500">{i18n.footer.trust}</p>
+      <!-- Center: trust badges -->
+      <div class="flex flex-col items-center gap-1">
+        <p class="text-[11px] text-gray-500">{i18n.footer.trust}</p>
+        <p class="text-[10px] text-gray-600">Registered NGO &middot; Cameroon N&deg; 415/G.37/D14/VolI/SAAJP &middot; Led from Canada</p>
+      </div>
 
       <!-- Right: social icons -->
       <div class="flex items-center gap-3">

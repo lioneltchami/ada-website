@@ -1,69 +1,298 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
-import Section from '../../components/layout/Section.astro';
-import NewsletterSignup from '../../components/islands/NewsletterSignup';
-import { getImpactMetrics, getHomePage, getTestimonials, type SanityImpactMetric, type SanityHomePage } from '../../lib/sanity';
-import { t } from '../../i18n';
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+import NewsletterSignup from "../../components/islands/NewsletterSignup";
+import {
+  getImpactMetrics,
+  getProjects,
+  getTestimonials,
+  sanityImageUrl,
+  type SanityImpactMetric,
+  type SanityProject,
+} from "../../lib/sanity";
+import { REGISTRATION_NUMBER } from "../../data/organization";
+import { t } from "../../i18n";
 
-const i18n = t('fr');
+const i18n = t("fr");
+
+let heroImageUrl = "";
+try {
+  const projects = await getProjects();
+  if (projects?.length) {
+    const withImage = projects.find(
+      (p: SanityProject) => p.mainImage?.asset?._ref,
+    );
+    if (withImage)
+      heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
+  }
+} catch {}
 
 let stats = [
-  { value: '200+', label: i18n.stats.livesImpacted },
-  { value: '5', label: i18n.stats.communitiesServed },
-  { value: '15+', label: i18n.stats.widowsSupported },
-  { value: '5', label: i18n.stats.yearsOfService },
+  { value: "200+", label: i18n.stats.livesImpacted },
+  { value: "5", label: i18n.stats.communitiesServed },
+  { value: "15+", label: i18n.stats.widowsSupported },
+  { value: "5", label: i18n.stats.yearsOfService },
 ];
 
 try {
   const metrics = await getImpactMetrics();
   if (metrics?.length) {
     const labelMap: Record<string, string> = {
-      'Lives Impacted': i18n.stats.livesImpacted,
-      'Communities Served': i18n.stats.communitiesServed,
-      'Widows Supported': i18n.stats.widowsSupported,
-      'Years of Service': i18n.stats.yearsOfService,
+      "Lives Impacted": i18n.stats.livesImpacted,
+      "Communities Served": i18n.stats.communitiesServed,
+      "Widows Supported": i18n.stats.widowsSupported,
+      "Years of Service": i18n.stats.yearsOfService,
     };
     stats = metrics.map((m: SanityImpactMetric) => ({
-      value: `${m.value}${m.suffix || ''}`,
+      value: `${m.value}${m.suffix || ""}`,
       label: labelMap[m.label] || m.label,
     }));
   }
 } catch {}
 
-interface Testimonial { name: string; quote: string; location: string; program: string; }
+interface Testimonial {
+  name: string;
+  quote: string;
+  location: string;
+  program: string;
+}
+
 const fallbackTestimonials: Testimonial[] = [
-  { name: 'Amina N.', quote: "Après le décès de mon mari, je ne savais pas comment nourrir mes enfants. ADA m'a fourni des colis alimentaires et m'a inscrite à une formation en couture. Aujourd'hui je gère ma propre boutique.", location: 'Bamenda', program: 'Programme Veuves' },
-  { name: 'Marie F.', quote: "ADA a payé mes frais de scolarité quand ma grand-mère ne pouvait pas. Ils m'ont donné des livres, un uniforme et un mentor. Je veux devenir infirmière.", location: 'Douala', program: 'Éducation des Orphelins' },
-  { name: 'Esther K.', quote: "Le programme de formation m'a appris la coiffure. ADA m'a même aidée à obtenir mes premiers outils. Maintenant j'ai des clients réguliers.", location: 'Yaoundé', program: 'Autonomisation des Femmes' },
+  {
+    name: "Amina N.",
+    quote:
+      "Après le décès de mon mari, je ne savais pas comment nourrir mes enfants. ADA m'a fourni des colis alimentaires et m'a inscrite à une formation en couture. Aujourd'hui je gère ma propre boutique.",
+    location: "Bamenda",
+    program: "Programme Veuves",
+  },
+  {
+    name: "Marie F.",
+    quote:
+      "ADA a payé mes frais de scolarité quand ma grand-mère ne pouvait pas. Ils m'ont donné des livres, un uniforme et un mentor. Je veux devenir infirmière.",
+    location: "Douala",
+    program: "Éducation des Orphelins",
+  },
+  {
+    name: "Esther K.",
+    quote:
+      "Le programme de formation m'a appris la coiffure. ADA m'a même aidée à obtenir mes premiers outils. Maintenant j'ai des clients réguliers.",
+    location: "Yaoundé",
+    program: "Autonomisation des Femmes",
+  },
 ];
+
 let testimonials: Testimonial[] = fallbackTestimonials;
 try {
   const data = await getTestimonials();
   if (data?.length) {
-    testimonials = data.map((t: any) => ({ name: t.name, quote: t.quote, location: t.location || '', program: t.program || '' }));
+    testimonials = data.map((item: any) => ({
+      name: item.name,
+      quote: item.quote,
+      location: item.location || "",
+      program: item.program || "",
+    }));
   }
 } catch {}
+
+const missionCards = [
+  {
+    icon: "🤝",
+    title: "Soutien aux Veuves",
+    description:
+      "Aide financière, formation professionnelle et accompagnement communautaire pour les veuves qui reconstruisent leur vie.",
+  },
+  {
+    icon: "📚",
+    title: "Éducation",
+    description:
+      "Fournitures scolaires, frais de scolarité, uniformes et mentorat pour les enfants orphelins et vulnérables.",
+  },
+  {
+    icon: "💪",
+    title: "Autonomisation",
+    description:
+      "Formation professionnelle, microfinance et appui au démarrage pour les jeunes femmes en quête d'indépendance.",
+  },
+];
+
+const programPillars = [
+  {
+    title: "Relief pour les veuves",
+    text: "Aide alimentaire, soutien financier et suivi des familles qui reconstruisent leur stabilité.",
+    href: "/fr/projects/widow-support",
+  },
+  {
+    title: "Éducation des orphelins",
+    text: "Frais scolaires, fournitures, uniformes et mentorat pour maintenir les enfants à l'école.",
+    href: "/fr/projects/education-orphans",
+  },
+  {
+    title: "Compétences des jeunes femmes",
+    text: "Formation professionnelle et appui de départ pour créer des revenus dignes.",
+    href: "/fr/projects/women-empowerment",
+  },
+  {
+    title: "Urgence familiale",
+    text: "Nourriture, hygiène et soutien ménager rapide pour les familles en crise.",
+    href: "/fr/projects/emergency-relief",
+  },
+  {
+    title: "Santé et maternité",
+    text: "Appui pratique pour les visites d'hôpital, les soins prénataux et les besoins urgents.",
+    href: "/fr/projects/archive/hospital-prenatal-care-jul-2025",
+  },
+  {
+    title: "Développement communautaire",
+    text: "Eau potable, environnement et améliorations locales portées par les communautés.",
+    href: "/fr/projects/archive",
+  },
+];
+
+const confidenceProofs = [
+  { label: "Enregistrée au Cameroun", value: REGISTRATION_NUMBER },
+  {
+    label: "Responsabilité diaspora",
+    value: "Direction bénévole et exécution locale",
+  },
+  {
+    label: "Documentation ouverte",
+    value: "Rapports, politiques et archives de projets disponibles",
+  },
+  {
+    label: "Statut donateur clair",
+    value: "Reçus pour vos dossiers, sans promesse fiscale hors Cameroun",
+  },
+];
+
+const journeyMilestones = [
+  {
+    year: "2021",
+    title: "Début à Bamenda",
+    text: "ADA commence par le soutien alimentaire aux veuves et familles vulnérables.",
+  },
+  {
+    year: "2022",
+    title: "Soutien élargi",
+    text: "L'aide aux veuves grandit avec la formation, le suivi et l'appui familial.",
+  },
+  {
+    year: "2023",
+    title: "Éducation renforcée",
+    text: "Les frais scolaires, fournitures et mentors deviennent une priorité centrale.",
+  },
+  {
+    year: "2024",
+    title: "Transparence structurée",
+    text: "Rapports, TDR et documents financiers sont organisés pour les partenaires.",
+  },
+  {
+    year: "2025",
+    title: "Programmes communautaires",
+    text: "Santé, mentorat, environnement et urgence atteignent plus de communautés.",
+  },
+  {
+    year: "2026",
+    title: "Partenariats prêts",
+    text: "ADA prépare des systèmes plus solides pour les donateurs récurrents et institutions.",
+  },
+];
+
+const actionPaths = [
+  {
+    title: "Donner",
+    text: "Soutenir l'aide urgente et les programmes durables par un don unique ou mensuel.",
+    href: "/fr/donate",
+    cta: "Faire un don",
+  },
+  {
+    title: "Bénévolat",
+    text: "Offrir du temps, des compétences, de la traduction, du mentorat ou de la collecte de fonds.",
+    href: "/fr/get-involved",
+    cta: "S'impliquer",
+  },
+  {
+    title: "Partenariat",
+    text: "Étudier les documents ADA et discuter d'une subvention ou collaboration institutionnelle.",
+    href: "/fr/partners",
+    cta: "Devenir partenaire",
+  },
+  {
+    title: "Rapports",
+    text: "Lire les rapports annuels, politiques et documents de projet avant de financer.",
+    href: "/fr/resources",
+    cta: "Voir les ressources",
+  },
+];
 ---
 
-<PageLayout title="Autonomiser les Communautés au Cameroun" description="Association caritative chrétienne soutenant les veuves, orphelins et jeunes femmes au Cameroun depuis 2021.">
+<PageLayout
+  title="Autonomiser les Communautés au Cameroun"
+  description="Association caritative chrétienne soutenant les veuves, orphelins et jeunes femmes au Cameroun depuis 2021."
+>
   <!-- Hero -->
-  <section class="relative overflow-hidden py-24 md:py-32 bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white">
-    <div class="absolute inset-0 opacity-10" aria-hidden="true">
-      <div class="absolute top-20 left-10 w-72 h-72 bg-primary-300 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-10 right-10 w-96 h-96 bg-accent-300 rounded-full blur-3xl"></div>
+  <section class="relative overflow-hidden py-24 md:py-32 text-white">
+    {
+      heroImageUrl ? (
+        <img
+          src={heroImageUrl}
+          alt="Bénéficiaires des programmes ADA au Cameroun"
+          class="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+        />
+      ) : null
+    }
+    <div
+      class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"
+    >
     </div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20">{i18n.hero.badge}</span>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight">{i18n.hero.headline}</h1>
-      <p class="mt-6 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{i18n.hero.subtitle}</p>
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="/fr/donate" class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg">{i18n.hero.cta}</a>
-        <a href="/fr/projects" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">{i18n.hero.ctaSecondary}</a>
+      <span
+        class="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
+        >{i18n.hero.badge}</span
+      >
+      <h1
+        class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight"
+      >
+        {i18n.hero.headline}
+      </h1>
+      <p
+        class="mt-6 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
+      >
+        {i18n.hero.subtitle}
+      </p>
+      <div
+        class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+      >
+        <a
+          href="/fr/donate"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+          >{i18n.hero.cta}</a
+        >
+        <a
+          href="/fr/projects"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          >{i18n.hero.ctaSecondary}</a
+        >
+        <a
+          href="/fr/transparency"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
+          >Voir la transparence</a
+        >
       </div>
-      <p class="mt-6 text-sm text-white/60 flex flex-wrap items-center justify-center gap-3">
-        <span class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20">200+ vies changées</span>
-        <span class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20">5 communautés</span>
-        <span class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20">80% aux programmes</span>
+      <p
+        class="mt-6 text-sm text-white/80 flex flex-wrap items-center justify-center gap-3"
+      >
+        {
+          stats.slice(0, 2).map((stat) => (
+            <span class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20">
+              {stat.value} {stat.label}
+            </span>
+          ))
+        }
+        <span
+          class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20"
+          >80% aux programmes</span
+        >
       </p>
     </div>
   </section>
@@ -71,96 +300,459 @@ try {
   <!-- Stats -->
   <Section background="white" padding="md">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-      {stats.map((stat, i) => (
-        <div class="stat-animate" style={`animation-delay: ${i * 150}ms`}>
-          <p class="text-3xl md:text-4xl font-bold text-primary-700">{stat.value}</p>
-          <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
-        </div>
-      ))}
+      {
+        stats.map((stat, i) => (
+          <div class="stat-animate" style={`animation-delay: ${i * 150}ms`}>
+            <p class="text-3xl md:text-4xl font-bold text-primary-700">
+              {stat.value}
+            </p>
+            <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-6 text-center text-sm text-gray-500">
+      85% des bénéficiaires sont des femmes et des filles · 5% de frais
+      administratifs · Enregistrement ONG Cameroun {REGISTRATION_NUMBER} · <a
+        href="/fr/transparency"
+        class="text-primary-600 hover:underline"
+        >Voir le rapport de transparence complet</a>
+    </p>
+  </Section>
+
+  <!-- Partner Confidence -->
+  <Section background="gray" padding="md">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-8 items-center"
+    >
+      <div>
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+        >
+          Confiance des partenaires
+        </p>
+        <h2
+          class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900"
+        >
+          Assez proche pour connaître les familles. Assez organisée pour montrer
+          les preuves.
+        </h2>
+        <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
+          ADA combine des relations locales au Cameroun avec une gouvernance
+          bénévole, des dossiers de projet et une communication claire avec les
+          donateurs.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {
+          confidenceProofs.map((item) => (
+            <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                {item.label}
+              </p>
+              <p class="mt-2 text-sm font-semibold text-gray-900 leading-relaxed">
+                {item.value}
+              </p>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </Section>
 
   <!-- Campaign -->
   <Section background="white" padding="sm">
     <div class="max-w-2xl mx-auto">
-      <div class="p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100">
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-semibold text-gray-900">{i18n.campaign.title}</h3>
-          <span class="text-xs font-medium text-red-700 bg-red-50 px-2 py-0.5 rounded-full">{i18n.campaign.deadline}</span>
+      <div
+        class="p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100"
+      >
+        <div class="flex items-center justify-between gap-4 mb-2">
+          <h3 class="text-sm font-semibold text-gray-900">
+            Campagne Éducation à la Une
+          </h3>
+          <span
+            class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full"
+            >Priorité active 2026</span
+          >
         </div>
-        <p class="text-xs text-gray-600 mb-3">{i18n.campaign.description}</p>
-        <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow="44" aria-valuemin="0" aria-valuemax="100">
-          <div class="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full" style="width: 44%"></div>
-        </div>
-        <div class="flex items-center justify-between mt-2">
-          <span class="text-sm font-bold text-primary-700">$800 {i18n.campaign.raised}</span>
-          <span class="text-xs text-gray-500">{i18n.campaign.goal}: $3,000 · 47 {i18n.campaign.donors}</span>
-        </div>
-        <a href="/fr/donate?project=education-drive" class="mt-4 block w-full text-center px-4 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors">{i18n.campaign.cta}</a>
+        <p class="text-xs text-gray-600 mb-3">
+          Aidez-nous à renvoyer 50 enfants à l'école en septembre avec les frais
+          de scolarité, les livres, les uniformes et le suivi des familles.
+        </p>
+        <ul
+          class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-gray-600"
+        >
+          <li class="rounded-lg bg-white/70 px-3 py-2">
+            Soutien scolaire direct
+          </li>
+          <li class="rounded-lg bg-white/70 px-3 py-2">Partenaires locaux</li>
+          <li class="rounded-lg bg-white/70 px-3 py-2">Reçus suivis</li>
+        </ul>
+        <a
+          href="/fr/donate?project=education-drive"
+          class="mt-4 block w-full text-center px-4 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors shadow-sm"
+          >{i18n.campaign.cta}</a
+        >
+        <p class="mt-2 text-[10px] text-gray-500 text-center">
+          Les totaux de campagne sont publiés après rapprochement des rapports
+          donateurs. <a
+            href="/fr/transparency"
+            class="underline hover:text-gray-700"
+            >Voir le rapport financier complet</a
+          >.
+        </p>
       </div>
     </div>
+  </Section>
+
+  <!-- Program Pillars -->
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl">
+      <p
+        class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+      >
+        Piliers de programme
+      </p>
+      <h2
+        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900"
+      >
+        Six façons concrètes de servir les familles vulnérables
+      </h2>
+      <p class="mt-4 text-gray-600 leading-relaxed">
+        Chaque programme commence par un besoin immédiat, puis avance vers la
+        dignité, la stabilité et l'autonomie.
+      </p>
+    </div>
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {
+        programPillars.map((pillar, index) => (
+          <a
+            href={pillar.href}
+            class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg transition-all duration-200"
+          >
+            <div class="flex items-center justify-between gap-4">
+              <span class="text-xs font-bold text-primary-700">
+                0{index + 1}
+              </span>
+              <span class="text-xs font-semibold text-gray-400 group-hover:text-primary-600">
+                Voir →
+              </span>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
+              {pillar.title}
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+              {pillar.text}
+            </p>
+          </a>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Governance -->
+  <Section background="gray" padding="lg">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center"
+    >
+      <div
+        class="rounded-2xl bg-white border border-gray-200 p-6 md:p-8 shadow-card"
+      >
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+        >
+          Leadership et gouvernance
+        </p>
+        <blockquote
+          class="mt-4 text-xl md:text-2xl font-heading font-bold text-gray-900 leading-snug"
+        >
+          « La foi doit devenir soin pratique, dossiers fiables et service
+          responsable. »
+        </blockquote>
+        <p class="mt-4 text-sm text-gray-600 leading-relaxed">
+          ADA est dirigée par une équipe exécutive bénévole, un conseil de 12
+          membres et une coordination locale au Cameroun.
+        </p>
+        <div class="mt-6 border-t border-gray-100 pt-5">
+          <p class="text-sm font-semibold text-gray-900">
+            Gouvernance bénévole
+          </p>
+          <p class="text-xs text-gray-500">
+            Conseil, séparation financière et mise en œuvre locale
+          </p>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">
+          Relations locales, responsabilité visible
+        </h2>
+        <p class="mt-4 text-gray-600 leading-relaxed">
+          Les programmes sont coordonnés avec les veuves, les familles, les
+          écoles, les églises, les bénévoles et les partenaires communautaires
+          pour répondre à des besoins documentés.
+        </p>
+        <dl class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="rounded-xl bg-white border border-gray-200 p-4">
+            <dt
+              class="text-xs font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Conseil
+            </dt>
+            <dd class="mt-1 text-lg font-bold text-primary-700">12 membres</dd>
+          </div>
+          <div class="rounded-xl bg-white border border-gray-200 p-4">
+            <dt
+              class="text-xs font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Terrain
+            </dt>
+            <dd class="mt-1 text-lg font-bold text-primary-700">Cameroun</dd>
+          </div>
+          <div class="rounded-xl bg-white border border-gray-200 p-4">
+            <dt
+              class="text-xs font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Contrôle
+            </dt>
+            <dd class="mt-1 text-lg font-bold text-primary-700">Double rôle</dd>
+          </div>
+        </dl>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            href="/fr/about"
+            class="inline-flex px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+            >Lire notre histoire</a
+          >
+          <a
+            href="/fr/transparency"
+            class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+            >Voir la gouvernance</a
+          >
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Journey -->
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl mx-auto text-center">
+      <p
+        class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+      >
+        Parcours ADA
+      </p>
+      <h2
+        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900"
+      >
+        Des premiers colis alimentaires à une transparence prête pour les
+        partenaires
+      </h2>
+      <p class="mt-4 text-gray-600 leading-relaxed">
+        ADA grandit en répondant aux besoins réels des communautés et en
+        documentant le travail au fur et à mesure.
+      </p>
+    </div>
+    <ol
+      class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 list-none"
+    >
+      {
+        journeyMilestones.map((item) => (
+          <li class="rounded-xl border border-gray-200 bg-gray-50 p-5">
+            <p class="text-sm font-bold text-primary-700">{item.year}</p>
+            <h3 class="mt-2 text-base font-semibold text-gray-900">
+              {item.title}
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+              {item.text}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
   </Section>
 
   <!-- Mission -->
   <Section background="gray" padding="lg">
-    <div class="max-w-7xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">{i18n.mission.heading}</h2>
-      <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">{i18n.mission.body}</p>
+    <div class="relative">
+      <div class="text-center relative z-10">
+        <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">
+          {i18n.mission.heading}
+        </h2>
+        <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          {i18n.mission.body}
+        </p>
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {
+            missionCards.map((card) => (
+              <div class="p-6 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary-100 flex items-center justify-center">
+                  <span class="text-2xl" aria-hidden="true">
+                    {card.icon}
+                  </span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900">
+                  {card.title}
+                </h3>
+                <p class="mt-2 text-sm text-gray-600">{card.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
     </div>
   </Section>
 
   <!-- Featured Story -->
-  {testimonials.length > 0 && (
-    <Section background="white" padding="md">
-      <div class="max-w-3xl mx-auto">
-        <a href="/fr/stories/mama-rose-grandchildren" class="group block p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100 hover:shadow-lg transition-all duration-300">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="px-2 py-0.5 text-[10px] font-semibold uppercase bg-purple-100 text-purple-700 rounded-full">Histoire à la Une</span>
-          </div>
-          <h3 class="text-xl font-heading font-bold text-gray-900 group-hover:text-primary-700 transition-colors">Mama Patience : De la vente de ses dernières marmites à la gestion d'un commerce</h3>
-          <p class="mt-2 text-sm text-gray-600 leading-relaxed">Quand son mari est décédé, Patience a tout perdu. Elle vendait ses marmites une par une pour nourrir ses quatre enfants. Aujourd'hui, grâce à un investissement de 400$ sur 12 mois, elle gère un commerce alimentaire au marché de Bamenda.</p>
-          <span class="mt-3 inline-block text-sm font-medium text-primary-600">Lire son histoire complète →</span>
-        </a>
-      </div>
-    </Section>
-  )}
-
-  <!-- Testimonials -->
-  <Section background="white" padding="lg">
-    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">{i18n.testimonials.heading}</h2>
-    <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">{i18n.testimonials.subtitle}</p>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-      {testimonials.map((te) => (
-        <div class="p-6 bg-gray-50 rounded-card shadow-card">
-          <p class="text-gray-700 italic leading-relaxed">"{te.quote}"</p>
-          <div class="mt-4 pt-4 border-t border-gray-200">
-            <p class="text-sm font-semibold text-gray-900">{te.name}</p>
-            <p class="text-xs text-gray-500">{te.program}{te.location ? ` • ${te.location}` : ''}</p>
-          </div>
+  {
+    testimonials.length > 0 && (
+      <Section background="white" padding="md">
+        <div class="max-w-3xl mx-auto">
+          <a
+            href="/fr/stories/mama-rose-grandchildren"
+            class="group block p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100 hover:shadow-lg transition-all duration-300"
+          >
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-0.5 text-[10px] font-semibold uppercase bg-purple-100 text-purple-700 rounded-full">
+                Histoire à la Une
+              </span>
+            </div>
+            <h3 class="text-xl font-heading font-bold text-gray-900 group-hover:text-primary-700 transition-colors">
+              Mama Patience : De la vente de ses dernières marmites à la gestion
+              d'un commerce
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+              Quand son mari est décédé, Patience a tout perdu. Elle vendait ses
+              marmites une par une pour nourrir ses quatre enfants. Aujourd'hui,
+              grâce à un investissement de 400$ sur 12 mois, elle gère un
+              commerce alimentaire au marché de Bamenda.
+            </p>
+            <span class="mt-3 inline-block text-sm font-medium text-primary-600">
+              Lire son histoire complète →
+            </span>
+          </a>
         </div>
-      ))}
+      </Section>
+    )
+  }
+
+  <!-- Video -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">
+        Voyez Notre Travail en Action
+      </h2>
+      <p class="mt-4 text-gray-600">
+        Découvrez comment les programmes ADA transforment des vies au Cameroun.
+      </p>
+      <div class="mt-8 rounded-2xl overflow-hidden shadow-lg">
+        <video
+          controls
+          preload="metadata"
+          class="w-full aspect-video bg-gray-900"
+          aria-label="Vidéo du programme ADA montrant des enfants recevant des fournitures scolaires"
+        >
+          <source
+            src="https://cdn.sanity.io/files/rj2m21gk/production/2595057db9e9f64f1e8e8833e720a4ce6b2feadd.mp4"
+            type="video/mp4"
+          />
+          Votre navigateur ne prend pas en charge la vidéo.
+        </video>
+      </div>
+      <p class="mt-3 text-sm text-gray-500">
+        Programme de Soutien aux Veuves — Distribution de nourriture et d'aide
+        financière aux veuves à Buea, 2022
+      </p>
     </div>
   </Section>
 
-  <!-- Founder -->
-  <Section background="gray" padding="md">
+  <!-- Testimonials -->
+  <Section background="white" padding="lg">
+    <h2
+      class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center"
+    >
+      {i18n.testimonials.heading}
+    </h2>
+    <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">
+      {i18n.testimonials.subtitle}
+    </p>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {
+        testimonials.map((te) => (
+          <div class="p-6 bg-gray-50 rounded-card shadow-card">
+            <p class="text-gray-700 italic leading-relaxed">"{te.quote}"</p>
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <p class="text-sm font-semibold text-gray-900">{te.name}</p>
+              <p class="text-xs text-gray-500">
+                {te.program}
+                {te.location ? ` • ${te.location}` : ""}
+              </p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Action Paths -->
+  <Section background="gray" padding="lg">
     <div class="max-w-3xl mx-auto text-center">
-      <blockquote class="text-lg md:text-xl text-gray-700 italic leading-relaxed">&ldquo;{i18n.founder.quote}&rdquo;</blockquote>
-      <div class="mt-4">
-        <p class="text-sm font-semibold text-gray-900">{i18n.founder.name}</p>
-        <p class="text-xs text-gray-500">{i18n.founder.role}</p>
-      </div>
+      <p
+        class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+      >
+        Rejoindre le travail
+      </p>
+      <h2
+        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900"
+      >
+        Choisissez la façon d'aider qui vous correspond
+      </h2>
+      <p class="mt-4 text-gray-600 leading-relaxed">
+        Donateurs, bénévoles, églises, entreprises et partenaires
+        institutionnels peuvent aider ADA à servir avec plus de constance.
+      </p>
+    </div>
+    <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {
+        actionPaths.map((path) => (
+          <a
+            href={path.href}
+            class="group flex h-full flex-col rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-primary-200 hover:shadow-lg transition-all duration-200"
+          >
+            <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
+              {path.title}
+            </h3>
+            <p class="mt-2 flex-1 text-sm text-gray-600 leading-relaxed">
+              {path.text}
+            </p>
+            <span class="mt-5 text-sm font-semibold text-primary-700">
+              {path.cta} →
+            </span>
+          </a>
+        ))
+      }
     </div>
   </Section>
 
   <!-- CTA -->
   <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
     <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold">{i18n.cta.heading}</h2>
+      <h2 class="text-3xl md:text-4xl font-heading font-bold">
+        {i18n.cta.heading}
+      </h2>
       <p class="mt-4 text-lg text-white/80">{i18n.cta.body}</p>
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="/fr/donate" class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">{i18n.cta.donate}</a>
-        <a href="/fr/get-involved" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">{i18n.cta.volunteer}</a>
+      <div
+        class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+      >
+        <a
+          href="/fr/donate"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors"
+          >{i18n.cta.donate}</a
+        >
+        <a
+          href="/fr/get-involved"
+          class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          >{i18n.cta.volunteer}</a
+        >
       </div>
     </div>
   </Section>
@@ -168,8 +760,12 @@ try {
   <!-- Newsletter -->
   <Section background="gray" padding="lg">
     <div class="text-center">
-      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">{i18n.newsletter.heading}</h2>
-      <p class="mt-2 text-gray-600 max-w-lg mx-auto">{i18n.newsletter.subtitle}</p>
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+        {i18n.newsletter.heading}
+      </h2>
+      <p class="mt-2 text-gray-600 max-w-lg mx-auto">
+        {i18n.newsletter.subtitle}
+      </p>
       <div class="mt-6">
         <NewsletterSignup client:visible />
       </div>

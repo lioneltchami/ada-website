@@ -3,13 +3,27 @@ import { createClient, type SanityClient } from "@sanity/client";
 let client: SanityClient | null = null;
 const PROJECT_ID = "rj2m21gk";
 const DATASET = "production";
+const API_VERSION = "2026-03-28";
+
+function getSanityConfig() {
+  return {
+    projectId: import.meta.env.SANITY_PROJECT_ID || PROJECT_ID,
+    dataset: import.meta.env.SANITY_DATASET || DATASET,
+    token: import.meta.env.SANITY_TOKEN || import.meta.env.SANITY_API_TOKEN,
+  };
+}
 
 function getSanityClient(): SanityClient {
   if (!client) {
-    const projectId = import.meta.env.SANITY_PROJECT_ID || PROJECT_ID;
-    const dataset = import.meta.env.SANITY_DATASET || DATASET;
+    const { projectId, dataset, token } = getSanityConfig();
     if (!projectId) throw new Error("SANITY_PROJECT_ID is required");
-    client = createClient({ projectId, dataset, apiVersion: "2026-03-28", useCdn: true });
+    client = createClient({
+      projectId,
+      dataset,
+      apiVersion: API_VERSION,
+      token,
+      useCdn: !token,
+    });
   }
   return client;
 }
@@ -17,9 +31,10 @@ function getSanityClient(): SanityClient {
 // Convert Sanity image reference to URL
 export function sanityImageUrl(ref: string, width = 800): string {
   if (!ref) return '';
+  const { projectId, dataset } = getSanityConfig();
   // ref format: image-{id}-{dimensions}-{format}
   const [, id, dimensions, format] = ref.split('-');
-  return `https://cdn.sanity.io/images/${PROJECT_ID}/${DATASET}/${id}-${dimensions}.${format}?w=${width}&auto=format`;
+  return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensions}.${format}?w=${width}&auto=format`;
 }
 
 export interface SanityProject {

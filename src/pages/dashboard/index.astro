@@ -3,9 +3,24 @@ export const prerender = false;
 
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
+import { getDonationsForEmail } from "../../lib/donations";
 
 const user = Astro.locals.user;
 const name = user?.user_metadata?.full_name || "Supporter";
+const donations = user?.email ? await getDonationsForEmail(user.email) : [];
+const totalCents = donations.reduce((sum, donation) => sum + donation.amount_cents, 0);
+const monthlyDonations = donations.filter((donation) => donation.frequency === "monthly");
+
+// Format member since date
+let memberSince = "New";
+if (user?.created_at) {
+  try {
+    memberSince = new Date(user.created_at).toLocaleDateString("en-CA", {
+      year: "numeric",
+      month: "short",
+    });
+  } catch {}
+}
 ---
 
 <PageLayout title="Dashboard" description="Your ADA donor dashboard." noIndex>
@@ -14,43 +29,79 @@ const name = user?.user_metadata?.full_name || "Supporter";
       <!-- Welcome -->
       <div class="mb-8">
         <h1 class="text-2xl font-heading font-bold text-gray-900">Welcome back, {name}</h1>
-        <p class="text-gray-600">Manage your donations and profile.</p>
+        <p class="text-gray-600">Thank you for being part of the ADA community.</p>
       </div>
 
       <!-- Quick Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <a href="/dashboard/donations" class="p-4 bg-white rounded-card shadow-card text-center hover:shadow-card-hover transition-shadow group">
+          <p class="text-xs text-gray-500 mb-1">Total Donated</p>
+          <p class="text-lg font-bold text-gray-900">${(totalCents / 100).toFixed(2)}</p>
+        </a>
+        <a href="/dashboard/donations" class="p-4 bg-white rounded-card shadow-card text-center hover:shadow-card-hover transition-shadow group">
+          <p class="text-xs text-gray-500 mb-1">Donations</p>
+          <p class="text-lg font-bold text-gray-900">{donations.length}</p>
+        </a>
+        <a href="/dashboard/donations" class="p-4 bg-white rounded-card shadow-card text-center hover:shadow-card-hover transition-shadow group">
+          <p class="text-xs text-gray-500 mb-1">Monthly Giving</p>
+          <p class="text-sm font-medium text-primary-600 group-hover:underline">
+            {monthlyDonations.length ? `${monthlyDonations.length} active record${monthlyDonations.length === 1 ? '' : 's'}` : 'Start monthly →'}
+          </p>
+        </a>
         <div class="p-4 bg-white rounded-card shadow-card text-center">
-          <p class="text-2xl font-bold text-primary-700">$0</p>
-          <p class="text-xs text-gray-500">Total Donated</p>
+          <p class="text-xs text-gray-500 mb-1">Member Since</p>
+          <p class="text-sm font-semibold text-gray-800">{memberSince}</p>
         </div>
-        <div class="p-4 bg-white rounded-card shadow-card text-center">
-          <p class="text-2xl font-bold text-primary-700">0</p>
-          <p class="text-xs text-gray-500">Donations</p>
-        </div>
-        <div class="p-4 bg-white rounded-card shadow-card text-center">
-          <p class="text-2xl font-bold text-primary-700">0</p>
-          <p class="text-xs text-gray-500">Subscriptions</p>
-        </div>
-        <div class="p-4 bg-white rounded-card shadow-card text-center">
-          <p class="text-2xl font-bold text-primary-700">New</p>
-          <p class="text-xs text-gray-500">Member Since</p>
+      </div>
+
+      <!-- Receipt notice -->
+      <div class="mb-6 p-4 bg-primary-50 border border-primary-100 rounded-xl text-sm text-primary-800 flex items-start gap-3">
+        <span class="text-lg flex-shrink-0" aria-hidden="true">📧</span>
+        <div>
+          <strong class="font-semibold">Your receipts are in your inbox.</strong>
+          {" "}After every donation, an official PDF receipt is emailed to you immediately. Check your spam folder if you don't see it.
+          <a href="/contact?subject=Missing+Receipt" class="ml-1 underline hover:text-primary-900">Need help with a receipt?</a>
         </div>
       </div>
 
       <!-- Quick Links -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a href="/donate" class="p-4 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center">
-          <span class="text-2xl">💝</span>
-          <p class="mt-2 text-sm font-medium text-gray-900">Make a Donation</p>
+        <a href="/donate" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
+          <span class="text-2xl" aria-hidden="true">💝</span>
+          <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Make a Donation</p>
+          <p class="mt-1 text-xs text-gray-500">One-time or monthly</p>
         </a>
-        <a href="/dashboard/donations" class="p-4 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center">
-          <span class="text-2xl">📋</span>
-          <p class="mt-2 text-sm font-medium text-gray-900">Donation History</p>
+        <a href="/dashboard/donations" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
+          <span class="text-2xl" aria-hidden="true">📋</span>
+          <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Donation History</p>
+          <p class="mt-1 text-xs text-gray-500">View past contributions</p>
         </a>
-        <a href="/dashboard/profile" class="p-4 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center">
-          <span class="text-2xl">👤</span>
-          <p class="mt-2 text-sm font-medium text-gray-900">Update Profile</p>
+        <a href="/dashboard/profile" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
+          <span class="text-2xl" aria-hidden="true">👤</span>
+          <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Update Profile</p>
+          <p class="mt-1 text-xs text-gray-500">Name, email, preferences</p>
         </a>
+      </div>
+
+      <!-- Impact reminder -->
+      <div class="mt-8 p-5 bg-white rounded-card shadow-card">
+        <h2 class="text-sm font-semibold text-gray-900 mb-3">Your Giving Makes a Real Difference</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+          {[
+            { icon: '👩', stat: '15+', label: 'Widows supported monthly' },
+            { icon: '📚', stat: '50+', label: 'Children in school' },
+            { icon: '🌍', stat: '5', label: 'Communities reached' },
+          ].map((item) => (
+            <div class="p-3 bg-primary-50 rounded-lg">
+              <span class="text-xl" aria-hidden="true">{item.icon}</span>
+              <p class="mt-1 text-lg font-bold text-primary-700">{item.stat}</p>
+              <p class="text-xs text-gray-600">{item.label}</p>
+            </div>
+          ))}
+        </div>
+        <p class="mt-3 text-xs text-gray-500 text-center">
+          <a href="/transparency" class="text-primary-600 hover:underline">See full financial breakdown →</a>
+        </p>
       </div>
     </div>
   </Section>

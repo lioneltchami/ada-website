@@ -3,7 +3,35 @@ import { getLocale, t, switchLocalePath, localePath } from '../../i18n';
 
 const locale = getLocale(Astro.url.pathname);
 const i18n = t(locale);
-const switchPath = switchLocalePath(Astro.url.pathname);
+const currentPath = Astro.url.pathname;
+
+function hasLocaleAlternative(pathname: string): boolean {
+  const englishPath = pathname.replace(/^\/fr(?=\/|$)/, '') || '/';
+  if (englishPath.startsWith('/auth') || englishPath === '/404' || englishPath.startsWith('/dashboard')) return false;
+  if (englishPath === '/donate/thank-you') return false;
+
+  return (
+    englishPath === '/' ||
+    englishPath === '/about' ||
+    englishPath === '/contact' ||
+    englishPath === '/donate' ||
+    englishPath === '/gallery' ||
+    englishPath === '/get-involved' ||
+    englishPath === '/partners' ||
+    englishPath === '/privacy' ||
+    englishPath === '/resources' ||
+    englishPath === '/team' ||
+    englishPath === '/terms' ||
+    englishPath === '/transparency' ||
+    englishPath === '/projects' ||
+    englishPath.startsWith('/projects/') ||
+    englishPath === '/stories' ||
+    englishPath.startsWith('/stories/')
+  );
+}
+
+const switchPath = switchLocalePath(currentPath);
+const showLocaleSwitch = hasLocaleAlternative(currentPath);
 
 const navLinks = [
   { href: localePath('/about', locale), label: i18n.nav.about },
@@ -14,8 +42,6 @@ const navLinks = [
   { href: localePath('/resources', locale), label: i18n.nav.resources },
   { href: localePath('/partners', locale), label: i18n.nav.partners },
 ];
-
-const currentPath = Astro.url.pathname;
 
 function isActive(href: string): boolean {
   const path = currentPath.replace(/\/$/, '') || '/';
@@ -29,7 +55,7 @@ function isActive(href: string): boolean {
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
     <div class="flex items-center justify-between h-[72px]">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2.5 group">
+      <a href={localePath('/', locale)} class="flex items-center gap-2.5 group">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-sm shadow-primary-500/20 group-hover:shadow-md group-hover:shadow-primary-500/30 transition-shadow">
           <span class="text-white font-bold text-sm">ADA</span>
         </div>
@@ -64,15 +90,17 @@ function isActive(href: string): boolean {
 
       <!-- CTA + Mobile Toggle -->
       <div class="flex items-center gap-3">
+        {showLocaleSwitch && (
+          <a
+            href={switchPath}
+            class="hidden sm:inline-flex items-center px-2.5 py-1.5 text-xs font-semibold text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+            aria-label={locale === 'en' ? 'Switch to French' : 'Passer en anglais'}
+          >
+            {i18n.common.language}
+          </a>
+        )}
         <a
-          href={switchPath}
-          class="hidden sm:inline-flex items-center px-2.5 py-1.5 text-xs font-semibold text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
-          aria-label={locale === 'en' ? 'Switch to French' : 'Passer en anglais'}
-        >
-          {i18n.common.language}
-        </a>
-        <a
-          href="/donate"
+          href={localePath('/donate', locale)}
           class="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-secondary-500 to-secondary-600 rounded-lg hover:from-secondary-600 hover:to-secondary-700 transition-all shadow-md shadow-secondary-500/25 hover:shadow-lg hover:shadow-secondary-500/30 hover:scale-[1.02] active:scale-[0.98] animate-subtle-pulse"
           data-umami-event="nav-donate"
         >
@@ -121,14 +149,16 @@ function isActive(href: string): boolean {
             </a>
           </li>
         ))}
-        <li>
-          <a href={switchPath} class="flex items-center gap-2 px-3 py-2.5 text-base font-medium text-gray-600 hover:text-primary-700 hover:bg-gray-50 rounded-lg">
-            🌐 {locale === 'en' ? 'Français' : 'English'}
-          </a>
-        </li>
+        {showLocaleSwitch && (
+          <li>
+            <a href={switchPath} class="flex items-center gap-2 px-3 py-2.5 text-base font-medium text-gray-600 hover:text-primary-700 hover:bg-gray-50 rounded-lg">
+              🌐 {locale === 'en' ? 'Français' : 'English'}
+            </a>
+          </li>
+        )}
         <li class="pt-3">
           <a
-            href="/donate"
+            href={localePath('/donate', locale)}
             class="flex items-center justify-center gap-2 px-3 py-3 text-base font-semibold text-white bg-gradient-to-r from-secondary-500 to-secondary-600 rounded-lg shadow-sm"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">

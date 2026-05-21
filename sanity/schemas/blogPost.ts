@@ -46,6 +46,21 @@ export default defineType({
     }),
     defineField({ name: 'publishedAt', title: 'Published At', type: 'datetime' }),
     defineField({ name: 'category', title: 'Category', type: 'string', options: { list: ['story', 'update', 'announcement'] } }),
+    defineField({
+      name: 'personPhoto',
+      title: 'Person / Story Photo',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          validation: (r) => r.max(160),
+        }),
+      ],
+      description: 'Optional image used by story index and detail pages.',
+    }),
     defineField({ name: 'featured', title: 'Featured', type: 'boolean', initialValue: false }),
     defineField({ name: 'titleFr', title: 'Title (French)', type: 'string', description: 'French translation of the title' }),
     defineField({ name: 'excerptFr', title: 'Excerpt (French)', type: 'text', rows: 3, description: 'French translation of the excerpt' }),
