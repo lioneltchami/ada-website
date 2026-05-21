@@ -4,54 +4,112 @@ import Section from '../../components/layout/Section.astro';
 import NewsletterSignup from '../../components/islands/NewsletterSignup';
 ---
 
-<PageLayout title="Thank You" description="Your donation has been received. Thank you for supporting ADA." noIndex>
+<PageLayout title="Thank You for Your Donation" description="Your donation has been received. Thank you for supporting ADA's mission in Cameroon." noIndex>
+  <!-- Hero Thank You -->
   <Section background="white" padding="lg">
     <div class="max-w-lg mx-auto text-center">
-      <span class="text-5xl">🎉</span>
-      <h1 class="mt-4 text-3xl font-heading font-bold text-gray-900">Thank You!</h1>
-      <p class="mt-4 text-lg text-gray-600">
+      <div class="w-20 h-20 mx-auto rounded-full bg-primary-100 flex items-center justify-center">
+        <svg class="w-10 h-10 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      </div>
+      <h1 class="mt-6 text-3xl font-heading font-bold text-gray-900" id="thank-you-heading">Thank You!</h1>
+      <p class="mt-4 text-lg text-gray-600" id="thank-you-message">
         Your generous donation has been received. A receipt has been sent to your email.
       </p>
-      <p class="mt-2 text-gray-500">
-        Your support makes a real difference in the lives of vulnerable communities in Cameroon.
+      <p class="mt-3 text-sm text-gray-500 max-w-sm mx-auto">
+        Your support makes a real difference in the lives of widows, orphans, and young women in Cameroon. We are grateful for you.
       </p>
+      <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-primary-50 rounded-full text-sm text-primary-700 font-medium border border-primary-100">
+        <span aria-hidden="true">📧</span> Check your inbox — your receipt is on its way
+      </div>
     </div>
   </Section>
 
-  <!-- Monthly Upsell -->
-  <Section background="primary" padding="sm">
-    <div class="max-w-lg mx-auto text-center">
-      <p class="text-sm font-semibold text-primary-800">💚 Make it monthly?</p>
-      <p class="mt-1 text-xs text-primary-700">Monthly donors provide predictable support that helps us plan ahead for the 15 widows counting on us.</p>
-      <a href="/donate" class="mt-3 inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
-        Become a Monthly Supporter
-      </a>
+  <!-- Monthly Upsell — hidden in the browser when Stripe returns from a monthly checkout -->
+  <Section background="gray" padding="sm">
+    <div id="monthly-upsell" class="max-w-lg mx-auto">
+      <div class="p-5 bg-white rounded-2xl border border-primary-200 shadow-sm text-center">
+        <p class="text-base font-semibold text-gray-900">💚 Make your impact ongoing</p>
+        <p class="mt-2 text-sm text-gray-600 max-w-sm mx-auto">Monthly donors give us the predictability to plan programs 12 months ahead. Even $10/month means one more child stays in school.</p>
+        <a href="/donate" class="mt-4 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors shadow-sm">
+          Become a Monthly Supporter
+        </a>
+        <p class="mt-2 text-xs text-gray-400">Cancel anytime · No fees</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- What Happens Next -->
+  <Section background="white" padding="md">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-xl font-heading font-bold text-gray-900 text-center">What Happens Next</h2>
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        {[
+          { icon: '📧', title: 'Receipt in your inbox', desc: 'An official PDF receipt has been emailed to you for your records.' },
+          { icon: '🌍', title: 'Funds reach Cameroon', desc: 'Your donation is transferred to our team within 3–5 business days.' },
+          { icon: '📸', title: 'See the impact', desc: 'Subscribe below to receive photos and stories from the field.' },
+        ].map((step) => (
+          <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <span class="text-2xl" aria-hidden="true">{step.icon}</span>
+            <p class="mt-2 text-sm font-semibold text-gray-900">{step.title}</p>
+            <p class="mt-1 text-xs text-gray-600 leading-relaxed">{step.desc}</p>
+          </div>
+        ))}
+      </div>
     </div>
   </Section>
 
   <!-- Share -->
-  <Section background="white" padding="md">
+  <Section background="gray" padding="md">
     <div class="max-w-lg mx-auto text-center">
       <h2 class="text-lg font-semibold text-gray-900">Spread the Word</h2>
-      <p class="mt-1 text-sm text-gray-600">Help us reach more people by sharing your support.</p>
-      <div class="mt-4 flex items-center justify-center gap-3">
-        <a href="https://twitter.com/intent/tweet?text=I%20just%20donated%20to%20Apoti%20Development%20Association%20%E2%80%94%20supporting%20widows%2C%20orphans%2C%20and%20young%20women%20in%20Cameroon.%20Join%20me%3A%20https%3A%2F%2Fapotidev.org%2Fdonate" target="_blank" rel="noopener" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+      <p class="mt-1 text-sm text-gray-600">Help us reach more supporters by sharing your generosity.</p>
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="https://twitter.com/intent/tweet?text=I%20just%20donated%20to%20%40apotidev%20%E2%80%94%20supporting%20widows%2C%20orphans%2C%20and%20young%20women%20in%20Cameroon.%20Join%20me%3A%20https%3A%2F%2Fapotidev.org%2Fdonate"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          aria-label="Share on X (Twitter)"
+        >
           Share on X
         </a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fapotidev.org%2Fdonate" target="_blank" rel="noopener" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fapotidev.org%2Fdonate"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          aria-label="Share on Facebook"
+        >
           Share on Facebook
         </a>
-        <a href="https://wa.me/?text=I%20just%20donated%20to%20ADA%20%E2%80%94%20supporting%20communities%20in%20Cameroon.%20Join%20me%3A%20https%3A%2F%2Fapotidev.org%2Fdonate" target="_blank" rel="noopener" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+        <a
+          href="https://wa.me/?text=I%20just%20donated%20to%20Apoti%20Development%20Association%20%E2%80%94%20supporting%20communities%20in%20Cameroon.%20Join%20me%3A%20https%3A%2F%2Fapotidev.org%2Fdonate"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          aria-label="Share on WhatsApp"
+        >
           WhatsApp
+        </a>
+        <a
+          href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fapotidev.org%2Fdonate"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          aria-label="Share on LinkedIn"
+        >
+          LinkedIn
         </a>
       </div>
     </div>
   </Section>
 
   <!-- Newsletter -->
-  <Section background="gray" padding="md">
+  <Section background="white" padding="md">
     <div class="max-w-lg mx-auto text-center">
-      <h2 class="text-lg font-semibold text-gray-900">See Your Impact</h2>
+      <h2 class="text-lg font-semibold text-gray-900">Stay Connected</h2>
       <p class="mt-1 text-sm text-gray-600">Get monthly updates with photos and stories showing how your donation is making a difference.</p>
       <div class="mt-4">
         <NewsletterSignup client:visible />
@@ -60,7 +118,7 @@ import NewsletterSignup from '../../components/islands/NewsletterSignup';
   </Section>
 
   <!-- Navigation -->
-  <Section background="white" padding="sm">
+  <Section background="gray" padding="sm">
     <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
       <a href="/" class="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
         Return Home
@@ -68,6 +126,18 @@ import NewsletterSignup from '../../components/islands/NewsletterSignup';
       <a href="/stories" class="px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
         Read Impact Stories
       </a>
+      <a href="/transparency" class="px-5 py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+        See How Funds Are Used
+      </a>
     </div>
   </Section>
 </PageLayout>
+
+<script>
+  // Keep donor names out of URLs, analytics, and browser history. Only use the return
+  // URL to decide whether the monthly upsell should be visible.
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('frequency') === 'monthly') {
+    document.getElementById('monthly-upsell')?.closest('section')?.remove();
+  }
+</script>

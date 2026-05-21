@@ -24,6 +24,14 @@ const partnershipTiers = [
   { tier: "Strategic Alliance", range: "$5,000+/year", desc: "Multi-year partnership, board advisory role, co-branded campaigns." },
 ];
 
+const partnerAudiences = [
+  { title: "Churches", desc: "Mission committees, youth groups, and congregations can sponsor education, clean water, or widow support projects with clear updates for members." },
+  { title: "Companies", desc: "CSR teams can fund practical programs, employee giving campaigns, or in-kind support with concise reporting and public recognition." },
+  { title: "Diaspora Groups", desc: "Cameroonian and African diaspora associations can pool gifts into visible community projects back home." },
+  { title: "Schools & Universities", desc: "Student clubs, service-learning programs, and campus faith groups can support campaigns, research, and awareness events." },
+  { title: "Foundations", desc: "Grantmakers receive proposals, budgets, monitoring data, and governance documents for review." },
+];
+
 const fallbackRoles = [
   { title: 'Community Outreach Coordinator', time: '10-15 hrs/week', location: 'On-site', desc: 'Lead community engagement and program delivery.' },
   { title: 'Education Mentor', time: '5-10 hrs/week', location: 'On-site', desc: 'Tutor and mentor orphaned children in our education program.' },
@@ -65,7 +73,7 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
         { icon: "🙋", title: "Volunteer", desc: "Give your time and skills", href: "#volunteer" },
         { icon: "💝", title: "Monthly Giving", desc: "Join our giving community", href: "/donate" },
         { icon: "📢", title: "Advocate", desc: "Share our mission with others", href: "#advocate" },
-        { icon: "🏢", title: "Partner", desc: "Corporate partnerships", href: "#partnerships" },
+        { icon: "🏢", title: "Partner", desc: "Institutional and community partnerships", href: "#partnerships" },
       ].map((way) => (
         <a href={way.href} class="p-6 bg-gray-50 rounded-card hover:bg-primary-50 transition-colors text-center group">
           <span class="text-3xl">{way.icon}</span>
@@ -139,37 +147,91 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
   </Section>
 
   <script>
-    document.getElementById('volunteer-form')!.addEventListener('submit', (e) => {
+    document.getElementById('volunteer-form')!.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const btn = (e.target as HTMLFormElement).querySelector('button[type="submit"]') as HTMLButtonElement;
+      const form = e.target as HTMLFormElement;
+      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
       btn.disabled = true;
-      btn.textContent = 'Submitted!';
+      btn.textContent = 'Sending...';
+
+      const formData = new FormData(form);
+      const role = (formData.get('role') as string) || 'General Volunteer';
+      const availability = (formData.get('availability') as string) || 'Flexible';
+      const motivation = (formData.get('message') as string) || '';
+
+      const payload = {
+        name: formData.get('name') as string,
+        email: formData.get('email') as string,
+        subject: `Volunteer Application — ${role}`,
+        message: `Role: ${role}\nAvailability: ${availability}\n\nMotivation:\n${motivation}`,
+      };
+
       const msg = document.createElement('p');
-      msg.className = 'mt-4 text-sm text-green-700 font-medium';
       msg.setAttribute('role', 'alert');
       msg.setAttribute('aria-live', 'polite');
-      msg.textContent = 'Application submitted! We will be in touch soon.';
-      (e.target as HTMLElement).appendChild(msg);
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          msg.className = 'mt-4 text-sm text-green-700 font-medium';
+          msg.textContent = 'Application submitted! We will review it and be in touch within 3–5 business days.';
+          form.reset();
+          btn.textContent = 'Submitted!';
+        } else {
+          throw new Error('Server error');
+        }
+      } catch {
+        msg.className = 'mt-4 text-sm text-red-600';
+        msg.textContent = 'Something went wrong. Please email us directly at info@apotidev.org.';
+        btn.disabled = false;
+        btn.textContent = 'Submit Application';
+      }
+
+      form.appendChild(msg);
     });
   </script>
 
-  <!-- Corporate Partnerships -->
+  <!-- Partnerships -->
   <Section id="partnerships" background="gray" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Corporate Partnerships</h2>
+    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Partnerships</h2>
     <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">
-      Partner with us to create lasting impact in Cameroon.
+      Partner with us to create lasting impact in Cameroon through sponsorship, grants, campaigns, or in-kind support.
     </p>
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      {partnerAudiences.map((partner) => (
+        <div class="p-4 bg-white rounded-card border border-gray-100 shadow-card">
+          <h3 class="text-sm font-semibold text-gray-900">{partner.title}</h3>
+          <p class="mt-2 text-xs text-gray-600 leading-relaxed">{partner.desc}</p>
+        </div>
+      ))}
+    </div>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
       {partnershipTiers.map((p) => (
         <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
           <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
           <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
           <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
-          <a href="/contact" class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline">
-            Inquire →
+          <a href={`/contact?subject=Partnership+Inquiry+%E2%80%94+${encodeURIComponent(p.tier)}`} class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline">
+            Start an inquiry →
           </a>
         </div>
       ))}
+    </div>
+    <div class="mt-8 max-w-3xl mx-auto p-5 bg-white rounded-card border border-primary-100 text-center">
+      <h3 class="text-base font-semibold text-gray-900">Need documents before sponsoring?</h3>
+      <p class="mt-2 text-sm text-gray-600">
+        We can share registration documents, annual reports, project records, budgets, and references for churches, companies, foundations, and diaspora groups reviewing ADA.
+      </p>
+      <div class="mt-4 flex flex-wrap justify-center gap-3">
+        <a href="/transparency" class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">Review transparency</a>
+        <a href="/contact?subject=Partnership+Due+Diligence+Package" class="inline-flex px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">Request due diligence package</a>
+        <a href="/partners" class="inline-flex px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">See partner details</a>
+      </div>
     </div>
   </Section>
 

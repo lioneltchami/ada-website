@@ -13,7 +13,20 @@ export default defineType({
     defineField({ name: 'beneficiaries', title: 'Beneficiaries', type: 'number', validation: (r) => r.required().min(0) }),
     defineField({ name: 'goalAmount', title: 'Goal Amount (USD)', type: 'number', validation: (r) => r.required().min(0) }),
     defineField({ name: 'raisedAmount', title: 'Raised Amount (USD)', type: 'number', validation: (r) => r.required().min(0) }),
-    defineField({ name: 'mainImage', title: 'Main Image', type: 'image', options: { hotspot: true }, fields: [{ name: 'alt', title: 'Alt Text', type: 'string' }] }),
+    defineField({
+      name: 'mainImage',
+      title: 'Main Image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          validation: (r) => r.required().max(160),
+        }),
+      ],
+    }),
     defineField({ name: 'isFeatured', title: 'Featured', type: 'boolean', initialValue: false }),
     defineField({ name: 'sortOrder', title: 'Sort Order', type: 'number', initialValue: 0 }),
   ],

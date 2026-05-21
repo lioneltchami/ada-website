@@ -6,6 +6,39 @@ import { getLocale, t } from '../i18n';
 
 const locale = getLocale(Astro.url.pathname);
 const labels = t(locale);
+
+const partnerTypes = [
+  {
+    title: 'Churches & Faith Communities',
+    fit: 'Mission boards, outreach teams, youth groups, and congregational campaigns.',
+    ask: 'Sponsor school fees, clean water, widow support, or a seasonal giving campaign.',
+    proof: 'Receive project photos, member-ready updates, receipts, and pastoral/community references.',
+  },
+  {
+    title: 'Companies & CSR Teams',
+    fit: 'Businesses looking for practical, accountable social impact in Cameroon.',
+    ask: 'Fund a program cycle, match employee gifts, sponsor skills training, or contribute in-kind expertise.',
+    proof: 'Receive brand recognition options, quarterly impact reporting, budgets, and beneficiary stories.',
+  },
+  {
+    title: 'Diaspora Associations',
+    fit: 'Cameroonian, African, and global diaspora groups pooling support for visible local projects.',
+    ask: 'Adopt a village project, sponsor students, or run a group campaign with a defined target.',
+    proof: 'Receive direct field updates, community acknowledgement, and transparent spending summaries.',
+  },
+  {
+    title: 'Schools & Universities',
+    fit: 'Student clubs, service-learning offices, research groups, and campus faith communities.',
+    ask: 'Support awareness events, peer fundraising, curriculum-linked projects, or technical assistance.',
+    proof: 'Receive classroom-ready impact notes, project briefs, guest speaker coordination, and volunteer pathways.',
+  },
+  {
+    title: 'Foundations & Grantmakers',
+    fit: 'Private foundations, family foundations, embassies, and institutional funders.',
+    ask: 'Provide project grants, multi-year funding, capacity support, or restricted program funding.',
+    proof: 'Receive proposals, logframes, governance records, budgets, M&E data, and due diligence documents.',
+  },
+];
 ---
 
 <PageLayout title="For Partners & Funders" description="Partnership information for institutional funders, embassies, and foundations. ADA offers transparent reporting, measurable results, and bilingual capacity.">
@@ -28,6 +61,33 @@ const labels = t(locale);
             <div class="mt-6 pt-4 border-t border-gray-100">
               <p class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">2026 Funding Goal</p>
               <p class="text-2xl font-bold text-primary-600">{item.amount}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Partner Types -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-heading font-bold text-gray-900">Find Your Partnership Path</h2>
+          <p class="mt-2 text-gray-600">ADA works with community, institutional, and professional partners. Choose the path that matches your group and we will tailor the proposal, reporting, and due diligence materials.</p>
+        </div>
+        <a href="/contact?subject=Partnership+Inquiry" class="inline-flex items-center justify-center px-5 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm">
+          Start Partnership Inquiry →
+        </a>
+      </div>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+        {partnerTypes.map((partner) => (
+          <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
+            <h3 class="text-base font-semibold text-gray-900">{partner.title}</h3>
+            <div class="mt-3 space-y-2 text-xs text-gray-700 leading-relaxed">
+              <p><strong>Best fit:</strong> {partner.fit}</p>
+              <p><strong>Ways to help:</strong> {partner.ask}</p>
+              <p><strong>What you receive:</strong> {partner.proof}</p>
             </div>
           </div>
         ))}
@@ -117,13 +177,13 @@ const labels = t(locale);
             <h3 class="text-lg font-semibold text-gray-900">Canadian Funders</h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>CFLI Eligible:</strong> ADA meets all criteria for the Canada Fund for Local Initiatives (CFLI) administered by the Canadian High Commission in Yaoundé.</p>
-            <p><strong>2022 Law Change:</strong> Canadian registered charities can now grant directly to foreign NGOs like ADA under the qualifying disbursement rules — no intermediary required.</p>
+            <p><strong>Potential CFLI Fit:</strong> ADA's local registration, community focus, and bilingual capacity may make it worth reviewing against Canada Fund for Local Initiatives requirements before any application.</p>
+            <p><strong>Canadian Charity Partnerships:</strong> Canadian registered charities may be able to support foreign organizations when their own legal and CRA requirements are met. ADA can provide documentation for that review.</p>
             <p><strong>Policy Alignment:</strong> Our programs directly advance Canada's Feminist International Assistance Policy with 85% women/girl beneficiaries.</p>
-            <p><strong>Tax Receipts:</strong> Canadian donors can receive tax receipts through a Canadian fiscal sponsor arrangement. Contact us for details.</p>
+            <p><strong>Tax Receipts:</strong> ADA does not currently advertise Canadian tax-deductible giving. If a qualified fiscal sponsor or charity partner is confirmed, ADA will publish the details clearly.</p>
           </div>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">CFLI Eligible</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">CFLI Review Candidate</span>
             <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Bilingual EN/FR</span>
             <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Gender Equality Focus</span>
           </div>
@@ -136,14 +196,14 @@ const labels = t(locale);
             <h3 class="text-lg font-semibold text-gray-900">US Funders</h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>501(c)(3) Equivalency:</strong> ADA operates as a registered non-profit in Cameroon with governance structures equivalent to US 501(c)(3) requirements (independent board, financial oversight, public benefit mission).</p>
-            <p><strong>GlobalGiving:</strong> ADA is preparing for GlobalGiving Accelerator registration, which will provide US donors with tax-deductible giving through GlobalGiving's 501(c)(3) status.</p>
-            <p><strong>Foundation Grants:</strong> US private foundations can grant to ADA through expenditure responsibility or equivalency determination procedures.</p>
+            <p><strong>US Review Materials:</strong> ADA can provide governance, registration, financial, and program documents for US funders reviewing international grant options.</p>
+            <p><strong>Fiscal Sponsorship Path:</strong> ADA may pursue a US fiscal sponsor or giving platform in the future, but no US tax-deductible giving route is advertised as active today.</p>
+            <p><strong>Foundation Grants:</strong> US private foundations should use their own counsel and grantmaking procedures before funding any foreign organization. ADA can support the document review process.</p>
             <p><strong>USAID Alignment:</strong> Our programs align with USAID's Journey to Self-Reliance framework — building local capacity, not dependency.</p>
           </div>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">GlobalGiving (Pending)</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Equivalency Determination Available</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Fiscal Sponsor Path to Explore</span>
+            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Due Diligence Documents Available</span>
             <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Self-Reliance Model</span>
           </div>
         </div>
@@ -222,8 +282,11 @@ const labels = t(locale);
             </div>
             <p class="mt-3 text-xs text-primary-700">Contact <a href="mailto:info@apotidev.org" class="underline">info@apotidev.org</a> to request the full due diligence package.</p>
           </div>
-          <div class="flex-shrink-0">
-            <a href="/resources" class="inline-flex items-center px-6 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm">
+          <div class="flex-shrink-0 flex flex-col gap-3">
+            <a href="/contact?subject=Due+Diligence+Package+Request" class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm">
+              Request Due Diligence →
+            </a>
+            <a href="/resources" class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-primary-700 bg-white rounded-xl hover:bg-primary-100 transition-colors shadow-sm">
               {labels.resources.title} →
             </a>
           </div>
@@ -240,7 +303,7 @@ const labels = t(locale);
         {[
           'Detailed project proposals with logical frameworks',
           'Quarterly narrative and financial reports',
-          'Annual audited financial statements',
+          'Annual financial summaries and supporting records',
           'Monitoring & Evaluation data with indicators',
           'Photo and video documentation of activities',
           'Beneficiary testimonials and case studies',
@@ -259,7 +322,15 @@ const labels = t(locale);
   <!-- Partnership Tiers -->
   <Section background="gray" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Partnership Opportunities</h2>
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-heading font-bold text-gray-900">Partnership Opportunities</h2>
+          <p class="mt-2 text-gray-600">These options can be adapted for churches, companies, diaspora associations, schools, universities, and foundations.</p>
+        </div>
+        <a href="/contact?subject=Partnership+Opportunity+Discussion" class="inline-flex items-center justify-center px-5 py-3 text-sm font-bold text-primary-700 bg-white rounded-xl hover:bg-primary-50 transition-colors shadow-sm">
+          Discuss an Opportunity →
+        </a>
+      </div>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
           <h3 class="text-lg font-semibold text-gray-900">Project Funding</h3>
@@ -301,11 +372,11 @@ const labels = t(locale);
       <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
           { title: 'Bilingual Reporting', desc: 'All reports, proposals, and communications delivered in English and French. Team fluent in both languages.' },
-          { title: 'Deadline Management', desc: 'Quarterly reports delivered on schedule since 2022. Zero missed deadlines with existing partners.' },
-          { title: 'Financial Management', desc: 'Dedicated bookkeeping, bank reconciliation, and transparent fund tracking. Separate accounts per project.' },
+          { title: 'Deadline Management', desc: 'Quarterly and project-specific reporting can be scheduled into partner agreements so expectations are clear from the start.' },
+          { title: 'Financial Management', desc: 'Donation records, payment processor records, budgets, receipts, and project allocations are reconciled for transparent fund tracking.' },
           { title: 'M&E Framework', desc: 'Logical framework with SMART indicators. Baseline data collected. Outcome tracking (not just outputs).' },
-          { title: 'Documentation', desc: 'Photo/video documentation of all activities. Beneficiary consent forms. GPS-tagged project sites.' },
-          { title: 'Governance', desc: 'Board of directors with quarterly meetings. Conflict of interest policy. Whistleblower protection.' },
+          { title: 'Documentation', desc: 'Photo/video documentation, field notes, attendance lists, receipts, and beneficiary consent practices are used where appropriate.' },
+          { title: 'Governance', desc: 'Board oversight, defined officer roles, financial review, and documented policies support responsible partnership management.' },
         ].map((item) => (
           <div class="flex items-start gap-3 p-3 bg-white rounded-lg">
             <span class="text-primary-600 mt-0.5 font-bold" aria-hidden="true">✓</span>
@@ -323,9 +394,10 @@ const labels = t(locale);
   <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
     <div class="max-w-2xl mx-auto text-center">
       <h2 class="text-2xl font-heading font-bold">Start a Conversation</h2>
-      <p class="mt-2 text-white/80 text-sm">We welcome partnerships with embassies, foundations, international NGOs, and corporate sponsors aligned with our mission.</p>
+      <p class="mt-2 text-white/80 text-sm">We welcome partnerships with churches, companies, diaspora groups, schools, universities, foundations, embassies, and international NGOs aligned with our mission.</p>
       <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href="/contact" class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Contact Our Team</a>
+        <a href="/contact?subject=Partnership+Inquiry" class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Start Partnership Inquiry</a>
+        <a href="/contact?subject=Due+Diligence+Package+Request" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Request Due Diligence</a>
         <a href="/transparency" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">View Transparency Report</a>
       </div>
       <p class="mt-4 text-xs text-white/50">info@apotidev.org · +237 676 282 346 · Cameroon</p>

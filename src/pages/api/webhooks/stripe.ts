@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 
 const WEBHOOK_SECRET = (import.meta as any).env?.STRIPE_WEBHOOK_SECRET;
 
-async function verifySignature(payload: string, header: string, secret: string): Promise<boolean> {
+export async function verifySignature(payload: string, header: string, secret: string): Promise<boolean> {
   // Extract timestamp and all v1 signatures
   const timestamp = header.split(',').find(p => p.startsWith('t='))?.slice(2);
   const signatures = header.split(',').filter(p => p.startsWith('v1=')).map(p => p.slice(3));
@@ -44,23 +44,50 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response("Invalid signature", { status: 400 });
   }
 
-  const event = JSON.parse(body);
+  let event: any;
+  try {
+    event = JSON.parse(body);
+  } catch {
+    return new Response("Invalid JSON", { status: 400 });
+  }
 
   switch (event.type) {
     case "payment_intent.succeeded": {
       const pi = event.data.object;
+      if (pi.invoice || pi.metadata?.type === "monthly") break;
       const { sendDonationReceipt } = await import("../../../lib/email");
+      const { donationFromStripePaymentIntent, saveDonationRecord } = await import("../../../lib/donations");
       const email = pi.metadata?.donor_email || pi.receipt_email;
       const name = pi.metadata?.donor_name || "Supporter";
       const project = pi.metadata?.project_slug;
       if (email) {
-        await sendDonationReceipt({ email, name, amount: pi.amount / 100, project }).catch(() => {});
+        const receipt = await sendDonationReceipt({ email, name, amount: pi.amount / 100, project });
+        await saveDonationRecord({
+          ...donationFromStripePaymentIntent(pi),
+          receipt_id: "receiptId" in receipt ? receipt.receiptId : undefined,
+        });
       }
       break;
     }
     case "invoice.payment_succeeded": {
       const invoice = event.data.object;
-      console.log(`[webhook] invoice.payment_succeeded: ${invoice.id} subscription=${invoice.subscription}`);
+      if ((invoice.amount_paid || 0) > 0) {
+        const { sendDonationReceipt } = await import("../../../lib/email");
+        const { donationFromStripeInvoice, saveDonationRecord } = await import("../../../lib/donations");
+        const donation = donationFromStripeInvoice(invoice);
+        if (donation.donor_email) {
+          const receipt = await sendDonationReceipt({
+            email: donation.donor_email,
+            name: donation.donor_name,
+            amount: donation.amount_cents / 100,
+            project: donation.project_slug,
+          });
+          await saveDonationRecord({
+            ...donation,
+            receipt_id: "receiptId" in receipt ? receipt.receiptId : undefined,
+          });
+        }
+      }
       break;
     }
   }

@@ -3,60 +3,97 @@ import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
 ---
 
-<PageLayout title="Privacy Policy" description="How Apoti Development Association collects, uses, and protects your personal information.">
+<PageLayout title="Privacy Policy" description="How Apoti Development Association collects, uses, and protects your personal information. GDPR and PIPEDA compliant.">
   <Section background="white" padding="lg">
     <div class="max-w-3xl mx-auto prose prose-gray">
       <h1 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Privacy Policy</h1>
-      <p class="text-sm text-gray-500">Last updated: May 2026</p>
+      <p class="text-sm text-gray-500">Last updated: May 16, 2026 · Effective: May 16, 2026</p>
+      <p class="text-sm text-gray-600 p-4 bg-gray-50 rounded-lg border border-gray-200">
+        This Privacy Policy applies to the website <strong>apotidev.org</strong>, operated by <strong>Apoti Development Association (ADA)</strong>, a registered non-profit organisation in the Republic of Cameroon (Registration N° 415/G.37/D14/VolI/SAAJP). ADA is led by a diaspora team based in Canada and serves communities in Cameroon. Donations to ADA are <strong>not tax-deductible</strong> in Canada, the US, the UK, or the EU. This policy is designed to comply with applicable privacy laws including Canada’s <em>Personal Information Protection and Electronic Documents Act (PIPEDA)</em> and the European Union’s <em>General Data Protection Regulation (GDPR)</em>.
+      </p>
 
-      <h2>Data We Collect</h2>
-      <p>When you use our website, we may collect:</p>
+      <h2>1. Data We Collect</h2>
+      <p>We collect only the personal information necessary to operate our programs and website. This includes:</p>
       <ul>
-        <li><strong>Account information</strong> — name, email address, and password when you register</li>
-        <li><strong>Donation information</strong> — payment details processed securely through Stripe</li>
-        <li><strong>Contact form submissions</strong> — name, email, and message content</li>
-        <li><strong>Usage data</strong> — pages visited and basic interaction data (no tracking cookies)</li>
+        <li><strong>Account information</strong> — your name, email address, and hashed password when you create a donor account.</li>
+        <li><strong>Donation information</strong> — the amount, date, and project associated with your donation. Payment card details are processed exclusively by Stripe and are never stored by ADA.</li>
+        <li><strong>Contact form submissions</strong> — your name, email address, and message content when you reach out to us.</li>
+        <li><strong>Newsletter subscriptions</strong> — your email address when you subscribe to our updates.</li>
+        <li><strong>Usage data</strong> — anonymised page view counts and referral sources collected via Umami Analytics. No personal identifiers, IP addresses, or cookies are used for analytics.</li>
       </ul>
 
-      <h2>How We Use It</h2>
+      <h2>2. Legal Basis for Processing (GDPR)</h2>
+      <p>For visitors from the European Economic Area (EEA) and the United Kingdom, we process your personal data on the following legal bases:</p>
       <ul>
-        <li>Process and receipt donations</li>
-        <li>Manage your account and donation history</li>
-        <li>Respond to inquiries and support requests</li>
-        <li>Send updates about our programs (with your consent)</li>
-        <li>Improve website functionality</li>
+        <li><strong>Contract performance</strong> — to process your donation and send you a receipt.</li>
+        <li><strong>Legitimate interests</strong> — to respond to your contact form enquiries and maintain the security of our website.</li>
+        <li><strong>Consent</strong> — to send you our newsletter. You may withdraw consent at any time by clicking "unsubscribe" in any email or contacting us directly.</li>
+        <li><strong>Legal obligation</strong> — to retain donation records for the period required by applicable financial regulations (typically 7 years).</li>
       </ul>
 
-      <h2>Third-Party Services</h2>
-      <p>We use the following services to operate this website:</p>
+      <h2>3. How We Use Your Information</h2>
       <ul>
-        <li><strong>Stripe</strong> — payment processing. Stripe handles all card data under their own <a href="https://stripe.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</li>
-        <li><strong>Supabase</strong> — authentication and database hosting.</li>
-        <li><strong>Sanity</strong> — content management system for website content.</li>
-        <li><strong>Cloudflare</strong> — website hosting, CDN, and DDoS protection.</li>
-        <li><strong>Resend</strong> — transactional email delivery (donation receipts, account verification).</li>
-        <li><strong>Umami</strong> — privacy-friendly, cookie-free website analytics. No personal data is collected or shared.</li>
+        <li>Process and issue receipts for your donations.</li>
+        <li>Manage your donor account and donation history.</li>
+        <li>Respond to your enquiries and support requests.</li>
+        <li>Send program updates and impact reports (only with your explicit consent via newsletter sign-up).</li>
+        <li>Improve the functionality and accessibility of our website.</li>
+        <li>Comply with legal and financial record-keeping obligations.</li>
       </ul>
-      <p>We do not sell or share your personal data with third parties for marketing purposes.</p>
+      <p>We do <strong>not</strong> sell, rent, or share your personal data with third parties for marketing purposes.</p>
 
-      <h2>Cookies</h2>
-      <p>We use a single authentication session cookie to keep you logged in. We do not use tracking cookies, advertising cookies, or third-party analytics cookies.</p>
-
-      <h2>Data Retention</h2>
-      <p>We retain your account and donation data for as long as your account is active or as required for legal and financial record-keeping (typically 7 years for donation records). You may request deletion of your account data at any time.</p>
-
-      <h2>Your Rights</h2>
-      <p>You have the right to:</p>
+      <h2>4. Third-Party Services</h2>
+      <p>We use the following trusted third-party services to operate this website. Each processes data only as necessary for the service described:</p>
       <ul>
-        <li>Access the personal data we hold about you</li>
-        <li>Request correction of inaccurate data</li>
-        <li>Request deletion of your data</li>
-        <li>Withdraw consent for communications</li>
-        <li>Export your data in a portable format</li>
+        <li><strong>Stripe</strong> — payment processing. Stripe is PCI-DSS Level 1 certified. All card data is handled under <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Stripe's Privacy Policy</a>. ADA never sees or stores your full card number.</li>
+        <li><strong>Supabase</strong> — secure authentication and donor account database, hosted on servers in the European Union. <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">Supabase Privacy Policy</a>.</li>
+        <li><strong>Sanity</strong> — headless content management system for website content (no personal donor data is stored here). <a href="https://www.sanity.io/legal/privacy" target="_blank" rel="noopener noreferrer">Sanity Privacy Policy</a>.</li>
+        <li><strong>Cloudflare</strong> — website hosting, CDN, and DDoS protection. Cloudflare may process request metadata (IP addresses) for security purposes under its own privacy policy. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare Privacy Policy</a>.</li>
+        <li><strong>Resend</strong> — transactional email delivery for donation receipts and account verification emails. <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Resend Privacy Policy</a>.</li>
+        <li><strong>Umami Analytics</strong> — privacy-first, cookie-free website analytics. Umami does not collect personal data, does not use cookies, and does not share data with third parties. It is fully GDPR-compliant by design.</li>
       </ul>
 
-      <h2>Contact</h2>
-      <p>For data requests or privacy questions, contact us at <a href="mailto:info@apotidev.org">info@apotidev.org</a>.</p>
+      <h2>5. Cookies</h2>
+      <p>We use a single, strictly necessary session cookie (<code>sb-access-token</code>) to keep you logged into your donor account. This cookie is set only when you log in and is deleted when your session expires or you log out. We do <strong>not</strong> use advertising cookies, tracking cookies, or third-party analytics cookies.</p>
+
+      <h2>6. Data Retention</h2>
+      <p>We retain your personal data only for as long as necessary:</p>
+      <ul>
+        <li><strong>Donor account data</strong> — retained while your account is active. You may request deletion at any time.</li>
+        <li><strong>Donation records</strong> — retained for 7 years to comply with financial record-keeping requirements under Cameroonian law and best practices for international non-profits.</li>
+        <li><strong>Contact form submissions</strong> — retained for up to 12 months, then deleted.</li>
+        <li><strong>Newsletter subscriptions</strong> — retained until you unsubscribe.</li>
+      </ul>
+
+      <h2>7. Your Rights</h2>
+      <p>Depending on your country of residence, you may have the following rights regarding your personal data. We will respond to all requests within 30 days.</p>
+      <ul>
+        <li><strong>Access</strong> — request a copy of the personal data we hold about you.</li>
+        <li><strong>Correction</strong> — request that we correct inaccurate or incomplete data.</li>
+        <li><strong>Deletion ("Right to be Forgotten")</strong> — request that we delete your personal data, subject to legal retention obligations.</li>
+        <li><strong>Portability</strong> — request your data in a portable, machine-readable format.</li>
+        <li><strong>Objection</strong> — object to processing based on legitimate interests.</li>
+        <li><strong>Withdrawal of consent</strong> — withdraw consent for newsletter communications at any time.</li>
+        <li><strong>Complaint</strong> — if you are in the EU/EEA, you have the right to lodge a complaint with your local data protection authority. In Canada, you may contact the Office of the Privacy Commissioner of Canada.</li>
+      </ul>
+
+      <h2>8. International Data Transfers</h2>
+      <p>ADA is based in Canada with operations in Cameroon. Our website is hosted on Cloudflare's global network. Some of our service providers (Stripe, Supabase) may process data in the United States or the European Union. Where required, we rely on Standard Contractual Clauses (SCCs) or equivalent safeguards to ensure your data is protected during international transfers.</p>
+
+      <h2>9. Children's Privacy</h2>
+      <p>Our website is not directed at children under the age of 16. We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact us immediately so we can delete it.</p>
+
+      <h2>10. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. For significant changes, we will notify registered users by email.</p>
+
+      <h2>11. Contact</h2>
+      <p>For data requests, privacy questions, or to exercise any of your rights, please contact our Privacy Lead:</p>
+      <p>
+        <strong>Apoti Development Association</strong><br />
+        Email: <a href="mailto:info@apotidev.org">info@apotidev.org</a><br />
+        Subject line: "Privacy Request"<br />
+        We aim to respond within 5 business days.
+      </p>
     </div>
   </Section>
 </PageLayout>

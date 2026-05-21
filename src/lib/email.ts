@@ -4,6 +4,34 @@
 const RESEND_API_KEY = (import.meta as any).env?.RESEND_API_KEY;
 const FROM_EMAIL = (import.meta as any).env?.FROM_EMAIL || "ADA <noreply@apotidev.org>";
 
+function isProduction(): boolean {
+  const env = (import.meta as any).env;
+  const nodeEnv = typeof process !== "undefined" ? process.env.NODE_ENV : undefined;
+  const prodEnv = typeof process !== "undefined" ? process.env.PROD : undefined;
+  return Boolean(
+    env?.PROD ||
+    env?.MODE === "production" ||
+    nodeEnv === "production" ||
+    prodEnv === "true",
+  );
+}
+
+function assertEmailConfigured() {
+  if (!RESEND_API_KEY && isProduction()) {
+    throw new Error("RESEND_API_KEY is not configured");
+  }
+}
+
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+  }
+  return btoa(binary);
+}
+
 interface SendEmailOptions {
   to: string;
   subject: string;
@@ -13,6 +41,8 @@ interface SendEmailOptions {
 }
 
 export async function sendEmail({ to, subject, html, text, replyTo }: SendEmailOptions) {
+  assertEmailConfigured();
+
   if (!RESEND_API_KEY) {
     console.log(`[email] Would send to ${to}: ${subject}`);
     return { success: true, simulated: true };
@@ -53,8 +83,13 @@ export async function sendNewsletterConfirmation(email: string) {
 }
 
 export async function sendDonationReceipt(data: { email: string; name: string; amount: number; project?: string }) {
+  assertEmailConfigured();
+
   const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const receiptId = `ADA-${Date.now().toString(36).toUpperCase()}`;
+  const { escapeHtml } = await import('./receipt');
+  const safeName = escapeHtml(data.name);
+  const safeProject = data.project ? escapeHtml(data.project) : "";
 
   // Generate PDF receipt
   let pdfBuffer: ArrayBuffer | null = null;
@@ -68,14 +103,14 @@ export async function sendDonationReceipt(data: { email: string; name: string; a
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="text-align: center; padding: 24px 0; border-bottom: 2px solid #16a34a;">
         <div style="display: inline-block; width: 40px; height: 40px; background: linear-gradient(135deg, #22c55e, #15803d); border-radius: 10px; line-height: 40px; color: white; font-weight: bold; font-size: 12px;">ADA</div>
-        <h1 style="margin: 12px 0 4px; font-size: 20px; color: #111827;">Thank you, ${data.name}!</h1>
+        <h1 style="margin: 12px 0 4px; font-size: 20px; color: #111827;">Thank you, ${safeName}!</h1>
         <p style="margin: 0; color: #6b7280; font-size: 14px;">Your donation has been received</p>
       </div>
       <div style="padding: 24px 0;">
         <div style="background: #f0fdf4; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
           <p style="margin: 0 0 4px; font-size: 13px; color: #166534;">Amount donated</p>
           <p style="margin: 0; font-size: 32px; font-weight: 700; color: #15803d;">$${data.amount.toFixed(2)}</p>
-          ${data.project ? `<p style="margin: 8px 0 0; font-size: 13px; color: #166534;">to ${data.project}</p>` : ''}
+          ${safeProject ? `<p style="margin: 8px 0 0; font-size: 13px; color: #166534;">to ${safeProject}</p>` : ''}
         </div>
         <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">
           Your generosity directly supports widows, orphans, and young women in Cameroon. 80% of your donation goes straight to programs that change lives.
@@ -106,13 +141,13 @@ export async function sendDonationReceipt(data: { email: string; name: string; a
   if (pdfBuffer) {
     emailPayload.attachments = [{
       filename: `ADA-Receipt-${receiptId}.pdf`,
-      content: Buffer.from(pdfBuffer).toString('base64'),
+      content: arrayBufferToBase64(pdfBuffer),
     }];
   }
 
   if (!RESEND_API_KEY) {
     console.log(`[email] Would send receipt to ${data.email}: ${receiptId}`);
-    return { success: true, simulated: true };
+    return { success: true, simulated: true, receiptId };
   }
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -126,5 +161,5 @@ export async function sendDonationReceipt(data: { email: string; name: string; a
     throw new Error(`Email send failed: ${res.status} ${err}`);
   }
 
-  return { success: true };
+  return { success: true, receiptId };
 }

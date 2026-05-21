@@ -7,7 +7,13 @@ export default defineType({
   fields: [
     defineField({ name: 'missionStatement', title: 'Mission Statement', type: 'text', rows: 4, validation: (r) => r.required() }),
     defineField({ name: 'storyHeading', title: 'Story Heading', type: 'string' }),
-    defineField({ name: 'storyParagraphs', title: 'Story Paragraphs', type: 'array', of: [{ type: 'text' }] }),
+    defineField({
+      name: 'storyParagraphs',
+      title: 'Story Paragraphs',
+      type: 'array',
+      of: [{ type: 'text' }],
+      validation: (r) => r.min(1),
+    }),
     defineField({
       name: 'coreValues',
       title: 'Core Values',
@@ -26,6 +32,7 @@ export default defineType({
         { name: 'icon', title: 'Icon (emoji)', type: 'string' },
         { name: 'title', title: 'Title', type: 'string' },
         { name: 'description', title: 'Description', type: 'text' },
+        { name: 'slug', title: 'Project Slug', type: 'string', description: 'Optional project page slug used for linking program cards.' },
       ]}],
     }),
     defineField({

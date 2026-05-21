@@ -88,6 +88,17 @@ try {
           <p class="text-xs text-gray-500">To Programs</p>
         </div>
       </div>
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 border border-primary-100 rounded-full text-xs text-primary-700 font-medium">
+          <span aria-hidden="true">🇨🇲</span> Registered NGO in Cameroon
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 border border-primary-100 rounded-full text-xs text-primary-700 font-medium">
+          <span aria-hidden="true">🇨🇦</span> Led from Canada
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 border border-primary-100 rounded-full text-xs text-primary-700 font-medium">
+          <span aria-hidden="true">📜</span> N&deg; 415/G.37/D14/VolI/SAAJP
+        </span>
+      </div>
     </div>
   </Section>
 
@@ -98,6 +109,25 @@ try {
       <div class="mt-8 grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
         <div class="md:col-span-3 space-y-4 text-gray-600 leading-relaxed">
           {storyParagraphs.map(p => <p>{p}</p>)}
+          <div class="mt-6 rounded-card border border-primary-100 bg-white p-5 shadow-card">
+            <p class="text-xs font-semibold uppercase tracking-wide text-primary-700">Founder credibility</p>
+            <h3 class="mt-2 text-lg font-semibold text-gray-900">Pastor Emmanuel Tchami leads ADA through local church and community partnerships.</h3>
+            <p class="mt-2 text-sm text-gray-600 leading-relaxed">His team works directly with widows, orphan caregivers, school leaders, and volunteers in Cameroon so support reaches named programs and documented community needs.</p>
+            <dl class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              <div>
+                <dt class="font-semibold text-gray-900">Founded</dt>
+                <dd class="text-gray-500">2021 in Bamenda</dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Accountability</dt>
+                <dd class="text-gray-500">Registered NGO</dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Model</dt>
+                <dd class="text-gray-500">Local partners first</dd>
+              </div>
+            </dl>
+          </div>
         </div>
         {communityPhotoUrl && (
           <div class="md:col-span-2">
