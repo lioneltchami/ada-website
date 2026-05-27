@@ -30,10 +30,10 @@ function getSanityClient(): SanityClient {
 
 // Convert Sanity image reference to URL
 export function sanityImageUrl(ref: string, width = 800): string {
-  if (!ref) return '';
+  if (!ref) return "";
   const { projectId, dataset } = getSanityConfig();
   // ref format: image-{id}-{dimensions}-{format}
-  const [, id, dimensions, format] = ref.split('-');
+  const [, id, dimensions, format] = ref.split("-");
   return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensions}.${format}?w=${width}&auto=format`;
 }
 
@@ -42,12 +42,24 @@ export interface SanityProject {
   title: string;
   slug: { current: string };
   status: "active" | "completed" | "paused";
+  demographic?:
+    | "widows"
+    | "orphans"
+    | "young-women"
+    | "pregnant-women"
+    | "idps"
+    | "community";
   location: string;
   description: string;
   beneficiaries: number;
   goalAmount: number;
   raisedAmount: number;
   sortOrder: number;
+  startDate?: string;
+  endDate?: string;
+  archiveAfterDate?: string;
+  autoArchiveAfterEndDate?: boolean;
+  archiveRecord?: { slug?: { current: string } };
   mainImage?: { asset: { _ref: string }; alt?: string };
 }
 
@@ -87,23 +99,40 @@ export interface SanitySiteSettings {
 }
 
 export async function getProjects(): Promise<SanityProject[]> {
-  return getSanityClient().fetch(`*[_type == "project"] | order(sortOrder asc)`);
+  return getSanityClient().fetch(`*[_type == "project"] | order(sortOrder asc) {
+    ...,
+    archiveRecord->{ slug }
+  }`);
 }
 
-export async function getProjectBySlug(slug: string): Promise<SanityProject | null> {
-  return getSanityClient().fetch(`*[_type == "project" && slug.current == $slug][0]`, { slug });
+export async function getProjectBySlug(
+  slug: string,
+): Promise<SanityProject | null> {
+  return getSanityClient().fetch(
+    `*[_type == "project" && slug.current == $slug][0] {
+    ...,
+    archiveRecord->{ slug }
+  }`,
+    { slug },
+  );
 }
 
 export async function getImpactMetrics(): Promise<SanityImpactMetric[]> {
-  return getSanityClient().fetch(`*[_type == "impactMetric"] | order(displayOrder asc)`);
+  return getSanityClient().fetch(
+    `*[_type == "impactMetric"] | order(displayOrder asc)`,
+  );
 }
 
 export async function getVolunteerRoles(): Promise<SanityVolunteerRole[]> {
-  return getSanityClient().fetch(`*[_type == "volunteerRole" && isActive == true] | order(sortOrder asc)`);
+  return getSanityClient().fetch(
+    `*[_type == "volunteerRole" && isActive == true] | order(sortOrder asc)`,
+  );
 }
 
 export async function getDonationTiers(): Promise<SanityDonationTier[]> {
-  return getSanityClient().fetch(`*[_type == "donationTier" && isActive == true] | order(sortOrder asc)`);
+  return getSanityClient().fetch(
+    `*[_type == "donationTier" && isActive == true] | order(sortOrder asc)`,
+  );
 }
 
 export async function getSiteSettings(): Promise<SanitySiteSettings | null> {
@@ -111,16 +140,23 @@ export async function getSiteSettings(): Promise<SanitySiteSettings | null> {
 }
 
 export async function getTeamMembers() {
-  return getSanityClient().fetch(`*[_type == "teamMember" && isActive == true] | order(sortOrder asc)`);
+  return getSanityClient().fetch(
+    `*[_type == "teamMember" && isActive == true] | order(sortOrder asc)`,
+  );
 }
 
 export async function getGalleryImages(category?: string) {
   const filter = category ? ` && category == $category` : "";
-  return getSanityClient().fetch(`*[_type == "galleryImage"${filter}] | order(dateTaken desc)`, { category });
+  return getSanityClient().fetch(
+    `*[_type == "galleryImage"${filter}] | order(dateTaken desc)`,
+    { category },
+  );
 }
 
 export async function getTestimonials() {
-  return getSanityClient().fetch(`*[_type == "testimonial" && isFeatured == true]`);
+  return getSanityClient().fetch(
+    `*[_type == "testimonial" && isFeatured == true]`,
+  );
 }
 
 export interface SanityHomePage {
@@ -160,7 +196,9 @@ export async function getAboutPage(): Promise<SanityAboutPage | null> {
 }
 
 export async function getFaqResponses(): Promise<SanityFaqResponse[]> {
-  return getSanityClient().fetch(`*[_type == "faqResponse"] | order(sortOrder asc)`);
+  return getSanityClient().fetch(
+    `*[_type == "faqResponse"] | order(sortOrder asc)`,
+  );
 }
 
 export interface SanityBlogPost {
@@ -174,9 +212,16 @@ export interface SanityBlogPost {
 }
 
 export async function getBlogPosts(): Promise<SanityBlogPost[]> {
-  return getSanityClient().fetch(`*[_type == "blogPost"] | order(publishedAt desc)`);
+  return getSanityClient().fetch(
+    `*[_type == "blogPost"] | order(publishedAt desc)`,
+  );
 }
 
-export async function getBlogPostBySlug(slug: string): Promise<SanityBlogPost | null> {
-  return getSanityClient().fetch(`*[_type == "blogPost" && slug.current == $slug][0]`, { slug });
+export async function getBlogPostBySlug(
+  slug: string,
+): Promise<SanityBlogPost | null> {
+  return getSanityClient().fetch(
+    `*[_type == "blogPost" && slug.current == $slug][0]`,
+    { slug },
+  );
 }

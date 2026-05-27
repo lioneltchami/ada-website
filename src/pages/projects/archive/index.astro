@@ -1,33 +1,112 @@
 ---
-import PageLayout from '../../../layouts/PageLayout.astro';
-import PageHero from '../../../components/layout/PageHero.astro';
-import Section from '../../../components/layout/Section.astro';
-import { sanityImageUrl } from '../../../lib/sanity';
-import { createClient } from '@sanity/client';
+import PageLayout from "../../../layouts/PageLayout.astro";
+import PageHero from "../../../components/layout/PageHero.astro";
+import Section from "../../../components/layout/Section.astro";
+import {
+  getProjects,
+  sanityImageUrl,
+  type SanityProject,
+} from "../../../lib/sanity";
+import { getProjectLifecycleState } from "../../../lib/project-lifecycle";
+import { createClient } from "@sanity/client";
 
 let records: any[] = [];
 try {
-  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
-  const dataset = import.meta.env.SANITY_DATASET || 'production';
-  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-  records = await client.fetch(`*[_type == "projectRecord"] | order(year desc, title asc) {
+  const projectId = import.meta.env.SANITY_PROJECT_ID || "rj2m21gk";
+  const dataset = import.meta.env.SANITY_DATASET || "production";
+  const client = createClient({
+    projectId,
+    dataset,
+    apiVersion: "2026-03-28",
+    useCdn: true,
+  });
+  records =
+    await client.fetch(`*[_type == "projectRecord"] | order(year desc, title asc) {
     _id, title, slug, demographic, year, status, description, beneficiaries, budget, location,
     photo { asset { _ref } },
     "hasToR": defined(termsOfReference),
-    "hasReport": defined(finalReport)
+    "hasReport": defined(finalReport),
+    "href": "/projects/archive/" + slug.current
   }`);
 } catch {}
 
-const demographics = ['all', 'widows', 'orphans', 'young-women', 'pregnant-women', 'idps', 'community'];
-const demoLabels: Record<string, string> = { all: 'All', widows: 'Widows', orphans: 'Orphans', 'young-women': 'Young Women', 'pregnant-women': 'Pregnant Women', idps: 'IDPs', community: 'Community' };
-const statusIcons: Record<string, string> = { completed: '\u2713', ongoing: '\u25cf', planned: '\u25cb' };
-const statusColors: Record<string, string> = { completed: 'text-green-600', ongoing: 'text-yellow-600', planned: 'text-gray-400' };
+try {
+  const currentProjects = await getProjects();
+  const autoCompletedRecords = currentProjects
+    .map((project: SanityProject) => {
+      const lifecycle = getProjectLifecycleState(project);
+      return { project, lifecycle };
+    })
+    .filter(
+      ({ project, lifecycle }) =>
+        lifecycle.status === "completed" && !lifecycle.archiveReady,
+    )
+    .map(({ project }) => ({
+      _id: `project-${project._id}`,
+      title: project.title,
+      slug: project.slug,
+      demographic: project.demographic || "community",
+      year: Number(
+        (
+          project.archiveAfterDate ||
+          project.endDate ||
+          new Date().toISOString()
+        ).slice(0, 4),
+      ),
+      status: "completed",
+      description: project.description,
+      beneficiaries: project.beneficiaries,
+      budget: project.goalAmount,
+      location: project.location,
+      photo: project.mainImage,
+      hasToR: false,
+      hasReport: false,
+      href: `/projects/${project.slug.current}`,
+    }));
+
+  records = [...records, ...autoCompletedRecords].sort((a, b) => {
+    if (b.year !== a.year) return b.year - a.year;
+    return String(a.title).localeCompare(String(b.title));
+  });
+} catch {}
+
+const demographics = [
+  "all",
+  "widows",
+  "orphans",
+  "young-women",
+  "pregnant-women",
+  "idps",
+  "community",
+];
+const demoLabels: Record<string, string> = {
+  all: "All",
+  widows: "Widows",
+  orphans: "Orphans",
+  "young-women": "Young Women",
+  "pregnant-women": "Pregnant Women",
+  idps: "IDPs",
+  community: "Community",
+};
+const statusIcons: Record<string, string> = {
+  completed: "\u2713",
+  ongoing: "\u25cf",
+  planned: "\u25cb",
+};
+const statusColors: Record<string, string> = {
+  completed: "text-green-600",
+  ongoing: "text-yellow-600",
+  planned: "text-gray-400",
+};
 
 // Stats
-const totalBeneficiaries = records.reduce((sum, r) => sum + (r.beneficiaries || 0), 0);
+const totalBeneficiaries = records.reduce(
+  (sum, r) => sum + (r.beneficiaries || 0),
+  0,
+);
 const totalBudget = records.reduce((sum, r) => sum + (r.budget || 0), 0);
-const completedCount = records.filter(r => r.status === 'completed').length;
-const years = [...new Set(records.map(r => r.year))].sort((a, b) => b - a);
+const completedCount = records.filter((r) => r.status === "completed").length;
+const years = [...new Set(records.map((r) => r.year))].sort((a, b) => b - a);
 
 // Group by year
 const byYear: Record<number, any[]> = {};
@@ -37,19 +116,33 @@ for (const r of records) {
 }
 ---
 
-<PageLayout title="Project Archive" description="Browse ADA's complete track record of projects from 2022 to present.">
-  <PageHero title="Our Track Record" subtitle="Every project we've delivered since 2022. Click a demographic to filter, or browse the full timeline." badge="Project Archive" compact />
+<PageLayout
+  title="Project Archive"
+  description="Browse ADA's complete track record of projects from 2022 to present."
+>
+  <PageHero
+    title="Our Track Record"
+    subtitle="Every project we've delivered since 2022. Click a demographic to filter, or browse the full timeline."
+    badge="Project Archive"
+    compact
+  />
 
   <!-- Back to projects -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-    <a href="/projects" class="inline-flex items-center text-sm text-primary-600 hover:text-primary-700 transition-colors">← Back to Current Projects</a>
+    <a
+      href="/projects"
+      class="inline-flex items-center text-sm text-primary-600 hover:text-primary-700 transition-colors"
+      >← Back to Current Projects</a
+    >
   </div>
 
   <!-- Stats Bar -->
   <Section background="white" padding="sm">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
       <div>
-        <p class="text-2xl font-bold text-primary-700">{totalBeneficiaries.toLocaleString()}</p>
+        <p class="text-2xl font-bold text-primary-700">
+          {totalBeneficiaries.toLocaleString()}
+        </p>
         <p class="text-xs text-gray-500">Beneficiaries Reached</p>
       </div>
       <div>
@@ -57,11 +150,15 @@ for (const r of records) {
         <p class="text-xs text-gray-500">Projects Delivered</p>
       </div>
       <div>
-        <p class="text-2xl font-bold text-primary-700">${totalBudget.toLocaleString()}</p>
+        <p class="text-2xl font-bold text-primary-700">
+          ${totalBudget.toLocaleString()}
+        </p>
         <p class="text-xs text-gray-500">Total Invested</p>
       </div>
       <div>
-        <p class="text-2xl font-bold text-primary-700">{completedCount}/{records.length}</p>
+        <p class="text-2xl font-bold text-primary-700">
+          {completedCount}/{records.length}
+        </p>
         <p class="text-xs text-gray-500">Completed</p>
       </div>
     </div>
@@ -71,103 +168,168 @@ for (const r of records) {
   <Section background="gray" padding="lg">
     <div class="max-w-5xl mx-auto">
       <!-- Tabs -->
-      <div class="flex flex-wrap gap-2 mb-8 justify-center" id="demo-tabs" role="tablist" aria-label="Filter by demographic">
-        {demographics.map(d => (
-          <button
-            role="tab"
-            aria-selected={d === 'all' ? 'true' : 'false'}
-            data-demo={d}
-            class:list={["px-4 py-2 text-sm font-medium rounded-full transition-all", d === 'all' ? 'bg-primary-600 text-white shadow-md' : 'bg-white text-gray-700 border border-gray-200 hover:border-primary-300 hover:text-primary-700']}
-          >
-            {demoLabels[d]}
-            <span class="ml-1 text-xs opacity-70">({d === 'all' ? records.length : records.filter(r => r.demographic === d).length})</span>
-          </button>
-        ))}
+      <div
+        class="flex flex-wrap gap-2 mb-8 justify-center"
+        id="demo-tabs"
+        role="tablist"
+        aria-label="Filter by demographic"
+      >
+        {
+          demographics.map((d) => (
+            <button
+              role="tab"
+              aria-selected={d === "all" ? "true" : "false"}
+              data-demo={d}
+              class:list={[
+                "px-4 py-2 text-sm font-medium rounded-full transition-all",
+                d === "all"
+                  ? "bg-primary-600 text-white shadow-md"
+                  : "bg-white text-gray-700 border border-gray-200 hover:border-primary-300 hover:text-primary-700",
+              ]}
+            >
+              {demoLabels[d]}
+              <span class="ml-1 text-xs opacity-70">
+                (
+                {d === "all"
+                  ? records.length
+                  : records.filter((r) => r.demographic === d).length}
+                )
+              </span>
+            </button>
+          ))
+        }
       </div>
 
       <!-- Timeline -->
       <div class="relative">
-        <div class="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-primary-200" aria-hidden="true"></div>
+        <div
+          class="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-primary-200"
+          aria-hidden="true"
+        >
+        </div>
 
-        {years.map(year => (
-          <div class="mb-8" data-year-group={year}>
-            <div class="relative flex items-center mb-4">
-              <div class="w-8 md:w-16 h-8 md:h-10 rounded-full bg-primary-600 flex items-center justify-center z-10 shadow-sm">
-                <span class="text-white font-bold text-xs md:text-sm">{year}</span>
+        {
+          years.map((year) => (
+            <div class="mb-8" data-year-group={year}>
+              <div class="relative flex items-center mb-4">
+                <div class="w-8 md:w-16 h-8 md:h-10 rounded-full bg-primary-600 flex items-center justify-center z-10 shadow-sm">
+                  <span class="text-white font-bold text-xs md:text-sm">
+                    {year}
+                  </span>
+                </div>
+                <div class="ml-3 h-px flex-1 bg-primary-100" />
               </div>
-              <div class="ml-3 h-px flex-1 bg-primary-100"></div>
-            </div>
 
-            <div class="ml-12 md:ml-24 space-y-3">
-              {byYear[year].map(r => (
-                <a
-                  href={`/projects/archive/${r.slug.current}`}
-                  class="group archive-item block p-4 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-200"
-                  data-demo={r.demographic}
-                >
-                  <div class="flex items-start justify-between gap-3">
-                    <div class="flex-1 min-w-0">
-                      <div class="flex items-center gap-2 mb-1">
-                        <span class:list={["text-sm", statusColors[r.status]]}>{statusIcons[r.status]}</span>
-                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-primary-700 transition-colors truncate">{r.title}</h3>
+              <div class="ml-12 md:ml-24 space-y-3">
+                {byYear[year].map((r) => (
+                  <a
+                    href={r.href || `/projects/archive/${r.slug.current}`}
+                    class="group archive-item block p-4 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-200"
+                    data-demo={r.demographic}
+                  >
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                          <span
+                            class:list={["text-sm", statusColors[r.status]]}
+                          >
+                            {statusIcons[r.status]}
+                          </span>
+                          <h3 class="text-sm font-semibold text-gray-900 group-hover:text-primary-700 transition-colors truncate">
+                            {r.title}
+                          </h3>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                          <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-full font-medium">
+                            {demoLabels[r.demographic]}
+                          </span>
+                          {r.beneficiaries && <span>👥 {r.beneficiaries}</span>}
+                          {r.location && <span>📍 {r.location}</span>}
+                          {r.hasToR && (
+                            <span class="text-primary-600">📄 ToR</span>
+                          )}
+                          {r.hasReport && (
+                            <span class="text-primary-600">📊 Report</span>
+                          )}
+                        </div>
                       </div>
-                      <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                        <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-full font-medium">{demoLabels[r.demographic]}</span>
-                        {r.beneficiaries && <span>👥 {r.beneficiaries}</span>}
-                        {r.location && <span>📍 {r.location}</span>}
-                        {r.hasToR && <span class="text-primary-600">📄 ToR</span>}
-                        {r.hasReport && <span class="text-primary-600">📊 Report</span>}
+                      <div class="text-right flex-shrink-0">
+                        {r.budget && (
+                          <p class="text-sm font-semibold text-gray-900">
+                            ${r.budget.toLocaleString()}
+                          </p>
+                        )}
+                        <p
+                          class:list={[
+                            "text-xs capitalize",
+                            r.status === "completed"
+                              ? "text-green-600"
+                              : r.status === "ongoing"
+                                ? "text-yellow-600"
+                                : "text-gray-400",
+                          ]}
+                        >
+                          {r.status}
+                        </p>
                       </div>
                     </div>
-                    <div class="text-right flex-shrink-0">
-                      {r.budget && <p class="text-sm font-semibold text-gray-900">${r.budget.toLocaleString()}</p>}
-                      <p class:list={["text-xs capitalize", r.status === 'completed' ? 'text-green-600' : r.status === 'ongoing' ? 'text-yellow-600' : 'text-gray-400']}>{r.status}</p>
-                    </div>
-                  </div>
-                </a>
-              ))}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </Section>
 </PageLayout>
 
 <script>
-  const tabs = document.querySelectorAll('#demo-tabs button');
-  const items = document.querySelectorAll('.archive-item');
-  const yearGroups = document.querySelectorAll('[data-year-group]');
+  const tabs = document.querySelectorAll("#demo-tabs button");
+  const items = document.querySelectorAll(".archive-item");
+  const yearGroups = document.querySelectorAll("[data-year-group]");
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const demo = tab.getAttribute('data-demo');
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const demo = tab.getAttribute("data-demo");
 
       // Update tab styles
-      tabs.forEach(t => {
-        t.classList.remove('bg-primary-600', 'text-white', 'shadow-md');
-        t.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
-        t.setAttribute('aria-selected', 'false');
+      tabs.forEach((t) => {
+        t.classList.remove("bg-primary-600", "text-white", "shadow-md");
+        t.classList.add(
+          "bg-white",
+          "text-gray-700",
+          "border",
+          "border-gray-200",
+        );
+        t.setAttribute("aria-selected", "false");
       });
-      tab.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-200');
-      tab.classList.add('bg-primary-600', 'text-white', 'shadow-md');
-      tab.setAttribute('aria-selected', 'true');
+      tab.classList.remove(
+        "bg-white",
+        "text-gray-700",
+        "border",
+        "border-gray-200",
+      );
+      tab.classList.add("bg-primary-600", "text-white", "shadow-md");
+      tab.setAttribute("aria-selected", "true");
 
       // Filter items
-      items.forEach(item => {
+      items.forEach((item) => {
         const el = item as HTMLElement;
-        if (demo === 'all' || el.dataset.demo === demo) {
-          el.style.display = '';
+        if (demo === "all" || el.dataset.demo === demo) {
+          el.style.display = "";
         } else {
-          el.style.display = 'none';
+          el.style.display = "none";
         }
       });
 
       // Hide empty year groups
-      yearGroups.forEach(group => {
+      yearGroups.forEach((group) => {
         const el = group as HTMLElement;
-        const visibleItems = el.querySelectorAll('.archive-item:not([style*="display: none"])');
-        el.style.display = visibleItems.length > 0 ? '' : 'none';
+        const visibleItems = el.querySelectorAll(
+          '.archive-item:not([style*="display: none"])',
+        );
+        el.style.display = visibleItems.length > 0 ? "" : "none";
       });
     });
   });

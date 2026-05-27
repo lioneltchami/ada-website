@@ -3,6 +3,9 @@ name: Deploy on Content Change
 on:
   push:
     branches: [main]
+  schedule:
+    # Refresh date-based project lifecycle after midnight in Cameroon.
+    - cron: "15 0 * * *"
   repository_dispatch:
     types: [sanity-content-update]
   workflow_dispatch:

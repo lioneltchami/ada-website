@@ -1,60 +1,114 @@
 ---
-import PageLayout from '../../../layouts/PageLayout.astro';
-import Section from '../../../components/layout/Section.astro';
-import DonationForm from '../../../components/islands/DonationForm';
-import { getDonationTiers, getProjects, getSiteSettings, type SanityDonationTier, type SanityProject } from '../../../lib/sanity';
-import { sanityImageUrl } from '../../../lib/sanity';
-import { t } from '../../../i18n';
+import PageLayout from "../../../layouts/PageLayout.astro";
+import Section from "../../../components/layout/Section.astro";
+import DonationForm from "../../../components/islands/DonationForm";
+import {
+  getDonationTiers,
+  getProjects,
+  getSiteSettings,
+  type SanityDonationTier,
+  type SanityProject,
+} from "../../../lib/sanity";
+import { sanityImageUrl } from "../../../lib/sanity";
+import { getProjectLifecycleState } from "../../../lib/project-lifecycle";
+import { t } from "../../../i18n";
 
-const i18n = t('fr');
+const i18n = t("fr");
 
-let contactEmail = 'info@apotidev.org';
-try { const s = await getSiteSettings(); if (s?.contactEmail) contactEmail = s.contactEmail; } catch {}
+let contactEmail = "info@apotidev.org";
+try {
+  const s = await getSiteSettings();
+  if (s?.contactEmail) contactEmail = s.contactEmail;
+} catch {}
 
 let impactExamples = [
-  { amount: '25$', impact: 'Fournitures scolaires pour 2 enfants' },
-  { amount: '50$', impact: "Soutien d'une veuve pendant une semaine" },
-  { amount: '100$', impact: "Formation professionnelle pour une femme" },
-  { amount: '250$', impact: 'Soins de santé pour 5 familles' },
-  { amount: '500$', impact: 'Formation agricole pour 3 agriculteurs' },
-  { amount: '1 000$', impact: 'Initiative de nettoyage communautaire' },
+  { amount: "25$", impact: "Fournitures scolaires pour 2 enfants" },
+  { amount: "50$", impact: "Soutien d'une veuve pendant une semaine" },
+  { amount: "100$", impact: "Formation professionnelle pour une femme" },
+  { amount: "250$", impact: "Soins de santé pour 5 familles" },
+  { amount: "500$", impact: "Formation agricole pour 3 agriculteurs" },
+  { amount: "1 000$", impact: "Initiative de nettoyage communautaire" },
 ];
 try {
   const tiers = await getDonationTiers();
-  if (tiers?.length) impactExamples = tiers.map((t: SanityDonationTier) => ({ amount: `${t.amount.toLocaleString()}$`, impact: t.impactDescription }));
+  if (tiers?.length)
+    impactExamples = tiers.map((t: SanityDonationTier) => ({
+      amount: `${t.amount.toLocaleString()}$`,
+      impact: t.impactDescription,
+    }));
 } catch {}
 
 let projectOptions: { slug: string; title: string }[] = [];
-let heroImageUrl = '';
+let heroImageUrl = "";
 try {
   const projects = await getProjects();
   if (projects?.length) {
-    projectOptions = projects.filter((p: SanityProject) => p.status === 'active').map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
-    const withImage = projects.find((p: SanityProject) => p.mainImage?.asset?._ref && p.slug?.current === 'widow-support');
-    if (withImage) heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
+    projectOptions = projects
+      .filter(
+        (p: SanityProject) =>
+          getProjectLifecycleState(p, { locale: "fr" }).status === "active",
+      )
+      .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+    const withImage = projects.find(
+      (p: SanityProject) =>
+        p.mainImage?.asset?._ref && p.slug?.current === "widow-support",
+    );
+    if (withImage)
+      heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
   }
 } catch {}
 ---
 
-<PageLayout title="Faire un Don" description="Soutenez la mission d'ADA pour autonomiser les communautés vulnérables au Cameroun.">
+<PageLayout
+  title="Faire un Don"
+  description="Soutenez la mission d'ADA pour autonomiser les communautés vulnérables au Cameroun."
+>
   <!-- Hero with background image -->
   <section class="relative overflow-hidden py-20 md:py-28 text-white">
-    {heroImageUrl ? (
-      <img src={heroImageUrl} alt="" class="absolute inset-0 w-full h-full object-cover" loading="eager" />
-    ) : null}
-    <div class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"></div>
+    {
+      heroImageUrl ? (
+        <img
+          src={heroImageUrl}
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+        />
+      ) : null
+    }
+    <div
+      class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"
+    >
+    </div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-block px-4 py-1.5 mb-4 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20">{i18n.donate.badge}</span>
-      <h1 class="text-4xl md:text-5xl font-heading font-bold leading-tight">{i18n.donate.title}</h1>
-      <p class="mt-4 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{i18n.donate.subtitle}</p>
+      <span
+        class="inline-block px-4 py-1.5 mb-4 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
+        >{i18n.donate.badge}</span
+      >
+      <h1 class="text-4xl md:text-5xl font-heading font-bold leading-tight">
+        {i18n.donate.title}
+      </h1>
+      <p
+        class="mt-4 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
+      >
+        {i18n.donate.subtitle}
+      </p>
     </div>
   </section>
 
   <Section background="white" padding="sm">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-      <div class="flex items-center justify-center gap-2"><span>🔒</span><span class="text-sm text-gray-600">{i18n.donate.secure}</span></div>
-      <div class="flex items-center justify-center gap-2"><span>📊</span><span class="text-sm text-gray-600">{i18n.donate.directAid}</span></div>
-      <div class="flex items-center justify-center gap-2"><span>📧</span><span class="text-sm text-gray-600">{i18n.donate.receipt}</span></div>
+      <div class="flex items-center justify-center gap-2">
+        <span>🔒</span><span class="text-sm text-gray-600"
+          >{i18n.donate.secure}</span>
+      </div>
+      <div class="flex items-center justify-center gap-2">
+        <span>📊</span><span class="text-sm text-gray-600"
+          >{i18n.donate.directAid}</span>
+      </div>
+      <div class="flex items-center justify-center gap-2">
+        <span>📧</span><span class="text-sm text-gray-600"
+          >{i18n.donate.receipt}</span>
+      </div>
     </div>
   </Section>
 
@@ -63,23 +117,60 @@ try {
   </Section>
 
   <Section background="white" padding="lg">
-    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">{i18n.donate.impact}</h2>
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
-      {impactExamples.map((item) => (
-        <div class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg">
-          <span class="text-lg font-bold text-primary-700">{item.amount}</span>
-          <span class="text-sm text-gray-700">= {item.impact}</span>
-        </div>
-      ))}
+    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
+      {i18n.donate.impact}
+    </h2>
+    <div
+      class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto"
+    >
+      {
+        impactExamples.map((item) => (
+          <div class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg">
+            <span class="text-lg font-bold text-primary-700">
+              {item.amount}
+            </span>
+            <span class="text-sm text-gray-700">= {item.impact}</span>
+          </div>
+        ))
+      }
     </div>
   </Section>
 
   <Section background="gray" padding="md">
-    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">{i18n.donate.otherWays}</h2>
+    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
+      {i18n.donate.otherWays}
+    </h2>
     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-      <div class="text-center"><span class="text-2xl">📦</span><h3 class="mt-2 text-sm font-semibold text-gray-900">{i18n.donate.inKind}</h3><p class="mt-1 text-xs text-gray-600">Contact <a href={`mailto:${contactEmail}`} class="text-primary-600 hover:underline">{contactEmail}</a></p></div>
-      <div class="text-center"><span class="text-2xl">🏢</span><h3 class="mt-2 text-sm font-semibold text-gray-900">{i18n.donate.matching}</h3><p class="mt-1 text-xs text-gray-600">{i18n.donate.matchingDesc}</p></div>
-      <div class="text-center"><span class="text-2xl">💌</span><h3 class="mt-2 text-sm font-semibold text-gray-900">{i18n.donate.legacy}</h3><p class="mt-1 text-xs text-gray-600"><a href="/fr/contact" class="text-primary-600 hover:underline">{i18n.donate.legacyDesc}</a></p></div>
+      <div class="text-center">
+        <span class="text-2xl">📦</span><h3
+          class="mt-2 text-sm font-semibold text-gray-900"
+        >
+          {i18n.donate.inKind}
+        </h3><p class="mt-1 text-xs text-gray-600">
+          Contact <a
+            href={`mailto:${contactEmail}`}
+            class="text-primary-600 hover:underline">{contactEmail}</a>
+        </p>
+      </div>
+      <div class="text-center">
+        <span class="text-2xl">🏢</span><h3
+          class="mt-2 text-sm font-semibold text-gray-900"
+        >
+          {i18n.donate.matching}
+        </h3><p class="mt-1 text-xs text-gray-600">
+          {i18n.donate.matchingDesc}
+        </p>
+      </div>
+      <div class="text-center">
+        <span class="text-2xl">💌</span><h3
+          class="mt-2 text-sm font-semibold text-gray-900"
+        >
+          {i18n.donate.legacy}
+        </h3><p class="mt-1 text-xs text-gray-600">
+          <a href="/fr/contact" class="text-primary-600 hover:underline"
+            >{i18n.donate.legacyDesc}</a>
+        </p>
+      </div>
     </div>
   </Section>
 </PageLayout>
