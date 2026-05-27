@@ -2,114 +2,148 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
 import DonationForm from "../components/islands/DonationForm";
-import { getDonationTiers, getProjects, getSiteSettings, sanityImageUrl, type SanityDonationTier, type SanityProject } from '../lib/sanity';
+import {
+  getDonationTiers,
+  getProjects,
+  getSiteSettings,
+  sanityImageUrl,
+  type SanityDonationTier,
+  type SanityProject,
+} from "../lib/sanity";
+import { getProjectLifecycleState } from "../lib/project-lifecycle";
 
-let contactEmail = 'info@apotidev.org';
+let contactEmail = "info@apotidev.org";
 try {
   const settings = await getSiteSettings();
   if (settings?.contactEmail) contactEmail = settings.contactEmail;
 } catch {}
 
-const pageTitle = 'Make a Difference';
-const pageSubtitle = 'Every contribution helps us reach more vulnerable communities in Cameroon.';
-const pageBadge = 'Support Our Mission';
+const pageTitle = "Make a Difference";
+const pageSubtitle =
+  "Every contribution helps us reach more vulnerable communities in Cameroon.";
+const pageBadge = "Support Our Mission";
 
 const trustIndicators = [
-  { icon: '🔒', text: 'Secure & Encrypted', sub: 'Powered by Stripe' },
-  { icon: '📊', text: '80% to Direct Aid', sub: 'Verified annually' },
-  { icon: '📧', text: 'Receipt Emailed Instantly', sub: 'PDF attached' },
-  { icon: '📜', text: 'Registered NGO', sub: 'Cameroon N° 415/G.37' },
+  { icon: "🔒", text: "Secure & Encrypted", sub: "Powered by Stripe" },
+  { icon: "📊", text: "80% to Direct Aid", sub: "Verified annually" },
+  { icon: "📧", text: "Receipt Emailed Instantly", sub: "PDF attached" },
+  { icon: "📜", text: "Registered NGO", sub: "Cameroon N° 415/G.37" },
 ];
 
 const donorSafeguards = [
   {
-    title: 'Secure payment handling',
-    text: 'Online gifts are processed by Stripe. ADA never stores your card number or banking details.',
+    title: "Secure payment handling",
+    text: "Online gifts are processed by Stripe. ADA never stores your card number or banking details.",
   },
   {
-    title: 'Recorded gift history',
-    text: 'Each successful donation is saved in the donor record and matched to a receipt for personal records.',
+    title: "Recorded gift history",
+    text: "Each successful donation is saved in the donor record and matched to a receipt for personal records.",
   },
   {
-    title: 'Documented program use',
-    text: 'Program spending is tracked with budgets, receipts, attendance lists, photos, or field reports where appropriate.',
+    title: "Documented program use",
+    text: "Program spending is tracked with budgets, receipts, attendance lists, photos, or field reports where appropriate.",
   },
   {
-    title: 'Clear international status',
-    text: 'ADA is registered in Cameroon and is not yet a registered charity in Canada, the US, the UK, or the EU.',
+    title: "Clear international status",
+    text: "ADA is registered in Cameroon and is not yet a registered charity in Canada, the US, the UK, or the EU.",
   },
 ];
 
 const currentCampaignNeeds = [
-  'Emergency food and household essentials for widows and children',
-  'School support, uniforms, and supplies for vulnerable students',
-  'Transport and field follow-up so help reaches families directly',
+  "Emergency food and household essentials for widows and children",
+  "School support, uniforms, and supplies for vulnerable students",
+  "Transport and field follow-up so help reaches families directly",
 ];
 
 const monthlyClubBenefits = [
   {
-    title: 'Steady care',
-    text: 'Monthly gifts help ADA plan support before urgent needs become crises.',
+    title: "Steady care",
+    text: "Monthly gifts help ADA plan support before urgent needs become crises.",
   },
   {
-    title: 'Lower fundraising pressure',
-    text: 'Reliable recurring income means more time can go toward field work and follow-up.',
+    title: "Lower fundraising pressure",
+    text: "Reliable recurring income means more time can go toward field work and follow-up.",
   },
   {
-    title: 'Simple donor control',
-    text: 'You can change or cancel a monthly gift any time by contacting ADA. A self-service portal can be added once Stripe portal settings are enabled.',
+    title: "Simple donor control",
+    text: "You can change or cancel a monthly gift any time by contacting ADA. A self-service portal can be added once Stripe portal settings are enabled.",
   },
 ];
 
 const otherWaysToGive = [
-  { icon: '📦', title: 'In-Kind Donations', description: `Contact <a href="mailto:${contactEmail}" class="text-primary-600 hover:underline">${contactEmail}</a> to arrange goods or supplies.` },
-  { icon: '🏢', title: 'Corporate Matching', description: 'Many employers match charitable donations. Ask your HR team if your company has a matching program.' },
-  { icon: '💌', title: 'Legacy Giving', description: '<a href="/contact?subject=Legacy+Giving" class="text-primary-600 hover:underline">Contact us</a> to learn about including ADA in your estate plans.' },
-  { icon: '🔁', title: 'Fundraise for Us', description: 'Run a birthday fundraiser or community event. <a href="/contact?subject=Fundraising" class="text-primary-600 hover:underline">Let us know</a> and we\'ll support you.' },
+  {
+    icon: "📦",
+    title: "In-Kind Donations",
+    description: `Contact <a href="mailto:${contactEmail}" class="text-primary-600 hover:underline">${contactEmail}</a> to arrange goods or supplies.`,
+  },
+  {
+    icon: "🏢",
+    title: "Corporate Matching",
+    description:
+      "Many employers match charitable donations. Ask your HR team if your company has a matching program.",
+  },
+  {
+    icon: "💌",
+    title: "Legacy Giving",
+    description:
+      '<a href="/contact?subject=Legacy+Giving" class="text-primary-600 hover:underline">Contact us</a> to learn about including ADA in your estate plans.',
+  },
+  {
+    icon: "🔁",
+    title: "Fundraise for Us",
+    description:
+      'Run a birthday fundraiser or community event. <a href="/contact?subject=Fundraising" class="text-primary-600 hover:underline">Let us know</a> and we\'ll support you.',
+  },
 ];
 
 const donationFaqs = [
   {
-    q: 'Is my donation tax-deductible?',
-    a: 'Donations to ADA are not tax-deductible in Canada, the US, the UK, or the EU. ADA is a registered NGO in Cameroon (N° 415/G.37/D14/VolI/SAAJP) and is not yet registered as a charity in any other jurisdiction. We issue an official donation receipt after every gift for your personal records. Many of our supporters give because they believe in the mission — and we are deeply grateful for every contribution, regardless of tax status.',
+    q: "Is my donation tax-deductible?",
+    a: "Donations to ADA are not tax-deductible in Canada, the US, the UK, or the EU. ADA is a registered NGO in Cameroon (N° 415/G.37/D14/VolI/SAAJP) and is not yet registered as a charity in any other jurisdiction. We issue an official donation receipt after every gift for your personal records. Many of our supporters give because they believe in the mission — and we are deeply grateful for every contribution, regardless of tax status.",
   },
   {
-    q: 'How is my donation used?',
-    a: '80% goes directly to program delivery (food, school fees, skills training, healthcare). 15% covers program operations (transport, materials, staff). Only 5% goes to administration. All executive roles are volunteer — zero paid leadership.',
+    q: "How is my donation used?",
+    a: "80% goes directly to program delivery (food, school fees, skills training, healthcare). 15% covers program operations (transport, materials, staff). Only 5% goes to administration. All executive roles are volunteer — zero paid leadership.",
   },
   {
-    q: 'Can I donate to a specific project?',
-    a: 'Yes! Select a project from the dropdown in the donation form. If no project is selected, your gift goes to our General Fund, which supports the most urgent needs across all programs.',
+    q: "Can I donate to a specific project?",
+    a: "Yes! Select a project from the dropdown in the donation form. If no project is selected, your gift goes to our General Fund, which supports the most urgent needs across all programs.",
   },
   {
-    q: 'Can I cancel a monthly donation?',
-    a: 'Absolutely. You can cancel your monthly donation at any time by emailing us at info@apotidev.org. There are no cancellation fees.',
+    q: "Can I cancel a monthly donation?",
+    a: "Absolutely. You can cancel your monthly donation at any time by emailing us at info@apotidev.org. There are no cancellation fees.",
   },
   {
-    q: 'Is my payment information secure?',
-    a: 'Yes. All payments are processed by Stripe, a PCI-DSS Level 1 certified payment processor. ADA never stores your card details — they go directly to Stripe\'s secure servers.',
+    q: "Is my payment information secure?",
+    a: "Yes. All payments are processed by Stripe, a PCI-DSS Level 1 certified payment processor. ADA never stores your card details — they go directly to Stripe's secure servers.",
   },
 ];
 
 let impactExamples = [
-  { amount: '$25', impact: 'School supplies for 2 children' },
-  { amount: '$50', impact: 'Widow support for a week' },
-  { amount: '$100', impact: 'Skills training for one woman' },
-  { amount: '$250', impact: 'Healthcare for 5 families' },
-  { amount: '$500', impact: 'Agricultural training for 3 farmers' },
-  { amount: '$1,000', impact: 'Community clean-up initiative' },
+  { amount: "$25", impact: "School supplies for 2 children" },
+  { amount: "$50", impact: "Widow support for a week" },
+  { amount: "$100", impact: "Skills training for one woman" },
+  { amount: "$250", impact: "Healthcare for 5 families" },
+  { amount: "$500", impact: "Agricultural training for 3 farmers" },
+  { amount: "$1,000", impact: "Community clean-up initiative" },
 ];
 
 let projectOptions: { slug: string; title: string }[] = [];
-let heroImageUrl = '';
+let heroImageUrl = "";
 try {
   const projects = await getProjects();
   if (projects?.length) {
     projectOptions = projects
-      .filter((p: SanityProject) => p.status === 'active')
+      .filter(
+        (p: SanityProject) => getProjectLifecycleState(p).status === "active",
+      )
       .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
-    const withImage = projects.find((p: SanityProject) => p.mainImage?.asset?._ref && p.slug?.current === 'widow-support');
-    if (withImage) heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
+    const withImage = projects.find(
+      (p: SanityProject) =>
+        p.mainImage?.asset?._ref && p.slug?.current === "widow-support",
+    );
+    if (withImage)
+      heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
   }
 } catch {}
 
@@ -124,41 +158,77 @@ try {
 } catch {}
 ---
 
-<PageLayout title="Donate" description="Support ADA's mission to empower vulnerable communities in Cameroon. Every contribution makes a difference. Registered NGO, 80% to programs.">
+<PageLayout
+  title="Donate"
+  description="Support ADA's mission to empower vulnerable communities in Cameroon. Every contribution makes a difference. Registered NGO, 80% to programs."
+>
   <!-- Hero with background image -->
   <section class="relative overflow-hidden py-20 md:py-28 text-white">
-    {heroImageUrl ? (
-      <img src={heroImageUrl} alt="ADA beneficiaries in Cameroon" class="absolute inset-0 w-full h-full object-cover" loading="eager" />
-    ) : null}
-    <div class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"></div>
+    {
+      heroImageUrl ? (
+        <img
+          src={heroImageUrl}
+          alt="ADA beneficiaries in Cameroon"
+          class="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+        />
+      ) : null
+    }
+    <div
+      class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"
+    >
+    </div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-block px-4 py-1.5 mb-4 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20">{pageBadge}</span>
-      <h1 class="text-4xl md:text-5xl font-heading font-bold leading-tight">{pageTitle}</h1>
-      <p class="mt-4 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{pageSubtitle}</p>
-      <p class="mt-3 text-sm text-white/60">Registered Non-Profit · Cameroon · N° 415/G.37/D14/VolI/SAAJP</p>
+      <span
+        class="inline-block px-4 py-1.5 mb-4 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
+        >{pageBadge}</span
+      >
+      <h1 class="text-4xl md:text-5xl font-heading font-bold leading-tight">
+        {pageTitle}
+      </h1>
+      <p
+        class="mt-4 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
+      >
+        {pageSubtitle}
+      </p>
+      <p class="mt-3 text-sm text-white/60">
+        Registered Non-Profit · Cameroon · N° 415/G.37/D14/VolI/SAAJP
+      </p>
     </div>
   </section>
 
   <!-- Trust Indicators -->
   <Section background="white" padding="sm">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-      {trustIndicators.map((item) => (
-        <div class="flex flex-col items-center gap-1 py-2">
-          <span class="text-xl" aria-hidden="true">{item.icon}</span>
-          <span class="text-sm font-semibold text-gray-800">{item.text}</span>
-          <span class="text-xs text-gray-500">{item.sub}</span>
-        </div>
-      ))}
+      {
+        trustIndicators.map((item) => (
+          <div class="flex flex-col items-center gap-1 py-2">
+            <span class="text-xl" aria-hidden="true">
+              {item.icon}
+            </span>
+            <span class="text-sm font-semibold text-gray-800">{item.text}</span>
+            <span class="text-xs text-gray-500">{item.sub}</span>
+          </div>
+        ))
+      }
     </div>
   </Section>
 
   <!-- Tax Notice Banner -->
   <Section background="white" padding="sm">
     <div class="max-w-2xl mx-auto">
-      <div class="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-900">
+      <div
+        class="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-900"
+      >
         <span class="text-lg flex-shrink-0" aria-hidden="true">ℹ️</span>
         <div>
-          <strong class="font-semibold">About tax receipts:</strong> ADA is a registered NGO in Cameroon (N° 415/G.37/D14/VolI/SAAJP). Donations are <strong>not tax-deductible</strong> in Canada, the US, the UK, or the EU, as we are not yet registered as a charity in those jurisdictions. We issue an official donation receipt for your personal records after every gift. Many donors give because they believe in the mission, and we are deeply grateful for that.
+          <strong class="font-semibold">About tax receipts:</strong> ADA is a registered
+          NGO in Cameroon (N° 415/G.37/D14/VolI/SAAJP). Donations are <strong
+            >not tax-deductible</strong
+          > in Canada, the US, the UK, or the EU, as we are not yet registered as
+          a charity in those jurisdictions. We issue an official donation receipt
+          for your personal records after every gift. Many donors give because they
+          believe in the mission, and we are deeply grateful for that.
         </div>
       </div>
     </div>
@@ -173,61 +243,120 @@ try {
 
   <!-- Donor Safeguards -->
   <Section background="white" padding="lg">
-    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start"
+    >
       <div>
-        <span class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 rounded-full">Donor Confidence</span>
-        <h2 class="mt-4 text-2xl md:text-3xl font-heading font-bold text-gray-900">How we protect your gift</h2>
+        <span
+          class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 rounded-full"
+          >Donor Confidence</span
+        >
+        <h2
+          class="mt-4 text-2xl md:text-3xl font-heading font-bold text-gray-900"
+        >
+          How we protect your gift
+        </h2>
         <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
-          Giving internationally requires trust. ADA keeps the path from donation to field work visible, documented, and honest about our current registration status.
+          Giving internationally requires trust. ADA keeps the path from
+          donation to field work visible, documented, and honest about our
+          current registration status.
         </p>
         <div class="mt-5 flex flex-wrap gap-3">
-          <a href="/transparency" class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">View accountability</a>
-          <a href="/projects/archive" class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">See completed work</a>
+          <a
+            href="/transparency"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+            >View accountability</a
+          >
+          <a
+            href="/projects/archive"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+            >See completed work</a
+          >
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {donorSafeguards.map((item) => (
-          <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
-            <p class="mt-2 text-sm text-gray-600 leading-relaxed">{item.text}</p>
-          </div>
-        ))}
+        {
+          donorSafeguards.map((item) => (
+            <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
+              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
+              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                {item.text}
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </Section>
 
   <!-- Current Campaign -->
   <Section background="gray" padding="lg">
-    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-8 items-stretch">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-8 items-stretch"
+    >
       <div class="bg-white rounded-xl border border-gray-200 p-6 md:p-8">
-        <span class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 rounded-full">Current Campaign</span>
-        <h2 class="mt-4 text-2xl md:text-3xl font-heading font-bold text-gray-900">Widow and family relief in Cameroon</h2>
+        <span
+          class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 rounded-full"
+          >Current Campaign</span
+        >
+        <h2
+          class="mt-4 text-2xl md:text-3xl font-heading font-bold text-gray-900"
+        >
+          Widow and family relief in Cameroon
+        </h2>
         <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
-          This season, unrestricted gifts are prioritized for practical relief that keeps vulnerable households stable: food, school support, essential supplies, and field visits for families ADA is already serving.
+          This season, unrestricted gifts are prioritized for practical relief
+          that keeps vulnerable households stable: food, school support,
+          essential supplies, and field visits for families ADA is already
+          serving.
         </p>
         <ul class="mt-6 space-y-3">
-          {currentCampaignNeeds.map((need) => (
-            <li class="flex gap-3 text-sm text-gray-700">
-              <span class="mt-1 h-2 w-2 rounded-full bg-primary-500 flex-shrink-0" aria-hidden="true"></span>
-              <span>{need}</span>
-            </li>
-          ))}
+          {
+            currentCampaignNeeds.map((need) => (
+              <li class="flex gap-3 text-sm text-gray-700">
+                <span
+                  class="mt-1 h-2 w-2 rounded-full bg-primary-500 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <span>{need}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#donation-form" class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">Give to this campaign</a>
-          <a href="/projects/widow-support" class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">View project details</a>
+          <a
+            href="#donation-form"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+            >Give to this campaign</a
+          >
+          <a
+            href="/projects/widow-support"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+            >View project details</a
+          >
         </div>
       </div>
-      <div class="bg-primary-700 rounded-xl p-6 md:p-8 text-white flex flex-col justify-between">
+      <div
+        class="bg-primary-700 rounded-xl p-6 md:p-8 text-white flex flex-col justify-between"
+      >
         <div>
-          <p class="text-sm font-semibold uppercase tracking-wider text-white/70">Why it matters now</p>
-          <p class="mt-4 text-3xl font-heading font-bold leading-tight">Small gifts move quickly when needs are local and known.</p>
+          <p
+            class="text-sm font-semibold uppercase tracking-wider text-white/70"
+          >
+            Why it matters now
+          </p>
+          <p class="mt-4 text-3xl font-heading font-bold leading-tight">
+            Small gifts move quickly when needs are local and known.
+          </p>
           <p class="mt-4 text-sm text-white/80 leading-relaxed">
-            ADA works through direct community relationships in Cameroon, so donations can be matched to urgent household needs without promising tax benefits we cannot currently offer outside Cameroon.
+            ADA works through direct community relationships in Cameroon, so
+            donations can be matched to urgent household needs without promising
+            tax benefits we cannot currently offer outside Cameroon.
           </p>
         </div>
         <p class="mt-8 text-xs text-white/65">
-          If this campaign is fully funded or needs shift, ADA applies gifts to closely related program needs unless a donor requests otherwise.
+          If this campaign is fully funded or needs shift, ADA applies gifts to
+          closely related program needs unless a donor requests otherwise.
         </p>
       </div>
     </div>
@@ -235,79 +364,150 @@ try {
 
   <!-- Monthly Giving -->
   <Section background="white" padding="lg">
-    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.8fr_1fr] gap-8 items-start">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.8fr_1fr] gap-8 items-start"
+    >
       <div>
-        <span class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 rounded-full">Monthly Giving</span>
-        <h2 class="mt-4 text-2xl md:text-3xl font-heading font-bold text-gray-900">Join ADA's Circle of Care</h2>
+        <span
+          class="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 rounded-full"
+          >Monthly Giving</span
+        >
+        <h2
+          class="mt-4 text-2xl md:text-3xl font-heading font-bold text-gray-900"
+        >
+          Join ADA's Circle of Care
+        </h2>
         <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
-          A monthly gift turns generosity into dependable care. Circle of Care donors give ADA a steadier base for school support, widow relief, skills training, healthcare referrals, and community follow-up.
+          A monthly gift turns generosity into dependable care. Circle of Care
+          donors give ADA a steadier base for school support, widow relief,
+          skills training, healthcare referrals, and community follow-up.
         </p>
-        <a href="#donation-form" class="mt-6 inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">Start monthly giving</a>
+        <a
+          href="#donation-form"
+          class="mt-6 inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+          >Start monthly giving</a
+        >
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {monthlyClubBenefits.map((item) => (
-          <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
-            <p class="mt-2 text-sm text-gray-600 leading-relaxed">{item.text}</p>
-          </div>
-        ))}
+        {
+          monthlyClubBenefits.map((item) => (
+            <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
+              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
+              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                {item.text}
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </Section>
 
   <!-- Impact Examples -->
   <Section background="white" padding="lg">
-    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">Your Impact</h2>
-    <p class="mt-2 text-center text-gray-600 text-sm">Here is what your donation achieves on the ground in Cameroon.</p>
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
-      {impactExamples.map((item) => (
-        <div class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg border border-primary-100">
-          <span class="text-lg font-bold text-primary-700 whitespace-nowrap">{item.amount}</span>
-          <span class="text-sm text-gray-700">= {item.impact}</span>
-        </div>
-      ))}
+    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
+      Your Impact
+    </h2>
+    <p class="mt-2 text-center text-gray-600 text-sm">
+      Here is what your donation achieves on the ground in Cameroon.
+    </p>
+    <div
+      class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto"
+    >
+      {
+        impactExamples.map((item) => (
+          <div class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg border border-primary-100">
+            <span class="text-lg font-bold text-primary-700 whitespace-nowrap">
+              {item.amount}
+            </span>
+            <span class="text-sm text-gray-700">= {item.impact}</span>
+          </div>
+        ))
+      }
     </div>
     <p class="mt-6 text-center text-xs text-gray-500">
-      Figures based on actual program costs in Cameroon. <a href="/transparency" class="text-primary-600 hover:underline">View our full financial breakdown →</a>
+      Figures based on actual program costs in Cameroon. <a
+        href="/transparency"
+        class="text-primary-600 hover:underline"
+        >View our full financial breakdown →</a
+      >
     </p>
   </Section>
 
   <!-- Other Ways to Give -->
   <Section background="gray" padding="md">
-    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">Other Ways to Give</h2>
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-      {otherWaysToGive.map((item) => (
-        <div class="text-center p-4 bg-white rounded-xl border border-gray-100">
-          <span class="text-2xl" aria-hidden="true">{item.icon}</span>
-          <h3 class="mt-2 text-sm font-semibold text-gray-900">{item.title}</h3>
-          <p class="mt-1 text-xs text-gray-600 leading-relaxed" set:html={item.description} />
-        </div>
-      ))}
+    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
+      Other Ways to Give
+    </h2>
+    <div
+      class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+    >
+      {
+        otherWaysToGive.map((item) => (
+          <div class="text-center p-4 bg-white rounded-xl border border-gray-100">
+            <span class="text-2xl" aria-hidden="true">
+              {item.icon}
+            </span>
+            <h3 class="mt-2 text-sm font-semibold text-gray-900">
+              {item.title}
+            </h3>
+            <p
+              class="mt-1 text-xs text-gray-600 leading-relaxed"
+              set:html={item.description}
+            />
+          </div>
+        ))
+      }
     </div>
   </Section>
 
   <!-- Donation FAQ -->
   <Section background="white" padding="lg">
     <div class="max-w-3xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">Frequently Asked Questions</h2>
-      <p class="mt-2 text-center text-gray-600 text-sm">Everything you need to know before giving.</p>
+      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
+        Frequently Asked Questions
+      </h2>
+      <p class="mt-2 text-center text-gray-600 text-sm">
+        Everything you need to know before giving.
+      </p>
       <div class="mt-8 space-y-4">
-        {donationFaqs.map((faq, i) => (
-          <details class="group p-5 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer" open={i === 0}>
-            <summary class="flex items-center justify-between gap-4 font-semibold text-gray-900 text-sm list-none">
-              {faq.q}
-              <span class="flex-shrink-0 text-primary-600 group-open:rotate-180 transition-transform duration-200" aria-hidden="true">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
-              </span>
-            </summary>
-            <p class="mt-3 text-sm text-gray-600 leading-relaxed">{faq.a}</p>
-          </details>
-        ))}
+        {
+          donationFaqs.map((faq, i) => (
+            <details
+              class="group p-5 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer"
+              open={i === 0}
+            >
+              <summary class="flex items-center justify-between gap-4 font-semibold text-gray-900 text-sm list-none">
+                {faq.q}
+                <span
+                  class="flex-shrink-0 text-primary-600 group-open:rotate-180 transition-transform duration-200"
+                  aria-hidden="true"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                    />
+                  </svg>
+                </span>
+              </summary>
+              <p class="mt-3 text-sm text-gray-600 leading-relaxed">{faq.a}</p>
+            </details>
+          ))
+        }
       </div>
       <p class="mt-6 text-center text-sm text-gray-500">
-        More questions? <a href="/contact?subject=Donation+Question" class="text-primary-600 hover:underline font-medium">Contact us</a> — we typically respond within 24 hours.
+        More questions? <a
+          href="/contact?subject=Donation+Question"
+          class="text-primary-600 hover:underline font-medium">Contact us</a
+        > — we typically respond within 24 hours.
       </p>
     </div>
   </Section>
