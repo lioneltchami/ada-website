@@ -321,14 +321,13 @@ export default function DonationForm({
     setStripeLoading(true);
     setStripeError("");
     try {
-      const configuredKey =
-        (import.meta as any).env?.PUBLIC_STRIPE_PUBLISHABLE_KEY || "";
       const publishableKey =
-        configuredKey ||
         ((await fetch("/api/public-config")
           .then((response) => (response.ok ? response.json() : null))
           .catch(() => null))?.stripePublishableKey ??
-          "");
+          "") ||
+        (import.meta as any).env?.PUBLIC_STRIPE_PUBLISHABLE_KEY ||
+        "";
       if (!publishableKey) throw new Error(copy.paymentLoadFailed);
 
       const stripe = await loadStripe(publishableKey);
