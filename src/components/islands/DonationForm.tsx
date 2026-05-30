@@ -222,6 +222,7 @@ export default function DonationForm({ projects }: { projects?: { slug: string; 
                   key={type}
                   type="button"
                   onClick={() => setFrequency(type)}
+                  aria-pressed={frequency === type}
                   className={`px-4 py-2.5 text-sm font-medium rounded-lg border-2 transition-colors ${frequency === type ? "border-primary-500 bg-primary-50 text-primary-700" : "border-gray-200 text-gray-700 hover:border-gray-300"}`}
                 >
                   {type === "one-time" ? "One-Time" : "Monthly"}

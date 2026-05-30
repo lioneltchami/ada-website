@@ -12,6 +12,7 @@ import {
 import { sanityImageUrl } from "../../../lib/sanity";
 import { getProjectLifecycleState } from "../../../lib/project-lifecycle";
 import { t } from "../../../i18n";
+import { REGISTRATION_NUMBER } from "../../../data/organization";
 
 const i18n = t("fr");
 
@@ -28,6 +29,25 @@ let impactExamples = [
   { amount: "250$", impact: "Soins de santé pour 5 familles" },
   { amount: "500$", impact: "Formation agricole pour 3 agriculteurs" },
   { amount: "1 000$", impact: "Initiative de nettoyage communautaire" },
+];
+
+const donorSafeguards = [
+  {
+    title: "Paiement sécurisé",
+    text: "Les dons en ligne sont traités par Stripe. ADA ne stocke jamais votre numéro de carte ni vos coordonnées bancaires.",
+  },
+  {
+    title: "Historique documenté",
+    text: "Chaque don confirmé est enregistré et associé à un reçu PDF pour vos dossiers personnels.",
+  },
+  {
+    title: "Utilisation suivie",
+    text: "Les dépenses de programme sont suivies avec budgets, reçus, listes de présence, photos ou rapports de terrain lorsque cela est approprié.",
+  },
+  {
+    title: "Statut international clair",
+    text: "ADA est enregistrée au Cameroun et ne présente pas les dons comme déductibles d'impôt au Canada, aux États-Unis, au Royaume-Uni ou dans l'UE.",
+  },
 ];
 try {
   const tiers = await getDonationTiers();
@@ -116,6 +136,55 @@ try {
     <DonationForm client:load projects={projectOptions} />
   </Section>
 
+  <Section background="white" padding="md">
+    <div class="max-w-4xl mx-auto">
+      <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+        <p class="text-sm text-amber-900 leading-relaxed">
+          <strong class="font-semibold">À propos des reçus fiscaux :</strong>
+          ADA est une ONG enregistrée au Cameroun ({REGISTRATION_NUMBER}). Les
+          dons ne sont pas présentés comme déductibles d'impôt au Canada, aux
+          États-Unis, au Royaume-Uni ou dans l'Union européenne sauf si un
+          partenaire enregistré qualifié est confirmé par écrit. ADA fournit un
+          reçu pour vos dossiers personnels.
+        </p>
+      </div>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {
+          donorSafeguards.map((item) => (
+            <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <h2 class="text-sm font-semibold text-gray-900">
+                {item.title}
+              </h2>
+              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                {item.text}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <a
+          href="/fr/transparency"
+          class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+        >
+          Voir la transparence
+        </a>
+        <a
+          href="/fr/resources"
+          class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+        >
+          Consulter les documents
+        </a>
+        <a
+          href="/fr/sponsor"
+          class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
+        >
+          Sponsoriser un programme
+        </a>
+      </div>
+    </div>
+  </Section>
+
   <Section background="white" padding="lg">
     <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
       {i18n.donate.impact}
@@ -140,7 +209,7 @@ try {
     <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
       {i18n.donate.otherWays}
     </h2>
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
       <div class="text-center">
         <span class="text-2xl">📦</span><h3
           class="mt-2 text-sm font-semibold text-gray-900"
@@ -159,6 +228,16 @@ try {
           {i18n.donate.matching}
         </h3><p class="mt-1 text-xs text-gray-600">
           {i18n.donate.matchingDesc}
+        </p>
+      </div>
+      <div class="text-center">
+        <span class="text-2xl">🤝</span><h3
+          class="mt-2 text-sm font-semibold text-gray-900"
+        >
+          Parrainages
+        </h3><p class="mt-1 text-xs text-gray-600">
+          <a href="/fr/sponsor" class="text-primary-600 hover:underline"
+            >Sponsorisez un programme ciblé</a> avec reçus et mises à jour.
         </p>
       </div>
       <div class="text-center">

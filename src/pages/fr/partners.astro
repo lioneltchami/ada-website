@@ -11,6 +11,18 @@ const labels = t(locale);
 <PageLayout title="Pour les Partenaires et Bailleurs de Fonds" description="Informations de partenariat pour les bailleurs institutionnels, ambassades et fondations. ADA offre des rapports transparents, des résultats mesurables et une capacité bilingue.">
   <PageHero title="Devenez Partenaire" subtitle="Partenariats institutionnels qui créent un impact mesurable et durable au Cameroun." badge="Pour les Bailleurs et Institutions" compact />
 
+  <Section background="white" padding="sm">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4 rounded-xl border border-primary-100 bg-primary-50 p-5">
+      <div>
+        <h2 class="text-lg font-heading font-bold text-gray-900">Vous cherchez un chemin de parrainage simple ?</h2>
+        <p class="mt-1 text-sm text-gray-700">La page de parrainage présente les niveaux, les options de paiement, les attentes de rapport et le dossier de préparation.</p>
+      </div>
+      <a href="/fr/sponsor" class="inline-flex justify-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors">
+        Sponsoriser un Programme
+      </a>
+    </div>
+  </Section>
+
   <!-- Pourquoi S'Associer -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
@@ -19,7 +31,7 @@ const labels = t(locale);
         {[
           { icon: '🎯', title: 'Accent sur l\'Égalité des Genres', desc: '85% de nos bénéficiaires sont des femmes et des filles. Nos programmes font directement progresser l\'égalité des genres par l\'autonomisation économique et l\'accès à l\'éducation.' },
           { icon: '📊', title: 'Résultats Mesurables', desc: 'Cadre logique avec des indicateurs clairs, des références et des cibles. Nous suivons les résultats (revenus générés) et pas seulement les extrants (personnes formées).' },
-          { icon: '💰', title: '5% de Frais Généraux', desc: 'Efficacité de pointe dans le secteur. Zéro dirigeant rémunéré. 80% de chaque dollar atteint directement les bénéficiaires.' },
+          { icon: '💰', title: '5% de Frais Généraux', desc: 'Modèle opérationnel léger. Direction exécutive bénévole. 80% de chaque dollar est orienté vers l\'exécution des programmes.' },
           { icon: '🌱', title: 'Propriété Locale', desc: 'Fondée, dirigée et composée de Camerounais. Programmes conçus AVEC les communautés, pas imposés à elles.' },
           { icon: '♻️', title: 'Durabilité Intégrée', desc: 'Notre modèle de formation de formateurs signifie que les programmes survivent au financement. Les diplômés deviennent mentors pour la cohorte suivante.' },
           { icon: '🌍', title: 'Capacité Bilingue', desc: 'Rapports complets en anglais et en français. Mises à jour trimestrielles, rapports annuels et données de S&E dans les délais.' },
@@ -89,17 +101,18 @@ const labels = t(locale);
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3"><span class="text-xl">🇨🇦</span><h3 class="text-lg font-semibold text-gray-900">Bailleurs Canadiens</h3></div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>Éligible au FCIL :</strong> ADA remplit tous les critères du Fonds canadien d'initiatives locales (FCIL) administré par le Haut-Commissariat du Canada à Yaoundé.</p>
-            <p><strong>Changement de loi 2022 :</strong> Les organismes de bienfaisance canadiens peuvent désormais accorder des subventions directement aux ONG étrangères comme ADA.</p>
+            <p><strong>Examen FCIL potentiel :</strong> L'enregistrement local, l'ancrage communautaire et la capacité bilingue d'ADA peuvent être examinés par les bailleurs selon leurs propres critères.</p>
+            <p><strong>Partenariats caritatifs canadiens :</strong> Les organismes de bienfaisance canadiens doivent respecter leurs propres exigences juridiques avant tout financement étranger. ADA peut fournir les documents nécessaires à cet examen.</p>
             <p><strong>Alignement politique :</strong> Nos programmes avancent directement la Politique d'aide internationale féministe du Canada avec 85% de bénéficiaires femmes/filles.</p>
+            <p><strong>Reçus fiscaux :</strong> ADA ne présente pas actuellement les dons comme déductibles d'impôt au Canada. Si un parrain fiscal ou partenaire qualifié est confirmé, les détails seront publiés clairement.</p>
           </div>
         </div>
 
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3"><span class="text-xl">🇺🇸</span><h3 class="text-lg font-semibold text-gray-900">Bailleurs Américains</h3></div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>Équivalence 501(c)(3) :</strong> ADA fonctionne avec des structures de gouvernance équivalentes aux exigences américaines (conseil indépendant, supervision financière, mission d'intérêt public).</p>
-            <p><strong>GlobalGiving :</strong> ADA prépare son inscription à l'Accélérateur GlobalGiving, offrant aux donateurs américains des dons déductibles d'impôts.</p>
+            <p><strong>Documents d'examen :</strong> ADA peut fournir des documents de gouvernance, d'enregistrement, de finances et de programmes aux bailleurs américains qui examinent des options de financement international.</p>
+            <p><strong>Chemin de parrain fiscal :</strong> ADA peut explorer un parrain fiscal ou une plateforme de dons à l'avenir, mais aucun chemin de don déductible aux États-Unis n'est présenté comme actif aujourd'hui.</p>
             <p><strong>Alignement USAID :</strong> Nos programmes s'alignent sur le cadre « Journey to Self-Reliance » — renforcer les capacités locales, pas la dépendance.</p>
           </div>
         </div>
@@ -126,7 +139,7 @@ const labels = t(locale);
           <div class="space-y-2 text-sm text-gray-700">
             <p><strong>Impact Direct :</strong> 80% de chaque dollar va directement aux programmes. 50$ envoie un enfant à l'école. 200$ finance une formation professionnelle complète.</p>
             <p><strong>Transparence Totale :</strong> Chaque projet a des termes de référence, rapports et bilans financiers téléchargeables.</p>
-            <p><strong>Don Sécurisé :</strong> Dons via Stripe avec reçus PDF instantanés. Options mensuelles disponibles.</p>
+            <p><strong>Don Sécurisé :</strong> Dons via Stripe avec reçus PDF après confirmation du paiement. Options mensuelles disponibles.</p>
           </div>
         </div>
       </div>
@@ -138,10 +151,10 @@ const labels = t(locale);
             <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700">
               <p>✓ Certificat d'enregistrement (N° 415/G.37/D14/VolI/SAAJP)</p>
               <p>✓ Liste du Conseil d'Administration</p>
-              <p>✓ 4 ans de rapports annuels (2021–2024)</p>
-              <p>✓ 25 rapports de projets avec bilans financiers</p>
+              <p>✓ Rapports annuels et résumés de programmes</p>
+              <p>✓ Dossiers et rapports de projets disponibles</p>
               <p>✓ Politiques organisationnelles</p>
-              <p>✓ Cadre logique et plan de suivi-évaluation</p>
+              <p>✓ Attentes de rapport et indicateurs de S&E</p>
               <p>✓ Références de leaders communautaires</p>
               <p>✓ Coordination de visites de terrain</p>
             </div>
@@ -165,7 +178,7 @@ const labels = t(locale);
         {[
           'Propositions de projets détaillées avec cadres logiques',
           'Rapports narratifs et financiers trimestriels',
-          'États financiers annuels audités',
+          'Résumés financiers annuels et documents justificatifs',
           'Données de Suivi & Évaluation avec indicateurs',
           'Documentation photo et vidéo des activités',
           'Témoignages de bénéficiaires et études de cas',
@@ -188,13 +201,13 @@ const labels = t(locale);
       <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
           <h3 class="text-lg font-semibold text-gray-900">Financement de Projet</h3>
-          <p class="mt-1 text-2xl font-bold text-primary-700">5K$–50K$</p>
+          <p class="mt-1 text-2xl font-bold text-primary-700">500$–5K$</p>
           <p class="mt-3 text-xs text-gray-600">Financez un programme ou une campagne spécifique avec rapports complets et redevabilité.</p>
         </div>
         <div class="p-6 bg-white rounded-xl border-2 border-primary-500 text-center shadow-sm">
           <h3 class="text-lg font-semibold text-gray-900">Partenariat Pluriannuel</h3>
-          <p class="mt-1 text-2xl font-bold text-primary-700">50K$–200K$</p>
-          <p class="mt-3 text-xs text-gray-600">Partenariat stratégique avec rôle consultatif au conseil, co-conception et mesure d'impact approfondie.</p>
+          <p class="mt-1 text-2xl font-bold text-primary-700">5K$–20K$</p>
+          <p class="mt-3 text-xs text-gray-600">Partenariat stratégique avec objectifs co-conçus, cadence de rapport convenue et mesure d'impact approfondie.</p>
         </div>
         <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
           <h3 class="text-lg font-semibold text-gray-900">Assistance Technique</h3>
@@ -226,11 +239,11 @@ const labels = t(locale);
       <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
           { title: 'Rapports Bilingues', desc: 'Tous les rapports, propositions et communications livrés en anglais et en français. Équipe bilingue.' },
-          { title: 'Gestion des Délais', desc: 'Rapports trimestriels livrés dans les délais depuis 2022. Zéro échéance manquée avec les partenaires existants.' },
-          { title: 'Gestion Financière', desc: 'Comptabilité dédiée, rapprochement bancaire et suivi transparent des fonds. Comptes séparés par projet.' },
+          { title: 'Gestion des Délais', desc: 'Les attentes de rapport peuvent être fixées dans les accords de partenariat afin que les échéances soient claires dès le départ.' },
+          { title: 'Gestion Financière', desc: 'Les dons, les reçus, les budgets et les allocations de projet sont suivis pour une utilisation transparente des fonds.' },
           { title: 'Cadre de S&E', desc: 'Cadre logique avec indicateurs SMART. Données de référence collectées. Suivi des résultats (pas seulement des extrants).' },
-          { title: 'Documentation', desc: 'Documentation photo/vidéo de toutes les activités. Formulaires de consentement des bénéficiaires. Sites de projet géolocalisés.' },
-          { title: 'Gouvernance', desc: 'Conseil d\'administration avec réunions trimestrielles. Politique de conflit d\'intérêts. Protection des lanceurs d\'alerte.' },
+          { title: 'Documentation', desc: 'Photos, notes de terrain, listes de présence, reçus et pratiques de consentement sont utilisés lorsque cela est approprié.' },
+          { title: 'Gouvernance', desc: 'Supervision du conseil, rôles définis, revue financière et politiques documentées soutiennent une gestion responsable.' },
         ].map((item) => (
           <div class="flex items-start gap-3 p-3 bg-white rounded-lg">
             <span class="text-primary-600 mt-0.5 font-bold">✓</span>
@@ -250,7 +263,8 @@ const labels = t(locale);
       <h2 class="text-2xl font-heading font-bold">Entamons une Conversation</h2>
       <p class="mt-2 text-white/80 text-sm">Nous accueillons les partenariats avec les ambassades, fondations, ONG internationales et sponsors corporatifs alignés avec notre mission.</p>
       <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href="/fr/contact" class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Contactez Notre Équipe</a>
+        <a href="/fr/sponsor" class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Sponsoriser un Programme</a>
+        <a href="/fr/contact" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Contactez Notre Équipe</a>
         <a href="/fr/transparency" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Voir le Rapport de Transparence</a>
       </div>
       <p class="mt-4 text-xs text-white/50">info@apotidev.org · +237 676 282 346 · Cameroun</p>

@@ -17,6 +17,7 @@ function hasLocaleAlternative(pathname: string): boolean {
     englishPath === '/donate' ||
     englishPath === '/gallery' ||
     englishPath === '/get-involved' ||
+    englishPath === '/sponsor' ||
     englishPath === '/partners' ||
     englishPath === '/privacy' ||
     englishPath === '/resources' ||
@@ -40,7 +41,7 @@ const navLinks = [
   { href: localePath('/get-involved', locale), label: i18n.nav.getInvolved },
   { href: localePath('/contact', locale), label: i18n.nav.contact },
   { href: localePath('/resources', locale), label: i18n.nav.resources },
-  { href: localePath('/partners', locale), label: i18n.nav.partners },
+  { href: localePath('/sponsor', locale), label: i18n.nav.sponsor },
 ];
 
 function isActive(href: string): boolean {

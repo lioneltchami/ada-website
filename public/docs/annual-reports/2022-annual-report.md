@@ -193,14 +193,14 @@ ADA closed 2022 with our inaugural Christmas campaign, bringing holiday joy to 3
 
 ### Overhead Analysis
 
-ADA operated with **zero administrative overhead** in 2022. All funds went directly to program delivery. This was possible because:
+ADA operated with **zero administrative overhead charged to project budgets** in 2022. Project funds were directed to program delivery. This was possible because:
 
 - All team members served as unpaid volunteers
 - No office rent was incurred (home-based operations)
 - Communication and coordination costs were absorbed personally by leadership
 - Transportation to project sites was donated or personally funded
 
-**100% of donor funds went directly to beneficiaries.**
+Donor-funded project budgets were used for beneficiary support and direct program delivery.
 
 ### Fiscal Discipline
 
@@ -364,7 +364,7 @@ We aim to double our 2022 expenditure, targeting **$15,000–$20,000** in progra
 
 ### Give
 
-Every franc goes directly to program delivery. ADA operates with zero administrative overhead — your donation reaches beneficiaries in full.
+ADA prioritizes direct program delivery and keeps administration lean, with executive coordination handled on a volunteer basis.
 
 - **One-time gifts** of any amount make a difference
 - **Monthly giving** of $25/month sponsors one orphan's education for a year

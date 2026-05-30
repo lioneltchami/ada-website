@@ -87,6 +87,8 @@ Important route groups:
 | `/projects/archive`        | `src/pages/projects/archive/index.astro`  | Project archive / track record                   |
 | `/projects/archive/[slug]` | `src/pages/projects/archive/[slug].astro` | Archive project record detail                    |
 | `/donate`                  | `src/pages/donate.astro`                  | Donation page                                    |
+| `/sponsor`                 | `src/pages/sponsor.astro`                 | Sponsor conversion path and sponsor packet CTA   |
+| `/partners`                | `src/pages/partners.astro`                | Deeper funder/institutional partnership page     |
 | `/auth/*`                  | `src/pages/auth/*`                        | Donor auth screens                               |
 | `/dashboard/*`             | `src/pages/dashboard/*`                   | Donor dashboard                                  |
 | `/api/*`                   | `src/pages/api/*`                         | Server API routes                                |
@@ -420,6 +422,7 @@ The `public/docs` folder contains:
 - project financial reports
 - project completion/final reports
 - policies
+- sponsor readiness packet
 
 The resource library is powered by:
 
@@ -897,6 +900,7 @@ Check:
 - Do not set `project.archiveRecord` unless the archive record is the exact final report page for that current project.
 - Do not treat `sourceProject` and `archiveRecord` as interchangeable.
 - Do not advertise tax-deductible donation language unless registration/fiscal sponsorship is confirmed.
+- Do not promise sponsor benefits beyond agreed recognition, useful reporting, and documented stewardship.
 - Do not reintroduce live donation totals unless they are sourced and reconciled.
 - Do not mutate Sanity lifecycle status from the website runtime; compute effective status from dates.
 - Keep English and French project behavior in parity.

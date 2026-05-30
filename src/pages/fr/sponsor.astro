@@ -1,0 +1,572 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+import {
+  REGISTRATION_CERTIFICATE_URL,
+  REGISTRATION_NUMBER,
+} from "../../data/organization";
+
+const sponsorTiers = [
+  {
+    name: "Sponsor communautaire",
+    amount: "500 $-1 000 $",
+    funds:
+      "Fournitures scolaires, soutien alimentaire, campagne saisonnière ou besoins urgents de ménage.",
+    outcome:
+      "Aide un besoin précis de ménage, d'école ou de secours à passer d'un manque urgent à un soutien documenté.",
+    receives:
+      "Reçu ADA, courte mise à jour, note d'utilisation des fonds, et reconnaissance publique ou discrète au choix.",
+  },
+  {
+    name: "Sponsor de projet",
+    amount: "2 500 $-5 000 $",
+    funds:
+      "Projet défini pour l'éducation, les veuves, les orphelins, les jeunes femmes ou les familles déplacées.",
+    outcome:
+      "Finance un projet limité avec personnes servies, budget, preuves et résumé final.",
+    receives:
+      "Photos si consenties, résumé d'impact, rapport final et remerciement public optionnel.",
+  },
+  {
+    name: "Sponsor de programme",
+    amount: "10 000 $+",
+    funds:
+      "Saison complète de programme, cycle de soutien à plusieurs familles ou réponse communautaire récurrente.",
+    outcome:
+      "Soutient un programme mesurable avec courriel d'impact trimestriel et rapport final.",
+    receives:
+      "Accord de parrainage, mises à jour trimestrielles, rapport final, logo si approuvé et présentation de groupe.",
+  },
+  {
+    name: "Partenaire stratégique",
+    amount: "Sur mesure",
+    funds:
+      "Engagement pluriannuel, soutien aux capacités ou initiative adaptée avec la direction d'ADA.",
+    outcome:
+      "Crée des objectifs partagés, une cadence de rapports et un plan de partenariat avant tout transfert de fonds.",
+    receives:
+      "Jalons co-construits, entretiens avec la direction, appui diligence, reconnaissance ou anonymat selon préférence.",
+  },
+];
+
+const fundingPaths = [
+  {
+    title: "Sponsoriser un projet",
+    text: "Financer une campagne définie avec objectif, calendrier, budget et mise à jour de clôture.",
+  },
+  {
+    title: "Lancer une campagne de groupe",
+    text: "Églises, entreprises, écoles et groupes de la diaspora peuvent financer un besoin visible et demander une courte présentation virtuelle.",
+  },
+  {
+    title: "Soutenir régulièrement",
+    text: "Un parrainage mensuel ou trimestriel aide ADA à planifier le soutien alimentaire, scolaire et sanitaire.",
+  },
+  {
+    title: "Offrir une aide en nature",
+    text: "Compétences, fournitures, logistique, formation ou équipement peuvent être coordonnés par accord préalable.",
+  },
+];
+
+const sponsorReceives = [
+  "Reçu ou confirmation de parrainage pour vos dossiers",
+  "Résumé clair de l'utilisation des fonds",
+  "Mise à jour de projet ou récapitulatif de campagne",
+  "Reconnaissance par nom ou logo, seulement avec approbation",
+  "Reconnaissance publique, mention interne ou anonymat complet selon préférence",
+  "Photos ou témoignages lorsque cela est approprié et consenti",
+  "Présentation pour entreprise, église, école ou groupe de la diaspora si utile",
+  "Appel optionnel avec la direction pour les parrainages plus importants",
+];
+
+const outcomeProofs = [
+  {
+    project: "Formation professionnelle des veuves",
+    cost: "Budget documenté de 3 200 $",
+    served: "15 veuves formées; 12 diplômées",
+    outcome:
+      "Les diplômées ont commencé à générer un revenu, avec une hausse moyenne de 10 $/mois à 50 $/mois.",
+    evidence:
+      "Dossiers de fin de formation, photos de terrain, suivi des diplômées et rapport de projet.",
+    next: "Sponsoriser la prochaine cohorte avec matériel, formateurs et suivi après formation.",
+  },
+  {
+    project: "Infrastructure d'eau potable",
+    cost: "Coût documenté de 4 417 $",
+    served: "300+ membres de la communauté",
+    outcome:
+      "Un point d'eau terminé a amélioré l'accès quotidien à l'eau potable pour les ménages et les élèves.",
+    evidence:
+      "Budget du projet, dossiers de clôture, photos communautaires et rapport annuel.",
+    next: "Entretenir le puits et préparer l'extension de l'accès à l'eau pour les ménages voisins.",
+  },
+  {
+    project: "Soutien rentrée scolaire",
+    cost: "Deux campagnes scolaires en 2024",
+    served: "40 enfants orphelins",
+    outcome:
+      "Les enfants ont reçu frais, fournitures et matériel scolaire avant le début de l'année.",
+    evidence:
+      "Listes de présence, justificatifs d'achat, photos consenties et résumés de projet.",
+    next: "Financer le prochain trimestre plus tôt pour aider familles et écoles à planifier.",
+  },
+  {
+    project: "Aide alimentaire d'urgence",
+    cost: "Budget de secours documenté de 2 417 $",
+    served: "50 familles déplacées; 150+ personnes",
+    outcome:
+      "Les familles ont reçu des colis alimentaires planifiés pendant un cycle d'urgence de trois mois.",
+    evidence:
+      "Registres de distribution, reçus, notes de terrain et rapport de clôture.",
+    next: "Pré-positionner un fonds d'urgence soutenu par sponsors avant la prochaine période de crise.",
+  },
+];
+
+const paymentOptions = [
+  "Le don par carte via Stripe est disponible en ligne pour les dons ponctuels ou mensuels en USD.",
+  "Les demandes de facture, d'accord de parrainage ou de bon de commande peuvent commencer par le formulaire sponsor.",
+  "Les informations de virement bancaire ou transfert direct peuvent être organisées sur demande avant paiement, lorsque disponible.",
+  "Les dons doublés par l'employeur sont bienvenus, mais l'employeur doit confirmer l'éligibilité car ADA est enregistrée au Cameroun et n'est pas une charité canadienne ni une 501(c)(3) américaine.",
+  "Les dons restreints doivent être discutés avant paiement afin de confirmer l'objet, les rapports et la reconnaissance.",
+  "Les dons par chèque ne doivent être utilisés que si un sponsor fiscal qualifié ou partenaire caritatif enregistré est confirmé par écrit.",
+];
+
+const trustProofs = [
+  `ONG enregistrée : ${REGISTRATION_NUMBER}`,
+  "Objectif de 80% vers l'exécution des programmes",
+  "Reçus fournis pour les dossiers",
+  "Rapports de projet disponibles",
+  "Paiement carte sécurisé par Stripe",
+  "Dossier de diligence disponible",
+  "Rapports bilingues : anglais/français",
+];
+
+const diligenceItems = [
+  "Certificat d'enregistrement au Cameroun",
+  "Aperçu de la direction et de la gouvernance",
+  "Modèle d'allocation financière",
+  "Rapports annuels et dossiers de projet",
+  "Politiques de protection et de gestion financière",
+  "Attentes de rapport et chemin de contact",
+];
+---
+
+<PageLayout
+  title="Sponsoriser un Programme"
+  description="Sponsorisez un soutien pratique pour les veuves, orphelins, jeunes femmes, familles déplacées et élèves au Cameroun. Options claires, reçus, rapports et diligence raisonnable."
+>
+  <section class="overflow-hidden bg-white">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center"
+    >
+      <div class="min-w-0">
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+        >
+          Sponsoriser le travail d'ADA au Cameroun
+        </p>
+        <h1
+          class="mt-4 max-w-3xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-950 leading-tight"
+        >
+          Sponsorisez un soutien pratique pour les familles au Cameroun
+        </h1>
+        <p class="mt-5 text-lg text-gray-600 leading-relaxed max-w-2xl">
+          Associez-vous à Apoti Development Association pour financer des
+          programmes communautaires directs pour les veuves, orphelins, jeunes
+          femmes, familles déplacées, élèves et interventions d'urgence. Le
+          parrainage reste simple : options claires, documents écrits, mises à
+          jour utiles et utilisation transparente des fonds.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a
+            href="/fr/contact?subject=Demande+de+Dossier+de+Parrainage"
+            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors shadow-sm sm:w-auto"
+          >
+            Demander le dossier de parrainage
+          </a>
+          <a
+            href="#tiers"
+            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-primary-800 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            Voir les options
+          </a>
+        </div>
+        <p class="mt-5 text-xs text-gray-500">
+          Enregistrée au Cameroun ({REGISTRATION_NUMBER}). Direction exécutive
+          bénévole. 80% des fonds orientés vers l'exécution des programmes.
+        </p>
+      </div>
+
+      <div
+        class="rounded-2xl border border-gray-200 bg-gray-50 p-6 md:p-8 shadow-card"
+      >
+        <h2 class="text-xl font-heading font-bold text-gray-900">
+          Prêt pour les sponsors, en bref
+        </h2>
+        <dl class="mt-6 space-y-4">
+          <div
+            class="grid grid-cols-1 gap-1 border-b border-gray-200 pb-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-4"
+          >
+            <dt class="text-sm text-gray-500">Statut légal</dt>
+            <dd
+              class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
+            >
+              ONG enregistrée au Cameroun
+            </dd>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-1 border-b border-gray-200 pb-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-4"
+          >
+            <dt class="text-sm text-gray-500">Rapports</dt>
+            <dd
+              class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
+            >
+              Mises à jour, dossiers, rapports
+            </dd>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-1 border-b border-gray-200 pb-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-4"
+          >
+            <dt class="text-sm text-gray-500">Modes de don</dt>
+            <dd
+              class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
+            >
+              Carte Stripe, facture, virement
+            </dd>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-1 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-4"
+          >
+            <dt class="text-sm text-gray-500">Diligence</dt>
+            <dd
+              class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
+            >
+              Dossier disponible
+            </dd>
+          </div>
+        </dl>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href={REGISTRATION_CERTIFICATE_URL}
+            target="_blank"
+            rel="noopener"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Certificat
+          </a>
+          <a
+            href="/fr/transparency"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Transparence
+          </a>
+          <a
+            href="/fr/resources"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Ressources
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Section background="gray" padding="md">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+        Quatre façons simples d'aider
+      </h2>
+      <p class="mt-3 text-sm text-gray-600">
+        Choisissez le chemin adapté à votre église, entreprise, école, groupe de
+        diaspora, fondation ou famille.
+      </p>
+    </div>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {
+        fundingPaths.map((path) => (
+          <div class="bg-white border border-gray-200 rounded-xl p-5">
+            <h3 class="text-base font-semibold text-gray-900">
+              {path.title}
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+              {path.text}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+        L'impact présenté comme résultats
+      </h2>
+      <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+        Les sponsors doivent voir ce qui a changé, pas seulement ce qu'ADA a
+        fait. Ces exemples montrent le problème traité à travers le coût, les
+        personnes servies, le résultat, les preuves et le prochain jalon.
+      </p>
+    </div>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+      {
+        outcomeProofs.map((proof) => (
+          <article class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-900">
+              {proof.project}
+            </h3>
+            <dl class="mt-4 space-y-3 text-sm">
+              <div>
+                <dt class="font-semibold text-gray-900">Coût</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.cost}
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Nombre servi</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.served}
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Résultat</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.outcome}
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Preuves</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.evidence}
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Prochain jalon</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.next}
+                </dd>
+              </div>
+            </dl>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section id="tiers" background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center">
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Options de parrainage
+        </h2>
+        <p class="mt-3 text-sm text-gray-600">
+          Les dons par carte en ligne sont actuellement traités en USD via
+          Stripe. Les sponsors qui ont besoin d'une autre devise, d'une facture,
+          d'un virement bancaire ou d'un don restreint plus important peuvent
+          commencer par un court accord avant paiement.
+        </p>
+      </div>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+        {
+          sponsorTiers.map((tier) => (
+            <article class="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 class="text-lg font-semibold text-gray-900">{tier.name}</h3>
+              <p class="mt-2 text-2xl font-bold text-primary-700">
+                {tier.amount}
+              </p>
+              <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Finance
+              </p>
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                {tier.funds}
+              </p>
+              <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Résultat visé
+              </p>
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                {tier.outcome}
+              </p>
+              <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Le sponsor reçoit
+              </p>
+              <p class="mt-1 flex-1 text-sm text-gray-600 leading-relaxed">
+                {tier.receives}
+              </p>
+              <a
+                href={`/fr/contact?subject=Demande+de+Parrainage+-+${encodeURIComponent(tier.name)}`}
+                class="mt-6 inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+              >
+                Demander cette option
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-8 items-start"
+    >
+      <div>
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Un suivi clair, pas de promesses vagues
+        </h2>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Chaque sponsor reçoit une confirmation de soutien et un document utile
+          pour ses dossiers. Les rapports restent pratiques : assez de détails
+          pour montrer la bonne gestion, sans surcharger les sponsors ou les
+          communautés servies.
+        </p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href="/fr/projects/archive"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white rounded-lg hover:bg-primary-50 transition-colors sm:w-auto"
+          >
+            Voir le travail réalisé
+          </a>
+          <a
+            href="/fr/resources"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white rounded-lg hover:bg-primary-50 transition-colors sm:w-auto"
+          >
+            Consulter les documents
+          </a>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {
+          sponsorReceives.map((item) => (
+            <div class="rounded-lg bg-white border border-gray-200 p-4">
+              <p class="text-sm text-gray-700 leading-relaxed">{item}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 items-start"
+    >
+      <div>
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Ce que les sponsors peuvent examiner avant de donner
+        </h2>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Pour les sponsors qui ont besoin d'une validation interne, ADA peut
+          fournir un dossier de diligence raisonnable concis et orienter vers
+          les documents publics déjà disponibles sur le site.
+        </p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href="/docs/sponsor-readiness-packet.html"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
+          >
+            Ouvrir le dossier
+          </a>
+          <a
+            href="/fr/contact?subject=Demande+de+Dossier+de+Diligence"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            Demander le dossier complet
+          </a>
+        </div>
+      </div>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {
+          diligenceItems.map((item) => (
+            <li class="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="md">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
+    >
+      <div>
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Des façons simples de sponsoriser
+        </h2>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Garder le chemin courant simple, puis orienter les dons importants ou
+          restreints vers une conversation avant tout transfert. Cela protège le
+          sponsor, ADA et la communauté servie.
+        </p>
+      </div>
+      <div class="space-y-4">
+        <div class="rounded-xl border border-gray-200 bg-white p-5">
+          <h3 class="text-base font-semibold text-gray-900">
+            Paiement et administration sponsor
+          </h3>
+          <ul class="mt-4 space-y-3">
+            {
+              paymentOptions.map((option) => (
+                <li class="text-sm text-gray-700 leading-relaxed">
+                  {option}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+          <h3 class="text-base font-semibold text-amber-950">
+            Statut fiscal et parrainage clairs
+          </h3>
+          <p class="mt-2 text-sm text-amber-900 leading-relaxed">
+            ADA est enregistrée au Cameroun. À ce jour, les contributions ne
+            sont pas présentées comme déductibles d'impôt au Canada, aux
+            États-Unis, au Royaume-Uni ou dans l'Union européenne sauf si un
+            partenaire enregistré qualifié est confirmé par écrit. ADA peut
+            fournir un reçu, une facture ou une confirmation de parrainage pour
+            vos dossiers, mais ne donne pas de conseil fiscal.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold">
+        Prêt à sponsoriser un programme ciblé ?
+      </h2>
+      <p class="mt-3 text-sm text-white/80 leading-relaxed">
+        Dites-nous quel type de sponsor vous êtes et ce que vous souhaitez
+        financer. ADA répondra avec la bonne prochaine étape : lien de don,
+        accord de parrainage, dossier de diligence ou appel.
+      </p>
+      <div class="mt-7 flex flex-col sm:flex-row justify-center gap-3">
+        <a
+          href="/fr/contact?subject=Demande+de+Parrainage"
+          class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-gray-900 bg-white rounded-lg hover:bg-gray-100 transition-colors sm:w-auto"
+        >
+          Commencer une demande
+        </a>
+        <a
+          href="/fr/donate"
+          class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-white border border-white/30 rounded-lg hover:bg-white/10 transition-colors sm:w-auto"
+        >
+          Donner maintenant
+        </a>
+      </div>
+      <div class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2 lg:grid-cols-3">
+        {
+          trustProofs.map((proof) => (
+            <div class="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85">
+              {proof}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+</PageLayout>

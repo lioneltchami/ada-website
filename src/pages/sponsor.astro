@@ -1,0 +1,571 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Section from "../components/layout/Section.astro";
+import {
+  REGISTRATION_CERTIFICATE_URL,
+  REGISTRATION_NUMBER,
+} from "../data/organization";
+
+const sponsorTiers = [
+  {
+    name: "Community Sponsor",
+    amount: "$500-$1,000",
+    funds:
+      "School supplies, food support, seasonal giving items, or emergency household essentials.",
+    outcome:
+      "Helps one focused household, school, or relief need move from urgent gap to documented support.",
+    receives:
+      "ADA receipt, short update, use-of-funds note, and optional public or private recognition.",
+  },
+  {
+    name: "Project Sponsor",
+    amount: "$2,500-$5,000",
+    funds:
+      "A defined education, widow support, orphan care, young women, or IDP relief project.",
+    outcome:
+      "Funds a bounded project with people served, budget, evidence, and a final close-out summary.",
+    receives:
+      "Project photos where consented, impact summary, final report, and optional social thank-you.",
+  },
+  {
+    name: "Program Sponsor",
+    amount: "$10,000+",
+    funds:
+      "A full program season, multi-family support cycle, or recurring community response.",
+    outcome:
+      "Supports a measurable program with quarterly impact email and a final outcome report.",
+    receives:
+      "Sponsor agreement, quarterly updates, final report, logo recognition if approved, and group presentation.",
+  },
+  {
+    name: "Strategic Partner",
+    amount: "Custom",
+    funds:
+      "A multi-year commitment, capacity support, or a custom initiative shaped with ADA leadership.",
+    outcome:
+      "Creates shared goals, reporting cadence, and a practical partnership plan before funds move.",
+    receives:
+      "Co-designed milestones, leadership briefings, due diligence support, and recognition or anonymity by preference.",
+  },
+];
+
+const fundingPaths = [
+  {
+    title: "Sponsor a project",
+    text: "Fund a defined campaign with a target, timeline, budget, and close-out update.",
+  },
+  {
+    title: "Run a group campaign",
+    text: "Churches, companies, schools, and diaspora groups can pool support and request a short virtual presentation.",
+  },
+  {
+    title: "Give recurring support",
+    text: "Monthly or quarterly sponsorship helps ADA plan food, school, health, and follow-up work.",
+  },
+  {
+    title: "Offer in-kind help",
+    text: "Skills, supplies, logistics, training, or equipment can be coordinated by prior agreement.",
+  },
+];
+
+const sponsorReceives = [
+  "Receipt or sponsorship confirmation for your records",
+  "Clear use-of-funds summary",
+  "Project update or campaign recap",
+  "Recognition by name or logo, only if approved",
+  "Public recognition, internal acknowledgment, or full anonymity by preference",
+  "Photos or stories when appropriate and consented",
+  "Employee, church, school, or diaspora group presentation when useful",
+  "Optional leadership call for larger sponsorships",
+];
+
+const outcomeProofs = [
+  {
+    project: "Widow vocational training",
+    cost: "$3,200 documented cohort budget",
+    served: "15 widows trained; 12 graduated",
+    outcome:
+      "Graduates began earning income, with average income increasing from $10/month to $50/month.",
+    evidence:
+      "Completion records, field photos, graduate follow-up, and project report.",
+    next: "Sponsor the next cohort with materials, trainers, and post-training follow-up.",
+  },
+  {
+    project: "Clean water infrastructure",
+    cost: "$4,417 documented project cost",
+    served: "300+ community members",
+    outcome:
+      "A completed water point improved daily access to safe water for households and students.",
+    evidence:
+      "Project budget, completion records, community photos, and annual report.",
+    next: "Maintain the well and expand water access planning for nearby households.",
+  },
+  {
+    project: "Back-to-school support",
+    cost: "Two 2024 school campaigns",
+    served: "40 orphaned children",
+    outcome:
+      "Children received fees, supplies, and school materials before the academic term.",
+    evidence:
+      "Attendance lists, procurement records, consented photos, and project summaries.",
+    next: "Fund the next term earlier so families and schools can plan with confidence.",
+  },
+  {
+    project: "Emergency food relief",
+    cost: "$2,417 documented relief budget",
+    served: "50 displaced families; 150+ people",
+    outcome:
+      "Families received planned food packages across a three-month emergency support cycle.",
+    evidence:
+      "Distribution records, receipts, field notes, and project close-out report.",
+    next: "Pre-position sponsor-backed emergency response funds before the next crisis window.",
+  },
+];
+
+const paymentOptions = [
+  "Stripe card giving is available online for one-time or monthly USD donations.",
+  "Invoice, sponsorship agreement, or purchase-order style requests can start through the sponsor inquiry form.",
+  "Bank, wire, or direct transfer details can be arranged by request before payment where available.",
+  "Corporate matching is welcome, but employers should confirm eligibility because ADA is Cameroon-registered and not a Canadian charity or US 501(c)(3).",
+  "Restricted gifts should be discussed before payment so ADA can confirm purpose, reporting, and recognition expectations.",
+  "Check gifts should only be used if a qualified fiscal sponsor or registered charity partner is confirmed in writing.",
+];
+
+const trustProofs = [
+  `Registered NGO: ${REGISTRATION_NUMBER}`,
+  "80% direct program delivery target",
+  "Receipts issued for records",
+  "Project reports available",
+  "Stripe-secured card giving",
+  "Due-diligence packet available",
+  "Bilingual reporting: English/French",
+];
+
+const diligenceItems = [
+  "Cameroon registration certificate",
+  "Leadership and governance overview",
+  "Financial allocation model",
+  "Annual reports and project records",
+  "Safeguarding and financial management policies",
+  "Reporting expectations and contact path",
+];
+---
+
+<PageLayout
+  title="Sponsor a Program"
+  description="Sponsor practical support for widows, orphans, young women, displaced families, and students in Cameroon. Clear funding options, receipts, reporting, and due diligence."
+>
+  <section class="overflow-hidden bg-white">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center"
+    >
+      <div class="min-w-0">
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+        >
+          Sponsor ADA work in Cameroon
+        </p>
+        <h1
+          class="mt-4 max-w-3xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-950 leading-tight"
+        >
+          Sponsor practical support for families in Cameroon
+        </h1>
+        <p class="mt-5 text-lg text-gray-600 leading-relaxed max-w-2xl">
+          Partner with Apoti Development Association to fund direct community
+          programs for widows, orphans, young women, displaced families,
+          students, and emergency relief. We keep sponsorship simple: clear
+          options, written records, useful updates, and transparent use of
+          funds.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a
+            href="/contact?subject=Sponsorship+Packet+Request"
+            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors shadow-sm sm:w-auto"
+          >
+            Request sponsorship packet
+          </a>
+          <a
+            href="#tiers"
+            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-primary-800 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            See sponsor options
+          </a>
+        </div>
+        <p class="mt-5 text-xs text-gray-500">
+          Registered in Cameroon ({REGISTRATION_NUMBER}). Volunteer-led
+          executive leadership. 80% of funds directed to program delivery.
+        </p>
+      </div>
+
+      <div
+        class="rounded-2xl border border-gray-200 bg-gray-50 p-6 md:p-8 shadow-card"
+      >
+        <h2 class="text-xl font-heading font-bold text-gray-900">
+          Sponsor-ready at a glance
+        </h2>
+        <dl class="mt-6 space-y-4">
+          <div
+            class="grid grid-cols-1 gap-1 border-b border-gray-200 pb-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-4"
+          >
+            <dt class="text-sm text-gray-500">Legal status</dt>
+            <dd
+              class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
+            >
+              Cameroon-registered NGO
+            </dd>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-1 border-b border-gray-200 pb-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-4"
+          >
+            <dt class="text-sm text-gray-500">Reporting</dt>
+            <dd
+              class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
+            >
+              Updates, records, reports
+            </dd>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-1 border-b border-gray-200 pb-3 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-4"
+          >
+            <dt class="text-sm text-gray-500">Giving paths</dt>
+            <dd
+              class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
+            >
+              Stripe card, invoice, wire inquiry
+            </dd>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-1 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:gap-4"
+          >
+            <dt class="text-sm text-gray-500">Due diligence</dt>
+            <dd
+              class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
+            >
+              Packet available
+            </dd>
+          </div>
+        </dl>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href={REGISTRATION_CERTIFICATE_URL}
+            target="_blank"
+            rel="noopener"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Registration certificate
+          </a>
+          <a
+            href="/transparency"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Transparency
+          </a>
+          <a
+            href="/resources"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Resource library
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Section background="gray" padding="md">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+        Four simple ways organizations can help
+      </h2>
+      <p class="mt-3 text-sm text-gray-600">
+        Choose the path that fits your church, company, school, diaspora group,
+        foundation, or family.
+      </p>
+    </div>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {
+        fundingPaths.map((path) => (
+          <div class="bg-white border border-gray-200 rounded-xl p-5">
+            <h3 class="text-base font-semibold text-gray-900">
+              {path.title}
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+              {path.text}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+        Impact shown as outcomes
+      </h2>
+      <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+        Sponsors should see what changed, not only what ADA did. These examples
+        show the problem addressed through cost, people served, outcome,
+        evidence, and the next milestone.
+      </p>
+    </div>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+      {
+        outcomeProofs.map((proof) => (
+          <article class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-900">
+              {proof.project}
+            </h3>
+            <dl class="mt-4 space-y-3 text-sm">
+              <div>
+                <dt class="font-semibold text-gray-900">Cost</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.cost}
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Number served</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.served}
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Outcome</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.outcome}
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Evidence</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.evidence}
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-gray-900">Next milestone</dt>
+                <dd class="mt-1 text-gray-600 leading-relaxed">
+                  {proof.next}
+                </dd>
+              </div>
+            </dl>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section id="tiers" background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center">
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Sponsor options
+        </h2>
+        <p class="mt-3 text-sm text-gray-600">
+          Online card gifts currently process in USD through Stripe. Sponsors
+          who need another currency, invoice, bank transfer, or a larger
+          restricted gift can start with a short sponsorship agreement before
+          payment.
+        </p>
+      </div>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+        {
+          sponsorTiers.map((tier) => (
+            <article class="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 class="text-lg font-semibold text-gray-900">{tier.name}</h3>
+              <p class="mt-2 text-2xl font-bold text-primary-700">
+                {tier.amount}
+              </p>
+              <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Helps fund
+              </p>
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                {tier.funds}
+              </p>
+              <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Outcome focus
+              </p>
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                {tier.outcome}
+              </p>
+              <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Sponsor receives
+              </p>
+              <p class="mt-1 flex-1 text-sm text-gray-600 leading-relaxed">
+                {tier.receives}
+              </p>
+              <a
+                href={`/contact?subject=Sponsorship+Inquiry+-+${encodeURIComponent(tier.name)}`}
+                class="mt-6 inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+              >
+                Ask about this option
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-8 items-start"
+    >
+      <div>
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Clear follow-through, not vague promises
+        </h2>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Every sponsor receives confirmation of support and a useful record for
+          their files. Reporting stays practical: enough detail to show
+          stewardship without overwhelming sponsors or the communities we serve.
+        </p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href="/projects/archive"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white rounded-lg hover:bg-primary-50 transition-colors sm:w-auto"
+          >
+            See completed work
+          </a>
+          <a
+            href="/resources"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white rounded-lg hover:bg-primary-50 transition-colors sm:w-auto"
+          >
+            Review documents
+          </a>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {
+          sponsorReceives.map((item) => (
+            <div class="rounded-lg bg-white border border-gray-200 p-4">
+              <p class="text-sm text-gray-700 leading-relaxed">{item}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 items-start"
+    >
+      <div>
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          What sponsors can review before giving
+        </h2>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          For sponsors who need internal approval, ADA can provide a concise
+          due-diligence packet and point you to the public records already
+          available on the site.
+        </p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href="/docs/sponsor-readiness-packet.html"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
+          >
+            Open sponsor packet
+          </a>
+          <a
+            href="/contact?subject=Due+Diligence+Package+Request"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            Request full packet
+          </a>
+        </div>
+      </div>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {
+          diligenceItems.map((item) => (
+            <li class="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="md">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
+    >
+      <div>
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Simple ways to sponsor
+        </h2>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Keep the common path easy, then route larger or restricted support to
+          a conversation before funds move. That protects the sponsor, ADA, and
+          the community being served.
+        </p>
+      </div>
+      <div class="space-y-4">
+        <div class="rounded-xl border border-gray-200 bg-white p-5">
+          <h3 class="text-base font-semibold text-gray-900">
+            Payment and sponsor administration
+          </h3>
+          <ul class="mt-4 space-y-3">
+            {
+              paymentOptions.map((option) => (
+                <li class="text-sm text-gray-700 leading-relaxed">
+                  {option}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+          <h3 class="text-base font-semibold text-amber-950">
+            Clear tax and sponsorship status
+          </h3>
+          <p class="mt-2 text-sm text-amber-900 leading-relaxed">
+            ADA is registered in Cameroon. At this time, contributions are not
+            represented as tax-deductible in Canada, the United States, the
+            United Kingdom, or the European Union unless a qualified registered
+            partner is confirmed in writing. ADA can issue a receipt, invoice,
+            or sponsorship confirmation for your records, but does not provide
+            tax advice.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold">
+        Ready to sponsor a focused program?
+      </h2>
+      <p class="mt-3 text-sm text-white/80 leading-relaxed">
+        Tell us what kind of sponsor you are and what you want to fund. ADA will
+        respond with the right next step: donation link, sponsorship agreement,
+        due-diligence packet, or a call.
+      </p>
+      <div class="mt-7 flex flex-col sm:flex-row justify-center gap-3">
+        <a
+          href="/contact?subject=Sponsorship+Inquiry"
+          class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-gray-900 bg-white rounded-lg hover:bg-gray-100 transition-colors sm:w-auto"
+        >
+          Start sponsorship inquiry
+        </a>
+        <a
+          href="/donate"
+          class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-white border border-white/30 rounded-lg hover:bg-white/10 transition-colors sm:w-auto"
+        >
+          Give now
+        </a>
+      </div>
+      <div class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2 lg:grid-cols-3">
+        {
+          trustProofs.map((proof) => (
+            <div class="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85">
+              {proof}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+</PageLayout>

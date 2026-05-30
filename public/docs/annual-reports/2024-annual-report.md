@@ -197,7 +197,7 @@ The campaign cost $983 (590,000 CFA) against a $1,000 budget. Beyond the materia
 
 ### Overhead Analysis
 
-ADA operates with **zero administrative overhead charged to project budgets**. All leadership, coordination, and administrative functions are performed on a volunteer basis. 100% of donated funds go directly to program delivery. Operational costs (communication, transport for coordination) are absorbed by team members personally or covered by separate unrestricted contributions.
+ADA operated with **zero administrative overhead charged to project budgets** for this reporting period. Leadership and coordination functions were volunteer-led, and project budgets were directed to program delivery. Operational costs such as communication and coordination transport were absorbed personally by team members or covered by separate unrestricted support.
 
 ### Cost Efficiency
 
@@ -474,7 +474,7 @@ Based on our growth trajectory and expanded programming, ADA targets a 2025 budg
 
 ### Financial Contributions
 
-Every dollar donated goes directly to program delivery. ADA operates with zero administrative overhead — all coordination and leadership functions are volunteer-based.
+ADA prioritizes program delivery and keeps administration lean. Executive coordination is volunteer-led, and current public allocation targets direct most support to programs while preserving enough operating capacity for responsible delivery and reporting.
 
 | Impact Level | Amount | What It Provides |
 |--------------|--------|------------------|
