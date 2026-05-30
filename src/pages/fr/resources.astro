@@ -1,10 +1,9 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/layout/PageHero.astro';
-import DocumentLibrary from '../../components/resources/DocumentLibrary.astro';
-import { getLocale, t, localePath } from '../../i18n';
-import { REGISTRATION_CERTIFICATE_URL } from '../../data/organization';
-import { loadProjectDocumentLibrary } from '../../lib/project-archive';
+import PageLayout from "../../layouts/PageLayout.astro";
+import PageHero from "../../components/layout/PageHero.astro";
+import DocumentLibrary from "../../components/resources/DocumentLibrary.astro";
+import { getLocale, t } from "../../i18n";
+import { loadProjectDocumentLibrary } from "../../lib/project-archive";
 
 const locale = getLocale(Astro.url.pathname);
 const labels = t(locale);
@@ -12,43 +11,84 @@ const { yearGroups, totalProjects } = await loadProjectDocumentLibrary();
 
 const dueDiligenceDocs = [
   {
-    title: 'Dossier de Parrainage',
-    desc: 'Options de parrainage, attentes de rapport et résumé de diligence',
-    link: '/docs/sponsor-readiness-packet.html',
+    title: "Fiche Sponsor Corporate",
+    desc: "Résumé d'une page pour RH, CSR, conseils d'église et validations internes.",
+    link: "/docs/diligence/ada-corporate-sponsor-one-pager.pdf",
     external: true,
-    icon: '🤝',
-    action: labels.resources.openLink,
+    meta: "PDF · 1 page · anglais",
+    icon: "📄",
   },
   {
-    title: 'Enregistrement Légal',
-    desc: "Certificat officiel d'enregistrement d'ONG (Cameroun)",
-    link: REGISTRATION_CERTIFICATE_URL,
+    title: "Dossier de Parrainage",
+    desc: "Niveaux de parrainage, attentes de rapport, modes de paiement et note fiscale.",
+    link: "/docs/diligence/ada-sponsor-readiness-packet.pdf",
     external: true,
-    icon: '📜',
+    meta: "PDF · aperçu sponsor",
+    icon: "🤝",
   },
   {
-    title: "Conseil d'Administration",
-    desc: 'Membres actuels du conseil et structure de gouvernance',
-    link: localePath('/team', locale),
-    external: false,
-    icon: '👥',
-    action: labels.resources.openLink,
+    title: "Certificat d'Enregistrement",
+    desc: "Certificat officiel d'enregistrement ONG au Cameroun pour les dossiers sponsor.",
+    link: "/docs/diligence/ada-registration-certificate.pdf",
+    external: true,
+    meta: "PDF · document légal",
+    icon: "📜",
   },
   {
-    title: 'Politique de Protection',
-    desc: "Notre engagement pour la protection de l'enfance",
-    link: '/docs/policies/safeguarding.md',
+    title: "Aperçu de Gouvernance",
+    desc: "Structure du conseil, supervision, autorité financière et revue documentaire.",
+    link: "/docs/diligence/ada-governance-overview.pdf",
     external: true,
-    icon: '🛡️',
-    action: labels.resources.openLink,
+    meta: "PDF · gouvernance",
+    icon: "👥",
   },
   {
-    title: 'Gestion Financière',
-    desc: 'Contrôles internes et politiques anti-corruption',
-    link: '/docs/policies/financial-management.md',
+    title: "Politique de Gestion Financière",
+    desc: "Contrôles internes, approbations, achats, caisse et standards de rapport.",
+    link: "/docs/diligence/ada-financial-management-policy.pdf",
     external: true,
-    icon: '📑',
-    action: labels.resources.openLink,
+    meta: "PDF · politique",
+    icon: "📑",
+  },
+  {
+    title: "Résumé Financier Récent",
+    desc: "Totaux 2024, modèle d’allocation et notes financières pour sponsors.",
+    link: "/docs/diligence/ada-financial-summary-2024.pdf",
+    external: true,
+    meta: "PDF · résumé 2024",
+    icon: "📑",
+  },
+  {
+    title: "Politique de Protection",
+    desc: "Protection de l'enfance, consentement, réponse aux incidents et sécurité.",
+    link: "/docs/diligence/ada-safeguarding-policy.pdf",
+    external: true,
+    meta: "PDF · politique",
+    icon: "🛡️",
+  },
+  {
+    title: "Anti-Fraude et Intégrité des Dons",
+    desc: "Conflits d'intérêt, dons restreints, anti-fraude et mécanismes de signalement.",
+    link: "/docs/diligence/ada-anti-fraud-gift-integrity-summary.pdf",
+    external: true,
+    meta: "PDF · résumé politique",
+    icon: "✓",
+  },
+  {
+    title: "Modèle de Budget Programme",
+    desc: "Modèle transférable montrant les catégories budgétaires utilisées par ADA.",
+    link: "/docs/diligence/ada-program-budget-template.pdf",
+    external: true,
+    meta: "PDF · modèle",
+    icon: "▦",
+  },
+  {
+    title: "Tableau d'Impact",
+    desc: "Indicateurs publics avec méthode de mesure, fréquence et sources.",
+    link: "/docs/diligence/ada-impact-scorecard.pdf",
+    external: true,
+    meta: "PDF · Mai 2026",
+    icon: "↗",
   },
 ];
 
@@ -69,8 +109,15 @@ const libraryLabels = {
 };
 ---
 
-<PageLayout title={labels.resources.title} description={labels.resources.subtitle}>
-  <PageHero title={labels.resources.title} subtitle={labels.resources.subtitle} compact />
+<PageLayout
+  title={labels.resources.title}
+  description={labels.resources.subtitle}
+>
+  <PageHero
+    title={labels.resources.title}
+    subtitle={labels.resources.subtitle}
+    compact
+  />
 
   <DocumentLibrary
     locale={locale}

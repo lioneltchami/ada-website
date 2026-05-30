@@ -1,0 +1,147 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+import {
+  impactMetricsFr,
+  impactScorecardUpdated,
+  measurementLabels,
+} from "../../data/impact-scorecard";
+
+const proofLinks = [
+  { label: "Demande de parrainage", href: "/fr/sponsor/inquiry" },
+  { label: "Documents de diligence", href: "/fr/resources#due-diligence" },
+  { label: "Page de transparence", href: "/fr/transparency" },
+];
+---
+
+<PageLayout
+  title="Tableau d'Impact"
+  description="Tableau synthétique des indicateurs publics d'impact d'ADA, avec base de mesure, cadence de mise à jour et sources."
+>
+  <section class="bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="max-w-3xl">
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight"
+        >
+          Tableau d'impact
+        </h1>
+        <p class="mt-4 text-lg text-gray-600 leading-relaxed">
+          Une vue concise de ce qu'ADA suit pour les sponsors : personnes
+          atteintes, preuves disponibles, allocation aux programmes et qualité
+          de chaque donnée. Chaque chiffre indique s'il est mesuré, basé sur des
+          dossiers terrain ou estimé.
+        </p>
+        <p class="mt-3 text-sm text-gray-500">
+          Dernière mise à jour : {impactScorecardUpdated}. Les chiffres
+          proviennent des rapports annuels publics, rapports de clôture de
+          projets et du modèle public actuel d'allocation d'ADA.
+        </p>
+      </div>
+      <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        {
+          proofLinks.map((link) => (
+            <a
+              href={link.href}
+              class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Section background="gray" padding="lg">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {
+          impactMetricsFr.slice(0, 4).map((metric) => (
+            <article class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+              <p class="text-sm font-semibold text-gray-700">{metric.label}</p>
+              <p class="mt-3 text-3xl font-bold text-primary-700">
+                {metric.value}
+              </p>
+              <p class="mt-2 text-xs text-gray-500">{metric.period}</p>
+              <p class="mt-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                {measurementLabels.fr[metric.measurement]}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div
+        class="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
+      >
+        <div class="border-b border-gray-200 px-5 py-4">
+          <h2 class="text-xl font-heading font-bold text-gray-900">
+            Indicateurs publics
+          </h2>
+          <p class="mt-1 text-sm text-gray-600">
+            Assez concis pour être parcouru rapidement, assez clair pour une
+            revue interne de sponsor.
+          </p>
+        </div>
+        <div class="divide-y divide-gray-100">
+          {
+            impactMetricsFr.map((metric) => (
+              <article class="grid grid-cols-1 gap-4 px-5 py-5 lg:grid-cols-[1.25fr_0.75fr_1fr]">
+                <div>
+                  <h3 class="text-base font-semibold text-gray-900">
+                    {metric.label}
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                    {metric.note}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-2xl font-bold text-primary-700">
+                    {metric.value}
+                  </p>
+                  <p class="mt-1 text-xs text-gray-500">{metric.period}</p>
+                </div>
+                <div class="text-sm">
+                  <p class="font-semibold text-gray-900">
+                    {measurementLabels.fr[metric.measurement]} ·{" "}
+                    {metric.cadence}
+                  </p>
+                  <a
+                    href={metric.sourceUrl}
+                    target={
+                      metric.sourceUrl.endsWith(".pdf") ? "_blank" : undefined
+                    }
+                    rel={
+                      metric.sourceUrl.endsWith(".pdf") ? "noopener" : undefined
+                    }
+                    class="mt-1 inline-flex text-primary-700 hover:underline"
+                  >
+                    {metric.source}
+                  </a>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="md">
+    <div
+      class="max-w-4xl mx-auto rounded-xl border border-amber-200 bg-amber-50 p-5"
+    >
+      <h2 class="text-base font-semibold text-amber-950">
+        Ce que ce tableau ne prétend pas
+      </h2>
+      <p class="mt-2 text-sm text-amber-900 leading-relaxed">
+        Il s'agit d'un tableau public de gestion, pas d'une évaluation d'impact
+        auditée ni d'une déclaration de déductibilité fiscale. ADA est
+        enregistrée au Cameroun, et les dons internationaux ne sont pas
+        présentés comme déductibles d'impôt sauf si un partenaire enregistré
+        qualifié est confirmé par écrit.
+      </p>
+    </div>
+  </Section>
+</PageLayout>

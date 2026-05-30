@@ -1,5 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 import { createClient } from "@supabase/supabase-js";
+import { getEnv } from "./lib/runtime-env";
 
 const PROTECTED_ROUTES = ["/dashboard"];
 const SENSITIVE_ROUTES = ["/api", "/auth", "/dashboard", "/donate/thank-you"];
@@ -29,8 +30,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   const isProtected = PROTECTED_ROUTES.some((r) => url.pathname.startsWith(r));
 
-  const supabaseUrl = (import.meta as any).env?.PUBLIC_SUPABASE_URL;
-  const supabaseKey = (import.meta as any).env?.PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseUrl = getEnv("PUBLIC_SUPABASE_URL");
+  const supabaseKey = getEnv("PUBLIC_SUPABASE_ANON_KEY");
 
   if (!supabaseUrl || !supabaseKey) {
     if (isProtected) {

@@ -64,6 +64,10 @@ const links = [
     label: i18n.nav.sponsor,
   },
   {
+    href: localePath("/monthly", locale),
+    label: locale === "fr" ? "Don mensuel" : "Monthly giving",
+  },
+  {
     href: localePath("/transparency", locale),
     label: locale === "fr" ? "Transparence" : "Transparency",
   },
@@ -175,14 +179,14 @@ const links = [
           <li>
             <a
               href={`mailto:${contactEmail}`}
-              class="hover:text-primary-400 transition-colors"
-              >{contactEmail}</a>
+              class="hover:text-primary-400 transition-colors">{contactEmail}</a
+            >
           </li>
           <li>
             <a
               href={`https://wa.me/${contactPhone.replace(/[^0-9]/g, "")}`}
-              class="hover:text-primary-400 transition-colors"
-              >{contactPhone}</a>
+              class="hover:text-primary-400 transition-colors">{contactPhone}</a
+            >
           </li>
         </ul>
       </div>

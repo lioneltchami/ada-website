@@ -308,7 +308,7 @@ Bot edits Sanity statuses every day
 4. Stripe Elements collects payment details.
 5. Stripe redirects to `/donate/thank-you`.
 6. Stripe webhook confirms payment server-side.
-7. Verified webhook writes donation history to Supabase and sends receipt email.
+7. Verified webhook writes donation history to Supabase, sends the receipt/thank-you email, and marks the gift for a 30-day impact follow-up.
 
 ### Payment API Routes
 
@@ -317,6 +317,7 @@ Bot edits Sanity statuses every day
 | `POST /api/create-payment-intent` | `src/pages/api/create-payment-intent.ts` | Creates Stripe PaymentIntent for one-time donation                 |
 | `POST /api/create-subscription`   | `src/pages/api/create-subscription.ts`   | Creates Stripe customer/subscription for monthly donation          |
 | `POST /api/webhooks/stripe`       | `src/pages/api/webhooks/stripe.ts`       | Verifies Stripe signatures and handles completed payments/invoices |
+| `POST /api/performance-metrics`   | `src/pages/api/performance-metrics.ts`   | Receives sampled Core Web Vitals from the browser                  |
 
 ### Payment Security
 
@@ -357,6 +358,23 @@ Records are upserted into Supabase by:
 
 That protects against duplicate webhook deliveries.
 
+The donation record also tracks:
+
+- `receipt_id`
+- `locale`
+- `thank_you_sent_at`
+- `follow_up_due_at`
+- `follow_up_status`
+
+This powers the post-donation follow-up sequence:
+
+1. A verified Stripe event creates or updates the donation record.
+2. The donor receives one locale-aware email containing the PDF receipt, thank-you, "what happens next," and the expected 30-day update date.
+3. ADA receives an internal follow-up task email with the donor, amount, project, receipt ID, Stripe reference, and due date.
+4. Redelivered webhooks do not resend the donor email once `thank_you_sent_at` is present.
+
+The site does not pretend to have a full external CRM queue by itself. The reliable automation implemented here is webhook-backed recording plus immediate donor/admin follow-up. The actual 30-day impact message still needs ADA staff or a future email automation platform to send the field update, unless a scheduled worker/CRM is added later.
+
 ## Supabase
 
 Supabase is used for:
@@ -378,6 +396,7 @@ That migration creates:
 - `public.donations`
 - unique Stripe ID columns
 - donor email/date index
+- follow-up due-date index
 - row-level security
 - policy allowing donors to read their own donations
 - `updated_at` trigger
@@ -407,11 +426,31 @@ The site sends:
 
 - contact notifications
 - newsletter confirmations
-- donation receipt emails
+- donation receipt/thank-you emails
+- internal 30-day donation follow-up task emails
 
 Donation receipt HTML/PDF support lives in `src/lib/receipt.ts`.
 
 In production, missing email/Supabase settings should fail loudly rather than silently losing receipts or donation history.
+
+## Performance Monitoring
+
+`src/layouts/BaseLayout.astro` includes a small no-dependency browser beacon for sampled Core Web Vitals:
+
+- TTFB
+- FCP
+- LCP
+- CLS
+- INP when supported by the browser
+
+The beacon posts only compact technical metrics to `/api/performance-metrics`:
+
+- metric name/value/rating
+- path
+- mobile/desktop classification
+- browser connection type when available
+
+No donor name, email, amount, payment details, or query string is sent. Cloudflare observability is also enabled in `wrangler.jsonc`, so these metrics can be reviewed through Worker logs/observability without adding visible page weight.
 
 ## Public Documents And Resource Library
 
@@ -571,17 +610,19 @@ The daily schedule is important for date-based project lifecycle refreshes.
 | `PUBLIC_SUPABASE_URL`           | Supabase URL for client/server auth                                |
 | `PUBLIC_SUPABASE_ANON_KEY`      | Supabase anonymous key                                             |
 | `SUPABASE_SERVICE_ROLE_KEY`     | Server-only Supabase key for donation persistence/dashboard lookup |
+| `DONATION_FOLLOWUP_CRON_SECRET` | Bearer secret for the 30-day donation follow-up cron endpoint      |
 | `CLOUDFLARE_API_TOKEN`          | GitHub Actions deploy to Cloudflare                                |
 | `CLOUDFLARE_ACCOUNT_ID`         | Cloudflare account for deploy workflow                             |
 
 ### Optional/Related
 
-| Variable                  | Purpose                                                   |
-| :------------------------ | :-------------------------------------------------------- |
-| `SANITY_API_TOKEN`        | Legacy/fallback token name; `SANITY_TOKEN` is preferred   |
-| `SUPABASE_URL`            | Server-side fallback if `PUBLIC_SUPABASE_URL` is not used |
-| `PUBLIC_UMAMI_WEBSITE_ID` | Umami analytics website ID                                |
-| `PUBLIC_UMAMI_URL`        | Umami script URL                                          |
+| Variable                        | Purpose                                                       |
+| :------------------------------ | :------------------------------------------------------------ |
+| `SANITY_API_TOKEN`              | Legacy/fallback token name; `SANITY_TOKEN` is preferred       |
+| `SUPABASE_URL`                  | Server-side fallback if `PUBLIC_SUPABASE_URL` is not used     |
+| `PUBLIC_UMAMI_WEBSITE_ID`       | Umami analytics website ID                                    |
+| `PUBLIC_UMAMI_URL`              | Umami script URL                                              |
+| `PUBLIC_WEB_VITALS_SAMPLE_RATE` | Optional browser performance sampling rate, defaults to `0.2` |
 
 ### Local `.env`
 
@@ -928,7 +969,7 @@ Sanity CMS
   -> visitors browse/donate
   -> Stripe confirms payment via webhook
   -> Supabase stores donation record
-  -> email helper sends receipt
+  -> email helper sends receipt and 30-day follow-up task
   -> donor dashboard reads donation history
 ```
 

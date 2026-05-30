@@ -1,0 +1,174 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Section from "../components/layout/Section.astro";
+import DonationForm from "../components/islands/DonationForm";
+import { getProjects, type SanityProject } from "../lib/sanity";
+import { getProjectLifecycleState } from "../lib/project-lifecycle";
+import { REGISTRATION_NUMBER } from "../data/organization";
+
+let projectOptions: { slug: string; title: string }[] = [];
+try {
+  const projects = await getProjects();
+  if (projects?.length) {
+    projectOptions = projects
+      .filter(
+        (p: SanityProject) => getProjectLifecycleState(p).status === "active",
+      )
+      .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+  }
+} catch {}
+
+const monthlyBenefits = [
+  {
+    title: "Predictable help",
+    text: "Recurring gifts help ADA plan school support, food relief, and field follow-up before urgent needs pile up.",
+  },
+  {
+    title: "Small gift, steady reach",
+    text: "$25/month can keep practical support moving without requiring a large one-time gift.",
+  },
+  {
+    title: "Simple control",
+    text: "Monthly gifts can be changed or cancelled by contacting ADA. No cancellation fees apply.",
+  },
+];
+
+const monthlyUses = [
+  "$10/month helps provide meals or urgent household basics.",
+  "$25/month supports school supplies and care for vulnerable children.",
+  "$50/month helps stabilize widow and family support.",
+  "$100/month contributes to training, mentoring, and follow-up.",
+];
+---
+
+<PageLayout
+  title="Monthly Giving"
+  description="Become a monthly ADA supporter and help provide steady care for widows, orphans, young women, and vulnerable families in Cameroon."
+>
+  <section class="bg-white">
+    <div
+      class="max-w-6xl mx-auto min-w-0 px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start"
+    >
+      <div class="min-w-0">
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight"
+        >
+          Give monthly. Keep care moving.
+        </h1>
+        <p class="mt-5 text-lg text-gray-600 leading-relaxed">
+          Monthly supporters give ADA a steadier base for practical help in
+          Cameroon: school support, widow relief, food assistance, skills
+          training, health referrals, and field follow-up.
+        </p>
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href="#monthly-form"
+            class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
+          >
+            Start monthly giving
+          </a>
+          <a
+            href="/impact-scorecard"
+            class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            See impact scorecard
+          </a>
+        </div>
+        <p class="mt-5 text-xs text-gray-500 leading-relaxed">
+          ADA is registered in Cameroon ({REGISTRATION_NUMBER}). International
+          gifts are not represented as tax-deductible unless a qualified
+          registered partner is confirmed in writing.
+        </p>
+      </div>
+
+      <div
+        id="monthly-form"
+        class="min-w-0 scroll-mt-24 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-6"
+      >
+        <DonationForm client:load projects={projectOptions} monthlyOnly />
+      </div>
+    </div>
+  </section>
+
+  <Section background="gray" padding="lg">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+        Why monthly giving helps
+      </h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {
+          monthlyBenefits.map((item) => (
+            <div class="rounded-xl border border-gray-200 bg-white p-5">
+              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
+              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                {item.text}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
+    >
+      <div>
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Simple, recurring support
+        </h2>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          The monthly form is intentionally focused on recurring gifts only. It
+          keeps the donor path short and avoids mixing corporate sponsorship,
+          invoices, or restricted gift approvals into the individual giving
+          flow.
+        </p>
+        <p class="mt-4 text-sm text-gray-500 leading-relaxed">
+          Online payments are processed by Stripe. Eligible wallet options such
+          as Apple Pay or Google Pay can appear when supported by the donor's
+          device, browser, and ADA's Stripe settings.
+        </p>
+      </div>
+      <div class="rounded-xl border border-gray-200 bg-gray-50 p-5">
+        <h3 class="text-base font-semibold text-gray-900">
+          What monthly gifts can support
+        </h3>
+        <ul class="mt-4 space-y-3">
+          {
+            monthlyUses.map((item) => (
+              <li class="flex gap-3 text-sm text-gray-700">
+                <span
+                  class="mt-1.5 h-2 w-2 rounded-full bg-primary-500 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="md">
+    <div
+      class="max-w-4xl mx-auto rounded-xl border border-amber-200 bg-amber-50 p-5"
+    >
+      <h2 class="text-base font-semibold text-amber-950">
+        Tax-deductible partner path
+      </h2>
+      <p class="mt-2 text-sm text-amber-900 leading-relaxed">
+        ADA does not currently advertise a Canada, US, UK, or EU tax-deductible
+        giving route. Organizations that require one can contact ADA to discuss
+        requirements and future eligibility before making a gift.
+      </p>
+      <a
+        href="/sponsor/inquiry"
+        class="mt-4 inline-flex px-4 py-2 text-sm font-semibold text-amber-950 bg-white rounded-lg hover:bg-amber-100 transition-colors"
+      >
+        Discuss giving requirements
+      </a>
+    </div>
+  </Section>
+</PageLayout>

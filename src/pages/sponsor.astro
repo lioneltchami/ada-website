@@ -1,10 +1,7 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
-import {
-  REGISTRATION_CERTIFICATE_URL,
-  REGISTRATION_NUMBER,
-} from "../data/organization";
+import { REGISTRATION_NUMBER } from "../data/organization";
 
 const sponsorTiers = [
   {
@@ -123,9 +120,10 @@ const outcomeProofs = [
 ];
 
 const paymentOptions = [
-  "Stripe card giving is available online for one-time or monthly USD donations.",
+  "Stripe card giving is available online for one-time or monthly USD donations; eligible wallet options can appear when supported by Stripe, device, and browser settings.",
+  "PayPal, Venmo, and ACH should not be advertised as active until operations and reconciliation are confirmed.",
   "Invoice, sponsorship agreement, or purchase-order style requests can start through the sponsor inquiry form.",
-  "Bank, wire, or direct transfer details can be arranged by request before payment where available.",
+  "Bank, wire, or direct-transfer requests are reviewed manually before ADA shares any payment instructions.",
   "Corporate matching is welcome, but employers should confirm eligibility because ADA is Cameroon-registered and not a Canadian charity or US 501(c)(3).",
   "Restricted gifts should be discussed before payment so ADA can confirm purpose, reporting, and recognition expectations.",
   "Check gifts should only be used if a qualified fiscal sponsor or registered charity partner is confirmed in writing.",
@@ -179,14 +177,22 @@ const diligenceItems = [
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-3">
           <a
-            href="/contact?subject=Sponsorship+Packet+Request"
+            href="/sponsor/inquiry"
             class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors shadow-sm sm:w-auto"
           >
-            Request sponsorship packet
+            Start sponsor inquiry
+          </a>
+          <a
+            href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-primary-800 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            Download one-pager
           </a>
           <a
             href="#tiers"
-            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-primary-800 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors sm:w-auto"
           >
             See sponsor options
           </a>
@@ -231,7 +237,7 @@ const diligenceItems = [
             <dd
               class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
             >
-              Stripe card, invoice, wire inquiry
+              Stripe card; invoice or wire by inquiry
             </dd>
           </div>
           <div
@@ -247,7 +253,15 @@ const diligenceItems = [
         </dl>
         <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a
-            href={REGISTRATION_CERTIFICATE_URL}
+            href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
+            target="_blank"
+            rel="noopener"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Corporate one-pager
+          </a>
+          <a
+            href="/docs/diligence/ada-registration-certificate.pdf"
             target="_blank"
             rel="noopener"
             class="text-sm font-semibold text-primary-700 hover:underline"
@@ -265,6 +279,12 @@ const diligenceItems = [
             class="text-sm font-semibold text-primary-700 hover:underline"
           >
             Resource library
+          </a>
+          <a
+            href="/impact-scorecard"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Impact scorecard
           </a>
         </div>
       </div>
@@ -285,9 +305,7 @@ const diligenceItems = [
       {
         fundingPaths.map((path) => (
           <div class="bg-white border border-gray-200 rounded-xl p-5">
-            <h3 class="text-base font-semibold text-gray-900">
-              {path.title}
-            </h3>
+            <h3 class="text-base font-semibold text-gray-900">{path.title}</h3>
             <p class="mt-2 text-sm text-gray-600 leading-relaxed">
               {path.text}
             </p>
@@ -312,15 +330,11 @@ const diligenceItems = [
       {
         outcomeProofs.map((proof) => (
           <article class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-lg font-semibold text-gray-900">
-              {proof.project}
-            </h3>
+            <h3 class="text-lg font-semibold text-gray-900">{proof.project}</h3>
             <dl class="mt-4 space-y-3 text-sm">
               <div>
                 <dt class="font-semibold text-gray-900">Cost</dt>
-                <dd class="mt-1 text-gray-600 leading-relaxed">
-                  {proof.cost}
-                </dd>
+                <dd class="mt-1 text-gray-600 leading-relaxed">{proof.cost}</dd>
               </div>
               <div>
                 <dt class="font-semibold text-gray-900">Number served</dt>
@@ -342,9 +356,7 @@ const diligenceItems = [
               </div>
               <div>
                 <dt class="font-semibold text-gray-900">Next milestone</dt>
-                <dd class="mt-1 text-gray-600 leading-relaxed">
-                  {proof.next}
-                </dd>
+                <dd class="mt-1 text-gray-600 leading-relaxed">{proof.next}</dd>
               </div>
             </dl>
           </article>
@@ -393,7 +405,7 @@ const diligenceItems = [
                 {tier.receives}
               </p>
               <a
-                href={`/contact?subject=Sponsorship+Inquiry+-+${encodeURIComponent(tier.name)}`}
+                href="/sponsor/inquiry"
                 class="mt-6 inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
               >
                 Ask about this option
@@ -426,7 +438,7 @@ const diligenceItems = [
             See completed work
           </a>
           <a
-            href="/resources"
+            href="/resources#due-diligence"
             class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white rounded-lg hover:bg-primary-50 transition-colors sm:w-auto"
           >
             Review documents
@@ -455,23 +467,31 @@ const diligenceItems = [
         </h2>
         <p class="mt-3 text-gray-600 leading-relaxed">
           For sponsors who need internal approval, ADA can provide a concise
-          due-diligence packet and point you to the public records already
-          available on the site.
+          one-page sponsor brief, due-diligence packet, and public records
+          already available on the site.
         </p>
         <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a
-            href="/docs/sponsor-readiness-packet.html"
+            href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
             target="_blank"
             rel="noopener"
             class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
           >
+            Download one-pager
+          </a>
+          <a
+            href="/docs/diligence/ada-sponsor-readiness-packet.pdf"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
             Open sponsor packet
           </a>
           <a
-            href="/contact?subject=Due+Diligence+Package+Request"
+            href="/resources#due-diligence"
             class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
           >
-            Request full packet
+            Review diligence documents
           </a>
         </div>
       </div>
@@ -509,9 +529,7 @@ const diligenceItems = [
           <ul class="mt-4 space-y-3">
             {
               paymentOptions.map((option) => (
-                <li class="text-sm text-gray-700 leading-relaxed">
-                  {option}
-                </li>
+                <li class="text-sm text-gray-700 leading-relaxed">{option}</li>
               ))
             }
           </ul>
@@ -528,6 +546,18 @@ const diligenceItems = [
             or sponsorship confirmation for your records, but does not provide
             tax advice.
           </p>
+          <p class="mt-3 text-sm text-amber-900 leading-relaxed">
+            If ADA confirms a qualified fiscal sponsor or registered charity
+            partner in the future, ADA will publish the partner name, country,
+            donation instructions, eligible tax treatment, and receipt
+            limitations before promoting that pathway.
+          </p>
+          <a
+            href="/sponsor/inquiry"
+            class="mt-4 inline-flex px-4 py-2 text-sm font-semibold text-amber-950 bg-white rounded-lg hover:bg-amber-100 transition-colors"
+          >
+            Discuss giving requirements
+          </a>
         </div>
       </div>
     </div>
@@ -545,7 +575,7 @@ const diligenceItems = [
       </p>
       <div class="mt-7 flex flex-col sm:flex-row justify-center gap-3">
         <a
-          href="/contact?subject=Sponsorship+Inquiry"
+          href="/sponsor/inquiry"
           class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-gray-900 bg-white rounded-lg hover:bg-gray-100 transition-colors sm:w-auto"
         >
           Start sponsorship inquiry
@@ -557,7 +587,9 @@ const diligenceItems = [
           Give now
         </a>
       </div>
-      <div class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2 lg:grid-cols-3">
+      <div
+        class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2 lg:grid-cols-3"
+      >
         {
           trustProofs.map((proof) => (
             <div class="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85">

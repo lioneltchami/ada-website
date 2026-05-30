@@ -1,0 +1,575 @@
+---
+import PageLayout from "../../../layouts/PageLayout.astro";
+import Section from "../../../components/layout/Section.astro";
+import { REGISTRATION_NUMBER } from "../../../data/organization";
+
+const sponsorTypes = [
+  { label: "Individu", value: "Individual" },
+  { label: "Église ou communauté de foi", value: "Church or faith community" },
+  { label: "Entreprise / équipe RSE", value: "Company / CSR team" },
+  { label: "École ou université", value: "School or university" },
+  { label: "Groupe de la diaspora", value: "Diaspora group" },
+  { label: "Fondation ou bailleur", value: "Foundation or grantmaker" },
+  { label: "Autre", value: "Other" },
+];
+
+const interests = [
+  { label: "Sponsoriser un projet", value: "Sponsor a project" },
+  {
+    label: "Sponsoriser un cycle de programme",
+    value: "Sponsor a program cycle",
+  },
+  { label: "Lancer une campagne de groupe", value: "Run a group campaign" },
+  {
+    label: "Donner mensuellement ou trimestriellement",
+    value: "Give monthly or quarterly",
+  },
+  { label: "Offrir une aide en nature", value: "Offer in-kind support" },
+  { label: "Demander les documents d'abord", value: "Request documents first" },
+  { label: "Pas encore sûr", value: "Not sure yet" },
+];
+
+const budgetRanges = [
+  "$500-$1,000",
+  "$2,500-$5,000",
+  "$10,000+",
+  "Custom / discuss first",
+  "In-kind support",
+];
+
+const timings = [
+  { label: "Prêt maintenant", value: "Ready now" },
+  { label: "Dans les 30 jours", value: "Within 30 days" },
+  { label: "Ce trimestre", value: "This quarter" },
+  { label: "Planification pour plus tard", value: "Planning for later" },
+  {
+    label: "Collecte d'informations seulement",
+    value: "Just gathering information",
+  },
+];
+
+const recognitionOptions = [
+  {
+    label: "Reconnaissance publique acceptée",
+    value: "Public recognition is okay",
+  },
+  { label: "Mention interne seulement", value: "Internal acknowledgment only" },
+  {
+    label: "Anonyme dans les supports publics",
+    value: "Anonymous in public materials",
+  },
+  { label: "À discuter d'abord", value: "Discuss first" },
+];
+
+const reportingNeeds = [
+  { label: "Dossier de parrainage", value: "Sponsor packet" },
+  { label: "Certificat d'enregistrement", value: "Registration certificate" },
+  { label: "Résumé financier", value: "Financial summary" },
+  { label: "Politique de protection", value: "Safeguarding policy" },
+  { label: "Rapports de projet", value: "Project reports" },
+  {
+    label: "Facture ou accord de parrainage",
+    value: "Invoice or sponsorship agreement",
+  },
+  {
+    label: "Appui pour validation interne",
+    value: "Board / internal approval support",
+  },
+  { label: "Aucun pour le moment", value: "None yet" },
+];
+
+const callPreferences = [
+  { label: "Email d'abord", value: "Email first" },
+  { label: "Réserver un court appel", value: "Book a short call" },
+  { label: "WhatsApp de préférence", value: "WhatsApp is best" },
+  { label: "Envoyer les documents d'abord", value: "Send documents first" },
+];
+---
+
+<PageLayout
+  title="Demande de Parrainage"
+  description="Commencez une demande de parrainage avec ADA. Indiquez ce que vous souhaitez financer et les documents nécessaires."
+>
+  <section class="bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="max-w-3xl">
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight"
+        >
+          Sponsoriser un programme ADA ciblé
+        </h1>
+        <p class="mt-4 text-lg text-gray-600 leading-relaxed">
+          Dites-nous ce que vous voulez financer et quels documents votre
+          organisation doit examiner. ADA répondra avec la bonne prochaine étape
+          : lien de don, facture, accord de parrainage, dossier de diligence ou
+          court appel.
+        </p>
+        <p class="mt-4 text-sm text-gray-500">
+          ONG enregistrée au Cameroun ({REGISTRATION_NUMBER}) · Reçus pour les
+          dossiers · Rapports de projet disponibles · Reconnaissance ou anonymat
+          au choix · Rapports bilingues anglais/français
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Section background="gray" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.78fr_1.22fr] gap-8 items-start"
+    >
+      <aside class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+        <h2 class="text-lg font-heading font-bold text-gray-900">
+          Avant d'envoyer
+        </h2>
+        <ul class="mt-4 space-y-3 text-sm text-gray-600 leading-relaxed">
+          <li>
+            N'envoyez pas de coordonnées bancaires, carte, numéro fiscal ou
+            documents sensibles via ce formulaire.
+          </li>
+          <li>
+            Pour les dons restreints ou les paiements hors carte, contactez ADA
+            avant paiement.
+          </li>
+          <li>
+            La plupart des sponsors peuvent remplir ce formulaire en moins de 3
+            minutes.
+          </li>
+        </ul>
+        <div class="mt-5 flex flex-col gap-2">
+          <a
+            href="/docs/diligence/ada-sponsor-readiness-packet.pdf"
+            target="_blank"
+            rel="noopener"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Ouvrir le dossier sponsor
+          </a>
+          <a
+            href="/fr/resources#due-diligence"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Voir les documents de diligence
+          </a>
+        </div>
+      </aside>
+
+      <form
+        id="sponsor-inquiry-form"
+        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm md:p-6"
+        novalidate
+      >
+        <div id="form-status" class="sr-only" role="status" aria-live="polite">
+        </div>
+        <div
+          id="form-error-summary"
+          class="hidden rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+          role="alert"
+          tabindex="-1"
+        >
+        </div>
+
+        <fieldset class="space-y-4">
+          <legend class="text-base font-semibold text-gray-900"
+            >Coordonnées</legend
+          >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label
+                for="name"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Nom complet *</label
+              >
+              <input
+                id="name"
+                name="name"
+                required
+                autocomplete="name"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+            <div>
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Adresse email *</label
+              >
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+            <div>
+              <label
+                for="organization"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Organisation ou groupe *</label
+              >
+              <input
+                id="organization"
+                name="organization"
+                required
+                autocomplete="organization"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+            <div>
+              <label
+                for="country"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Pays *</label
+              >
+              <input
+                id="country"
+                name="country"
+                required
+                autocomplete="country-name"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="phone"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Téléphone ou WhatsApp</label
+              >
+              <input
+                id="phone"
+                name="phone"
+                autocomplete="tel"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="mt-7 space-y-4">
+          <legend class="text-base font-semibold text-gray-900"
+            >Type de parrainage</legend
+          >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label
+                for="sponsorType"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Type de sponsor *</label
+              >
+              <select
+                id="sponsorType"
+                name="sponsorType"
+                required
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              >
+                <option value="">Choisir</option>
+                {
+                  sponsorTypes.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))
+                }
+              </select>
+            </div>
+            <div>
+              <label
+                for="interest"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Intérêt de parrainage *</label
+              >
+              <select
+                id="interest"
+                name="interest"
+                required
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              >
+                <option value="">Choisir</option>
+                {
+                  interests.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))
+                }
+              </select>
+            </div>
+            <div>
+              <label
+                for="budgetRange"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Fourchette estimée *</label
+              >
+              <select
+                id="budgetRange"
+                name="budgetRange"
+                required
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              >
+                <option value="">Choisir</option>
+                {
+                  budgetRanges.map((option) => (
+                    <option value={option}>{option}</option>
+                  ))
+                }
+              </select>
+              <p class="mt-1 text-xs text-gray-500">
+                Pour les dons restreints, factures ou paiements hors carte,
+                contactez ADA avant paiement.
+              </p>
+            </div>
+            <div>
+              <label
+                for="preferredTiming"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Calendrier préféré *</label
+              >
+              <select
+                id="preferredTiming"
+                name="preferredTiming"
+                required
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              >
+                <option value="">Choisir</option>
+                {
+                  timings.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))
+                }
+              </select>
+            </div>
+            <div>
+              <label
+                for="recognitionPreference"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Préférence de reconnaissance *</label
+              >
+              <select
+                id="recognitionPreference"
+                name="recognitionPreference"
+                required
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              >
+                <option value="">Choisir</option>
+                {
+                  recognitionOptions.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))
+                }
+              </select>
+              <p class="mt-1 text-xs text-gray-500">
+                ADA ne publiera pas votre nom, logo, photos ou détails sans
+                approbation.
+              </p>
+            </div>
+            <div>
+              <label
+                for="callPreference"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Préférence d'appel *</label
+              >
+              <select
+                id="callPreference"
+                name="callPreference"
+                required
+                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+              >
+                <option value="">Choisir</option>
+                {
+                  callPreferences.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))
+                }
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="mt-7 space-y-4">
+          <legend class="text-base font-semibold text-gray-900"
+            >Documents et prochaine étape</legend
+          >
+          <div>
+            <label
+              for="fundingPurpose"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Que souhaitez-vous financer ? *</label
+            >
+            <textarea
+              id="fundingPurpose"
+              name="fundingPurpose"
+              rows="4"
+              required
+              minlength="10"
+              maxlength="1000"
+              class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+            ></textarea>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-700">
+              Besoins de rapport ou diligence
+            </p>
+            <p class="mt-1 text-xs text-gray-500">
+              ADA adapte les rapports à la taille et à l'accord de parrainage.
+            </p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {
+                reportingNeeds.map((option) => (
+                  <label class="flex gap-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      name="reportingNeeds"
+                      value={option.value}
+                      class="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                ))
+              }
+            </div>
+          </div>
+          <label class="flex gap-2 text-sm text-gray-700">
+            <input
+              type="checkbox"
+              name="invoiceOrWire"
+              value="true"
+              class="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+            />
+            <span
+              >Nous pourrions avoir besoin d'une facture, d'un accord, d'un
+              virement bancaire ou d'un transfert direct.</span
+            >
+          </label>
+          <div>
+            <label
+              for="notes"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Autre information utile ?</label
+            >
+            <textarea
+              id="notes"
+              name="notes"
+              rows="3"
+              maxlength="1000"
+              class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <div class="hidden" aria-hidden="true">
+          <label for="website">Site web</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <p class="mt-5 text-xs text-gray-500">
+          Nous utilisons ces informations uniquement pour répondre à votre
+          demande de parrainage. N'envoyez pas de coordonnées bancaires ou de
+          documents sensibles via ce formulaire.
+        </p>
+        <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button
+            id="sponsor-submit"
+            type="submit"
+            class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          >
+            Envoyer la demande
+          </button>
+          <a
+            href="/docs/diligence/ada-sponsor-readiness-packet.pdf"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            Ouvrir le dossier sponsor
+          </a>
+        </div>
+      </form>
+    </div>
+  </Section>
+</PageLayout>
+
+<script>
+  const form = document.getElementById(
+    "sponsor-inquiry-form",
+  ) as HTMLFormElement | null;
+  const submitButton = document.getElementById(
+    "sponsor-submit",
+  ) as HTMLButtonElement | null;
+  const status = document.getElementById("form-status");
+  const errorSummary = document.getElementById("form-error-summary");
+
+  function setError(message: string) {
+    if (!errorSummary) return;
+    errorSummary.textContent = message;
+    errorSummary.classList.remove("hidden");
+    errorSummary.focus();
+  }
+
+  function clearError() {
+    if (!errorSummary) return;
+    errorSummary.textContent = "";
+    errorSummary.classList.add("hidden");
+  }
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearError();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      setError("Veuillez remplir les champs obligatoires avant l'envoi.");
+      return;
+    }
+
+    const data = new FormData(form);
+    const payload = {
+      website: String(data.get("website") || ""),
+      name: String(data.get("name") || ""),
+      email: String(data.get("email") || ""),
+      phone: String(data.get("phone") || ""),
+      organization: String(data.get("organization") || ""),
+      country: String(data.get("country") || ""),
+      sponsorType: String(data.get("sponsorType") || ""),
+      interest: String(data.get("interest") || ""),
+      budgetRange: String(data.get("budgetRange") || ""),
+      preferredTiming: String(data.get("preferredTiming") || ""),
+      recognitionPreference: String(data.get("recognitionPreference") || ""),
+      fundingPurpose: String(data.get("fundingPurpose") || ""),
+      reportingNeeds: data.getAll("reportingNeeds").map(String),
+      invoiceOrWire: data.get("invoiceOrWire") === "true",
+      callPreference: String(data.get("callPreference") || ""),
+      notes: String(data.get("notes") || ""),
+    };
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Envoi...";
+    }
+
+    try {
+      const response = await fetch("/api/sponsor-inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) throw new Error("Submission failed");
+
+      form.reset();
+      if (status) {
+        status.className =
+          "mt-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm font-medium text-green-700";
+        status.textContent =
+          "Merci. ADA examinera votre demande et répondra sous 2 jours ouvrables avec le chemin de parrainage le plus approprié.";
+        status.setAttribute("tabindex", "-1");
+        status.focus();
+      }
+      if (submitButton) submitButton.textContent = "Demande envoyée";
+    } catch {
+      setError(
+        "La demande n'a pas pu être envoyée. Veuillez réessayer ou écrire directement à info@apotidev.org.",
+      );
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Envoyer la demande";
+      }
+    }
+  });
+</script>

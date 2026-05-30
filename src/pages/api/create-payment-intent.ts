@@ -1,7 +1,12 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
 import { getStripe } from "../../lib/stripe";
-import { jsonResponse, readJsonBody, rejectInvalidOrigin, rejectOversizedBody } from "../../lib/api-requests";
+import {
+  jsonResponse,
+  readJsonBody,
+  rejectInvalidOrigin,
+  rejectOversizedBody,
+} from "../../lib/api-requests";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -13,7 +18,15 @@ const PaymentSchema = z.object({
   donorName: z.string().trim().min(2).max(100),
   donorEmail: z.string().trim().toLowerCase().email(),
   isAnonymous: z.boolean().default(false),
-  projectSlug: z.string().trim().regex(SLUG_PATTERN).max(80).nullable().optional().transform((value) => value || undefined),
+  locale: z.enum(["en", "fr"]).default("en"),
+  projectSlug: z
+    .string()
+    .trim()
+    .regex(SLUG_PATTERN)
+    .max(80)
+    .nullable()
+    .optional()
+    .transform((value) => value || undefined),
 });
 
 export const POST: APIRoute = async ({ request, url }) => {
@@ -28,20 +41,26 @@ export const POST: APIRoute = async ({ request, url }) => {
     const data = PaymentSchema.parse(body);
     const stripe = getStripe();
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: data.amount,
-      currency: data.currency,
-      metadata: {
-        donor_name: data.donorName,
-        donor_email: data.donorEmail,
-        is_anonymous: String(data.isAnonymous),
-        type: "one-time",
-        project_slug: data.projectSlug || "general",
+    const paymentIntent = await stripe.paymentIntents.create(
+      {
+        amount: data.amount,
+        currency: data.currency,
+        automatic_payment_methods: { enabled: true },
+        metadata: {
+          donor_name: data.donorName,
+          donor_email: data.donorEmail,
+          is_anonymous: String(data.isAnonymous),
+          type: "one-time",
+          locale: data.locale,
+          project_slug: data.projectSlug || "general",
+          follow_up_plan: "receipt_thank_you_30_day_impact",
+        },
+        receipt_email: data.donorEmail,
       },
-      receipt_email: data.donorEmail,
-    }, {
-      idempotencyKey: `pi_${data.donorEmail}_${data.amount}_${Math.floor(Date.now() / 10000)}`,
-    });
+      {
+        idempotencyKey: `pi_${data.donorEmail}_${data.amount}_${Math.floor(Date.now() / 10000)}`,
+      },
+    );
 
     return jsonResponse({ clientSecret: paymentIntent.client_secret });
   } catch (err: any) {

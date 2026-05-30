@@ -1,57 +1,272 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/layout/PageHero.astro';
-import Section from '../../components/layout/Section.astro';
-import { getTeamMembers, getImpactMetrics } from '../../lib/sanity';
+import PageLayout from "../../layouts/PageLayout.astro";
+import PageHero from "../../components/layout/PageHero.astro";
+import Section from "../../components/layout/Section.astro";
+import {
+  getTeamMembers,
+  getImpactMetrics,
+  sanityImageUrl,
+} from "../../lib/sanity";
+import { REGISTRATION_NUMBER } from "../../data/organization";
 
-let teamMembers: { name: string; role: string; bio: string }[] = [];
-try { const m = await getTeamMembers(); if (m?.length) teamMembers = m.map((m: any) => ({ name: m.name, role: m.role, bio: m.bio || '' })); } catch {}
+let teamMembers: {
+  name: string;
+  role: string;
+  bio: string;
+  photoUrl: string;
+}[] = [];
+try {
+  const m = await getTeamMembers();
+  if (m?.length)
+    teamMembers = m.map((m: any) => ({
+      name: m.name,
+      role: m.role,
+      bio: m.bio || "",
+      photoUrl: m.photo?.asset?._ref
+        ? sanityImageUrl(m.photo.asset._ref, 400)
+        : "",
+    }));
+} catch {}
 
-let teamStats = [{ value: '10', label: 'Bénévoles Actifs' }, { value: '5', label: 'Années de Service' }, { value: '5', label: 'Communautés' }];
+let teamStats = [
+  { value: "10", label: "Bénévoles Actifs" },
+  { value: "5", label: "Années de Service" },
+  { value: "5", label: "Communautés" },
+];
 try {
   const metrics = await getImpactMetrics();
   if (metrics?.length) {
-    const communities = metrics.find(m => m.label.includes('Communities'));
-    const years = metrics.find(m => m.label.includes('Years'));
-    teamStats = [{ value: '10', label: 'Bénévoles Actifs' }, { value: years ? `${years.value}${years.suffix || ''}` : '5', label: 'Années de Service' }, { value: communities ? `${communities.value}` : '5', label: 'Communautés' }];
+    const communities = metrics.find((m) => m.label.includes("Communities"));
+    const years = metrics.find((m) => m.label.includes("Years"));
+    teamStats = [
+      { value: "10", label: "Bénévoles Actifs" },
+      {
+        value: years ? `${years.value}${years.suffix || ""}` : "5",
+        label: "Années de Service",
+      },
+      {
+        value: communities ? `${communities.value}` : "5",
+        label: "Communautés",
+      },
+    ];
   }
 } catch {}
+
+const governanceProfiles = [
+  {
+    name: "Lionel Tchami Nfada",
+    role: "Fondateur et président",
+    bio: "Assure la direction de la mission, les relations avec les sponsors et l'orientation stratégique afin de garder ADA concentrée sur l'aide pratique aux familles vulnérables.",
+  },
+  {
+    name: "Naomi Ndababonga",
+    role: "Directrice pays",
+    bio: "Coordonne l'exécution au Cameroun, le suivi des bénéficiaires et la communication avec les partenaires locaux pour documenter le travail financé.",
+  },
+  {
+    name: "Corrine Mbekenyui",
+    role: "Coordinatrice régionale Nord-Ouest",
+    bio: "Appuie la planification régionale, la coordination communautaire et les rapports terrain pour les programmes auprès des veuves, élèves et familles déplacées.",
+  },
+  {
+    name: "Conseil d'administration",
+    role: "Conseil de supervision de 12 membres",
+    bio: "Assure la supervision de la direction, des budgets, des politiques et des dons restreints importants avant l'engagement des fonds.",
+  },
+];
+
+const governanceSafeguards = [
+  {
+    title: "Gestion des conflits d'intérêt",
+    text: "Les membres du conseil, de l'équipe et les bénévoles doivent déclarer les intérêts personnels, familiaux, commerciaux ou financiers pouvant influencer les achats, la sélection des bénéficiaires ou les décisions de programme.",
+  },
+  {
+    title: "Approbation des dons restreints",
+    text: "Les dons restreints sont examinés avant paiement. La direction programme confirme l'objectif, la faisabilité, les attentes de rapport et la reconnaissance; le conseil supervise les restrictions importantes ou inhabituelles.",
+  },
+  {
+    title: "Contrôles financiers",
+    text: "Les dépenses de projet doivent suivre budgets, reçus, factures, listes de distribution, notes de terrain ou rapports de clôture lorsque cela est approprié.",
+  },
+];
 ---
 
-<PageLayout title="Notre Équipe" description="Rencontrez l'équipe dévouée derrière Apoti Development Association.">
-  <PageHero title="Notre Équipe" subtitle="Des personnes dévouées travaillant ensemble pour servir les communautés vulnérables." badge="Les Personnes Derrière ADA" compact />
+<PageLayout
+  title="Notre Équipe"
+  description="Rencontrez l'équipe dévouée derrière Apoti Development Association."
+>
+  <PageHero
+    title="Notre Équipe"
+    subtitle="Des personnes dévouées travaillant ensemble pour servir les communautés vulnérables."
+    badge="Les Personnes Derrière ADA"
+    compact
+  />
+
   <Section background="white" padding="lg">
-    {teamMembers.length > 0 ? (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {teamMembers.map((member) => (
-          <div class="text-center">
-            <div class="w-32 h-32 mx-auto rounded-full bg-primary-100 flex items-center justify-center">
-              <span class="text-3xl font-bold text-primary-600">{member.name.split(' ').map(n => n[0]).join('')}</span>
-            </div>
-            <h3 class="mt-4 text-lg font-semibold text-gray-900">{member.name}</h3>
-            <p class="text-sm text-primary-600">{member.role}</p>
-            <p class="mt-2 text-sm text-gray-600">{member.bio}</p>
+    <div class="max-w-5xl mx-auto">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
+      >
+        <div>
+          <p class="text-sm font-semibold text-primary-700">
+            Gouvernance et supervision
+          </p>
+          <h2
+            class="mt-2 text-2xl md:text-3xl font-heading font-bold text-gray-900"
+          >
+            Des responsables identifiables, des rôles vérifiables
+          </h2>
+          <p class="mt-3 text-gray-600 leading-relaxed">
+            ADA est enregistrée au Cameroun ({REGISTRATION_NUMBER}) et combine
+            direction exécutive bénévole, coordination pays, appui régional et
+            supervision du conseil pour renforcer la confiance des donateurs.
+          </p>
+          <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a
+              href="/docs/diligence/ada-governance-overview.pdf"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+            >
+              Aperçu de gouvernance
+            </a>
+            <a
+              href="/docs/diligence/ada-anti-fraud-gift-integrity-summary.pdf"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex justify-center px-4 py-2 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Intégrité des dons
+            </a>
           </div>
-        ))}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {
+            governanceProfiles.map((profile) => (
+              <article class="rounded-xl border border-gray-200 bg-gray-50 p-5">
+                <h3 class="text-base font-semibold text-gray-900">
+                  {profile.name}
+                </h3>
+                <p class="mt-1 text-sm font-semibold text-primary-700">
+                  {profile.role}
+                </p>
+                <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+                  {profile.bio}
+                </p>
+              </article>
+            ))
+          }
+        </div>
       </div>
-    ) : (
-      <div class="text-center py-12">
-        <span class="text-5xl">👥</span>
-        <h2 class="mt-4 text-xl font-semibold text-gray-900">Profils à Venir</h2>
-        <p class="mt-2 text-gray-600">Les profils de notre équipe seront bientôt disponibles.</p>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="md">
+    <div class="max-w-5xl mx-auto">
+      <div class="max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Garanties de gouvernance demandées par les sponsors
+        </h2>
+        <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+          La confiance des sponsors dépend aussi des contrôles : qui décide, ce
+          qui doit être déclaré et comment les fonds restreints sont approuvés.
+        </p>
       </div>
-    )}
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {
+          governanceSafeguards.map((item) => (
+            <article class="rounded-xl border border-gray-200 bg-white p-5">
+              <h3 class="text-base font-semibold text-gray-900">
+                {item.title}
+              </h3>
+              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                {item.text}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <div class="mb-8 max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+        Équipe active et bénévoles
+      </h2>
+      <p class="mt-2 text-sm text-gray-600">
+        Les profils ci-dessous viennent du CMS d'ADA et peuvent être enrichis
+        avec photos et biographies approuvées.
+      </p>
+    </div>
+    {
+      teamMembers.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {teamMembers.map((member) => (
+            <div class="text-center">
+              {member.photoUrl ? (
+                <img
+                  src={member.photoUrl}
+                  alt={member.name}
+                  class="w-32 h-32 mx-auto rounded-full object-cover shadow-md"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-32 h-32 mx-auto rounded-full bg-primary-100 flex items-center justify-center">
+                  <span class="text-3xl font-bold text-primary-600">
+                    {member.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </span>
+                </div>
+              )}
+              <h3 class="mt-4 text-lg font-semibold text-gray-900">
+                {member.name}
+              </h3>
+              <p class="text-sm text-primary-600">{member.role}</p>
+              <p class="mt-2 text-sm text-gray-600">{member.bio}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <span class="text-5xl">👥</span>
+          <h2 class="mt-4 text-xl font-semibold text-gray-900">
+            Profils à Venir
+          </h2>
+          <p class="mt-2 text-gray-600">
+            Les profils de notre équipe seront bientôt disponibles.
+          </p>
+        </div>
+      )
+    }
   </Section>
   <Section background="gray" padding="md">
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
-      {teamStats.map((stat) => (<div><p class="text-3xl font-bold text-primary-700">{stat.value}</p><p class="mt-1 text-sm text-gray-600">{stat.label}</p></div>))}
+      {
+        teamStats.map((stat) => (
+          <div>
+            <>
+              <p class="text-3xl font-bold text-primary-700">{stat.value}</p>
+              <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
+            </>
+          </div>
+        ))
+      }
     </div>
   </Section>
   <Section background="dark" padding="md">
     <div class="text-center">
       <h2 class="text-2xl font-heading font-bold">Rejoignez Notre Équipe</h2>
-      <p class="mt-2 text-white/80">Nous recherchons toujours des bénévoles passionnés.</p>
-      <a href="/fr/get-involved" class="mt-4 inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">S'Impliquer</a>
+      <p class="mt-2 text-white/80">
+        Nous recherchons toujours des bénévoles passionnés.
+      </p>
+      <a
+        href="/fr/get-involved"
+        class="mt-4 inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors"
+        >S'Impliquer</a
+      >
     </div>
   </Section>
 </PageLayout>

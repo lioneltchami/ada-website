@@ -77,7 +77,7 @@ export function generateReceiptHtml(data: {
         <span class="label">Email</span>
         <span class="value">${email}</span>
       </div>
-      ${project ? `<div class="row"><span class="label">Designated To</span><span class="value">${project}</span></div>` : ''}
+      ${project ? `<div class="row"><span class="label">Designated To</span><span class="value">${project}</span></div>` : ""}
       <div class="row amount-row">
         <span class="label">Amount</span>
         <span class="value">$${data.amount.toFixed(2)} USD</span>
@@ -85,7 +85,7 @@ export function generateReceiptHtml(data: {
     </div>
 
     <div class="message">
-      Your donation makes a real difference. 80% of every dollar goes directly to programs supporting widows, orphans, and young women in Cameroon. Thank you for being part of this mission.
+      Your donation makes a real difference. ADA's public allocation model targets 80% program delivery for work supporting widows, orphans, and young women in Cameroon. Thank you for being part of this mission.
     </div>
 
     <div class="tax-note">
@@ -102,23 +102,23 @@ export function generateReceiptHtml(data: {
 </html>`;
 }
 
-export async function generateReceiptPdf(html: string, env: any): Promise<ArrayBuffer | null> {
+export async function generateReceiptPdf(
+  html: string,
+  env: any,
+): Promise<ArrayBuffer | null> {
   try {
     // Use Cloudflare Browser Rendering API
-    const response = await fetch(
-      `https://browser.cloudflare.com/pdf`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          html,
-          options: {
-            format: "A4",
-            margin: { top: "20px", bottom: "20px", left: "20px", right: "20px" },
-          },
-        }),
-      }
-    );
+    const response = await fetch(`https://browser.cloudflare.com/pdf`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        html,
+        options: {
+          format: "A4",
+          margin: { top: "20px", bottom: "20px", left: "20px", right: "20px" },
+        },
+      }),
+    });
 
     if (!response.ok) return null;
     return await response.arrayBuffer();
