@@ -11,8 +11,15 @@ export function setRuntimeEnv(env: unknown) {
 }
 
 export function getEnv(name: string): string | undefined {
-  const metaEnv = (import.meta as any).env?.[name];
-  if (typeof metaEnv === "string" && metaEnv.length > 0) return metaEnv;
+  const cloudflareValue = (cloudflareEnv as RuntimeEnv | undefined)?.[name];
+  if (typeof cloudflareValue === "string" && cloudflareValue.length > 0) {
+    return cloudflareValue;
+  }
+
+  const runtimeValue = runtimeEnv[name];
+  if (typeof runtimeValue === "string" && runtimeValue.length > 0) {
+    return runtimeValue;
+  }
 
   const processEnv =
     typeof process !== "undefined" ? process.env?.[name] : undefined;
@@ -20,13 +27,8 @@ export function getEnv(name: string): string | undefined {
     return processEnv;
   }
 
-  const cloudflareValue = (cloudflareEnv as RuntimeEnv | undefined)?.[name];
-  if (typeof cloudflareValue === "string" && cloudflareValue.length > 0) {
-    return cloudflareValue;
-  }
-
-  const runtimeValue = runtimeEnv[name];
-  return typeof runtimeValue === "string" && runtimeValue.length > 0
-    ? runtimeValue
+  const metaEnv = (import.meta as any).env?.[name];
+  return typeof metaEnv === "string" && metaEnv.length > 0
+    ? metaEnv
     : undefined;
 }

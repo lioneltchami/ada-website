@@ -277,6 +277,21 @@ describe("public config route", () => {
       stripePublishableKey: "pk_test_public",
     });
   });
+
+  it("prefers Cloudflare runtime secrets over build-time values", async () => {
+    vi.stubEnv("PUBLIC_STRIPE_PUBLISHABLE_KEY", "pk_test_public");
+    vi.resetModules();
+    const { env: cloudflareEnv } = await import("cloudflare:workers");
+    cloudflareEnv.PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_live_public";
+    const { GET } = await import("../src/pages/api/public-config");
+
+    const response = await GET({} as any);
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      stripePublishableKey: "pk_live_public",
+    });
+  });
 });
 
 describe("donation follow-up cron route", () => {
