@@ -19,9 +19,10 @@ try {
 
 // TODO: Move to Sanity schema when partnershipTier type is created
 const partnershipTiers = [
-  { tier: "Community Partner", range: "$500–$2,000/year", desc: "Logo on website, quarterly impact reports, social media recognition." },
-  { tier: "Program Sponsor", range: "$2,000–$5,000/year", desc: "Sponsor a full program cycle, naming rights, annual site visit, dedicated reporting." },
-  { tier: "Strategic Alliance", range: "$5,000+/year", desc: "Multi-year partnership, board advisory role, co-branded campaigns." },
+  { tier: "Community Sponsor", range: "$500-$1,000", desc: "Support supplies, food, or seasonal giving with a receipt and concise update." },
+  { tier: "Project Sponsor", range: "$2,500-$5,000", desc: "Fund a defined project with a budget, people served, outcome summary, and final report." },
+  { tier: "Program Sponsor", range: "$10,000+", desc: "Support a full program cycle with quarterly updates, final reporting, and agreed recognition." },
+  { tier: "Strategic Partner", range: "Custom", desc: "Discuss a larger campaign, recurring support, or custom reporting agreement." },
 ];
 
 const partnerAudiences = [
@@ -210,13 +211,13 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
         </div>
       ))}
     </div>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {partnershipTiers.map((p) => (
         <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
           <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
           <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
           <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
-          <a href={`/contact?subject=Partnership+Inquiry+%E2%80%94+${encodeURIComponent(p.tier)}`} class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline">
+          <a href={`/contact?subject=Sponsorship+Inquiry+%E2%80%94+${encodeURIComponent(p.tier)}`} class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline">
             Start an inquiry →
           </a>
         </div>
@@ -230,7 +231,7 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
       <div class="mt-4 flex flex-wrap justify-center gap-3">
         <a href="/transparency" class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">Review transparency</a>
         <a href="/contact?subject=Partnership+Due+Diligence+Package" class="inline-flex px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">Request due diligence package</a>
-        <a href="/partners" class="inline-flex px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">See partner details</a>
+        <a href="/sponsor" class="inline-flex px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">See sponsor options</a>
       </div>
     </div>
   </Section>

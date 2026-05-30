@@ -28,9 +28,10 @@ try {
 } catch {}
 
 const partnershipTiers = [
-  { tier: 'Partenaire Communautaire', range: '5K–15K$/an', desc: 'Logo sur le site, rapports trimestriels, reconnaissance sur les réseaux sociaux.' },
-  { tier: 'Sponsor de Programme', range: '15K–50K$/an', desc: 'Parrainage complet d\'un programme, droits de dénomination, visite annuelle.' },
-  { tier: 'Alliance Stratégique', range: '50K+$/an', desc: 'Partenariat pluriannuel, rôle consultatif, campagnes co-marquées.' },
+  { tier: 'Sponsor Communautaire', range: '500$-1 000$', desc: 'Soutien aux fournitures, repas ou campagnes saisonnières avec reçu et mise à jour concise.' },
+  { tier: 'Sponsor de Projet', range: '2 500$-5 000$', desc: 'Financement d\'un projet défini avec budget, personnes servies, résultat et rapport final.' },
+  { tier: 'Sponsor de Programme', range: '10 000$+', desc: 'Soutien à un cycle complet avec mises à jour trimestrielles, rapport final et reconnaissance convenue.' },
+  { tier: 'Partenaire Stratégique', range: 'Sur mesure', desc: 'Discussion pour une campagne plus large, un soutien récurrent ou un accord de rapport adapté.' },
 ];
 ---
 
@@ -72,15 +73,18 @@ const partnershipTiers = [
 
   <Section id="partenariats" background="gray" padding="lg">
     <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Partenariats Corporatifs</h2>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {partnershipTiers.map((p) => (
         <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
           <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
           <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
           <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
-          <a href="/fr/contact" class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline">Renseignements →</a>
+          <a href={`/fr/contact?subject=Demande+de+Parrainage+%E2%80%94+${encodeURIComponent(p.tier)}`} class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline">Renseignements →</a>
         </div>
       ))}
+    </div>
+    <div class="mt-8 text-center">
+      <a href="/fr/sponsor" class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">Voir les options de parrainage</a>
     </div>
   </Section>
 

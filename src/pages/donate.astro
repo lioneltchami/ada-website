@@ -26,7 +26,7 @@ const pageBadge = "Support Our Mission";
 const trustIndicators = [
   { icon: "🔒", text: "Secure & Encrypted", sub: "Powered by Stripe" },
   { icon: "📊", text: "80% to Direct Aid", sub: "Verified annually" },
-  { icon: "📧", text: "Receipt Emailed Instantly", sub: "PDF attached" },
+  { icon: "📧", text: "Receipt After Confirmation", sub: "PDF attached" },
   { icon: "📜", text: "Registered NGO", sub: "Cameroon N° 415/G.37" },
 ];
 
@@ -83,6 +83,12 @@ const otherWaysToGive = [
       "Many employers match charitable donations. Ask your HR team if your company has a matching program.",
   },
   {
+    icon: "🤝",
+    title: "Sponsorships",
+    description:
+      '<a href="/sponsor" class="text-primary-600 hover:underline">Sponsor a focused program</a> and receive clear records and updates.',
+  },
+  {
     icon: "💌",
     title: "Legacy Giving",
     description:
@@ -103,7 +109,7 @@ const donationFaqs = [
   },
   {
     q: "How is my donation used?",
-    a: "80% goes directly to program delivery (food, school fees, skills training, healthcare). 15% covers program operations (transport, materials, staff). Only 5% goes to administration. All executive roles are volunteer — zero paid leadership.",
+    a: "ADA targets 80% program delivery, 15% program operations, and 5% administration. Executive leadership is volunteer-led, and paid roles are tied to program delivery needs.",
   },
   {
     q: "Can I donate to a specific project?",
@@ -440,7 +446,7 @@ try {
       Other Ways to Give
     </h2>
     <div
-      class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+      class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-5xl mx-auto"
     >
       {
         otherWaysToGive.map((item) => (

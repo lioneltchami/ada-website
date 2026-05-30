@@ -72,10 +72,11 @@ async function seed() {
   // FAQ Responses
   const faqs = [
     { _id: 'faq-programs', keywords: ['project', 'program', 'work'], response: 'ADA runs 6 programs: Food Distribution, Skills Training, Hospital Visits, Back-to-School, Clean Water, and Community Clean-Up.', sortOrder: 1 },
-    { _id: 'faq-donate', keywords: ['donate', 'give', 'money'], response: 'Your donation makes a real difference. 80% goes directly to programs. Even $25 provides school supplies for 2 children.', sortOrder: 2 },
+    { _id: 'faq-donate', keywords: ['donate', 'give', 'money'], response: 'Your donation makes a real difference. 80% goes directly to programs. Online card gifts currently process in USD through Stripe, and ADA issues a receipt for your records. Donations are not represented as tax-deductible in Canada, the US, the UK, or the EU unless a qualified registered partner is confirmed in writing.', sortOrder: 2 },
     { _id: 'faq-volunteer', keywords: ['volunteer', 'help', 'join'], response: 'We welcome volunteers in Cameroon and remotely! Roles include education mentoring, community outreach, and digital communications.', sortOrder: 3 },
     { _id: 'faq-contact', keywords: ['contact', 'email', 'phone'], response: 'Email info@apotidev.org or WhatsApp +237 676 282 346. Mon-Fri 8AM-5PM CAT.', sortOrder: 4 },
     { _id: 'faq-impact', keywords: ['impact', 'result'], response: 'Since 2021, we have impacted 200+ lives across 5 communities in Cameroon.', sortOrder: 5 },
+    { _id: 'faq-sponsor', keywords: ['sponsor', 'corporate', 'company', 'church', 'foundation', 'due diligence', 'invoice', 'wire', 'matching'], response: 'Sponsors can support ADA through Community, Project, Program, or Strategic Partner options. ADA can provide a sponsor packet, due-diligence materials, outcome summaries, receipts, invoices, and reporting. Bank or wire details, corporate matching questions, restricted gifts, and group presentations should be discussed with ADA before payment.', sortOrder: 6 },
   ];
 
   for (const faq of faqs) {
