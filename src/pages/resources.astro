@@ -1,10 +1,9 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
-import PageHero from '../components/layout/PageHero.astro';
-import DocumentLibrary from '../components/resources/DocumentLibrary.astro';
-import { getLocale, t, localePath } from '../i18n';
-import { REGISTRATION_CERTIFICATE_URL } from '../data/organization';
-import { loadProjectDocumentLibrary } from '../lib/project-archive';
+import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/layout/PageHero.astro";
+import DocumentLibrary from "../components/resources/DocumentLibrary.astro";
+import { getLocale, t } from "../i18n";
+import { loadProjectDocumentLibrary } from "../lib/project-archive";
 
 const locale = getLocale(Astro.url.pathname);
 const labels = t(locale);
@@ -12,43 +11,84 @@ const { yearGroups, totalProjects } = await loadProjectDocumentLibrary();
 
 const dueDiligenceDocs = [
   {
-    title: 'Sponsor Readiness Packet',
-    desc: 'Concise sponsor options, reporting expectations, and due diligence summary',
-    link: '/docs/sponsor-readiness-packet.html',
+    title: "Corporate Sponsor One-Pager",
+    desc: "One-page brief for HR, CSR, church boards, and internal sponsor approval emails.",
+    link: "/docs/diligence/ada-corporate-sponsor-one-pager.pdf",
     external: true,
-    icon: '🤝',
-    action: labels.resources.openLink,
+    meta: "PDF · one page",
+    icon: "📄",
   },
   {
-    title: 'Legal Registration',
-    desc: 'Official NGO registration certificate (Cameroon)',
-    link: REGISTRATION_CERTIFICATE_URL,
+    title: "Sponsor Readiness Packet",
+    desc: "Concise sponsor tiers, reporting expectations, payment paths, and tax-status note.",
+    link: "/docs/diligence/ada-sponsor-readiness-packet.pdf",
     external: true,
-    icon: '📜',
+    meta: "PDF · sponsor overview",
+    icon: "🤝",
   },
   {
-    title: 'Board of Directors',
-    desc: 'Current board members and governance structure',
-    link: localePath('/team', locale),
-    external: false,
-    icon: '👥',
-    action: labels.resources.openLink,
+    title: "Registration Certificate",
+    desc: "Official Cameroon NGO registration certificate for sponsor files.",
+    link: "/docs/diligence/ada-registration-certificate.pdf",
+    external: true,
+    meta: "PDF · legal record",
+    icon: "📜",
   },
   {
-    title: 'Safeguarding Policy',
-    desc: 'Our commitment to child protection and safety',
-    link: '/docs/policies/safeguarding.md',
+    title: "Governance Overview",
+    desc: "Board structure, oversight rhythm, finance authority, and document review path.",
+    link: "/docs/diligence/ada-governance-overview.pdf",
     external: true,
-    icon: '🛡️',
-    action: labels.resources.openLink,
+    meta: "PDF · governance",
+    icon: "👥",
   },
   {
-    title: 'Financial Management',
-    desc: 'Internal controls and anti-corruption policies',
-    link: '/docs/policies/financial-management.md',
+    title: "Financial Management Policy",
+    desc: "Internal controls, approvals, procurement, cash handling, and reporting standards.",
+    link: "/docs/diligence/ada-financial-management-policy.pdf",
     external: true,
-    icon: '📑',
-    action: labels.resources.openLink,
+    meta: "PDF · policy",
+    icon: "📑",
+  },
+  {
+    title: "Latest Financial Summary",
+    desc: "2024 program delivery totals, allocation model, and sponsor-facing finance notes.",
+    link: "/docs/diligence/ada-financial-summary-2024.pdf",
+    external: true,
+    meta: "PDF · 2024 summary",
+    icon: "📑",
+  },
+  {
+    title: "Safeguarding Policy",
+    desc: "Child protection, consent, incident response, and community safety commitments.",
+    link: "/docs/diligence/ada-safeguarding-policy.pdf",
+    external: true,
+    meta: "PDF · policy",
+    icon: "🛡️",
+  },
+  {
+    title: "Anti-Fraud & Gift Integrity",
+    desc: "Conflict-of-interest, restricted-gift, anti-fraud, and reporting safeguards.",
+    link: "/docs/diligence/ada-anti-fraud-gift-integrity-summary.pdf",
+    external: true,
+    meta: "PDF · policy summary",
+    icon: "✓",
+  },
+  {
+    title: "Program Budget Template",
+    desc: "Forwardable template showing the budget categories ADA uses for sponsored work.",
+    link: "/docs/diligence/ada-program-budget-template.pdf",
+    external: true,
+    meta: "PDF · template",
+    icon: "▦",
+  },
+  {
+    title: "Impact Scorecard",
+    desc: "Lean set of public metrics with measurement basis, cadence, and source links.",
+    link: "/docs/diligence/ada-impact-scorecard.pdf",
+    external: true,
+    meta: "PDF · May 2026",
+    icon: "↗",
   },
 ];
 
@@ -69,8 +109,15 @@ const libraryLabels = {
 };
 ---
 
-<PageLayout title={labels.resources.title} description={labels.resources.subtitle}>
-  <PageHero title={labels.resources.title} subtitle={labels.resources.subtitle} compact />
+<PageLayout
+  title={labels.resources.title}
+  description={labels.resources.subtitle}
+>
+  <PageHero
+    title={labels.resources.title}
+    subtitle={labels.resources.subtitle}
+    compact
+  />
 
   <DocumentLibrary
     locale={locale}

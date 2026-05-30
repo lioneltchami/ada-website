@@ -35,4 +35,4 @@ Serious cases are referred to relevant Cameroon authorities and, where applicabl
 
 The Board reviews this policy annually. Updates are published in the resource library at [apotidev.org/resources](/resources).
 
-_Approved by the ADA Board of Directors._
+_Published by ADA for sponsor and donor review._

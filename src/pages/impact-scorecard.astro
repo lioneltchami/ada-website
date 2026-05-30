@@ -1,0 +1,147 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Section from "../components/layout/Section.astro";
+import {
+  impactMetricsEn,
+  impactScorecardUpdated,
+  measurementLabels,
+} from "../data/impact-scorecard";
+
+const proofLinks = [
+  { label: "Sponsor inquiry", href: "/sponsor/inquiry" },
+  { label: "Due diligence documents", href: "/resources#due-diligence" },
+  { label: "Transparency page", href: "/transparency" },
+];
+---
+
+<PageLayout
+  title="Impact Scorecard"
+  description="A lean scorecard of ADA's public impact indicators, measurement basis, update cadence, and source documents."
+>
+  <section class="bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="max-w-3xl">
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight"
+        >
+          Impact scorecard
+        </h1>
+        <p class="mt-4 text-lg text-gray-600 leading-relaxed">
+          A compact view of what ADA tracks for sponsors: people reached,
+          documented evidence, program delivery, and the quality of each data
+          point. We mark whether each figure is measured, field-record based, or
+          estimated.
+        </p>
+        <p class="mt-3 text-sm text-gray-500">
+          Last updated: {impactScorecardUpdated}. Figures are drawn from public
+          annual reports, project close-out reports, and ADA's current public
+          allocation model.
+        </p>
+      </div>
+      <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        {
+          proofLinks.map((link) => (
+            <a
+              href={link.href}
+              class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Section background="gray" padding="lg">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {
+          impactMetricsEn.slice(0, 4).map((metric) => (
+            <article class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+              <p class="text-sm font-semibold text-gray-700">{metric.label}</p>
+              <p class="mt-3 text-3xl font-bold text-primary-700">
+                {metric.value}
+              </p>
+              <p class="mt-2 text-xs text-gray-500">{metric.period}</p>
+              <p class="mt-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                {measurementLabels.en[metric.measurement]}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div
+        class="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
+      >
+        <div class="border-b border-gray-200 px-5 py-4">
+          <h2 class="text-xl font-heading font-bold text-gray-900">
+            Public indicators
+          </h2>
+          <p class="mt-1 text-sm text-gray-600">
+            Lean enough to scan, but detailed enough for internal sponsor
+            review.
+          </p>
+        </div>
+        <div class="divide-y divide-gray-100">
+          {
+            impactMetricsEn.map((metric) => (
+              <article class="grid grid-cols-1 gap-4 px-5 py-5 lg:grid-cols-[1.25fr_0.75fr_1fr]">
+                <div>
+                  <h3 class="text-base font-semibold text-gray-900">
+                    {metric.label}
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                    {metric.note}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-2xl font-bold text-primary-700">
+                    {metric.value}
+                  </p>
+                  <p class="mt-1 text-xs text-gray-500">{metric.period}</p>
+                </div>
+                <div class="text-sm">
+                  <p class="font-semibold text-gray-900">
+                    {measurementLabels.en[metric.measurement]} ·{" "}
+                    {metric.cadence}
+                  </p>
+                  <a
+                    href={metric.sourceUrl}
+                    target={
+                      metric.sourceUrl.endsWith(".pdf") ? "_blank" : undefined
+                    }
+                    rel={
+                      metric.sourceUrl.endsWith(".pdf") ? "noopener" : undefined
+                    }
+                    class="mt-1 inline-flex text-primary-700 hover:underline"
+                  >
+                    {metric.source}
+                  </a>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="md">
+    <div
+      class="max-w-4xl mx-auto rounded-xl border border-amber-200 bg-amber-50 p-5"
+    >
+      <h2 class="text-base font-semibold text-amber-950">
+        What this scorecard does not claim
+      </h2>
+      <p class="mt-2 text-sm text-amber-900 leading-relaxed">
+        This is a public management scorecard, not an audited impact evaluation
+        or tax-deductible giving statement. ADA is Cameroon-registered, and
+        international gifts are not represented as tax-deductible unless a
+        qualified fiscal sponsor or registered charity partner is confirmed in
+        writing.
+      </p>
+    </div>
+  </Section>
+</PageLayout>

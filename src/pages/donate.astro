@@ -49,6 +49,13 @@ const donorSafeguards = [
   },
 ];
 
+const paymentPathNotes = [
+  "Stripe card giving is live for one-time and monthly gifts.",
+  "Apple Pay or Google Pay may appear when eligible in Stripe, device, and browser settings.",
+  "PayPal, Venmo, and ACH are not advertised as active until operations and reconciliation are confirmed.",
+  "Sponsors needing invoice, wire, or restricted-gift handling should use the sponsor inquiry form before payment.",
+];
+
 const currentCampaignNeeds = [
   "Emergency food and household essentials for widows and children",
   "School support, uniforms, and supplies for vulnerable students",
@@ -89,23 +96,23 @@ const otherWaysToGive = [
       '<a href="/sponsor" class="text-primary-600 hover:underline">Sponsor a focused program</a> and receive clear records and updates.',
   },
   {
+    icon: "🔁",
+    title: "Monthly Giving",
+    description:
+      '<a href="/monthly" class="text-primary-600 hover:underline">Start a recurring gift</a> for steady support without sponsor paperwork.',
+  },
+  {
     icon: "💌",
     title: "Legacy Giving",
     description:
       '<a href="/contact?subject=Legacy+Giving" class="text-primary-600 hover:underline">Contact us</a> to learn about including ADA in your estate plans.',
-  },
-  {
-    icon: "🔁",
-    title: "Fundraise for Us",
-    description:
-      'Run a birthday fundraiser or community event. <a href="/contact?subject=Fundraising" class="text-primary-600 hover:underline">Let us know</a> and we\'ll support you.',
   },
 ];
 
 const donationFaqs = [
   {
     q: "Is my donation tax-deductible?",
-    a: "Donations to ADA are not tax-deductible in Canada, the US, the UK, or the EU. ADA is a registered NGO in Cameroon (N° 415/G.37/D14/VolI/SAAJP) and is not yet registered as a charity in any other jurisdiction. We issue an official donation receipt after every gift for your personal records. Many of our supporters give because they believe in the mission — and we are deeply grateful for every contribution, regardless of tax status.",
+    a: "Donations to ADA are not tax-deductible in Canada, the US, the UK, or the EU. ADA is a registered NGO in Cameroon (N° 415/G.37/D14/VolI/SAAJP) and is not yet registered as a charity in any other jurisdiction. We issue receipts for personal records after gifts are confirmed. Many of our supporters give because they believe in the mission — and we are deeply grateful for every contribution, regardless of tax status.",
   },
   {
     q: "How is my donation used?",
@@ -232,11 +239,33 @@ try {
           NGO in Cameroon (N° 415/G.37/D14/VolI/SAAJP). Donations are <strong
             >not tax-deductible</strong
           > in Canada, the US, the UK, or the EU, as we are not yet registered as
-          a charity in those jurisdictions. We issue an official donation receipt
-          for your personal records after every gift. Many donors give because they
-          believe in the mission, and we are deeply grateful for that.
+          a charity in those jurisdictions. We issue receipts for personal records
+          after gifts are confirmed. Many donors give because they believe in the
+          mission, and we are deeply grateful for that.
         </div>
       </div>
+    </div>
+  </Section>
+
+  <!-- Payment Paths -->
+  <Section background="white" padding="sm">
+    <div
+      class="max-w-4xl mx-auto rounded-xl border border-gray-200 bg-gray-50 p-5"
+    >
+      <h2 class="text-base font-semibold text-gray-900">Payment options</h2>
+      <ul class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+        {
+          paymentPathNotes.map((note) => (
+            <li class="flex gap-2 text-sm text-gray-700 leading-relaxed">
+              <span
+                class="mt-1.5 h-2 w-2 rounded-full bg-primary-500 flex-shrink-0"
+                aria-hidden="true"
+              />
+              <span>{note}</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </Section>
 
@@ -389,7 +418,7 @@ try {
           skills training, healthcare referrals, and community follow-up.
         </p>
         <a
-          href="#donation-form"
+          href="/monthly"
           class="mt-6 inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
           >Start monthly giving</a
         >

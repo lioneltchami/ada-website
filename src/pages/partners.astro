@@ -1,56 +1,79 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
-import PageHero from '../components/layout/PageHero.astro';
-import Section from '../components/layout/Section.astro';
-import { getLocale, t } from '../i18n';
+import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/layout/PageHero.astro";
+import Section from "../components/layout/Section.astro";
+import { getLocale, t } from "../i18n";
 
 const locale = getLocale(Astro.url.pathname);
 const labels = t(locale);
 
 const partnerTypes = [
   {
-    title: 'Churches & Faith Communities',
-    fit: 'Mission boards, outreach teams, youth groups, and congregational campaigns.',
-    ask: 'Sponsor school fees, clean water, widow support, or a seasonal giving campaign.',
-    proof: 'Receive project photos, member-ready updates, receipts, and pastoral/community references.',
+    title: "Churches & Faith Communities",
+    fit: "Mission boards, outreach teams, youth groups, and congregational campaigns.",
+    ask: "Sponsor school fees, clean water, widow support, or a seasonal giving campaign.",
+    proof:
+      "Receive project photos, member-ready updates, receipts, and pastoral/community references.",
   },
   {
-    title: 'Companies & CSR Teams',
-    fit: 'Businesses looking for practical, accountable social impact in Cameroon.',
-    ask: 'Fund a program cycle, match employee gifts, sponsor skills training, or contribute in-kind expertise.',
-    proof: 'Receive brand recognition options, quarterly impact reporting, budgets, and beneficiary stories.',
+    title: "Companies & CSR Teams",
+    fit: "Businesses looking for practical, accountable social impact in Cameroon.",
+    ask: "Fund a program cycle, match employee gifts, sponsor skills training, or contribute in-kind expertise.",
+    proof:
+      "Receive brand recognition options, quarterly impact reporting, budgets, and beneficiary stories.",
   },
   {
-    title: 'Diaspora Associations',
-    fit: 'Cameroonian, African, and global diaspora groups pooling support for visible local projects.',
-    ask: 'Adopt a village project, sponsor students, or run a group campaign with a defined target.',
-    proof: 'Receive direct field updates, community acknowledgement, and transparent spending summaries.',
+    title: "Diaspora Associations",
+    fit: "Cameroonian, African, and global diaspora groups pooling support for visible local projects.",
+    ask: "Adopt a village project, sponsor students, or run a group campaign with a defined target.",
+    proof:
+      "Receive direct field updates, community acknowledgement, and transparent spending summaries.",
   },
   {
-    title: 'Schools & Universities',
-    fit: 'Student clubs, service-learning offices, research groups, and campus faith communities.',
-    ask: 'Support awareness events, peer fundraising, curriculum-linked projects, or technical assistance.',
-    proof: 'Receive classroom-ready impact notes, project briefs, guest speaker coordination, and volunteer pathways.',
+    title: "Schools & Universities",
+    fit: "Student clubs, service-learning offices, research groups, and campus faith communities.",
+    ask: "Support awareness events, peer fundraising, curriculum-linked projects, or technical assistance.",
+    proof:
+      "Receive classroom-ready impact notes, project briefs, guest speaker coordination, and volunteer pathways.",
   },
   {
-    title: 'Foundations & Grantmakers',
-    fit: 'Private foundations, family foundations, embassies, and institutional funders.',
-    ask: 'Provide project grants, multi-year funding, capacity support, or restricted program funding.',
-    proof: 'Receive proposals, logframes, governance records, budgets, M&E data, and due diligence documents.',
+    title: "Foundations & Grantmakers",
+    fit: "Private foundations, family foundations, embassies, and institutional funders.",
+    ask: "Provide project grants, multi-year funding, capacity support, or restricted program funding.",
+    proof:
+      "Receive proposals, logframes, governance records, budgets, M&E data, and due diligence documents.",
   },
 ];
 ---
 
-<PageLayout title="For Partners & Funders" description="Partnership information for institutional funders, embassies, and foundations. ADA offers transparent reporting, measurable results, and bilingual capacity.">
-  <PageHero title="Partner With Us" subtitle="Institutional partnerships that create measurable, sustainable impact in Cameroon." badge="For Funders & Institutions" compact />
+<PageLayout
+  title="For Partners & Funders"
+  description="Partnership information for institutional funders, embassies, and foundations. ADA offers transparent reporting, measurable results, and bilingual capacity."
+>
+  <PageHero
+    title="Partner With Us"
+    subtitle="Institutional partnerships that create measurable, sustainable impact in Cameroon."
+    badge="For Funders & Institutions"
+    compact
+  />
 
   <Section background="white" padding="sm">
-    <div class="max-w-4xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4 rounded-xl border border-primary-100 bg-primary-50 p-5">
+    <div
+      class="max-w-4xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4 rounded-xl border border-primary-100 bg-primary-50 p-5"
+    >
       <div>
-        <h2 class="text-lg font-heading font-bold text-gray-900">Looking for a simple sponsorship path?</h2>
-        <p class="mt-1 text-sm text-gray-700">Use the sponsor page for clear levels, payment options, reporting expectations, and the sponsor readiness packet.</p>
+        <h2 class="text-lg font-heading font-bold text-gray-900">
+          Looking for a simple sponsorship path?
+        </h2>
+        <p class="mt-1 text-sm text-gray-700">
+          Use the sponsor page for clear levels, payment options, reporting
+          expectations, and the sponsor readiness packet.
+        </p>
       </div>
-      <a href="/sponsor" class="inline-flex justify-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors">
+      <a
+        href="/sponsor"
+        class="inline-flex justify-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors"
+      >
         Sponsor a Program
       </a>
     </div>
@@ -59,23 +82,46 @@ const partnerTypes = [
   <!-- 2026 Funding Priorities -->
   <Section background="gray" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">{labels.partners.prioritiesTitle}</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {labels.partners.prioritiesTitle}
+      </h2>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[
-          { emoji: '👩‍🌾', title: labels.partners.widowsTitle, desc: labels.partners.widowsDesc, amount: '$48,000' },
-          { emoji: '📚', title: labels.partners.educationTitle, desc: labels.partners.educationDesc, amount: '$35,000' },
-          { emoji: '🏥', title: labels.partners.healthTitle, desc: labels.partners.healthDesc, amount: '$62,000' },
-        ].map((item) => (
-          <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col h-full">
-            <div class="text-4xl mb-4" aria-hidden="true">{item.emoji}</div>
-            <h3 class="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
-            <p class="text-gray-600 text-sm flex-grow">{item.desc}</p>
-            <div class="mt-6 pt-4 border-t border-gray-100">
-              <p class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">2026 Funding Goal</p>
-              <p class="text-2xl font-bold text-primary-600">{item.amount}</p>
+        {
+          [
+            {
+              emoji: "👩‍🌾",
+              title: labels.partners.widowsTitle,
+              desc: labels.partners.widowsDesc,
+              amount: "$48,000",
+            },
+            {
+              emoji: "📚",
+              title: labels.partners.educationTitle,
+              desc: labels.partners.educationDesc,
+              amount: "$35,000",
+            },
+            {
+              emoji: "🏥",
+              title: labels.partners.healthTitle,
+              desc: labels.partners.healthDesc,
+              amount: "$62,000",
+            },
+          ].map((item) => (
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col h-full">
+              <div class="text-4xl mb-4" aria-hidden="true">
+                {item.emoji}
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+              <p class="text-gray-600 text-sm flex-grow">{item.desc}</p>
+              <div class="mt-6 pt-4 border-t border-gray-100">
+                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
+                  2026 Funding Goal
+                </p>
+                <p class="text-2xl font-bold text-primary-600">{item.amount}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </Section>
@@ -83,26 +129,47 @@ const partnerTypes = [
   <!-- Partner Types -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div
+        class="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+      >
         <div>
-          <h2 class="text-2xl font-heading font-bold text-gray-900">Find Your Partnership Path</h2>
-          <p class="mt-2 text-gray-600">ADA works with community, institutional, and professional partners. Choose the path that matches your group and we will tailor the proposal, reporting, and due diligence materials.</p>
+          <h2 class="text-2xl font-heading font-bold text-gray-900">
+            Find Your Partnership Path
+          </h2>
+          <p class="mt-2 text-gray-600">
+            ADA works with community, institutional, and professional partners.
+            Choose the path that matches your group and we will tailor the
+            proposal, reporting, and due diligence materials.
+          </p>
         </div>
-        <a href="/contact?subject=Partnership+Inquiry" class="inline-flex items-center justify-center px-5 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm">
+        <a
+          href="/contact?subject=Partnership+Inquiry"
+          class="inline-flex items-center justify-center px-5 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm"
+        >
           Start Partnership Inquiry →
         </a>
       </div>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
-        {partnerTypes.map((partner) => (
-          <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
-            <h3 class="text-base font-semibold text-gray-900">{partner.title}</h3>
-            <div class="mt-3 space-y-2 text-xs text-gray-700 leading-relaxed">
-              <p><strong>Best fit:</strong> {partner.fit}</p>
-              <p><strong>Ways to help:</strong> {partner.ask}</p>
-              <p><strong>What you receive:</strong> {partner.proof}</p>
+        {
+          partnerTypes.map((partner) => (
+            <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
+              <h3 class="text-base font-semibold text-gray-900">
+                {partner.title}
+              </h3>
+              <div class="mt-3 space-y-2 text-xs text-gray-700 leading-relaxed">
+                <p>
+                  <strong>Best fit:</strong> {partner.fit}
+                </p>
+                <p>
+                  <strong>Ways to help:</strong> {partner.ask}
+                </p>
+                <p>
+                  <strong>What you receive:</strong> {partner.proof}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </Section>
@@ -110,22 +177,56 @@ const partnerTypes = [
   <!-- Why Partner -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Why Partner with ADA?</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        Why Partner with ADA?
+      </h2>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[
-          { icon: '🎯', title: 'Gender Equality Focus', desc: '85% of our beneficiaries are women and girls. Our programs directly advance gender equality through economic empowerment and education access.' },
-          { icon: '📊', title: 'Measurable Results', desc: 'Logical framework with clear indicators, baselines, and targets. We track outcomes (income generated) not just outputs (people trained).' },
-          { icon: '💰', title: '5% Overhead', desc: 'Lean operating model. Zero paid executive leadership. 80% of every dollar is directed to program delivery.' },
-          { icon: '🌱', title: 'Locally Owned', desc: 'Founded, led, and staffed by Cameroonians. Programs designed WITH communities, not imposed on them.' },
-          { icon: '♻️', title: 'Sustainability Built In', desc: 'Our train-the-trainer model means programs outlive funding. Graduates become mentors for the next cohort.' },
-          { icon: '🌍', title: 'Bilingual Capacity', desc: 'Full reporting in English and French. Quarterly updates, annual reports, and M&E data on schedule.' },
-        ].map((item) => (
-          <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
-            <span class="text-2xl" aria-hidden="true">{item.icon}</span>
-            <h3 class="mt-2 text-sm font-semibold text-gray-900">{item.title}</h3>
-            <p class="mt-1 text-xs text-gray-600 leading-relaxed">{item.desc}</p>
-          </div>
-        ))}
+        {
+          [
+            {
+              icon: "🎯",
+              title: "Gender Equality Focus",
+              desc: "85% of our beneficiaries are women and girls. Our programs directly advance gender equality through economic empowerment and education access.",
+            },
+            {
+              icon: "📊",
+              title: "Measurable Results",
+              desc: "Logical framework with clear indicators, baselines, and targets. We track outcomes (income generated) not just outputs (people trained).",
+            },
+            {
+              icon: "💰",
+              title: "5% Admin Target",
+              desc: "Lean operating model. Zero paid executive leadership. ADA’s public allocation model targets 80% program delivery.",
+            },
+            {
+              icon: "🌱",
+              title: "Locally Owned",
+              desc: "Founded, led, and staffed by Cameroonians. Programs designed WITH communities, not imposed on them.",
+            },
+            {
+              icon: "♻️",
+              title: "Sustainability Built In",
+              desc: "Our train-the-trainer model means programs outlive funding. Graduates become mentors for the next cohort.",
+            },
+            {
+              icon: "🌍",
+              title: "Bilingual Capacity",
+              desc: "Full reporting in English and French. Quarterly updates, annual reports, and M&E data on schedule.",
+            },
+          ].map((item) => (
+            <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
+              <span class="text-2xl" aria-hidden="true">
+                {item.icon}
+              </span>
+              <h3 class="mt-2 text-sm font-semibold text-gray-900">
+                {item.title}
+              </h3>
+              <p class="mt-1 text-xs text-gray-600 leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </Section>
@@ -133,21 +234,65 @@ const partnerTypes = [
   <!-- Gender Lens -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Gender Equality: At the Core of Everything We Do</h2>
-      <p class="mt-2 text-gray-600">ADA's programs are designed through a gender lens, directly advancing women's economic empowerment and girls' access to education.</p>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        Gender Equality: At the Core of Everything We Do
+      </h2>
+      <p class="mt-2 text-gray-600">
+        ADA's programs are designed through a gender lens, directly advancing
+        women's economic empowerment and girls' access to education.
+      </p>
       <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">85%</p><p class="text-xs text-gray-600">Beneficiaries are women & girls</p></div>
-        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">100%</p><p class="text-xs text-gray-600">Skills programs target women</p></div>
-        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">15</p><p class="text-xs text-gray-600">Widows now financially independent</p></div>
-        <div class="p-4 bg-primary-50 rounded-xl"><p class="text-2xl font-bold text-primary-700">80%</p><p class="text-xs text-gray-600">Graduates earning own income</p></div>
+        <div class="p-4 bg-primary-50 rounded-xl">
+          <p class="text-2xl font-bold text-primary-700">85%</p><p
+            class="text-xs text-gray-600"
+          >
+            Beneficiaries are women & girls
+          </p>
+        </div>
+        <div class="p-4 bg-primary-50 rounded-xl">
+          <p class="text-2xl font-bold text-primary-700">100%</p><p
+            class="text-xs text-gray-600"
+          >
+            Skills programs target women
+          </p>
+        </div>
+        <div class="p-4 bg-primary-50 rounded-xl">
+          <p class="text-2xl font-bold text-primary-700">15</p><p
+            class="text-xs text-gray-600"
+          >
+            Widows now financially independent
+          </p>
+        </div>
+        <div class="p-4 bg-primary-50 rounded-xl">
+          <p class="text-2xl font-bold text-primary-700">80%</p><p
+            class="text-xs text-gray-600"
+          >
+            Graduates earning own income
+          </p>
+        </div>
       </div>
       <div class="mt-6 p-4 bg-accent-50 rounded-xl border border-accent-100">
-        <p class="text-sm text-gray-700"><strong>How our programs specifically benefit women and girls:</strong></p>
+        <p class="text-sm text-gray-700">
+          <strong
+            >How our programs specifically benefit women and girls:</strong>
+        </p>
         <ul class="mt-2 space-y-1 text-xs text-gray-600">
-          <li>• <strong>Widow Support:</strong> Restores economic agency to women who lost everything after spousal death</li>
-          <li>• <strong>Skills Training:</strong> Exclusively targets young women with vocational training + microfinance for business launch</li>
-          <li>• <strong>Education:</strong> Prioritizes girls who are first to be pulled from school when families face financial pressure</li>
-          <li>• <strong>Clean Water:</strong> Frees girls from water-fetching duties (often 2+ hours/day), enabling school attendance</li>
+          <li>
+            • <strong>Widow Support:</strong> Restores economic agency to women who
+            lost everything after spousal death
+          </li>
+          <li>
+            • <strong>Skills Training:</strong> Exclusively targets young women with
+            vocational training + microfinance for business launch
+          </li>
+          <li>
+            • <strong>Education:</strong> Prioritizes girls who are first to be pulled
+            from school when families face financial pressure
+          </li>
+          <li>
+            • <strong>Clean Water:</strong> Frees girls from water-fetching duties
+            (often 2+ hours/day), enabling school attendance
+          </li>
         </ul>
       </div>
     </div>
@@ -156,21 +301,49 @@ const partnerTypes = [
   <!-- Alignment -->
   <Section background="gray" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Alignment with International Priorities</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        Alignment with International Priorities
+      </h2>
       <div class="mt-6 space-y-3">
-        {[
-          { framework: 'Canada\'s Feminist International Assistance Policy', alignment: 'Gender equality is central to all ADA programs. 85% women/girl beneficiaries.' },
-          { framework: 'US Foreign Assistance Framework (USAID)', alignment: 'Resilience, self-reliance, women\'s economic empowerment, youth development.' },
-          { framework: 'UN Sustainable Development Goals', alignment: 'SDG 1 (No Poverty), SDG 2 (Zero Hunger), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 6 (Clean Water), SDG 13 (Climate Action)' },
-          { framework: 'European Consensus on Development', alignment: 'People-centered approach, gender equality, youth empowerment, environmental sustainability.' },
-          { framework: 'African Union Agenda 2063', alignment: 'Youth empowerment, gender parity, community-driven development.' },
-          { framework: 'Paris Agreement / Climate Action', alignment: 'Clean water infrastructure, community clean-up programs, environmental stewardship education.' },
-        ].map((a) => (
-          <div class="p-4 bg-white rounded-lg border border-gray-200">
-            <p class="text-sm font-semibold text-gray-900">{a.framework}</p>
-            <p class="mt-1 text-xs text-gray-600">{a.alignment}</p>
-          </div>
-        ))}
+        {
+          [
+            {
+              framework: "Canada's Feminist International Assistance Policy",
+              alignment:
+                "Gender equality is central to all ADA programs. 85% women/girl beneficiaries.",
+            },
+            {
+              framework: "US Foreign Assistance Framework (USAID)",
+              alignment:
+                "Resilience, self-reliance, women's economic empowerment, youth development.",
+            },
+            {
+              framework: "UN Sustainable Development Goals",
+              alignment:
+                "SDG 1 (No Poverty), SDG 2 (Zero Hunger), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 6 (Clean Water), SDG 13 (Climate Action)",
+            },
+            {
+              framework: "European Consensus on Development",
+              alignment:
+                "People-centered approach, gender equality, youth empowerment, environmental sustainability.",
+            },
+            {
+              framework: "African Union Agenda 2063",
+              alignment:
+                "Youth empowerment, gender parity, community-driven development.",
+            },
+            {
+              framework: "Paris Agreement / Climate Action",
+              alignment:
+                "Clean water infrastructure, community clean-up programs, environmental stewardship education.",
+            },
+          ].map((a) => (
+            <div class="p-4 bg-white rounded-lg border border-gray-200">
+              <p class="text-sm font-semibold text-gray-900">{a.framework}</p>
+              <p class="mt-1 text-xs text-gray-600">{a.alignment}</p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </Section>
@@ -178,26 +351,58 @@ const partnerTypes = [
   <!-- For International Funders -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">For International Funders</h2>
-      <p class="mt-2 text-gray-600">ADA welcomes partnerships with funders worldwide. Here's how we align with your country's development priorities.</p>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        For International Funders
+      </h2>
+      <p class="mt-2 text-gray-600">
+        ADA welcomes partnerships with funders worldwide. Here's how we align
+        with your country's development priorities.
+      </p>
 
       <div class="mt-8 space-y-6">
         <!-- Canada -->
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
             <span class="text-xl" aria-hidden="true">🇨🇦</span>
-            <h3 class="text-lg font-semibold text-gray-900">Canadian Funders</h3>
+            <h3 class="text-lg font-semibold text-gray-900">
+              Canadian Funders
+            </h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>Potential CFLI Fit:</strong> ADA's local registration, community focus, and bilingual capacity may make it worth reviewing against Canada Fund for Local Initiatives requirements before any application.</p>
-            <p><strong>Canadian Charity Partnerships:</strong> Canadian registered charities may be able to support foreign organizations when their own legal and CRA requirements are met. ADA can provide documentation for that review.</p>
-            <p><strong>Policy Alignment:</strong> Our programs directly advance Canada's Feminist International Assistance Policy with 85% women/girl beneficiaries.</p>
-            <p><strong>Tax Receipts:</strong> ADA does not currently advertise Canadian tax-deductible giving. If a qualified fiscal sponsor or charity partner is confirmed, ADA will publish the details clearly.</p>
+            <p>
+              <strong>Potential CFLI Fit:</strong> ADA's local registration, community
+              focus, and bilingual capacity may make it worth reviewing against Canada
+              Fund for Local Initiatives requirements before any application.
+            </p>
+            <p>
+              <strong>Canadian Charity Partnerships:</strong> Canadian registered
+              charities may be able to support foreign organizations when their own
+              legal and CRA requirements are met. ADA can provide documentation for
+              that review.
+            </p>
+            <p>
+              <strong>Policy Alignment:</strong> Our programs directly advance Canada's
+              Feminist International Assistance Policy with 85% women/girl beneficiaries.
+            </p>
+            <p>
+              <strong>Tax Receipts:</strong> ADA does not currently advertise Canadian
+              tax-deductible giving. If a qualified fiscal sponsor or charity partner
+              is confirmed, ADA will publish the details clearly.
+            </p>
           </div>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">CFLI Review Candidate</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Bilingual EN/FR</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Gender Equality Focus</span>
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >CFLI Review Candidate</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Bilingual EN/FR</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Gender Equality Focus</span
+            >
           </div>
         </div>
 
@@ -208,15 +413,39 @@ const partnerTypes = [
             <h3 class="text-lg font-semibold text-gray-900">US Funders</h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>US Review Materials:</strong> ADA can provide governance, registration, financial, and program documents for US funders reviewing international grant options.</p>
-            <p><strong>Fiscal Sponsorship Path:</strong> ADA may pursue a US fiscal sponsor or giving platform in the future, but no US tax-deductible giving route is advertised as active today.</p>
-            <p><strong>Foundation Grants:</strong> US private foundations should use their own counsel and grantmaking procedures before funding any foreign organization. ADA can support the document review process.</p>
-            <p><strong>USAID Alignment:</strong> Our programs align with USAID's Journey to Self-Reliance framework — building local capacity, not dependency.</p>
+            <p>
+              <strong>US Review Materials:</strong> ADA can provide governance, registration,
+              financial, and program documents for US funders reviewing international
+              grant options.
+            </p>
+            <p>
+              <strong>Fiscal Sponsorship Path:</strong> ADA may pursue a US fiscal
+              sponsor or giving platform in the future, but no US tax-deductible giving
+              route is advertised as active today.
+            </p>
+            <p>
+              <strong>Foundation Grants:</strong> US private foundations should use
+              their own counsel and grantmaking procedures before funding any foreign
+              organization. ADA can support the document review process.
+            </p>
+            <p>
+              <strong>USAID Alignment:</strong> Our programs align with USAID's Journey
+              to Self-Reliance framework — building local capacity, not dependency.
+            </p>
           </div>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Fiscal Sponsor Path to Explore</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Due Diligence Documents Available</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Self-Reliance Model</span>
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Fiscal Sponsor Path to Explore</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Due Diligence Documents Available</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Self-Reliance Model</span
+            >
           </div>
         </div>
 
@@ -224,18 +453,44 @@ const partnerTypes = [
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
             <span class="text-xl" aria-hidden="true">🇪🇺</span>
-            <h3 class="text-lg font-semibold text-gray-900">European Funders</h3>
+            <h3 class="text-lg font-semibold text-gray-900">
+              European Funders
+            </h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>EU Development Framework:</strong> ADA's work aligns with the European Consensus on Development — people-centered, rights-based, gender-responsive programming.</p>
-            <p><strong>French-Speaking Capacity:</strong> Full bilingual operations (English + French). All documentation, reports, and communications available in French — ideal for Francophone European funders.</p>
-            <p><strong>Embassy Partnerships:</strong> We welcome partnerships with European embassies in Cameroon through their local development cooperation programs.</p>
-            <p><strong>Climate & Environment:</strong> Our environmental programs (cleanups, tree planting, clean water) align with European Green Deal priorities.</p>
+            <p>
+              <strong>EU Development Framework:</strong> ADA's work aligns with the
+              European Consensus on Development — people-centered, rights-based, gender-responsive
+              programming.
+            </p>
+            <p>
+              <strong>French-Speaking Capacity:</strong> Full bilingual operations
+              (English + French). All documentation, reports, and communications available
+              in French — ideal for Francophone European funders.
+            </p>
+            <p>
+              <strong>Embassy Partnerships:</strong> We welcome partnerships with
+              European embassies in Cameroon through their local development cooperation
+              programs.
+            </p>
+            <p>
+              <strong>Climate & Environment:</strong> Our environmental programs (cleanups,
+              tree planting, clean water) align with European Green Deal priorities.
+            </p>
           </div>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Francophone Capacity</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Climate Action</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Rights-Based Approach</span>
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Francophone Capacity</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Climate Action</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Rights-Based Approach</span
+            >
           </div>
         </div>
 
@@ -243,17 +498,40 @@ const partnerTypes = [
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
             <span class="text-xl" aria-hidden="true">🇬🇧</span>
-            <h3 class="text-lg font-semibold text-gray-900">UK & Commonwealth Funders</h3>
+            <h3 class="text-lg font-semibold text-gray-900">
+              UK & Commonwealth Funders
+            </h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>Commonwealth Connection:</strong> Cameroon is a Commonwealth member. ADA operates in the Anglophone regions (South-West and North-West) directly affected by the ongoing crisis.</p>
-            <p><strong>FCDO Alignment:</strong> Our programs align with UK Foreign, Commonwealth & Development Office priorities: women's empowerment, education, humanitarian response, and climate.</p>
-            <p><strong>Crisis Response:</strong> ADA has demonstrated emergency relief capacity in the Anglophone crisis context — serving IDPs, conflict-affected children, and displaced families.</p>
+            <p>
+              <strong>Commonwealth Connection:</strong> Cameroon is a Commonwealth
+              member. ADA operates in the Anglophone regions (South-West and North-West)
+              directly affected by the ongoing crisis.
+            </p>
+            <p>
+              <strong>FCDO Alignment:</strong> Our programs align with UK Foreign,
+              Commonwealth & Development Office priorities: women's empowerment, education,
+              humanitarian response, and climate.
+            </p>
+            <p>
+              <strong>Crisis Response:</strong> ADA has demonstrated emergency relief
+              capacity in the Anglophone crisis context — serving IDPs, conflict-affected
+              children, and displaced families.
+            </p>
           </div>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Commonwealth Member</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Anglophone Crisis Response</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">IDP Support</span>
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Commonwealth Member</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Anglophone Crisis Response</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >IDP Support</span
+            >
           </div>
         </div>
 
@@ -261,44 +539,101 @@ const partnerTypes = [
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
           <div class="flex items-center gap-2 mb-3">
             <span class="text-xl" aria-hidden="true">🌍</span>
-            <h3 class="text-lg font-semibold text-gray-900">Diaspora & Individual Donors (Worldwide)</h3>
+            <h3 class="text-lg font-semibold text-gray-900">
+              Diaspora & Individual Donors (Worldwide)
+            </h3>
           </div>
           <div class="space-y-2 text-sm text-gray-700">
-            <p><strong>Direct Impact:</strong> 80% of every dollar goes directly to programs. $50 sends a child to school for a year. $200 funds a complete vocational training.</p>
-            <p><strong>Full Transparency:</strong> Every project has downloadable Terms of Reference, completion reports, and financial reports on our website.</p>
-            <p><strong>Secure Giving:</strong> Stripe-powered donations with PDF receipts after payment confirmation. Monthly recurring options available.</p>
-            <p><strong>Stay Connected:</strong> Quarterly impact updates with photos and stories from the field.</p>
+            <p>
+              <strong>Direct Impact:</strong> ADA’s public allocation model targets
+              80% program delivery. Sponsors can review project budgets and reporting
+              before larger gifts.
+            </p>
+            <p>
+              <strong>Full Transparency:</strong> Every project has downloadable Terms
+              of Reference, completion reports, and financial reports on our website.
+            </p>
+            <p>
+              <strong>Secure Giving:</strong> Stripe-powered donations with PDF receipts
+              after payment confirmation. Monthly recurring options available.
+            </p>
+            <p>
+              <strong>Stay Connected:</strong> Quarterly impact updates with photos
+              and stories from the field.
+            </p>
           </div>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Secure Online Donations</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">PDF Receipts</span>
-            <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">Full Accountability</span>
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Secure Online Donations</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >PDF Receipts</span
+            >
+            <span
+              class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full"
+              >Full Accountability</span
+            >
           </div>
         </div>
       </div>
 
       <!-- Due Diligence -->
       <div class="mt-8 p-5 bg-primary-50 rounded-xl border border-primary-100">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-6"
+        >
           <div class="flex-grow">
-            <h3 class="text-sm font-semibold text-gray-900">Due Diligence Package (Available on Request)</h3>
-            <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700">
-              <p><span aria-hidden="true">✓</span> Registration certificate (N° 415/G.37/D14/VolI/SAAJP)</p>
-              <p><span aria-hidden="true">✓</span> Board of Directors list with bios</p>
-              <p><span aria-hidden="true">✓</span> Annual reports and program summaries</p>
-              <p><span aria-hidden="true">✓</span> Project records and reports where available</p>
-              <p><span aria-hidden="true">✓</span> Organizational policies (governance, finance, safeguarding)</p>
-              <p><span aria-hidden="true">✓</span> Reporting expectations and M&E indicators</p>
-              <p><span aria-hidden="true">✓</span> References from community leaders and partners</p>
+            <h3 class="text-sm font-semibold text-gray-900">
+              Due Diligence Package (Available on Request)
+            </h3>
+            <div
+              class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700"
+            >
+              <p>
+                <span aria-hidden="true">✓</span> Registration certificate (N° 415/G.37/D14/VolI/SAAJP)
+              </p>
+              <p>
+                <span aria-hidden="true">✓</span> Leadership and governance overview
+              </p>
+              <p>
+                <span aria-hidden="true">✓</span> Annual reports and program summaries
+              </p>
+              <p>
+                <span aria-hidden="true">✓</span> Project records and reports where
+                available
+              </p>
+              <p>
+                <span aria-hidden="true">✓</span> Organizational policies (governance,
+                finance, safeguarding)
+              </p>
+              <p>
+                <span aria-hidden="true">✓</span> Reporting expectations and M&E indicators
+              </p>
+              <p>
+                <span aria-hidden="true">✓</span> References from community leaders
+                and partners
+              </p>
               <p><span aria-hidden="true">✓</span> Site visit coordination</p>
             </div>
-            <p class="mt-3 text-xs text-primary-700">Contact <a href="mailto:info@apotidev.org" class="underline">info@apotidev.org</a> to request the full due diligence package.</p>
+            <p class="mt-3 text-xs text-primary-700">
+              Contact <a href="mailto:info@apotidev.org" class="underline"
+                >info@apotidev.org</a
+              > to request the full due diligence package.
+            </p>
           </div>
           <div class="flex-shrink-0 flex flex-col gap-3">
-            <a href="/contact?subject=Due+Diligence+Package+Request" class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm">
+            <a
+              href="/contact?subject=Due+Diligence+Package+Request"
+              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm"
+            >
               Request Due Diligence →
             </a>
-            <a href="/resources" class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-primary-700 bg-white rounded-xl hover:bg-primary-100 transition-colors shadow-sm">
+            <a
+              href="/resources"
+              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-primary-700 bg-white rounded-xl hover:bg-primary-100 transition-colors shadow-sm"
+            >
               {labels.resources.title} →
             </a>
           </div>
@@ -310,23 +645,29 @@ const partnerTypes = [
   <!-- What We Offer Partners -->
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">What We Provide to Partners</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        What We Provide to Partners
+      </h2>
       <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {[
-          'Detailed project proposals with logical frameworks',
-          'Quarterly narrative and financial reports',
-          'Annual financial summaries and supporting records',
-          'Monitoring & Evaluation data with indicators',
-          'Photo and video documentation of activities',
-          'Beneficiary testimonials and case studies',
-          'Site visit coordination for due diligence',
-          'Reports in English and French',
-        ].map((item) => (
-          <div class="flex items-start gap-2">
-            <span class="text-primary-600 mt-0.5" aria-hidden="true">✓</span>
-            <p class="text-sm text-gray-700">{item}</p>
-          </div>
-        ))}
+        {
+          [
+            "Detailed project proposals with logical frameworks",
+            "Quarterly narrative and financial reports",
+            "Annual financial summaries and supporting records",
+            "Monitoring & Evaluation data with indicators",
+            "Photo and video documentation of activities",
+            "Beneficiary testimonials and case studies",
+            "Site visit coordination for due diligence",
+            "Reports in English and French",
+          ].map((item) => (
+            <div class="flex items-start gap-2">
+              <span class="text-primary-600 mt-0.5" aria-hidden="true">
+                ✓
+              </span>
+              <p class="text-sm text-gray-700">{item}</p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </Section>
@@ -334,12 +675,22 @@ const partnerTypes = [
   <!-- Partnership Tiers -->
   <Section background="gray" padding="lg">
     <div class="max-w-4xl mx-auto">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div
+        class="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+      >
         <div>
-          <h2 class="text-2xl font-heading font-bold text-gray-900">Partnership Opportunities</h2>
-          <p class="mt-2 text-gray-600">These options can be adapted for churches, companies, diaspora associations, schools, universities, and foundations.</p>
+          <h2 class="text-2xl font-heading font-bold text-gray-900">
+            Partnership Opportunities
+          </h2>
+          <p class="mt-2 text-gray-600">
+            These options can be adapted for churches, companies, diaspora
+            associations, schools, universities, and foundations.
+          </p>
         </div>
-        <a href="/contact?subject=Partnership+Opportunity+Discussion" class="inline-flex items-center justify-center px-5 py-3 text-sm font-bold text-primary-700 bg-white rounded-xl hover:bg-primary-50 transition-colors shadow-sm">
+        <a
+          href="/contact?subject=Partnership+Opportunity+Discussion"
+          class="inline-flex items-center justify-center px-5 py-3 text-sm font-bold text-primary-700 bg-white rounded-xl hover:bg-primary-50 transition-colors shadow-sm"
+        >
           Discuss an Opportunity →
         </a>
       </div>
@@ -347,17 +698,32 @@ const partnerTypes = [
         <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
           <h3 class="text-lg font-semibold text-gray-900">Project Funding</h3>
           <p class="mt-1 text-2xl font-bold text-primary-700">$500–$5K</p>
-          <p class="mt-3 text-xs text-gray-600">Fund a specific program or campaign with full reporting and accountability.</p>
+          <p class="mt-3 text-xs text-gray-600">
+            Fund a specific program or campaign with full reporting and
+            accountability.
+          </p>
         </div>
-        <div class="p-6 bg-white rounded-xl border-2 border-primary-500 text-center shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900">Multi-Year Partnership</h3>
+        <div
+          class="p-6 bg-white rounded-xl border-2 border-primary-500 text-center shadow-sm"
+        >
+          <h3 class="text-lg font-semibold text-gray-900">
+            Multi-Year Partnership
+          </h3>
           <p class="mt-1 text-2xl font-bold text-primary-700">$5K–$20K</p>
-          <p class="mt-3 text-xs text-gray-600">Strategic partnership with co-designed goals, agreed reporting cadence, and deeper impact measurement.</p>
+          <p class="mt-3 text-xs text-gray-600">
+            Strategic partnership with co-designed goals, agreed reporting
+            cadence, and deeper impact measurement.
+          </p>
         </div>
         <div class="p-6 bg-white rounded-xl border border-gray-200 text-center">
-          <h3 class="text-lg font-semibold text-gray-900">Technical Assistance</h3>
+          <h3 class="text-lg font-semibold text-gray-900">
+            Technical Assistance
+          </h3>
           <p class="mt-1 text-2xl font-bold text-primary-700">In-Kind</p>
-          <p class="mt-3 text-xs text-gray-600">Capacity building, training, technology, or expertise to strengthen our operations.</p>
+          <p class="mt-3 text-xs text-gray-600">
+            Capacity building, training, technology, or expertise to strengthen
+            our operations.
+          </p>
         </div>
       </div>
     </div>
@@ -366,12 +732,38 @@ const partnerTypes = [
   <!-- Track Record -->
   <Section background="white" padding="md">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Our Track Record</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        Our Track Record
+      </h2>
       <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-        <div><p class="text-2xl font-bold text-primary-700">200+</p><p class="text-xs text-gray-600">Lives impacted</p></div>
-        <div><p class="text-2xl font-bold text-primary-700">85%</p><p class="text-xs text-gray-600">Women & girls</p></div>
-        <div><p class="text-2xl font-bold text-primary-700">5%</p><p class="text-xs text-gray-600">Admin overhead</p></div>
-        <div><p class="text-2xl font-bold text-primary-700">4 yrs</p><p class="text-xs text-gray-600">Continuous operation</p></div>
+        <div>
+          <p class="text-2xl font-bold text-primary-700">200+</p><p
+            class="text-xs text-gray-600"
+          >
+            Lives impacted
+          </p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold text-primary-700">85%</p><p
+            class="text-xs text-gray-600"
+          >
+            Women & girls
+          </p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold text-primary-700">5%</p><p
+            class="text-xs text-gray-600"
+          >
+            Admin overhead
+          </p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold text-primary-700">4 yrs</p><p
+            class="text-xs text-gray-600"
+          >
+            Continuous operation
+          </p>
+        </div>
       </div>
     </div>
   </Section>
@@ -379,25 +771,55 @@ const partnerTypes = [
   <!-- Partnership Capacity -->
   <Section background="gray" padding="md">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900">Our Partnership Capacity</h2>
-      <p class="mt-2 text-gray-600">We have the systems and skills to manage institutional partnerships professionally.</p>
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        Our Partnership Capacity
+      </h2>
+      <p class="mt-2 text-gray-600">
+        We have the systems and skills to manage institutional partnerships
+        professionally.
+      </p>
       <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {[
-          { title: 'Bilingual Reporting', desc: 'All reports, proposals, and communications delivered in English and French. Team fluent in both languages.' },
-          { title: 'Deadline Management', desc: 'Quarterly and project-specific reporting can be scheduled into partner agreements so expectations are clear from the start.' },
-          { title: 'Financial Management', desc: 'Donation records, payment processor records, budgets, receipts, and project allocations are reconciled for transparent fund tracking.' },
-          { title: 'M&E Framework', desc: 'Logical framework with SMART indicators. Baseline data collected. Outcome tracking (not just outputs).' },
-          { title: 'Documentation', desc: 'Photo/video documentation, field notes, attendance lists, receipts, and beneficiary consent practices are used where appropriate.' },
-          { title: 'Governance', desc: 'Board oversight, defined officer roles, financial review, and documented policies support responsible partnership management.' },
-        ].map((item) => (
-          <div class="flex items-start gap-3 p-3 bg-white rounded-lg">
-            <span class="text-primary-600 mt-0.5 font-bold" aria-hidden="true">✓</span>
-            <div>
-              <p class="text-sm font-semibold text-gray-900">{item.title}</p>
-              <p class="mt-0.5 text-xs text-gray-600">{item.desc}</p>
+        {
+          [
+            {
+              title: "Bilingual Reporting",
+              desc: "All reports, proposals, and communications delivered in English and French. Team fluent in both languages.",
+            },
+            {
+              title: "Deadline Management",
+              desc: "Quarterly and project-specific reporting can be scheduled into partner agreements so expectations are clear from the start.",
+            },
+            {
+              title: "Financial Management",
+              desc: "Donation records, payment processor records, budgets, receipts, and project allocations are reconciled for transparent fund tracking.",
+            },
+            {
+              title: "M&E Framework",
+              desc: "Logical framework with SMART indicators. Baseline data collected. Outcome tracking (not just outputs).",
+            },
+            {
+              title: "Documentation",
+              desc: "Photo/video documentation, field notes, attendance lists, receipts, and beneficiary consent practices are used where appropriate.",
+            },
+            {
+              title: "Governance",
+              desc: "Board oversight, defined officer roles, financial review, and documented policies support responsible partnership management.",
+            },
+          ].map((item) => (
+            <div class="flex items-start gap-3 p-3 bg-white rounded-lg">
+              <span
+                class="text-primary-600 mt-0.5 font-bold"
+                aria-hidden="true"
+              >
+                ✓
+              </span>
+              <div>
+                <p class="text-sm font-semibold text-gray-900">{item.title}</p>
+                <p class="mt-0.5 text-xs text-gray-600">{item.desc}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </Section>
@@ -406,14 +828,38 @@ const partnerTypes = [
   <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
     <div class="max-w-2xl mx-auto text-center">
       <h2 class="text-2xl font-heading font-bold">Start a Conversation</h2>
-      <p class="mt-2 text-white/80 text-sm">We welcome partnerships with churches, companies, diaspora groups, schools, universities, foundations, embassies, and international NGOs aligned with our mission.</p>
-      <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href="/contact?subject=Partnership+Inquiry" class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Start Partnership Inquiry</a>
-        <a href="/sponsor" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Sponsor a Program</a>
-        <a href="/contact?subject=Due+Diligence+Package+Request" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Request Due Diligence</a>
-        <a href="/transparency" class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">View Transparency Report</a>
+      <p class="mt-2 text-white/80 text-sm">
+        We welcome partnerships with churches, companies, diaspora groups,
+        schools, universities, foundations, embassies, and international NGOs
+        aligned with our mission.
+      </p>
+      <div
+        class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3"
+      >
+        <a
+          href="/contact?subject=Partnership+Inquiry"
+          class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors"
+          >Start Partnership Inquiry</a
+        >
+        <a
+          href="/sponsor"
+          class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          >Sponsor a Program</a
+        >
+        <a
+          href="/contact?subject=Due+Diligence+Package+Request"
+          class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          >Request Due Diligence</a
+        >
+        <a
+          href="/transparency"
+          class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          >View Transparency Report</a
+        >
       </div>
-      <p class="mt-4 text-xs text-white/50">info@apotidev.org · +237 676 282 346 · Cameroon</p>
+      <p class="mt-4 text-xs text-white/50">
+        info@apotidev.org · +237 676 282 346 · Cameroon
+      </p>
     </div>
   </Section>
 </PageLayout>

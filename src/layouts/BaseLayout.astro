@@ -1,6 +1,6 @@
 ---
-import { getLocale, switchLocalePath } from '../i18n';
-import { REGISTRATION_NUMBER, buildBreadcrumbList } from '../data/organization';
+import { getLocale, switchLocalePath } from "../i18n";
+import { REGISTRATION_NUMBER, buildBreadcrumbList } from "../data/organization";
 
 interface Props {
   title: string;
@@ -18,45 +18,61 @@ const {
 
 const locale = getLocale(Astro.url.pathname);
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
-const alternateLocale = locale === 'fr' ? 'en' : 'fr';
+const alternateLocale = locale === "fr" ? "en" : "fr";
 const alternateUrl = new URL(switchLocalePath(Astro.url.pathname), Astro.site);
 const emitLocaleAlternates = !noIndex;
+const webVitalsSampleRate = Number(
+  import.meta.env.PUBLIC_WEB_VITALS_SAMPLE_RATE ?? "0.2",
+);
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "NonprofitOrganization",
-  "name": "Apoti Development Association",
-  "alternateName": "ADA",
-  "url": Astro.site?.toString() || "https://apotidev.org",
-  "logo": "https://apotidev.org/favicon.svg",
-  "description": "Faith-based charity empowering widows, orphans, and young women in Cameroon through food distribution, education, vocational training, and healthcare since 2021.",
-  "foundingDate": "2021",
-  "foundingLocation": { "@type": "Place", "name": "Bamenda, Cameroon" },
-  "areaServed": { "@type": "Country", "name": "Cameroon" },
-  "address": { "@type": "PostalAddress", "addressCountry": "CM", "addressRegion": "South West Region", "addressLocality": "Buea" },
-  "contactPoint": [
+  name: "Apoti Development Association",
+  alternateName: "ADA",
+  url: Astro.site?.toString() || "https://apotidev.org",
+  logo: "https://apotidev.org/favicon.svg",
+  description:
+    "Faith-based charity empowering widows, orphans, and young women in Cameroon through food distribution, education, vocational training, and healthcare since 2021.",
+  foundingDate: "2021",
+  foundingLocation: { "@type": "Place", name: "Bamenda, Cameroon" },
+  areaServed: { "@type": "Country", name: "Cameroon" },
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "CM",
+    addressRegion: "South West Region",
+    addressLocality: "Buea",
+  },
+  contactPoint: [
     {
       "@type": "ContactPoint",
-      "email": "info@apotidev.org",
-      "telephone": "+237676282346",
-      "contactType": "general inquiries",
-      "availableLanguage": ["English", "French"]
+      email: "info@apotidev.org",
+      telephone: "+237676282346",
+      contactType: "general inquiries",
+      availableLanguage: ["English", "French"],
     },
     {
       "@type": "ContactPoint",
-      "email": "info@apotidev.org",
-      "contactType": "donations",
-      "url": "https://apotidev.org/donate"
-    }
+      email: "info@apotidev.org",
+      contactType: "donations",
+      url: "https://apotidev.org/donate",
+    },
   ],
-  "identifier": REGISTRATION_NUMBER,
-  "nonprofitStatus": `Registered Non-Profit Association, Cameroon (${REGISTRATION_NUMBER})`,
-  "knowsAbout": ["Widow empowerment", "Orphan education", "Women vocational training", "Clean water access", "Community development", "Cameroon"],
-  "sameAs": [
+  identifier: REGISTRATION_NUMBER,
+  nonprofitStatus: `Registered Non-Profit Association, Cameroon (${REGISTRATION_NUMBER})`,
+  knowsAbout: [
+    "Widow empowerment",
+    "Orphan education",
+    "Women vocational training",
+    "Clean water access",
+    "Community development",
+    "Cameroon",
+  ],
+  sameAs: [
     "https://facebook.com/apotidev",
     "https://instagram.com/apotidev",
-    "https://twitter.com/apotidev"
-  ]
+    "https://twitter.com/apotidev",
+  ],
 };
 
 const breadcrumbList = buildBreadcrumbList(Astro.url.pathname, Astro.site);
@@ -70,22 +86,39 @@ const breadcrumbList = buildBreadcrumbList(Astro.url.pathname, Astro.site);
     <title>{title} | Apoti Development Association</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    {emitLocaleAlternates && (
-      <>
-        <link rel="alternate" hreflang={locale === 'fr' ? 'fr' : 'en'} href={canonicalUrl} />
-        <link rel="alternate" hreflang={alternateLocale} href={alternateUrl} />
-        <link rel="alternate" hreflang="x-default" href={locale === 'fr' ? alternateUrl : canonicalUrl} />
-      </>
-    )}
+    {
+      emitLocaleAlternates && (
+        <>
+          <link
+            rel="alternate"
+            hreflang={locale === "fr" ? "fr" : "en"}
+            href={canonicalUrl}
+          />
+          <link
+            rel="alternate"
+            hreflang={alternateLocale}
+            href={alternateUrl}
+          />
+          <link
+            rel="alternate"
+            hreflang="x-default"
+            href={locale === "fr" ? alternateUrl : canonicalUrl}
+          />
+        </>
+      )
+    }
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content={locale === 'fr' ? 'fr_FR' : 'en_CA'} />
+    <meta property="og:locale" content={locale === "fr" ? "fr_FR" : "en_CA"} />
     <meta property="og:site_name" content="Apoti Development Association" />
-    <meta property="og:image:alt" content="Apoti Development Association programs supporting widows, orphans, and young women in Cameroon" />
+    <meta
+      property="og:image:alt"
+      content="Apoti Development Association programs supporting widows, orphans, and young women in Cameroon"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -97,9 +130,23 @@ const breadcrumbList = buildBreadcrumbList(Astro.url.pathname, Astro.site);
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" /></noscript>
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+      /></noscript
+    >
 
     <meta name="theme-color" content="#15803d" />
     <meta name="application-name" content="Apoti Development Association" />
@@ -107,17 +154,133 @@ const breadcrumbList = buildBreadcrumbList(Astro.url.pathname, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-    {breadcrumbList && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbList)} />}
-    
-    {import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
-      <script
-        defer
-        src={`${import.meta.env.PUBLIC_UMAMI_URL || 'https://cloud.umami.is'}/script.js`}
-        data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID}
-      />
-    )}
+    {
+      breadcrumbList && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(breadcrumbList)}
+        />
+      )
+    }
+
+    {
+      import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
+        <script
+          defer
+          src={`${import.meta.env.PUBLIC_UMAMI_URL || "https://cloud.umami.is"}/script.js`}
+          data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID}
+        />
+      )
+    }
   </head>
   <body>
     <slot />
+    <script define:vars={{ webVitalsSampleRate }}>
+      (() => {
+        if (!("PerformanceObserver" in window)) return;
+        if (
+          Number.isFinite(webVitalsSampleRate) &&
+          Math.random() > webVitalsSampleRate
+        )
+          return;
+
+        const thresholds = {
+          CLS: [0.1, 0.25],
+          FCP: [1800, 3000],
+          INP: [200, 500],
+          LCP: [2500, 4000],
+          TTFB: [800, 1800],
+        };
+        const connection =
+          navigator.connection?.effectiveType ||
+          navigator.mozConnection?.effectiveType ||
+          navigator.webkitConnection?.effectiveType ||
+          "unknown";
+        const device = matchMedia("(max-width: 767px)").matches
+          ? "mobile"
+          : "desktop";
+        const sent = new Set();
+
+        function rating(name, value) {
+          const [good, poor] = thresholds[name] || [0, 0];
+          if (value <= good) return "good";
+          if (value <= poor) return "needs-improvement";
+          return "poor";
+        }
+
+        function send(name, value, once = false) {
+          if (!Number.isFinite(value)) return;
+          if (once && sent.has(name)) return;
+          sent.add(name);
+
+          const body = JSON.stringify({
+            name,
+            value,
+            rating: rating(name, value),
+            path: location.pathname,
+            device,
+            connection,
+          });
+          const blob = new Blob([body], { type: "application/json" });
+          if (navigator.sendBeacon?.("/api/performance-metrics", blob)) return;
+          fetch("/api/performance-metrics", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body,
+            keepalive: true,
+          }).catch(() => {});
+        }
+
+        try {
+          const navigation = performance.getEntriesByType("navigation")[0];
+          if (navigation?.responseStart)
+            send("TTFB", navigation.responseStart, true);
+        } catch {}
+
+        try {
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+              if (entry.name === "first-contentful-paint") {
+                send("FCP", entry.startTime, true);
+              }
+            }
+          }).observe({ type: "paint", buffered: true });
+        } catch {}
+
+        let lcp = 0;
+        let cls = 0;
+        let inp = 0;
+
+        try {
+          new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            const last = entries[entries.length - 1];
+            if (last) lcp = last.startTime;
+          }).observe({ type: "largest-contentful-paint", buffered: true });
+        } catch {}
+
+        try {
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+              if (!entry.hadRecentInput) cls += entry.value || 0;
+            }
+          }).observe({ type: "layout-shift", buffered: true });
+        } catch {}
+
+        try {
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+              inp = Math.max(inp, entry.duration || 0);
+            }
+          }).observe({ type: "event", buffered: true, durationThreshold: 40 });
+        } catch {}
+
+        addEventListener("pagehide", () => {
+          send("LCP", lcp, true);
+          send("CLS", cls, true);
+          if (inp) send("INP", inp, true);
+        });
+      })();
+    </script>
   </body>
 </html>

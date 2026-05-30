@@ -1,0 +1,160 @@
+---
+import PageLayout from "../../../layouts/PageLayout.astro";
+import Section from "../../../components/layout/Section.astro";
+import NewsletterSignup from "../../../components/islands/NewsletterSignup";
+---
+
+<PageLayout
+  title="Merci pour votre don"
+  description="Votre don a été reçu. Merci de soutenir la mission d'ADA au Cameroun."
+  noIndex
+>
+  <Section background="white" padding="lg">
+    <div class="max-w-lg mx-auto text-center">
+      <div
+        class="w-20 h-20 mx-auto rounded-full bg-primary-100 flex items-center justify-center"
+      >
+        <svg
+          class="w-10 h-10 text-primary-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          ></path>
+        </svg>
+      </div>
+      <h1 class="mt-6 text-3xl font-heading font-bold text-gray-900">
+        Merci !
+      </h1>
+      <p class="mt-4 text-lg text-gray-600">
+        Votre don a bien été reçu. Votre reçu sera envoyé par e-mail après
+        confirmation du paiement.
+      </p>
+      <p class="mt-3 text-sm text-gray-500 max-w-sm mx-auto">
+        Votre soutien aide les veuves, les orphelins et les jeunes femmes au
+        Cameroun. Nous vous sommes profondément reconnaissants.
+      </p>
+      <div
+        class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-primary-50 rounded-full text-sm text-primary-700 font-medium border border-primary-100"
+      >
+        <span aria-hidden="true">📧</span> Vérifiez votre boîte mail — votre reçu
+        arrive bientôt
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="sm">
+    <div id="monthly-upsell" class="max-w-lg mx-auto">
+      <div
+        class="p-5 bg-white rounded-2xl border border-primary-200 shadow-sm text-center"
+      >
+        <p class="text-base font-semibold text-gray-900">
+          💚 Rendez votre impact régulier
+        </p>
+        <p class="mt-2 text-sm text-gray-600 max-w-sm mx-auto">
+          Les soutiens mensuels aident ADA à mieux planifier le soutien
+          scolaire, le suivi terrain et les besoins urgents des familles.
+        </p>
+        <a
+          href="/fr/monthly"
+          class="mt-4 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors shadow-sm"
+        >
+          Devenir soutien mensuel
+        </a>
+        <p class="mt-2 text-xs text-gray-400">
+          Annulation possible à tout moment · Sans frais
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="md">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-xl font-heading font-bold text-gray-900 text-center">
+        Ce qui se passe ensuite
+      </h2>
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        {
+          [
+            {
+              icon: "📧",
+              title: "Reçu par e-mail",
+              desc: "Un reçu PDF officiel et un message de remerciement sont envoyés après confirmation Stripe.",
+            },
+            {
+              icon: "🌍",
+              title: "Fonds vers le Cameroun",
+              desc: "ADA rapproche le don avec ses registres de programme et les priorités terrain.",
+            },
+            {
+              icon: "📅",
+              title: "Suivi à 30 jours",
+              desc: "Votre don est placé dans une file de suivi avec notes terrain, photos ou lien de rapport si disponible.",
+            },
+          ].map((step) => (
+            <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+              <span class="text-2xl" aria-hidden="true">
+                {step.icon}
+              </span>
+              <p class="mt-2 text-sm font-semibold text-gray-900">
+                {step.title}
+              </p>
+              <p class="mt-1 text-xs text-gray-600 leading-relaxed">
+                {step.desc}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="md">
+    <div class="max-w-lg mx-auto text-center">
+      <h2 class="text-lg font-semibold text-gray-900">Rester informé</h2>
+      <p class="mt-1 text-sm text-gray-600">
+        Recevez des nouvelles mensuelles avec photos et histoires montrant
+        l'impact de votre don.
+      </p>
+      <div class="mt-4">
+        <NewsletterSignup client:visible />
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="sm">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+      <a
+        href="/fr"
+        class="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+      >
+        Retour à l'accueil
+      </a>
+      <a
+        href="/fr/stories"
+        class="px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
+      >
+        Lire les témoignages
+      </a>
+      <a
+        href="/fr/transparency"
+        class="px-5 py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+      >
+        Voir l'utilisation des fonds
+      </a>
+    </div>
+  </Section>
+</PageLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("frequency") === "monthly") {
+    document.getElementById("monthly-upsell")?.closest("section")?.remove();
+  }
+</script>

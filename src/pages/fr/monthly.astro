@@ -1,0 +1,180 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../../components/layout/Section.astro";
+import DonationForm from "../../components/islands/DonationForm";
+import { getProjects, type SanityProject } from "../../lib/sanity";
+import { getProjectLifecycleState } from "../../lib/project-lifecycle";
+import { REGISTRATION_NUMBER } from "../../data/organization";
+
+let projectOptions: { slug: string; title: string }[] = [];
+try {
+  const projects = await getProjects();
+  if (projects?.length) {
+    projectOptions = projects
+      .filter(
+        (p: SanityProject) =>
+          getProjectLifecycleState(p, { locale: "fr" }).status === "active",
+      )
+      .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+  }
+} catch {}
+
+const monthlyBenefits = [
+  {
+    title: "Aide prévisible",
+    text: "Les dons récurrents aident ADA à planifier l'école, l'aide alimentaire et le suivi terrain avant que les besoins urgents s'accumulent.",
+  },
+  {
+    title: "Petit don, soutien constant",
+    text: "25 $/mois peuvent maintenir l'aide pratique sans demander un grand don ponctuel.",
+  },
+  {
+    title: "Contrôle simple",
+    text: "Un don mensuel peut être modifié ou annulé en contactant ADA. Aucun frais d'annulation.",
+  },
+];
+
+const monthlyUses = [
+  "10 $/mois aident à fournir des repas ou des besoins essentiels urgents.",
+  "25 $/mois soutiennent les fournitures scolaires et l'aide aux enfants vulnérables.",
+  "50 $/mois aident à stabiliser le soutien aux veuves et familles.",
+  "100 $/mois contribuent à la formation, au mentorat et au suivi.",
+];
+---
+
+<PageLayout
+  title="Don Mensuel"
+  description="Devenez soutien mensuel d'ADA et aidez à fournir une aide régulière aux veuves, orphelins, jeunes femmes et familles vulnérables au Cameroun."
+>
+  <section class="bg-white">
+    <div
+      class="max-w-6xl mx-auto min-w-0 px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start"
+    >
+      <div class="min-w-0">
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight"
+        >
+          Donnez chaque mois. Gardez l'aide en mouvement.
+        </h1>
+        <p class="mt-5 text-lg text-gray-600 leading-relaxed">
+          Les soutiens mensuels donnent à ADA une base plus stable pour l'aide
+          pratique au Cameroun : école, soutien aux veuves, aide alimentaire,
+          formation, orientations santé et suivi terrain.
+        </p>
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href="#monthly-form"
+            class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
+          >
+            Commencer un don mensuel
+          </a>
+          <a
+            href="/fr/impact-scorecard"
+            class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            Voir l'impact
+          </a>
+        </div>
+        <p class="mt-5 text-xs text-gray-500 leading-relaxed">
+          ADA est enregistrée au Cameroun ({REGISTRATION_NUMBER}). Les dons
+          internationaux ne sont pas présentés comme déductibles d'impôt sauf si
+          un partenaire enregistré qualifié est confirmé par écrit.
+        </p>
+      </div>
+
+      <div
+        id="monthly-form"
+        class="min-w-0 scroll-mt-24 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-6"
+      >
+        <DonationForm
+          client:load
+          projects={projectOptions}
+          monthlyOnly
+          locale="fr"
+        />
+      </div>
+    </div>
+  </section>
+
+  <Section background="gray" padding="lg">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+        Pourquoi le don mensuel aide
+      </h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {
+          monthlyBenefits.map((item) => (
+            <div class="rounded-xl border border-gray-200 bg-white p-5">
+              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
+              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                {item.text}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
+    >
+      <div>
+        <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+          Un soutien récurrent simple
+        </h2>
+        <p class="mt-3 text-gray-600 leading-relaxed">
+          Cette page est volontairement limitée aux dons mensuels. Elle garde le
+          parcours court et évite de mélanger parrainages institutionnels,
+          factures ou validations de dons restreints.
+        </p>
+        <p class="mt-4 text-sm text-gray-500 leading-relaxed">
+          Les paiements en ligne sont traités par Stripe. Les options
+          admissibles comme Apple Pay ou Google Pay peuvent apparaître selon
+          l'appareil, le navigateur et les paramètres Stripe d'ADA.
+        </p>
+      </div>
+      <div class="rounded-xl border border-gray-200 bg-gray-50 p-5">
+        <h3 class="text-base font-semibold text-gray-900">
+          Ce que les dons mensuels peuvent soutenir
+        </h3>
+        <ul class="mt-4 space-y-3">
+          {
+            monthlyUses.map((item) => (
+              <li class="flex gap-3 text-sm text-gray-700">
+                <span
+                  class="mt-1.5 h-2 w-2 rounded-full bg-primary-500 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="md">
+    <div
+      class="max-w-4xl mx-auto rounded-xl border border-amber-200 bg-amber-50 p-5"
+    >
+      <h2 class="text-base font-semibold text-amber-950">
+        Chemin avec partenaire fiscal
+      </h2>
+      <p class="mt-2 text-sm text-amber-900 leading-relaxed">
+        ADA ne publie actuellement pas de voie de don déductible d'impôt au
+        Canada, aux États-Unis, au Royaume-Uni ou dans l'UE. Les organisations
+        qui en ont besoin peuvent contacter ADA pour discuter des exigences et
+        d'une admissibilité future avant de faire un don.
+      </p>
+      <a
+        href="/fr/sponsor/inquiry"
+        class="mt-4 inline-flex px-4 py-2 text-sm font-semibold text-amber-950 bg-white rounded-lg hover:bg-amber-100 transition-colors"
+      >
+        Discuter des exigences
+      </a>
+    </div>
+  </Section>
+</PageLayout>

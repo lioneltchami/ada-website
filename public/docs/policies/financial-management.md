@@ -37,4 +37,4 @@ This policy defines how ADA receives, records, spends, and reports funds so that
 
 ADA prohibits bribery, misappropriation, and falsification of records. Whistleblowers may report concerns confidentially to `info@apotidev.org`.
 
-_Approved by the ADA Board of Directors._
+_Published by ADA for sponsor and donor review._

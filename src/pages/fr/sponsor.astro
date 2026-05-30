@@ -1,10 +1,7 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
-import {
-  REGISTRATION_CERTIFICATE_URL,
-  REGISTRATION_NUMBER,
-} from "../../data/organization";
+import { REGISTRATION_NUMBER } from "../../data/organization";
 
 const sponsorTiers = [
   {
@@ -123,9 +120,10 @@ const outcomeProofs = [
 ];
 
 const paymentOptions = [
-  "Le don par carte via Stripe est disponible en ligne pour les dons ponctuels ou mensuels en USD.",
+  "Le don par carte via Stripe est disponible en ligne pour les dons ponctuels ou mensuels en USD; les portefeuilles admissibles peuvent apparaître selon Stripe, l'appareil et le navigateur.",
+  "PayPal, Venmo et ACH ne doivent pas être présentés comme actifs tant que les opérations et le rapprochement ne sont pas confirmés.",
   "Les demandes de facture, d'accord de parrainage ou de bon de commande peuvent commencer par le formulaire sponsor.",
-  "Les informations de virement bancaire ou transfert direct peuvent être organisées sur demande avant paiement, lorsque disponible.",
+  "Les demandes de virement bancaire ou transfert direct sont examinées manuellement avant qu'ADA ne partage des instructions de paiement.",
   "Les dons doublés par l'employeur sont bienvenus, mais l'employeur doit confirmer l'éligibilité car ADA est enregistrée au Cameroun et n'est pas une charité canadienne ni une 501(c)(3) américaine.",
   "Les dons restreints doivent être discutés avant paiement afin de confirmer l'objet, les rapports et la reconnaissance.",
   "Les dons par chèque ne doivent être utilisés que si un sponsor fiscal qualifié ou partenaire caritatif enregistré est confirmé par écrit.",
@@ -179,14 +177,22 @@ const diligenceItems = [
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-3">
           <a
-            href="/fr/contact?subject=Demande+de+Dossier+de+Parrainage"
+            href="/fr/sponsor/inquiry"
             class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors shadow-sm sm:w-auto"
           >
-            Demander le dossier de parrainage
+            Commencer une demande
+          </a>
+          <a
+            href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-primary-800 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
+            Télécharger la fiche
           </a>
           <a
             href="#tiers"
-            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-primary-800 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors sm:w-auto"
           >
             Voir les options
           </a>
@@ -231,7 +237,7 @@ const diligenceItems = [
             <dd
               class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
             >
-              Carte Stripe, facture, virement
+              Carte Stripe; facture ou virement sur demande
             </dd>
           </div>
           <div
@@ -247,7 +253,15 @@ const diligenceItems = [
         </dl>
         <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a
-            href={REGISTRATION_CERTIFICATE_URL}
+            href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
+            target="_blank"
+            rel="noopener"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Fiche sponsor
+          </a>
+          <a
+            href="/docs/diligence/ada-registration-certificate.pdf"
             target="_blank"
             rel="noopener"
             class="text-sm font-semibold text-primary-700 hover:underline"
@@ -265,6 +279,12 @@ const diligenceItems = [
             class="text-sm font-semibold text-primary-700 hover:underline"
           >
             Ressources
+          </a>
+          <a
+            href="/fr/impact-scorecard"
+            class="text-sm font-semibold text-primary-700 hover:underline"
+          >
+            Tableau d'impact
           </a>
         </div>
       </div>
@@ -285,9 +305,7 @@ const diligenceItems = [
       {
         fundingPaths.map((path) => (
           <div class="bg-white border border-gray-200 rounded-xl p-5">
-            <h3 class="text-base font-semibold text-gray-900">
-              {path.title}
-            </h3>
+            <h3 class="text-base font-semibold text-gray-900">{path.title}</h3>
             <p class="mt-2 text-sm text-gray-600 leading-relaxed">
               {path.text}
             </p>
@@ -312,15 +330,11 @@ const diligenceItems = [
       {
         outcomeProofs.map((proof) => (
           <article class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-lg font-semibold text-gray-900">
-              {proof.project}
-            </h3>
+            <h3 class="text-lg font-semibold text-gray-900">{proof.project}</h3>
             <dl class="mt-4 space-y-3 text-sm">
               <div>
                 <dt class="font-semibold text-gray-900">Coût</dt>
-                <dd class="mt-1 text-gray-600 leading-relaxed">
-                  {proof.cost}
-                </dd>
+                <dd class="mt-1 text-gray-600 leading-relaxed">{proof.cost}</dd>
               </div>
               <div>
                 <dt class="font-semibold text-gray-900">Nombre servi</dt>
@@ -342,9 +356,7 @@ const diligenceItems = [
               </div>
               <div>
                 <dt class="font-semibold text-gray-900">Prochain jalon</dt>
-                <dd class="mt-1 text-gray-600 leading-relaxed">
-                  {proof.next}
-                </dd>
+                <dd class="mt-1 text-gray-600 leading-relaxed">{proof.next}</dd>
               </div>
             </dl>
           </article>
@@ -393,7 +405,7 @@ const diligenceItems = [
                 {tier.receives}
               </p>
               <a
-                href={`/fr/contact?subject=Demande+de+Parrainage+-+${encodeURIComponent(tier.name)}`}
+                href="/fr/sponsor/inquiry"
                 class="mt-6 inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
               >
                 Demander cette option
@@ -427,7 +439,7 @@ const diligenceItems = [
             Voir le travail réalisé
           </a>
           <a
-            href="/fr/resources"
+            href="/fr/resources#due-diligence"
             class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white rounded-lg hover:bg-primary-50 transition-colors sm:w-auto"
           >
             Consulter les documents
@@ -456,23 +468,32 @@ const diligenceItems = [
         </h2>
         <p class="mt-3 text-gray-600 leading-relaxed">
           Pour les sponsors qui ont besoin d'une validation interne, ADA peut
-          fournir un dossier de diligence raisonnable concis et orienter vers
-          les documents publics déjà disponibles sur le site.
+          fournir une fiche sponsor d'une page, un dossier de diligence
+          raisonnable concis et les documents publics déjà disponibles sur le
+          site.
         </p>
         <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a
-            href="/docs/sponsor-readiness-packet.html"
+            href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
             target="_blank"
             rel="noopener"
             class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
           >
+            Télécharger la fiche
+          </a>
+          <a
+            href="/docs/diligence/ada-sponsor-readiness-packet.pdf"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+          >
             Ouvrir le dossier
           </a>
           <a
-            href="/fr/contact?subject=Demande+de+Dossier+de+Diligence"
+            href="/fr/resources#due-diligence"
             class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
           >
-            Demander le dossier complet
+            Consulter les documents
           </a>
         </div>
       </div>
@@ -510,9 +531,7 @@ const diligenceItems = [
           <ul class="mt-4 space-y-3">
             {
               paymentOptions.map((option) => (
-                <li class="text-sm text-gray-700 leading-relaxed">
-                  {option}
-                </li>
+                <li class="text-sm text-gray-700 leading-relaxed">{option}</li>
               ))
             }
           </ul>
@@ -529,6 +548,18 @@ const diligenceItems = [
             fournir un reçu, une facture ou une confirmation de parrainage pour
             vos dossiers, mais ne donne pas de conseil fiscal.
           </p>
+          <p class="mt-3 text-sm text-amber-900 leading-relaxed">
+            Si ADA confirme à l'avenir un sponsor fiscal qualifié ou un
+            partenaire caritatif enregistré, ADA publiera le nom du partenaire,
+            le pays, les instructions de don, le traitement fiscal admissible et
+            les limites de reçu avant de promouvoir ce chemin.
+          </p>
+          <a
+            href="/fr/sponsor/inquiry"
+            class="mt-4 inline-flex px-4 py-2 text-sm font-semibold text-amber-950 bg-white rounded-lg hover:bg-amber-100 transition-colors"
+          >
+            Discuter des exigences
+          </a>
         </div>
       </div>
     </div>
@@ -546,7 +577,7 @@ const diligenceItems = [
       </p>
       <div class="mt-7 flex flex-col sm:flex-row justify-center gap-3">
         <a
-          href="/fr/contact?subject=Demande+de+Parrainage"
+          href="/fr/sponsor/inquiry"
           class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-gray-900 bg-white rounded-lg hover:bg-gray-100 transition-colors sm:w-auto"
         >
           Commencer une demande
@@ -558,7 +589,9 @@ const diligenceItems = [
           Donner maintenant
         </a>
       </div>
-      <div class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2 lg:grid-cols-3">
+      <div
+        class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2 lg:grid-cols-3"
+      >
         {
           trustProofs.map((proof) => (
             <div class="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85">

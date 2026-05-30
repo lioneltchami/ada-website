@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { donationFromStripePaymentIntent, donationFromStripeInvoice } from "../src/lib/donations";
+import {
+  donationFromStripeInvoice,
+  donationFromStripePaymentIntent,
+  thirtyDayFollowUpDueAt,
+} from "../src/lib/donations";
 
 describe("Stripe donation mapping", () => {
   it("maps a one-time payment intent into a persisted donation record", () => {
@@ -14,6 +18,7 @@ describe("Stripe donation mapping", () => {
           donor_name: "Ada Donor",
           donor_email: "donor@example.com",
           is_anonymous: "false",
+          locale: "en",
           type: "one-time",
           project_slug: "general",
         },
@@ -23,9 +28,12 @@ describe("Stripe donation mapping", () => {
       amount_cents: 2500,
       currency: "usd",
       frequency: "one-time",
+      locale: "en",
       donor_email: "donor@example.com",
       donor_name: "Ada Donor",
       project_slug: "general",
+      follow_up_due_at: "2026-06-16T06:40:00.000Z",
+      follow_up_status: "pending_30_day_update",
     });
   });
 
@@ -44,6 +52,7 @@ describe("Stripe donation mapping", () => {
             donor_name: "Monthly Donor",
             donor_email: "monthly@example.com",
             is_anonymous: "true",
+            locale: "fr",
             type: "monthly",
             project_slug: "education-orphans",
           },
@@ -55,8 +64,17 @@ describe("Stripe donation mapping", () => {
       stripe_payment_intent_id: "pi_monthly",
       amount_cents: 5000,
       frequency: "monthly",
+      locale: "fr",
       donor_email: "monthly@example.com",
       is_anonymous: true,
+      follow_up_due_at: "2026-06-16T06:40:00.000Z",
+      follow_up_status: "pending_30_day_update",
     });
+  });
+
+  it("computes the 30-day donor follow-up date in UTC", () => {
+    expect(thirtyDayFollowUpDueAt("2026-05-30T10:00:00.000Z")).toBe(
+      "2026-06-29T10:00:00.000Z",
+    );
   });
 });

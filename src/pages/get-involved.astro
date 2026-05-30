@@ -2,11 +2,15 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
-import { getVolunteerRoles, getSiteSettings, type SanityVolunteerRole } from '../lib/sanity';
+import {
+  getVolunteerRoles,
+  getSiteSettings,
+  type SanityVolunteerRole,
+} from "../lib/sanity";
 
-let socialFacebook = 'https://facebook.com/apotidev';
-let socialInstagram = 'https://instagram.com/apotidev';
-let socialTwitter = 'https://twitter.com/apotidev';
+let socialFacebook = "https://facebook.com/apotidev";
+let socialInstagram = "https://instagram.com/apotidev";
+let socialTwitter = "https://twitter.com/apotidev";
 
 try {
   const settings = await getSiteSettings();
@@ -19,27 +23,88 @@ try {
 
 // TODO: Move to Sanity schema when partnershipTier type is created
 const partnershipTiers = [
-  { tier: "Community Sponsor", range: "$500-$1,000", desc: "Support supplies, food, or seasonal giving with a receipt and concise update." },
-  { tier: "Project Sponsor", range: "$2,500-$5,000", desc: "Fund a defined project with a budget, people served, outcome summary, and final report." },
-  { tier: "Program Sponsor", range: "$10,000+", desc: "Support a full program cycle with quarterly updates, final reporting, and agreed recognition." },
-  { tier: "Strategic Partner", range: "Custom", desc: "Discuss a larger campaign, recurring support, or custom reporting agreement." },
+  {
+    tier: "Community Sponsor",
+    range: "$500-$1,000",
+    desc: "Support supplies, food, or seasonal giving with a receipt and concise update.",
+  },
+  {
+    tier: "Project Sponsor",
+    range: "$2,500-$5,000",
+    desc: "Fund a defined project with a budget, people served, outcome summary, and final report.",
+  },
+  {
+    tier: "Program Sponsor",
+    range: "$10,000+",
+    desc: "Support a full program cycle with quarterly updates, final reporting, and agreed recognition.",
+  },
+  {
+    tier: "Strategic Partner",
+    range: "Custom",
+    desc: "Discuss a larger campaign, recurring support, or custom reporting agreement.",
+  },
 ];
 
 const partnerAudiences = [
-  { title: "Churches", desc: "Mission committees, youth groups, and congregations can sponsor education, clean water, or widow support projects with clear updates for members." },
-  { title: "Companies", desc: "CSR teams can fund practical programs, employee giving campaigns, or in-kind support with concise reporting and public recognition." },
-  { title: "Diaspora Groups", desc: "Cameroonian and African diaspora associations can pool gifts into visible community projects back home." },
-  { title: "Schools & Universities", desc: "Student clubs, service-learning programs, and campus faith groups can support campaigns, research, and awareness events." },
-  { title: "Foundations", desc: "Grantmakers receive proposals, budgets, monitoring data, and governance documents for review." },
+  {
+    title: "Churches",
+    desc: "Mission committees, youth groups, and congregations can sponsor education, clean water, or widow support projects with clear updates for members.",
+  },
+  {
+    title: "Companies",
+    desc: "CSR teams can fund practical programs, employee giving campaigns, or in-kind support with concise reporting and public recognition.",
+  },
+  {
+    title: "Diaspora Groups",
+    desc: "Cameroonian and African diaspora associations can pool gifts into visible community projects back home.",
+  },
+  {
+    title: "Schools & Universities",
+    desc: "Student clubs, service-learning programs, and campus faith groups can support campaigns, research, and awareness events.",
+  },
+  {
+    title: "Foundations",
+    desc: "Grantmakers receive proposals, budgets, monitoring data, and governance documents for review.",
+  },
 ];
 
 const fallbackRoles = [
-  { title: 'Community Outreach Coordinator', time: '10-15 hrs/week', location: 'On-site', desc: 'Lead community engagement and program delivery.' },
-  { title: 'Education Mentor', time: '5-10 hrs/week', location: 'On-site', desc: 'Tutor and mentor orphaned children in our education program.' },
-  { title: 'Skills Training Facilitator', time: '8-12 hrs/week', location: 'On-site', desc: 'Teach vocational skills to young women.' },
-  { title: 'Healthcare Support Volunteer', time: '5-8 hrs/week', location: 'On-site', desc: 'Assist with hospital visits and health awareness campaigns.' },
-  { title: 'Digital Media & Communications', time: '5-10 hrs/week', location: 'Remote', desc: 'Manage social media, create content, and tell our story.' },
-  { title: 'Fundraising & Events', time: 'Flexible', location: 'Remote', desc: 'Help plan campaigns and coordinate fundraising events.' },
+  {
+    title: "Community Outreach Coordinator",
+    time: "10-15 hrs/week",
+    location: "On-site",
+    desc: "Lead community engagement and program delivery.",
+  },
+  {
+    title: "Education Mentor",
+    time: "5-10 hrs/week",
+    location: "On-site",
+    desc: "Tutor and mentor orphaned children in our education program.",
+  },
+  {
+    title: "Skills Training Facilitator",
+    time: "8-12 hrs/week",
+    location: "On-site",
+    desc: "Teach vocational skills to young women.",
+  },
+  {
+    title: "Healthcare Support Volunteer",
+    time: "5-8 hrs/week",
+    location: "On-site",
+    desc: "Assist with hospital visits and health awareness campaigns.",
+  },
+  {
+    title: "Digital Media & Communications",
+    time: "5-10 hrs/week",
+    location: "Remote",
+    desc: "Manage social media, create content, and tell our story.",
+  },
+  {
+    title: "Fundraising & Events",
+    time: "Flexible",
+    location: "Remote",
+    desc: "Help plan campaigns and coordinate fundraising events.",
+  },
 ];
 
 let volunteerRoles = fallbackRoles;
@@ -55,8 +120,9 @@ try {
   }
 } catch {}
 
-const metaTitle = 'Get Involved';
-const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporate partner. Multiple ways to make a difference.';
+const metaTitle = "Get Involved";
+const metaDescription =
+  "Join ADA as a volunteer, monthly supporter, or corporate partner. Multiple ways to make a difference.";
 ---
 
 <PageLayout title={metaTitle} description={metaDescription}>
@@ -68,68 +134,146 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
 
   <!-- Ways to Help -->
   <Section background="white" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Ways to Help</h2>
+    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
+      Ways to Help
+    </h2>
     <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {[
-        { icon: "🙋", title: "Volunteer", desc: "Give your time and skills", href: "#volunteer" },
-        { icon: "💝", title: "Monthly Giving", desc: "Join our giving community", href: "/donate" },
-        { icon: "📢", title: "Advocate", desc: "Share our mission with others", href: "#advocate" },
-        { icon: "🏢", title: "Partner", desc: "Institutional and community partnerships", href: "#partnerships" },
-      ].map((way) => (
-        <a href={way.href} class="p-6 bg-gray-50 rounded-card hover:bg-primary-50 transition-colors text-center group">
-          <span class="text-3xl">{way.icon}</span>
-          <h3 class="mt-3 text-lg font-semibold text-gray-900 group-hover:text-primary-700">{way.title}</h3>
-          <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
-        </a>
-      ))}
+      {
+        [
+          {
+            icon: "🙋",
+            title: "Volunteer",
+            desc: "Give your time and skills",
+            href: "#volunteer",
+          },
+          {
+            icon: "💝",
+            title: "Monthly Giving",
+            desc: "Join our giving community",
+            href: "/monthly",
+          },
+          {
+            icon: "📢",
+            title: "Advocate",
+            desc: "Share our mission with others",
+            href: "#advocate",
+          },
+          {
+            icon: "🏢",
+            title: "Partner",
+            desc: "Institutional and community partnerships",
+            href: "#partnerships",
+          },
+        ].map((way) => (
+          <a
+            href={way.href}
+            class="p-6 bg-gray-50 rounded-card hover:bg-primary-50 transition-colors text-center group"
+          >
+            <span class="text-3xl">{way.icon}</span>
+            <h3 class="mt-3 text-lg font-semibold text-gray-900 group-hover:text-primary-700">
+              {way.title}
+            </h3>
+            <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
+          </a>
+        ))
+      }
     </div>
   </Section>
 
   <!-- Volunteer Opportunities -->
   <Section id="volunteer" background="gray" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Volunteer Opportunities</h2>
+    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
+      Volunteer Opportunities
+    </h2>
     <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">
       We have roles for every skill set and availability.
     </p>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {volunteerRoles.map((role) => (
-        <div class="p-5 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-          <h3 class="text-base font-semibold text-gray-900">{role.title}</h3>
-          <div class="mt-2 flex gap-2">
-            <span class="px-2 py-0.5 text-xs bg-primary-100 text-primary-700 rounded-full">{role.time}</span>
-            <span class="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">{role.location}</span>
+      {
+        volunteerRoles.map((role) => (
+          <div class="p-5 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <h3 class="text-base font-semibold text-gray-900">{role.title}</h3>
+            <div class="mt-2 flex gap-2">
+              <span class="px-2 py-0.5 text-xs bg-primary-100 text-primary-700 rounded-full">
+                {role.time}
+              </span>
+              <span class="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
+                {role.location}
+              </span>
+            </div>
+            <p class="mt-3 text-sm text-gray-600">{role.desc}</p>
           </div>
-          <p class="mt-3 text-sm text-gray-600">{role.desc}</p>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </Section>
 
   <!-- Volunteer Form -->
   <Section background="white" padding="lg">
     <div class="max-w-2xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">Apply to Volunteer</h2>
+      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
+        Apply to Volunteer
+      </h2>
       <form class="mt-8 space-y-4" id="volunteer-form">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="vol-name" class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-            <input type="text" id="vol-name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" />
+            <label
+              for="vol-name"
+              class="block text-sm font-medium text-gray-700 mb-1">Name *</label
+            >
+            <input
+              type="text"
+              id="vol-name"
+              name="name"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            />
           </div>
           <div>
-            <label for="vol-email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-            <input type="email" id="vol-email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" />
+            <label
+              for="vol-email"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Email *</label
+            >
+            <input
+              type="email"
+              id="vol-email"
+              name="email"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            />
           </div>
         </div>
         <div>
-          <label for="vol-role" class="block text-sm font-medium text-gray-700 mb-1">Preferred Role</label>
-          <select id="vol-role" name="role" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+          <label
+            for="vol-role"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Preferred Role</label
+          >
+          <select
+            id="vol-role"
+            name="role"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+          >
             <option value="">Select a role...</option>
-            {volunteerRoles.map((r) => <option value={r.title}>{r.title}</option>)}
+            {
+              volunteerRoles.map((r) => (
+                <option value={r.title}>{r.title}</option>
+              ))
+            }
           </select>
         </div>
         <div>
-          <label for="vol-availability" class="block text-sm font-medium text-gray-700 mb-1">Availability</label>
-          <select id="vol-availability" name="availability" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+          <label
+            for="vol-availability"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Availability</label
+          >
+          <select
+            id="vol-availability"
+            name="availability"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+          >
             <option value="flexible">Flexible</option>
             <option value="full-time">Full-time</option>
             <option value="part-time">Part-time</option>
@@ -137,10 +281,22 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
           </select>
         </div>
         <div>
-          <label for="vol-message" class="block text-sm font-medium text-gray-700 mb-1">Why do you want to volunteer?</label>
-          <textarea id="vol-message" name="message" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"></textarea>
+          <label
+            for="vol-message"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Why do you want to volunteer?</label
+          >
+          <textarea
+            id="vol-message"
+            name="message"
+            rows="3"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+          ></textarea>
         </div>
-        <button type="submit" class="w-full sm:w-auto px-6 py-3 text-base font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
+        <button
+          type="submit"
+          class="w-full sm:w-auto px-6 py-3 text-base font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+        >
           Submit Application
         </button>
       </form>
@@ -148,90 +304,127 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
   </Section>
 
   <script>
-    document.getElementById('volunteer-form')!.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const form = e.target as HTMLFormElement;
-      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-      btn.disabled = true;
-      btn.textContent = 'Sending...';
+    document
+      .getElementById("volunteer-form")!
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const btn = form.querySelector(
+          'button[type="submit"]',
+        ) as HTMLButtonElement;
+        btn.disabled = true;
+        btn.textContent = "Sending...";
 
-      const formData = new FormData(form);
-      const role = (formData.get('role') as string) || 'General Volunteer';
-      const availability = (formData.get('availability') as string) || 'Flexible';
-      const motivation = (formData.get('message') as string) || '';
+        const formData = new FormData(form);
+        const role = (formData.get("role") as string) || "General Volunteer";
+        const availability =
+          (formData.get("availability") as string) || "Flexible";
+        const motivation = (formData.get("message") as string) || "";
 
-      const payload = {
-        name: formData.get('name') as string,
-        email: formData.get('email') as string,
-        subject: `Volunteer Application — ${role}`,
-        message: `Role: ${role}\nAvailability: ${availability}\n\nMotivation:\n${motivation}`,
-      };
+        const payload = {
+          name: formData.get("name") as string,
+          email: formData.get("email") as string,
+          subject: `Volunteer Application — ${role}`,
+          message: `Role: ${role}\nAvailability: ${availability}\n\nMotivation:\n${motivation}`,
+        };
 
-      const msg = document.createElement('p');
-      msg.setAttribute('role', 'alert');
-      msg.setAttribute('aria-live', 'polite');
+        const msg = document.createElement("p");
+        msg.setAttribute("role", "alert");
+        msg.setAttribute("aria-live", "polite");
 
-      try {
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
+        try {
+          const res = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
 
-        if (res.ok) {
-          msg.className = 'mt-4 text-sm text-green-700 font-medium';
-          msg.textContent = 'Application submitted! We will review it and be in touch within 3–5 business days.';
-          form.reset();
-          btn.textContent = 'Submitted!';
-        } else {
-          throw new Error('Server error');
+          if (res.ok) {
+            msg.className = "mt-4 text-sm text-green-700 font-medium";
+            msg.textContent =
+              "Application submitted! We will review it and be in touch within 3–5 business days.";
+            form.reset();
+            btn.textContent = "Submitted!";
+          } else {
+            throw new Error("Server error");
+          }
+        } catch {
+          msg.className = "mt-4 text-sm text-red-600";
+          msg.textContent =
+            "Something went wrong. Please email us directly at info@apotidev.org.";
+          btn.disabled = false;
+          btn.textContent = "Submit Application";
         }
-      } catch {
-        msg.className = 'mt-4 text-sm text-red-600';
-        msg.textContent = 'Something went wrong. Please email us directly at info@apotidev.org.';
-        btn.disabled = false;
-        btn.textContent = 'Submit Application';
-      }
 
-      form.appendChild(msg);
-    });
+        form.appendChild(msg);
+      });
   </script>
 
   <!-- Partnerships -->
   <Section id="partnerships" background="gray" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">Partnerships</h2>
+    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
+      Partnerships
+    </h2>
     <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">
-      Partner with us to create lasting impact in Cameroon through sponsorship, grants, campaigns, or in-kind support.
+      Partner with us to create lasting impact in Cameroon through sponsorship,
+      grants, campaigns, or in-kind support.
     </p>
     <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-      {partnerAudiences.map((partner) => (
-        <div class="p-4 bg-white rounded-card border border-gray-100 shadow-card">
-          <h3 class="text-sm font-semibold text-gray-900">{partner.title}</h3>
-          <p class="mt-2 text-xs text-gray-600 leading-relaxed">{partner.desc}</p>
-        </div>
-      ))}
+      {
+        partnerAudiences.map((partner) => (
+          <div class="p-4 bg-white rounded-card border border-gray-100 shadow-card">
+            <h3 class="text-sm font-semibold text-gray-900">{partner.title}</h3>
+            <p class="mt-2 text-xs text-gray-600 leading-relaxed">
+              {partner.desc}
+            </p>
+          </div>
+        ))
+      }
     </div>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {partnershipTiers.map((p) => (
-        <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-          <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
-          <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
-          <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
-          <a href={`/contact?subject=Sponsorship+Inquiry+%E2%80%94+${encodeURIComponent(p.tier)}`} class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline">
-            Start an inquiry →
-          </a>
-        </div>
-      ))}
+      {
+        partnershipTiers.map((p) => (
+          <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
+            <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
+            <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
+            <a
+              href={`/contact?subject=Sponsorship+Inquiry+%E2%80%94+${encodeURIComponent(p.tier)}`}
+              class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline"
+            >
+              Start an inquiry →
+            </a>
+          </div>
+        ))
+      }
     </div>
-    <div class="mt-8 max-w-3xl mx-auto p-5 bg-white rounded-card border border-primary-100 text-center">
-      <h3 class="text-base font-semibold text-gray-900">Need documents before sponsoring?</h3>
+    <div
+      class="mt-8 max-w-3xl mx-auto p-5 bg-white rounded-card border border-primary-100 text-center"
+    >
+      <h3 class="text-base font-semibold text-gray-900">
+        Need documents before sponsoring?
+      </h3>
       <p class="mt-2 text-sm text-gray-600">
-        We can share registration documents, annual reports, project records, budgets, and references for churches, companies, foundations, and diaspora groups reviewing ADA.
+        We can share registration documents, annual reports, project records,
+        budgets, and references for churches, companies, foundations, and
+        diaspora groups reviewing ADA.
       </p>
       <div class="mt-4 flex flex-wrap justify-center gap-3">
-        <a href="/transparency" class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">Review transparency</a>
-        <a href="/contact?subject=Partnership+Due+Diligence+Package" class="inline-flex px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">Request due diligence package</a>
-        <a href="/sponsor" class="inline-flex px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">See sponsor options</a>
+        <a
+          href="/transparency"
+          class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+          >Review transparency</a
+        >
+        <a
+          href="/contact?subject=Partnership+Due+Diligence+Package"
+          class="inline-flex px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+          >Request due diligence package</a
+        >
+        <a
+          href="/sponsor"
+          class="inline-flex px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+          >See sponsor options</a
+        >
       </div>
     </div>
   </Section>
@@ -240,11 +433,31 @@ const metaDescription = 'Join ADA as a volunteer, monthly supporter, or corporat
   <Section id="advocate" background="dark" padding="md">
     <div class="text-center">
       <h2 class="text-2xl font-heading font-bold">Spread the Word</h2>
-      <p class="mt-2 text-white/80">Share our mission on social media and help us reach more people.</p>
+      <p class="mt-2 text-white/80">
+        Share our mission on social media and help us reach more people.
+      </p>
       <div class="mt-4 flex items-center justify-center gap-4">
-        <a href={socialFacebook} target="_blank" rel="noopener" class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors">Facebook</a>
-        <a href={socialInstagram} target="_blank" rel="noopener" class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors">Instagram</a>
-        <a href={socialTwitter} target="_blank" rel="noopener" class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors">Twitter/X</a>
+        <a
+          href={socialFacebook}
+          target="_blank"
+          rel="noopener"
+          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          >Facebook</a
+        >
+        <a
+          href={socialInstagram}
+          target="_blank"
+          rel="noopener"
+          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          >Instagram</a
+        >
+        <a
+          href={socialTwitter}
+          target="_blank"
+          rel="noopener"
+          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          >Twitter/X</a
+        >
       </div>
     </div>
   </Section>
