@@ -268,21 +268,15 @@ export async function sendDonationReceipt(data: {
   const safeProject = escapeHtml(formatProjectName(data.project));
   const safeFollowUpDate = escapeHtml(followUpDate);
 
-  // Generate PDF receipt
-  let pdfBuffer: ArrayBuffer | null = null;
-  try {
-    const { generateReceiptHtml, generateReceiptPdf } =
-      await import("./receipt");
-    const html = generateReceiptHtml({
-      name: data.name,
-      email: data.email,
-      amount: data.amount,
-      project: data.project,
-      date,
-      receiptId,
-    });
-    pdfBuffer = await generateReceiptPdf(html, null);
-  } catch {}
+  const { generateReceiptPdf } = await import("./receipt");
+  const pdfBuffer = await generateReceiptPdf({
+    name: data.name,
+    email: data.email,
+    amount: data.amount,
+    project: data.project,
+    date,
+    receiptId,
+  });
 
   const htmlEmail = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -333,15 +327,12 @@ export async function sendDonationReceipt(data: {
     html: htmlEmail,
   };
 
-  // Attach PDF if generated
-  if (pdfBuffer) {
-    emailPayload.attachments = [
-      {
-        filename: `ADA-Receipt-${receiptId}.pdf`,
-        content: arrayBufferToBase64(pdfBuffer),
-      },
-    ];
-  }
+  emailPayload.attachments = [
+    {
+      filename: `ADA-Receipt-${receiptId}.pdf`,
+      content: arrayBufferToBase64(pdfBuffer),
+    },
+  ];
 
   if (!apiKey) {
     console.log(`[email] Would send receipt to ${data.email}: ${receiptId}`);
