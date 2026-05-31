@@ -322,9 +322,11 @@ export default function DonationForm({
     setStripeError("");
     try {
       const publishableKey =
-        ((await fetch("/api/public-config")
-          .then((response) => (response.ok ? response.json() : null))
-          .catch(() => null))?.stripePublishableKey ??
+        ((
+          await fetch("/api/public-config")
+            .then((response) => (response.ok ? response.json() : null))
+            .catch(() => null)
+        )?.stripePublishableKey ??
           "") ||
         (import.meta as any).env?.PUBLIC_STRIPE_PUBLISHABLE_KEY ||
         "";

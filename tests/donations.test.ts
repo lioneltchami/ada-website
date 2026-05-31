@@ -72,6 +72,49 @@ describe("Stripe donation mapping", () => {
     });
   });
 
+  it("maps recurring invoice payments from Stripe's current invoice shape", () => {
+    expect(
+      donationFromStripeInvoice({
+        id: "in_456",
+        amount_paid: 7500,
+        currency: "usd",
+        created: 1_779_000_000,
+        customer_email: "fallback@example.com",
+        parent: {
+          subscription_details: {
+            subscription: "sub_current",
+            metadata: {
+              donor_name: "Current Monthly Donor",
+              donor_email: "current-monthly@example.com",
+              is_anonymous: "false",
+              locale: "en",
+              type: "monthly",
+              project_slug: "widow-support",
+            },
+          },
+        },
+        payments: {
+          data: [
+            {
+              payment: {
+                payment_intent: "pi_current_monthly",
+              },
+            },
+          ],
+        },
+      }),
+    ).toMatchObject({
+      stripe_invoice_id: "in_456",
+      stripe_subscription_id: "sub_current",
+      stripe_payment_intent_id: "pi_current_monthly",
+      amount_cents: 7500,
+      frequency: "monthly",
+      donor_email: "current-monthly@example.com",
+      donor_name: "Current Monthly Donor",
+      project_slug: "widow-support",
+    });
+  });
+
   it("computes the 30-day donor follow-up date in UTC", () => {
     expect(thirtyDayFollowUpDueAt("2026-05-30T10:00:00.000Z")).toBe(
       "2026-06-29T10:00:00.000Z",

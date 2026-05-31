@@ -112,15 +112,23 @@ export function donationFromStripePaymentIntent(pi: any): DonationRecord {
 
 export function donationFromStripeInvoice(invoice: any): DonationRecord {
   const metadata =
-    invoice.subscription_details?.metadata || invoice.metadata || {};
+    invoice.parent?.subscription_details?.metadata ||
+    invoice.subscription_details?.metadata ||
+    invoice.metadata ||
+    {};
+  const invoicePayment = invoice.payments?.data?.[0]?.payment;
   const paymentIntent =
     typeof invoice.payment_intent === "string"
       ? invoice.payment_intent
-      : invoice.payment_intent?.id;
+      : invoice.payment_intent?.id ||
+        (typeof invoicePayment?.payment_intent === "string"
+          ? invoicePayment.payment_intent
+          : invoicePayment?.payment_intent?.id);
   const subscription =
     typeof invoice.subscription === "string"
       ? invoice.subscription
-      : invoice.subscription?.id;
+      : invoice.subscription?.id ||
+        invoice.parent?.subscription_details?.subscription;
   const email = (
     metadataValue(metadata, "donor_email") ||
     stringValue(invoice.customer_email)
@@ -226,7 +234,8 @@ export async function getDueDonationFollowUps(
     .order("follow_up_due_at", { ascending: true })
     .limit(limit);
 
-  if (error) throw new Error(`Donation follow-up lookup failed: ${error.message}`);
+  if (error)
+    throw new Error(`Donation follow-up lookup failed: ${error.message}`);
   return (data || []) as DonationRecord[];
 }
 

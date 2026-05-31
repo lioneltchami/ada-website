@@ -49,8 +49,13 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 
               {/* Photo Grid - all photos for this year in one grid */}
               <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                {yearImages.map((img) => (
-                  <a href={img.projectSlug ? `/projects/${img.projectSlug}` : '#'} class="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer">
+                {yearImages.map((img) => {
+                  const Wrapper = img.projectSlug ? "a" : "figure";
+                  const wrapperProps = img.projectSlug
+                    ? { href: `/projects/${img.projectSlug}` }
+                    : {};
+                  return (
+                  <Wrapper {...wrapperProps} class="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
                     {img.photo?.asset?._ref ? (
                       <img
                         src={sanityImageUrl(img.photo.asset._ref, 400)}
@@ -70,7 +75,7 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
                       </span>
                     )}
                     {/* Hover overlay with caption */}
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <figcaption class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div class="absolute bottom-0 left-0 right-0 p-3">
                         <p class="text-white text-sm font-medium">{img.title}</p>
                         <div class="flex items-center gap-2 mt-1">
@@ -80,9 +85,10 @@ const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
                           )}
                         </div>
                       </div>
-                    </div>
-                  </a>
-                ))}
+                    </figcaption>
+                  </Wrapper>
+                  );
+                })}
               </div>
             </div>
           );

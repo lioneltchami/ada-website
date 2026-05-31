@@ -71,7 +71,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         payment_settings: {
           save_default_payment_method: "on_subscription",
         },
-        expand: ["latest_invoice.payment_intent"],
+        expand: ["latest_invoice.confirmation_secret"],
         metadata: {
           donor_name: data.donorName,
           donor_email: data.donorEmail,
@@ -88,9 +88,9 @@ export const POST: APIRoute = async ({ request, url }) => {
     );
 
     const invoice = subscription.latest_invoice as any;
-    const paymentIntent = invoice?.payment_intent;
+    const confirmationSecret = invoice?.confirmation_secret;
 
-    if (!paymentIntent?.client_secret) {
+    if (!confirmationSecret?.client_secret) {
       return jsonResponse(
         { error: "Payment setup failed. Please try again." },
         500,
@@ -98,7 +98,7 @@ export const POST: APIRoute = async ({ request, url }) => {
     }
 
     return jsonResponse({
-      clientSecret: paymentIntent.client_secret,
+      clientSecret: confirmationSecret.client_secret,
       subscriptionId: subscription.id,
     });
   } catch (err: any) {
