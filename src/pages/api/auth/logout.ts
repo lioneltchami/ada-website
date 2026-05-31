@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@supabase/supabase-js";
+import { getEnv } from "../../../lib/runtime-env";
 
 export const POST: APIRoute = async ({ request, cookies, redirect, url }) => {
   const origin = request.headers.get("origin");
@@ -11,13 +12,16 @@ export const POST: APIRoute = async ({ request, cookies, redirect, url }) => {
   const refreshToken = cookies.get("sb-refresh-token")?.value;
 
   if (accessToken && refreshToken) {
-    const supabaseUrl = (import.meta as any).env?.PUBLIC_SUPABASE_URL;
-    const supabaseKey = (import.meta as any).env?.PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseUrl = getEnv("PUBLIC_SUPABASE_URL");
+    const supabaseKey = getEnv("PUBLIC_SUPABASE_ANON_KEY");
     if (supabaseUrl && supabaseKey) {
       const supabase = createClient(supabaseUrl, supabaseKey, {
         auth: { autoRefreshToken: false, detectSessionInUrl: false },
       });
-      await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+      await supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      });
       await supabase.auth.signOut();
     }
   }

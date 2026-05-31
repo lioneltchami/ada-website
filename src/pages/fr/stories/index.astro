@@ -34,7 +34,9 @@ const categoryLabels: Record<string, string> = {
         <div class="flex flex-wrap gap-2 mb-8" id="story-filters">
           {categories.map((cat) => (
             <button
+              type="button"
               data-filter={cat}
+              aria-pressed={cat === 'all' ? "true" : "false"}
               class:list={["px-4 py-2 text-sm font-medium rounded-full transition-colors", cat === 'all' ? "bg-primary-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"]}
             >
               {categoryLabels[cat]} ({cat === 'all' ? posts.length : posts.filter(p => p.category === cat).length})
@@ -109,9 +111,11 @@ const categoryLabels: Record<string, string> = {
       buttons.forEach(b => {
         b.classList.remove('bg-primary-600', 'text-white');
         b.classList.add('bg-gray-100', 'text-gray-700');
+        b.setAttribute('aria-pressed', 'false');
       });
       btn.classList.remove('bg-gray-100', 'text-gray-700');
       btn.classList.add('bg-primary-600', 'text-white');
+      btn.setAttribute('aria-pressed', 'true');
 
       cards.forEach(card => {
         if (filter === 'all' || card.getAttribute('data-category') === filter) {

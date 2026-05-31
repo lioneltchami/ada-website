@@ -6,6 +6,10 @@ function getWebhookSecret(): string | undefined {
   return getEnv("STRIPE_WEBHOOK_SECRET");
 }
 
+function expectedLiveMode(): boolean {
+  return getEnv("STRIPE_SECRET_KEY")?.startsWith("sk_live_") ?? false;
+}
+
 export async function verifySignature(
   payload: string,
   header: string,
@@ -159,6 +163,13 @@ export const POST: APIRoute = async ({ request }) => {
     event = JSON.parse(body);
   } catch {
     return new Response("Invalid JSON", { status: 400 });
+  }
+
+  if (
+    typeof event.livemode === "boolean" &&
+    event.livemode !== expectedLiveMode()
+  ) {
+    return new Response("Stripe mode mismatch", { status: 400 });
   }
 
   switch (event.type) {

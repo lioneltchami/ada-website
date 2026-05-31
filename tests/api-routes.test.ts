@@ -79,7 +79,10 @@ function performanceRequest(body: unknown, origin = "https://apotidev.org") {
   });
 }
 
-function cronRequest(secret = "cron_secret", path = "/api/cron/donation-followups") {
+function cronRequest(
+  secret = "cron_secret",
+  path = "/api/cron/donation-followups",
+) {
   return new Request(`https://apotidev.org${path}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${secret}` },
@@ -180,7 +183,7 @@ describe("subscription route", () => {
     subscriptionCreate.mockResolvedValue({
       id: "sub_123",
       latest_invoice: {
-        payment_intent: { client_secret: "pi_monthly_secret" },
+        confirmation_secret: { client_secret: "pi_monthly_secret" },
       },
     });
     const { POST } = await import("../src/pages/api/create-subscription");
@@ -211,6 +214,7 @@ describe("subscription route", () => {
         payment_settings: {
           save_default_payment_method: "on_subscription",
         },
+        expand: ["latest_invoice.confirmation_secret"],
         metadata: expect.objectContaining({
           donor_email: "monthly@example.com",
           locale: "fr",
@@ -268,6 +272,8 @@ describe("public config route", () => {
 
   it("exposes the Stripe publishable key for browser checkout", async () => {
     vi.stubEnv("PUBLIC_STRIPE_PUBLISHABLE_KEY", "pk_test_public");
+    vi.stubEnv("PUBLIC_SUPABASE_URL", "https://example.supabase.co");
+    vi.stubEnv("PUBLIC_SUPABASE_ANON_KEY", "anon_public");
     const { GET } = await import("../src/pages/api/public-config");
 
     const response = await GET({} as any);
@@ -275,6 +281,8 @@ describe("public config route", () => {
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toMatchObject({
       stripePublishableKey: "pk_test_public",
+      supabaseUrl: "https://example.supabase.co",
+      supabaseAnonKey: "anon_public",
     });
   });
 
@@ -283,6 +291,8 @@ describe("public config route", () => {
     vi.resetModules();
     const { env: cloudflareEnv } = await import("cloudflare:workers");
     cloudflareEnv.PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_live_public";
+    cloudflareEnv.PUBLIC_SUPABASE_URL = "https://runtime.supabase.co";
+    cloudflareEnv.PUBLIC_SUPABASE_ANON_KEY = "runtime_anon";
     const { GET } = await import("../src/pages/api/public-config");
 
     const response = await GET({} as any);
@@ -290,6 +300,8 @@ describe("public config route", () => {
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toMatchObject({
       stripePublishableKey: "pk_live_public",
+      supabaseUrl: "https://runtime.supabase.co",
+      supabaseAnonKey: "runtime_anon",
     });
   });
 });
@@ -380,7 +392,10 @@ describe("donation follow-up cron route", () => {
     const { POST } = await import("../src/pages/api/cron/donation-followups");
 
     const response = await POST({
-      request: cronRequest("cron_secret", "/api/cron/donation-followups?dryRun=1"),
+      request: cronRequest(
+        "cron_secret",
+        "/api/cron/donation-followups?dryRun=1",
+      ),
       url: new URL("https://apotidev.org/api/cron/donation-followups?dryRun=1"),
     } as any);
 

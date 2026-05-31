@@ -5,6 +5,8 @@ import { getEnv } from "../../lib/runtime-env";
 export const GET: APIRoute = async () => {
   return jsonResponse({
     stripePublishableKey: getEnv("PUBLIC_STRIPE_PUBLISHABLE_KEY") || "",
+    supabaseUrl: getEnv("PUBLIC_SUPABASE_URL") || "",
+    supabaseAnonKey: getEnv("PUBLIC_SUPABASE_ANON_KEY") || "",
   });
 };
 

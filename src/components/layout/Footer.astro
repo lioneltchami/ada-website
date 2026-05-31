@@ -30,10 +30,10 @@ try {
 } catch {}
 
 let programs = [
-  { label: "Widow Support", href: "/projects/widow-support" },
-  { label: "Education for Orphans", href: "/projects/education-orphans" },
-  { label: "Women Empowerment", href: "/projects/women-empowerment" },
-  { label: "Emergency Relief", href: "/projects/emergency-relief" },
+  { label: "Widow Support", href: localePath("/projects/widow-support", locale) },
+  { label: "Education for Orphans", href: localePath("/projects/education-orphans", locale) },
+  { label: "Women Empowerment", href: localePath("/projects/women-empowerment", locale) },
+  { label: "Emergency Relief", href: localePath("/projects/emergency-relief", locale) },
 ];
 
 try {
@@ -47,7 +47,7 @@ try {
       .slice(0, 4)
       .map((p: SanityProject) => ({
         label: p.title,
-        href: `/projects/${p.slug.current}`,
+        href: localePath(`/projects/${p.slug.current}`, locale),
       }));
   }
 } catch {}
