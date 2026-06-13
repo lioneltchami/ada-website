@@ -4,22 +4,26 @@ import {
   type SanityProject,
   sanityImageUrl,
 } from "../../lib/sanity";
-import { projects as fallbackProjects } from "../../data/projects";
 import {
   getProjectLifecycleState,
   projectStatusLabel,
 } from "../../lib/project-lifecycle";
+import {
+  mergeProjectLists,
+  normalizeFallbackProjects,
+} from "../../lib/project-fallbacks";
 
 let projectData;
 try {
   const sanityProjects = await getProjects();
   if (sanityProjects?.length) {
-    projectData = sanityProjects.map((p: SanityProject) => ({
-      slug: p.slug.current,
-      title: p.title,
-      location: p.location,
-      status: getProjectLifecycleState(p).status,
-      originalStatus: p.status,
+    projectData = mergeProjectLists(
+      sanityProjects.map((p: SanityProject) => ({
+        slug: p.slug.current,
+        title: p.title,
+        location: p.location,
+        status: getProjectLifecycleState(p).status,
+        originalStatus: p.status,
       archiveHref: getProjectLifecycleState(p).archiveHref,
       archiveReady: getProjectLifecycleState(p).archiveReady,
       hasEnded: getProjectLifecycleState(p).hasEnded,
@@ -27,32 +31,18 @@ try {
       beneficiaries: p.beneficiaries,
       goal: p.goalAmount,
       raised: p.raisedAmount,
-      imageUrl: p.mainImage?.asset?._ref
-        ? sanityImageUrl(p.mainImage.asset._ref, 600)
-        : "",
-      imageAlt: p.mainImage?.alt || p.title,
-    }));
+        imageUrl: p.mainImage?.asset?._ref
+          ? sanityImageUrl(p.mainImage.asset._ref, 600)
+          : "",
+        imageAlt: p.mainImage?.alt || p.title,
+      })),
+      normalizeFallbackProjects(),
+    );
   } else {
-    projectData = fallbackProjects.map((p) => ({
-      ...p,
-      originalStatus: p.status,
-      archiveHref: "",
-      archiveReady: false,
-      hasEnded: false,
-      imageUrl: "",
-      imageAlt: p.title,
-    }));
+    projectData = normalizeFallbackProjects();
   }
 } catch {
-  projectData = fallbackProjects.map((p) => ({
-    ...p,
-    originalStatus: p.status,
-    archiveHref: "",
-    archiveReady: false,
-    hasEnded: false,
-    imageUrl: "",
-    imageAlt: p.title,
-  }));
+  projectData = normalizeFallbackProjects();
 }
 
 const projects = projectData;
@@ -91,6 +81,10 @@ function getProjectVisual(slug: string): { gradient: string; icon: string } {
     "emergency-relief": { gradient: "from-amber-100 to-amber-200", icon: "🚨" },
     "education-drive": { gradient: "from-cyan-100 to-cyan-200", icon: "🎒" },
     "christmas-giving": { gradient: "from-red-100 to-red-200", icon: "🎁" },
+    "girls-dignity-menstrual-health-bamenda-jun-2026": {
+      gradient: "from-fuchsia-100 to-fuchsia-200",
+      icon: "🪣",
+    },
   };
   return (
     visuals[slug] || { gradient: "from-primary-100 to-primary-200", icon: "🌍" }

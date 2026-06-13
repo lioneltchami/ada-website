@@ -1,4 +1,6 @@
 import { createClient } from "@sanity/client";
+import { getProjects, type SanityProject } from "./sanity";
+import { getProjectLifecycleState } from "./project-lifecycle";
 import {
 	annualReportPdfs,
 	documentArchiveProjects,
@@ -28,6 +30,33 @@ export interface YearDocumentGroup {
 		projects: ProjectArchiveDocument[];
 	}[];
 	projectCount: number;
+}
+
+export interface ProjectArchiveEntry {
+	slug: { current: string };
+	title: string;
+	titleFr?: string;
+	demographic: ProjectDemographic;
+	year: number;
+	status: "completed" | "ongoing" | "planned";
+	description?: string;
+	descriptionFr?: string;
+	beneficiaries?: number;
+	budget?: number;
+	location?: string;
+	startDate?: string;
+	endDate?: string;
+	outcomes?: string[];
+	outcomesFr?: string[];
+	photo?: { asset?: { _ref?: string } | null; alt?: string } | null;
+	photos?: { asset?: { _ref?: string } | null; caption?: string }[];
+	torUrl?: string;
+	reportUrl?: string;
+	financialReportUrl?: string;
+	hasToR?: boolean;
+	hasReport?: boolean;
+	href?: string;
+	autoArchived?: boolean;
 }
 
 const DEMOGRAPHIC_ORDER: ProjectDemographic[] = [
@@ -276,6 +305,114 @@ export async function loadProjectDocumentLibrary(): Promise<{
 	const yearGroups = groupProjectsByYear(records);
 	const totalProjects = yearGroups.reduce((n, y) => n + y.projectCount, 0);
 	return { yearGroups, totalProjects };
+}
+
+function deriveArchiveYear(project: SanityProject): number {
+	const sourceDate =
+		project.archiveAfterDate ||
+		project.endDate ||
+		project.startDate ||
+		new Date().toISOString();
+	return Number(sourceDate.slice(0, 4));
+}
+
+function toAutoArchiveEntry(project: SanityProject): ProjectArchiveEntry {
+	const lifecycle = getProjectLifecycleState(project);
+	return {
+		slug: { current: project.slug.current },
+		title: project.title,
+		titleFr: project.title,
+		demographic: project.demographic || "community",
+		year: deriveArchiveYear(project),
+		status: lifecycle.status,
+		description: project.description,
+		descriptionFr: project.description,
+		beneficiaries: project.beneficiaries,
+		budget: project.goalAmount,
+		location: project.location,
+		startDate: project.startDate,
+		endDate: project.endDate,
+		photo: project.mainImage || null,
+		autoArchived: true,
+	};
+}
+
+export async function loadProjectArchiveEntries(): Promise<ProjectArchiveEntry[]> {
+	let records: ProjectArchiveEntry[] = [];
+	try {
+		const projectId = import.meta.env.SANITY_PROJECT_ID || "rj2m21gk";
+		const dataset = import.meta.env.SANITY_DATASET || "production";
+		const token = import.meta.env.SANITY_TOKEN || import.meta.env.SANITY_API_TOKEN;
+		const client = createClient({
+			projectId,
+			dataset,
+			apiVersion: "2026-03-28",
+			token,
+			useCdn: !token,
+		});
+		records = await client.fetch<ProjectArchiveEntry[]>(
+		`*[_type == "projectRecord"] | order(year desc, title asc) {
+        _id,
+        title,
+        titleFr,
+        slug,
+        demographic,
+        year,
+        status,
+        description,
+        descriptionFr,
+        beneficiaries,
+        budget,
+        location,
+        startDate,
+        endDate,
+        outcomes,
+        outcomesFr,
+        photo { asset { _ref }, alt },
+        photos[] { asset { _ref }, caption },
+        "hasToR": defined(termsOfReference),
+        "hasReport": defined(finalReport),
+        "torUrl": termsOfReference.asset->url,
+        "reportUrl": finalReport.asset->url,
+        "financialReportUrl": financialReport.asset->url
+      }`,
+		);
+	} catch (e) {
+		console.error("[project-archive] Project record fetch failed:", e);
+	}
+
+	try {
+		const currentProjects = await getProjects();
+		const autoArchived = currentProjects
+			.map((project) => ({ project, lifecycle: getProjectLifecycleState(project) }))
+			.filter(({ lifecycle }) => lifecycle.status === "completed")
+			.map(({ project }) => toAutoArchiveEntry(project));
+		const seen = new Set(records.map((record) => record.slug.current));
+		records = [...records, ...autoArchived.filter((record) => !seen.has(record.slug.current))].sort(
+			(a, b) => {
+				if (b.year !== a.year) return b.year - a.year;
+				return String(a.title).localeCompare(String(b.title));
+			},
+		);
+	} catch (e) {
+		console.error("[project-archive] Auto archive fallback failed:", e);
+	}
+
+	if (!records.length) {
+		records = FALLBACK_RECORDS.map((record) => ({
+			slug: { current: record.slug },
+			title: record.title,
+			titleFr: record.title,
+			demographic: record.demographic,
+			year: record.year,
+			status: "completed",
+			description: record.title,
+			descriptionFr: record.title,
+			autoArchived: true,
+		}));
+	}
+
+	return records;
 }
 
 export function demographicLabel(

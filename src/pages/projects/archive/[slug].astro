@@ -2,19 +2,11 @@
 import PageLayout from '../../../layouts/PageLayout.astro';
 import Section from '../../../components/layout/Section.astro';
 import { sanityImageUrl } from '../../../lib/sanity';
-import { createClient } from '@sanity/client';
+import { loadProjectArchiveEntries } from "../../../lib/project-archive";
 import PhotoLightbox from '../../../components/islands/PhotoLightbox';
 
 export async function getStaticPaths() {
-  let records: any[] = [];
-  try {
-    const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
-    const dataset = import.meta.env.SANITY_DATASET || 'production';
-    const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-    records = await client.fetch('*[_type == "projectRecord"] { _id, title, slug, demographic, year, status, description, beneficiaries, budget, location, startDate, endDate, outcomes, photo { asset { _ref } }, photos[] { asset { _ref }, caption }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url, "financialReportUrl": financialReport.asset->url }');
-  } catch (e) {
-    console.error('[archive/[slug]] Failed to fetch project records:', e);
-  }
+  const records = await loadProjectArchiveEntries();
   return records.map(r => ({ params: { slug: r.slug.current }, props: { record: r } }));
 }
 
@@ -22,6 +14,7 @@ const { record } = Astro.props;
 const demoLabels: Record<string, string> = { widows: 'Widows', orphans: 'Orphans', 'young-women': 'Young Women', 'pregnant-women': 'Pregnant Women', idps: 'IDPs', community: 'Community' };
 const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._ref, 800) : '';
 const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).map((p: any) => ({ url: sanityImageUrl(p.asset._ref, 800), caption: p.caption || '' }));
+const isAutoArchived = Boolean(record.autoArchived);
 ---
 
 <PageLayout title={record.title} description={record.description?.slice(0, 160)}>
@@ -78,6 +71,11 @@ const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).m
         )}
       </div>
       <div class="space-y-6">
+        {isAutoArchived && (
+          <div class="p-4 rounded-xl border border-primary-100 bg-primary-50 text-sm text-primary-900">
+            This archive page was generated automatically from the live project record after its end date passed.
+          </div>
+        )}
         <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
           <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Project Details</h3>
           <dl class="mt-4 space-y-3">

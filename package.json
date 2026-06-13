@@ -7,7 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run build:docs && astro build",
+    "build:docs": "python3 scripts/build_project_ledger.py && python3 scripts/build_public_budget_corrections.py && node scripts/render_public_budget_adjustments_pdf.mjs && node scripts/render_bamenda_girls_dignity_outreach_pdf.mjs && node scripts/render_project_documents.mjs",
     "test": "vitest run",
     "preview": "astro preview",
     "astro": "astro",
@@ -27,6 +28,8 @@
     "@types/react-dom": "^19.2.3",
     "astro": "^6.3.1",
     "lucide-react": "^1.14.0",
+    "marked": "^18.0.5",
+    "playwright": "^1.60.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "stripe": "^22.1.1",

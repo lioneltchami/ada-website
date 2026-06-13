@@ -2,75 +2,9 @@
 import PageLayout from "../../../../layouts/PageLayout.astro";
 import PageHero from "../../../../components/layout/PageHero.astro";
 import Section from "../../../../components/layout/Section.astro";
-import {
-  getProjects,
-  sanityImageUrl,
-  type SanityProject,
-} from "../../../../lib/sanity";
-import { getProjectLifecycleState } from "../../../../lib/project-lifecycle";
-import { createClient } from "@sanity/client";
+import { loadProjectArchiveEntries } from "../../../../lib/project-archive";
 
-let records: any[] = [];
-try {
-  const projectId = import.meta.env.SANITY_PROJECT_ID || "rj2m21gk";
-  const dataset = import.meta.env.SANITY_DATASET || "production";
-  const client = createClient({
-    projectId,
-    dataset,
-    apiVersion: "2026-03-28",
-    useCdn: true,
-  });
-  records =
-    await client.fetch(`*[_type == "projectRecord"] | order(year desc, title asc) {
-    _id, title, titleFr, slug, demographic, year, status, description, descriptionFr, beneficiaries, budget, location,
-    photo { asset { _ref } },
-    "hasToR": defined(termsOfReference),
-    "hasReport": defined(finalReport),
-    "href": "/fr/projects/archive/" + slug.current
-  }`);
-} catch {}
-
-try {
-  const currentProjects = await getProjects();
-  const autoCompletedRecords = currentProjects
-    .map((project: SanityProject) => {
-      const lifecycle = getProjectLifecycleState(project, { locale: "fr" });
-      return { project, lifecycle };
-    })
-    .filter(
-      ({ project, lifecycle }) =>
-        lifecycle.status === "completed" && !lifecycle.archiveReady,
-    )
-    .map(({ project }) => ({
-      _id: `project-${project._id}`,
-      title: project.title,
-      titleFr: project.title,
-      slug: project.slug,
-      demographic: project.demographic || "community",
-      year: Number(
-        (
-          project.archiveAfterDate ||
-          project.endDate ||
-          new Date().toISOString()
-        ).slice(0, 4),
-      ),
-      status: "completed",
-      description: project.description,
-      descriptionFr: project.description,
-      beneficiaries: project.beneficiaries,
-      budget: project.goalAmount,
-      location: project.location,
-      photo: project.mainImage,
-      hasToR: false,
-      hasReport: false,
-      href: `/fr/projects/${project.slug.current}`,
-    }));
-
-  records = [...records, ...autoCompletedRecords].sort((a, b) => {
-    if (b.year !== a.year) return b.year - a.year;
-    return String(a.title).localeCompare(String(b.title));
-  });
-} catch {}
+const records = await loadProjectArchiveEntries();
 
 const demographics = [
   "all",
