@@ -53,6 +53,10 @@ async function seed() {
       beneficiaries: 25,
       goalAmount: 1000,
       raisedAmount: 0,
+      startDate: "2026-06-27",
+      endDate: "2026-06-27",
+      archiveAfterDate: "2026-06-27",
+      autoArchiveAfterEndDate: true,
       sortOrder: 2,
     },
     {

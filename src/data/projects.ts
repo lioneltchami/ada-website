@@ -7,6 +7,10 @@ export interface Project {
   beneficiaries: number;
   goal: number;
   raised: number;
+  startDate?: string;
+  endDate?: string;
+  archiveAfterDate?: string;
+  autoArchiveAfterEndDate?: boolean;
 }
 
 export const projects: Project[] = [
@@ -31,6 +35,10 @@ export const projects: Project[] = [
     beneficiaries: 25,
     goal: 1000,
     raised: 0,
+    startDate: "2026-06-27",
+    endDate: "2026-06-27",
+    archiveAfterDate: "2026-06-27",
+    autoArchiveAfterEndDate: true,
   },
   {
     slug: "education-orphans",
