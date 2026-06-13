@@ -2,6 +2,7 @@ export type ProjectStatus = "active" | "completed" | "paused";
 
 export interface ProjectLifecycleFields {
   status: ProjectStatus;
+  slug?: string | { current?: string | null } | null;
   startDate?: string | null;
   endDate?: string | null;
   archiveAfterDate?: string | null;
@@ -43,7 +44,13 @@ export function getProjectLifecycleState(
     project.autoArchiveAfterEndDate !== false &&
     isDateBeforeToday(completionDate, today);
   const status = shouldAutoComplete ? "completed" : project.status;
-  const archiveSlug = project.archiveRecord?.slug?.current || "";
+  const baseSlug =
+    typeof project.slug === "string"
+      ? project.slug
+      : project.slug?.current || "";
+  const archiveSlug =
+    project.archiveRecord?.slug?.current ||
+    (status === "completed" ? baseSlug : "");
 
   return {
     status,

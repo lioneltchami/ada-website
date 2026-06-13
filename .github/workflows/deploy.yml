@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
   schedule:
-    # Refresh date-based project lifecycle after midnight in Cameroon.
-    - cron: "15 0 * * *"
+    # Weekly trigger; the job itself skips alternate weeks to behave biweekly.
+    - cron: "15 23 * * 0"
   repository_dispatch:
     types: [sanity-content-update]
   workflow_dispatch:
@@ -16,12 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Biweekly schedule gate
+        if: github.event_name == 'schedule'
+        run: |
+          week=$(date -u +%V)
+          if [ $((10#$week % 2)) -ne 0 ]; then
+            echo "Skipping this weekly refresh; biweekly archive deploy runs on even ISO weeks."
+            exit 0
+          fi
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm run build
         env:
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}

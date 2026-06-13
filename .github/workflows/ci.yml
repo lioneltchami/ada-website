@@ -18,6 +18,7 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm test
       - run: npm run build
 
@@ -29,3 +30,9 @@ jobs:
             echo "ERROR: Expected at least 20 pages, got $count"
             exit 1
           fi
+
+      - name: Verify public docs
+        run: |
+          test -f public/docs/ada-project-history.md
+          test -f public/docs/ada-project-budgets.xlsx
+          test -f public/docs/ada-public-budget-adjustments.xlsx
