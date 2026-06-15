@@ -40,7 +40,7 @@ The website is built to support ADA's public-facing needs:
 .
 ├── .github/workflows/
 │   ├── ci.yml                  # Test/build workflow for pushes and PRs
-│   └── deploy.yml              # Cloudflare deploy workflow plus daily scheduled rebuild
+│   └── deploy.yml              # Cloudflare deploy workflow plus biweekly scheduled refresh
 ├── public/
 │   ├── _headers                # Cloudflare/static header rules
 │   ├── docs/                   # Annual reports, project PDFs, policies
@@ -167,7 +167,7 @@ This means:
 - Sanity stores project facts and dates.
 - The website computes the public-facing effective status from those dates.
 - The public static site changes after rebuilds.
-- The GitHub deploy workflow runs daily so date-based changes become visible automatically.
+- The GitHub deploy workflow runs on a biweekly schedule gate so date-based changes become visible automatically.
 - Sanity is not rewritten every day by a bot.
 
 ### Two Project Models
@@ -268,16 +268,16 @@ There are two relationship fields, and they mean different things:
 
 Do not use `archiveRecord` for loose program-family relationships. It changes visitor CTAs and can send people to a misleading report.
 
-### Daily Lifecycle Refresh
+### Biweekly Lifecycle Refresh
 
 The deploy workflow in `.github/workflows/deploy.yml` has a scheduled trigger:
 
 ```yaml
 schedule:
-  - cron: "15 0 * * *"
+  - cron: "15 23 * * 0"
 ```
 
-This rebuilds/redeploys the site daily shortly after midnight UTC, which is after midnight in Cameroon. That daily rebuild refreshes date-based project lifecycle behavior for static pages.
+This weekly cron acts as a gate for a biweekly refresh. On even ISO weeks, it rebuilds/redeploys the site shortly after the weekly UTC trigger, which keeps date-based project lifecycle behavior fresh without running every week.
 
 The lifecycle is:
 
@@ -580,7 +580,7 @@ Runs on:
 - pushes to `main`
 - `repository_dispatch` event `sanity-content-update`
 - manual workflow dispatch
-- daily schedule
+- biweekly schedule gate
 
 Steps:
 
@@ -590,7 +590,7 @@ Steps:
 4. `npm run build`
 5. deploy with `cloudflare/wrangler-action`
 
-The daily schedule is important for date-based project lifecycle refreshes.
+The biweekly schedule gate is important for date-based project lifecycle refreshes.
 
 ## Environment Variables
 
@@ -991,5 +991,5 @@ Sanity CMS
 | `src/middleware.ts`                         | Security headers and route behavior           |
 | `sanity/schemas/project.ts`                 | Current project CMS model                     |
 | `sanity/schemas/projectRecord.ts`           | Archive record CMS model                      |
-| `.github/workflows/deploy.yml`              | Cloudflare deploy and daily lifecycle refresh |
+| `.github/workflows/deploy.yml`              | Cloudflare deploy and biweekly lifecycle refresh |
 | `supabase/donations.sql`                    | Donation persistence database setup           |
