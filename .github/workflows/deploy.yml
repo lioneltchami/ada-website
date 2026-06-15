@@ -1,7 +1,10 @@
 name: Deploy on Content Change
 
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types:
+      - completed
     branches: [main]
   schedule:
     # Weekly trigger; the job itself skips alternate weeks to behave biweekly.
@@ -13,8 +16,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: >
+      github.event_name != 'workflow_run' ||
+      (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main'
+      )
     steps:
       - uses: actions/checkout@v4
+        if: github.event_name != 'workflow_run'
 
       - name: Biweekly schedule gate
         if: github.event_name == 'schedule'
@@ -24,6 +34,12 @@ jobs:
             echo "Skipping this weekly refresh; biweekly archive deploy runs on even ISO weeks."
             exit 0
           fi
+
+      - name: Sync source branch for workflow_run
+        if: github.event_name == 'workflow_run'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - uses: actions/setup-node@v4
         with:

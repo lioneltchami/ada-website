@@ -577,14 +577,14 @@ Workflow: `.github/workflows/deploy.yml`
 
 Runs on:
 
-- pushes to `main`
+- successful `CI` runs on `main` via `workflow_run`
 - `repository_dispatch` event `sanity-content-update`
 - manual workflow dispatch
 - biweekly schedule gate
 
 Steps:
 
-1. checkout
+1. checkout the exact CI-passed commit for `workflow_run` runs
 2. setup Node 22
 3. `npm ci`
 4. `npm run build`
