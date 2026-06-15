@@ -70,11 +70,13 @@ function isActive(href: string): boolean {
     <div class="flex items-center justify-between h-[72px]">
       <!-- Logo -->
       <a href={localePath("/", locale)} class="flex items-center gap-2.5 group">
-        <div
-          class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-sm shadow-primary-500/20 group-hover:shadow-md group-hover:shadow-primary-500/30 transition-shadow"
-        >
-          <span class="text-white font-bold text-sm">ADA</span>
-        </div>
+        <img
+          src="/brand/ada-logo.png"
+          alt="Apoti Development Association"
+          class="w-12 h-12 sm:w-14 sm:h-14 object-contain drop-shadow-sm transition-transform group-hover:scale-[1.02]"
+          loading="eager"
+          decoding="async"
+        />
         <div class="hidden xs:block">
           <span class="text-base font-bold text-gray-900 tracking-tight"
             >Apoti Development</span

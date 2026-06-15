@@ -22,6 +22,7 @@ export function generateReceiptHtml(data: ReceiptData): string {
   const name = escapeHtml(data.name);
   const email = escapeHtml(data.email);
   const project = data.project ? escapeHtml(data.project) : "";
+  const logoUrl = "https://apotidev.org/brand/ada-logo.png";
 
   return `<!DOCTYPE html>
 <html>
@@ -31,7 +32,8 @@ export function generateReceiptHtml(data: ReceiptData): string {
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 40px; color: #1f2937; }
     .container { max-width: 600px; margin: 0 auto; }
     .header { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid #16a34a; }
-    .logo { width: 48px; height: 48px; background: linear-gradient(135deg, #22c55e, #15803d); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px; }
+    .logo { width: 52px; height: 52px; border-radius: 12px; overflow: hidden; flex: 0 0 auto; background: #f8fafc; display: flex; align-items: center; justify-content: center; }
+    .logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
     .org-name { font-size: 20px; font-weight: 700; color: #111827; }
     .org-sub { font-size: 12px; color: #6b7280; }
     .title { font-size: 24px; font-weight: 700; color: #15803d; margin: 24px 0 8px; }
@@ -50,7 +52,7 @@ export function generateReceiptHtml(data: ReceiptData): string {
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo">ADA</div>
+      <div class="logo"><img src="${logoUrl}" alt="Apoti Development Association" /></div>
       <div>
         <div class="org-name">Apoti Development Association</div>
         <div class="org-sub">Empowering communities in Cameroon since 2021</div>
