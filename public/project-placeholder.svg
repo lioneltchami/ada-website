@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="ADA project placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" rx="56" fill="url(#bg)"/>
+  <rect x="96" y="96" width="1008" height="608" rx="40" fill="url(#panel)" stroke="#cbd5e1" stroke-width="8"/>
+  <circle cx="870" cy="230" r="54" fill="#d4a373" opacity="0.9"/>
+  <path d="M232 556c124-54 244-82 372-82 148 0 266 34 364 98" fill="none" stroke="#15803d" stroke-width="30" stroke-linecap="round"/>
+  <path d="M290 608c102-34 200-52 296-52 112 0 210 20 296 58" fill="none" stroke="#0f766e" stroke-width="22" stroke-linecap="round"/>
+  <path d="M352 474c60-26 124-39 192-39 76 0 142 14 198 42" fill="none" stroke="#16a34a" stroke-width="18" stroke-linecap="round"/>
+  <rect x="536" y="222" width="128" height="286" rx="16" fill="#14532d"/>
+  <path d="M598 216l-170 82 170 30z" fill="#d4a373"/>
+  <path d="M610 214l214 118-202 28z" fill="#f8fafc"/>
+  <path d="M412 492c18-26 54-40 116-40h176c62 0 100 14 118 40-30 52-96 84-204 84-104 0-172-30-206-84z" fill="#8b5e34"/>
+  <text x="600" y="724" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="74" font-weight="800" fill="#14532d">ADA</text>
+</svg>

@@ -2,6 +2,7 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
 import { getProjects, type SanityProject } from "../../lib/sanity";
+import { resolveProjectCardImage } from "../../lib/project-images";
 import {
   getProjectLifecycleState,
   projectStatusLabel,
@@ -17,19 +18,25 @@ export async function getStaticPaths() {
     const sanityProjects = await getProjects();
     if (sanityProjects?.length) {
       projectData = mergeProjectLists(
-        sanityProjects.map((p: SanityProject) => ({
-          slug: p.slug.current,
-          title: p.title,
-          location: p.location,
-          status: getProjectLifecycleState(p).status,
-          archiveHref: getProjectLifecycleState(p).archiveHref,
-          archiveReady: getProjectLifecycleState(p).archiveReady,
-          hasEnded: getProjectLifecycleState(p).hasEnded,
-          description: p.description,
-          beneficiaries: p.beneficiaries,
-          goal: p.goalAmount,
-          raised: p.raisedAmount,
-        })),
+        sanityProjects.map((p: SanityProject) => {
+          const lifecycle = getProjectLifecycleState(p);
+          const image = resolveProjectCardImage(p, 900);
+          return {
+            slug: p.slug.current,
+            title: p.title,
+            location: p.location,
+            status: lifecycle.status,
+            archiveHref: lifecycle.archiveHref,
+            archiveReady: lifecycle.archiveReady,
+            hasEnded: lifecycle.hasEnded,
+            description: p.description,
+            beneficiaries: p.beneficiaries,
+            goal: p.goalAmount,
+            raised: p.raisedAmount,
+            imageUrl: image.imageUrl,
+            imageAlt: image.imageAlt,
+          };
+        }),
         normalizeFallbackArchiveProjects(),
       );
     } else {
@@ -126,6 +133,14 @@ const paragraphs = project.description
       <p class="mt-4 text-lg text-white/80 max-w-2xl">
         Serving vulnerable communities in {project.location}, Cameroon
       </p>
+      <div class="mt-8 overflow-hidden rounded-2xl border border-white/15 bg-white/10 shadow-2xl shadow-black/10 max-w-3xl">
+        <img
+          src={project.imageUrl}
+          alt={project.imageAlt}
+          class="w-full h-[260px] md:h-[340px] object-cover"
+          loading="eager"
+        />
+      </div>
     </div>
   </section>
 
