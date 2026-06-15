@@ -59,7 +59,10 @@ export interface SanityProject {
   endDate?: string;
   archiveAfterDate?: string;
   autoArchiveAfterEndDate?: boolean;
-  archiveRecord?: { slug?: { current: string } };
+  archiveRecord?: {
+    slug?: { current: string };
+    photo?: { asset?: { _ref?: string }; alt?: string };
+  };
   mainImage?: { asset: { _ref: string }; alt?: string };
 }
 
@@ -101,7 +104,7 @@ export interface SanitySiteSettings {
 export async function getProjects(): Promise<SanityProject[]> {
   return getSanityClient().fetch(`*[_type == "project"] | order(sortOrder asc) {
     ...,
-    archiveRecord->{ slug }
+    archiveRecord->{ slug, photo { asset { _ref }, alt } }
   }`);
 }
 
@@ -111,7 +114,7 @@ export async function getProjectBySlug(
   return getSanityClient().fetch(
     `*[_type == "project" && slug.current == $slug][0] {
     ...,
-    archiveRecord->{ slug }
+    archiveRecord->{ slug, photo { asset { _ref }, alt } }
   }`,
     { slug },
   );

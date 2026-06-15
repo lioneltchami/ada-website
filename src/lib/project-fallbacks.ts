@@ -7,7 +7,7 @@ export function normalizeFallbackProjects() {
     archiveHref: "",
     archiveReady: false,
     hasEnded: false,
-    imageUrl: "",
+    imageUrl: "/project-placeholder.svg",
     imageAlt: p.title,
   }));
 }
@@ -18,6 +18,8 @@ export function normalizeFallbackArchiveProjects() {
     archiveHref: "",
     archiveReady: false,
     hasEnded: false,
+    imageUrl: "/project-placeholder.svg",
+    imageAlt: p.title,
   }));
 }
 
