@@ -1,12 +1,13 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import { sendSponsorInquiryNotification } from "../../lib/email";
 import {
   jsonResponse,
   readJsonBody,
   rejectInvalidOrigin,
   rejectOversizedBody,
 } from "../../lib/api-requests";
+import { sendSponsorInquiryNotification } from "../../lib/email";
+import { RATE_LIMITS, rejectIfRateLimited } from "../../lib/rate-limit";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
 
@@ -93,6 +94,13 @@ const Schema = z.object({
 export const POST: APIRoute = async ({ request, url }) => {
   const originError = rejectInvalidOrigin(request, url.href, PRIMARY_ORIGIN);
   if (originError) return originError;
+
+  const rateError = rejectIfRateLimited(
+    request,
+    "sponsor-inquiry",
+    RATE_LIMITS.sponsorInquiry,
+  );
+  if (rateError) return rateError;
 
   const sizeError = rejectOversizedBody(request);
   if (sizeError) return sizeError;

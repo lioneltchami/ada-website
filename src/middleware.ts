@@ -1,49 +1,37 @@
 import { defineMiddleware } from "astro:middleware";
 import { createClient } from "@supabase/supabase-js";
+import { applyContentSecurityPolicy } from "./lib/csp";
 import { getEnv } from "./lib/runtime-env";
 
 const PROTECTED_ROUTES = ["/dashboard"];
 const SENSITIVE_ROUTES = ["/api", "/auth", "/dashboard", "/donate/thank-you"];
-const CONTENT_SECURITY_POLICY = [
-  "default-src 'self'",
-  "script-src 'self' https://js.stripe.com https://*.js.stripe.com https://static.cloudflareinsights.com 'unsafe-inline'",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' https://cdn.sanity.io data: blob:",
-  "media-src 'self' https://cdn.sanity.io",
-  "connect-src 'self' https://*.supabase.co https://supabase-ada.77.42.83.187.sslip.io https://api.stripe.com https://r.stripe.com https://cdn.sanity.io https://cloudflareinsights.com",
-  "frame-src https://js.stripe.com https://*.js.stripe.com https://hooks.stripe.com",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'none'",
-].join("; ");
 
-function applySecurityHeaders(
+async function applySecurityHeaders(
   response: Response,
   pathname: string,
   isHttps: boolean,
-): Response {
-  response.headers.set("Content-Security-Policy", CONTENT_SECURITY_POLICY);
-  response.headers.set("X-Frame-Options", "DENY");
-  response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.headers.set(
+): Promise<Response> {
+  const secured = await applyContentSecurityPolicy(response);
+  secured.headers.set("X-Frame-Options", "DENY");
+  secured.headers.set("X-Content-Type-Options", "nosniff");
+  secured.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  secured.headers.set(
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=()",
   );
   if (pathname.startsWith("/api")) {
-    response.headers.set("X-Robots-Tag", "noindex");
+    secured.headers.set("X-Robots-Tag", "noindex");
   }
   if (SENSITIVE_ROUTES.some((route) => pathname.startsWith(route))) {
-    response.headers.set("X-Robots-Tag", "noindex");
+    secured.headers.set("X-Robots-Tag", "noindex");
   }
   if (isHttps) {
-    response.headers.set(
+    secured.headers.set(
       "Strict-Transport-Security",
       "max-age=31536000; includeSubDomains; preload",
     );
   }
-  return response;
+  return secured;
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {

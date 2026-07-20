@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { resetRateLimitStoreForTests } from "../src/lib/rate-limit";
 
 const paymentIntentCreate = vi.fn();
 const customerList = vi.fn();
@@ -110,6 +111,7 @@ const validSponsorInquiry = {
 describe("payment intent route", () => {
   afterEach(() => {
     paymentIntentCreate.mockReset();
+    resetRateLimitStoreForTests();
   });
 
   it("rejects invalid origins", async () => {
@@ -188,6 +190,43 @@ describe("payment intent route", () => {
     expect(response.status).toBe(400);
     expect(paymentIntentCreate).not.toHaveBeenCalled();
   });
+
+  it("rejects payment intent creation when the IP rate limit is exceeded", async () => {
+    paymentIntentCreate.mockResolvedValue({ client_secret: "pi_secret" });
+    const { POST } = await import("../src/pages/api/create-payment-intent");
+    const payload = {
+      amount: 2500,
+      currency: "usd",
+      type: "one-time",
+      donorName: "Ada Donor",
+      donorEmail: "ada@example.com",
+      isAnonymous: false,
+      checkoutAttemptId: "33333333-3333-4333-8333-333333333333",
+    };
+
+    for (let i = 0; i < 20; i++) {
+      const response = await POST({
+        request: jsonRequest({
+          ...payload,
+          checkoutAttemptId: `33333333-3333-4333-8333-${String(i).padStart(12, "0")}`,
+        }),
+        url: new URL("https://apotidev.org/api/create-payment-intent"),
+      } as any);
+      expect(response.status).toBe(200);
+    }
+
+    const blocked = await POST({
+      request: jsonRequest({
+        ...payload,
+        checkoutAttemptId: "33333333-3333-4333-8333-999999999999",
+      }),
+      url: new URL("https://apotidev.org/api/create-payment-intent"),
+    } as any);
+
+    expect(blocked.status).toBe(429);
+    expect(blocked.headers.get("Retry-After")).toBeTruthy();
+    expect(paymentIntentCreate).toHaveBeenCalledTimes(20);
+  });
 });
 
 describe("subscription route", () => {
@@ -195,6 +234,7 @@ describe("subscription route", () => {
     customerList.mockReset();
     customerCreate.mockReset();
     subscriptionCreate.mockReset();
+    resetRateLimitStoreForTests();
   });
 
   it("creates monthly donation subscriptions with saved payment setup", async () => {
@@ -251,6 +291,10 @@ describe("subscription route", () => {
 });
 
 describe("performance metrics route", () => {
+  afterEach(() => {
+    resetRateLimitStoreForTests();
+  });
+
   it("accepts compact web vital metrics", async () => {
     const { POST } = await import("../src/pages/api/performance-metrics");
     const response = await POST({
@@ -430,6 +474,7 @@ describe("donation follow-up cron route", () => {
 describe("sponsor inquiry route", () => {
   afterEach(() => {
     sendSponsorInquiryNotification.mockReset();
+    resetRateLimitStoreForTests();
   });
 
   it("rejects invalid origins", async () => {
