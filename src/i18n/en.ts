@@ -108,7 +108,10 @@ export default {
     projectDocs: "Project documents by year",
     projectDocsIntro:
       "{count} projects with TOR, financial, and completion reports.",
+    projectDocsIntroOne:
+      "{count} project with TOR, financial, and completion reports.",
     projectsInYear: "{count} projects",
+    projectInYear: "{count} project",
     annualReportForYear: "{year} annual report (PDF)",
     financials: "Financial",
     tor: "TOR",
@@ -118,6 +121,12 @@ export default {
     funderDocs: "Due Diligence Package",
     funderDocsDesc:
       "Registration, policies, and governance documents for institutional partners.",
+    diligenceGroups: {
+      legal: "Legal & registration",
+      policies: "Policies",
+      sponsor: "Sponsor kits",
+      budgets: "Budgets & finance",
+    },
     demographics: {
       widows: "Widows",
       orphans: "Orphans & youth",
