@@ -118,12 +118,14 @@ The site uses three content layers:
 
 2. **Local TypeScript data**
    - Stable organization constants and fallbacks.
-   - Example: `src/data/organization.ts` stores registration number, annual report paths, archive project slugs, breadcrumb labels, and measurable indicators.
+   - Example: `src/data/impact.ts` is the single source of truth for public impact numbers (homepage fallbacks, transparency progress, scorecard, Sanity seed metrics).
+   - Example: `src/data/organization.ts` stores registration number, annual report paths, archive project slugs, and breadcrumb labels.
    - Example: `src/data/projects.ts` is fallback project data if Sanity is unavailable during build.
+   - Partners/transparency page copy lives in `src/data/partners-copy.ts` and `src/data/transparency-copy.ts` (shared EN/FR components).
 
 3. **Static documents in `public/docs`**
-   - Annual reports, project reports, financial reports, Terms of Reference, policies.
-   - These files are served directly as static assets.
+   - Annual reports, project reports, financial reports, Terms of Reference, policies, registration certificate.
+   - These files are served directly as static assets and are canonical for project PDFs (Sanity `projectRecord` holds metadata/photos; archive pages resolve to `/docs/projects/{slug}/…` when present).
    - Project document grouping is handled by `src/lib/project-archive.ts`.
 
 ## Sanity CMS
@@ -143,20 +145,20 @@ When a token exists, `useCdn` is disabled so builds receive fresh authenticated 
 
 ### Key Sanity Schemas
 
-| Schema          | File                              | Purpose                              |
-| :-------------- | :-------------------------------- | :----------------------------------- |
-| `project`       | `sanity/schemas/project.ts`       | Current/fundraising project records  |
-| `projectRecord` | `sanity/schemas/projectRecord.ts` | Archive/track-record project records |
-| `blogPost`      | `sanity/schemas/blogPost.ts`      | Stories/news/blog content            |
-| `galleryImage`  | `sanity/schemas/galleryImage.ts`  | Gallery content                      |
-| `homePage`      | `sanity/schemas/homePage.ts`      | Core homepage copy                   |
-| `aboutPage`     | `sanity/schemas/aboutPage.ts`     | About page content                   |
-| `impactMetric`  | `sanity/schemas/impactMetric.ts`  | Homepage impact stats                |
-| `testimonial`   | `sanity/schemas/testimonial.ts`   | Featured impact quotes               |
-| `teamMember`    | `sanity/schemas/teamMember.ts`    | Team profiles                        |
-| `donationTier`  | `sanity/schemas/donationTier.ts`  | Donation impact examples             |
-| `siteSettings`  | `sanity/schemas/siteSettings.ts`  | Contact/social/settings              |
-| `faqResponse`   | `sanity/schemas/faqResponse.ts`   | FAQ/chat responses                   |
+| Schema          | File                              | Purpose                                                    |
+| :-------------- | :-------------------------------- | :--------------------------------------------------------- |
+| `project`       | `sanity/schemas/project.ts`       | Current/fundraising project records                        |
+| `projectRecord` | `sanity/schemas/projectRecord.ts` | Archive/track-record project records                       |
+| `blogPost`      | `sanity/schemas/blogPost.ts`      | Stories/news/blog content                                  |
+| `galleryImage`  | `sanity/schemas/galleryImage.ts`  | Gallery content                                            |
+| `homePage`      | `sanity/schemas/homePage.ts`      | Core homepage copy                                         |
+| `aboutPage`     | `sanity/schemas/aboutPage.ts`     | About page content                                         |
+| `impactMetric`  | `sanity/schemas/impactMetric.ts`  | Homepage counters (keep aligned with `src/data/impact.ts`) |
+| `testimonial`   | `sanity/schemas/testimonial.ts`   | Featured impact quotes                                     |
+| `teamMember`    | `sanity/schemas/teamMember.ts`    | Team profiles                                              |
+| `donationTier`  | `sanity/schemas/donationTier.ts`  | Donation impact examples                                   |
+| `siteSettings`  | `sanity/schemas/siteSettings.ts`  | Contact/social/settings                                    |
+| `faqResponse`   | `sanity/schemas/faqResponse.ts`   | FAQ/chat responses                                         |
 
 ## Project Lifecycle
 

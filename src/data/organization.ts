@@ -1,9 +1,19 @@
 import type { Locale } from "../i18n";
+import {
+  IMPACT_FACTS,
+  impactMetricsFor,
+  type ImpactMetric,
+  type MeasurableIndicator,
+  measurableIndicatorsFor,
+} from "./impact";
+
+export type { ImpactMetric, MeasurableIndicator };
 
 export const REGISTRATION_NUMBER = "N° 415/G.37/D14/VolI/SAAJP";
 
+/** Canonical static registration PDF (not Sanity CDN). */
 export const REGISTRATION_CERTIFICATE_URL =
-  "https://cdn.sanity.io/files/rj2m21gk/production/c226e76c904614c95ddc186d942e656f531483a1.pdf";
+  "/docs/diligence/ada-registration-certificate.pdf";
 
 export const annualReportPdfs = [
   { year: "2024", path: "/docs/annual-reports/2024-annual-report.pdf" },
@@ -52,15 +62,18 @@ export function archiveProjectTitle(slug: string): string {
     .join(" ");
 }
 
-export type MeasurableIndicator = {
-  indicator: string;
-  baseline: string;
-  target: string;
-  actual: string;
-  status: "on-track" | "in-progress";
-  actualValue: number;
-  targetValue: number;
-};
+export function projectDocumentPaths(slug: string) {
+  const base = `/docs/projects/${slug}`;
+  return {
+    tor: `${base}/tor.pdf`,
+    financial: `${base}/financial.pdf`,
+    report: `${base}/report.pdf`,
+  };
+}
+
+export function hasStaticProjectDocuments(slug: string): boolean {
+  return (documentArchiveProjects as readonly string[]).includes(slug);
+}
 
 export function indicatorProgress(indicator: MeasurableIndicator): number {
   if (indicator.targetValue <= 0) return 0;
@@ -70,107 +83,18 @@ export function indicatorProgress(indicator: MeasurableIndicator): number {
   );
 }
 
-export const measurableIndicatorsEn: MeasurableIndicator[] = [
-  {
-    indicator: "Widows achieving financial independence",
-    baseline: "0 (2021)",
-    target: "20 by 2025",
-    actual: "12 of 15 trained (80%)",
-    status: "on-track",
-    actualValue: 12,
-    targetValue: 20,
-  },
-  {
-    indicator: "Children enrolled and retained in school",
-    baseline: "0 (2021)",
-    target: "50 by 2026",
-    actual: "20 enrolled, 100% retention",
-    status: "on-track",
-    actualValue: 20,
-    targetValue: 50,
-  },
-  {
-    indicator: "Women completing vocational training",
-    baseline: "0 (2022)",
-    target: "30 by 2026",
-    actual: "10 graduated, 8 earning income",
-    status: "on-track",
-    actualValue: 10,
-    targetValue: 30,
-  },
-  {
-    indicator: "Communities with clean water access",
-    baseline: "0 (2024)",
-    target: "3 by 2026",
-    actual: "1 well completed (300+ served)",
-    status: "in-progress",
-    actualValue: 1,
-    targetValue: 3,
-  },
-  {
-    indicator: "Families receiving emergency food support",
-    baseline: "3 (2022)",
-    target: "100/year",
-    actual: "50 families in 2024",
-    status: "on-track",
-    actualValue: 50,
-    targetValue: 100,
-  },
-];
-
-export const measurableIndicatorsFr: MeasurableIndicator[] = [
-  {
-    indicator: "Veuves atteignant l'indépendance financière",
-    baseline: "0 (2021)",
-    target: "20 d'ici 2025",
-    actual: "12 sur 15 formées (80%)",
-    status: "on-track",
-    actualValue: 12,
-    targetValue: 20,
-  },
-  {
-    indicator: "Enfants inscrits et maintenus à l'école",
-    baseline: "0 (2021)",
-    target: "50 d'ici 2026",
-    actual: "20 inscrits, 100% de rétention",
-    status: "on-track",
-    actualValue: 20,
-    targetValue: 50,
-  },
-  {
-    indicator: "Femmes ayant terminé la formation professionnelle",
-    baseline: "0 (2022)",
-    target: "30 d'ici 2026",
-    actual: "10 diplômées, 8 génèrent des revenus",
-    status: "on-track",
-    actualValue: 10,
-    targetValue: 30,
-  },
-  {
-    indicator: "Communautés avec accès à l'eau potable",
-    baseline: "0 (2024)",
-    target: "3 d'ici 2026",
-    actual: "1 puits achevé (300+ desservis)",
-    status: "in-progress",
-    actualValue: 1,
-    targetValue: 3,
-  },
-  {
-    indicator: "Familles recevant une aide alimentaire d'urgence",
-    baseline: "3 (2022)",
-    target: "100/an",
-    actual: "50 familles en 2024",
-    status: "on-track",
-    actualValue: 50,
-    targetValue: 100,
-  },
-];
+export const measurableIndicatorsEn = measurableIndicatorsFor("en");
+export const measurableIndicatorsFr = measurableIndicatorsFor("fr");
 
 export const impactGrowthByYear = [
   { year: "2021", value: 10, label: "10" },
   { year: "2022", value: 50, label: "50" },
   { year: "2023", value: 120, label: "120" },
-  { year: "2024", value: 200, label: "200" },
+  {
+    year: "2024",
+    value: IMPACT_FACTS.livesImpacted,
+    label: String(IMPACT_FACTS.livesImpacted),
+  },
   { year: "2025", value: 280, label: "280 (Est.)" },
 ] as const;
 
@@ -240,3 +164,5 @@ export function buildBreadcrumbList(pathname: string, site: URL | undefined) {
     }),
   };
 }
+
+export { impactMetricsFor, IMPACT_FACTS };

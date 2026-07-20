@@ -1,4 +1,5 @@
 import { createClient } from "@sanity/client";
+import { sanityImpactMetricSeed } from "../src/data/impact";
 
 const client = createClient({
   projectId: "rj2m21gk",
@@ -135,37 +136,8 @@ async function seed() {
   }
   console.log(`\u2713 ${projects.length} Projects`);
 
-  // Impact Metrics
-  const metrics = [
-    {
-      _id: "metric-lives",
-      label: "Lives Impacted",
-      value: 200,
-      suffix: "+",
-      displayOrder: 1,
-    },
-    {
-      _id: "metric-communities",
-      label: "Communities Served",
-      value: 5,
-      suffix: "",
-      displayOrder: 2,
-    },
-    {
-      _id: "metric-widows",
-      label: "Widows Supported",
-      value: 15,
-      suffix: "+",
-      displayOrder: 3,
-    },
-    {
-      _id: "metric-years",
-      label: "Years of Service",
-      value: 5,
-      suffix: "",
-      displayOrder: 4,
-    },
-  ];
+  // Impact Metrics — keep aligned with src/data/impact.ts IMPACT_FACTS
+  const metrics = sanityImpactMetricSeed();
 
   for (const m of metrics) {
     await client.createOrReplace({ ...m, _type: "impactMetric" });

@@ -13,6 +13,7 @@ import {
   sanityImageUrl,
 } from "../lib/sanity";
 import { REGISTRATION_NUMBER } from "../data/organization";
+import { homepageStatsFallback } from "../data/impact";
 
 let heroImageUrl = "";
 try {
@@ -26,12 +27,7 @@ try {
   }
 } catch {}
 
-let stats = [
-  { value: "200+", label: "Lives Impacted" },
-  { value: "5", label: "Communities Served" },
-  { value: "15+", label: "Widows Supported" },
-  { value: "5", label: "Years of Service" },
-];
+let stats = homepageStatsFallback("en");
 
 try {
   const metrics = await getImpactMetrics();
