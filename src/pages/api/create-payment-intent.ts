@@ -1,12 +1,13 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import { getStripe } from "../../lib/stripe";
 import {
   jsonResponse,
   readJsonBody,
   rejectInvalidOrigin,
   rejectOversizedBody,
 } from "../../lib/api-requests";
+import { paymentIntentIdempotencyKey } from "../../lib/checkout-idempotency";
+import { getStripe } from "../../lib/stripe";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -19,6 +20,7 @@ const PaymentSchema = z.object({
   donorEmail: z.string().trim().toLowerCase().email(),
   isAnonymous: z.boolean().default(false),
   locale: z.enum(["en", "fr"]).default("en"),
+  checkoutAttemptId: z.string().uuid(),
   projectSlug: z
     .string()
     .trim()
@@ -58,7 +60,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         receipt_email: data.donorEmail,
       },
       {
-        idempotencyKey: `pi_${data.donorEmail}_${data.amount}_${Math.floor(Date.now() / 10000)}`,
+        idempotencyKey: paymentIntentIdempotencyKey(data.checkoutAttemptId),
       },
     );
 

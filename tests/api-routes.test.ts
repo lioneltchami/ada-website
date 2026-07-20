@@ -138,6 +138,7 @@ describe("payment intent route", () => {
   it("normalizes donor metadata for valid one-time gifts", async () => {
     paymentIntentCreate.mockResolvedValue({ client_secret: "pi_secret" });
     const { POST } = await import("../src/pages/api/create-payment-intent");
+    const checkoutAttemptId = "11111111-1111-4111-8111-111111111111";
 
     const response = await POST({
       request: jsonRequest({
@@ -148,6 +149,7 @@ describe("payment intent route", () => {
         donorEmail: "ADA@EXAMPLE.COM ",
         isAnonymous: false,
         projectSlug: "education-drive",
+        checkoutAttemptId,
       }),
       url: new URL("https://apotidev.org/api/create-payment-intent"),
     } as any);
@@ -165,8 +167,26 @@ describe("payment intent route", () => {
           follow_up_plan: "receipt_thank_you_30_day_impact",
         }),
       }),
-      expect.any(Object),
+      { idempotencyKey: `pi_${checkoutAttemptId}` },
     );
+  });
+
+  it("rejects requests without a checkoutAttemptId", async () => {
+    const { POST } = await import("../src/pages/api/create-payment-intent");
+    const response = await POST({
+      request: jsonRequest({
+        amount: 2500,
+        currency: "usd",
+        type: "one-time",
+        donorName: "Ada Donor",
+        donorEmail: "ada@example.com",
+        isAnonymous: false,
+      }),
+      url: new URL("https://apotidev.org/api/create-payment-intent"),
+    } as any);
+
+    expect(response.status).toBe(400);
+    expect(paymentIntentCreate).not.toHaveBeenCalled();
   });
 });
 
@@ -187,6 +207,7 @@ describe("subscription route", () => {
       },
     });
     const { POST } = await import("../src/pages/api/create-subscription");
+    const checkoutAttemptId = "22222222-2222-4222-8222-222222222222";
 
     const response = await POST({
       request: subscriptionRequest({
@@ -198,6 +219,7 @@ describe("subscription route", () => {
         isAnonymous: false,
         locale: "fr",
         projectSlug: "widow-support",
+        checkoutAttemptId,
       }),
       url: new URL("https://apotidev.org/api/create-subscription"),
     } as any);
@@ -223,7 +245,7 @@ describe("subscription route", () => {
           follow_up_plan: "receipt_thank_you_30_day_impact",
         }),
       }),
-      expect.any(Object),
+      { idempotencyKey: `sub_${checkoutAttemptId}` },
     );
   });
 });

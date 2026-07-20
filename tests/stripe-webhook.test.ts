@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 const webhookMocks = vi.hoisted(() => ({
+  claimDonationThankYou: vi.fn(),
+  clearDonationThankYou: vi.fn(),
   donationFromStripeInvoice: vi.fn(),
   donationFromStripePaymentIntent: vi.fn(),
   findDonationByStripeReference: vi.fn(),
@@ -11,6 +13,8 @@ const webhookMocks = vi.hoisted(() => ({
 }));
 
 vi.mock("../src/lib/donations", () => ({
+  claimDonationThankYou: webhookMocks.claimDonationThankYou,
+  clearDonationThankYou: webhookMocks.clearDonationThankYou,
   donationFromStripeInvoice: webhookMocks.donationFromStripeInvoice,
   donationFromStripePaymentIntent: webhookMocks.donationFromStripePaymentIntent,
   findDonationByStripeReference: webhookMocks.findDonationByStripeReference,
@@ -64,6 +68,22 @@ function activeWebhookSecret(): string {
   return (import.meta as any).env?.STRIPE_WEBHOOK_SECRET || "whsec_test";
 }
 
+const baseDonation = {
+  stripe_payment_intent_id: "pi_123",
+  stripe_invoice_id: null,
+  stripe_subscription_id: null,
+  amount_cents: 2500,
+  currency: "usd",
+  frequency: "one-time" as const,
+  donor_email: "donor@example.com",
+  donor_name: "Ada Donor",
+  is_anonymous: false,
+  project_slug: "education-drive",
+  paid_at: "2026-05-30T12:00:00.000Z",
+  follow_up_due_at: "2026-06-29T12:00:00.000Z",
+  follow_up_status: "pending_30_day_update" as const,
+};
+
 describe("Stripe webhook signature verification", () => {
   afterEach(() => {
     vi.unstubAllEnvs();
@@ -100,26 +120,13 @@ describe("Stripe webhook signature verification", () => {
     ).resolves.toBe(false);
   });
 
-  it("saves a confirmed one-time gift and queues the donor follow-up sequence", async () => {
+  it("claims thank-you then sends receipt for a confirmed one-time gift", async () => {
     const secret = activeWebhookSecret();
     vi.stubEnv("STRIPE_WEBHOOK_SECRET", secret);
-    webhookMocks.donationFromStripePaymentIntent.mockReturnValue({
-      stripe_payment_intent_id: "pi_123",
-      stripe_invoice_id: null,
-      stripe_subscription_id: null,
-      amount_cents: 2500,
-      currency: "usd",
-      frequency: "one-time",
-      donor_email: "donor@example.com",
-      donor_name: "Ada Donor",
-      is_anonymous: false,
-      project_slug: "education-drive",
-      paid_at: "2026-05-30T12:00:00.000Z",
-      follow_up_due_at: "2026-06-29T12:00:00.000Z",
-      follow_up_status: "pending_30_day_update",
-    });
+    webhookMocks.donationFromStripePaymentIntent.mockReturnValue(baseDonation);
     webhookMocks.findDonationByStripeReference.mockResolvedValue(null);
     webhookMocks.saveDonationRecord.mockResolvedValue(undefined);
+    webhookMocks.claimDonationThankYou.mockResolvedValue(true);
     webhookMocks.sendDonationReceipt.mockResolvedValue({
       success: true,
       receiptId: "ADA-2026-PI123",
@@ -140,7 +147,11 @@ describe("Stripe webhook signature verification", () => {
     } as any);
 
     expect(response.status).toBe(200);
-    expect(webhookMocks.saveDonationRecord).toHaveBeenCalledTimes(2);
+    expect(webhookMocks.saveDonationRecord).toHaveBeenCalledTimes(1);
+    expect(webhookMocks.claimDonationThankYou).toHaveBeenCalledWith({
+      stripePaymentIntentId: "pi_123",
+      stripeInvoiceId: null,
+    });
     expect(webhookMocks.sendDonationReceipt).toHaveBeenCalledWith(
       expect.objectContaining({
         email: "donor@example.com",
@@ -154,24 +165,13 @@ describe("Stripe webhook signature verification", () => {
         stripeReference: "pi_123",
       }),
     );
+    expect(webhookMocks.clearDonationThankYou).not.toHaveBeenCalled();
   });
 
   it("does not resend receipt emails for already-thanked webhook redeliveries", async () => {
     const secret = activeWebhookSecret();
     vi.stubEnv("STRIPE_WEBHOOK_SECRET", secret);
-    webhookMocks.donationFromStripePaymentIntent.mockReturnValue({
-      stripe_payment_intent_id: "pi_123",
-      stripe_invoice_id: null,
-      stripe_subscription_id: null,
-      amount_cents: 2500,
-      currency: "usd",
-      frequency: "one-time",
-      donor_email: "donor@example.com",
-      donor_name: "Ada Donor",
-      is_anonymous: false,
-      project_slug: "education-drive",
-      paid_at: "2026-05-30T12:00:00.000Z",
-    });
+    webhookMocks.donationFromStripePaymentIntent.mockReturnValue(baseDonation);
     webhookMocks.findDonationByStripeReference.mockResolvedValue({
       receipt_id: "ADA-2026-PI123",
       thank_you_sent_at: "2026-05-30T12:01:00.000Z",
@@ -193,9 +193,69 @@ describe("Stripe webhook signature verification", () => {
 
     expect(response.status).toBe(200);
     expect(webhookMocks.saveDonationRecord).toHaveBeenCalledTimes(1);
+    expect(webhookMocks.claimDonationThankYou).not.toHaveBeenCalled();
     expect(webhookMocks.sendDonationReceipt).not.toHaveBeenCalled();
     expect(
       webhookMocks.sendDonationFollowUpNotification,
     ).not.toHaveBeenCalled();
+  });
+
+  it("skips email when another delivery already claimed thank-you", async () => {
+    const secret = activeWebhookSecret();
+    vi.stubEnv("STRIPE_WEBHOOK_SECRET", secret);
+    webhookMocks.donationFromStripePaymentIntent.mockReturnValue(baseDonation);
+    webhookMocks.findDonationByStripeReference.mockResolvedValue(null);
+    webhookMocks.saveDonationRecord.mockResolvedValue(undefined);
+    webhookMocks.claimDonationThankYou.mockResolvedValue(false);
+
+    const { POST } = await import("../src/pages/api/webhooks/stripe");
+    const response = await POST({
+      request: await signedWebhookRequest(
+        {
+          type: "payment_intent.succeeded",
+          data: { object: { id: "pi_123", metadata: { type: "one-time" } } },
+        },
+        secret,
+      ),
+    } as any);
+
+    expect(response.status).toBe(200);
+    expect(webhookMocks.claimDonationThankYou).toHaveBeenCalled();
+    expect(webhookMocks.sendDonationReceipt).not.toHaveBeenCalled();
+    expect(
+      webhookMocks.sendDonationFollowUpNotification,
+    ).not.toHaveBeenCalled();
+  });
+
+  it("clears the thank-you claim when receipt send fails so Stripe can retry", async () => {
+    const secret = activeWebhookSecret();
+    vi.stubEnv("STRIPE_WEBHOOK_SECRET", secret);
+    webhookMocks.donationFromStripePaymentIntent.mockReturnValue(baseDonation);
+    webhookMocks.findDonationByStripeReference.mockResolvedValue(null);
+    webhookMocks.saveDonationRecord.mockResolvedValue(undefined);
+    webhookMocks.claimDonationThankYou.mockResolvedValue(true);
+    webhookMocks.sendDonationReceipt.mockRejectedValue(
+      new Error("Email send failed: 500"),
+    );
+    webhookMocks.clearDonationThankYou.mockResolvedValue(undefined);
+
+    const { POST } = await import("../src/pages/api/webhooks/stripe");
+
+    await expect(
+      POST({
+        request: await signedWebhookRequest(
+          {
+            type: "payment_intent.succeeded",
+            data: { object: { id: "pi_123", metadata: { type: "one-time" } } },
+          },
+          secret,
+        ),
+      } as any),
+    ).rejects.toThrow("Email send failed: 500");
+
+    expect(webhookMocks.clearDonationThankYou).toHaveBeenCalledWith({
+      stripePaymentIntentId: "pi_123",
+      stripeInvoiceId: null,
+    });
   });
 });
