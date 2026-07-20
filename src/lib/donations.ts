@@ -197,6 +197,93 @@ export async function saveDonationRecord(
   if (error) throw new Error(`Donation persistence failed: ${error.message}`);
 }
 
+function stripeReferenceFilter(reference: {
+  stripePaymentIntentId?: string | null;
+  stripeInvoiceId?: string | null;
+}) {
+  if (reference.stripeInvoiceId) {
+    return {
+      match: true as const,
+      apply: <T extends { eq: (column: string, value: string) => T }>(q: T) =>
+        q.eq("stripe_invoice_id", reference.stripeInvoiceId!),
+    };
+  }
+  if (reference.stripePaymentIntentId) {
+    return {
+      match: true as const,
+      apply: <T extends { eq: (column: string, value: string) => T }>(q: T) =>
+        q.eq("stripe_payment_intent_id", reference.stripePaymentIntentId!),
+    };
+  }
+  return { match: false as const, apply: null };
+}
+
+/**
+ * Atomically claim the thank-you email send for a donation.
+ * Returns true only for the first successful claim (WHERE thank_you_sent_at IS NULL).
+ * Concurrent webhook retries lose the race and skip sending.
+ */
+export async function claimDonationThankYou(reference: {
+  stripePaymentIntentId?: string | null;
+  stripeInvoiceId?: string | null;
+  sentAt?: string;
+}): Promise<boolean> {
+  const filter = stripeReferenceFilter(reference);
+  if (!filter.match) return false;
+
+  const supabase = getSupabaseAdmin();
+  const sentAt = reference.sentAt || new Date().toISOString();
+
+  if (!supabase) {
+    console.log(
+      `[donations] Would claim thank-you for ${reference.stripeInvoiceId || reference.stripePaymentIntentId}`,
+    );
+    return true;
+  }
+
+  let query = supabase
+    .from("donations")
+    .update({ thank_you_sent_at: sentAt })
+    .is("thank_you_sent_at", null);
+  query = filter.apply(query);
+
+  const { data, error } = await query.select("id").maybeSingle();
+  if (error) {
+    throw new Error(`Donation thank-you claim failed: ${error.message}`);
+  }
+  return Boolean(data?.id);
+}
+
+/**
+ * Release a thank-you claim after a failed send so Stripe retries can try again.
+ */
+export async function clearDonationThankYou(reference: {
+  stripePaymentIntentId?: string | null;
+  stripeInvoiceId?: string | null;
+}): Promise<void> {
+  const filter = stripeReferenceFilter(reference);
+  if (!filter.match) return;
+
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    console.log(
+      `[donations] Would clear thank-you claim for ${reference.stripeInvoiceId || reference.stripePaymentIntentId}`,
+    );
+    return;
+  }
+
+  let query = supabase
+    .from("donations")
+    .update({ thank_you_sent_at: null })
+    .not("thank_you_sent_at", "is", null);
+  query = filter.apply(query);
+
+  const { error } = await query;
+  if (error) {
+    throw new Error(`Donation thank-you clear failed: ${error.message}`);
+  }
+}
+
 export async function getDonationsForEmail(
   email: string,
 ): Promise<DonationRecord[]> {

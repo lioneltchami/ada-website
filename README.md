@@ -371,7 +371,7 @@ This powers the post-donation follow-up sequence:
 1. A verified Stripe event creates or updates the donation record.
 2. The donor receives one locale-aware email containing the PDF receipt, thank-you, "what happens next," and the expected 30-day update date.
 3. ADA receives an internal follow-up task email with the donor, amount, project, receipt ID, Stripe reference, and due date.
-4. Redelivered webhooks do not resend the donor email once `thank_you_sent_at` is present.
+4. Thank-you emails are claim-locked via `thank_you_sent_at` before send, so Stripe retries and concurrent deliveries cannot double-email. Failed sends clear the claim so Stripe can retry.
 
 The site does not pretend to have a full external CRM queue by itself. The reliable automation implemented here is webhook-backed recording plus immediate donor/admin follow-up. The actual 30-day impact message still needs ADA staff or a future email automation platform to send the field update, unless a scheduled worker/CRM is added later.
 
@@ -975,21 +975,21 @@ Sanity CMS
 
 ## Key Files To Know
 
-| File                                        | Why it matters                                |
-| :------------------------------------------ | :-------------------------------------------- |
-| `src/lib/sanity.ts`                         | Sanity client, types, fetch helpers           |
-| `src/lib/project-lifecycle.ts`              | Date-based current/completed project rules    |
-| `src/pages/projects/index.astro`            | English project listing                       |
-| `src/pages/fr/projects/index.astro`         | French project listing                        |
-| `src/pages/projects/archive/index.astro`    | English archive timeline                      |
-| `src/pages/fr/projects/archive/index.astro` | French archive timeline                       |
-| `src/components/islands/DonationForm.tsx`   | Donation UI and Stripe Elements flow          |
-| `src/pages/api/webhooks/stripe.ts`          | Stripe webhook verification and persistence   |
-| `src/lib/donations.ts`                      | Stripe-to-Supabase donation mapping           |
-| `src/lib/email.ts`                          | Email sending                                 |
-| `src/lib/receipt.ts`                        | Donation receipt HTML/PDF helpers             |
-| `src/middleware.ts`                         | Security headers and route behavior           |
-| `sanity/schemas/project.ts`                 | Current project CMS model                     |
-| `sanity/schemas/projectRecord.ts`           | Archive record CMS model                      |
+| File                                        | Why it matters                                   |
+| :------------------------------------------ | :----------------------------------------------- |
+| `src/lib/sanity.ts`                         | Sanity client, types, fetch helpers              |
+| `src/lib/project-lifecycle.ts`              | Date-based current/completed project rules       |
+| `src/pages/projects/index.astro`            | English project listing                          |
+| `src/pages/fr/projects/index.astro`         | French project listing                           |
+| `src/pages/projects/archive/index.astro`    | English archive timeline                         |
+| `src/pages/fr/projects/archive/index.astro` | French archive timeline                          |
+| `src/components/islands/DonationForm.tsx`   | Donation UI and Stripe Elements flow             |
+| `src/pages/api/webhooks/stripe.ts`          | Stripe webhook verification and persistence      |
+| `src/lib/donations.ts`                      | Stripe-to-Supabase donation mapping              |
+| `src/lib/email.ts`                          | Email sending                                    |
+| `src/lib/receipt.ts`                        | Donation receipt HTML/PDF helpers                |
+| `src/middleware.ts`                         | Security headers and route behavior              |
+| `sanity/schemas/project.ts`                 | Current project CMS model                        |
+| `sanity/schemas/projectRecord.ts`           | Archive record CMS model                         |
 | `.github/workflows/deploy.yml`              | Cloudflare deploy and biweekly lifecycle refresh |
-| `supabase/donations.sql`                    | Donation persistence database setup           |
+| `supabase/donations.sql`                    | Donation persistence database setup              |
