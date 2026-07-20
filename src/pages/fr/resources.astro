@@ -2,124 +2,20 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../../components/layout/PageHero.astro";
 import DocumentLibrary from "../../components/resources/DocumentLibrary.astro";
+import { diligenceDocsFor } from "../../data/diligence-docs";
 import { getLocale, t } from "../../i18n";
 import { loadProjectDocumentLibrary } from "../../lib/project-archive";
 
 const locale = getLocale(Astro.url.pathname);
 const labels = t(locale);
 const { yearGroups, totalProjects } = await loadProjectDocumentLibrary();
-
-const dueDiligenceDocs = [
-  {
-    title: "Fiche Sponsor Corporate",
-    desc: "Résumé d'une page pour RH, CSR, conseils d'église et validations internes.",
-    link: "/docs/diligence/ada-corporate-sponsor-one-pager.pdf",
-    external: true,
-    meta: "PDF · 1 page · anglais",
-    icon: "📄",
-  },
-  {
-    title: "Dossier de Parrainage",
-    desc: "Niveaux de parrainage, attentes de rapport, modes de paiement et note fiscale.",
-    link: "/docs/diligence/ada-sponsor-readiness-packet.pdf",
-    external: true,
-    meta: "PDF · aperçu sponsor",
-    icon: "🤝",
-  },
-  {
-    title: "Certificat d'Enregistrement",
-    desc: "Certificat officiel d'enregistrement ONG au Cameroun pour les dossiers sponsor.",
-    link: "/docs/diligence/ada-registration-certificate.pdf",
-    external: true,
-    meta: "PDF · document légal",
-    icon: "📜",
-  },
-  {
-    title: "Aperçu de Gouvernance",
-    desc: "Structure du conseil, supervision, autorité financière et revue documentaire.",
-    link: "/docs/diligence/ada-governance-overview.pdf",
-    external: true,
-    meta: "PDF · gouvernance",
-    icon: "👥",
-  },
-  {
-    title: "Politique de Gestion Financière",
-    desc: "Contrôles internes, approbations, achats, caisse et standards de rapport.",
-    link: "/docs/diligence/ada-financial-management-policy.pdf",
-    external: true,
-    meta: "PDF · politique",
-    icon: "📑",
-  },
-  {
-    title: "Résumé Financier Récent",
-    desc: "Totaux 2024, modèle d’allocation et notes financières pour sponsors.",
-    link: "/docs/diligence/ada-financial-summary-2024.pdf",
-    external: true,
-    meta: "PDF · résumé 2024",
-    icon: "📑",
-  },
-  {
-    title: "Politique de Protection",
-    desc: "Protection de l'enfance, consentement, réponse aux incidents et sécurité.",
-    link: "/docs/diligence/ada-safeguarding-policy.pdf",
-    external: true,
-    meta: "PDF · politique",
-    icon: "🛡️",
-  },
-  {
-    title: "Anti-Fraude et Intégrité des Dons",
-    desc: "Conflits d'intérêt, dons restreints, anti-fraude et mécanismes de signalement.",
-    link: "/docs/diligence/ada-anti-fraud-gift-integrity-summary.pdf",
-    external: true,
-    meta: "PDF · résumé politique",
-    icon: "✓",
-  },
-  {
-    title: "Modèle de Budget Programme",
-    desc: "Modèle transférable montrant les catégories budgétaires utilisées par ADA.",
-    link: "/docs/diligence/ada-program-budget-template.pdf",
-    external: true,
-    meta: "PDF · modèle",
-    icon: "▦",
-  },
-  {
-    title: "Tableau d'Impact",
-    desc: "Indicateurs publics avec méthode de mesure, fréquence et sources.",
-    link: "/docs/diligence/ada-impact-scorecard.pdf",
-    external: true,
-    meta: "PDF · Mai 2026",
-    icon: "↗",
-  },
-  {
-    title: "Dossier Dignité Filles Bamenda",
-    desc: "TOR, budget et modèle de rapport pour la sortie filles du 27 juin à Bamenda.",
-    link: "/docs/diligence/ada-bamenda-girls-dignity-outreach.pdf",
-    external: true,
-    meta: "PDF · Juin 2026",
-    icon: "🪣",
-  },
-  {
-    title: "Ajustements Budgétaires Publics",
-    desc: "Feuille de budget sponsor montrant les montants d'archive, les cibles publiques et les ajustements.",
-    link: "/docs/ada-public-budget-adjustments.xlsx",
-    external: true,
-    meta: "XLSX · feuille de calcul",
-    icon: "▦",
-  },
-  {
-    title: "PDF des Ajustements Budgétaires",
-    desc: "Résumé PDF soigné et prêt pour les investisseurs du tableau budgétaire public.",
-    link: "/docs/ada-public-budget-adjustments.pdf",
-    external: true,
-    meta: "PDF · présentation",
-    icon: "📄",
-  },
-];
+const dueDiligenceDocs = diligenceDocsFor(locale);
 
 const libraryLabels = {
   annualReports: labels.resources.annualReports,
   projectDocs: labels.resources.projectDocs,
   projectDocsIntro: labels.resources.projectDocsIntro,
+  projectDocsIntroOne: labels.resources.projectDocsIntroOne,
   funderDocs: labels.resources.funderDocs,
   funderDocsDesc: labels.resources.funderDocsDesc,
   tor: labels.resources.tor,
@@ -129,6 +25,8 @@ const libraryLabels = {
   openLink: labels.resources.openLink,
   annualReportForYear: labels.resources.annualReportForYear,
   projectsInYear: labels.resources.projectsInYear,
+  projectInYear: labels.resources.projectInYear,
+  diligenceGroups: labels.resources.diligenceGroups,
   demographics: labels.resources.demographics,
 };
 ---
