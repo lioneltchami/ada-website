@@ -6,6 +6,7 @@ import {
   rejectInvalidOrigin,
   rejectOversizedBody,
 } from "../../lib/api-requests";
+import { RATE_LIMITS, rejectIfRateLimited } from "../../lib/rate-limit";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
 
@@ -21,6 +22,13 @@ const MetricSchema = z.object({
 export const POST: APIRoute = async ({ request, url }) => {
   const originError = rejectInvalidOrigin(request, url.href, PRIMARY_ORIGIN);
   if (originError) return originError;
+
+  const rateError = rejectIfRateLimited(
+    request,
+    "performance-metrics",
+    RATE_LIMITS.performanceMetrics,
+  );
+  if (rateError) return rateError;
 
   const sizeError = rejectOversizedBody(request, 2 * 1024);
   if (sizeError) return sizeError;

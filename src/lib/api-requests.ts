@@ -2,20 +2,38 @@ import { isAllowedOrigin } from "./origin";
 
 export const DEFAULT_MAX_BODY_SIZE = 10 * 1024;
 
-export function jsonResponse(body: unknown, status = 200): Response {
+export function jsonResponse(
+  body: unknown,
+  status = 200,
+  extraHeaders?: HeadersInit,
+): Response {
+  const headers = new Headers({ "Content-Type": "application/json" });
+  if (extraHeaders) {
+    new Headers(extraHeaders).forEach((value, key) => {
+      headers.set(key, value);
+    });
+  }
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers,
   });
 }
 
-export function rejectInvalidOrigin(request: Request, requestUrl: string, configuredOrigin?: string): Response | null {
+export function rejectInvalidOrigin(
+  request: Request,
+  requestUrl: string,
+  configuredOrigin?: string,
+): Response | null {
   const origin = request.headers.get("origin");
-  if (isAllowedOrigin(origin, new URL(requestUrl).origin, configuredOrigin)) return null;
+  if (isAllowedOrigin(origin, new URL(requestUrl).origin, configuredOrigin))
+    return null;
   return jsonResponse({ error: "Forbidden" }, 403);
 }
 
-export function rejectOversizedBody(request: Request, maxBodySize = DEFAULT_MAX_BODY_SIZE): Response | null {
+export function rejectOversizedBody(
+  request: Request,
+  maxBodySize = DEFAULT_MAX_BODY_SIZE,
+): Response | null {
   const contentLength = Number(request.headers.get("content-length") || 0);
   if (contentLength <= maxBodySize) return null;
   return jsonResponse({ error: "Payload too large" }, 413);

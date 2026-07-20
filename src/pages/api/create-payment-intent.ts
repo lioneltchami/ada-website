@@ -7,6 +7,7 @@ import {
   rejectOversizedBody,
 } from "../../lib/api-requests";
 import { paymentIntentIdempotencyKey } from "../../lib/checkout-idempotency";
+import { RATE_LIMITS, rejectIfRateLimited } from "../../lib/rate-limit";
 import { getStripe } from "../../lib/stripe";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
@@ -34,6 +35,13 @@ const PaymentSchema = z.object({
 export const POST: APIRoute = async ({ request, url }) => {
   const originError = rejectInvalidOrigin(request, url.href, PRIMARY_ORIGIN);
   if (originError) return originError;
+
+  const rateError = rejectIfRateLimited(
+    request,
+    "create-payment-intent",
+    RATE_LIMITS.paymentIntent,
+  );
+  if (rateError) return rateError;
 
   const sizeError = rejectOversizedBody(request);
   if (sizeError) return sizeError;
