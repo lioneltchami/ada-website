@@ -1,0 +1,438 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import PageHero from "../layout/PageHero.astro";
+import Section from "../layout/Section.astro";
+import { localePath, type Locale } from "../../i18n";
+import { partnersCopy } from "../../data/partners-copy";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = partnersCopy[locale];
+const email = "info@apotidev.org";
+const [dueDiligenceBefore, dueDiligenceAfter = ""] =
+  copy.funders.dueDiligence.contactPrompt.split("{email}");
+---
+
+<PageLayout title={copy.meta.title} description={copy.meta.description}>
+  <PageHero
+    title={copy.hero.title}
+    subtitle={copy.hero.subtitle}
+    badge={copy.hero.badge}
+    compact
+  />
+
+  <Section background="white" padding="sm">
+    <div
+      class="max-w-4xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4 rounded-xl border border-primary-100 bg-primary-50 p-5"
+    >
+      <div>
+        <h2 class="text-lg font-heading font-bold text-gray-900">
+          {copy.sponsorBanner.title}
+        </h2>
+        <p class="mt-1 text-sm text-gray-700">
+          {copy.sponsorBanner.body}
+        </p>
+      </div>
+      <a
+        href={localePath("/sponsor", locale)}
+        class="inline-flex justify-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors"
+      >
+        {copy.sponsorBanner.cta}
+      </a>
+    </div>
+  </Section>
+
+  <!-- 2026 Funding Priorities -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {copy.priorities.title}
+      </h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          copy.priorities.items.map((item) => (
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col h-full">
+              <div class="text-4xl mb-4" aria-hidden="true">
+                {item.emoji}
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+              <p class="text-gray-600 text-sm flex-grow">{item.desc}</p>
+              <div class="mt-6 pt-4 border-t border-gray-100">
+                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
+                  {copy.priorities.fundingGoalLabel}
+                </p>
+                <p class="text-2xl font-bold text-primary-600">{item.amount}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- Partner Types -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <div
+        class="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+      >
+        <div>
+          <h2 class="text-2xl font-heading font-bold text-gray-900">
+            {copy.partnerTypes.title}
+          </h2>
+          <p class="mt-2 text-gray-600">
+            {copy.partnerTypes.intro}
+          </p>
+        </div>
+        <a
+          href={`${localePath("/contact", locale)}?subject=Partnership+Inquiry`}
+          class="inline-flex items-center justify-center px-5 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm"
+        >
+          {copy.partnerTypes.inquiryCta}
+        </a>
+      </div>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+        {
+          copy.partnerTypes.items.map((partner) => (
+            <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
+              <h3 class="text-base font-semibold text-gray-900">
+                {partner.title}
+              </h3>
+              <div class="mt-3 space-y-2 text-xs text-gray-700 leading-relaxed">
+                <p>
+                  <strong>{copy.partnerTypes.bestFit}</strong> {partner.fit}
+                </p>
+                <p>
+                  <strong>{copy.partnerTypes.waysToHelp}</strong> {partner.ask}
+                </p>
+                <p>
+                  <strong>{copy.partnerTypes.whatYouReceive}</strong>{" "}
+                  {partner.proof}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- Why Partner -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {copy.whyPartner.title}
+      </h2>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          copy.whyPartner.items.map((item) => (
+            <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
+              <span class="text-2xl" aria-hidden="true">
+                {item.icon}
+              </span>
+              <h3 class="mt-2 text-sm font-semibold text-gray-900">
+                {item.title}
+              </h3>
+              <p class="mt-1 text-xs text-gray-600 leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- Gender Lens -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {copy.gender.title}
+      </h2>
+      <p class="mt-2 text-gray-600">
+        {copy.gender.intro}
+      </p>
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        {
+          copy.gender.stats.map((stat) => (
+            <div class="p-4 bg-primary-50 rounded-xl">
+              <p class="text-2xl font-bold text-primary-700">{stat.value}</p>
+              <p class="text-xs text-gray-600">{stat.label}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="mt-6 p-4 bg-accent-50 rounded-xl border border-accent-100">
+        <p class="text-sm text-gray-700">
+          <strong>{copy.gender.benefitsTitle}</strong>
+        </p>
+        <ul class="mt-2 space-y-1 text-xs text-gray-600">
+          {
+            copy.gender.benefits.map((benefit) => (
+              <li>
+                • <strong>{benefit.label}</strong> {benefit.text}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Alignment -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {copy.alignment.title}
+      </h2>
+      <div class="mt-6 space-y-3">
+        {
+          copy.alignment.items.map((a) => (
+            <div class="p-4 bg-white rounded-lg border border-gray-200">
+              <p class="text-sm font-semibold text-gray-900">{a.framework}</p>
+              <p class="mt-1 text-xs text-gray-600">{a.alignment}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- For International Funders -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {copy.funders.title}
+      </h2>
+      <p class="mt-2 text-gray-600">
+        {copy.funders.intro}
+      </p>
+
+      <div class="mt-8 space-y-6">
+        {
+          copy.funders.cards.map((card) => (
+            <div class="p-6 bg-gray-50 rounded-xl border border-gray-200">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-xl" aria-hidden="true">
+                  {card.flag}
+                </span>
+                <h3 class="text-lg font-semibold text-gray-900">{card.title}</h3>
+              </div>
+              <div class="space-y-2 text-sm text-gray-700">
+                {card.points.map((point) => (
+                  <p>
+                    <strong>{point.label}</strong> {point.text}
+                  </p>
+                ))}
+              </div>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {card.tags.map((tag) => (
+                  <span class="px-2 py-0.5 text-[10px] font-medium bg-primary-50 text-primary-700 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Due Diligence -->
+      <div class="mt-8 p-5 bg-primary-50 rounded-xl border border-primary-100">
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-6"
+        >
+          <div class="flex-grow">
+            <h3 class="text-sm font-semibold text-gray-900">
+              {copy.funders.dueDiligence.title}
+            </h3>
+            <div
+              class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700"
+            >
+              {
+                copy.funders.dueDiligence.items.map((item) => (
+                  <p>
+                    <span aria-hidden="true">✓</span> {item}
+                  </p>
+                ))
+              }
+            </div>
+            <p class="mt-3 text-xs text-primary-700">
+              {dueDiligenceBefore}<a href={`mailto:${email}`} class="underline"
+                >{email}</a
+              >{dueDiligenceAfter}
+            </p>
+          </div>
+          <div class="flex-shrink-0 flex flex-col gap-3">
+            <a
+              href={`${localePath("/contact", locale)}?subject=Due+Diligence+Package+Request`}
+              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-colors shadow-sm"
+            >
+              {copy.funders.dueDiligence.requestCta}
+            </a>
+            <a
+              href={localePath("/resources", locale)}
+              class="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-primary-700 bg-white rounded-xl hover:bg-primary-100 transition-colors shadow-sm"
+            >
+              {copy.funders.dueDiligence.resourcesCta}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- What We Offer Partners -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {copy.offer.title}
+      </h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {
+          copy.offer.items.map((item) => (
+            <div class="flex items-start gap-2">
+              <span class="text-primary-600 mt-0.5" aria-hidden="true">
+                ✓
+              </span>
+              <p class="text-sm text-gray-700">{item}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- Partnership Tiers -->
+  <Section background="gray" padding="lg">
+    <div class="max-w-4xl mx-auto">
+      <div
+        class="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+      >
+        <div>
+          <h2 class="text-2xl font-heading font-bold text-gray-900">
+            {copy.tiers.title}
+          </h2>
+          <p class="mt-2 text-gray-600">
+            {copy.tiers.intro}
+          </p>
+        </div>
+        <a
+          href={`${localePath("/contact", locale)}?subject=Partnership+Opportunity+Discussion`}
+          class="inline-flex items-center justify-center px-5 py-3 text-sm font-bold text-primary-700 bg-white rounded-xl hover:bg-primary-50 transition-colors shadow-sm"
+        >
+          {copy.tiers.discussCta}
+        </a>
+      </div>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          copy.tiers.items.map((tier) => (
+            <div
+              class:list={[
+                "p-6 bg-white rounded-xl text-center",
+                tier.featured
+                  ? "border-2 border-primary-500 shadow-sm"
+                  : "border border-gray-200",
+              ]}
+            >
+              <h3 class="text-lg font-semibold text-gray-900">{tier.title}</h3>
+              <p class="mt-1 text-2xl font-bold text-primary-700">
+                {tier.amount}
+              </p>
+              <p class="mt-3 text-xs text-gray-600">{tier.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- Track Record -->
+  <Section background="white" padding="md">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {copy.trackRecord.title}
+      </h2>
+      <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        {
+          copy.trackRecord.stats.map((stat) => (
+            <div>
+              <p class="text-2xl font-bold text-primary-700">{stat.value}</p>
+              <p class="text-xs text-gray-600">{stat.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- Partnership Capacity -->
+  <Section background="gray" padding="md">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {copy.capacity.title}
+      </h2>
+      <p class="mt-2 text-gray-600">
+        {copy.capacity.intro}
+      </p>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {
+          copy.capacity.items.map((item) => (
+            <div class="flex items-start gap-3 p-3 bg-white rounded-lg">
+              <span
+                class="text-primary-600 mt-0.5 font-bold"
+                aria-hidden="true"
+              >
+                ✓
+              </span>
+              <div>
+                <p class="text-sm font-semibold text-gray-900">{item.title}</p>
+                <p class="mt-0.5 text-xs text-gray-600">{item.desc}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <!-- CTA -->
+  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-heading font-bold">{copy.cta.title}</h2>
+      <p class="mt-2 text-white/80 text-sm">
+        {copy.cta.body}
+      </p>
+      <div
+        class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3"
+      >
+        <a
+          href={`${localePath("/contact", locale)}?subject=Partnership+Inquiry`}
+          class="px-6 py-3 text-sm font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors"
+          >{copy.cta.inquiry}</a
+        >
+        <a
+          href={localePath("/sponsor", locale)}
+          class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          >{copy.cta.sponsor}</a
+        >
+        <a
+          href={`${localePath("/contact", locale)}?subject=Due+Diligence+Package+Request`}
+          class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          >{copy.cta.dueDiligence}</a
+        >
+        <a
+          href={localePath("/transparency", locale)}
+          class="px-6 py-3 text-sm font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          >{copy.cta.transparency}</a
+        >
+      </div>
+      <p class="mt-4 text-xs text-white/50">
+        {copy.cta.contactLine}
+      </p>
+    </div>
+  </Section>
+</PageLayout>
