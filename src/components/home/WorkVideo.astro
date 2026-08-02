@@ -1,0 +1,52 @@
+---
+import Section from "../layout/Section.astro";
+import type { Locale } from "../../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "en" } = Astro.props;
+const isFr = locale === "fr";
+
+const copy = isFr
+  ? {
+      title: "Voyez notre travail en action",
+      body: "Découvrez comment les programmes ADA transforment des vies au Cameroun.",
+      caption:
+        "Programme de soutien aux veuves — distribution de nourriture et d'aide financière à Buea, 2022",
+      aria: "Vidéo du programme ADA montrant le travail sur le terrain",
+    }
+  : {
+      title: "See our work in action",
+      body: "Watch how ADA programs support widows, children, and families in Cameroon.",
+      caption:
+        "Widow Support Program — delivering food and financial aid in Buea, 2022",
+      aria: "ADA program video showing field work in Cameroon",
+    };
+---
+
+<Section background="white" padding="lg">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">
+      {copy.title}
+    </h2>
+    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">{copy.body}</p>
+    <div
+      class="mt-8 rounded-2xl overflow-hidden border border-gray-200 shadow-sm"
+    >
+      <video
+        controls
+        preload="metadata"
+        class="w-full aspect-video bg-gray-900"
+        aria-label={copy.aria}
+      >
+        <source
+          src="https://cdn.sanity.io/files/rj2m21gk/production/2595057db9e9f64f1e8e8833e720a4ce6b2feadd.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+    <p class="mt-3 text-sm text-gray-500">{copy.caption}</p>
+  </div>
+</Section>

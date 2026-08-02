@@ -2,12 +2,16 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
 import CurrentWork from "../components/home/CurrentWork.astro";
+import PhotoMosaic from "../components/home/PhotoMosaic.astro";
+import WorkVideo from "../components/home/WorkVideo.astro";
+import FeaturedStory from "../components/home/FeaturedStory.astro";
 import NewsletterSignup from "../components/islands/NewsletterSignup";
 import {
   getImpactMetrics,
   getHomePage,
   getTestimonials,
   getProjects,
+  getBlogPostBySlug,
   type SanityImpactMetric,
   type SanityHomePage,
   type SanityProject,
@@ -16,16 +20,24 @@ import {
 import { REGISTRATION_NUMBER } from "../data/organization";
 import { homepageStatsFallback } from "../data/impact";
 import { loadSpotlightProjects } from "../lib/spotlight-projects";
+import { loadGalleryMosaic } from "../lib/gallery";
 
 let heroImageUrl = "";
 try {
   const projects = await getProjects();
   if (projects?.length) {
-    const withImage = projects.find(
-      (p: SanityProject) => p.mainImage?.asset?._ref,
-    );
-    if (withImage)
-      heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
+    const preferred =
+      projects.find(
+        (p: SanityProject) =>
+          p.slug?.current === "widow-support" && p.mainImage?.asset?._ref,
+      ) ||
+      projects.find(
+        (p: SanityProject) =>
+          p.slug?.current === "education-orphans" && p.mainImage?.asset?._ref,
+      ) ||
+      projects.find((p: SanityProject) => p.mainImage?.asset?._ref);
+    if (preferred?.mainImage?.asset?._ref)
+      heroImageUrl = sanityImageUrl(preferred.mainImage.asset._ref, 1200);
   }
 } catch {}
 
@@ -133,6 +145,31 @@ try {
 } catch {}
 
 const spotlightProjects = await loadSpotlightProjects("en", 4);
+const mosaicPhotos = await loadGalleryMosaic(8);
+
+let featuredStory = {
+  title:
+    "Mama Patience: From Selling Her Last Cooking Pots to Running a Business",
+  excerpt:
+    "When her husband died, Patience lost everything. She was selling her cooking pots one by one to feed her four children. Today, thanks to a $400 investment over 12 months, she runs a food business at the Bamenda market.",
+  href: "/stories/why-we-focus-on-widows",
+  imageUrl: "",
+  imageAlt: "",
+};
+try {
+  const story = await getBlogPostBySlug("why-we-focus-on-widows");
+  if (story) {
+    featuredStory = {
+      title: story.title || featuredStory.title,
+      excerpt: story.excerpt || featuredStory.excerpt,
+      href: "/stories/why-we-focus-on-widows",
+      imageUrl: story.personPhoto?.asset?._ref
+        ? sanityImageUrl(story.personPhoto.asset._ref, 800)
+        : "",
+      imageAlt: story.personPhoto?.alt || story.title,
+    };
+  }
+} catch {}
 
 const programPillars = [
   {
@@ -323,6 +360,8 @@ const actionPaths = [
 
   <!-- Live campaigns — first content below hero so visitors see current work without deep scroll -->
   <CurrentWork locale="en" projects={spotlightProjects} />
+  <PhotoMosaic locale="en" photos={mosaicPhotos} />
+  <WorkVideo locale="en" />
 
   <!-- Impact Stats -->
   <Section background="white" padding="md">
@@ -586,68 +625,14 @@ const actionPaths = [
     </div>
   </Section>
 
-  <!-- Featured Story -->
-  {
-    testimonials.length > 0 && (
-      <Section background="white" padding="md">
-        <div class="max-w-3xl mx-auto">
-          <a
-            href="/stories/mama-rose-grandchildren"
-            class="group block p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100 hover:shadow-lg transition-all duration-300"
-          >
-            <div class="flex items-center gap-2 mb-2">
-              <span class="px-2 py-0.5 text-[10px] font-semibold uppercase bg-purple-100 text-purple-700 rounded-full">
-                Featured Story
-              </span>
-            </div>
-            <h3 class="text-xl font-heading font-bold text-gray-900 group-hover:text-primary-700 transition-colors">
-              Mama Patience: From Selling Her Last Cooking Pots to Running a
-              Business
-            </h3>
-            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
-              When her husband died, Patience lost everything. She was selling
-              her cooking pots one by one to feed her four children. Today,
-              thanks to a $400 investment over 12 months, she runs a food
-              business at the Bamenda market.
-            </p>
-            <span class="mt-3 inline-block text-sm font-medium text-primary-600">
-              Read her full story →
-            </span>
-          </a>
-        </div>
-      </Section>
-    )
-  }
-
-  <!-- Video Section -->
-  <Section background="gray" padding="lg">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">
-        See Our Work in Action
-      </h2>
-      <p class="mt-4 text-gray-600">
-        Watch how ADA programs are transforming lives in Cameroon.
-      </p>
-      <div class="mt-8 rounded-2xl overflow-hidden shadow-lg">
-        <video
-          controls
-          preload="metadata"
-          class="w-full aspect-video bg-gray-900"
-          aria-label="ADA Back to School program video showing children receiving school supplies"
-        >
-          <source
-            src="https://cdn.sanity.io/files/rj2m21gk/production/2595057db9e9f64f1e8e8833e720a4ce6b2feadd.mp4"
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      <p class="mt-3 text-sm text-gray-500">
-        Widow Support Program — Delivering food and financial aid to widows in
-        Buea, 2022
-      </p>
-    </div>
-  </Section>
+  <FeaturedStory
+    locale="en"
+    title={featuredStory.title}
+    excerpt={featuredStory.excerpt}
+    href={featuredStory.href}
+    imageUrl={featuredStory.imageUrl}
+    imageAlt={featuredStory.imageAlt}
+  />
 
   <!-- Testimonials Section -->
   <Section background="white" padding="lg">

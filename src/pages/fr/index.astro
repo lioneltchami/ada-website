@@ -2,11 +2,15 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
 import CurrentWork from "../../components/home/CurrentWork.astro";
+import PhotoMosaic from "../../components/home/PhotoMosaic.astro";
+import WorkVideo from "../../components/home/WorkVideo.astro";
+import FeaturedStory from "../../components/home/FeaturedStory.astro";
 import NewsletterSignup from "../../components/islands/NewsletterSignup";
 import {
   getImpactMetrics,
   getProjects,
   getTestimonials,
+  getBlogPostBySlug,
   sanityImageUrl,
   type SanityImpactMetric,
   type SanityProject,
@@ -14,6 +18,7 @@ import {
 import { REGISTRATION_NUMBER } from "../../data/organization";
 import { homepageStatsFallback } from "../../data/impact";
 import { loadSpotlightProjects } from "../../lib/spotlight-projects";
+import { loadGalleryMosaic } from "../../lib/gallery";
 import { t } from "../../i18n";
 
 const i18n = t("fr");
@@ -22,11 +27,18 @@ let heroImageUrl = "";
 try {
   const projects = await getProjects();
   if (projects?.length) {
-    const withImage = projects.find(
-      (p: SanityProject) => p.mainImage?.asset?._ref,
-    );
-    if (withImage)
-      heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
+    const preferred =
+      projects.find(
+        (p: SanityProject) =>
+          p.slug?.current === "widow-support" && p.mainImage?.asset?._ref,
+      ) ||
+      projects.find(
+        (p: SanityProject) =>
+          p.slug?.current === "education-orphans" && p.mainImage?.asset?._ref,
+      ) ||
+      projects.find((p: SanityProject) => p.mainImage?.asset?._ref);
+    if (preferred?.mainImage?.asset?._ref)
+      heroImageUrl = sanityImageUrl(preferred.mainImage.asset._ref, 1200);
   }
 } catch {}
 
@@ -114,6 +126,32 @@ const missionCards = [
 ];
 
 const spotlightProjects = await loadSpotlightProjects("fr", 4);
+const mosaicPhotos = await loadGalleryMosaic(8);
+
+let featuredStory = {
+  title:
+    "Mama Patience : De la vente de ses dernières marmites à la gestion d'un commerce",
+  excerpt:
+    "Quand son mari est décédé, Patience a tout perdu. Elle vendait ses marmites une par une pour nourrir ses quatre enfants. Aujourd'hui, grâce à un investissement de 400$ sur 12 mois, elle gère un commerce alimentaire au marché de Bamenda.",
+  href: "/fr/stories/why-we-focus-on-widows",
+  imageUrl: "",
+  imageAlt: "",
+};
+try {
+  const story = await getBlogPostBySlug("why-we-focus-on-widows");
+  if (story) {
+    featuredStory = {
+      title: (story as { titleFr?: string }).titleFr || featuredStory.title,
+      excerpt:
+        (story as { excerptFr?: string }).excerptFr || featuredStory.excerpt,
+      href: "/fr/stories/why-we-focus-on-widows",
+      imageUrl: story.personPhoto?.asset?._ref
+        ? sanityImageUrl(story.personPhoto.asset._ref, 800)
+        : "",
+      imageAlt: story.personPhoto?.alt || story.title,
+    };
+  }
+} catch {}
 
 const programPillars = [
   {
@@ -299,6 +337,8 @@ const actionPaths = [
 
   <!-- Campagnes en cours — juste sous le hero pour visibilité sans scroll profond -->
   <CurrentWork locale="fr" projects={spotlightProjects} />
+  <PhotoMosaic locale="fr" photos={mosaicPhotos} />
+  <WorkVideo locale="fr" />
 
   <!-- Stats -->
   <Section background="white" padding="md">
@@ -560,68 +600,14 @@ const actionPaths = [
     </div>
   </Section>
 
-  <!-- Featured Story -->
-  {
-    testimonials.length > 0 && (
-      <Section background="white" padding="md">
-        <div class="max-w-3xl mx-auto">
-          <a
-            href="/fr/stories/mama-rose-grandchildren"
-            class="group block p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100 hover:shadow-lg transition-all duration-300"
-          >
-            <div class="flex items-center gap-2 mb-2">
-              <span class="px-2 py-0.5 text-[10px] font-semibold uppercase bg-purple-100 text-purple-700 rounded-full">
-                Histoire à la Une
-              </span>
-            </div>
-            <h3 class="text-xl font-heading font-bold text-gray-900 group-hover:text-primary-700 transition-colors">
-              Mama Patience : De la vente de ses dernières marmites à la gestion
-              d'un commerce
-            </h3>
-            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
-              Quand son mari est décédé, Patience a tout perdu. Elle vendait ses
-              marmites une par une pour nourrir ses quatre enfants. Aujourd'hui,
-              grâce à un investissement de 400$ sur 12 mois, elle gère un
-              commerce alimentaire au marché de Bamenda.
-            </p>
-            <span class="mt-3 inline-block text-sm font-medium text-primary-600">
-              Lire son histoire complète →
-            </span>
-          </a>
-        </div>
-      </Section>
-    )
-  }
-
-  <!-- Video -->
-  <Section background="gray" padding="lg">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">
-        Voyez Notre Travail en Action
-      </h2>
-      <p class="mt-4 text-gray-600">
-        Découvrez comment les programmes ADA transforment des vies au Cameroun.
-      </p>
-      <div class="mt-8 rounded-2xl overflow-hidden shadow-lg">
-        <video
-          controls
-          preload="metadata"
-          class="w-full aspect-video bg-gray-900"
-          aria-label="Vidéo du programme ADA montrant des enfants recevant des fournitures scolaires"
-        >
-          <source
-            src="https://cdn.sanity.io/files/rj2m21gk/production/2595057db9e9f64f1e8e8833e720a4ce6b2feadd.mp4"
-            type="video/mp4"
-          />
-          Votre navigateur ne prend pas en charge la vidéo.
-        </video>
-      </div>
-      <p class="mt-3 text-sm text-gray-500">
-        Programme de Soutien aux Veuves — Distribution de nourriture et d'aide
-        financière aux veuves à Buea, 2022
-      </p>
-    </div>
-  </Section>
+  <FeaturedStory
+    locale="fr"
+    title={featuredStory.title}
+    excerpt={featuredStory.excerpt}
+    href={featuredStory.href}
+    imageUrl={featuredStory.imageUrl}
+    imageAlt={featuredStory.imageAlt}
+  />
 
   <!-- Testimonials -->
   <Section background="white" padding="lg">
