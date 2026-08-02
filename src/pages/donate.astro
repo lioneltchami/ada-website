@@ -10,7 +10,14 @@ import {
   type SanityDonationTier,
   type SanityProject,
 } from "../lib/sanity";
-import { getProjectLifecycleState } from "../lib/project-lifecycle";
+import {
+  getProjectLifecycleState,
+  isProjectFundable,
+} from "../lib/project-lifecycle";
+import {
+  mergeProjectLists,
+  normalizeFallbackProjects,
+} from "../lib/project-fallbacks";
 
 let contactEmail = "info@apotidev.org";
 try {
@@ -141,16 +148,24 @@ let impactExamples = [
   { amount: "$1,000", impact: "Community clean-up initiative" },
 ];
 
-let projectOptions: { slug: string; title: string }[] = [];
+let projectOptions: { slug: string; title: string }[] = normalizeFallbackProjects()
+  .filter((p) => isProjectFundable(p.status))
+  .map((p) => ({ slug: p.slug, title: p.title }));
 let heroImageUrl = "";
 try {
   const projects = await getProjects();
   if (projects?.length) {
-    projectOptions = projects
-      .filter(
-        (p: SanityProject) => getProjectLifecycleState(p).status === "active",
-      )
-      .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+    projectOptions = mergeProjectLists(
+      projects
+        .filter((p: SanityProject) =>
+          isProjectFundable(getProjectLifecycleState(p).status),
+        )
+        .map((p: SanityProject) => ({
+          slug: p.slug.current,
+          title: p.title,
+        })),
+      projectOptions,
+    );
     const withImage = projects.find(
       (p: SanityProject) =>
         p.mainImage?.asset?._ref && p.slug?.current === "widow-support",

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   currentIsoDate,
   getProjectLifecycleState,
+  isProjectFundable,
   projectStatusLabel,
 } from "../src/lib/project-lifecycle";
 
@@ -121,10 +122,70 @@ describe("project lifecycle", () => {
     });
   });
 
+  it("marks active projects as upcoming before startDate", () => {
+    expect(
+      getProjectLifecycleState(
+        {
+          status: "active",
+          startDate: "2026-08-15",
+          endDate: "2026-08-18",
+        },
+        { today: "2026-07-19" },
+      ),
+    ).toMatchObject({
+      status: "upcoming",
+      isUpcoming: true,
+      hasStarted: false,
+      hasEnded: false,
+    });
+
+    expect(
+      getProjectLifecycleState(
+        {
+          status: "active",
+          startDate: "2026-08-15",
+          endDate: "2026-08-18",
+        },
+        { today: "2026-08-15" },
+      ),
+    ).toMatchObject({
+      status: "active",
+      isUpcoming: false,
+      hasStarted: true,
+    });
+  });
+
+  it("auto-archives after the 3-day outreach window ends", () => {
+    expect(
+      getProjectLifecycleState(
+        {
+          status: "active",
+          startDate: "2026-08-15",
+          endDate: "2026-08-18",
+          archiveAfterDate: "2026-08-18",
+        },
+        { today: "2026-08-19" },
+      ),
+    ).toMatchObject({
+      status: "completed",
+      isAutoCompleted: true,
+      hasEnded: true,
+    });
+  });
+
+  it("treats upcoming campaigns as fundable", () => {
+    expect(isProjectFundable("upcoming")).toBe(true);
+    expect(isProjectFundable("active")).toBe(true);
+    expect(isProjectFundable("completed")).toBe(false);
+    expect(isProjectFundable("paused")).toBe(false);
+  });
+
   it("returns localized status labels", () => {
+    expect(projectStatusLabel("upcoming")).toBe("Upcoming");
     expect(projectStatusLabel("active")).toBe("Active");
     expect(projectStatusLabel("completed")).toBe("Completed");
     expect(projectStatusLabel("paused")).toBe("Paused");
+    expect(projectStatusLabel("upcoming", "fr")).toBe("À venir");
     expect(projectStatusLabel("active", "fr")).toBe("Actif");
     expect(projectStatusLabel("completed", "fr")).toBe("Terminé");
     expect(projectStatusLabel("paused", "fr")).toBe("En pause");

@@ -6,7 +6,10 @@ import {
 } from "../../lib/sanity";
 import { getLocale, t, localePath } from "../../i18n";
 import NewsletterSignup from "../islands/NewsletterSignup";
-import { getProjectLifecycleState } from "../../lib/project-lifecycle";
+import {
+  getProjectLifecycleState,
+  isProjectFundable,
+} from "../../lib/project-lifecycle";
 
 const locale = getLocale(Astro.url.pathname);
 const i18n = t(locale);
@@ -42,7 +45,9 @@ try {
     programs = projects
       .filter(
         (p: SanityProject) =>
-          getProjectLifecycleState(p, { locale }).status === "active",
+          isProjectFundable(
+            getProjectLifecycleState(p, { locale }).status,
+          ),
       )
       .slice(0, 4)
       .map((p: SanityProject) => ({

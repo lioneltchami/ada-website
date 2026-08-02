@@ -5,11 +5,11 @@ import { getProjects, type SanityProject } from "../../../lib/sanity";
 import { resolveProjectCardImage } from "../../../lib/project-images";
 import {
   getProjectLifecycleState,
-  projectStatusLabel,
+  isProjectFundable,
 } from "../../../lib/project-lifecycle";
 import {
   mergeProjectLists,
-  normalizeFallbackArchiveProjects,
+  normalizeFallbackProjects,
 } from "../../../lib/project-fallbacks";
 
 export async function getStaticPaths() {
@@ -37,13 +37,13 @@ export async function getStaticPaths() {
             imageAlt: image.imageAlt,
           };
         }),
-        normalizeFallbackArchiveProjects(),
+        normalizeFallbackProjects({ locale: "fr" }),
       );
     } else {
-      projectData = normalizeFallbackArchiveProjects();
+      projectData = normalizeFallbackProjects({ locale: "fr" });
     }
   } catch {
-    projectData = normalizeFallbackArchiveProjects();
+    projectData = normalizeFallbackProjects({ locale: "fr" });
   }
 
   return projectData.map((project) => ({
@@ -59,6 +59,23 @@ const costPerBeneficiary =
     ? Math.round(project.raised / project.beneficiaries)
     : 0;
 const isCompleted = project.status === "completed";
+const isFundable = isProjectFundable(project.status);
+const statusBadgeClass =
+  project.status === "upcoming"
+    ? "bg-sky-400/20 text-sky-200 border border-sky-400/30"
+    : project.status === "active"
+      ? "bg-green-400/20 text-green-200 border border-green-400/30"
+      : project.status === "completed"
+        ? "bg-gray-400/20 text-gray-200 border border-gray-400/30"
+        : "bg-yellow-400/20 text-yellow-200 border border-yellow-400/30";
+const statusBadgeLabel =
+  project.status === "upcoming"
+    ? "◎ À venir"
+    : project.status === "active"
+      ? "● Actif"
+      : project.status === "completed"
+        ? "✓ Terminé"
+        : "⏸ En pause";
 
 const paragraphs = project.description
   .split(/[.;]\s*(?=[A-Z(])/)
@@ -104,20 +121,10 @@ const paragraphs = project.description
         <span
           class:list={[
             "px-3 py-1 text-xs font-semibold rounded-full",
-            project.status === "active"
-              ? "bg-green-400/20 text-green-200 border border-green-400/30"
-              : project.status === "completed"
-                ? "bg-gray-400/20 text-gray-200 border border-gray-400/30"
-                : "bg-yellow-400/20 text-yellow-200 border border-yellow-400/30",
+            statusBadgeClass,
           ]}
         >
-          {
-            project.status === "active"
-              ? "● Actif"
-              : project.status === "completed"
-                ? "✓ Terminé"
-                : "⏸ En pause"
-          }
+          {statusBadgeLabel}
         </span>
         <span class="text-sm text-white/70">📍 {project.location}</span>
         <span class="text-sm text-white/70"
@@ -300,32 +307,34 @@ const paragraphs = project.description
               {
                 isCompleted
                   ? "Collecte clôturée pour ce projet."
-                  : `$${(project.goal - project.raised).toLocaleString()} encore nécessaires`
+                  : project.status === "upcoming"
+                    ? `Fenêtre d'action bientôt · objectif $${(project.goal - project.raised).toLocaleString()}`
+                    : `$${(project.goal - project.raised).toLocaleString()} encore nécessaires`
               }
             </p>
           </div>
 
           <a
-            href={isCompleted
-              ? project.archiveHref || "/fr/projects/archive"
-              : `/fr/donate?project=${project.slug}`}
+            href={isFundable
+              ? `/fr/donate?project=${project.slug}`
+              : project.archiveHref || "/fr/projects/archive"}
             class="mt-6 block w-full text-center px-4 py-3.5 text-base font-semibold text-white bg-secondary-500 rounded-xl hover:bg-secondary-600 transition-colors shadow-md shadow-secondary-500/20"
           >
             {
-              isCompleted
-                ? project.archiveReady
+              isFundable
+                ? "Soutenir ce Projet"
+                : project.archiveReady
                   ? "Voir le rapport final"
                   : "Voir les archives"
-                : "Soutenir ce Projet"
             }
           </a>
 
           <div class="mt-4 text-center">
             <p class="text-xs text-gray-500">
               {
-                isCompleted
-                  ? "Ce projet n'accepte plus de dons dédiés."
-                  : "🔒 Sécurisé · 80% aux programmes · Reçu par email"
+                isFundable
+                  ? "🔒 Sécurisé · 80% aux programmes · Reçu par email"
+                  : "Ce projet n'accepte plus de dons dédiés."
               }
             </p>
           </div>
