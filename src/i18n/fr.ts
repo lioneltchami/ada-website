@@ -3,6 +3,7 @@ export default {
     about: "À Propos",
     projects: "Projets",
     stories: "Témoignages",
+    gallery: "Galerie",
     getInvolved: "S'Impliquer",
     contact: "Contact",
     resources: "Ressources",

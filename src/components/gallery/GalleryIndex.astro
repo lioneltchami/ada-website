@@ -1,0 +1,176 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import PageHero from "../layout/PageHero.astro";
+import Section from "../layout/Section.astro";
+import { sanityImageUrl } from "../../lib/sanity";
+import { createClient } from "@sanity/client";
+import type { Locale } from "../../i18n";
+import { localePath } from "../../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "en" } = Astro.props;
+const isFr = locale === "fr";
+
+let galleryData: {
+  _id: string;
+  title: string;
+  category?: string;
+  year?: number;
+  reportUrl?: string;
+  photo?: { asset?: { _ref?: string }; alt?: string };
+  projectTitle?: string;
+  projectSlug?: string;
+}[] = [];
+
+try {
+  const projectId = import.meta.env.SANITY_PROJECT_ID || "rj2m21gk";
+  const dataset = import.meta.env.SANITY_DATASET || "production";
+  const client = createClient({
+    projectId,
+    dataset,
+    apiVersion: "2026-03-28",
+    useCdn: true,
+  });
+  galleryData = await client.fetch(`
+    *[_type == "galleryImage" && defined(photo.asset._ref)] | order(year desc, dateTaken desc) {
+      _id, title, category, year, reportUrl,
+      photo { asset { _ref }, alt },
+      "projectTitle": project->title,
+      "projectSlug": project->slug.current
+    }
+  `);
+} catch {}
+
+const byYear: Record<number, typeof galleryData> = {};
+for (const img of galleryData) {
+  const year = img.year || 2024;
+  if (!byYear[year]) byYear[year] = [];
+  byYear[year].push(img);
+}
+const years = Object.keys(byYear)
+  .map(Number)
+  .sort((a, b) => b - a);
+
+const copy = isFr
+  ? {
+      metaTitle: "Galerie",
+      metaDescription:
+        "Photos et moments réels des programmes d'ADA au Cameroun, organisés par année.",
+      heroTitle: "Galerie",
+      heroSubtitle:
+        "Moments d'impact sur le terrain — parcourez par année.",
+      heroBadge: "Notre travail en images",
+      photos: "photos",
+      report: "Rapport disponible",
+      emptyTitle: "Photos bientôt disponibles",
+      emptyBody:
+        "Nous organisons nos archives photos. Revenez bientôt !",
+    }
+  : {
+      metaTitle: "Photo Gallery",
+      metaDescription:
+        "Browse photos from ADA's programs organized by year. See the real impact of our work across Cameroon.",
+      heroTitle: "Photo Gallery",
+      heroSubtitle: "Real moments from our programs — browse by year.",
+      heroBadge: "Our Work in Pictures",
+      photos: "photos",
+      report: "Report available",
+      emptyTitle: "Photos Coming Soon",
+      emptyBody: "We're organizing our photo archive. Check back soon!",
+    };
+---
+
+<PageLayout title={copy.metaTitle} description={copy.metaDescription}>
+  <PageHero
+    title={copy.heroTitle}
+    subtitle={copy.heroSubtitle}
+    badge={copy.heroBadge}
+    compact
+  />
+
+  <Section background="white" padding="lg">
+    {
+      years.length > 0 ? (
+        <div class="space-y-12">
+          {years.map((year) => {
+            const yearImages = byYear[year];
+            return (
+              <div>
+                <div class="flex items-center gap-4 mb-6">
+                  <h2 class="text-2xl font-heading font-bold text-gray-900">
+                    {year}
+                  </h2>
+                  <span class="px-2.5 py-0.5 text-xs font-medium bg-primary-100 text-primary-700 rounded-full">
+                    {yearImages.length} {copy.photos}
+                  </span>
+                  <div class="flex-1 h-px bg-gray-200" />
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {yearImages.map((img) => {
+                    const href = img.projectSlug
+                      ? localePath(`/projects/${img.projectSlug}`, locale)
+                      : "";
+                    const Wrapper = href ? "a" : "figure";
+                    const wrapperProps = href ? { href } : {};
+                    return (
+                      <Wrapper
+                        {...wrapperProps}
+                        class="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                      >
+                        {img.photo?.asset?._ref ? (
+                          <img
+                            src={sanityImageUrl(img.photo.asset._ref, 400)}
+                            alt={img.photo?.alt || img.title}
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div class="w-full h-full bg-primary-100 flex items-center justify-center">
+                            <span class="text-sm text-primary-700">
+                              {img.title}
+                            </span>
+                          </div>
+                        )}
+                        {img.projectTitle && (
+                          <span class="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium bg-black/50 text-white rounded-full backdrop-blur-sm">
+                            {img.projectTitle}
+                          </span>
+                        )}
+                        <figcaption class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div class="absolute bottom-0 left-0 right-0 p-3">
+                            <p class="text-white text-sm font-medium">
+                              {img.title}
+                            </p>
+                            <div class="flex items-center gap-2 mt-1">
+                              <span class="text-[10px] text-white/70">
+                                {year}
+                              </span>
+                              {img.reportUrl && (
+                                <span class="text-[10px] text-primary-300">
+                                  {copy.report}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </figcaption>
+                      </Wrapper>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <h2 class="text-xl font-semibold text-gray-900">{copy.emptyTitle}</h2>
+          <p class="mt-2 text-gray-600">{copy.emptyBody}</p>
+        </div>
+      )
+    }
+  </Section>
+</PageLayout>
