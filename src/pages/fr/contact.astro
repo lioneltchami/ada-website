@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/layout/PageHero.astro';
 import Section from '../../components/layout/Section.astro';
 import { getSiteSettings } from '../../lib/sanity';
+import { resolveHeroImage } from '../../lib/hero-images';
 
 let contactEmail = 'info@apotidev.org';
 let contactPhone = '+237 676 282 346';
@@ -18,10 +19,19 @@ try {
     officeHours = settings.officeHours || officeHours;
   }
 } catch {}
+
+const heroImage = await resolveHeroImage(['widow-support', 'women-empowerment']);
 ---
 
 <PageLayout title="Contactez-Nous" description="Contactez Apoti Development Association par email, téléphone ou WhatsApp. Situé au Cameroun, Afrique Centrale.">
-  <PageHero title="Contactez-Nous" subtitle="Des questions ou envie de vous impliquer ? Nous serions ravis de vous entendre." badge="Nous Joindre" compact />
+  <PageHero
+    title="Contactez-Nous"
+    subtitle="Des questions ou envie de vous impliquer ? Nous serions ravis de vous entendre."
+    badge="Nous Joindre"
+    compact
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
+  />
 
   <Section background="white" padding="lg">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">

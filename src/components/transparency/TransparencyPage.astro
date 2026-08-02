@@ -14,6 +14,7 @@ import {
   REGISTRATION_NUMBER,
 } from "../../data/organization";
 import { transparencyCopyFor } from "../../data/transparency-copy";
+import { resolveHeroImage } from "../../lib/hero-images";
 
 interface Props {
   locale: Locale;
@@ -27,6 +28,10 @@ const measurableIndicators =
 const impactChartMax = Math.max(
   ...impactGrowthByYear.map((item) => item.value),
 );
+const heroImage = await resolveHeroImage([
+  "education-orphans",
+  "widow-support",
+]);
 ---
 
 <PageLayout title={copy.meta.title} description={copy.meta.description}>
@@ -35,6 +40,8 @@ const impactChartMax = Math.max(
     subtitle={copy.hero.subtitle}
     badge={copy.hero.badge}
     compact
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
   />
 
   <!-- Registration -->

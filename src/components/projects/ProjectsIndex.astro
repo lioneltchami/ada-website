@@ -16,6 +16,7 @@ import {
 } from "../../lib/project-fallbacks";
 import type { Locale } from "../../i18n";
 import { localePath } from "../../i18n";
+import { resolveHeroImage } from "../../lib/hero-images";
 
 interface Props {
   locale?: Locale;
@@ -23,6 +24,11 @@ interface Props {
 
 const { locale = "en" } = Astro.props;
 const isFr = locale === "fr";
+const heroImage = await resolveHeroImage([
+  "widow-support",
+  "education-orphans",
+  "women-empowerment",
+]);
 
 let projectData;
 try {
@@ -182,6 +188,8 @@ function formatSchedule(start?: string, end?: string): string {
     title={copy.heroTitle}
     subtitle={copy.heroSubtitle}
     badge={copy.heroBadge}
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
   />
 
   {

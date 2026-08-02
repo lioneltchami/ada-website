@@ -105,6 +105,8 @@ interface Testimonial {
   quote: string;
   location: string;
   program: string;
+  photoUrl?: string;
+  photoAlt?: string;
 }
 
 const fallbackTestimonials: Testimonial[] = [
@@ -140,6 +142,10 @@ try {
       quote: t.quote,
       location: t.location || "",
       program: t.program || "",
+      photoUrl: t.photo?.asset?._ref
+        ? sanityImageUrl(t.photo.asset._ref, 200)
+        : undefined,
+      photoAlt: t.photo?.alt || t.name,
     }));
   }
 } catch {}
@@ -649,12 +655,26 @@ const actionPaths = [
         testimonials.map((t) => (
           <div class="p-6 bg-gray-50 rounded-card shadow-card">
             <p class="text-gray-700 italic leading-relaxed">"{t.quote}"</p>
-            <div class="mt-4 pt-4 border-t border-gray-200">
-              <p class="text-sm font-semibold text-gray-900">{t.name}</p>
-              <p class="text-xs text-gray-500">
-                {t.program}
-                {t.location ? ` \u2022 ${t.location}` : ""}
-              </p>
+            <div class="mt-4 pt-4 border-t border-gray-200 flex items-center gap-3">
+              {t.photoUrl ? (
+                <img
+                  src={t.photoUrl}
+                  alt={t.photoAlt || t.name}
+                  class="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-12 h-12 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  {t.name.charAt(0)}
+                </div>
+              )}
+              <div class="min-w-0">
+                <p class="text-sm font-semibold text-gray-900">{t.name}</p>
+                <p class="text-xs text-gray-500">
+                  {t.program}
+                  {t.location ? ` \u2022 ${t.location}` : ""}
+                </p>
+              </div>
             </div>
           </div>
         ))

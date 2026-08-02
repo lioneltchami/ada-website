@@ -81,6 +81,13 @@ const copy = isFr
       emptyTitle: "Photos Coming Soon",
       emptyBody: "We're organizing our photo archive. Check back soon!",
     };
+
+const heroPhoto = galleryData.find((g) => g.photo?.asset?._ref);
+const heroImageUrl = heroPhoto?.photo?.asset?._ref
+  ? sanityImageUrl(heroPhoto.photo.asset._ref, 1400)
+  : "";
+const heroImageAlt =
+  heroPhoto?.photo?.alt || heroPhoto?.title || copy.heroTitle;
 ---
 
 <PageLayout title={copy.metaTitle} description={copy.metaDescription}>
@@ -89,6 +96,8 @@ const copy = isFr
     subtitle={copy.heroSubtitle}
     badge={copy.heroBadge}
     compact
+    imageUrl={heroImageUrl}
+    imageAlt={heroImageAlt}
   />
 
   <Section background="white" padding="lg">

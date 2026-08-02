@@ -1,7 +1,15 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
 import { REGISTRATION_NUMBER } from "../data/organization";
+import { resolveHeroImage } from "../lib/hero-images";
+
+const heroImage = await resolveHeroImage([
+  "widow-support",
+  "education-orphans",
+  "women-empowerment",
+]);
 
 const sponsorTiers = [
   {
@@ -153,6 +161,15 @@ const diligenceItems = [
   title="Sponsor a Program"
   description="Sponsor practical support for widows, orphans, young women, displaced families, and students in Cameroon. Clear funding options, receipts, reporting, and due diligence."
 >
+  <PageHero
+    title="Sponsor practical support for families in Cameroon"
+    subtitle="Partner with ADA to fund direct community programs with clear options, written records, and transparent use of funds."
+    badge="Sponsor ADA work in Cameroon"
+    compact
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
+  />
+
   <section class="overflow-hidden bg-white">
     <div
       class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center"
@@ -163,11 +180,11 @@ const diligenceItems = [
         >
           Sponsor ADA work in Cameroon
         </p>
-        <h1
-          class="mt-4 max-w-3xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-950 leading-tight"
+        <h2
+          class="mt-4 max-w-3xl text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight"
         >
-          Sponsor practical support for families in Cameroon
-        </h1>
+          Clear sponsorship paths for churches, companies, and funders
+        </h2>
         <p class="mt-5 text-lg text-gray-600 leading-relaxed max-w-2xl">
           Partner with Apoti Development Association to fund direct community
           programs for widows, orphans, young women, displaced families,

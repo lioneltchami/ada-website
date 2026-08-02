@@ -5,11 +5,16 @@ import DocumentLibrary from "../../components/resources/DocumentLibrary.astro";
 import { diligenceDocsFor } from "../../data/diligence-docs";
 import { getLocale, t } from "../../i18n";
 import { loadProjectDocumentLibrary } from "../../lib/project-archive";
+import { resolveHeroImage } from "../../lib/hero-images";
 
 const locale = getLocale(Astro.url.pathname);
 const labels = t(locale);
 const { yearGroups, totalProjects } = await loadProjectDocumentLibrary();
 const dueDiligenceDocs = diligenceDocsFor(locale);
+const heroImage = await resolveHeroImage([
+  "education-orphans",
+  "widow-support",
+]);
 
 const libraryLabels = {
   annualReports: labels.resources.annualReports,
@@ -39,6 +44,8 @@ const libraryLabels = {
     title={labels.resources.title}
     subtitle={labels.resources.subtitle}
     compact
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
   />
 
   <DocumentLibrary

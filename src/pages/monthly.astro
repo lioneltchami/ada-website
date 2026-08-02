@@ -1,5 +1,6 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
 import DonationForm from "../components/islands/DonationForm";
 import { getProjects, type SanityProject } from "../lib/sanity";
@@ -12,6 +13,7 @@ import {
   normalizeFallbackProjects,
 } from "../lib/project-fallbacks";
 import { REGISTRATION_NUMBER } from "../data/organization";
+import { resolveHeroImage } from "../lib/hero-images";
 
 let projectOptions: { slug: string; title: string }[] =
   normalizeFallbackProjects()
@@ -55,12 +57,27 @@ const monthlyUses = [
   "$50/month helps stabilize widow and family support.",
   "$100/month contributes to training, mentoring, and follow-up.",
 ];
+
+const heroImage = await resolveHeroImage([
+  "education-orphans",
+  "widow-support",
+  "women-empowerment",
+]);
 ---
 
 <PageLayout
   title="Monthly Giving"
   description="Become a monthly ADA supporter and help provide steady care for widows, orphans, young women, and vulnerable families in Cameroon."
 >
+  <PageHero
+    title="Monthly Giving"
+    subtitle="Steady gifts keep school support, widow relief, and field follow-up moving between campaigns."
+    badge="Recurring support"
+    compact
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
+  />
+
   <section class="bg-white">
     <div
       class="max-w-6xl mx-auto min-w-0 px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start"
