@@ -10,7 +10,14 @@ import {
   type SanityProject,
 } from "../../../lib/sanity";
 import { sanityImageUrl } from "../../../lib/sanity";
-import { getProjectLifecycleState } from "../../../lib/project-lifecycle";
+import {
+  getProjectLifecycleState,
+  isProjectFundable,
+} from "../../../lib/project-lifecycle";
+import {
+  mergeProjectLists,
+  normalizeFallbackProjects,
+} from "../../../lib/project-fallbacks";
 import { t } from "../../../i18n";
 import { REGISTRATION_NUMBER } from "../../../data/organization";
 
@@ -65,17 +72,27 @@ try {
     }));
 } catch {}
 
-let projectOptions: { slug: string; title: string }[] = [];
+let projectOptions: { slug: string; title: string }[] =
+  normalizeFallbackProjects({ locale: "fr" })
+    .filter((p) => isProjectFundable(p.status))
+    .map((p) => ({ slug: p.slug, title: p.title }));
 let heroImageUrl = "";
 try {
   const projects = await getProjects();
   if (projects?.length) {
-    projectOptions = projects
-      .filter(
-        (p: SanityProject) =>
-          getProjectLifecycleState(p, { locale: "fr" }).status === "active",
-      )
-      .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+    projectOptions = mergeProjectLists(
+      projects
+        .filter((p: SanityProject) =>
+          isProjectFundable(
+            getProjectLifecycleState(p, { locale: "fr" }).status,
+          ),
+        )
+        .map((p: SanityProject) => ({
+          slug: p.slug.current,
+          title: p.title,
+        })),
+      projectOptions,
+    );
     const withImage = projects.find(
       (p: SanityProject) =>
         p.mainImage?.asset?._ref && p.slug?.current === "widow-support",

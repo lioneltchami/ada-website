@@ -31,6 +31,42 @@ async function seed() {
   // Projects
   const projects = [
     {
+      _id: "project-back-to-school-buea-aug-2026",
+      slug: "back-to-school-buea-aug-2026",
+      title: "Back to School Outreach — Buea",
+      status: "active",
+      demographic: "orphans",
+      location: "Buea, South West Region",
+      description:
+        "Annual Back to School Reach Out in Buea (South West). Community campaign to equip underprivileged children with school supplies so they can learn, grow, and succeed. Flyer timing: anticipated in August 2026 — scheduled outreach window 15–18 August.",
+      beneficiaries: 40,
+      goalAmount: 2500,
+      raisedAmount: 0,
+      startDate: "2026-08-15",
+      endDate: "2026-08-18",
+      archiveAfterDate: "2026-08-18",
+      autoArchiveAfterEndDate: true,
+      sortOrder: 0,
+    },
+    {
+      _id: "project-back-to-school-bamenda-aug-2026",
+      slug: "back-to-school-bamenda-aug-2026",
+      title: "Back to School Outreach — Bamenda",
+      status: "active",
+      demographic: "orphans",
+      location: "Mile 4 Nkwen, Bamenda, North West Region",
+      description:
+        "Back to School Outreach in Mile 4 Nkwen, Bamenda (North West). Community campaign putting smiles on faces through education supplies for underprivileged children. Flyer timing: anticipated by the end of August 2026 — scheduled outreach window 28–31 August.",
+      beneficiaries: 40,
+      goalAmount: 2500,
+      raisedAmount: 0,
+      startDate: "2026-08-28",
+      endDate: "2026-08-31",
+      archiveAfterDate: "2026-08-31",
+      autoArchiveAfterEndDate: true,
+      sortOrder: 1,
+    },
+    {
       _id: "project-widow-support",
       slug: "widow-support",
       title: "Widow Support Program",
@@ -41,7 +77,7 @@ async function seed() {
       beneficiaries: 15,
       goalAmount: 8000,
       raisedAmount: 6500,
-      sortOrder: 1,
+      sortOrder: 2,
     },
     {
       _id: "project-girls-dignity-menstrual-health-bamenda-jun-2026",
@@ -58,7 +94,7 @@ async function seed() {
       endDate: "2026-06-27",
       archiveAfterDate: "2026-06-27",
       autoArchiveAfterEndDate: true,
-      sortOrder: 2,
+      sortOrder: 3,
     },
     {
       _id: "project-education-orphans",
@@ -71,7 +107,7 @@ async function seed() {
       beneficiaries: 20,
       goalAmount: 7000,
       raisedAmount: 7000,
-      sortOrder: 3,
+      sortOrder: 4,
     },
     {
       _id: "project-women-empowerment",
@@ -84,7 +120,7 @@ async function seed() {
       beneficiaries: 10,
       goalAmount: 6000,
       raisedAmount: 3500,
-      sortOrder: 4,
+      sortOrder: 5,
     },
     {
       _id: "project-emergency-relief",
@@ -97,7 +133,7 @@ async function seed() {
       beneficiaries: 50,
       goalAmount: 10000,
       raisedAmount: 4800,
-      sortOrder: 5,
+      sortOrder: 6,
     },
     {
       _id: "project-education-drive",
@@ -110,7 +146,7 @@ async function seed() {
       beneficiaries: 20,
       goalAmount: 8000,
       raisedAmount: 2200,
-      sortOrder: 6,
+      sortOrder: 7,
     },
     {
       _id: "project-christmas-giving",
@@ -123,7 +159,7 @@ async function seed() {
       beneficiaries: 50,
       goalAmount: 5000,
       raisedAmount: 1000,
-      sortOrder: 7,
+      sortOrder: 8,
     },
   ];
 

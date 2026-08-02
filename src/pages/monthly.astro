@@ -3,18 +3,34 @@ import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
 import DonationForm from "../components/islands/DonationForm";
 import { getProjects, type SanityProject } from "../lib/sanity";
-import { getProjectLifecycleState } from "../lib/project-lifecycle";
+import {
+  getProjectLifecycleState,
+  isProjectFundable,
+} from "../lib/project-lifecycle";
+import {
+  mergeProjectLists,
+  normalizeFallbackProjects,
+} from "../lib/project-fallbacks";
 import { REGISTRATION_NUMBER } from "../data/organization";
 
-let projectOptions: { slug: string; title: string }[] = [];
+let projectOptions: { slug: string; title: string }[] =
+  normalizeFallbackProjects()
+    .filter((p) => isProjectFundable(p.status))
+    .map((p) => ({ slug: p.slug, title: p.title }));
 try {
   const projects = await getProjects();
   if (projects?.length) {
-    projectOptions = projects
-      .filter(
-        (p: SanityProject) => getProjectLifecycleState(p).status === "active",
-      )
-      .map((p: SanityProject) => ({ slug: p.slug.current, title: p.title }));
+    projectOptions = mergeProjectLists(
+      projects
+        .filter((p: SanityProject) =>
+          isProjectFundable(getProjectLifecycleState(p).status),
+        )
+        .map((p: SanityProject) => ({
+          slug: p.slug.current,
+          title: p.title,
+        })),
+      projectOptions,
+    );
   }
 } catch {}
 
