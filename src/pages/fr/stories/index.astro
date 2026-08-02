@@ -22,10 +22,31 @@ const categoryLabels: Record<string, string> = {
   update: 'Actualités',
   announcement: 'Annonces',
 };
+
+const storyHero =
+  posts.find((p) => p.personPhoto?.asset?._ref) ||
+  galleryPhotos.find((g) => g.photo?.asset?._ref);
+const storyHeroUrl = storyHero?.personPhoto?.asset?._ref
+  ? sanityImageUrl(storyHero.personPhoto.asset._ref, 1400)
+  : storyHero?.photo?.asset?._ref
+    ? sanityImageUrl(storyHero.photo.asset._ref, 1400)
+    : '';
+const storyHeroAlt =
+  storyHero?.personPhoto?.alt ||
+  storyHero?.photo?.alt ||
+  storyHero?.title ||
+  'Histoires ADA';
 ---
 
 <PageLayout title="Témoignages & Actualités" description="Lisez des histoires d'impact, des mises à jour de programmes et des annonces d'Apoti Development Association.">
-  <PageHero title="Témoignages & Actualités" subtitle="Nouvelles, histoires d'impact et annonces de nos programmes." badge="Notre Blog" compact />
+  <PageHero
+    title="Témoignages & Actualités"
+    subtitle="Nouvelles, histoires d'impact et annonces de nos programmes."
+    badge="Notre Blog"
+    compact
+    imageUrl={storyHeroUrl}
+    imageAlt={storyHeroAlt}
+  />
 
   <Section background="white" padding="lg">
     {posts.length > 0 ? (

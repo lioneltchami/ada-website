@@ -7,6 +7,10 @@ import {
   getSiteSettings,
   type SanityVolunteerRole,
 } from "../lib/sanity";
+import {
+  resolveGalleryStrip,
+  resolveHeroImage,
+} from "../lib/hero-images";
 
 let socialFacebook = "https://facebook.com/apotidev";
 let socialInstagram = "https://instagram.com/apotidev";
@@ -123,6 +127,39 @@ try {
 const metaTitle = "Get Involved";
 const metaDescription =
   "Join ADA as a volunteer, monthly supporter, or corporate partner. Multiple ways to make a difference.";
+
+const heroImage = await resolveHeroImage([
+  "women-empowerment",
+  "widow-support",
+  "education-orphans",
+]);
+const galleryStrip = await resolveGalleryStrip(4);
+const ways = [
+  {
+    title: "Volunteer",
+    desc: "Give your time and skills",
+    href: "#volunteer",
+    image: galleryStrip[0],
+  },
+  {
+    title: "Monthly Giving",
+    desc: "Join our giving community",
+    href: "/monthly",
+    image: galleryStrip[1],
+  },
+  {
+    title: "Advocate",
+    desc: "Share our mission with others",
+    href: "#advocate",
+    image: galleryStrip[2],
+  },
+  {
+    title: "Partner",
+    desc: "Institutional and community partnerships",
+    href: "#partnerships",
+    image: galleryStrip[3],
+  },
+];
 ---
 
 <PageLayout title={metaTitle} description={metaDescription}>
@@ -130,6 +167,8 @@ const metaDescription =
     title="Get Involved"
     subtitle="There are many ways to support our mission. Find the one that's right for you."
     badge="Make a Difference"
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
   />
 
   <!-- Ways to Help -->
@@ -139,41 +178,27 @@ const metaDescription =
     </h2>
     <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {
-        [
-          {
-            icon: "🙋",
-            title: "Volunteer",
-            desc: "Give your time and skills",
-            href: "#volunteer",
-          },
-          {
-            icon: "💝",
-            title: "Monthly Giving",
-            desc: "Join our giving community",
-            href: "/monthly",
-          },
-          {
-            icon: "📢",
-            title: "Advocate",
-            desc: "Share our mission with others",
-            href: "#advocate",
-          },
-          {
-            icon: "🏢",
-            title: "Partner",
-            desc: "Institutional and community partnerships",
-            href: "#partnerships",
-          },
-        ].map((way) => (
+        ways.map((way) => (
           <a
             href={way.href}
-            class="p-6 bg-gray-50 rounded-card hover:bg-primary-50 transition-colors text-center group"
+            class="group overflow-hidden rounded-card bg-gray-50 hover:bg-primary-50 transition-colors"
           >
-            <span class="text-3xl">{way.icon}</span>
-            <h3 class="mt-3 text-lg font-semibold text-gray-900 group-hover:text-primary-700">
-              {way.title}
-            </h3>
-            <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
+            {way.image ? (
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src={way.image.imageUrl}
+                  alt={way.image.imageAlt}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            ) : null}
+            <div class="p-5 text-center">
+              <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary-700">
+                {way.title}
+              </h3>
+              <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
+            </div>
           </a>
         ))
       }

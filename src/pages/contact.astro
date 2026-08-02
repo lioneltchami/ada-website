@@ -3,6 +3,7 @@ import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
 import { getSiteSettings } from '../lib/sanity';
+import { resolveHeroImage } from '../lib/hero-images';
 
 let contactEmail = 'info@apotidev.org';
 let contactPhone = '+237 676 282 346';
@@ -22,10 +23,18 @@ try {
 const heroTitle = 'Contact Us';
 const heroSubtitle = 'Have questions or want to get involved? We\'d love to hear from you.';
 const heroBadge = 'Get in Touch';
+const heroImage = await resolveHeroImage(['widow-support', 'women-empowerment']);
 ---
 
 <PageLayout title="Contact Us" description="Contact Apoti Development Association. Reach us by email, phone, or WhatsApp. Located in Cameroon, Central Africa.">
-  <PageHero title={heroTitle} subtitle={heroSubtitle} badge={heroBadge} compact />
+  <PageHero
+    title={heroTitle}
+    subtitle={heroSubtitle}
+    badge={heroBadge}
+    compact
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
+  />
 
   <Section background="white" padding="lg">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">

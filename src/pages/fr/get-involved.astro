@@ -7,6 +7,10 @@ import {
   getSiteSettings,
   type SanityVolunteerRole,
 } from "../../lib/sanity";
+import {
+  resolveGalleryStrip,
+  resolveHeroImage,
+} from "../../lib/hero-images";
 
 const fallbackRoles = [
   {
@@ -93,6 +97,39 @@ const partnershipTiers = [
     desc: "Discussion pour une campagne plus large, un soutien récurrent ou un accord de rapport adapté.",
   },
 ];
+
+const heroImage = await resolveHeroImage([
+  "women-empowerment",
+  "widow-support",
+  "education-orphans",
+]);
+const galleryStrip = await resolveGalleryStrip(4);
+const ways = [
+  {
+    title: "Bénévolat",
+    desc: "Donnez votre temps et vos compétences",
+    href: "#benevole",
+    image: galleryStrip[0],
+  },
+  {
+    title: "Don Mensuel",
+    desc: "Rejoignez notre communauté de donateurs",
+    href: "/fr/monthly",
+    image: galleryStrip[1],
+  },
+  {
+    title: "Sensibiliser",
+    desc: "Partagez notre mission",
+    href: "#sensibiliser",
+    image: galleryStrip[2],
+  },
+  {
+    title: "Partenariat",
+    desc: "Partenariats corporatifs",
+    href: "#partenariats",
+    image: galleryStrip[3],
+  },
+];
 ---
 
 <PageLayout
@@ -103,6 +140,8 @@ const partnershipTiers = [
     title="S'Impliquer"
     subtitle="Il existe de nombreuses façons de soutenir notre mission. Trouvez celle qui vous convient."
     badge="Faites la Différence"
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
   />
 
   <Section background="white" padding="lg">
@@ -111,41 +150,27 @@ const partnershipTiers = [
     </h2>
     <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {
-        [
-          {
-            icon: "🙋",
-            title: "Bénévolat",
-            desc: "Donnez votre temps et vos compétences",
-            href: "#benevole",
-          },
-          {
-            icon: "💝",
-            title: "Don Mensuel",
-            desc: "Rejoignez notre communauté de donateurs",
-            href: "/fr/monthly",
-          },
-          {
-            icon: "📢",
-            title: "Sensibiliser",
-            desc: "Partagez notre mission",
-            href: "#sensibiliser",
-          },
-          {
-            icon: "🏢",
-            title: "Partenariat",
-            desc: "Partenariats corporatifs",
-            href: "#partenariats",
-          },
-        ].map((way) => (
+        ways.map((way) => (
           <a
             href={way.href}
-            class="p-6 bg-gray-50 rounded-card hover:bg-primary-50 transition-colors text-center group"
+            class="group overflow-hidden rounded-card bg-gray-50 hover:bg-primary-50 transition-colors"
           >
-            <span class="text-3xl">{way.icon}</span>
-            <h3 class="mt-3 text-lg font-semibold text-gray-900 group-hover:text-primary-700">
-              {way.title}
-            </h3>
-            <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
+            {way.image ? (
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src={way.image.imageUrl}
+                  alt={way.image.imageAlt}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            ) : null}
+            <div class="p-5 text-center">
+              <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary-700">
+                {way.title}
+              </h3>
+              <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
+            </div>
           </a>
         ))
       }

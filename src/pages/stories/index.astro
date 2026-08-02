@@ -28,10 +28,31 @@ const categoryLabels: Record<string, string> = {
   update: 'Updates',
   announcement: 'Announcements',
 };
+
+const storyHero =
+  posts.find((p) => p.personPhoto?.asset?._ref) ||
+  galleryPhotos.find((g) => g.photo?.asset?._ref);
+const storyHeroUrl = storyHero?.personPhoto?.asset?._ref
+  ? sanityImageUrl(storyHero.personPhoto.asset._ref, 1400)
+  : storyHero?.photo?.asset?._ref
+    ? sanityImageUrl(storyHero.photo.asset._ref, 1400)
+    : '';
+const storyHeroAlt =
+  storyHero?.personPhoto?.alt ||
+  storyHero?.photo?.alt ||
+  storyHero?.title ||
+  'ADA stories';
 ---
 
 <PageLayout title="Stories & Updates" description="Read stories of impact, program updates, and announcements from Apoti Development Association.">
-  <PageHero title="Stories & Updates" subtitle="News, impact stories, and announcements from our programs." badge="Our Blog" compact />
+  <PageHero
+    title="Stories & Updates"
+    subtitle="News, impact stories, and announcements from our programs."
+    badge="Our Blog"
+    compact
+    imageUrl={storyHeroUrl}
+    imageAlt={storyHeroAlt}
+  />
 
   <Section background="white" padding="lg">
     {posts.length > 0 ? (

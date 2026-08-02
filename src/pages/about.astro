@@ -51,14 +51,18 @@ try {
   }
 } catch {}
 
-// Fetch a community photo for the story section
+// Fetch a community photo for the story section + page hero
 let communityPhotoUrl = '';
+let communityPhotoAlt = 'ADA community work in Cameroon';
 try {
   const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
   const dataset = import.meta.env.SANITY_DATASET || 'production';
   const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-  const photo = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0] { "ref": photo.asset._ref }');
-  if (photo?.ref) communityPhotoUrl = sanityImageUrl(photo.ref, 800);
+  const photo = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0] { title, "ref": photo.asset._ref, "alt": photo.alt }');
+  if (photo?.ref) {
+    communityPhotoUrl = sanityImageUrl(photo.ref, 1400);
+    communityPhotoAlt = photo.alt || photo.title || communityPhotoAlt;
+  }
 } catch {}
 ---
 
@@ -67,6 +71,8 @@ try {
     title="About Us"
     subtitle="Faith-based charity empowering vulnerable communities in Cameroon since 2021."
     badge="Our Story"
+    imageUrl={communityPhotoUrl}
+    imageAlt={communityPhotoAlt}
   />
 
   <!-- Mission -->

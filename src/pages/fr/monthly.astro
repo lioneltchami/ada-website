@@ -1,5 +1,6 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
+import PageHero from "../../components/layout/PageHero.astro";
 import Section from "../../components/layout/Section.astro";
 import DonationForm from "../../components/islands/DonationForm";
 import { getProjects, type SanityProject } from "../../lib/sanity";
@@ -12,6 +13,7 @@ import {
   normalizeFallbackProjects,
 } from "../../lib/project-fallbacks";
 import { REGISTRATION_NUMBER } from "../../data/organization";
+import { resolveHeroImage } from "../../lib/hero-images";
 
 let projectOptions: { slug: string; title: string }[] =
   normalizeFallbackProjects({ locale: "fr" })
@@ -57,12 +59,27 @@ const monthlyUses = [
   "50 $/mois aident à stabiliser le soutien aux veuves et familles.",
   "100 $/mois contribuent à la formation, au mentorat et au suivi.",
 ];
+
+const heroImage = await resolveHeroImage([
+  "education-orphans",
+  "widow-support",
+  "women-empowerment",
+]);
 ---
 
 <PageLayout
   title="Don Mensuel"
   description="Devenez soutien mensuel d'ADA et aidez à fournir une aide régulière aux veuves, orphelins, jeunes femmes et familles vulnérables au Cameroun."
 >
+  <PageHero
+    title="Don Mensuel"
+    subtitle="Des dons réguliers maintiennent le soutien scolaire, l'aide aux veuves et le suivi terrain entre les campagnes."
+    badge="Soutien récurrent"
+    compact
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
+  />
+
   <section class="bg-white">
     <div
       class="max-w-6xl mx-auto min-w-0 px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start"

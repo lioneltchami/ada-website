@@ -3,8 +3,22 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 import PageHero from "../../../components/layout/PageHero.astro";
 import Section from "../../../components/layout/Section.astro";
 import { loadProjectArchiveEntries } from "../../../lib/project-archive";
+import { sanityImageUrl } from "../../../lib/sanity";
+import { resolveHeroImage } from "../../../lib/hero-images";
 
 const records = await loadProjectArchiveEntries();
+const heroImage = await resolveHeroImage([
+  "education-orphans",
+  "widow-support",
+]);
+
+const archiveItems = records.map((r) => ({
+  ...r,
+  thumbUrl: r.photo?.asset?._ref
+    ? sanityImageUrl(r.photo.asset._ref, 240)
+    : "",
+  thumbAlt: r.photo?.alt || r.title,
+}));
 
 const demographics = [
   "all",
@@ -36,17 +50,17 @@ const statusColors: Record<string, string> = {
 };
 
 // Stats
-const totalBeneficiaries = records.reduce(
+const totalBeneficiaries = archiveItems.reduce(
   (sum, r) => sum + (r.beneficiaries || 0),
   0,
 );
-const totalBudget = records.reduce((sum, r) => sum + (r.budget || 0), 0);
-const completedCount = records.filter((r) => r.status === "completed").length;
-const years = [...new Set(records.map((r) => r.year))].sort((a, b) => b - a);
+const totalBudget = archiveItems.reduce((sum, r) => sum + (r.budget || 0), 0);
+const completedCount = archiveItems.filter((r) => r.status === "completed").length;
+const years = [...new Set(archiveItems.map((r) => r.year))].sort((a, b) => b - a);
 
 // Group by year
-const byYear: Record<number, any[]> = {};
-for (const r of records) {
+const byYear: Record<number, typeof archiveItems> = {};
+for (const r of archiveItems) {
   if (!byYear[r.year]) byYear[r.year] = [];
   byYear[r.year].push(r);
 }
@@ -61,6 +75,8 @@ for (const r of records) {
     subtitle="Every project we've delivered since 2022. Click a demographic to filter, or browse the full timeline."
     badge="Project Archive"
     compact
+    imageUrl={heroImage?.imageUrl}
+    imageAlt={heroImage?.imageAlt}
   />
 
   <!-- Back to projects -->
@@ -82,7 +98,7 @@ for (const r of records) {
         <p class="text-xs text-gray-500">Beneficiaries Reached</p>
       </div>
       <div>
-        <p class="text-2xl font-bold text-primary-700">{records.length}</p>
+        <p class="text-2xl font-bold text-primary-700">{archiveItems.length}</p>
         <p class="text-xs text-gray-500">Projects Delivered</p>
       </div>
       <div>
@@ -93,7 +109,7 @@ for (const r of records) {
       </div>
       <div>
         <p class="text-2xl font-bold text-primary-700">
-          {completedCount}/{records.length}
+          {completedCount}/{archiveItems.length}
         </p>
         <p class="text-xs text-gray-500">Completed</p>
       </div>
@@ -127,8 +143,8 @@ for (const r of records) {
               <span class="ml-1 text-xs opacity-70">
                 (
                 {d === "all"
-                  ? records.length
-                  : records.filter((r) => r.demographic === d).length}
+                  ? archiveItems.length
+                  : archiveItems.filter((r) => r.demographic === d).length}
                 )
               </span>
             </button>
@@ -163,50 +179,62 @@ for (const r of records) {
                     class="group archive-item block p-4 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-200"
                     data-demo={r.demographic}
                   >
-                    <div class="flex items-start justify-between gap-3">
-                      <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                          <span
-                            class:list={["text-sm", statusColors[r.status]]}
+                    <div class="flex items-start gap-3">
+                      {r.thumbUrl ? (
+                        <img
+                          src={r.thumbUrl}
+                          alt={r.thumbAlt}
+                          class="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div class="w-16 h-16 rounded-lg bg-primary-50 flex-shrink-0" />
+                      )}
+                      <div class="flex-1 min-w-0 flex items-start justify-between gap-3">
+                        <div class="flex-1 min-w-0">
+                          <div class="flex items-center gap-2 mb-1">
+                            <span
+                              class:list={["text-sm", statusColors[r.status]]}
+                            >
+                              {statusIcons[r.status]}
+                            </span>
+                            <h3 class="text-sm font-semibold text-gray-900 group-hover:text-primary-700 transition-colors truncate">
+                              {r.title}
+                            </h3>
+                          </div>
+                          <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                            <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-full font-medium">
+                              {demoLabels[r.demographic]}
+                            </span>
+                            {r.beneficiaries && <span>👥 {r.beneficiaries}</span>}
+                            {r.location && <span>📍 {r.location}</span>}
+                            {r.hasToR && (
+                              <span class="text-primary-600">📄 ToR</span>
+                            )}
+                            {r.hasReport && (
+                              <span class="text-primary-600">📊 Report</span>
+                            )}
+                          </div>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                          {r.budget && (
+                            <p class="text-sm font-semibold text-gray-900">
+                              ${r.budget.toLocaleString()}
+                            </p>
+                          )}
+                          <p
+                            class:list={[
+                              "text-xs capitalize",
+                              r.status === "completed"
+                                ? "text-green-600"
+                                : r.status === "ongoing"
+                                  ? "text-yellow-600"
+                                  : "text-gray-400",
+                            ]}
                           >
-                            {statusIcons[r.status]}
-                          </span>
-                          <h3 class="text-sm font-semibold text-gray-900 group-hover:text-primary-700 transition-colors truncate">
-                            {r.title}
-                          </h3>
-                        </div>
-                        <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                          <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-full font-medium">
-                            {demoLabels[r.demographic]}
-                          </span>
-                          {r.beneficiaries && <span>👥 {r.beneficiaries}</span>}
-                          {r.location && <span>📍 {r.location}</span>}
-                          {r.hasToR && (
-                            <span class="text-primary-600">📄 ToR</span>
-                          )}
-                          {r.hasReport && (
-                            <span class="text-primary-600">📊 Report</span>
-                          )}
-                        </div>
-                      </div>
-                      <div class="text-right flex-shrink-0">
-                        {r.budget && (
-                          <p class="text-sm font-semibold text-gray-900">
-                            ${r.budget.toLocaleString()}
+                            {r.status}
                           </p>
-                        )}
-                        <p
-                          class:list={[
-                            "text-xs capitalize",
-                            r.status === "completed"
-                              ? "text-green-600"
-                              : r.status === "ongoing"
-                                ? "text-yellow-600"
-                                : "text-gray-400",
-                          ]}
-                        >
-                          {r.status}
-                        </p>
+                        </div>
                       </div>
                     </div>
                   </a>
