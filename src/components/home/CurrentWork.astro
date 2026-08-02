@@ -1,0 +1,191 @@
+---
+import Section from "../layout/Section.astro";
+import type { Locale } from "../../i18n";
+import { localePath } from "../../i18n";
+import {
+  projectStatusLabel,
+  type ProjectStatus,
+} from "../../lib/project-lifecycle";
+import type { SpotlightProject } from "../../lib/spotlight-projects";
+
+interface Props {
+  locale?: Locale;
+  projects: SpotlightProject[];
+}
+
+const { locale = "en", projects } = Astro.props;
+const isFr = locale === "fr";
+const hasProjects = projects.length > 0;
+
+const copy = isFr
+  ? {
+      eyebrow: "En ce moment",
+      title: "Ce que nous faisons maintenant",
+      body: "Campagnes actives et à venir — dates, lieux, et comment soutenir. Quand une campagne se termine, elle quitte cette section automatiquement.",
+      scheduled: "Prévu",
+      raised: "collectés",
+      of: "sur",
+      details: "Voir le projet",
+      donate: "Donner",
+      all: "Tous les projets",
+      people: "bénéficiaires",
+    }
+  : {
+      eyebrow: "Right now",
+      title: "What we are working on",
+      body: "Active and upcoming campaigns — with dates, locations, and a clear way to help. When a campaign ends, it leaves this section automatically.",
+      scheduled: "Scheduled",
+      raised: "raised",
+      of: "of",
+      details: "View project",
+      donate: "Donate",
+      all: "All projects",
+      people: "beneficiaries",
+    };
+
+function statusClass(status: ProjectStatus): string {
+  if (status === "upcoming") return "bg-sky-100 text-sky-800";
+  if (status === "active") return "bg-green-100 text-green-800";
+  return "bg-yellow-100 text-yellow-800";
+}
+
+function formatSchedule(start?: string, end?: string): string {
+  if (!start) return "";
+  const opts: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  };
+  const loc = isFr ? "fr-FR" : "en-US";
+  const startLabel = new Date(`${start}T12:00:00`).toLocaleDateString(loc, opts);
+  if (!end || end === start) return startLabel;
+  const endLabel = new Date(`${end}T12:00:00`).toLocaleDateString(loc, opts);
+  return `${startLabel} – ${endLabel}`;
+}
+---
+
+{
+  hasProjects && (
+<Section background="white" padding="lg">
+  <div
+    class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10"
+  >
+    <div class="max-w-2xl">
+      <p
+        class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+      >
+        {copy.eyebrow}
+      </p>
+      <h2
+        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900"
+      >
+        {copy.title}
+      </h2>
+      <p class="mt-4 text-gray-600 leading-relaxed">
+        {copy.body}
+      </p>
+    </div>
+    <a
+      href={localePath("/projects", locale)}
+      class="inline-flex items-center justify-center self-start lg:self-auto px-4 py-2.5 text-sm font-semibold text-primary-800 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
+    >
+      {copy.all} →
+    </a>
+  </div>
+
+  <div
+    class:list={[
+      "grid gap-6",
+      projects.length === 1
+        ? "grid-cols-1 max-w-3xl"
+        : "grid-cols-1 md:grid-cols-2",
+    ]}
+  >
+    {
+      projects.map((project) => (
+        <article class="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+          <a
+            href={localePath(`/projects/${project.slug}`, locale)}
+            class="block"
+          >
+            <div class="aspect-[16/10] overflow-hidden bg-primary-50">
+              <img
+                src={project.imageUrl}
+                alt={project.imageAlt}
+                class="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
+                loading="eager"
+              />
+            </div>
+          </a>
+          <div class="p-6">
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              <span
+                class:list={[
+                  "px-2 py-0.5 text-xs font-semibold rounded-full",
+                  statusClass(project.status),
+                ]}
+              >
+                {projectStatusLabel(project.status, locale)}
+              </span>
+              <span class="text-xs text-gray-500">📍 {project.location}</span>
+              <span class="text-xs text-gray-500">
+                👥 {project.beneficiaries} {copy.people}
+              </span>
+            </div>
+            <h3 class="text-xl font-heading font-bold text-gray-900">
+              <a
+                href={localePath(`/projects/${project.slug}`, locale)}
+                class="hover:text-primary-700 transition-colors"
+              >
+                {project.title}
+              </a>
+            </h3>
+            {(project.startDate || project.endDate) && (
+              <p class="mt-2 text-xs font-medium text-primary-800">
+                {copy.scheduled}:{" "}
+                {formatSchedule(project.startDate, project.endDate)}
+              </p>
+            )}
+            <p class="mt-3 text-sm text-gray-600 leading-relaxed line-clamp-3">
+              {project.description}
+            </p>
+            <div class="mt-5">
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-gray-600">
+                  ${project.raised.toLocaleString()} {copy.raised}
+                </span>
+                <span class="text-gray-500">
+                  {copy.of} ${project.goal.toLocaleString()}
+                </span>
+              </div>
+              <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  class="h-full bg-primary-500 rounded-full"
+                  style={`width: ${Math.min(100, (project.raised / Math.max(project.goal, 1)) * 100)}%`}
+                />
+              </div>
+            </div>
+            <div class="mt-5 flex gap-2">
+              <a
+                href={localePath(`/projects/${project.slug}`, locale)}
+                class="flex-1 text-center px-3 py-2.5 text-sm font-medium text-primary-800 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
+              >
+                {copy.details}
+              </a>
+              <a
+                href={localePath(`/donate?project=${project.slug}`, locale)}
+                class="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors"
+                data-umami-event="home-spotlight-donate"
+                data-ph-capture-attribute-campaign={project.slug}
+              >
+                {copy.donate}
+              </a>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>
+  )
+}

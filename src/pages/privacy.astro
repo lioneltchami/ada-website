@@ -164,9 +164,20 @@ import Section from "../components/layout/Section.astro";
           >.
         </li>
         <li>
-          <strong>Umami Analytics</strong> — privacy-first, cookie-free website analytics.
-          Umami does not collect personal data, does not use cookies, and does not
-          share data with third parties. It is fully GDPR-compliant by design.
+          <strong>Umami Analytics</strong> — optional privacy-first website analytics
+          when enabled. Umami is designed to avoid advertising trackers and third-party
+          data sales.
+        </li>
+        <li>
+          <strong>PostHog</strong> — product analytics so we can understand which pages
+          and campaigns help supporters find our work (page views, basic interaction
+          events, and optional session insights configured in our PostHog project).
+          PostHog may store a first-party analytics identifier in local storage and/or
+          cookies. We do not use PostHog for advertising retargeting. <a
+            href="https://posthog.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer">PostHog Privacy Policy</a
+          >.
         </li>
         <li>
           <strong>Core Web Vitals monitoring</strong> — sampled technical performance
@@ -178,12 +189,11 @@ import Section from "../components/layout/Section.astro";
 
       <h2>5. Cookies</h2>
       <p>
-        We use a single, strictly necessary session cookie (<code
-          >sb-access-token</code
-        >) to keep you logged into your donor account. This cookie is set only
-        when you log in and is deleted when your session expires or you log out.
-        We do <strong>not</strong> use advertising cookies, tracking cookies, or third-party
-        analytics cookies.
+        We use a strictly necessary session cookie (<code>sb-access-token</code>) to keep
+        you logged into your donor account. This cookie is set only when you log in and
+        is deleted when your session expires or you log out. When PostHog is enabled, we
+        may also use first-party analytics storage to understand site usage. We do
+        <strong>not</strong> use advertising or retargeting cookies.
       </p>
 
       <h2>6. Data Retention</h2>

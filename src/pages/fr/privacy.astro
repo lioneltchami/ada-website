@@ -31,8 +31,8 @@ import Section from "../../components/layout/Section.astro";
           besoins de rapport, demande de facture ou virement et préférence d'appel
         </li>
         <li>
-          <strong>Données d'utilisation</strong> — pages visitées et données d'interaction
-          basiques (pas de cookies de suivi)
+          <strong>Données d'utilisation</strong> — pages visitées et interactions
+          basiques pour comprendre comment les visiteurs trouvent nos campagnes
         </li>
       </ul>
       <h2>Utilisation des Données</h2>
@@ -66,8 +66,18 @@ import Section from "../../components/layout/Section.astro";
           <strong>Resend/useSend</strong> — envoi d'emails transactionnels
         </li>
         <li>
-          <strong>Umami</strong> — analytique respectueuse de la vie privée, sans
-          cookies
+          <strong>Umami</strong> — analytique optionnelle respectueuse de la vie privée
+          lorsqu'elle est activée
+        </li>
+        <li>
+          <strong>PostHog</strong> — analytique produit (pages vues, interactions,
+          insights de session selon configuration) pour améliorer le site. PostHog
+          peut stocker un identifiant analytique first-party. Pas de retargeting
+          publicitaire. <a
+            href="https://posthog.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer">Politique de confidentialité PostHog</a
+          >
         </li>
         <li>
           <strong>Mesure Core Web Vitals</strong> — métriques techniques échantillonnées
@@ -92,8 +102,9 @@ import Section from "../../components/layout/Section.astro";
       </p>
       <h2>Cookies</h2>
       <p>
-        Nous utilisons un seul cookie de session d'authentification. Pas de
-        cookies de suivi ni de publicité.
+        Nous utilisons un cookie de session d'authentification pour le compte
+        donateur. Lorsque PostHog est activé, un stockage analytique first-party
+        peut aussi être utilisé. Pas de cookies publicitaires ni de retargeting.
       </p>
       <h2>Vos Droits</h2>
       <ul>

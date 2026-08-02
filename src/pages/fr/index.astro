@@ -1,6 +1,7 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
+import CurrentWork from "../../components/home/CurrentWork.astro";
 import NewsletterSignup from "../../components/islands/NewsletterSignup";
 import {
   getImpactMetrics,
@@ -12,6 +13,7 @@ import {
 } from "../../lib/sanity";
 import { REGISTRATION_NUMBER } from "../../data/organization";
 import { homepageStatsFallback } from "../../data/impact";
+import { loadSpotlightProjects } from "../../lib/spotlight-projects";
 import { t } from "../../i18n";
 
 const i18n = t("fr");
@@ -110,6 +112,8 @@ const missionCards = [
       "Formation professionnelle, microfinance et appui au démarrage pour les jeunes femmes en quête d'indépendance.",
   },
 ];
+
+const spotlightProjects = await loadSpotlightProjects("fr", 4);
 
 const programPillars = [
   {
@@ -356,50 +360,7 @@ const actionPaths = [
     </div>
   </Section>
 
-  <!-- Campaign -->
-  <Section background="white" padding="sm">
-    <div class="max-w-2xl mx-auto">
-      <div
-        class="p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100"
-      >
-        <div class="flex items-center justify-between gap-4 mb-2">
-          <h3 class="text-sm font-semibold text-gray-900">
-            Campagne Éducation à la Une
-          </h3>
-          <span
-            class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded-full"
-            >Priorité active 2026</span
-          >
-        </div>
-        <p class="text-xs text-gray-600 mb-3">
-          Aidez-nous à renvoyer 50 enfants à l'école en septembre avec les frais
-          de scolarité, les livres, les uniformes et le suivi des familles.
-        </p>
-        <ul
-          class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-gray-600"
-        >
-          <li class="rounded-lg bg-white/70 px-3 py-2">
-            Soutien scolaire direct
-          </li>
-          <li class="rounded-lg bg-white/70 px-3 py-2">Partenaires locaux</li>
-          <li class="rounded-lg bg-white/70 px-3 py-2">Reçus suivis</li>
-        </ul>
-        <a
-          href="/fr/donate?project=education-drive"
-          class="mt-4 block w-full text-center px-4 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors shadow-sm"
-          >{i18n.campaign.cta}</a
-        >
-        <p class="mt-2 text-[10px] text-gray-500 text-center">
-          Les totaux de campagne sont publiés après rapprochement des rapports
-          donateurs. <a
-            href="/fr/transparency"
-            class="underline hover:text-gray-700"
-            >Voir le rapport financier complet</a
-          >.
-        </p>
-      </div>
-    </div>
-  </Section>
+  <CurrentWork locale="fr" projects={spotlightProjects} />
 
   <!-- Program Pillars -->
   <Section background="white" padding="lg">
