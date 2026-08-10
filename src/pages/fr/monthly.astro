@@ -20,7 +20,7 @@ let projectOptions: { slug: string; title: string }[] =
     .filter((p) => isProjectFundable(p.status))
     .map((p) => ({ slug: p.slug, title: p.title }));
 try {
-  const projects = await getProjects();
+  const projects = await getProjects("fr");
   if (projects?.length) {
     projectOptions = mergeProjectLists(
       projects

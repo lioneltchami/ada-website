@@ -2,8 +2,7 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
 import Section from "../layout/Section.astro";
-import { sanityImageUrl } from "../../lib/sanity";
-import { createClient } from "@sanity/client";
+import { getGalleryImages, sanityImageUrl } from "../../lib/sanity";
 import type { Locale } from "../../i18n";
 import { localePath } from "../../i18n";
 
@@ -26,22 +25,19 @@ let galleryData: {
 }[] = [];
 
 try {
-  const projectId = import.meta.env.SANITY_PROJECT_ID || "rj2m21gk";
-  const dataset = import.meta.env.SANITY_DATASET || "production";
-  const client = createClient({
-    projectId,
-    dataset,
-    apiVersion: "2026-03-28",
-    useCdn: true,
-  });
-  galleryData = await client.fetch(`
-    *[_type == "galleryImage" && defined(photo.asset._ref)] | order(year desc, dateTaken desc) {
-      _id, title, category, year, reportUrl,
-      photo { asset { _ref }, alt },
-      "projectTitle": project->title,
-      "projectSlug": project->slug.current
-    }
-  `);
+  const rows = await getGalleryImages(undefined, locale);
+  galleryData = (rows || [])
+    .filter((img: any) => img.photo?.asset?._ref)
+    .map((img: any) => ({
+      _id: img._id,
+      title: img.title,
+      category: img.category,
+      year: img.year,
+      reportUrl: img.reportUrl,
+      photo: img.photo,
+      projectTitle: img.projectTitle,
+      projectSlug: img.projectSlug,
+    }));
 } catch {}
 
 const byYear: Record<number, typeof galleryData> = {};

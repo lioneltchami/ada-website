@@ -11,7 +11,7 @@ let whatsappLink = 'https://wa.me/237676282346';
 let officeHours = 'Lun–Ven, 8h–17h (HAC)';
 
 try {
-  const settings = await getSiteSettings();
+  const settings = await getSiteSettings("fr");
   if (settings) {
     contactEmail = settings.contactEmail || contactEmail;
     contactPhone = settings.contactPhone || contactPhone;

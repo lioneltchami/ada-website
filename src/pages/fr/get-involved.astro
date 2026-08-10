@@ -53,12 +53,12 @@ const fallbackRoles = [
 
 let volunteerRoles = fallbackRoles;
 try {
-  const roles = await getVolunteerRoles();
+  const roles = await getVolunteerRoles("fr");
   if (roles?.length)
     volunteerRoles = roles.map((r: SanityVolunteerRole) => ({
       title: r.title,
       time: r.timeCommitment,
-      location: r.location === "On-site" ? "Sur place" : "À distance",
+      location: r.location,
       desc: r.description,
     }));
 } catch {}
@@ -67,7 +67,7 @@ let socialFacebook = "https://facebook.com/apotidev";
 let socialInstagram = "https://instagram.com/apotidev";
 let socialTwitter = "https://twitter.com/apotidev";
 try {
-  const settings = await getSiteSettings();
+  const settings = await getSiteSettings("fr");
   if (settings) {
     socialFacebook = settings.socialFacebook || socialFacebook;
     socialInstagram = settings.socialInstagram || socialInstagram;

@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+const frHint = "French translation. Leave blank to fall back to English.";
+
 export default defineType({
   name: "aboutPage",
   title: "About Page",
@@ -13,9 +15,22 @@ export default defineType({
       validation: (r) => r.required(),
     }),
     defineField({
+      name: "missionStatementFr",
+      title: "Mission Statement (French)",
+      type: "text",
+      rows: 4,
+      description: frHint,
+    }),
+    defineField({
       name: "storyHeading",
       title: "Story Heading",
       type: "string",
+    }),
+    defineField({
+      name: "storyHeadingFr",
+      title: "Story Heading (French)",
+      type: "string",
+      description: frHint,
     }),
     defineField({
       name: "storyParagraphs",
@@ -23,6 +38,13 @@ export default defineType({
       type: "array",
       of: [{ type: "text" }],
       validation: (r) => r.min(1),
+    }),
+    defineField({
+      name: "storyParagraphsFr",
+      title: "Story Paragraphs (French)",
+      type: "array",
+      of: [{ type: "text" }],
+      description: frHint,
     }),
     defineField({
       name: "coreValues",
@@ -39,7 +61,19 @@ export default defineType({
               description: "Deprecated. Site no longer renders emoji icons.",
             },
             { name: "title", title: "Title", type: "string" },
+            {
+              name: "titleFr",
+              title: "Title (French)",
+              type: "string",
+              description: frHint,
+            },
             { name: "description", title: "Description", type: "text" },
+            {
+              name: "descriptionFr",
+              title: "Description (French)",
+              type: "text",
+              description: frHint,
+            },
           ],
         },
       ],
@@ -59,7 +93,19 @@ export default defineType({
               description: "Deprecated. Site no longer renders emoji icons.",
             },
             { name: "title", title: "Title", type: "string" },
+            {
+              name: "titleFr",
+              title: "Title (French)",
+              type: "string",
+              description: frHint,
+            },
             { name: "description", title: "Description", type: "text" },
+            {
+              name: "descriptionFr",
+              title: "Description (French)",
+              type: "text",
+              description: frHint,
+            },
             {
               name: "slug",
               title: "Project Slug",
@@ -81,6 +127,12 @@ export default defineType({
           fields: [
             { name: "percentage", title: "Percentage", type: "number" },
             { name: "label", title: "Label", type: "string" },
+            {
+              name: "labelFr",
+              title: "Label (French)",
+              type: "string",
+              description: frHint,
+            },
           ],
         },
       ],
@@ -95,6 +147,12 @@ export default defineType({
           fields: [
             { name: "year", title: "Year", type: "string" },
             { name: "event", title: "Event", type: "string" },
+            {
+              name: "eventFr",
+              title: "Event (French)",
+              type: "string",
+              description: frHint,
+            },
           ],
         },
       ],

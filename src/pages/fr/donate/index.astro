@@ -29,7 +29,7 @@ const i18n = t("fr");
 
 let contactEmail = "info@apotidev.org";
 try {
-  const s = await getSiteSettings();
+  const s = await getSiteSettings("fr");
   if (s?.contactEmail) contactEmail = s.contactEmail;
 } catch {}
 
@@ -122,7 +122,7 @@ let impactExamples = [
 ];
 
 try {
-  const tiers = await getDonationTiers();
+  const tiers = await getDonationTiers("fr");
   if (tiers?.length)
     impactExamples = tiers.map((t: SanityDonationTier) => ({
       amount: `${t.amount.toLocaleString()}$`,
@@ -136,7 +136,7 @@ let projectOptions: { slug: string; title: string }[] =
     .map((p) => ({ slug: p.slug, title: p.title }));
 
 try {
-  const projects = await getProjects();
+  const projects = await getProjects("fr");
   if (projects?.length) {
     projectOptions = mergeProjectLists(
       projects
