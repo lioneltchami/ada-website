@@ -9,7 +9,6 @@ import {
   type SanityDonationTier,
   type SanityProject,
 } from "../../../lib/sanity";
-import { sanityImageUrl } from "../../../lib/sanity";
 import {
   getProjectLifecycleState,
   isProjectFundable,
@@ -34,13 +33,11 @@ try {
   if (s?.contactEmail) contactEmail = s.contactEmail;
 } catch {}
 
-let impactExamples = [
-  { amount: "25$", impact: "Fournitures scolaires pour 2 enfants" },
-  { amount: "50$", impact: "Soutien d'une veuve pendant une semaine" },
-  { amount: "100$", impact: "Formation professionnelle pour une femme" },
-  { amount: "250$", impact: "Soins de santé pour 5 familles" },
-  { amount: "500$", impact: "Formation agricole pour 3 agriculteurs" },
-  { amount: "1 000$", impact: "Initiative de nettoyage communautaire" },
+const trustIndicators = [
+  { text: "Sécurisé et chiffré", sub: "Propulsé par Stripe" },
+  { text: "80 % en aide directe", sub: "Vérifié annuellement" },
+  { text: "Reçu après confirmation", sub: "PDF joint" },
+  { text: "ONG enregistrée", sub: `Cameroun ${REGISTRATION_NUMBER}` },
 ];
 
 const donorSafeguards = [
@@ -68,6 +65,62 @@ const paymentPathNotes = [
   "PayPal, Venmo et ACH ne sont pas présentés comme actifs tant que les opérations et le rapprochement ne sont pas confirmés.",
   "Les sponsors qui ont besoin d'une facture, d'un virement ou d'un don restreint doivent commencer par la demande de parrainage.",
 ];
+
+const currentCampaignNeeds = [
+  "Nourriture d'urgence et essentiels pour veuves et enfants",
+  "Soutien scolaire, uniformes et fournitures pour élèves vulnérables",
+  "Transport et suivi sur le terrain pour que l'aide atteigne les familles directement",
+];
+
+const monthlyClubBenefits = [
+  {
+    title: "Soutien régulier",
+    text: "Les dons mensuels aident ADA à planifier avant que les besoins urgents ne deviennent des crises.",
+  },
+  {
+    title: "Moins de pression de collecte",
+    text: "Un revenu récurrent fiable laisse plus de temps au travail sur le terrain et au suivi.",
+  },
+  {
+    title: "Contrôle simple",
+    text: "Vous pouvez modifier ou annuler un don mensuel à tout moment en contactant ADA.",
+  },
+];
+
+const otherWaysToGive = [
+  {
+    title: i18n.donate.inKind,
+    description: `Contactez <a href="mailto:${contactEmail}" class="text-primary-600 hover:underline">${contactEmail}</a> pour organiser des biens ou des fournitures.`,
+  },
+  {
+    title: i18n.donate.matching,
+    description: i18n.donate.matchingDesc,
+  },
+  {
+    title: "Parrainages",
+    description:
+      '<a href="/fr/sponsor" class="text-primary-600 hover:underline">Sponsorisez un programme ciblé</a> et recevez des reçus et des mises à jour claires.',
+  },
+  {
+    title: "Don mensuel",
+    description:
+      '<a href="/fr/monthly" class="text-primary-600 hover:underline">Commencer un don récurrent</a> pour un soutien régulier sans formalités de parrainage.',
+  },
+  {
+    title: i18n.donate.legacy,
+    description: `<a href="/fr/contact?subject=Legs+et+Donations" class="text-primary-600 hover:underline">${i18n.donate.legacyDesc}</a>`,
+  },
+];
+
+let impactExamples = [
+  { amount: "25$", impact: "Fournitures scolaires pour 2 enfants" },
+  { amount: "50$", impact: "Soutien d'une veuve pendant une semaine" },
+  { amount: "100$", impact: "Formation professionnelle pour une femme" },
+  { amount: "250$", impact: "Soins de santé pour 5 familles" },
+  { amount: "500$", impact: "Formation agricole pour 3 agriculteurs" },
+  { amount: "1 000$", impact: "Initiative de nettoyage communautaire" },
+];
+
 try {
   const tiers = await getDonationTiers();
   if (tiers?.length)
@@ -81,7 +134,7 @@ let projectOptions: { slug: string; title: string }[] =
   normalizeFallbackProjects({ locale: "fr" })
     .filter((p) => isProjectFundable(p.status))
     .map((p) => ({ slug: p.slug, title: p.title }));
-let heroImageUrl = "";
+
 try {
   const projects = await getProjects();
   if (projects?.length) {
@@ -98,12 +151,6 @@ try {
         })),
       projectOptions,
     );
-    const withImage = projects.find(
-      (p: SanityProject) =>
-        p.mainImage?.asset?._ref && p.slug?.current === "widow-support",
-    );
-    if (withImage)
-      heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
   }
 } catch {}
 
@@ -119,58 +166,64 @@ const faqPageSchema = buildFaqPage(
   description="Soutenez la mission d'ADA pour autonomiser les communautés vulnérables au Cameroun. ONG enregistrée, 80 % aux programmes."
   jsonLdExtra={[faqPageSchema]}
 >
-  <!-- Hero with background image -->
-  <section class="relative overflow-hidden py-20 md:py-28 text-white">
-    {
-      heroImageUrl ? (
-        <img
-          src={heroImageUrl}
-          alt=""
-          class="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
-        />
-      ) : null
-    }
-    <div
-      class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"
-    >
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span
-        class="inline-block px-4 py-1.5 mb-4 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
-        >{i18n.donate.badge}</span
-      >
-      <h1 class="text-4xl md:text-5xl font-heading font-bold leading-tight">
-        {i18n.donate.title}
-      </h1>
-      <p
-        class="mt-4 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
-      >
-        {i18n.donate.subtitle}
-      </p>
-    </div>
-  </section>
+  <!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
-  <Section background="white" padding="sm">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-      <div class="flex items-center justify-center gap-2">
-        <span>🔒</span><span class="text-sm text-gray-600"
-          >{i18n.donate.secure}</span
+  <!-- Split Studio: proof + form -->
+  <Section background="white" padding="lg">
+    <div
+      class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-start"
+    >
+      <div class="min-w-0">
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
         >
+          {i18n.donate.badge}
+        </p>
+        <h1
+          class="mt-3 text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight tracking-tight"
+        >
+          {i18n.donate.title}
+        </h1>
+        <p class="mt-5 text-lg text-gray-600 leading-relaxed max-w-xl">
+          {i18n.donate.subtitle}
+        </p>
+        <p class="mt-3 text-sm text-gray-500">
+          ONG enregistrée · Cameroun · {REGISTRATION_NUMBER}
+        </p>
+
+        <ul class="mt-8 space-y-4 border-t border-gray-200 pt-8">
+          {
+            trustIndicators.map((item) => (
+              <li>
+                <p class="text-sm font-semibold text-gray-900">{item.text}</p>
+                <p class="text-xs text-gray-500">{item.sub}</p>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div
+          class="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-md text-sm text-amber-900"
+        >
+          <strong class="font-semibold">À propos des reçus fiscaux :</strong>
+          ADA est une ONG enregistrée au Cameroun ({REGISTRATION_NUMBER}). Les
+          dons ne sont pas présentés comme déductibles d'impôt au Canada, aux
+          États-Unis, au Royaume-Uni ou dans l'Union européenne sauf si un
+          partenaire enregistré qualifié est confirmé par écrit. ADA fournit un
+          reçu pour vos dossiers personnels.
+        </div>
       </div>
-      <div class="flex items-center justify-center gap-2">
-        <span>📊</span><span class="text-sm text-gray-600"
-          >{i18n.donate.directAid}</span
-        >
-      </div>
-      <div class="flex items-center justify-center gap-2">
-        <span>📧</span><span class="text-sm text-gray-600"
-          >{i18n.donate.receipt}</span
-        >
+
+      <div
+        id="donation-form"
+        class="min-w-0 scroll-mt-24 rounded-md border border-gray-200 bg-gray-50 p-5 md:p-6"
+      >
+        <DonationForm client:load projects={projectOptions} locale="fr" />
       </div>
     </div>
   </Section>
 
+  <!-- Payment Paths -->
   <Section background="white" padding="sm">
     <div
       class="max-w-4xl mx-auto rounded-xl border border-gray-200 bg-gray-50 p-5"
@@ -192,27 +245,45 @@ const faqPageSchema = buildFaqPage(
     </div>
   </Section>
 
-  <Section background="gray" padding="lg">
-    <DonationForm client:load projects={projectOptions} locale="fr" />
-  </Section>
-
-  <Section background="white" padding="md">
-    <div class="max-w-4xl mx-auto">
-      <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
-        <p class="text-sm text-amber-900 leading-relaxed">
-          <strong class="font-semibold">À propos des reçus fiscaux :</strong>
-          ADA est une ONG enregistrée au Cameroun ({REGISTRATION_NUMBER}). Les
-          dons ne sont pas présentés comme déductibles d'impôt au Canada, aux
-          États-Unis, au Royaume-Uni ou dans l'Union européenne sauf si un
-          partenaire enregistré qualifié est confirmé par écrit. ADA fournit un
-          reçu pour vos dossiers personnels.
+  <!-- Donor Safeguards -->
+  <Section background="white" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start"
+    >
+      <div>
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+        >
+          Confiance des donateurs
         </p>
+        <h2
+          class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900"
+        >
+          Comment nous protégeons votre don
+        </h2>
+        <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
+          Donner à l'international exige de la confiance. ADA garde le chemin
+          entre le don et le terrain visible, documenté et honnête sur notre
+          statut d'enregistrement actuel.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a
+            href="/fr/transparency"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+            >Voir la transparence</a
+          >
+          <a
+            href="/fr/projects/archive"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+            >Voir les projets terminés</a
+          >
+        </div>
       </div>
-      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {
           donorSafeguards.map((item) => (
-            <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h2 class="text-sm font-semibold text-gray-900">{item.title}</h2>
+            <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
+              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
               <p class="mt-2 text-sm text-gray-600 leading-relaxed">
                 {item.text}
               </p>
@@ -220,119 +291,182 @@ const faqPageSchema = buildFaqPage(
           ))
         }
       </div>
-      <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        <a
-          href="/fr/transparency"
-          class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
-        >
-          Voir la transparence
-        </a>
-        <a
-          href="/fr/resources"
-          class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
-        >
-          Consulter les documents
-        </a>
-        <a
-          href="/fr/sponsor"
-          class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
-        >
-          Sponsoriser un programme
-        </a>
-        <a
-          href="/fr/monthly"
-          class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
-        >
-          Donner chaque mois
-        </a>
-      </div>
     </div>
   </Section>
 
-  <Section background="white" padding="lg">
-    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
-      {i18n.donate.impact}
-    </h2>
+  <!-- Current Campaign -->
+  <Section background="gray" padding="lg">
     <div
-      class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto"
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-8 items-stretch"
     >
-      {
-        impactExamples.map((item) => (
-          <div class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg">
-            <span class="text-lg font-bold text-primary-700">
-              {item.amount}
-            </span>
-            <span class="text-sm text-gray-700">= {item.impact}</span>
-          </div>
-        ))
-      }
-    </div>
-  </Section>
-
-  <Section background="gray" padding="md">
-    <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
-      {i18n.donate.otherWays}
-    </h2>
-    <div
-      class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-5xl mx-auto"
-    >
-      <div class="text-center">
-        <span class="text-2xl">📦</span><h3
-          class="mt-2 text-sm font-semibold text-gray-900"
+      <div class="bg-white rounded-xl border border-gray-200 p-6 md:p-8">
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
         >
-          {i18n.donate.inKind}
-        </h3><p class="mt-1 text-xs text-gray-600">
-          Contact <a
-            href={`mailto:${contactEmail}`}
-            class="text-primary-600 hover:underline">{contactEmail}</a
+          Campagne en cours
+        </p>
+        <h2
+          class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900"
+        >
+          Soutien aux veuves et familles au Cameroun
+        </h2>
+        <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
+          Cette saison, les dons non restreints sont priorisés pour un soulagement
+          pratique qui stabilise les ménages vulnérables : nourriture, soutien
+          scolaire, fournitures essentielles et visites sur le terrain pour les
+          familles que ADA sert déjà.
+        </p>
+        <ul class="mt-6 space-y-3">
+          {
+            currentCampaignNeeds.map((need) => (
+              <li class="flex gap-3 text-sm text-gray-700">
+                <span
+                  class="mt-1 h-2 w-2 rounded-full bg-primary-500 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <span>{need}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            href="#donation-form"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+            >Donner à cette campagne</a
           >
+          <a
+            href="/fr/projects/widow-support"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+            >Voir le projet</a
+          >
+        </div>
+      </div>
+      <div
+        class="bg-primary-700 rounded-xl p-6 md:p-8 text-white flex flex-col justify-between"
+      >
+        <div>
+          <p
+            class="text-sm font-semibold uppercase tracking-wider text-white/70"
+          >
+            Pourquoi c'est urgent
+          </p>
+          <p class="mt-4 text-3xl font-heading font-bold leading-tight">
+            Les petits dons agissent vite quand les besoins sont locaux et connus.
+          </p>
+          <p class="mt-4 text-sm text-white/80 leading-relaxed">
+            ADA travaille par des liens communautaires directs au Cameroun, de
+            sorte que les dons peuvent répondre à des besoins urgents sans
+            promettre des avantages fiscaux que nous ne pouvons pas offrir hors
+            Cameroun.
+          </p>
+        </div>
+        <p class="mt-8 text-xs text-white/65">
+          Si cette campagne est entièrement financée ou si les besoins changent,
+          ADA applique les dons à des besoins de programme connexes sauf demande
+          contraire du donateur.
         </p>
       </div>
-      <div class="text-center">
-        <span class="text-2xl">🏢</span><h3
-          class="mt-2 text-sm font-semibold text-gray-900"
-        >
-          {i18n.donate.matching}
-        </h3><p class="mt-1 text-xs text-gray-600">
-          {i18n.donate.matchingDesc}
-        </p>
-      </div>
-      <div class="text-center">
-        <span class="text-2xl">🤝</span><h3
-          class="mt-2 text-sm font-semibold text-gray-900"
-        >
-          Parrainages
-        </h3><p class="mt-1 text-xs text-gray-600">
-          <a href="/fr/sponsor" class="text-primary-600 hover:underline"
-            >Sponsorisez un programme ciblé</a
-          > avec reçus et mises à jour.
-        </p>
-      </div>
-      <div class="text-center">
-        <span class="text-2xl">🔁</span><h3
-          class="mt-2 text-sm font-semibold text-gray-900"
+    </div>
+  </Section>
+
+  <!-- Monthly Giving -->
+  <Section background="white" padding="lg">
+    <div
+      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.8fr_1fr] gap-8 items-start"
+    >
+      <div>
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
         >
           Don mensuel
-        </h3><p class="mt-1 text-xs text-gray-600">
-          <a href="/fr/monthly" class="text-primary-600 hover:underline"
-            >Commencer un don récurrent</a
-          > pour un soutien régulier.
         </p>
-      </div>
-      <div class="text-center">
-        <span class="text-2xl">💌</span><h3
-          class="mt-2 text-sm font-semibold text-gray-900"
+        <h2
+          class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900"
         >
-          {i18n.donate.legacy}
-        </h3><p class="mt-1 text-xs text-gray-600">
-          <a href="/fr/contact" class="text-primary-600 hover:underline"
-            >{i18n.donate.legacyDesc}</a
-          >
+          Rejoignez le Cercle de Soin d'ADA
+        </h2>
+        <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
+          Un don mensuel transforme la générosité en soin fiable. Les donateurs
+          du Cercle de Soin donnent à ADA une base plus stable pour le soutien
+          scolaire, le soulagement des veuves, la formation, les orientations
+          santé et le suivi communautaire.
         </p>
+        <a
+          href="/fr/monthly"
+          class="mt-6 inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+          >Commencer un don mensuel</a
+        >
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {
+          monthlyClubBenefits.map((item) => (
+            <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
+              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
+              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                {item.text}
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </Section>
 
+  <!-- Impact Examples -->
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {i18n.donate.impact}
+      </h2>
+      <p class="mt-2 text-gray-600 text-sm">
+        Voici ce que votre don accomplit sur le terrain au Cameroun.
+      </p>
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {
+          impactExamples.map((item) => (
+            <div class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg border border-primary-100">
+              <span class="text-lg font-bold text-primary-700 whitespace-nowrap">
+                {item.amount}
+              </span>
+              <span class="text-sm text-gray-700">= {item.impact}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-6 text-xs text-gray-500">
+        Chiffres basés sur les coûts réels des programmes au Cameroun. <a
+          href="/fr/transparency"
+          class="text-primary-600 hover:underline"
+          >Voir notre ventilation financière →</a
+        >
+      </p>
+    </div>
+  </Section>
+
+  <!-- Other Ways to Give -->
+  <Section background="gray" padding="md">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
+        {i18n.donate.otherWays}
+      </h2>
+      <ul class="mt-8 divide-y divide-gray-200 border-y border-gray-200">
+        {
+          otherWaysToGive.map((item) => (
+            <li class="py-5">
+              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
+              <p
+                class="mt-1 text-sm text-gray-600 leading-relaxed"
+                set:html={item.description}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <!-- Donation FAQ -->
   <Section background="white" padding="lg">
     <FaqSection
       title="Questions fréquentes"

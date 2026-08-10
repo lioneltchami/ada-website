@@ -101,7 +101,7 @@ const paragraphs = project.description
 >
   <!-- Hero -->
   <section
-    class="relative py-16 md:py-24 bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white"
+    class="relative py-16 md:py-24 bg-primary-900 text-white"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <nav aria-label="Breadcrumb" class="mb-6">
@@ -128,9 +128,9 @@ const paragraphs = project.description
         >
           {statusBadgeLabel}
         </span>
-        <span class="text-sm text-white/70">📍 {project.location}</span>
+        <span class="text-sm text-white/70">{project.location}</span>
         <span class="text-sm text-white/70"
-          >👥 {project.beneficiaries} beneficiaries</span
+          >{project.beneficiaries} beneficiaries</span
         >
       </div>
       <h1
@@ -258,7 +258,7 @@ const paragraphs = project.description
         <!-- Gender Impact -->
         <div class="mt-6 p-6 bg-accent-50 rounded-2xl border border-accent-100">
           <h3 class="text-lg font-heading font-semibold text-gray-900">
-            🎯 Gender Equality
+            Gender equality
           </h3>
           <p class="mt-2 text-sm text-gray-700 leading-relaxed">
             85% of this project's beneficiaries are women and girls. Our
@@ -334,7 +334,7 @@ const paragraphs = project.description
             <p class="text-xs text-gray-500">
               {
                 isFundable
-                  ? "🔒 Secure · 80% to programs · Receipt emailed"
+                  ? "Secure · 80% to programs · Receipt emailed"
                   : "This project is no longer accepting project-specific donations."
               }
             </p>
