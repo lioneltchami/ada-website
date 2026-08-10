@@ -131,6 +131,7 @@ const ways = [
   },
 ];
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Photographic · design-system: design.md · designed-as-app -->
 
 <PageLayout
   title="S'Impliquer"
@@ -139,7 +140,6 @@ const ways = [
   <PageHero
     title="S'Impliquer"
     subtitle="Il existe de nombreuses façons de soutenir notre mission. Trouvez celle qui vous convient."
-    badge="Faites la Différence"
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
   />
@@ -203,9 +203,11 @@ const ways = [
   </Section>
 
   <Section id="partenariats" background="gray" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
-      Partenariats Corporatifs
-    </h2>
+    <div class="max-w-3xl">
+      <h2 class="text-3xl font-heading font-bold text-gray-900 tracking-tight">
+        Partenariats Corporatifs
+      </h2>
+    </div>
     <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {
         partnershipTiers.map((p) => (
@@ -217,42 +219,42 @@ const ways = [
         ))
       }
     </ul>
-    <div class="mt-8 text-center">
+    <div class="mt-8">
       <a
         href="/fr/sponsor"
-        class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+        class="inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
         >Voir les options de parrainage</a
       >
     </div>
   </Section>
 
   <Section id="sensibiliser" background="dark" padding="md">
-    <div class="text-center">
+    <div class="max-w-3xl">
       <h2 class="text-2xl font-heading font-bold">Partagez Notre Mission</h2>
       <p class="mt-2 text-white/80">
         Partagez sur les réseaux sociaux et aidez-nous à toucher plus de
         personnes.
       </p>
-      <div class="mt-4 flex items-center justify-center gap-4">
+      <div class="mt-4 flex flex-wrap gap-4">
         <a
           href={socialFacebook}
           target="_blank"
           rel="noopener"
-          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          class="text-sm text-white underline underline-offset-4 hover:text-white/90"
           >Facebook</a
         >
         <a
           href={socialInstagram}
           target="_blank"
           rel="noopener"
-          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          class="text-sm text-white underline underline-offset-4 hover:text-white/90"
           >Instagram</a
         >
         <a
           href={socialTwitter}
           target="_blank"
           rel="noopener"
-          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          class="text-sm text-white underline underline-offset-4 hover:text-white/90"
           >Twitter/X</a
         >
       </div>

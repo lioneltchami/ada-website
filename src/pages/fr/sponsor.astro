@@ -166,6 +166,7 @@ const diligenceItems = [
   "Attentes de rapport et chemin de contact",
 ];
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
 <PageLayout
   title="Sponsoriser un Programme"
@@ -175,7 +176,6 @@ const diligenceItems = [
   <PageHero
     title="Sponsorisez un soutien pratique pour les familles au Cameroun"
     subtitle="Associez-vous à ADA pour financer des programmes communautaires directs avec options claires, documents écrits et utilisation transparente des fonds."
-    badge="Sponsoriser le travail d'ADA au Cameroun"
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -203,10 +203,10 @@ const diligenceItems = [
           parrainage reste simple : options claires, documents écrits, mises à
           jour utiles et utilisation transparente des fonds.
         </p>
-        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+        <div class="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
           <a
             href="/fr/sponsor/inquiry"
-            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors shadow-sm sm:w-auto"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
           >
             Commencer une demande
           </a>
@@ -214,13 +214,13 @@ const diligenceItems = [
             href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
             target="_blank"
             rel="noopener"
-            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-primary-800 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
           >
             Télécharger la fiche
           </a>
           <a
             href="#tiers"
-            class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors sm:w-auto"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 underline underline-offset-4 hover:text-gray-900"
           >
             Voir les options
           </a>
@@ -232,7 +232,7 @@ const diligenceItems = [
       </div>
 
       <div
-        class="rounded-2xl border border-gray-200 bg-gray-50 p-6 md:p-8 shadow-card"
+        class="rounded-md border border-gray-200 bg-gray-50 p-6 md:p-8"
       >
         <h2 class="text-xl font-heading font-bold text-gray-900">
           Prêt pour les sponsors, en bref
@@ -320,7 +320,7 @@ const diligenceItems = [
   </section>
 
   <Section background="gray" padding="md">
-    <div class="max-w-4xl mx-auto text-center">
+    <div class="max-w-4xl">
       <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
         Quatre façons simples d'aider
       </h2>
@@ -329,22 +329,22 @@ const diligenceItems = [
         diaspora, fondation ou famille.
       </p>
     </div>
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <dl class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t border-gray-200">
       {
         fundingPaths.map((path) => (
-          <div class="bg-white border border-gray-200 rounded-xl p-5">
-            <h3 class="text-base font-semibold text-gray-900">{path.title}</h3>
-            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+          <div class="border-b border-gray-200 py-6">
+            <dt class="text-base font-semibold text-gray-900">{path.title}</dt>
+            <dd class="mt-2 text-sm text-gray-600 leading-relaxed">
               {path.text}
-            </p>
+            </dd>
           </div>
         ))
       }
-    </div>
+    </dl>
   </Section>
 
   <Section background="white" padding="lg">
-    <div class="max-w-4xl mx-auto text-center">
+    <div class="max-w-4xl">
       <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
         L'impact présenté comme résultats
       </h2>
@@ -357,7 +357,7 @@ const diligenceItems = [
     <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
       {
         outcomeProofs.map((proof) => (
-          <article class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <article class="rounded-md border border-gray-200 bg-white p-5">
             <h3 class="text-lg font-semibold text-gray-900">{proof.project}</h3>
             <dl class="mt-4 space-y-3 text-sm">
               <div>
@@ -394,8 +394,8 @@ const diligenceItems = [
   </Section>
 
   <Section id="tiers" background="white" padding="lg">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center">
+    <div class="max-w-4xl">
+      <div>
         <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
           Options de parrainage
         </h2>
@@ -406,10 +406,10 @@ const diligenceItems = [
           commencer par un court accord avant paiement.
         </p>
       </div>
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0 border-t border-gray-200">
         {
           sponsorTiers.map((tier) => (
-            <article class="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <article class="flex h-full flex-col border-b border-gray-200 py-6">
               <h3 class="text-lg font-semibold text-gray-900">{tier.name}</h3>
               <p class="mt-2 text-2xl font-bold text-primary-700">
                 {tier.amount}
@@ -434,7 +434,7 @@ const diligenceItems = [
               </p>
               <a
                 href="/fr/sponsor/inquiry"
-                class="mt-6 inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+                class="mt-6 inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
               >
                 Demander cette option
               </a>
@@ -447,7 +447,7 @@ const diligenceItems = [
 
   <Section background="gray" padding="lg">
     <div
-      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-8 items-start"
+      class="max-w-5xl grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-8 items-start"
     >
       <div>
         <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
@@ -462,33 +462,31 @@ const diligenceItems = [
         <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a
             href="/fr/projects/archive"
-            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white rounded-lg hover:bg-primary-50 transition-colors sm:w-auto"
+            class="inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
           >
             Voir le travail réalisé
           </a>
           <a
             href="/fr/resources#due-diligence"
-            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-white rounded-lg hover:bg-primary-50 transition-colors sm:w-auto"
+            class="inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
           >
             Consulter les documents
           </a>
         </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <ul class="divide-y divide-gray-200 border-y border-gray-200">
         {
           sponsorReceives.map((item) => (
-            <div class="rounded-lg bg-white border border-gray-200 p-4">
-              <p class="text-sm text-gray-700 leading-relaxed">{item}</p>
-            </div>
+            <li class="py-3 text-sm text-gray-700 leading-relaxed">{item}</li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </Section>
 
   <Section background="white" padding="lg">
     <div
-      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 items-start"
+      class="max-w-5xl grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 items-start"
     >
       <div>
         <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
@@ -505,7 +503,7 @@ const diligenceItems = [
             href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
             target="_blank"
             rel="noopener"
-            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
+            class="inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
           >
             Télécharger la fiche
           </a>
@@ -513,24 +511,22 @@ const diligenceItems = [
             href="/docs/diligence/ada-sponsor-readiness-packet.pdf"
             target="_blank"
             rel="noopener"
-            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+            class="inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
           >
             Ouvrir le dossier
           </a>
           <a
             href="/fr/resources#due-diligence"
-            class="inline-flex w-full justify-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+            class="inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
           >
             Consulter les documents
           </a>
         </div>
       </div>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <ul class="divide-y divide-gray-200 border-y border-gray-200">
         {
           diligenceItems.map((item) => (
-            <li class="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
-              {item}
-            </li>
+            <li class="py-3 text-sm text-gray-700">{item}</li>
           ))
         }
       </ul>
@@ -539,7 +535,7 @@ const diligenceItems = [
 
   <Section background="gray" padding="md">
     <div
-      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
+      class="max-w-5xl grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
     >
       <div>
         <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
@@ -552,7 +548,7 @@ const diligenceItems = [
         </p>
       </div>
       <div class="space-y-4">
-        <div class="rounded-xl border border-gray-200 bg-white p-5">
+        <div class="rounded-md border border-gray-200 bg-white p-5">
           <h3 class="text-base font-semibold text-gray-900">
             Paiement et administration sponsor
           </h3>
@@ -564,7 +560,7 @@ const diligenceItems = [
             }
           </ul>
         </div>
-        <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+        <div class="rounded-md border border-amber-200 bg-amber-50 p-5">
           <h3 class="text-base font-semibold text-amber-950">
             Statut fiscal et parrainage clairs
           </h3>
@@ -584,7 +580,7 @@ const diligenceItems = [
           </p>
           <a
             href="/fr/sponsor/inquiry"
-            class="mt-4 inline-flex px-4 py-2 text-sm font-semibold text-amber-950 bg-white rounded-lg hover:bg-amber-100 transition-colors"
+            class="mt-4 inline-flex text-sm font-semibold text-amber-950 underline underline-offset-4 hover:text-amber-900"
           >
             Discuter des exigences
           </a>
@@ -604,7 +600,7 @@ const diligenceItems = [
   </Section>
 
   <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
-    <div class="max-w-4xl mx-auto text-center">
+    <div class="max-w-4xl">
       <h2 class="text-2xl md:text-3xl font-heading font-bold">
         Prêt à sponsoriser un programme ciblé ?
       </h2>
@@ -613,22 +609,22 @@ const diligenceItems = [
         financer. ADA répondra avec la bonne prochaine étape : lien de don,
         accord de parrainage, dossier de diligence ou appel.
       </p>
-      <div class="mt-7 flex flex-col sm:flex-row justify-center gap-3">
+      <div class="mt-7 flex flex-col sm:flex-row gap-3">
         <a
           href="/fr/sponsor/inquiry"
-          class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-gray-900 bg-white rounded-lg hover:bg-gray-100 transition-colors sm:w-auto"
+          class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white border border-white/40 rounded-md hover:bg-white/10 transition-colors"
         >
           Commencer une demande
         </a>
         <a
           href="/fr/donate"
-          class="inline-flex w-full justify-center px-6 py-3 text-sm font-semibold text-white border border-white/30 rounded-lg hover:bg-white/10 transition-colors sm:w-auto"
+          class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
         >
           Donner maintenant
         </a>
       </div>
       <div
-        class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2 lg:grid-cols-3"
+        class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2"
       >
         {
           trustProofs.map((proof) => (

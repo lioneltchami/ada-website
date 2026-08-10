@@ -65,6 +65,7 @@ for (const r of archiveItems) {
   byYear[r.year].push(r);
 }
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout
   title="Project Archive"
@@ -73,7 +74,6 @@ for (const r of archiveItems) {
   <PageHero
     title="Our Track Record"
     subtitle="Every project we've delivered since 2022. Click a demographic to filter, or browse the full timeline."
-    badge="Project Archive"
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -90,28 +90,28 @@ for (const r of archiveItems) {
 
   <!-- Stats Bar -->
   <Section background="white" padding="sm">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 border-y border-gray-200 py-6">
       <div>
-        <p class="text-2xl font-bold text-primary-700">
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">
           {totalBeneficiaries.toLocaleString()}
         </p>
-        <p class="text-xs text-gray-500">Beneficiaries Reached</p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">Beneficiaries Reached</p>
       </div>
       <div>
-        <p class="text-2xl font-bold text-primary-700">{archiveItems.length}</p>
-        <p class="text-xs text-gray-500">Projects Delivered</p>
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">{archiveItems.length}</p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">Projects Delivered</p>
       </div>
       <div>
-        <p class="text-2xl font-bold text-primary-700">
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">
           ${totalBudget.toLocaleString()}
         </p>
-        <p class="text-xs text-gray-500">Total Invested</p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">Total Invested</p>
       </div>
       <div>
-        <p class="text-2xl font-bold text-primary-700">
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">
           {completedCount}/{archiveItems.length}
         </p>
-        <p class="text-xs text-gray-500">Completed</p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">Completed</p>
       </div>
     </div>
   </Section>

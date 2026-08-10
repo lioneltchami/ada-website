@@ -41,6 +41,7 @@ const blogPosting = buildBlogPosting({
   inLanguage: 'en',
 });
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout
   title={post.title}
@@ -66,7 +67,7 @@ const blogPosting = buildBlogPosting({
           </ol>
         </nav>
         <div class="flex items-center gap-3 mb-4">
-          <span class="px-3 py-1 text-xs font-medium uppercase bg-white/10 text-white/90 rounded-full border border-white/20">{post.category || 'update'}</span>
+          <span class="px-3 py-1 text-xs font-medium uppercase bg-white/10 text-white/90 rounded-md border border-white/20">{post.category || 'update'}</span>
           {post.publishedAt && (
             <time
               class="text-sm text-white/60"
@@ -126,9 +127,9 @@ const blogPosting = buildBlogPosting({
 
     <!-- CTA -->
     <Section background="gray" padding="md">
-      <div class="max-w-3xl mx-auto text-center">
+      <div class="max-w-3xl mx-auto">
         <p class="text-gray-600">Inspired by this story?</p>
-        <div class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div class="mt-4 flex flex-col sm:flex-row items-start gap-3">
           <a href="/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors">Support Our Mission</a>
           <a href="/stories" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">Read More Stories</a>
         </div>

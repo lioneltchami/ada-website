@@ -28,7 +28,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-corporate-sponsor-one-pager.pdf",
 		external: true,
 		meta: "PDF · one page",
-		icon: "📄",
+		icon: "",
 	},
 	{
 		group: "sponsor",
@@ -37,7 +37,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-sponsor-readiness-packet.pdf",
 		external: true,
 		meta: "PDF · sponsor overview",
-		icon: "🤝",
+		icon: "",
 	},
 	{
 		group: "legal",
@@ -46,7 +46,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-registration-certificate.pdf",
 		external: true,
 		meta: "PDF · legal record",
-		icon: "📜",
+		icon: "",
 	},
 	{
 		group: "legal",
@@ -55,7 +55,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-governance-overview.pdf",
 		external: true,
 		meta: "PDF · governance",
-		icon: "👥",
+		icon: "",
 	},
 	{
 		group: "policies",
@@ -64,7 +64,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-financial-management-policy.pdf",
 		external: true,
 		meta: "PDF · policy",
-		icon: "📑",
+		icon: "",
 	},
 	{
 		group: "budgets",
@@ -73,7 +73,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-financial-summary-2024.pdf",
 		external: true,
 		meta: "PDF · 2024 summary",
-		icon: "📑",
+		icon: "",
 	},
 	{
 		group: "policies",
@@ -82,7 +82,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-safeguarding-policy.pdf",
 		external: true,
 		meta: "PDF · policy",
-		icon: "🛡️",
+		icon: "",
 	},
 	{
 		group: "policies",
@@ -91,7 +91,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-anti-fraud-gift-integrity-summary.pdf",
 		external: true,
 		meta: "PDF · policy summary",
-		icon: "✓",
+		icon: "",
 	},
 	{
 		group: "budgets",
@@ -100,7 +100,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-program-budget-template.pdf",
 		external: true,
 		meta: "PDF · template",
-		icon: "▦",
+		icon: "",
 	},
 	{
 		group: "sponsor",
@@ -109,7 +109,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-impact-scorecard.pdf",
 		external: true,
 		meta: "PDF · May 2026",
-		icon: "↗",
+		icon: "",
 	},
 	{
 		group: "sponsor",
@@ -118,7 +118,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-bamenda-girls-dignity-outreach.pdf",
 		external: true,
 		meta: "PDF · June 2026",
-		icon: "🪣",
+		icon: "",
 	},
 	{
 		group: "budgets",
@@ -127,7 +127,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/ada-public-budget-adjustments.xlsx",
 		external: true,
 		meta: "XLSX · spreadsheet",
-		icon: "▦",
+		icon: "",
 	},
 	{
 		group: "budgets",
@@ -136,7 +136,7 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/ada-public-budget-adjustments.pdf",
 		external: true,
 		meta: "PDF · polished",
-		icon: "📄",
+		icon: "",
 	},
 ];
 
@@ -148,7 +148,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-corporate-sponsor-one-pager.pdf",
 		external: true,
 		meta: "PDF · 1 page · anglais",
-		icon: "📄",
+		icon: "",
 	},
 	{
 		group: "sponsor",
@@ -157,7 +157,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-sponsor-readiness-packet.pdf",
 		external: true,
 		meta: "PDF · aperçu sponsor",
-		icon: "🤝",
+		icon: "",
 	},
 	{
 		group: "legal",
@@ -166,7 +166,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-registration-certificate.pdf",
 		external: true,
 		meta: "PDF · document légal",
-		icon: "📜",
+		icon: "",
 	},
 	{
 		group: "legal",
@@ -175,7 +175,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-governance-overview.pdf",
 		external: true,
 		meta: "PDF · gouvernance",
-		icon: "👥",
+		icon: "",
 	},
 	{
 		group: "policies",
@@ -184,7 +184,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-financial-management-policy.pdf",
 		external: true,
 		meta: "PDF · politique",
-		icon: "📑",
+		icon: "",
 	},
 	{
 		group: "budgets",
@@ -193,7 +193,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-financial-summary-2024.pdf",
 		external: true,
 		meta: "PDF · résumé 2024",
-		icon: "📑",
+		icon: "",
 	},
 	{
 		group: "policies",
@@ -202,7 +202,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-safeguarding-policy.pdf",
 		external: true,
 		meta: "PDF · politique",
-		icon: "🛡️",
+		icon: "",
 	},
 	{
 		group: "policies",
@@ -211,7 +211,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-anti-fraud-gift-integrity-summary.pdf",
 		external: true,
 		meta: "PDF · résumé politique",
-		icon: "✓",
+		icon: "",
 	},
 	{
 		group: "budgets",
@@ -220,7 +220,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-program-budget-template.pdf",
 		external: true,
 		meta: "PDF · modèle",
-		icon: "▦",
+		icon: "",
 	},
 	{
 		group: "sponsor",
@@ -229,7 +229,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-impact-scorecard.pdf",
 		external: true,
 		meta: "PDF · mai 2026",
-		icon: "↗",
+		icon: "",
 	},
 	{
 		group: "sponsor",
@@ -238,7 +238,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-bamenda-girls-dignity-outreach.pdf",
 		external: true,
 		meta: "PDF · juin 2026",
-		icon: "🪣",
+		icon: "",
 	},
 	{
 		group: "budgets",
@@ -247,7 +247,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/ada-public-budget-adjustments.xlsx",
 		external: true,
 		meta: "XLSX · tableur",
-		icon: "▦",
+		icon: "",
 	},
 	{
 		group: "budgets",
@@ -256,7 +256,7 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/ada-public-budget-adjustments.pdf",
 		external: true,
 		meta: "PDF · résumé",
-		icon: "📄",
+		icon: "",
 	},
 ];
 

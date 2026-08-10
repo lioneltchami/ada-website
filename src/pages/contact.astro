@@ -25,12 +25,12 @@ const heroSubtitle = 'Have questions or want to get involved? We\'d love to hear
 const heroBadge = 'Get in Touch';
 const heroImage = await resolveHeroImage(['widow-support', 'women-empowerment']);
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout title="Contact Us" description="Contact Apoti Development Association. Reach us by email, phone, or WhatsApp. Located in Cameroon, Central Africa.">
   <PageHero
     title={heroTitle}
     subtitle={heroSubtitle}
-    badge={heroBadge}
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -43,36 +43,28 @@ const heroImage = await resolveHeroImage(['widow-support', 'women-empowerment'])
         <h2 class="text-xl font-semibold text-gray-900">Reach Us Directly</h2>
         <div class="space-y-4">
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
-              <span>✉️</span>
-            </div>
+            <div class="w-1 h-10 rounded-full bg-primary-600 flex-shrink-0"></div>
             <div>
               <p class="text-sm font-medium text-gray-900">Email</p>
               <a href={`mailto:${contactEmail}`} class="text-sm text-primary-600 hover:underline">{contactEmail}</a>
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
-              <span class="font-heading text-xs font-bold text-primary-700">Tel</span>
-            </div>
+            <div class="w-1 h-10 rounded-full bg-primary-600 flex-shrink-0"></div>
             <div>
               <p class="text-sm font-medium text-gray-900">Phone / WhatsApp</p>
               <a href={whatsappLink} class="text-sm text-primary-600 hover:underline">{contactPhone}</a>
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
-              <span class="font-heading text-xs font-bold text-primary-700">Loc</span>
-            </div>
+            <div class="w-1 h-10 rounded-full bg-primary-600 flex-shrink-0"></div>
             <div>
               <p class="text-sm font-medium text-gray-900">Location</p>
               <p class="text-sm text-gray-600">Cameroon, Central Africa</p>
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
-              <span class="font-heading text-xs font-bold text-primary-700">Hrs</span>
-            </div>
+            <div class="w-1 h-10 rounded-full bg-primary-600 flex-shrink-0"></div>
             <div>
               <p class="text-sm font-medium text-gray-900">Office Hours</p>
               <p class="text-sm text-gray-600">{officeHours}</p>

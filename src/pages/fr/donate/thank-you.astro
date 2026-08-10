@@ -3,6 +3,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 import Section from "../../../components/layout/Section.astro";
 import NewsletterSignup from "../../../components/islands/NewsletterSignup";
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
 <PageLayout
   title="Merci pour votre don"
@@ -10,9 +11,9 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
   noIndex
 >
   <Section background="white" padding="lg">
-    <div class="max-w-lg mx-auto text-center">
+    <div class="max-w-lg">
       <div
-        class="w-20 h-20 mx-auto rounded-full bg-primary-100 flex items-center justify-center"
+        class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center"
       >
         <svg
           class="w-10 h-10 text-primary-600"
@@ -36,7 +37,7 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
         Votre don a bien été reçu. Votre reçu sera envoyé par e-mail après
         confirmation du paiement.
       </p>
-      <p class="mt-3 text-sm text-gray-500 max-w-sm mx-auto">
+      <p class="mt-3 text-sm text-gray-500 max-w-sm">
         Votre soutien aide les veuves, les orphelins et les jeunes femmes au
         Cameroun. Nous vous sommes profondément reconnaissants.
       </p>
@@ -50,20 +51,20 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
   </Section>
 
   <Section background="gray" padding="sm">
-    <div id="monthly-upsell" class="max-w-lg mx-auto">
+    <div id="monthly-upsell" class="max-w-lg">
       <div
-        class="p-5 bg-white rounded-2xl border border-primary-200 shadow-sm text-center"
+        class="p-5 bg-white rounded-md border border-primary-200"
       >
         <p class="text-base font-semibold text-gray-900">
            Rendez votre impact régulier
         </p>
-        <p class="mt-2 text-sm text-gray-600 max-w-sm mx-auto">
+        <p class="mt-2 text-sm text-gray-600 max-w-sm">
           Les soutiens mensuels aident ADA à mieux planifier le soutien
           scolaire, le suivi terrain et les besoins urgents des familles.
         </p>
         <a
           href="/fr/monthly"
-          class="mt-4 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors shadow-sm"
+          class="mt-4 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-primary-700 border border-primary-200 rounded-md hover:bg-primary-50 transition-colors"
         >
           Devenir soutien mensuel
         </a>
@@ -75,11 +76,11 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
   </Section>
 
   <Section background="white" padding="md">
-    <div class="max-w-2xl mx-auto">
-      <h2 class="text-xl font-heading font-bold text-gray-900 text-center">
+    <div class="max-w-2xl">
+      <h2 class="text-xl font-heading font-bold text-gray-900">
         Ce qui se passe ensuite
       </h2>
-      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
         {
           [
             {
@@ -113,7 +114,7 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
   </Section>
 
   <Section background="white" padding="md">
-    <div class="max-w-lg mx-auto text-center">
+    <div class="max-w-lg">
       <h2 class="text-lg font-semibold text-gray-900">Rester informé</h2>
       <p class="mt-1 text-sm text-gray-600">
         Recevez des nouvelles mensuelles avec photos et histoires montrant
@@ -126,7 +127,7 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
   </Section>
 
   <Section background="gray" padding="sm">
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+    <div class="flex flex-col sm:flex-row items-start gap-3">
       <a
         href="/fr"
         class="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"

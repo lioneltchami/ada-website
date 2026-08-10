@@ -16,6 +16,7 @@ const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._
 const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).map((p: any) => ({ url: sanityImageUrl(p.asset._ref, 800), caption: p.caption || '' }));
 const isAutoArchived = Boolean(record.autoArchived);
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout title={record.title} description={record.description?.slice(0, 160)}>
   <section class="bg-primary-900 text-white py-16 md:py-20">
@@ -30,10 +31,10 @@ const isAutoArchived = Boolean(record.autoArchived);
         </ol>
       </nav>
       <div class="flex flex-wrap items-center gap-2 mb-4">
-        <span class:list={["px-3 py-1 text-xs font-semibold rounded-full", record.status === 'completed' ? 'bg-green-400/20 text-green-200 border border-green-400/30' : record.status === 'ongoing' ? 'bg-yellow-400/20 text-yellow-200 border border-yellow-400/30' : 'bg-gray-400/20 text-gray-200 border border-gray-400/30']}>
+        <span class:list={["px-3 py-1 text-xs font-semibold rounded-md", record.status === 'completed' ? 'bg-green-400/20 text-green-200 border border-green-400/30' : record.status === 'ongoing' ? 'bg-yellow-400/20 text-yellow-200 border border-yellow-400/30' : 'bg-gray-400/20 text-gray-200 border border-gray-400/30']}>
           {record.status === 'completed' ? '✓ Completed' : record.status === 'ongoing' ? '● Ongoing' : '○ Planned'}
         </span>
-        <span class="px-3 py-1 text-xs font-medium bg-white/10 rounded-full border border-white/20">{demoLabels[record.demographic]}</span>
+        <span class="px-3 py-1 text-xs font-medium bg-white/10 rounded-md border border-white/20">{demoLabels[record.demographic]}</span>
         <span class="text-sm text-white/70">{record.year}</span>
         {record.location && <span class="text-sm text-white/70">{record.location}</span>}
       </div>
@@ -99,13 +100,13 @@ const isAutoArchived = Boolean(record.autoArchived);
             </div>
           </div>
         )}
-        <a href="/donate" class="block w-full text-center px-4 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-xl hover:bg-secondary-600 transition-colors">Support Our Work</a>
+        <a href="/donate" class="block w-full text-center px-4 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors">Support Our Work</a>
       </div>
     </div>
   </Section>
 
   <Section background="gray" padding="md">
-    <div class="max-w-4xl mx-auto text-center">
+    <div class="max-w-4xl mx-auto">
       <a href="/projects/archive" class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">← Back to Project Archive</a>
     </div>
   </Section>

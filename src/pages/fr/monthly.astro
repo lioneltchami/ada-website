@@ -66,6 +66,7 @@ const heroImage = await resolveHeroImage([
   "women-empowerment",
 ]);
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
 <PageLayout
   title="Don Mensuel"
@@ -74,7 +75,6 @@ const heroImage = await resolveHeroImage([
   <PageHero
     title="Don Mensuel"
     subtitle="Des dons réguliers maintiennent le soutien scolaire, l'aide aux veuves et le suivi terrain entre les campagnes."
-    badge="Soutien récurrent"
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -98,13 +98,13 @@ const heroImage = await resolveHeroImage([
         <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a
             href="#monthly-form"
-            class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 transition-colors sm:w-auto"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
           >
             Commencer un don mensuel
           </a>
           <a
             href="/fr/impact-scorecard"
-            class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
+            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
           >
             Voir l'impact
           </a>
@@ -118,7 +118,7 @@ const heroImage = await resolveHeroImage([
 
       <div
         id="monthly-form"
-        class="min-w-0 scroll-mt-24 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-6"
+        class="min-w-0 scroll-mt-24 rounded-md border border-gray-200 bg-white p-5 md:p-6"
       >
         <DonationForm
           client:load
@@ -131,28 +131,28 @@ const heroImage = await resolveHeroImage([
   </section>
 
   <Section background="gray" padding="lg">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-5xl">
       <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
         Pourquoi le don mensuel aide
       </h2>
-      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <dl class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t border-gray-200">
         {
           monthlyBenefits.map((item) => (
-            <div class="rounded-xl border border-gray-200 bg-white p-5">
-              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
-              <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+            <div class="border-b border-gray-200 py-6">
+              <dt class="text-sm font-semibold text-gray-900">{item.title}</dt>
+              <dd class="mt-2 text-sm text-gray-600 leading-relaxed">
                 {item.text}
-              </p>
+              </dd>
             </div>
           ))
         }
-      </div>
+      </dl>
     </div>
   </Section>
 
   <Section background="white" padding="lg">
     <div
-      class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
+      class="max-w-5xl grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start"
     >
       <div>
         <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
@@ -169,18 +169,15 @@ const heroImage = await resolveHeroImage([
           l'appareil, le navigateur et les paramètres Stripe d'ADA.
         </p>
       </div>
-      <div class="rounded-xl border border-gray-200 bg-gray-50 p-5">
+      <div class="rounded-md border border-gray-200 bg-gray-50 p-5">
         <h3 class="text-base font-semibold text-gray-900">
           Ce que les dons mensuels peuvent soutenir
         </h3>
         <ul class="mt-4 space-y-3">
           {
             monthlyUses.map((item) => (
-              <li class="flex gap-3 text-sm text-gray-700">
-                <span
-                  class="mt-1.5 h-2 w-2 rounded-full bg-primary-500 flex-shrink-0"
-                  aria-hidden="true"
-                />
+              <li class="flex gap-3 text-sm text-gray-700 border-b border-gray-200 pb-3 last:border-0 last:pb-0">
+                <span class="mt-0.5 text-primary-700" aria-hidden="true">—</span>
                 <span>{item}</span>
               </li>
             ))
@@ -192,7 +189,7 @@ const heroImage = await resolveHeroImage([
 
   <Section background="gray" padding="md">
     <div
-      class="max-w-4xl mx-auto rounded-xl border border-amber-200 bg-amber-50 p-5"
+      class="max-w-4xl rounded-md border border-amber-200 bg-amber-50 p-5"
     >
       <h2 class="text-base font-semibold text-amber-950">
         Chemin avec partenaire fiscal
@@ -205,7 +202,7 @@ const heroImage = await resolveHeroImage([
       </p>
       <a
         href="/fr/sponsor/inquiry"
-        class="mt-4 inline-flex px-4 py-2 text-sm font-semibold text-amber-950 bg-white rounded-lg hover:bg-amber-100 transition-colors"
+        class="mt-4 inline-flex text-sm font-semibold text-amber-950 underline underline-offset-4 hover:text-amber-900"
       >
         Discuter des exigences
       </a>

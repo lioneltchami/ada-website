@@ -37,12 +37,12 @@ const storyHeroAlt =
   storyHero?.title ||
   'Histoires ADA';
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout title="Témoignages & Actualités" description="Lisez des histoires d'impact, des mises à jour de programmes et des annonces d'Apoti Development Association.">
   <PageHero
     title="Témoignages & Actualités"
     subtitle="Nouvelles, histoires d'impact et annonces de nos programmes."
-    badge="Notre Blog"
     compact
     imageUrl={storyHeroUrl}
     imageAlt={storyHeroAlt}
@@ -94,7 +94,7 @@ const storyHeroAlt =
         </ul>
       </div>
     ) : (
-      <div class="text-center py-12">
+      <div class="py-12">
         <h2 class="text-xl font-semibold text-gray-900">Histoires à Venir</h2>
         <p class="mt-2 text-gray-600">Nous travaillons à partager plus d'histoires d'impact. Revenez bientôt !</p>
       </div>
@@ -102,10 +102,10 @@ const storyHeroAlt =
   </Section>
 
   <Section background="gray" padding="md">
-    <div class="text-center">
+    <div>
       <h3 class="text-lg font-heading font-semibold text-gray-900 mb-4">De notre galerie</h3>
       {galleryPhotos.length > 0 && (
-        <div class="flex justify-center gap-3 mb-4">
+        <div class="flex gap-3 mb-4">
           {galleryPhotos.map((img) => (
             <a href="/fr/gallery" class="block w-20 h-20 rounded-lg overflow-hidden hover:opacity-80 transition-opacity">
               <img src={sanityImageUrl(img.photo.asset._ref, 160)} alt={img.photo?.alt || img.title} class="w-full h-full object-cover" loading="lazy" />

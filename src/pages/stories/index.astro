@@ -43,6 +43,7 @@ const storyHeroAlt =
   storyHero?.title ||
   'ADA stories';
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout title="Stories & Updates" description="Read stories of impact, program updates, and announcements from Apoti Development Association.">
   <PageHero
@@ -100,18 +101,18 @@ const storyHeroAlt =
         </ul>
       </div>
     ) : (
-      <div class="text-center py-12">
-        <h2 class="mt-4 text-xl font-semibold text-gray-900">Stories Coming Soon</h2>
+      <div class="py-12">
+        <h2 class="text-xl font-semibold text-gray-900">Stories Coming Soon</h2>
         <p class="mt-2 text-gray-600">We're working on sharing more stories of impact. Check back soon!</p>
       </div>
     )}
   </Section>
 
   <Section background="gray" padding="md">
-    <div class="text-center">
+    <div>
       <h3 class="text-lg font-heading font-semibold text-gray-900 mb-4">From our gallery</h3>
       {galleryPhotos.length > 0 && (
-        <div class="flex justify-center gap-3 mb-4">
+        <div class="flex gap-3 mb-4">
           {galleryPhotos.map((img) => (
             <a href="/gallery" class="block w-20 h-20 rounded-lg overflow-hidden hover:opacity-80 transition-opacity">
               <img src={sanityImageUrl(img.photo.asset._ref, 160)} alt={img.photo?.alt || img.title} class="w-full h-full object-cover" loading="lazy" />

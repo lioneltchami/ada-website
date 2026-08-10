@@ -156,19 +156,19 @@ const en: PartnersCopy = {
     fundingGoalLabel: "2026 Funding Goal",
     items: [
       {
-        emoji: "👩‍🌾",
+        emoji: "",
         title: "Widow Empowerment",
         desc: "Train and equip 500 additional widows",
         amount: "$48,000",
       },
       {
-        emoji: "📚",
+        emoji: "",
         title: "Orphan Education",
         desc: "School scholarships for 300 orphans",
         amount: "$35,000",
       },
       {
-        emoji: "🏥",
+        emoji: "",
         title: "Health & Nutrition",
         desc: "Mobile clinic and nutrition program",
         amount: "$62,000",
@@ -225,32 +225,32 @@ const en: PartnersCopy = {
     title: "Why Partner with ADA?",
     items: [
       {
-        icon: "🎯",
+        icon: "",
         title: "Gender Equality Focus",
         desc: "85% of our beneficiaries are women and girls. Our programs directly advance gender equality through economic empowerment and education access.",
       },
       {
-        icon: "📊",
+        icon: "",
         title: "Measurable Results",
         desc: "Logical framework with clear indicators, baselines, and targets. We track outcomes (income generated) not just outputs (people trained).",
       },
       {
-        icon: "💰",
+        icon: "",
         title: "5% Admin Target",
         desc: "Lean operating model. Zero paid executive leadership. ADA’s public allocation model targets 80% program delivery.",
       },
       {
-        icon: "🌱",
+        icon: "",
         title: "Locally Owned",
         desc: "Founded, led, and staffed by Cameroonians. Programs designed WITH communities, not imposed on them.",
       },
       {
-        icon: "♻️",
+        icon: "",
         title: "Sustainability Built In",
         desc: "Our train-the-trainer model means programs outlive funding. Graduates become mentors for the next cohort.",
       },
       {
-        icon: "🌍",
+        icon: "",
         title: "Bilingual Capacity",
         desc: "Full reporting in English and French. Quarterly updates, annual reports, and M&E data on schedule.",
       },
@@ -586,19 +586,19 @@ const fr: PartnersCopy = {
     fundingGoalLabel: "Objectif de Financement 2026",
     items: [
       {
-        emoji: "👩‍🌾",
+        emoji: "",
         title: "Émancipation des Veuves",
         desc: "Former et équiper 500 veuves supplémentaires",
         amount: "48 000 $",
       },
       {
-        emoji: "📚",
+        emoji: "",
         title: "Éducation pour les Orphelins",
         desc: "Bourses scolaires pour 300 orphelins",
         amount: "35 000 $",
       },
       {
-        emoji: "🏥",
+        emoji: "",
         title: "Santé et Nutrition",
         desc: "Clinique mobile et programme de nutrition",
         amount: "62 000 $",
@@ -655,32 +655,32 @@ const fr: PartnersCopy = {
     title: "Pourquoi S'Associer à ADA ?",
     items: [
       {
-        icon: "🎯",
+        icon: "",
         title: "Accent sur l'Égalité des Genres",
         desc: "85% de nos bénéficiaires sont des femmes et des filles. Nos programmes font directement progresser l'égalité des genres par l'autonomisation économique et l'accès à l'éducation.",
       },
       {
-        icon: "📊",
+        icon: "",
         title: "Résultats Mesurables",
         desc: "Cadre logique avec des indicateurs clairs, des références et des cibles. Nous suivons les résultats (revenus générés) et pas seulement les extrants (personnes formées).",
       },
       {
-        icon: "💰",
+        icon: "",
         title: "5% de Frais Généraux",
         desc: "Modèle opérationnel léger. Direction exécutive bénévole. Le modèle d'allocation public d'ADA vise 80% pour l'exécution des programmes.",
       },
       {
-        icon: "🌱",
+        icon: "",
         title: "Propriété Locale",
         desc: "Fondée, dirigée et composée de Camerounais. Programmes conçus AVEC les communautés, pas imposés à elles.",
       },
       {
-        icon: "♻️",
+        icon: "",
         title: "Durabilité Intégrée",
         desc: "Notre modèle de formation de formateurs signifie que les programmes survivent au financement. Les diplômés deviennent mentors pour la cohorte suivante.",
       },
       {
-        icon: "🌍",
+        icon: "",
         title: "Capacité Bilingue",
         desc: "Rapports complets en anglais et en français. Mises à jour trimestrielles, rapports annuels et données de S&E dans les délais.",
       },

@@ -162,7 +162,7 @@ const copy = isFr
     };
 
 function statusBadgeClass(status: ProjectStatus): string {
-  if (status === "upcoming") return "bg-sky-100 text-sky-800";
+  if (status === "upcoming") return "bg-primary-100 text-primary-800";
   if (status === "active") return "bg-green-100 text-green-700";
   if (status === "completed") return "bg-gray-100 text-gray-600";
   return "bg-yellow-100 text-yellow-700";
@@ -239,7 +239,7 @@ function formatSchedule(start?: string, end?: string): string {
                     {project.title}
                   </h3>
                   {(project.startDate || project.endDate) && (
-                    <p class="mt-2 text-xs font-medium text-sky-800">
+                    <p class="mt-2 text-xs font-medium text-primary-800">
                       {copy.scheduled}:{" "}
                       {formatSchedule(project.startDate, project.endDate)}
                     </p>
@@ -256,9 +256,9 @@ function formatSchedule(start?: string, end?: string): string {
                         {copy.of} ${project.goal.toLocaleString()}
                       </span>
                     </div>
-                    <div class="w-full h-2 bg-white/80 rounded-full overflow-hidden border border-sky-100">
+                    <div class="w-full h-2 bg-primary-50 rounded-md overflow-hidden border border-primary-100">
                       <div
-                        class="h-full bg-sky-500 rounded-full"
+                        class="h-full bg-primary-500 rounded-full"
                         style={`width: ${Math.min(100, (project.raised / Math.max(project.goal, 1)) * 100)}%`}
                       />
                     </div>
@@ -268,7 +268,7 @@ function formatSchedule(start?: string, end?: string): string {
               <div class="absolute bottom-0 left-0 right-0 p-6 pt-0 flex gap-2">
                 <a
                   href={localePath(`/projects/${project.slug}`, locale)}
-                  class="flex-1 text-center px-3 py-2.5 text-sm font-medium text-sky-800 border border-sky-200 rounded-lg bg-white/90 hover:bg-sky-50 transition-colors"
+                  class="flex-1 text-center px-3 py-2.5 text-sm font-medium text-primary-800 border border-primary-200 rounded-lg bg-white/90 hover:bg-primary-50 transition-colors"
                 >
                   {copy.upcomingDetails}
                 </a>
@@ -277,7 +277,7 @@ function formatSchedule(start?: string, end?: string): string {
                     `/donate?project=${project.slug}`,
                     locale,
                   )}
-                  class="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-sky-600 rounded-lg hover:bg-sky-700 transition-colors"
+                  class="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors"
                 >
                   {copy.upcomingDonate}
                 </a>
@@ -451,10 +451,10 @@ function formatSchedule(start?: string, end?: string): string {
   }
 
   <Section background="gray" padding="sm">
-    <div class="text-center">
+    <div class="max-w-3xl">
       <a
         href={localePath("/projects/archive", locale)}
-        class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
+        class="font-heading inline-flex items-center gap-2 text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
       >
         {copy.archiveCta}
       </a>
@@ -462,18 +462,18 @@ function formatSchedule(start?: string, end?: string): string {
     </div>
   </Section>
 
-  <Section background="dark" padding="md">
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
+  <Section background="dark" padding="md" class="!bg-[#121a14] !bg-none">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
       <div>
-        <p class="text-3xl font-bold">{upcomingCount}</p>
+        <p class="font-heading text-3xl font-bold">{upcomingCount}</p>
         <p class="mt-1 text-sm text-white/70">{copy.statUpcoming}</p>
       </div>
       <div>
-        <p class="text-3xl font-bold">{activeCount}</p>
+        <p class="font-heading text-3xl font-bold">{activeCount}</p>
         <p class="mt-1 text-sm text-white/70">{copy.statActive}</p>
       </div>
       <div>
-        <p class="text-3xl font-bold">{uniqueLocations}</p>
+        <p class="font-heading text-3xl font-bold">{uniqueLocations}</p>
         <p class="mt-1 text-sm text-white/70">{copy.statCommunities}</p>
       </div>
       <div>
