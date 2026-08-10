@@ -104,7 +104,7 @@ export type TransparencyCopy = {
   };
   environment: {
     intro: string;
-    items: Array<{ icon: string; title: string; desc: string }>;
+    items: Array<{ title: string; desc: string }>;
     commitmentLabel: string;
     commitment: string;
   };
@@ -444,22 +444,18 @@ const en: TransparencyCopy = {
       "Every ADA program integrates environmental awareness — because healthy communities need a healthy planet.",
     items: [
       {
-        icon: "💧",
         title: "Clean Water Infrastructure",
         desc: "Our boreholes eliminate reliance on polluted streams, reducing waterborne disease and protecting local water ecosystems from over-extraction.",
       },
       {
-        icon: "🌳",
         title: "Tree Planting & Reforestation",
         desc: "Every community clean-up includes tree planting. In 2024, we planted 50 trees across Bamenda — combating deforestation and providing future shade and fruit.",
       },
       {
-        icon: "♻️",
         title: "Waste Management Education",
         desc: "Our clean-up campaigns teach waste sorting, composting, and plastic reduction. We partner with local recyclers to create income from collected materials.",
       },
       {
-        icon: "🔥",
         title: "Clean Cooking Solutions",
         desc: "We help widows transition from charcoal to gas cooking — reducing indoor air pollution and decreasing demand for charcoal-driven deforestation.",
       },
@@ -835,22 +831,18 @@ const fr: TransparencyCopy = {
       "Chaque programme ADA intègre la sensibilisation environnementale — car des communautés saines ont besoin d'une planète saine.",
     items: [
       {
-        icon: "💧",
         title: "Infrastructure d'Eau Potable",
         desc: "Nos forages éliminent la dépendance aux cours d'eau pollués, réduisant les maladies hydriques et protégeant les écosystèmes aquatiques locaux.",
       },
       {
-        icon: "🌳",
         title: "Plantation d'Arbres et Reboisement",
         desc: "Chaque nettoyage communautaire inclut la plantation d'arbres. En 2024, nous avons planté 50 arbres à Bamenda — luttant contre la déforestation.",
       },
       {
-        icon: "♻️",
         title: "Éducation à la Gestion des Déchets",
         desc: "Nos campagnes enseignent le tri des déchets, le compostage et la réduction du plastique. Nous collaborons avec des recycleurs locaux.",
       },
       {
-        icon: "🔥",
         title: "Solutions de Cuisson Propre",
         desc: "Nous aidons les veuves à passer du charbon au gaz — réduisant la pollution intérieure et la demande de déforestation liée au charbon.",
       },

@@ -398,11 +398,11 @@ const faqPageSchema = buildFaqPage(
           >Commencer un don mensuel</a
         >
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="mt-8 divide-y divide-gray-200 border-y border-gray-200">
         {
           monthlyClubBenefits.map((item) => (
-            <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
-              <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
+            <div class="py-5">
+              <h3 class="font-heading text-sm font-semibold text-gray-900">{item.title}</h3>
               <p class="mt-2 text-sm text-gray-600 leading-relaxed">
                 {item.text}
               </p>
