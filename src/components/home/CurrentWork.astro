@@ -158,9 +158,9 @@ function formatSchedule(start?: string, end?: string): string {
                   {copy.of} ${project.goal.toLocaleString()}
                 </span>
               </div>
-              <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="w-full h-2 bg-gray-100 rounded-md overflow-hidden">
                 <div
-                  class="h-full bg-primary-500 rounded-full"
+                  class="h-full bg-primary-500 rounded-md"
                   style={`width: ${Math.min(100, (project.raised / Math.max(project.goal, 1)) * 100)}%`}
                 />
               </div>

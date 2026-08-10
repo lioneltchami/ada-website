@@ -38,7 +38,6 @@ const heroImage = await resolveHeroImage([
   <PageHero
     title={copy.hero.title}
     subtitle={copy.hero.subtitle}
-    badge={copy.hero.badge}
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -161,7 +160,7 @@ const heroImage = await resolveHeroImage([
         {
           copy.fundFlow.steps.map((item) => (
             <div class="p-5 bg-gray-50 rounded-md border border-gray-200">
-              <div class="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center text-sm font-bold">
+              <div class="w-9 h-9 rounded-md bg-primary-700 text-white flex items-center justify-center text-sm font-bold border border-primary-800">
                 {item.step}
               </div>
               <h3 class="mt-4 text-sm font-semibold text-gray-900">
@@ -280,7 +279,7 @@ const heroImage = await resolveHeroImage([
 
       <div class="mt-8 p-6 bg-white rounded-md border border-gray-200">
         <div
-          class="flex h-8 overflow-hidden rounded-full bg-gray-100"
+          class="flex h-8 overflow-hidden rounded-md bg-gray-100"
           aria-label={copy.financial.moneyGoesAria}
         >
           <div class="bg-primary-600" style="width: 80%"></div>
@@ -297,9 +296,9 @@ const heroImage = await resolveHeroImage([
                     <p class="text-sm font-semibold text-gray-900">{item.label}</p>
                     <p class="text-2xl font-bold text-primary-700">{item.value}</p>
                   </div>
-                  <div class="mt-3 h-2 rounded-full bg-gray-100 overflow-hidden">
+                  <div class="mt-3 h-2 rounded-md bg-gray-100 overflow-hidden">
                     <div
-                      class="h-full bg-primary-600 rounded-full"
+                      class="h-full bg-primary-600 rounded-md"
                       style={`width: ${item.width}`}
                     />
                   </div>
@@ -407,9 +406,9 @@ const heroImage = await resolveHeroImage([
                 <div class="flex-1">
                   <p class="text-sm font-semibold text-gray-900">{r.indicator}</p>
 
-                  <div class="mt-3 w-full bg-gray-200 rounded-full h-2">
+                  <div class="mt-3 w-full bg-gray-200 rounded-md h-2">
                     <div
-                      class="bg-primary-600 h-2 rounded-full transition-all duration-1000"
+                      class="bg-primary-600 h-2 rounded-md transition-all duration-1000"
                       style={`width: ${indicatorProgress(r)}%`}
                     />
                   </div>
@@ -431,10 +430,10 @@ const heroImage = await resolveHeroImage([
                 </div>
                 <span
                   class:list={[
-                    "px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full whitespace-nowrap",
+                    "px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md border whitespace-nowrap",
                     r.status === "on-track"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-yellow-100 text-yellow-700",
+                      ? "bg-green-50 text-green-800 border-green-200"
+                      : "bg-amber-50 text-amber-800 border-amber-200",
                   ]}
                 >
                   {r.status === "on-track"
@@ -492,7 +491,7 @@ const heroImage = await resolveHeroImage([
         {
           copy.theoryOfChange.steps.map((s) => (
             <div class="py-4 grid grid-cols-[auto_1fr] gap-4 items-start">
-              <div class="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+              <div class="w-8 h-8 rounded-md bg-primary-700 flex items-center justify-center text-white font-bold text-sm shrink-0 border border-primary-800">
                 {s.step}
               </div>
               <div>
@@ -560,14 +559,11 @@ const heroImage = await resolveHeroImage([
       <div class="mt-10 border-t border-gray-200 divide-y divide-gray-200">
         {
           copy.environment.items.map((item) => (
-            <div class="py-5 grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-4 items-start">
-              <span class="text-2xl shrink-0" aria-hidden="true">
-                {item.icon}
-              </span>
-              <div>
-                <h3 class="text-sm font-semibold text-gray-900">{item.title}</h3>
-                <p class="mt-1 text-xs text-gray-600">{item.desc}</p>
-              </div>
+            <div class="py-5">
+              <h3 class="font-heading text-sm font-semibold text-gray-900">
+                {item.title}
+              </h3>
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">{item.desc}</p>
             </div>
           ))
         }

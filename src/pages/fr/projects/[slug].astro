@@ -122,7 +122,7 @@ const paragraphs = project.description
       <div class="flex flex-wrap items-center gap-2 mb-4">
         <span
           class:list={[
-            "px-3 py-1 text-xs font-semibold rounded-full",
+            "px-3 py-1 text-xs font-semibold rounded-md",
             statusBadgeClass,
           ]}
         >
@@ -141,7 +141,7 @@ const paragraphs = project.description
       <p class="mt-4 text-lg text-white/80 max-w-2xl">
         Au service des communautés vulnérables à {project.location}, Cameroun
       </p>
-      <div class="mt-8 overflow-hidden rounded-2xl border border-white/15 bg-white/10 shadow-2xl shadow-black/10 max-w-3xl">
+      <div class="mt-8 overflow-hidden rounded-md border border-white/15 bg-white/10 max-w-3xl">
         <img
           src={project.imageUrl}
           alt={project.imageAlt}
@@ -210,40 +210,34 @@ const paragraphs = project.description
           <h3 class="text-lg font-heading font-semibold text-gray-900">
             Impact en un Coup d'Œil
           </h3>
-          <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div
-              class="p-4 bg-primary-50 rounded-xl border border-primary-100"
-            >
-              <p class="text-2xl font-bold text-primary-700">
+          <dl class="mt-4 divide-y divide-gray-200 border-t border-gray-200">
+            <div class="flex items-baseline justify-between gap-4 py-4">
+              <dt class="text-sm text-gray-600">Bénéficiaires Directs</dt>
+              <dd class="font-heading text-2xl font-bold text-primary-700">
                 {project.beneficiaries}
-              </p>
-              <p class="text-xs text-gray-600">Bénéficiaires Directs</p>
+              </dd>
             </div>
-            <div
-              class="p-4 bg-primary-50 rounded-xl border border-primary-100"
-            >
-              <p class="text-2xl font-bold text-primary-700">
+            <div class="flex items-baseline justify-between gap-4 py-4">
+              <dt class="text-sm text-gray-600">Localisation</dt>
+              <dd class="font-heading text-2xl font-bold text-primary-700">
                 {project.location}
-              </p>
-              <p class="text-xs text-gray-600">Localisation</p>
+              </dd>
             </div>
-            <div
-              class="p-4 bg-primary-50 rounded-xl border border-primary-100"
-            >
-              <p class="text-2xl font-bold text-primary-700">
+            <div class="flex items-baseline justify-between gap-4 py-4">
+              <dt class="text-sm text-gray-600">Par Bénéficiaire</dt>
+              <dd class="font-heading text-2xl font-bold text-primary-700">
                 ${costPerBeneficiary}
-              </p>
-              <p class="text-xs text-gray-600">Par Bénéficiaire</p>
+              </dd>
             </div>
-          </div>
+          </dl>
         </div>
 
         <!-- Sustainability -->
         <div
-          class="mt-10 p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl border border-primary-100"
+          class="mt-10 p-6 bg-[#faf8f4] rounded-md border border-primary-100"
         >
           <h3 class="text-lg font-heading font-semibold text-gray-900">
-            ♻️ Durabilité
+            Durabilité
           </h3>
           <p class="mt-2 text-sm text-gray-700 leading-relaxed">
             Ce programme est conçu pour survivre au financement externe. Les
@@ -256,7 +250,7 @@ const paragraphs = project.description
         </div>
 
         <!-- Gender Impact -->
-        <div class="mt-6 p-6 bg-accent-50 rounded-2xl border border-accent-100">
+        <div class="mt-6 p-6 bg-accent-50 rounded-md border border-accent-100">
           <h3 class="text-lg font-heading font-semibold text-gray-900">
             Égalité des genres
           </h3>
@@ -274,7 +268,7 @@ const paragraphs = project.description
       <div class="space-y-6">
         <!-- Fundraising Card -->
         <div
-          class="p-6 bg-gray-50 rounded-2xl border border-gray-200 sticky top-24"
+          class="p-6 bg-gray-50 rounded-md border border-gray-200 sticky top-24"
         >
           <h3 class="text-lg font-semibold text-gray-900">
             {isCompleted ? "Projet terminé" : "Progression de la Collecte"}
@@ -289,7 +283,7 @@ const paragraphs = project.description
               >
             </div>
             <div
-              class="w-full h-4 bg-gray-200 rounded-full overflow-hidden"
+              class="w-full h-4 bg-gray-200 rounded-md overflow-hidden"
               role="progressbar"
               aria-valuenow={Math.round(progress)}
               aria-valuemin="0"
@@ -297,7 +291,7 @@ const paragraphs = project.description
               aria-label="Progression de la collecte"
             >
               <div
-                class="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full transition-all"
+                class="h-full bg-primary-600 rounded-md transition-all"
                 style={`width: ${progress}%`}
               >
               </div>
@@ -343,7 +337,7 @@ const paragraphs = project.description
         </div>
 
         <!-- Quick Facts -->
-        <div class="p-6 bg-white rounded-2xl border border-gray-200">
+        <div class="p-6 bg-white rounded-md border border-gray-200">
           <h3
             class="text-sm font-semibold text-gray-900 uppercase tracking-wider"
           >
@@ -388,7 +382,7 @@ const paragraphs = project.description
         </div>
 
         <!-- Share -->
-        <div class="p-6 bg-white rounded-2xl border border-gray-200">
+        <div class="p-6 bg-white rounded-md border border-gray-200">
           <h3
             class="text-sm font-semibold text-gray-900 uppercase tracking-wider"
           >

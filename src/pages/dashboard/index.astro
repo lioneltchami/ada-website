@@ -35,28 +35,28 @@ if (user?.created_at) {
 
       <!-- Quick Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-center transition-colors group">
+        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-left transition-colors group">
           <p class="text-xs text-gray-500 mb-1">Total Donated</p>
           <p class="text-lg font-bold text-gray-900">${(totalCents / 100).toFixed(2)}</p>
         </a>
-        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-center transition-colors group">
+        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-left transition-colors group">
           <p class="text-xs text-gray-500 mb-1">Donations</p>
           <p class="text-lg font-bold text-gray-900">{donations.length}</p>
         </a>
-        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-center transition-colors group">
+        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-left transition-colors group">
           <p class="text-xs text-gray-500 mb-1">Monthly Giving</p>
           <p class="text-sm font-medium text-primary-600 group-hover:underline">
             {monthlyDonations.length ? `${monthlyDonations.length} active record${monthlyDonations.length === 1 ? '' : 's'}` : 'Start monthly →'}
           </p>
         </a>
-        <div class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-center">
+        <div class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-left">
           <p class="text-xs text-gray-500 mb-1">Member Since</p>
           <p class="text-sm font-semibold text-gray-800">{memberSince}</p>
         </div>
       </div>
 
       <!-- Receipt notice -->
-      <div class="mb-6 p-4 bg-primary-50 border border-primary-100 rounded-xl text-sm text-primary-800 flex items-start gap-3">
+      <div class="mb-6 p-4 bg-primary-50 border border-primary-100 rounded-md text-sm text-primary-800 flex items-start gap-3">
         
         <div>
           <strong class="font-semibold">Your receipts are in your inbox.</strong>
@@ -84,20 +84,20 @@ if (user?.created_at) {
       <!-- Impact reminder -->
       <div class="mt-8 p-5 bg-[#faf8f4] rounded-md border border-gray-200">
         <h2 class="text-sm font-semibold text-gray-900 mb-3">Your Giving Makes a Real Difference</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { stat: '15+', label: 'Widows supported monthly' },
             { stat: '50+', label: 'Children in school' },
             { stat: '5', label: 'Communities reached' },
           ].map((item) => (
-            <div class="p-3 bg-primary-50 rounded-lg">
-              <p class="text-lg font-bold text-primary-700">{item.stat}</p>
-              <p class="text-xs text-gray-600">{item.label}</p>
+            <div class="border-t border-primary-100 pt-3">
+              <p class="font-heading text-lg font-bold text-primary-700">{item.stat}</p>
+              <p class="mt-1 text-xs text-gray-600">{item.label}</p>
             </div>
           ))}
         </div>
-        <p class="mt-3 text-xs text-gray-500 text-center">
-          <a href="/transparency" class="text-primary-600 hover:underline">See full financial breakdown →</a>
+        <p class="mt-4 text-xs text-gray-500">
+          <a href="/transparency" class="text-primary-700 underline underline-offset-4 hover:text-primary-900">See full financial breakdown →</a>
         </p>
       </div>
     </div>

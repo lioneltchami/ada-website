@@ -38,11 +38,6 @@ const demoLabels: Record<string, string> = {
   idps: "PDI",
   community: "Communaut\u00e9",
 };
-const statusIcons: Record<string, string> = {
-  completed: "\u2713",
-  ongoing: "\u25cf",
-  planned: "\u25cb",
-};
 const statusColors: Record<string, string> = {
   completed: "text-green-600",
   ongoing: "text-yellow-600",
@@ -133,9 +128,9 @@ for (const r of archiveItems) {
               aria-selected={d === "all" ? "true" : "false"}
               data-demo={d}
               class:list={[
-                "px-4 py-2 text-sm font-medium rounded-full transition-all",
+                "px-4 py-2 text-sm font-medium rounded-md transition-all",
                 d === "all"
-                  ? "bg-primary-600 text-white shadow-md"
+                  ? "bg-primary-600 text-white"
                   : "bg-white text-gray-700 border border-gray-200 hover:border-primary-300 hover:text-primary-700",
               ]}
             >
@@ -163,8 +158,8 @@ for (const r of archiveItems) {
           years.map((year) => (
             <div class="mb-8" data-year-group={year}>
               <div class="relative flex items-center mb-4">
-                <div class="w-8 md:w-16 h-8 md:h-10 rounded-full bg-primary-600 flex items-center justify-center z-10 shadow-sm">
-                  <span class="text-white font-bold text-xs md:text-sm">
+                <div class="px-3 py-1 rounded-md border border-primary-600 bg-white flex items-center justify-center z-10">
+                  <span class="text-primary-700 font-bold text-xs md:text-sm tabular-nums">
                     {year}
                   </span>
                 </div>
@@ -175,7 +170,7 @@ for (const r of archiveItems) {
                 {byYear[year].map((r) => (
                   <a
                     href={r.href || `/fr/projects/archive/${r.slug.current}`}
-                    class="group archive-item block p-4 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-200"
+                    class="group archive-item block p-4 bg-white rounded-md border border-gray-100 hover:border-primary-200 transition-all duration-200"
                     data-demo={r.demographic}
                   >
                     <div class="flex items-start gap-3">
@@ -192,26 +187,21 @@ for (const r of archiveItems) {
                       <div class="flex-1 min-w-0 flex items-start justify-between gap-3">
                         <div class="flex-1 min-w-0">
                           <div class="flex items-center gap-2 mb-1">
-                            <span
-                              class:list={["text-sm", statusColors[r.status]]}
-                            >
-                              {statusIcons[r.status]}
-                            </span>
                             <h3 class="text-sm font-semibold text-gray-900 group-hover:text-primary-700 transition-colors truncate">
                               {r.titleFr || r.title}
                             </h3>
                           </div>
                           <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                            <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-full font-medium">
+                            <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-md font-medium">
                               {demoLabels[r.demographic]}
                             </span>
-                            {r.beneficiaries && <span>👥 {r.beneficiaries}</span>}
-                            {r.location && <span>📍 {r.location}</span>}
+                            {r.beneficiaries && <span>{r.beneficiaries.toLocaleString()} b\u00e9n\u00e9ficiaires</span>}
+                            {r.location && <span>{r.location}</span>}
                             {r.hasToR && (
-                              <span class="text-primary-600">📄 TdR</span>
+                              <span class="text-primary-600">TdR</span>
                             )}
                             {r.hasReport && (
-                              <span class="text-primary-600">📊 Rapport</span>
+                              <span class="text-primary-600">Rapport</span>
                             )}
                           </div>
                         </div>
@@ -248,7 +238,7 @@ for (const r of archiveItems) {
       const demo = tab.getAttribute("data-demo");
 
       tabs.forEach((t) => {
-        t.classList.remove("bg-primary-600", "text-white", "shadow-md");
+        t.classList.remove("bg-primary-600", "text-white");
         t.classList.add(
           "bg-white",
           "text-gray-700",
@@ -263,7 +253,7 @@ for (const r of archiveItems) {
         "border",
         "border-gray-200",
       );
-      tab.classList.add("bg-primary-600", "text-white", "shadow-md");
+      tab.classList.add("bg-primary-600", "text-white");
       tab.setAttribute("aria-selected", "true");
 
       items.forEach((item) => {

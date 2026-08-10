@@ -58,7 +58,7 @@ const storyHeroAlt =
               type="button"
               data-filter={cat}
               aria-pressed={cat === 'all' ? "true" : "false"}
-              class:list={["px-4 py-2 text-sm font-medium rounded-full transition-colors", cat === 'all' ? "bg-primary-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"]}
+              class:list={["font-heading px-3 py-1.5 text-sm font-medium rounded-md transition-colors", cat === 'all' ? "bg-primary-700 text-white" : "text-gray-700 hover:text-primary-700"]}
             >
               {categoryLabels[cat]} ({cat === 'all' ? posts.length : posts.filter(p => p.category === cat).length})
             </button>
