@@ -1,58 +1,59 @@
+/* Hallmark · genre: editorial · macrostructure: Photographic · design-system: design.md · designed-as-app */
 @import "tailwindcss";
 
 @theme {
-  /* Primary: Green (growth, hope) */
-  --color-primary-50: #f0fdf4;
-  --color-primary-100: #dcfce7;
-  --color-primary-200: #bbf7d0;
-  --color-primary-300: #86efac;
-  --color-primary-400: #4ade80;
-  --color-primary-500: #22c55e;
-  --color-primary-600: #16a34a;
-  --color-primary-700: #15803d;
-  --color-primary-800: #166534;
-  --color-primary-900: #14532d;
-  --color-primary-950: #052e16;
+  /* Primary: forest green (ADA accent) */
+  --color-primary-50: #f3f7f4;
+  --color-primary-100: #e4efe7;
+  --color-primary-200: #c5dccb;
+  --color-primary-300: #98c0a3;
+  --color-primary-400: #5f9570;
+  --color-primary-500: #3d7a52;
+  --color-primary-600: #2f6342;
+  --color-primary-700: #264f36;
+  --color-primary-800: #1f402c;
+  --color-primary-900: #1a3525;
+  --color-primary-950: #0c1c13;
 
-  /* Secondary: Orange (warmth, energy) */
+  /* Secondary: warm orange (donate CTA only) */
   --color-secondary-50: #fff7ed;
   --color-secondary-100: #ffedd5;
   --color-secondary-200: #fed7aa;
   --color-secondary-300: #fdba74;
   --color-secondary-400: #fb923c;
-  --color-secondary-500: #f97316;
-  --color-secondary-600: #ea580c;
-  --color-secondary-700: #c2410c;
-  --color-secondary-800: #9a3412;
+  --color-secondary-500: #ea6c0a;
+  --color-secondary-600: #c2410c;
+  --color-secondary-700: #9a3412;
+  --color-secondary-800: #7c2d12;
   --color-secondary-900: #7c2d12;
 
-  /* Accent: Yellow (optimism) */
+  /* Accent: restrained gold for rare highlights */
   --color-accent-50: #fefce8;
   --color-accent-100: #fef9c3;
   --color-accent-200: #fef08a;
   --color-accent-300: #fde047;
   --color-accent-400: #facc15;
-  --color-accent-500: #eab308;
-  --color-accent-600: #ca8a04;
-  --color-accent-700: #a16207;
-  --color-accent-800: #854d0e;
-  --color-accent-900: #713f12;
+  --color-accent-500: #ca8a04;
+  --color-accent-600: #a16207;
+  --color-accent-700: #854d0e;
+  --color-accent-800: #713f12;
+  --color-accent-900: #5c3410;
 
-  /* Typography */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-heading: "Plus Jakarta Sans", "Inter", sans-serif;
+  /* Typography — display sans + editorial serif body */
+  --font-sans: "Source Serif 4", "Georgia", "Times New Roman", serif;
+  --font-heading: "Plus Jakarta Sans", system-ui, sans-serif;
 
-  /* Shadows */
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-card-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* Flat surfaces — hairlines over elevation */
+  --shadow-card: 0 0 0 1px rgb(26 53 37 / 0.08);
+  --shadow-card-hover: 0 0 0 1px rgb(38 79 54 / 0.22);
 
-  /* Border radius */
-  --radius-card: 0.75rem;
+  --radius-card: 0.375rem;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -69,7 +70,17 @@
   }
 
   body {
-    @apply text-gray-900 bg-gray-50 antialiased font-sans;
+    @apply text-gray-900 bg-[#f7f5f0] antialiased font-sans;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-heading {
+    font-style: normal;
+    letter-spacing: -0.02em;
   }
 
   :focus-visible {
@@ -77,29 +88,25 @@
   }
 }
 
-
-@layer components {
-  .animate-subtle-pulse {
-    animation: subtle-pulse 3s ease-in-out infinite;
-  }
-
-  @keyframes subtle-pulse {
-    0%, 100% { box-shadow: 0 4px 6px -1px rgb(249 115 22 / 0.25); }
-    50% { box-shadow: 0 8px 15px -3px rgb(249 115 22 / 0.35); }
-  }
-
+@layer utilities {
   .stat-animate {
-    animation: fadeInUp 0.6s ease-out both;
+    animation: fade-up 0.5s ease-out both;
   }
 
-  @keyframes fadeInUp {
+  @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(8px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat-animate {
+      animation: none;
     }
   }
 }

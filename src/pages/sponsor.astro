@@ -2,14 +2,24 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
+import FaqSection from "../components/seo/FaqSection.astro";
 import { REGISTRATION_NUMBER } from "../data/organization";
 import { resolveHeroImage } from "../lib/hero-images";
+import {
+  SPONSOR_FAQS_EN,
+  buildFaqPage,
+} from "../lib/structured-data";
 
 const heroImage = await resolveHeroImage([
   "widow-support",
   "education-orphans",
   "women-empowerment",
 ]);
+const sponsorFaqs = SPONSOR_FAQS_EN;
+const faqPageSchema = buildFaqPage(
+  sponsorFaqs,
+  new URL("/sponsor", Astro.site).toString(),
+);
 
 const sponsorTiers = [
   {
@@ -160,6 +170,7 @@ const diligenceItems = [
 <PageLayout
   title="Sponsor a Program"
   description="Sponsor practical support for widows, orphans, young women, displaced families, and students in Cameroon. Clear funding options, receipts, reporting, and due diligence."
+  jsonLdExtra={[faqPageSchema]}
 >
   <PageHero
     title="Sponsor practical support for families in Cameroon"
@@ -578,6 +589,16 @@ const diligenceItems = [
         </div>
       </div>
     </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <FaqSection
+      title="Sponsorship FAQ"
+      subtitle="Tax status, fund use, reporting, and how to start."
+      faqs={sponsorFaqs}
+      contactHref="/sponsor/inquiry"
+      contactLabel="Still deciding? Start a sponsorship inquiry — we respond with the right next step."
+    />
   </Section>
 
   <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">

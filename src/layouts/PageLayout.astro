@@ -11,7 +11,12 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
   noIndex?: boolean;
+  jsonLdExtra?: Record<string, unknown>[];
 }
 
 const props = Astro.props;

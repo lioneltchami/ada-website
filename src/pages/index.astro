@@ -5,7 +5,6 @@ import CurrentWork from "../components/home/CurrentWork.astro";
 import PhotoMosaic from "../components/home/PhotoMosaic.astro";
 import WorkVideo from "../components/home/WorkVideo.astro";
 import FeaturedStory from "../components/home/FeaturedStory.astro";
-import NewsletterSignup from "../components/islands/NewsletterSignup";
 import {
   getImpactMetrics,
   getHomePage,
@@ -13,7 +12,6 @@ import {
   getProjects,
   getBlogPostBySlug,
   type SanityImpactMetric,
-  type SanityHomePage,
   type SanityProject,
   sanityImageUrl,
 } from "../lib/sanity";
@@ -64,27 +62,27 @@ let missionBody =
   "To provide holistic support to vulnerable communities in Cameroon through faith-based programs that address immediate needs while building long-term self-sufficiency.";
 let missionCards = [
   {
-    icon: "🤝",
+    icon: "",
     title: "Widow Support",
     description:
       "Financial aid, skills training, and community for widows rebuilding their lives.",
   },
   {
-    icon: "📚",
+    icon: "",
     title: "Education",
     description:
       "School supplies, tuition support, and mentorship for orphaned children.",
   },
   {
-    icon: "💪",
+    icon: "",
     title: "Empowerment",
     description:
       "Vocational training and microfinance for young women seeking independence.",
   },
 ];
-let ctaHeading = "Make a Difference Today";
+let ctaHeading = "Fund school kits for Buea and Bamenda";
 let ctaBody =
-  "Every contribution helps us reach more vulnerable communities in Cameroon. Join us in building a brighter future.";
+  "Your gift buys bags, books, and fees so orphaned and displaced children can start the school year with dignity.";
 
 try {
   const page = await getHomePage();
@@ -291,8 +289,9 @@ const actionPaths = [
   title="Empowering Communities in Cameroon"
   description="Empowering vulnerable communities in Cameroon through faith-based programs supporting widows, orphans, and young women since 2021."
 >
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden py-24 md:py-32 text-white">
+  <!-- Hallmark · genre: editorial · macrostructure: Photographic · design-system: design.md · designed-as-app -->
+  <!-- Hero — left-biased photographic -->
+  <section class="relative overflow-hidden min-h-[70vh] flex items-end text-white">
     {
       heroImageUrl ? (
         <img
@@ -301,81 +300,76 @@ const actionPaths = [
           class="absolute inset-0 w-full h-full object-cover"
           loading="eager"
         />
-      ) : null
+      ) : (
+        <div class="absolute inset-0 bg-primary-900" />
+      )
     }
     <div
-      class="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"
+      class="absolute inset-0 bg-gradient-to-r from-primary-950/95 via-primary-900/70 to-primary-900/25"
     >
     </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span
-        class="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
-      >
-        {heroBadge}
-      </span>
-      <h1
-        class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight"
-      >
-        {heroHeadline}
-      </h1>
-      <p
-        class="mt-6 text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
-      >
-        {heroSubtitle}
-      </p>
-      <div
-        class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
-      >
-        <a
-          href="/donate"
-          class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-900 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
-          data-umami-event="hero-donate-cta"
+    <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <div class="max-w-2xl">
+        <p
+          class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-200 mb-4"
         >
-          Donate Now
-        </a>
-        <a
-          href="/projects"
-          class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          {heroBadge}
+        </p>
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-heading font-bold leading-[1.1] tracking-tight"
         >
-          Our Projects
-        </a>
-        <a
-          href="/transparency"
-          class="inline-flex items-center px-6 py-3 text-base font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
-        >
-          View Transparency
-        </a>
+          {heroHeadline}
+        </h1>
+        <p class="mt-5 text-base md:text-lg text-white/85 leading-relaxed max-w-xl">
+          {heroSubtitle}
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a
+            href="/donate"
+            class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+            data-umami-event="hero-donate-cta"
+          >
+            Donate now
+          </a>
+          <a
+            href="/projects"
+            class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white border border-white/40 rounded-md hover:bg-white/10 transition-colors"
+          >
+            Our projects
+          </a>
+          <a
+            href="/transparency"
+            class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
+          >
+            Transparency
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-white/75">
+          {
+            stats
+              .slice(0, 2)
+              .map((stat) => `${stat.value} ${stat.label.toLowerCase()}`)
+              .join(" · ")
+          }
+          {" · "}80% to programs
+        </p>
       </div>
-      <p
-        class="mt-6 text-sm text-white/80 flex flex-wrap items-center justify-center gap-3"
-      >
-        {
-          stats.slice(0, 2).map((stat) => (
-            <span class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20">
-              {stat.value} {stat.label.toLowerCase()}
-            </span>
-          ))
-        }
-        <span
-          class="px-2.5 py-1 bg-white/10 rounded-full border border-white/20"
-          >80% to programs</span
-        >
-      </p>
     </div>
   </section>
 
-  <!-- Live campaigns — first content below hero so visitors see current work without deep scroll -->
   <CurrentWork locale="en" projects={spotlightProjects} />
   <PhotoMosaic locale="en" photos={mosaicPhotos} />
   <WorkVideo locale="en" />
 
-  <!-- Impact Stats -->
+  <!-- Impact stats — flat band -->
   <Section background="white" padding="md">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 border-y border-gray-200 py-8"
+    >
       {
-        stats.map((stat, i) => (
-          <div class="stat-animate" style={`animation-delay: ${i * 150}ms`}>
-            <p class="text-3xl md:text-4xl font-bold text-primary-700">
+        stats.map((stat) => (
+          <div>
+            <p class="font-heading text-3xl md:text-4xl font-bold text-primary-700 tracking-tight">
               {stat.value}
             </p>
             <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
@@ -383,179 +377,174 @@ const actionPaths = [
         ))
       }
     </div>
-    <p class="mt-6 text-center text-sm text-gray-500">
-      85% of beneficiaries are women and girls · 5% admin overhead · Cameroon
-      NGO registration N&deg; 415/G.37/D14/VolI/SAAJP · <a
-        href="/transparency"
-        class="text-primary-600 hover:underline"
-        >View full transparency report</a>
+    <p class="mt-6 text-sm text-gray-500">
+      85% of beneficiaries are women and girls · 5% admin overhead · Cameroon NGO
+      registration N&deg; 415/G.37/D14/VolI/SAAJP ·{" "}
+      <a href="/transparency" class="text-primary-700 underline underline-offset-2"
+        >Full transparency report</a
+      >
     </p>
   </Section>
 
-  <!-- Partner Confidence -->
+  <!-- Partner confidence — split, hairline proofs -->
   <Section background="gray" padding="md">
-    <div
-      class="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-8 items-center"
-    >
+    <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
       <div>
         <p
-          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+          class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
         >
           Partner with confidence
         </p>
         <h2
-          class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900"
+          class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900 tracking-tight"
         >
           Small enough to know families by name. Organized enough to show the
           records.
         </h2>
-        <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
+        <p class="mt-4 text-gray-600 leading-relaxed">
           ADA combines local community relationships in Cameroon with diaspora
           accountability, documented project files, and clear donor
           communication.
         </p>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-200 border border-gray-200">
         {
           confidenceProofs.map((item) => (
-            <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+            <div class="bg-[#f7f5f0] p-5">
+              <dt class="font-heading text-xs font-semibold uppercase tracking-wider text-gray-500">
                 {item.label}
-              </p>
-              <p class="mt-2 text-sm font-semibold text-gray-900 leading-relaxed">
+              </dt>
+              <dd class="mt-2 text-sm font-semibold text-gray-900 leading-relaxed">
                 {item.value}
-              </p>
+              </dd>
             </div>
           ))
         }
-      </div>
+      </dl>
     </div>
   </Section>
 
-  <!-- Program Pillars -->
+  <!-- Program pillars — typographic list, not numbered tiles -->
   <Section background="white" padding="lg">
     <div class="max-w-3xl">
       <p
-        class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+        class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
       >
-        Program pillars
+        How we serve
       </p>
       <h2
-        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900"
+        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
       >
-        Six practical ways ADA serves vulnerable families
+        Practical paths for vulnerable families
       </h2>
       <p class="mt-4 text-gray-600 leading-relaxed">
         Each program starts with immediate needs, then points toward dignity,
         stability, and self-sufficiency.
       </p>
     </div>
-    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200">
       {
-        programPillars.map((pillar, index) => (
-          <a
-            href={pillar.href}
-            class="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg transition-all duration-200"
-          >
-            <div class="flex items-center justify-between gap-4">
-              <span class="text-xs font-bold text-primary-700">
-                0{index + 1}
+        programPillars.map((pillar) => (
+          <li class="border-b border-gray-200">
+            <a
+              href={pillar.href}
+              class="group flex items-baseline justify-between gap-4 py-5"
+            >
+              <div>
+                <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
+                  {pillar.title}
+                </h3>
+                <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                  {pillar.text}
+                </p>
+              </div>
+              <span
+                class="font-heading text-sm font-semibold text-primary-700 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-hidden="true"
+              >
+                →
               </span>
-              <span class="text-xs font-semibold text-gray-400 group-hover:text-primary-600">
-                View work →
-              </span>
-            </div>
-            <h3 class="mt-4 text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
-              {pillar.title}
-            </h3>
-            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
-              {pillar.text}
-            </p>
-          </a>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </Section>
 
-  <!-- Leadership / Governance -->
+  <!-- Leadership -->
   <Section background="gray" padding="lg">
-    <div
-      class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center"
-    >
-      <div
-        class="rounded-2xl bg-white border border-gray-200 p-6 md:p-8 shadow-card"
-      >
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <div>
         <p
-          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+          class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
         >
           Leadership and governance
         </p>
         <blockquote
-          class="mt-4 text-xl md:text-2xl font-heading font-bold text-gray-900 leading-snug"
+          class="mt-4 text-xl md:text-2xl font-heading font-bold text-gray-900 leading-snug tracking-tight"
         >
           “Faith must become practical care, careful records, and accountable
           service.”
         </blockquote>
-        <p class="mt-4 text-sm text-gray-600 leading-relaxed">
+        <p class="mt-5 text-gray-600 leading-relaxed">
           ADA is led by volunteer executive leadership, a 12-member board, and
           local program coordination in Cameroon. The work is built around
           documented needs, separated financial roles, and community
           relationships.
         </p>
-        <div class="mt-6 border-t border-gray-100 pt-5">
-          <p class="text-sm font-semibold text-gray-900">
-            Volunteer-led governance
-          </p>
-          <p class="text-xs text-gray-500">
-            Board oversight, financial separation, and local delivery
-          </p>
-        </div>
       </div>
       <div>
-        <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">
+        <h2
+          class="text-2xl md:text-3xl font-heading font-bold text-gray-900 tracking-tight"
+        >
           Local relationships, visible accountability
         </h2>
         <p class="mt-4 text-gray-600 leading-relaxed">
-          ADA’s leadership story matters because trust is personal before it
-          becomes institutional. Programs are coordinated with widows,
-          caregivers, school leaders, churches, volunteers, and community
-          partners so support reaches documented needs.
+          Programs are coordinated with widows, caregivers, school leaders,
+          churches, volunteers, and community partners so support reaches
+          documented needs.
         </p>
-        <dl class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="rounded-xl bg-white border border-gray-200 p-4">
+        <dl class="mt-6 grid grid-cols-3 gap-4 border-t border-gray-200 pt-6">
+          <div>
             <dt
-              class="text-xs font-semibold uppercase tracking-wider text-gray-500"
+              class="font-heading text-xs font-semibold uppercase tracking-wider text-gray-500"
             >
               Board
             </dt>
-            <dd class="mt-1 text-lg font-bold text-primary-700">12 members</dd>
+            <dd class="mt-1 font-heading text-lg font-bold text-primary-700">
+              12 members
+            </dd>
           </div>
-          <div class="rounded-xl bg-white border border-gray-200 p-4">
+          <div>
             <dt
-              class="text-xs font-semibold uppercase tracking-wider text-gray-500"
+              class="font-heading text-xs font-semibold uppercase tracking-wider text-gray-500"
             >
               Delivery
             </dt>
-            <dd class="mt-1 text-lg font-bold text-primary-700">Cameroon</dd>
+            <dd class="mt-1 font-heading text-lg font-bold text-primary-700">
+              Cameroon
+            </dd>
           </div>
-          <div class="rounded-xl bg-white border border-gray-200 p-4">
+          <div>
             <dt
-              class="text-xs font-semibold uppercase tracking-wider text-gray-500"
+              class="font-heading text-xs font-semibold uppercase tracking-wider text-gray-500"
             >
               Oversight
             </dt>
-            <dd class="mt-1 text-lg font-bold text-primary-700">Dual roles</dd>
+            <dd class="mt-1 font-heading text-lg font-bold text-primary-700">
+              Dual roles
+            </dd>
           </div>
         </dl>
-        <div class="mt-6 flex flex-wrap gap-3">
+        <div class="mt-8 flex flex-wrap gap-4">
           <a
             href="/about"
-            class="inline-flex px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+            class="font-heading text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
             >Read our story</a
           >
           <a
             href="/transparency"
-            class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+            class="font-heading text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
             >View governance</a
           >
         </div>
@@ -563,71 +552,70 @@ const actionPaths = [
     </div>
   </Section>
 
-  <!-- Journey Timeline -->
+  <!-- Journey — left-aligned editorial -->
   <Section background="white" padding="lg">
-    <div class="max-w-3xl mx-auto text-center">
+    <div class="max-w-3xl">
       <p
-        class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+        class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
       >
         ADA journey
       </p>
       <h2
-        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900"
+        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
       >
         From first food packages to partner-ready transparency
       </h2>
       <p class="mt-4 text-gray-600 leading-relaxed">
-        The timeline below keeps the story simple: ADA has grown by responding
-        to real community needs and documenting the work as it expands.
+        ADA has grown by responding to real community needs and documenting the
+        work as it expands.
       </p>
     </div>
-    <ol
-      class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 list-none"
-    >
+    <ol class="mt-10 max-w-3xl space-y-0 list-none border-l border-gray-200 ml-1">
       {
         journeyMilestones.map((item) => (
-          <li class="rounded-xl border border-gray-200 bg-gray-50 p-5">
-            <p class="text-sm font-bold text-primary-700">{item.year}</p>
-            <h3 class="mt-2 text-base font-semibold text-gray-900">
+          <li class="relative pl-8 pb-8 last:pb-0">
+            <span
+              class="absolute left-0 top-1.5 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-primary-600 border-2 border-[#f7f5f0]"
+              aria-hidden="true"
+            />
+            <p class="font-heading text-sm font-bold text-primary-700">
+              {item.year}
+            </p>
+            <h3 class="mt-1 font-heading text-base font-semibold text-gray-900">
               {item.title}
             </h3>
-            <p class="mt-2 text-sm text-gray-600 leading-relaxed">
-              {item.text}
-            </p>
+            <p class="mt-1 text-sm text-gray-600 leading-relaxed">{item.text}</p>
           </li>
         ))
       }
     </ol>
   </Section>
 
-  <!-- Mission Section -->
+  <!-- Mission — text, no emoji cards -->
   <Section background="gray" padding="lg">
-    <div class="relative">
-      <div class="text-center relative z-10">
-        <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 items-start">
+      <div>
+        <h2
+          class="text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
+        >
           {missionHeading}
         </h2>
-        <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          {missionBody}
-        </p>
-        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {
-            missionCards.map((card) => (
-              <div class="p-6 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-                <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary-100 flex items-center justify-center">
-                  <span class="text-2xl" aria-hidden="true">
-                    {card.icon}
-                  </span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900">
-                  {card.title}
-                </h3>
-                <p class="mt-2 text-sm text-gray-600">{card.description}</p>
-              </div>
-            ))
-          }
-        </div>
+        <p class="mt-4 text-lg text-gray-600 leading-relaxed">{missionBody}</p>
       </div>
+      <ul class="space-y-0 border-t border-gray-200">
+        {
+          missionCards.map((card) => (
+            <li class="border-b border-gray-200 py-5">
+              <h3 class="font-heading text-lg font-semibold text-gray-900">
+                {card.title}
+              </h3>
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                {card.description}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </Section>
 
@@ -640,127 +628,153 @@ const actionPaths = [
     imageAlt={featuredStory.imageAlt}
   />
 
-  <!-- Testimonials Section -->
+  <!-- Testimonials — featured quote + supporting -->
   <Section background="white" padding="lg">
-    <h2
-      class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center"
+    <p
+      class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
     >
-      Stories of Impact
-    </h2>
-    <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">
-      Real stories from the people we serve.
+      Voices from the field
     </p>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-      {
-        testimonials.map((t) => (
-          <div class="p-6 bg-gray-50 rounded-card shadow-card">
-            <p class="text-gray-700 italic leading-relaxed">"{t.quote}"</p>
-            <div class="mt-4 pt-4 border-t border-gray-200 flex items-center gap-3">
-              {t.photoUrl ? (
-                <img
-                  src={t.photoUrl}
-                  alt={t.photoAlt || t.name}
-                  class="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                  loading="lazy"
-                />
-              ) : (
-                <div class="w-12 h-12 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center text-sm font-bold flex-shrink-0">
-                  {t.name.charAt(0)}
-                </div>
-              )}
-              <div class="min-w-0">
-                <p class="text-sm font-semibold text-gray-900">{t.name}</p>
-                <p class="text-xs text-gray-500">
-                  {t.program}
-                  {t.location ? ` \u2022 ${t.location}` : ""}
-                </p>
+    <h2
+      class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
+    >
+      Stories of impact
+    </h2>
+    {
+      testimonials[0] && (
+        <figure class="mt-10 max-w-3xl">
+          <blockquote class="text-xl md:text-2xl text-gray-800 leading-relaxed">
+            “{testimonials[0].quote}”
+          </blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            {testimonials[0].photoUrl ? (
+              <img
+                src={testimonials[0].photoUrl}
+                alt={testimonials[0].photoAlt || testimonials[0].name}
+                class="w-12 h-12 rounded-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-12 h-12 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center text-sm font-heading font-bold">
+                {testimonials[0].name.charAt(0)}
               </div>
+            )}
+            <div>
+              <p class="font-heading text-sm font-semibold text-gray-900">
+                {testimonials[0].name}
+              </p>
+              <p class="text-xs text-gray-500">
+                {testimonials[0].program}
+                {testimonials[0].location
+                  ? ` · ${testimonials[0].location}`
+                  : ""}
+              </p>
             </div>
-          </div>
-        ))
-      }
-    </div>
+          </figcaption>
+        </figure>
+      )
+    }
+    {
+      testimonials.length > 1 && (
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-gray-200 pt-10">
+          {testimonials.slice(1, 3).map((t) => (
+            <figure>
+              <blockquote class="text-base text-gray-700 leading-relaxed">
+                “{t.quote}”
+              </blockquote>
+              <figcaption class="mt-4 flex items-center gap-3">
+                {t.photoUrl ? (
+                  <img
+                    src={t.photoUrl}
+                    alt={t.photoAlt || t.name}
+                    class="w-10 h-10 rounded-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="w-10 h-10 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center text-xs font-heading font-bold">
+                    {t.name.charAt(0)}
+                  </div>
+                )}
+                <div>
+                  <p class="font-heading text-sm font-semibold text-gray-900">
+                    {t.name}
+                  </p>
+                  <p class="text-xs text-gray-500">
+                    {t.program}
+                    {t.location ? ` · ${t.location}` : ""}
+                  </p>
+                </div>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      )
+    }
   </Section>
 
-  <!-- Action Paths -->
+  <!-- Action paths — text list -->
   <Section background="gray" padding="lg">
-    <div class="max-w-3xl mx-auto text-center">
+    <div class="max-w-3xl">
       <p
-        class="text-xs font-semibold uppercase tracking-wider text-primary-700"
+        class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
       >
         Join the work
       </p>
       <h2
-        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900"
+        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
       >
         Choose the path that fits your role
       </h2>
-      <p class="mt-4 text-gray-600 leading-relaxed">
-        Donors, volunteers, churches, companies, and grant partners can all help
-        ADA serve with more consistency.
-      </p>
     </div>
-    <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <ul class="mt-8 max-w-3xl divide-y divide-gray-200 border-y border-gray-200">
       {
         actionPaths.map((path) => (
-          <a
-            href={path.href}
-            class="group flex h-full flex-col rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-primary-200 hover:shadow-lg transition-all duration-200"
-          >
-            <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
-              {path.title}
-            </h3>
-            <p class="mt-2 flex-1 text-sm text-gray-600 leading-relaxed">
-              {path.text}
-            </p>
-            <span class="mt-5 text-sm font-semibold text-primary-700">
-              {path.cta} →
-            </span>
-          </a>
+          <li>
+            <a
+              href={path.href}
+              class="group flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-6 py-5"
+            >
+              <div>
+                <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
+                  {path.title}
+                </h3>
+                <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                  {path.text}
+                </p>
+              </div>
+              <span class="font-heading text-sm font-semibold text-primary-700 shrink-0">
+                {path.cta} →
+              </span>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </Section>
 
-  <!-- CTA Section -->
-  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold">{ctaHeading}</h2>
-      <p class="mt-4 text-lg text-white/80">
-        {ctaBody}
-      </p>
-      <div
-        class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+  <!-- Closing CTA — specific copy from Sanity -->
+  <Section background="dark" padding="lg" class="!bg-[#121a14] !bg-none">
+    <div class="max-w-2xl">
+      <h2
+        class="text-3xl md:text-4xl font-heading font-bold tracking-tight text-left"
       >
+        {ctaHeading}
+      </h2>
+      <p class="mt-4 text-lg text-white/80 text-left">{ctaBody}</p>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
         <a
           href="/donate"
-          class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors"
+          class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
           data-umami-event="cta-donate"
         >
-          Donate Now
+          Donate now
         </a>
         <a
           href="/get-involved"
-          class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors"
+          class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
         >
-          Volunteer With Us
+          Volunteer with us
         </a>
-      </div>
-    </div>
-  </Section>
-
-  <!-- Newsletter Section -->
-  <Section background="gray" padding="lg">
-    <div class="text-center">
-      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
-        Stay Connected
-      </h2>
-      <p class="mt-2 text-gray-600 max-w-lg mx-auto">
-        Get updates on our impact, stories, and upcoming projects delivered to
-        your inbox.
-      </p>
-      <div class="mt-6">
-        <NewsletterSignup client:visible />
       </div>
     </div>
   </Section>

@@ -1,0 +1,12 @@
+[
+  {
+    "date": "2026-08-10",
+    "scope": "app",
+    "macrostructure": "Photographic",
+    "theme": "custom-ada-editorial",
+    "theme_axes": "light / rounded-sans+serif / chromatic-green",
+    "enrichment": "real photography",
+    "brief": "ADA site chrome + homepage rebuild from Hallmark audit",
+    "design_system": "design.md"
+  }
+]
