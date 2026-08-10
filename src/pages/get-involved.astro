@@ -161,12 +161,12 @@ const ways = [
   },
 ];
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Photographic · design-system: design.md · designed-as-app -->
 
 <PageLayout title={metaTitle} description={metaDescription}>
   <PageHero
     title="Get Involved"
     subtitle="There are many ways to support our mission. Find the one that's right for you."
-    badge="Make a Difference"
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
   />
@@ -236,8 +236,8 @@ const ways = [
 
   <!-- Volunteer Form -->
   <Section background="white" padding="lg">
-    <div class="max-w-2xl mx-auto">
-      <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
+    <div class="max-w-2xl">
+      <h2 class="text-2xl font-heading font-bold text-gray-900">
         Apply to Volunteer
       </h2>
       <form class="mt-8 space-y-4" id="volunteer-form">
@@ -321,7 +321,7 @@ const ways = [
         </div>
         <button
           type="submit"
-          class="w-full sm:w-auto px-6 py-3 text-base font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+          class="w-full sm:w-auto px-6 py-3 text-base font-semibold text-primary-800 border border-primary-300 rounded-md hover:bg-primary-50 transition-colors"
         >
           Submit Application
         </button>
@@ -464,32 +464,32 @@ const ways = [
   </Section>
 
   <!-- Advocate -->
-  <Section id="advocate" background="dark" padding="md">
-    <div class="text-center">
-      <h2 class="text-2xl font-heading font-bold">Spread the Word</h2>
+  <Section id="advocate" background="dark" padding="md" class="!bg-[#121a14] !bg-none">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl font-heading font-bold tracking-tight">Spread the Word</h2>
       <p class="mt-2 text-white/80">
         Share our mission on social media and help us reach more people.
       </p>
-      <div class="mt-4 flex items-center justify-center gap-4">
+      <div class="mt-4 flex flex-wrap items-center gap-4">
         <a
           href={socialFacebook}
           target="_blank"
           rel="noopener"
-          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
           >Facebook</a
         >
         <a
           href={socialInstagram}
           target="_blank"
           rel="noopener"
-          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
           >Instagram</a
         >
         <a
           href={socialTwitter}
           target="_blank"
           rel="noopener"
-          class="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors"
+          class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
           >Twitter/X</a
         >
       </div>

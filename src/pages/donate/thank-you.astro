@@ -3,6 +3,7 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
 import NewsletterSignup from "../../components/islands/NewsletterSignup";
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
 <PageLayout
   title="Thank You for Your Donation"
@@ -11,9 +12,9 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
 >
   <!-- Hero Thank You -->
   <Section background="white" padding="lg">
-    <div class="max-w-lg mx-auto text-center">
+    <div class="max-w-lg">
       <div
-        class="w-20 h-20 mx-auto rounded-full bg-primary-100 flex items-center justify-center"
+        class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center"
       >
         <svg
           class="w-10 h-10 text-primary-600"
@@ -40,7 +41,7 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
         Your generous donation has been received. Your receipt will be emailed
         after payment confirmation.
       </p>
-      <p class="mt-3 text-sm text-gray-500 max-w-sm mx-auto">
+      <p class="mt-3 text-sm text-gray-500 max-w-sm">
         Your support makes a real difference in the lives of widows, orphans,
         and young women in Cameroon. We are grateful for you.
       </p>
@@ -55,20 +56,20 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
 
   <!-- Monthly Upsell — hidden in the browser when Stripe returns from a monthly checkout -->
   <Section background="gray" padding="sm">
-    <div id="monthly-upsell" class="max-w-lg mx-auto">
+    <div id="monthly-upsell" class="max-w-lg">
       <div
-        class="p-5 bg-white rounded-2xl border border-primary-200 shadow-sm text-center"
+        class="p-5 bg-white rounded-md border border-primary-200"
       >
         <p class="text-base font-semibold text-gray-900">
            Make your impact ongoing
         </p>
-        <p class="mt-2 text-sm text-gray-600 max-w-sm mx-auto">
+        <p class="mt-2 text-sm text-gray-600 max-w-sm">
           Monthly donors give ADA more predictability to plan school support,
           field follow-up, and urgent household needs before crises grow.
         </p>
         <a
           href="/monthly"
-          class="mt-4 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors shadow-sm"
+          class="mt-4 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-primary-700 border border-primary-200 rounded-md hover:bg-primary-50 transition-colors"
         >
           Become a Monthly Supporter
         </a>
@@ -79,11 +80,11 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
 
   <!-- What Happens Next -->
   <Section background="white" padding="md">
-    <div class="max-w-2xl mx-auto">
-      <h2 class="text-xl font-heading font-bold text-gray-900 text-center">
+    <div class="max-w-2xl">
+      <h2 class="text-xl font-heading font-bold text-gray-900">
         What Happens Next
       </h2>
-      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
         {
           [
             {
@@ -118,12 +119,12 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
 
   <!-- Share -->
   <Section background="gray" padding="md">
-    <div class="max-w-lg mx-auto text-center">
+    <div class="max-w-lg">
       <h2 class="text-lg font-semibold text-gray-900">Spread the Word</h2>
       <p class="mt-1 text-sm text-gray-600">
         Help us reach more supporters by sharing your generosity.
       </p>
-      <div class="mt-4 flex flex-wrap items-center justify-center gap-3">
+      <div class="mt-4 flex flex-wrap items-center gap-3">
         <a
           href="https://twitter.com/intent/tweet?text=I%20just%20donated%20to%20%40apotidev%20%E2%80%94%20supporting%20widows%2C%20orphans%2C%20and%20young%20women%20in%20Cameroon.%20Join%20me%3A%20https%3A%2F%2Fapotidev.org%2Fdonate"
           target="_blank"
@@ -166,7 +167,7 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
 
   <!-- Newsletter -->
   <Section background="white" padding="md">
-    <div class="max-w-lg mx-auto text-center">
+    <div class="max-w-lg">
       <h2 class="text-lg font-semibold text-gray-900">Stay Connected</h2>
       <p class="mt-1 text-sm text-gray-600">
         Get monthly updates with photos and stories showing how your donation is
@@ -180,7 +181,7 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
 
   <!-- Navigation -->
   <Section background="gray" padding="sm">
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+    <div class="flex flex-col sm:flex-row items-start gap-3">
       <a
         href="/"
         class="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"

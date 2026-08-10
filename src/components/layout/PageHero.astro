@@ -2,6 +2,7 @@
 interface Props {
   title: string;
   subtitle?: string;
+  /** @deprecated Eyebrows default off per design.md — ignored if passed */
   badge?: string;
   compact?: boolean;
   imageUrl?: string;
@@ -11,14 +12,13 @@ interface Props {
 const {
   title,
   subtitle,
-  badge,
   compact = false,
   imageUrl = "",
   imageAlt = "",
 } = Astro.props;
 ---
 
-<!-- Hallmark · genre: editorial · macrostructure: Photographic · design-system: design.md · designed-as-app -->
+<!-- Hallmark · genre: editorial · chrome: PageHero · design-system: design.md · designed-as-app -->
 <section
   class:list={[
     "relative overflow-hidden text-white",
@@ -47,13 +47,6 @@ const {
   </div>
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
     <div class="max-w-3xl">
-      {
-        badge && (
-          <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-200 mb-3">
-            {badge}
-          </p>
-        )
-      }
       <h1
         class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold leading-tight tracking-tight"
       >

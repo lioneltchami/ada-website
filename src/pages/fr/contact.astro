@@ -22,12 +22,12 @@ try {
 
 const heroImage = await resolveHeroImage(['widow-support', 'women-empowerment']);
 ---
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout title="Contactez-Nous" description="Contactez Apoti Development Association par email, téléphone ou WhatsApp. Situé au Cameroun, Afrique Centrale.">
   <PageHero
     title="Contactez-Nous"
     subtitle="Des questions ou envie de vous impliquer ? Nous serions ravis de vous entendre."
-    badge="Nous Joindre"
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -39,19 +39,19 @@ const heroImage = await resolveHeroImage(['widow-support', 'women-empowerment'])
         <h2 class="text-xl font-semibold text-gray-900">Nous Contacter Directement</h2>
         <div class="space-y-4">
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0"><span>✉️</span></div>
+            <div class="w-1 h-10 rounded-full bg-primary-600 flex-shrink-0"></div>
             <div><p class="text-sm font-medium text-gray-900">Email</p><a href={`mailto:${contactEmail}`} class="text-sm text-primary-600 hover:underline">{contactEmail}</a></div>
           </div>
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0"><span class="font-heading text-xs font-bold text-primary-700">Tel</span></div>
+            <div class="w-1 h-10 rounded-full bg-primary-600 flex-shrink-0"></div>
             <div><p class="text-sm font-medium text-gray-900">Téléphone / WhatsApp</p><a href={whatsappLink} class="text-sm text-primary-600 hover:underline">{contactPhone}</a></div>
           </div>
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0"><span class="font-heading text-xs font-bold text-primary-700">Loc</span></div>
+            <div class="w-1 h-10 rounded-full bg-primary-600 flex-shrink-0"></div>
             <div><p class="text-sm font-medium text-gray-900">Localisation</p><p class="text-sm text-gray-600">Cameroun, Afrique Centrale</p></div>
           </div>
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0"><span class="font-heading text-xs font-bold text-primary-700">Hrs</span></div>
+            <div class="w-1 h-10 rounded-full bg-primary-600 flex-shrink-0"></div>
             <div><p class="text-sm font-medium text-gray-900">Heures d'Ouverture</p><p class="text-sm text-gray-600">{officeHours}</p></div>
           </div>
         </div>

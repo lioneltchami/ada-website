@@ -22,6 +22,7 @@ if (user?.created_at) {
   } catch {}
 }
 ---
+<!-- Hallmark · genre: editorial · macrostructure: App · design-system: design.md · designed-as-app -->
 
 <PageLayout title="Dashboard" description="Your ADA donor dashboard." noIndex>
   <Section background="gray" padding="lg">
@@ -34,21 +35,21 @@ if (user?.created_at) {
 
       <!-- Quick Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <a href="/dashboard/donations" class="p-4 bg-white rounded-card shadow-card text-center hover:shadow-card-hover transition-shadow group">
+        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-center transition-colors group">
           <p class="text-xs text-gray-500 mb-1">Total Donated</p>
           <p class="text-lg font-bold text-gray-900">${(totalCents / 100).toFixed(2)}</p>
         </a>
-        <a href="/dashboard/donations" class="p-4 bg-white rounded-card shadow-card text-center hover:shadow-card-hover transition-shadow group">
+        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-center transition-colors group">
           <p class="text-xs text-gray-500 mb-1">Donations</p>
           <p class="text-lg font-bold text-gray-900">{donations.length}</p>
         </a>
-        <a href="/dashboard/donations" class="p-4 bg-white rounded-card shadow-card text-center hover:shadow-card-hover transition-shadow group">
+        <a href="/dashboard/donations" class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-center transition-colors group">
           <p class="text-xs text-gray-500 mb-1">Monthly Giving</p>
           <p class="text-sm font-medium text-primary-600 group-hover:underline">
             {monthlyDonations.length ? `${monthlyDonations.length} active record${monthlyDonations.length === 1 ? '' : 's'}` : 'Start monthly →'}
           </p>
         </a>
-        <div class="p-4 bg-white rounded-card shadow-card text-center">
+        <div class="p-4 bg-[#faf8f4] rounded-md border border-gray-200 text-center">
           <p class="text-xs text-gray-500 mb-1">Member Since</p>
           <p class="text-sm font-semibold text-gray-800">{memberSince}</p>
         </div>
@@ -66,22 +67,22 @@ if (user?.created_at) {
 
       <!-- Quick Links -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a href="/donate" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
+        <a href="/donate" class="p-5 bg-[#faf8f4] rounded-md border border-gray-200 transition-colors group">
           <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Make a Donation</p>
           <p class="mt-1 text-xs text-gray-500">One-time or monthly</p>
         </a>
-        <a href="/dashboard/donations" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
+        <a href="/dashboard/donations" class="p-5 bg-[#faf8f4] rounded-md border border-gray-200 transition-colors group">
           <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Donation History</p>
           <p class="mt-1 text-xs text-gray-500">View past contributions</p>
         </a>
-        <a href="/dashboard/profile" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
+        <a href="/dashboard/profile" class="p-5 bg-[#faf8f4] rounded-md border border-gray-200 transition-colors group">
           <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Update Profile</p>
           <p class="mt-1 text-xs text-gray-500">Name, email, preferences</p>
         </a>
       </div>
 
       <!-- Impact reminder -->
-      <div class="mt-8 p-5 bg-white rounded-card shadow-card">
+      <div class="mt-8 p-5 bg-[#faf8f4] rounded-md border border-gray-200">
         <h2 class="text-sm font-semibold text-gray-900 mb-3">Your Giving Makes a Real Difference</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
           {[

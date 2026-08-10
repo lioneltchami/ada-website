@@ -20,20 +20,20 @@ const {
 } = Astro.props;
 ---
 
-<div class="max-w-3xl mx-auto">
-  <h2 class="text-2xl font-heading font-bold text-gray-900 text-center">
+<div class="max-w-3xl">
+  <h2 class="text-2xl font-heading font-bold text-gray-900 text-left">
     {title}
   </h2>
   {
     subtitle && (
-      <p class="mt-2 text-center text-gray-600 text-sm">{subtitle}</p>
+      <p class="mt-2 text-left text-gray-600 text-sm">{subtitle}</p>
     )
   }
   <div class="mt-8 space-y-4">
     {
       faqs.map((faq, i) => (
         <details
-          class="group p-5 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer"
+          class="group p-5 bg-[#faf8f4] rounded-md border border-gray-200 cursor-pointer"
           open={openFirst && i === 0}
         >
           <summary class="flex items-center justify-between gap-4 font-semibold text-gray-900 text-sm list-none">
@@ -64,7 +64,7 @@ const {
   </div>
   {
     contactHref && contactLabel && (
-      <p class="mt-6 text-center text-sm text-gray-500">
+      <p class="mt-6 text-left text-sm text-gray-500">
         <a
           href={contactHref}
           class="text-primary-600 hover:underline font-medium"
