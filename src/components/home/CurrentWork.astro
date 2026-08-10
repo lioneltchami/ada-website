@@ -103,7 +103,7 @@ function formatSchedule(start?: string, end?: string): string {
   >
     {
       projects.map((project) => (
-        <article class="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+        <article class="group overflow-hidden rounded-md border border-gray-200 bg-[#faf8f4]">
           <a
             href={localePath(`/projects/${project.slug}`, locale)}
             class="block"
@@ -112,7 +112,7 @@ function formatSchedule(start?: string, end?: string): string {
               <img
                 src={project.imageUrl}
                 alt={project.imageAlt}
-                class="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
+                class="w-full h-full object-cover object-top"
                 loading="eager"
               />
             </div>
@@ -121,15 +121,15 @@ function formatSchedule(start?: string, end?: string): string {
             <div class="flex flex-wrap items-center gap-2 mb-3">
               <span
                 class:list={[
-                  "px-2 py-0.5 text-xs font-semibold rounded-full",
+                  "font-heading px-2 py-0.5 text-xs font-semibold rounded-md",
                   statusClass(project.status),
                 ]}
               >
                 {projectStatusLabel(project.status, locale)}
               </span>
-              <span class="text-xs text-gray-500">📍 {project.location}</span>
+              <span class="text-xs text-gray-500">{project.location}</span>
               <span class="text-xs text-gray-500">
-                👥 {project.beneficiaries} {copy.people}
+                {project.beneficiaries} {copy.people}
               </span>
             </div>
             <h3 class="text-xl font-heading font-bold text-gray-900">
@@ -168,13 +168,13 @@ function formatSchedule(start?: string, end?: string): string {
             <div class="mt-5 flex gap-2">
               <a
                 href={localePath(`/projects/${project.slug}`, locale)}
-                class="flex-1 text-center px-3 py-2.5 text-sm font-medium text-primary-800 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
+                class="flex-1 text-center px-3 py-2.5 text-sm font-medium text-primary-800 border border-primary-200 rounded-md hover:bg-primary-50 transition-colors"
               >
                 {copy.details}
               </a>
               <a
                 href={localePath(`/donate?project=${project.slug}`, locale)}
-                class="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors"
+                class="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
                 data-umami-event="home-spotlight-donate"
                 data-ph-capture-attribute-campaign={project.slug}
               >

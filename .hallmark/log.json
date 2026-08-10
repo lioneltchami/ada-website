@@ -8,5 +8,15 @@
     "enrichment": "real photography",
     "brief": "ADA site chrome + homepage rebuild from Hallmark audit",
     "design_system": "design.md"
+  },
+  {
+    "date": "2026-08-10",
+    "scope": "app",
+    "macrostructure": "Long Document + Split Studio",
+    "theme": "custom-ada-editorial",
+    "theme_axes": "light / rounded-sans+serif / chromatic-green",
+    "enrichment": "real photography",
+    "brief": "Critical-fix pass: about, donate, listings, heroes, emoji purge",
+    "design_system": "design.md"
   }
 ]

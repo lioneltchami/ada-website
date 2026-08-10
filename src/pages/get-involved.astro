@@ -173,64 +173,65 @@ const ways = [
 
   <!-- Ways to Help -->
   <Section background="white" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
-      Ways to Help
-    </h2>
-    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="max-w-3xl">
+      <h2 class="text-3xl font-heading font-bold text-gray-900 tracking-tight">
+        Ways to Help
+      </h2>
+    </div>
+    <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {
         ways.map((way) => (
-          <a
-            href={way.href}
-            class="group overflow-hidden rounded-card bg-gray-50 hover:bg-primary-50 transition-colors"
-          >
-            {way.image ? (
-              <div class="aspect-[4/3] overflow-hidden">
-                <img
-                  src={way.image.imageUrl}
-                  alt={way.image.imageAlt}
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
+          <li>
+            <a
+              href={way.href}
+              class="group flex flex-col sm:flex-row sm:items-center gap-4 py-5"
+            >
+              {way.image ? (
+                <div class="w-full sm:w-28 h-20 shrink-0 overflow-hidden rounded-md bg-gray-100">
+                  <img
+                    src={way.image.imageUrl}
+                    alt={way.image.imageAlt}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              ) : null}
+              <div class="min-w-0">
+                <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700">
+                  {way.title}
+                </h3>
+                <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
               </div>
-            ) : null}
-            <div class="p-5 text-center">
-              <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary-700">
-                {way.title}
-              </h3>
-              <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
-            </div>
-          </a>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </Section>
 
   <!-- Volunteer Opportunities -->
   <Section id="volunteer" background="gray" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
-      Volunteer Opportunities
-    </h2>
-    <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">
-      We have roles for every skill set and availability.
-    </p>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="max-w-3xl">
+      <h2 class="text-3xl font-heading font-bold text-gray-900 tracking-tight">
+        Volunteer Opportunities
+      </h2>
+      <p class="mt-4 text-gray-600">
+        We have roles for every skill set and availability.
+      </p>
+    </div>
+    <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {
         volunteerRoles.map((role) => (
-          <div class="p-5 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-            <h3 class="text-base font-semibold text-gray-900">{role.title}</h3>
-            <div class="mt-2 flex gap-2">
-              <span class="px-2 py-0.5 text-xs bg-primary-100 text-primary-700 rounded-full">
-                {role.time}
-              </span>
-              <span class="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
-                {role.location}
-              </span>
-            </div>
-            <p class="mt-3 text-sm text-gray-600">{role.desc}</p>
-          </div>
+          <li class="py-5">
+            <h3 class="font-heading text-base font-semibold text-gray-900">{role.title}</h3>
+            <p class="mt-1 text-xs text-gray-500">
+              {role.time} · {role.location}
+            </p>
+            <p class="mt-2 text-sm text-gray-600">{role.desc}</p>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </Section>
 
   <!-- Volunteer Form -->
@@ -387,45 +388,53 @@ const ways = [
 
   <!-- Partnerships -->
   <Section id="partnerships" background="gray" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
-      Partnerships
-    </h2>
-    <p class="mt-4 text-gray-600 text-center max-w-2xl mx-auto">
-      Partner with us to create lasting impact in Cameroon through sponsorship,
-      grants, campaigns, or in-kind support.
-    </p>
-    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="max-w-3xl">
+      <h2 class="text-3xl font-heading font-bold text-gray-900 tracking-tight">
+        Partnerships
+      </h2>
+      <p class="mt-4 text-gray-600">
+        Partner with us to create lasting impact in Cameroon through sponsorship,
+        grants, campaigns, or in-kind support.
+      </p>
+    </div>
+    <ul class="mt-8 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {
         partnerAudiences.map((partner) => (
-          <div class="p-4 bg-white rounded-card border border-gray-100 shadow-card">
-            <h3 class="text-sm font-semibold text-gray-900">{partner.title}</h3>
-            <p class="mt-2 text-xs text-gray-600 leading-relaxed">
+          <li class="py-4">
+            <h3 class="font-heading text-sm font-semibold text-gray-900">
+              {partner.title}
+            </h3>
+            <p class="mt-1 text-sm text-gray-600 leading-relaxed">
               {partner.desc}
             </p>
-          </div>
+          </li>
         ))
       }
-    </div>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    </ul>
+    <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {
         partnershipTiers.map((p) => (
-          <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-            <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
-            <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
-            <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
+          <li class="py-5 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+            <div>
+              <h3 class="font-heading text-lg font-semibold text-gray-900">
+                {p.tier}
+              </h3>
+              <p class="mt-1 font-heading text-base font-bold text-primary-700">
+                {p.range}
+              </p>
+              <p class="mt-2 text-sm text-gray-600">{p.desc}</p>
+            </div>
             <a
               href={`/contact?subject=Sponsorship+Inquiry+%E2%80%94+${encodeURIComponent(p.tier)}`}
-              class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline"
+              class="font-heading text-sm font-semibold text-primary-700 shrink-0"
             >
               Start an inquiry →
             </a>
-          </div>
+          </li>
         ))
       }
-    </div>
-    <div
-      class="mt-8 max-w-3xl mx-auto p-5 bg-white rounded-card border border-primary-100 text-center"
-    >
+    </ul>
+    <div class="mt-8 max-w-3xl p-5 bg-[#faf8f4] rounded-md border border-gray-200">
       <h3 class="text-base font-semibold text-gray-900">
         Need documents before sponsoring?
       </h3>
@@ -434,20 +443,20 @@ const ways = [
         budgets, and references for churches, companies, foundations, and
         diaspora groups reviewing ADA.
       </p>
-      <div class="mt-4 flex flex-wrap justify-center gap-3">
+      <div class="mt-4 flex flex-wrap gap-3">
         <a
           href="/transparency"
-          class="inline-flex px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+          class="font-heading text-sm font-semibold text-primary-700 underline underline-offset-4"
           >Review transparency</a
         >
         <a
           href="/contact?subject=Partnership+Due+Diligence+Package"
-          class="inline-flex px-4 py-2 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+          class="font-heading text-sm font-semibold text-primary-700 underline underline-offset-4"
           >Request due diligence package</a
         >
         <a
           href="/sponsor"
-          class="inline-flex px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+          class="font-heading text-sm font-semibold text-primary-700 underline underline-offset-4"
           >See sponsor options</a
         >
       </div>

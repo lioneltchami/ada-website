@@ -17,20 +17,20 @@ let storyParagraphs = [
   'What began as a simple act of compassion has grown into a community-driven organization serving 5 communities across Cameroon, touching over 200 lives through six focused programs. Every program is designed not just to provide relief, but to build lasting self-sufficiency.',
 ];
 let coreValues = [
-  { icon: '❤️', title: 'Faith & Love', desc: 'Grounded in Christian faith, we serve with unconditional love and compassion.' },
-  { icon: '🙏', title: 'Dignity & Respect', desc: 'Every person we serve is treated with the dignity they deserve as God\'s creation.' },
-  { icon: '🌱', title: 'Empowerment & Growth', desc: 'We equip people with skills and resources to build their own futures.' },
-  { icon: '🔍', title: 'Transparency & Integrity', desc: 'We are accountable to our donors, partners, and the communities we serve.' },
-  { icon: '🤝', title: 'Community Partnership', desc: 'We work alongside local leaders and organizations for lasting impact.' },
-  { icon: '♻️', title: 'Sustainable Impact', desc: 'Our programs are designed to create long-term change, not temporary relief.' },
+  { icon: '', title: 'Faith & Love', desc: 'Grounded in Christian faith, we serve with unconditional love and compassion.' },
+  { icon: '', title: 'Dignity & Respect', desc: 'Every person we serve is treated with the dignity they deserve as God\'s creation.' },
+  { icon: '', title: 'Empowerment & Growth', desc: 'We equip people with skills and resources to build their own futures.' },
+  { icon: '', title: 'Transparency & Integrity', desc: 'We are accountable to our donors, partners, and the communities we serve.' },
+  { icon: '', title: 'Community Partnership', desc: 'We work alongside local leaders and organizations for lasting impact.' },
+  { icon: '', title: 'Sustainable Impact', desc: 'Our programs are designed to create long-term change, not temporary relief.' },
 ];
 let programs = [
-  { icon: '🍚', title: 'Food Distribution', desc: 'Regular food packages for widows and families in need.', slug: 'widow-support' },
-  { icon: '✂️', title: 'Skills Training', desc: 'Vocational training in tailoring, hairdressing, and crafts for young women.', slug: 'women-empowerment' },
-  { icon: '🏥', title: 'Hospital Visits', desc: 'Medical support and hospital visits for community members.', slug: 'emergency-relief' },
-  { icon: '📚', title: 'Back-to-School Support', desc: 'School supplies, uniforms, and tuition for orphaned children.', slug: 'education-orphans' },
-  { icon: '💧', title: 'Clean Water Initiative', desc: 'Access to clean water for underserved communities, reducing waterborne disease.', slug: 'widow-support' },
-  { icon: '🧹', title: 'Community Clean-Up', desc: 'Environmental stewardship through clean-up drives, tree planting, and waste management education.', slug: 'women-empowerment' },
+  { icon: '', title: 'Food Distribution', desc: 'Regular food packages for widows and families in need.', slug: 'widow-support' },
+  { icon: '', title: 'Skills Training', desc: 'Vocational training in tailoring, hairdressing, and crafts for young women.', slug: 'women-empowerment' },
+  { icon: '', title: 'Hospital Visits', desc: 'Medical support and hospital visits for community members.', slug: 'emergency-relief' },
+  { icon: '', title: 'Back-to-School Support', desc: 'School supplies, uniforms, and tuition for orphaned children.', slug: 'education-orphans' },
+  { icon: '', title: 'Clean Water Initiative', desc: 'Access to clean water for underserved communities, reducing waterborne disease.', slug: 'widow-support' },
+  { icon: '', title: 'Community Clean-Up', desc: 'Environmental stewardship through clean-up drives, tree planting, and waste management education.', slug: 'women-empowerment' },
 ];
 let timeline = [
   { year: '2021', event: 'Founded in Buea — first food packages delivered to widows facing crisis' },
@@ -46,7 +46,7 @@ try {
   if (page) {
     missionStatement = page.missionStatement || missionStatement;
     if (page.storyParagraphs?.length && typeof page.storyParagraphs[0] === 'string') storyParagraphs = page.storyParagraphs;
-    if (page.coreValues?.length) coreValues = page.coreValues.map(v => ({ icon: v.icon, title: v.title, desc: v.description }));
+    if (page.coreValues?.length) coreValues = page.coreValues.map(v => ({ title: v.title, desc: v.description }));
     if (page.timeline?.length) timeline = page.timeline;
   }
 } catch {}
@@ -66,56 +66,58 @@ try {
 } catch {}
 ---
 
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 <PageLayout title="About Us" description="Learn about Apoti Development Association's mission to empower vulnerable communities in Cameroon through faith-based programs.">
   <PageHero
     title="About Us"
     subtitle="Faith-based charity empowering vulnerable communities in Cameroon since 2021."
-    badge="Our Story"
     imageUrl={communityPhotoUrl}
     imageAlt={communityPhotoAlt}
   />
 
   <!-- Mission -->
   <Section background="white" padding="lg">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">Our Mission</h2>
+    <div class="max-w-3xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        Our mission
+      </p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        Shine the light of Jesus Christ through practical care
+      </h2>
       <p class="mt-6 text-lg text-gray-600 leading-relaxed">{missionStatement}</p>
-      <div class="mt-8 grid grid-cols-3 gap-4 max-w-md mx-auto">
-        <div class="text-center">
-          <p class="text-2xl font-bold text-primary-700">200+</p>
-          <p class="text-xs text-gray-500">Lives Changed</p>
-        </div>
-        <div class="text-center">
-          <p class="text-2xl font-bold text-primary-700">5</p>
-          <p class="text-xs text-gray-500">Communities</p>
-        </div>
-        <div class="text-center">
-          <p class="text-2xl font-bold text-primary-700">80%</p>
-          <p class="text-xs text-gray-500">To Programs</p>
-        </div>
+    </div>
+    <div class="mt-10 grid grid-cols-3 gap-8 border-y border-gray-200 py-8 max-w-3xl">
+      <div>
+        <p class="font-heading text-3xl font-bold text-primary-700 tracking-tight">200+</p>
+        <p class="mt-1 text-sm text-gray-600">Lives Changed</p>
       </div>
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 border border-primary-100 rounded-full text-xs text-primary-700 font-medium">
-          <span aria-hidden="true">🇨🇲</span> Registered NGO in Cameroon
-        </span>
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 border border-primary-100 rounded-full text-xs text-primary-700 font-medium">
-          <span aria-hidden="true">🇨🇦</span> Led from Canada
-        </span>
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 border border-primary-100 rounded-full text-xs text-primary-700 font-medium">
-          <span aria-hidden="true">📜</span> N&deg; 415/G.37/D14/VolI/SAAJP
-        </span>
+      <div>
+        <p class="font-heading text-3xl font-bold text-primary-700 tracking-tight">5</p>
+        <p class="mt-1 text-sm text-gray-600">Communities</p>
+      </div>
+      <div>
+        <p class="font-heading text-3xl font-bold text-primary-700 tracking-tight">80%</p>
+        <p class="mt-1 text-sm text-gray-600">To Programs</p>
       </div>
     </div>
+    <p class="mt-6 text-sm text-gray-500 max-w-3xl">
+      Registered NGO in Cameroon · Led from Canada · N&deg; 415/G.37/D14/VolI/SAAJP
+    </p>
   </Section>
 
   <!-- Our Story + Photo -->
   <Section background="gray" padding="lg">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Called to Serve</h2>
+    <div class="max-w-4xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        Our story
+      </p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        Called to Serve
+      </h2>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
         <div class="md:col-span-3 space-y-4 text-gray-600 leading-relaxed">
           {storyParagraphs.map(p => <p>{p}</p>)}
-          <div class="mt-6 rounded-card border border-primary-100 bg-white p-5 shadow-card">
+          <div class="mt-6 rounded-md border border-gray-200 bg-white p-5">
             <p class="text-xs font-semibold uppercase tracking-wide text-primary-700">Founder credibility</p>
             <h3 class="mt-2 text-lg font-semibold text-gray-900">Pastor Emmanuel Tchami leads ADA through local church and community partnerships.</h3>
             <p class="mt-2 text-sm text-gray-600 leading-relaxed">His team works directly with widows, orphan caregivers, school leaders, and volunteers in Cameroon so support reaches named programs and documented community needs.</p>
@@ -137,7 +139,7 @@ try {
         </div>
         {communityPhotoUrl && (
           <div class="md:col-span-2">
-            <img src={communityPhotoUrl} alt="ADA community program in action" class="w-full rounded-2xl shadow-lg" loading="lazy" />
+            <img src={communityPhotoUrl} alt="ADA community program in action" class="w-full rounded-md border border-gray-200" loading="lazy" />
           </div>
         )}
       </div>
@@ -146,23 +148,30 @@ try {
 
   <!-- Impact Video -->
   <Section background="white" padding="lg">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900">See Our Impact</h2>
-      <p class="mt-4 text-lg text-gray-600">Watch how your support transforms lives in our communities.</p>
+    <div class="max-w-4xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        Field footage
+      </p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        See Our Impact
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 leading-relaxed">
+        Watch how your support transforms lives in our communities.
+      </p>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="rounded-2xl overflow-hidden shadow-lg">
+        <div class="rounded-md overflow-hidden border border-gray-200">
           <video controls preload="metadata" class="w-full aspect-video bg-gray-900" aria-label="ADA Back to School program video">
             <source src="https://cdn.sanity.io/files/rj2m21gk/production/6d43bdec66014a0bddb4702538982688a8ec4412.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <p class="p-3 text-sm text-gray-600 bg-gray-50">Back to School Program 2022</p>
+          <p class="p-3 text-sm text-gray-600 bg-gray-50 border-t border-gray-200">Back to School Program 2022</p>
         </div>
-        <div class="rounded-2xl overflow-hidden shadow-lg">
+        <div class="rounded-md overflow-hidden border border-gray-200">
           <video controls preload="metadata" class="w-full aspect-video bg-gray-900" aria-label="ADA community outreach video">
             <source src="https://cdn.sanity.io/files/rj2m21gk/production/02cbff013caef81d8c01e96e68f95cb364ce3a01.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <p class="p-3 text-sm text-gray-600 bg-gray-50">Community Outreach</p>
+          <p class="p-3 text-sm text-gray-600 bg-gray-50 border-t border-gray-200">Community Outreach</p>
         </div>
       </div>
     </div>
@@ -170,66 +179,106 @@ try {
 
   <!-- Core Values -->
   <Section background="gray" padding="lg">
-    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Core Values</h2>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {coreValues.map((value) => (
-        <div class="p-6 bg-gray-50 rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-          <span class="text-3xl">{value.icon}</span>
-          <h3 class="mt-3 text-lg font-semibold text-gray-900">{value.title}</h3>
-          <p class="mt-2 text-sm text-gray-600">{value.desc}</p>
-        </div>
-      ))}
+    <div class="max-w-3xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        What guides us
+      </p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        Our Core Values
+      </h2>
     </div>
+    <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200 max-w-4xl">
+      {coreValues.map((value) => (
+        <li class="border-b border-gray-200 py-5">
+          <h3 class="font-heading text-lg font-semibold text-gray-900">{value.title}</h3>
+          <p class="mt-1 text-sm text-gray-600 leading-relaxed">{value.desc}</p>
+        </li>
+      ))}
+    </ul>
   </Section>
 
   <!-- Programs (linked to project pages) -->
-  <Section background="gray" padding="lg">
-    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Programs</h2>
-    <p class="mt-4 text-lg text-gray-600 text-center max-w-2xl mx-auto">Six focused programs addressing the most pressing needs in our communities.</p>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {programs.map((program) => (
-        <a href={`/projects/${program.slug}`} class="group block p-6 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-          <span class="text-3xl">{program.icon}</span>
-          <h3 class="mt-3 text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">{program.title}</h3>
-          <p class="mt-2 text-sm text-gray-600">{program.desc}</p>
-          <span class="mt-3 inline-block text-xs font-medium text-primary-600 group-hover:text-primary-700">Learn more →</span>
-        </a>
-      ))}
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        How we serve
+      </p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        Our Programs
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 leading-relaxed">
+        Six focused programs addressing the most pressing needs in our communities.
+      </p>
     </div>
+    <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200 max-w-4xl">
+      {programs.map((program) => (
+        <li class="border-b border-gray-200">
+          <a href={`/projects/${program.slug}`} class="group flex items-baseline justify-between gap-4 py-5">
+            <div>
+              <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
+                {program.title}
+              </h3>
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">{program.desc}</p>
+            </div>
+            <span class="font-heading text-sm font-semibold text-primary-700 shrink-0" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </Section>
 
   <!-- Timeline -->
-  <Section background="white" padding="lg">
-    <h2 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 text-center">Our Journey</h2>
-    <div class="mt-12 max-w-3xl mx-auto">
-      <div class="relative">
-        <!-- Vertical line -->
-        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-primary-200" aria-hidden="true"></div>
-        <ol class="space-y-8 list-none">
-          {timeline.map((milestone) => (
-            <li class="relative flex gap-6">
-              <div class="flex-shrink-0 w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center z-10 shadow-md">
-                <span class="text-white font-bold text-sm">{milestone.year}</span>
-              </div>
-              <div class="pt-4">
-                <p class="text-gray-700 font-medium leading-relaxed">{milestone.event}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
+  <Section background="gray" padding="lg">
+    <div class="max-w-3xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        Our journey
+      </p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        From first food packages to growing impact
+      </h2>
     </div>
+    <ol class="mt-10 max-w-3xl space-y-0 list-none border-l border-gray-200 ml-1">
+      {timeline.map((milestone) => (
+        <li class="relative pl-8 pb-8 last:pb-0">
+          <span
+            class="absolute left-0 top-1.5 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-primary-600 border-2 border-[#f7f5f0]"
+            aria-hidden="true"
+          />
+          <p class="font-heading text-sm font-bold text-primary-700">{milestone.year}</p>
+          <p class="mt-1 text-sm text-gray-600 leading-relaxed">{milestone.event}</p>
+        </li>
+      ))}
+    </ol>
   </Section>
 
-  <!-- Team + CTA -->
-  <Section background="dark" padding="lg" class="!bg-gray-900 !bg-none">
-    <div class="text-center">
-      <h2 class="text-3xl md:text-4xl font-heading font-bold">Join Our Mission</h2>
-      <p class="mt-4 text-white/80 max-w-2xl mx-auto">Whether through giving, volunteering, or prayer, you can make a difference in the lives of widows, orphans, and young women in Cameroon.</p>
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="/donate" class="inline-flex items-center px-6 py-3 text-base font-semibold text-primary-800 bg-white rounded-lg hover:bg-gray-100 transition-colors">Donate Now</a>
-        <a href="/get-involved" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Get Involved</a>
-        <a href="/team" class="inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors">Meet Our Team</a>
+  <!-- Closing CTA -->
+  <Section background="dark" padding="lg" class="!bg-[#121a14] !bg-none">
+    <div class="max-w-2xl">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold tracking-tight text-left">
+        Join Our Mission
+      </h2>
+      <p class="mt-4 text-lg text-white/80 text-left">
+        Whether through giving, volunteering, or prayer, you can make a difference in the lives of widows, orphans, and young women in Cameroon.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a
+          href="/donate"
+          class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+        >
+          Donate Now
+        </a>
+        <a
+          href="/get-involved"
+          class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
+        >
+          Get Involved
+        </a>
+        <a
+          href="/team"
+          class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
+        >
+          Meet Our Team
+        </a>
       </div>
     </div>
   </Section>

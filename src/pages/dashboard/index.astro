@@ -56,7 +56,7 @@ if (user?.created_at) {
 
       <!-- Receipt notice -->
       <div class="mb-6 p-4 bg-primary-50 border border-primary-100 rounded-xl text-sm text-primary-800 flex items-start gap-3">
-        <span class="text-lg flex-shrink-0" aria-hidden="true">📧</span>
+        
         <div>
           <strong class="font-semibold">Your receipts are in your inbox.</strong>
           {" "}After every confirmed donation, an official PDF receipt is emailed to you. Check your spam folder if you don't see it.
@@ -67,17 +67,14 @@ if (user?.created_at) {
       <!-- Quick Links -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <a href="/donate" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
-          <span class="text-2xl" aria-hidden="true">💝</span>
           <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Make a Donation</p>
           <p class="mt-1 text-xs text-gray-500">One-time or monthly</p>
         </a>
         <a href="/dashboard/donations" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
-          <span class="text-2xl" aria-hidden="true">📋</span>
           <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Donation History</p>
           <p class="mt-1 text-xs text-gray-500">View past contributions</p>
         </a>
         <a href="/dashboard/profile" class="p-5 bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow text-center group">
-          <span class="text-2xl" aria-hidden="true">👤</span>
           <p class="mt-2 text-sm font-medium text-gray-900 group-hover:text-primary-700">Update Profile</p>
           <p class="mt-1 text-xs text-gray-500">Name, email, preferences</p>
         </a>
@@ -88,13 +85,12 @@ if (user?.created_at) {
         <h2 class="text-sm font-semibold text-gray-900 mb-3">Your Giving Makes a Real Difference</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
           {[
-            { icon: '👩', stat: '15+', label: 'Widows supported monthly' },
-            { icon: '📚', stat: '50+', label: 'Children in school' },
-            { icon: '🌍', stat: '5', label: 'Communities reached' },
+            { stat: '15+', label: 'Widows supported monthly' },
+            { stat: '50+', label: 'Children in school' },
+            { stat: '5', label: 'Communities reached' },
           ].map((item) => (
             <div class="p-3 bg-primary-50 rounded-lg">
-              <span class="text-xl" aria-hidden="true">{item.icon}</span>
-              <p class="mt-1 text-lg font-bold text-primary-700">{item.stat}</p>
+              <p class="text-lg font-bold text-primary-700">{item.stat}</p>
               <p class="text-xs text-gray-600">{item.label}</p>
             </div>
           ))}

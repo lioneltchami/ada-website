@@ -64,7 +64,7 @@ const heroImage = await resolveHeroImage([
           copy.priorities.items.map((item) => (
             <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col h-full">
               <div class="text-4xl mb-4" aria-hidden="true">
-                {item.emoji}
+                
               </div>
               <h3 class="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
               <p class="text-gray-600 text-sm flex-grow">{item.desc}</p>
@@ -138,9 +138,7 @@ const heroImage = await resolveHeroImage([
         {
           copy.whyPartner.items.map((item) => (
             <div class="p-5 bg-gray-50 rounded-xl border border-gray-100">
-              <span class="text-2xl" aria-hidden="true">
-                {item.icon}
-              </span>
+
               <h3 class="mt-2 text-sm font-semibold text-gray-900">
                 {item.title}
               </h3>

@@ -145,83 +145,78 @@ const ways = [
   />
 
   <Section background="white" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
-      Comment Aider
-    </h2>
-    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="max-w-3xl">
+      <h2 class="text-3xl font-heading font-bold text-gray-900 tracking-tight">
+        Comment Aider
+      </h2>
+    </div>
+    <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {
         ways.map((way) => (
-          <a
-            href={way.href}
-            class="group overflow-hidden rounded-card bg-gray-50 hover:bg-primary-50 transition-colors"
-          >
-            {way.image ? (
-              <div class="aspect-[4/3] overflow-hidden">
-                <img
-                  src={way.image.imageUrl}
-                  alt={way.image.imageAlt}
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
+          <li>
+            <a
+              href={way.href}
+              class="group flex flex-col sm:flex-row sm:items-center gap-4 py-5"
+            >
+              {way.image ? (
+                <div class="w-full sm:w-28 h-20 shrink-0 overflow-hidden rounded-md bg-gray-100">
+                  <img
+                    src={way.image.imageUrl}
+                    alt={way.image.imageAlt}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              ) : null}
+              <div class="min-w-0">
+                <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700">
+                  {way.title}
+                </h3>
+                <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
               </div>
-            ) : null}
-            <div class="p-5 text-center">
-              <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary-700">
-                {way.title}
-              </h3>
-              <p class="mt-1 text-sm text-gray-600">{way.desc}</p>
-            </div>
-          </a>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </Section>
 
   <Section id="benevole" background="gray" padding="lg">
-    <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
-      Opportunités de Bénévolat
-    </h2>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="max-w-3xl">
+      <h2 class="text-3xl font-heading font-bold text-gray-900 tracking-tight">
+        Opportunités de Bénévolat
+      </h2>
+    </div>
+    <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {
         volunteerRoles.map((role) => (
-          <div class="p-5 bg-white rounded-card shadow-card border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-            <h3 class="text-base font-semibold text-gray-900">{role.title}</h3>
-            <div class="mt-2 flex gap-2">
-              <span class="px-2 py-0.5 text-xs bg-primary-100 text-primary-700 rounded-full">
-                {role.time}
-              </span>
-              <span class="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
-                {role.location}
-              </span>
-            </div>
-            <p class="mt-3 text-sm text-gray-600">{role.desc}</p>
-          </div>
+          <li class="py-5">
+            <h3 class="font-heading text-base font-semibold text-gray-900">{role.title}</h3>
+            <p class="mt-1 text-xs text-gray-500">
+              {role.time} · {role.location}
+            </p>
+            <p class="mt-2 text-sm text-gray-600">{role.desc}</p>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </Section>
 
   <Section id="partenariats" background="gray" padding="lg">
     <h2 class="text-3xl font-heading font-bold text-gray-900 text-center">
       Partenariats Corporatifs
     </h2>
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {
         partnershipTiers.map((p) => (
-          <div class="p-6 bg-white rounded-card shadow-card text-center border-t-2 border-transparent hover:border-primary-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-            <h3 class="text-lg font-semibold text-gray-900">{p.tier}</h3>
-            <p class="mt-2 text-2xl font-bold text-primary-700">{p.range}</p>
-            <p class="mt-3 text-sm text-gray-600">{p.desc}</p>
-            <a
-              href={`/fr/contact?subject=Demande+de+Parrainage+%E2%80%94+${encodeURIComponent(p.tier)}`}
-              class="mt-4 inline-block text-sm font-medium text-primary-600 hover:underline"
-            >
-              Renseignements →
-            </a>
-          </div>
+          <li class="py-5">
+            <h3 class="font-heading text-lg font-semibold text-gray-900">{p.tier}</h3>
+            <p class="mt-1 font-heading text-base font-bold text-primary-700">{p.range}</p>
+            <p class="mt-2 text-sm text-gray-600">{p.desc}</p>
+          </li>
         ))
       }
-    </div>
+    </ul>
     <div class="mt-8 text-center">
       <a
         href="/fr/sponsor"

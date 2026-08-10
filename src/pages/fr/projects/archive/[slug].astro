@@ -21,7 +21,7 @@ const isAutoArchived = Boolean(record.autoArchived);
 ---
 
 <PageLayout title={title} description={description?.slice(0, 160)}>
-  <section class="bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white py-16 md:py-20">
+  <section class="bg-primary-900 text-white py-16 md:py-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <nav aria-label="Breadcrumb" class="mb-6">
         <ol class="flex items-center gap-1.5 text-sm text-white/70">
@@ -38,7 +38,7 @@ const isAutoArchived = Boolean(record.autoArchived);
         </span>
         <span class="px-3 py-1 text-xs font-medium bg-white/10 rounded-full border border-white/20">{demoLabels[record.demographic]}</span>
         <span class="text-sm text-white/70">{record.year}</span>
-        {record.location && <span class="text-sm text-white/70">📍 {record.location}</span>}
+        {record.location && <span class="text-sm text-white/70">{record.location}</span>}
       </div>
       <h1 class="text-3xl md:text-4xl font-heading font-bold leading-tight">{title}</h1>
     </div>
