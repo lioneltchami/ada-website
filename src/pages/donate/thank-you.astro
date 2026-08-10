@@ -14,7 +14,7 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
   <Section background="white" padding="lg">
     <div class="max-w-lg">
       <div
-        class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center"
+        class="w-16 h-16 rounded-md bg-primary-50 border border-primary-100 flex items-center justify-center"
       >
         <svg
           class="w-10 h-10 text-primary-600"
@@ -46,9 +46,9 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
         and young women in Cameroon. We are grateful for you.
       </p>
       <div
-        class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-primary-50 rounded-full text-sm text-primary-700 font-medium border border-primary-100"
+        class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[#faf8f4] rounded-md text-sm text-primary-800 font-medium border border-primary-200"
       >
-        <span aria-hidden="true"></span> Check your inbox — your receipt is on its
+        Check your inbox — your receipt is on its
         way
       </div>
     </div>
@@ -84,36 +84,33 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
       <h2 class="text-xl font-heading font-bold text-gray-900">
         What Happens Next
       </h2>
-      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <ul class="mt-6 divide-y divide-gray-200 border-y border-gray-200">
         {
           [
             {
-                            title: "Receipt by email",
+              title: "Receipt by email",
               desc: "An official PDF receipt and thank-you note are emailed after Stripe confirms the gift.",
             },
             {
-                            title: "Funds reach Cameroon",
+              title: "Funds reach Cameroon",
               desc: "ADA reconciles the gift with program records and field priorities.",
             },
             {
-                            title: "30-day impact update",
+              title: "30-day impact update",
               desc: "Your gift is queued for a follow-up update with field notes, photos, or a report link when available.",
             },
           ].map((step) => (
-            <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
-              <span class="text-2xl" aria-hidden="true">
-                {step.icon}
-              </span>
-              <p class="mt-2 text-sm font-semibold text-gray-900">
+            <li class="py-5">
+              <p class="font-heading text-sm font-semibold text-gray-900">
                 {step.title}
               </p>
-              <p class="mt-1 text-xs text-gray-600 leading-relaxed">
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
                 {step.desc}
               </p>
-            </div>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </Section>
 
@@ -181,22 +178,22 @@ import NewsletterSignup from "../../components/islands/NewsletterSignup";
 
   <!-- Navigation -->
   <Section background="gray" padding="sm">
-    <div class="flex flex-col sm:flex-row items-start gap-3">
+    <div class="flex flex-wrap items-center gap-4">
       <a
         href="/"
-        class="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+        class="font-heading text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-900"
       >
         Return Home
       </a>
       <a
         href="/stories"
-        class="px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
+        class="font-heading text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-900"
       >
         Read Impact Stories
       </a>
       <a
         href="/transparency"
-        class="px-5 py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+        class="font-heading text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-900"
       >
         See How Funds Are Used
       </a>

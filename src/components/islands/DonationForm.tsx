@@ -247,7 +247,7 @@ function PaymentStep({
           },
         }}
       />
-      <p className="text-xs text-gray-500 text-center mt-3">
+      <p className="mt-3 text-xs text-gray-500">
         {copy.securePayment} • {copy.eligibleWallets}
       </p>
       {error && (
@@ -440,7 +440,7 @@ export default function DonationForm({
           </div>
         ))}
       </div>
-      <p className="mb-6 text-center text-xs leading-relaxed text-gray-500">
+      <p className="mb-6 text-xs leading-relaxed text-gray-500">
         {copy.shortCheckout}
       </p>
 
@@ -502,7 +502,7 @@ export default function DonationForm({
                   className={`relative min-w-0 px-3 py-2.5 text-sm font-medium rounded-lg border-2 transition-colors ${amount === a && !customAmount ? "border-primary-500 bg-primary-50 text-primary-700" : "border-gray-200 text-gray-700 hover:border-gray-300"}`}
                 >
                   {a === 25 && (
-                    <span className="absolute -top-2 left-1/2 -translate-x-1/2 text-[9px] font-bold text-primary-600 bg-primary-50 px-1.5 rounded">
+                    <span className="absolute -top-2 left-1/2 -translate-x-1/2 font-heading text-[9px] font-semibold uppercase tracking-wider text-primary-700 bg-[#faf8f4] border border-primary-200 px-1.5 rounded-md">
                       {copy.popular}
                     </span>
                   )}
@@ -511,10 +511,10 @@ export default function DonationForm({
               ))}
             </div>
             {!customAmount && IMPACT_MAP[locale][amount] && (
-              <p className="text-sm text-primary-700 font-medium text-center mt-2">
-                {copy.your} ${amount}
+              <p className="mt-2 text-sm text-primary-800">
+                {copy.your} {selectedAmountLabel}
                 {frequency === "monthly" ? "/mo" : ""} {copy.canHelp}{" "}
-                {IMPACT_MAP[locale][amount]}
+                {IMPACT_MAP[locale][amount]}.
               </p>
             )}
             {/* Issue 4: Proper label for custom amount input */}
@@ -669,7 +669,7 @@ export default function DonationForm({
         <>
           {/* Issue 7: Loading state while Stripe resolves */}
           {stripeLoading && (
-            <div className="text-center py-8">
+            <div className="py-8">
               <div className="inline-block w-6 h-6 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
               <p className="mt-2 text-sm text-gray-600">
                 {copy.loadingPayment}
