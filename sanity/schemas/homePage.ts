@@ -15,7 +15,7 @@ export default defineType({
       title: 'Mission Cards',
       type: 'array',
       of: [{ type: 'object', fields: [
-        { name: 'icon', title: 'Icon (emoji)', type: 'string' },
+        { name: 'icon', title: 'Icon (unused — leave blank)', type: 'string', description: 'Deprecated. Site no longer renders emoji icons.' },
         { name: 'title', title: 'Title', type: 'string' },
         { name: 'description', title: 'Description', type: 'text' },
       ]}],
