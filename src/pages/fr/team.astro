@@ -22,7 +22,7 @@ let teamMembers: {
   photoUrl: string;
 }[] = [];
 try {
-  const m = await getTeamMembers();
+  const m = await getTeamMembers("fr");
   if (m?.length)
     teamMembers = m.map((m: any) => ({
       name: m.name,
@@ -40,10 +40,15 @@ let teamStats = [
   { value: "5", label: "Communautés" },
 ];
 try {
-  const metrics = await getImpactMetrics();
+  const metrics = await getImpactMetrics("fr");
   if (metrics?.length) {
-    const communities = metrics.find((m) => m.label.includes("Communities"));
-    const years = metrics.find((m) => m.label.includes("Years"));
+    const communities = metrics.find(
+      (m) =>
+        m.label.includes("Communities") || m.label.includes("Communautés"),
+    );
+    const years = metrics.find(
+      (m) => m.label.includes("Years") || m.label.includes("Années"),
+    );
     teamStats = [
       { value: "10", label: "Bénévoles Actifs" },
       {

@@ -14,7 +14,7 @@ let socialInstagram = "https://instagram.com/apotidev";
 let socialTwitter = "https://twitter.com/apotidev";
 
 try {
-  const settings = await getSiteSettings();
+  const settings = await getSiteSettings(locale);
   if (settings) {
     contactEmail = settings.contactEmail || contactEmail;
     contactPhone = settings.contactPhone || contactPhone;

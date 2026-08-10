@@ -38,13 +38,17 @@ const showFloatingDonate = !(
 );
 
 let faqData: { keywords: string[]; response: string }[] = [];
-if (
-  Astro.url.pathname === "/" ||
-  Astro.url.pathname === "/contact" ||
-  Astro.url.pathname === "/get-involved"
-) {
+const faqPaths = new Set([
+  "/",
+  "/contact",
+  "/get-involved",
+  "/fr",
+  "/fr/contact",
+  "/fr/get-involved",
+]);
+if (faqPaths.has(pathname)) {
   try {
-    const faqs = await getFaqResponses();
+    const faqs = await getFaqResponses(locale);
     if (faqs?.length) {
       faqData = faqs.map((f) => ({
         keywords: f.keywords,

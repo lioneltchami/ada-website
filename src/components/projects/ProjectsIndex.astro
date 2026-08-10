@@ -32,7 +32,7 @@ const heroImage = await resolveHeroImage([
 
 let projectData;
 try {
-  const sanityProjects = await getProjects();
+  const sanityProjects = await getProjects(locale);
   if (sanityProjects?.length) {
     projectData = mergeProjectLists(
       sanityProjects.map((p: SanityProject) => {

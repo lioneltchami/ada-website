@@ -42,11 +42,25 @@ let timeline = [
 ];
 
 try {
-  const page = await getAboutPage();
+  const page = await getAboutPage(locale);
   if (page) {
     missionStatement = page.missionStatement || missionStatement;
     if (page.storyParagraphs?.length && typeof page.storyParagraphs[0] === 'string') storyParagraphs = page.storyParagraphs;
-    if (page.coreValues?.length) coreValues = page.coreValues.map(v => ({ title: v.title, desc: v.description }));
+    if (page.coreValues?.length) {
+      coreValues = page.coreValues.map((v) => ({
+        icon: v.icon || "",
+        title: v.title,
+        desc: v.description,
+      }));
+    }
+    if (page.programs?.length) {
+      programs = page.programs.map((p) => ({
+        icon: p.icon || "",
+        title: p.title,
+        desc: p.description,
+        slug: p.slug || "widow-support",
+      }));
+    }
     if (page.timeline?.length) timeline = page.timeline;
   }
 } catch {}

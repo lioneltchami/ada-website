@@ -2,17 +2,17 @@
 import PageLayout from '../../../layouts/PageLayout.astro';
 import PageHero from '../../../components/layout/PageHero.astro';
 import Section from '../../../components/layout/Section.astro';
-import { sanityImageUrl } from '../../../lib/sanity';
-import { createClient } from '@sanity/client';
+import {
+  getBlogPosts,
+  getGalleryImages,
+  sanityImageUrl,
+} from '../../../lib/sanity';
 
 let posts: any[] = [];
 let galleryPhotos: any[] = [];
 try {
-  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
-  const dataset = import.meta.env.SANITY_DATASET || 'production';
-  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-  posts = await client.fetch('*[_type == "blogPost"] | order(publishedAt desc) { _id, title, titleFr, slug, excerpt, excerptFr, publishedAt, category, personPhoto { asset { _ref }, alt } }');
-  galleryPhotos = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0...4] { _id, title, photo { asset { _ref }, alt } }');
+  posts = await getBlogPosts('fr');
+  galleryPhotos = (await getGalleryImages(undefined, 'fr')).slice(0, 4);
 } catch {}
 
 const categories = ['all', 'story', 'update', 'announcement'];
@@ -72,7 +72,7 @@ const storyHeroAlt =
               <a href={`/fr/stories/${post.slug.current}`} class="group flex flex-col sm:flex-row gap-4 py-6">
                 {post.personPhoto?.asset?._ref && (
                   <div class="w-full sm:w-36 h-28 shrink-0 overflow-hidden rounded-md bg-gray-100">
-                    <img src={sanityImageUrl(post.personPhoto.asset._ref, 400)} alt={post.personPhoto?.alt || (post.titleFr || post.title)} class="w-full h-full object-cover" loading="lazy" />
+                    <img src={sanityImageUrl(post.personPhoto.asset._ref, 400)} alt={post.personPhoto?.alt || post.title} class="w-full h-full object-cover" loading="lazy" />
                   </div>
                 )}
                 <div class="min-w-0 flex-1">
@@ -84,8 +84,8 @@ const storyHeroAlt =
                       <time class="text-xs text-gray-500">{new Date(post.publishedAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'short' })}</time>
                     )}
                   </div>
-                  <h2 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors leading-tight">{post.titleFr || post.title}</h2>
-                  <p class="mt-2 text-sm text-gray-600 line-clamp-2 leading-relaxed">{post.excerptFr || post.excerpt}</p>
+                  <h2 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors leading-tight">{post.title}</h2>
+                  <p class="mt-2 text-sm text-gray-600 line-clamp-2 leading-relaxed">{post.excerpt}</p>
                   <span class="mt-3 inline-block font-heading text-sm font-semibold text-primary-700">Lire la suite →</span>
                 </div>
               </a>

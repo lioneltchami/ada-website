@@ -16,7 +16,7 @@ import {
 export async function getStaticPaths() {
   let projectData;
   try {
-    const sanityProjects = await getProjects();
+    const sanityProjects = await getProjects("fr");
     if (sanityProjects?.length) {
       projectData = mergeProjectLists(
         sanityProjects.map((p: SanityProject) => {

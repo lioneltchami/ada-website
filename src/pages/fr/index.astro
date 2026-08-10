@@ -10,6 +10,7 @@ import {
   getProjects,
   getTestimonials,
   getBlogPostBySlug,
+  getHomePage,
   sanityImageUrl,
   type SanityImpactMetric,
   type SanityProject,
@@ -24,7 +25,7 @@ const i18n = t("fr");
 
 let heroImageUrl = "";
 try {
-  const projects = await getProjects();
+  const projects = await getProjects("fr");
   if (projects?.length) {
     const preferred =
       projects.find(
@@ -44,7 +45,7 @@ try {
 let stats = homepageStatsFallback("fr");
 
 try {
-  const metrics = await getImpactMetrics();
+  const metrics = await getImpactMetrics("fr");
   if (metrics?.length) {
     const labelMap: Record<string, string> = {
       "Lives Impacted": i18n.stats.livesImpacted,
@@ -94,7 +95,7 @@ const fallbackTestimonials: Testimonial[] = [
 
 let testimonials: Testimonial[] = fallbackTestimonials;
 try {
-  const data = await getTestimonials();
+  const data = await getTestimonials("fr");
   if (data?.length) {
     testimonials = data.map((item: any) => ({
       name: item.name,
@@ -109,7 +110,7 @@ try {
   }
 } catch {}
 
-const missionCards = [
+let missionCards = [
   {
     icon: "",
     title: "Soutien aux Veuves",
@@ -129,9 +130,19 @@ const missionCards = [
       "Formation professionnelle, microfinance et appui au démarrage pour les jeunes femmes en quête d'indépendance.",
   },
 ];
+try {
+  const home = await getHomePage("fr");
+  if (home?.missionCards?.length) {
+    missionCards = home.missionCards.map((c) => ({
+      icon: c.icon || "",
+      title: c.title,
+      description: c.description,
+    }));
+  }
+} catch {}
 
 const spotlightProjects = await loadSpotlightProjects("fr", 4);
-const mosaicPhotos = await loadGalleryMosaic(8);
+const mosaicPhotos = await loadGalleryMosaic(8, "fr");
 
 let featuredStory = {
   title:
@@ -143,12 +154,11 @@ let featuredStory = {
   imageAlt: "",
 };
 try {
-  const story = await getBlogPostBySlug("why-we-focus-on-widows");
+  const story = await getBlogPostBySlug("why-we-focus-on-widows", "fr");
   if (story) {
     featuredStory = {
-      title: (story as { titleFr?: string }).titleFr || featuredStory.title,
-      excerpt:
-        (story as { excerptFr?: string }).excerptFr || featuredStory.excerpt,
+      title: story.title || featuredStory.title,
+      excerpt: story.excerpt || featuredStory.excerpt,
       href: "/fr/stories/why-we-focus-on-widows",
       imageUrl: story.personPhoto?.asset?._ref
         ? sanityImageUrl(story.personPhoto.asset._ref, 800)
