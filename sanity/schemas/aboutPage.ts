@@ -1,57 +1,103 @@
-import { defineType, defineField } from 'sanity';
+import { defineField, defineType } from "sanity";
 
 export default defineType({
-  name: 'aboutPage',
-  title: 'About Page',
-  type: 'document',
+  name: "aboutPage",
+  title: "About Page",
+  type: "document",
   fields: [
-    defineField({ name: 'missionStatement', title: 'Mission Statement', type: 'text', rows: 4, validation: (r) => r.required() }),
-    defineField({ name: 'storyHeading', title: 'Story Heading', type: 'string' }),
     defineField({
-      name: 'storyParagraphs',
-      title: 'Story Paragraphs',
-      type: 'array',
-      of: [{ type: 'text' }],
+      name: "missionStatement",
+      title: "Mission Statement",
+      type: "text",
+      rows: 4,
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "storyHeading",
+      title: "Story Heading",
+      type: "string",
+    }),
+    defineField({
+      name: "storyParagraphs",
+      title: "Story Paragraphs",
+      type: "array",
+      of: [{ type: "text" }],
       validation: (r) => r.min(1),
     }),
     defineField({
-      name: 'coreValues',
-      title: 'Core Values',
-      type: 'array',
-      of: [{ type: 'object', fields: [
-        { name: 'icon', title: 'Icon (emoji)', type: 'string' },
-        { name: 'title', title: 'Title', type: 'string' },
-        { name: 'description', title: 'Description', type: 'text' },
-      ]}],
+      name: "coreValues",
+      title: "Core Values",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "icon",
+              title: "Icon (unused — leave blank)",
+              type: "string",
+              description: "Deprecated. Site no longer renders emoji icons.",
+            },
+            { name: "title", title: "Title", type: "string" },
+            { name: "description", title: "Description", type: "text" },
+          ],
+        },
+      ],
     }),
     defineField({
-      name: 'programs',
-      title: 'Programs',
-      type: 'array',
-      of: [{ type: 'object', fields: [
-        { name: 'icon', title: 'Icon (emoji)', type: 'string' },
-        { name: 'title', title: 'Title', type: 'string' },
-        { name: 'description', title: 'Description', type: 'text' },
-        { name: 'slug', title: 'Project Slug', type: 'string', description: 'Optional project page slug used for linking program cards.' },
-      ]}],
+      name: "programs",
+      title: "Programs",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "icon",
+              title: "Icon (unused — leave blank)",
+              type: "string",
+              description: "Deprecated. Site no longer renders emoji icons.",
+            },
+            { name: "title", title: "Title", type: "string" },
+            { name: "description", title: "Description", type: "text" },
+            {
+              name: "slug",
+              title: "Project Slug",
+              type: "string",
+              description:
+                "Optional project page slug used for linking program cards.",
+            },
+          ],
+        },
+      ],
     }),
     defineField({
-      name: 'financialSplit',
-      title: 'Financial Split',
-      type: 'array',
-      of: [{ type: 'object', fields: [
-        { name: 'percentage', title: 'Percentage', type: 'number' },
-        { name: 'label', title: 'Label', type: 'string' },
-      ]}],
+      name: "financialSplit",
+      title: "Financial Split",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "percentage", title: "Percentage", type: "number" },
+            { name: "label", title: "Label", type: "string" },
+          ],
+        },
+      ],
     }),
     defineField({
-      name: 'timeline',
-      title: 'Timeline',
-      type: 'array',
-      of: [{ type: 'object', fields: [
-        { name: 'year', title: 'Year', type: 'string' },
-        { name: 'event', title: 'Event', type: 'string' },
-      ]}],
+      name: "timeline",
+      title: "Timeline",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "year", title: "Year", type: "string" },
+            { name: "event", title: "Event", type: "string" },
+          ],
+        },
+      ],
     }),
   ],
 });
