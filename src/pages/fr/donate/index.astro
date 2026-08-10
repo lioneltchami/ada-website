@@ -20,6 +20,11 @@ import {
 } from "../../../lib/project-fallbacks";
 import { t } from "../../../i18n";
 import { REGISTRATION_NUMBER } from "../../../data/organization";
+import {
+  DONATION_FAQS_FR,
+  buildFaqPage,
+} from "../../../lib/structured-data";
+import FaqSection from "../../../components/seo/FaqSection.astro";
 
 const i18n = t("fr");
 
@@ -101,11 +106,18 @@ try {
       heroImageUrl = sanityImageUrl(withImage.mainImage!.asset._ref, 1200);
   }
 } catch {}
+
+const donationFaqs = DONATION_FAQS_FR;
+const faqPageSchema = buildFaqPage(
+  donationFaqs,
+  new URL("/fr/donate", Astro.site).toString(),
+);
 ---
 
 <PageLayout
   title="Faire un Don"
-  description="Soutenez la mission d'ADA pour autonomiser les communautés vulnérables au Cameroun."
+  description="Soutenez la mission d'ADA pour autonomiser les communautés vulnérables au Cameroun. ONG enregistrée, 80 % aux programmes."
+  jsonLdExtra={[faqPageSchema]}
 >
   <!-- Hero with background image -->
   <section class="relative overflow-hidden py-20 md:py-28 text-white">
@@ -319,5 +331,15 @@ try {
         </p>
       </div>
     </div>
+  </Section>
+
+  <Section background="white" padding="lg">
+    <FaqSection
+      title="Questions fréquentes"
+      subtitle="Tout ce qu'il faut savoir avant de donner."
+      faqs={donationFaqs}
+      contactHref="/fr/contact?subject=Question+Don"
+      contactLabel="D'autres questions ? Contactez-nous — réponse sous 24 h en général."
+    />
   </Section>
 </PageLayout>
