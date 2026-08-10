@@ -13,7 +13,7 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
   <Section background="white" padding="lg">
     <div class="max-w-lg">
       <div
-        class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center"
+        class="w-16 h-16 rounded-md bg-primary-50 border border-primary-100 flex items-center justify-center"
       >
         <svg
           class="w-10 h-10 text-primary-600"
@@ -42,9 +42,9 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
         Cameroun. Nous vous sommes profondément reconnaissants.
       </p>
       <div
-        class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-primary-50 rounded-full text-sm text-primary-700 font-medium border border-primary-100"
+        class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[#faf8f4] rounded-md text-sm text-primary-800 font-medium border border-primary-200"
       >
-        <span aria-hidden="true"></span> Vérifiez votre boîte mail — votre reçu
+        Vérifiez votre boîte mail — votre reçu
         arrive bientôt
       </div>
     </div>
@@ -80,36 +80,33 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
       <h2 class="text-xl font-heading font-bold text-gray-900">
         Ce qui se passe ensuite
       </h2>
-      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <ul class="mt-6 divide-y divide-gray-200 border-y border-gray-200">
         {
           [
             {
-                            title: "Reçu par e-mail",
+              title: "Reçu par e-mail",
               desc: "Un reçu PDF officiel et un message de remerciement sont envoyés après confirmation Stripe.",
             },
             {
-                            title: "Fonds vers le Cameroun",
+              title: "Fonds vers le Cameroun",
               desc: "ADA rapproche le don avec ses registres de programme et les priorités terrain.",
             },
             {
-                            title: "Suivi à 30 jours",
+              title: "Suivi à 30 jours",
               desc: "Votre don est placé dans une file de suivi avec notes terrain, photos ou lien de rapport si disponible.",
             },
           ].map((step) => (
-            <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
-              <span class="text-2xl" aria-hidden="true">
-                {step.icon}
-              </span>
-              <p class="mt-2 text-sm font-semibold text-gray-900">
+            <li class="py-5">
+              <p class="font-heading text-sm font-semibold text-gray-900">
                 {step.title}
               </p>
-              <p class="mt-1 text-xs text-gray-600 leading-relaxed">
+              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
                 {step.desc}
               </p>
-            </div>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </Section>
 
@@ -127,22 +124,22 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
   </Section>
 
   <Section background="gray" padding="sm">
-    <div class="flex flex-col sm:flex-row items-start gap-3">
+    <div class="flex flex-wrap items-center gap-4">
       <a
         href="/fr"
-        class="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+        class="font-heading text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-900"
       >
         Retour à l'accueil
       </a>
       <a
         href="/fr/stories"
-        class="px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
+        class="font-heading text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-900"
       >
         Lire les témoignages
       </a>
       <a
         href="/fr/transparency"
-        class="px-5 py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+        class="font-heading text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-900"
       >
         Voir l'utilisation des fonds
       </a>

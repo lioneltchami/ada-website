@@ -327,7 +327,7 @@ const en: PartnersCopy = {
       "ADA welcomes partnerships with funders worldwide. Here's how we align with your country's development priorities.",
     cards: [
       {
-        flag: "🇨🇦",
+        flag: "",
         title: "Canadian Funders",
         points: [
           {
@@ -354,7 +354,7 @@ const en: PartnersCopy = {
         ],
       },
       {
-        flag: "🇺🇸",
+        flag: "",
         title: "US Funders",
         points: [
           {
@@ -381,7 +381,7 @@ const en: PartnersCopy = {
         ],
       },
       {
-        flag: "🇪🇺",
+        flag: "",
         title: "European Funders",
         points: [
           {
@@ -408,7 +408,7 @@ const en: PartnersCopy = {
         ],
       },
       {
-        flag: "🇬🇧",
+        flag: "",
         title: "UK & Commonwealth Funders",
         points: [
           {
@@ -431,7 +431,7 @@ const en: PartnersCopy = {
         ],
       },
       {
-        flag: "🌍",
+        flag: "",
         title: "Diaspora & Individual Donors (Worldwide)",
         points: [
           {
@@ -764,7 +764,7 @@ const fr: PartnersCopy = {
       "ADA accueille les partenariats avec des bailleurs du monde entier. Voici comment nous nous alignons avec les priorités de votre pays.",
     cards: [
       {
-        flag: "🇨🇦",
+        flag: "",
         title: "Bailleurs Canadiens",
         points: [
           {
@@ -791,7 +791,7 @@ const fr: PartnersCopy = {
         ],
       },
       {
-        flag: "🇺🇸",
+        flag: "",
         title: "Bailleurs Américains",
         points: [
           {
@@ -818,7 +818,7 @@ const fr: PartnersCopy = {
         ],
       },
       {
-        flag: "🇪🇺",
+        flag: "",
         title: "Bailleurs Européens",
         points: [
           {
@@ -845,7 +845,7 @@ const fr: PartnersCopy = {
         ],
       },
       {
-        flag: "🇬🇧",
+        flag: "",
         title: "Bailleurs Britanniques & Commonwealth",
         points: [
           {
@@ -868,7 +868,7 @@ const fr: PartnersCopy = {
         ],
       },
       {
-        flag: "🌍",
+        flag: "",
         title: "Diaspora & Donateurs Individuels (Mondial)",
         points: [
           {
