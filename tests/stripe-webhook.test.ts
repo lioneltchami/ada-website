@@ -1,7 +1,9 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const webhookMocks = vi.hoisted(() => ({
   claimDonationThankYou: vi.fn(),
+  claimDonationStaffFollowUp: vi.fn(),
+  clearDonationStaffFollowUp: vi.fn(),
   clearDonationThankYou: vi.fn(),
   donationFromStripeInvoice: vi.fn(),
   donationFromStripePaymentIntent: vi.fn(),
@@ -14,6 +16,8 @@ const webhookMocks = vi.hoisted(() => ({
 
 vi.mock("../src/lib/donations", () => ({
   claimDonationThankYou: webhookMocks.claimDonationThankYou,
+  claimDonationStaffFollowUp: webhookMocks.claimDonationStaffFollowUp,
+  clearDonationStaffFollowUp: webhookMocks.clearDonationStaffFollowUp,
   clearDonationThankYou: webhookMocks.clearDonationThankYou,
   donationFromStripeInvoice: webhookMocks.donationFromStripeInvoice,
   donationFromStripePaymentIntent: webhookMocks.donationFromStripePaymentIntent,
@@ -85,6 +89,9 @@ const baseDonation = {
 };
 
 describe("Stripe webhook signature verification", () => {
+  beforeEach(() => {
+    webhookMocks.claimDonationStaffFollowUp.mockResolvedValue(true);
+  });
   afterEach(() => {
     vi.unstubAllEnvs();
     vi.resetModules();
@@ -175,6 +182,7 @@ describe("Stripe webhook signature verification", () => {
     webhookMocks.findDonationByStripeReference.mockResolvedValue({
       receipt_id: "ADA-2026-PI123",
       thank_you_sent_at: "2026-05-30T12:01:00.000Z",
+      staff_follow_up_sent_at: "2026-05-30T12:01:05.000Z",
       follow_up_due_at: "2026-06-29T12:00:00.000Z",
       follow_up_status: "pending_30_day_update",
     });
@@ -257,5 +265,52 @@ describe("Stripe webhook signature verification", () => {
       stripePaymentIntentId: "pi_123",
       stripeInvoiceId: null,
     });
+  });
+
+  it("retries a failed staff notification without resending the receipt", async () => {
+    const secret = activeWebhookSecret();
+    vi.stubEnv("STRIPE_WEBHOOK_SECRET", secret);
+    webhookMocks.donationFromStripePaymentIntent.mockReturnValue(baseDonation);
+    webhookMocks.findDonationByStripeReference
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce({
+        receipt_id: "ADA-2026-PI123",
+        thank_you_sent_at: "2026-05-30T12:01:00.000Z",
+        staff_follow_up_sent_at: null,
+        follow_up_due_at: "2026-06-29T12:00:00.000Z",
+      });
+    webhookMocks.saveDonationRecord.mockResolvedValue(undefined);
+    webhookMocks.claimDonationThankYou.mockResolvedValue(true);
+    webhookMocks.sendDonationReceipt.mockResolvedValue({ success: true });
+    webhookMocks.claimDonationStaffFollowUp.mockResolvedValue(true);
+    webhookMocks.sendDonationFollowUpNotification
+      .mockRejectedValueOnce(new Error("Staff email failed"))
+      .mockResolvedValueOnce({ success: true });
+    webhookMocks.clearDonationStaffFollowUp.mockResolvedValue(undefined);
+
+    const { POST } = await import("../src/pages/api/webhooks/stripe");
+    const request = () =>
+      signedWebhookRequest(
+        {
+          type: "payment_intent.succeeded",
+          data: { object: { id: "pi_123", metadata: { type: "one-time" } } },
+        },
+        secret,
+      );
+
+    await expect(POST({ request: await request() } as any)).rejects.toThrow(
+      "Staff email failed",
+    );
+    expect(webhookMocks.clearDonationStaffFollowUp).toHaveBeenCalledWith({
+      stripePaymentIntentId: "pi_123",
+      stripeInvoiceId: null,
+    });
+
+    const response = await POST({ request: await request() } as any);
+    expect(response.status).toBe(200);
+    expect(webhookMocks.sendDonationReceipt).toHaveBeenCalledTimes(1);
+    expect(webhookMocks.sendDonationFollowUpNotification).toHaveBeenCalledTimes(
+      2,
+    );
   });
 });

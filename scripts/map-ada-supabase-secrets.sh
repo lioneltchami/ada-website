@@ -5,9 +5,15 @@ VPS_HOST="${VPS_HOST:-root@77.42.83.187}"
 REMOTE_ENV="${REMOTE_ENV:-/data/coolify/services/adawebsitekavora000001/.env}"
 SUPABASE_URL="${SUPABASE_URL:-}"
 if [[ -z "$SUPABASE_URL" ]]; then
-  echo "SUPABASE_URL is required (prefer https://*.supabase.co; avoid hardcoding sslip.io in app CSP)." >&2
+  echo "SUPABASE_URL is required for the legacy ADA VPS secret-mapping script." >&2
   exit 1
 fi
+case "$SUPABASE_URL" in
+  https://*.supabase.co)
+    echo "Refusing to send VPS Supabase keys to a managed Supabase URL." >&2
+    exit 1
+    ;;
+esac
 CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-4d09fd6387eaad164e0236ab73ff09c7}"
 RUN_BUILD="${RUN_BUILD:-1}"
 RUN_DEPLOY="${RUN_DEPLOY:-1}"

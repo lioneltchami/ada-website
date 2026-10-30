@@ -76,7 +76,9 @@ async function handleConfirmedDonation(record: DonationRecord): Promise<void> {
 	if (!record.donor_email) return;
 
 	const {
+		claimDonationStaffFollowUp,
 		claimDonationThankYou,
+		clearDonationStaffFollowUp,
 		clearDonationThankYou,
 		findDonationByStripeReference,
 		saveDonationRecord,
@@ -110,28 +112,36 @@ async function handleConfirmedDonation(record: DonationRecord): Promise<void> {
 		receipt_id: receiptId,
 		follow_up_due_at: followUpDueAt,
 		follow_up_status: existing?.follow_up_status || "pending_30_day_update",
-		thank_you_sent_at: existing?.thank_you_sent_at || null,
 	});
 
-	if (existing?.thank_you_sent_at) return;
+	if (!existing?.thank_you_sent_at) {
+		// Claim before send so Stripe retries cannot double-email if persistence
+		// after send fails, or if two deliveries race.
+		const claimed = await claimDonationThankYou(thankYouRef);
+		if (!claimed) return;
 
-	// Claim before send so Stripe retries cannot double-email if persistence
-	// after send fails, or if two deliveries race.
-	const claimed = await claimDonationThankYou(thankYouRef);
-	if (!claimed) return;
+		try {
+			await sendDonationReceipt({
+				email: record.donor_email,
+				name: record.donor_name,
+				amount: record.amount_cents / 100,
+				project: record.project_slug,
+				frequency: record.frequency,
+				locale: record.locale,
+				receiptId,
+				followUpDueAt,
+			});
+		} catch (error) {
+			await clearDonationThankYou(thankYouRef);
+			throw error;
+		}
+	}
+
+	if (existing?.staff_follow_up_sent_at) return;
+	const staffClaimed = await claimDonationStaffFollowUp(thankYouRef);
+	if (!staffClaimed) return;
 
 	try {
-		await sendDonationReceipt({
-			email: record.donor_email,
-			name: record.donor_name,
-			amount: record.amount_cents / 100,
-			project: record.project_slug,
-			frequency: record.frequency,
-			locale: record.locale,
-			receiptId,
-			followUpDueAt,
-		});
-
 		await sendDonationFollowUpNotification({
 			email: record.donor_email,
 			name: record.donor_name,
@@ -143,7 +153,7 @@ async function handleConfirmedDonation(record: DonationRecord): Promise<void> {
 			stripeReference,
 		});
 	} catch (error) {
-		await clearDonationThankYou(thankYouRef);
+		await clearDonationStaffFollowUp(thankYouRef);
 		throw error;
 	}
 }

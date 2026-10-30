@@ -7,9 +7,26 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
   }
 
   try {
-    const { accessToken, refreshToken } = await request.json();
+    const declaredLength = Number(request.headers.get("content-length") || 0);
+    if (declaredLength > 16 * 1024) {
+      return new Response("Payload too large", { status: 413 });
+    }
+    const rawBody = await request.text();
+    if (new TextEncoder().encode(rawBody).byteLength > 16 * 1024) {
+      return new Response("Payload too large", { status: 413 });
+    }
+    const body = JSON.parse(rawBody);
+    const accessToken = body?.accessToken;
+    const refreshToken = body?.refreshToken;
 
-    if (!accessToken || !refreshToken) {
+    if (
+      typeof accessToken !== "string" ||
+      accessToken.length === 0 ||
+      accessToken.length > 8 * 1024 ||
+      typeof refreshToken !== "string" ||
+      refreshToken.length === 0 ||
+      refreshToken.length > 4 * 1024
+    ) {
       return new Response("Missing tokens", { status: 400 });
     }
 

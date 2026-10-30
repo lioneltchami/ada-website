@@ -26,10 +26,17 @@ export default function RegisterForm() {
 
     try {
       const supabase = await getSupabaseBrowserClient();
+      const emailRedirectTo = new URL(
+        "/auth/email-verified",
+        import.meta.env.PUBLIC_SITE_URL || window.location.origin,
+      ).toString();
       const { error: authError } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { full_name: name } },
+        options: {
+          data: { full_name: name },
+          emailRedirectTo,
+        },
       });
 
       if (authError) throw authError;

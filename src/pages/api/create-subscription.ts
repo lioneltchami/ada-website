@@ -57,11 +57,16 @@ export const POST: APIRoute = async ({ request, url }) => {
     });
     let customer = customers.data[0];
     if (!customer) {
-      customer = await stripe.customers.create({
-        email: data.donorEmail,
-        name: data.donorName,
-        metadata: { is_anonymous: String(data.isAnonymous) },
-      });
+      customer = await stripe.customers.create(
+        {
+          email: data.donorEmail,
+          name: data.donorName,
+          metadata: { is_anonymous: String(data.isAnonymous) },
+        },
+        {
+          idempotencyKey: `cus_${data.checkoutAttemptId}`,
+        },
+      );
     }
 
     const subscription = await stripe.subscriptions.create(

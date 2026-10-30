@@ -14,6 +14,7 @@ create table if not exists public.donations (
   paid_at timestamptz not null,
   receipt_id text,
   thank_you_sent_at timestamptz,
+  staff_follow_up_sent_at timestamptz,
   follow_up_due_at timestamptz,
   follow_up_reminder_sent_at timestamptz,
   follow_up_status text not null default 'pending_30_day_update'
@@ -34,6 +35,9 @@ alter table public.donations
 
 alter table public.donations
   add column if not exists thank_you_sent_at timestamptz;
+
+alter table public.donations
+  add column if not exists staff_follow_up_sent_at timestamptz;
 
 alter table public.donations
   add column if not exists follow_up_due_at timestamptz;
@@ -60,22 +64,38 @@ create index if not exists donations_follow_up_due_at_idx
 
 alter table public.donations enable row level security;
 
+revoke all privileges on table public.donations
+  from public, anon, authenticated;
+
+grant select on table public.donations to authenticated;
+
+grant select, insert, update, delete
+  on table public.donations to service_role;
+
 drop policy if exists "donors can read their own donations" on public.donations;
 
 create policy "donors can read their own donations"
   on public.donations
   for select
-  using (lower(donor_email) = lower((auth.jwt() ->> 'email')));
+  to authenticated
+  using (lower(donor_email) = lower((select auth.jwt() ->> 'email')));
 
 create or replace function public.touch_updated_at()
 returns trigger
 language plpgsql
+security invoker
+set search_path = ''
 as $$
 begin
   new.updated_at = now();
   return new;
 end;
 $$;
+
+revoke all privileges on function public.touch_updated_at()
+  from public, anon, authenticated;
+
+grant execute on function public.touch_updated_at() to service_role;
 
 drop trigger if exists donations_touch_updated_at on public.donations;
 

@@ -18,11 +18,16 @@ export const POST: APIRoute = async ({ request, cookies, redirect, url }) => {
       const supabase = createClient(supabaseUrl, supabaseKey, {
         auth: { autoRefreshToken: false, detectSessionInUrl: false },
       });
-      await supabase.auth.setSession({
-        access_token: accessToken,
-        refresh_token: refreshToken,
-      });
-      await supabase.auth.signOut();
+      try {
+        await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+        await supabase.auth.signOut();
+      } catch {
+        // Cookie deletion below is the local logout guarantee even when the
+        // remote Supabase session revocation is unavailable.
+      }
     }
   }
 

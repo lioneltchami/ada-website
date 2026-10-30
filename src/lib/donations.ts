@@ -17,6 +17,7 @@ export interface DonationRecord {
   paid_at: string;
   receipt_id?: string;
   thank_you_sent_at?: string | null;
+  staff_follow_up_sent_at?: string | null;
   follow_up_due_at?: string | null;
   follow_up_reminder_sent_at?: string | null;
   follow_up_status?: "pending_30_day_update" | "sent" | "not_required";
@@ -282,6 +283,49 @@ export async function clearDonationThankYou(reference: {
   if (error) {
     throw new Error(`Donation thank-you clear failed: ${error.message}`);
   }
+}
+
+/** Atomically claim the internal follow-up notification independently of the donor receipt. */
+export async function claimDonationStaffFollowUp(reference: {
+  stripePaymentIntentId?: string | null;
+  stripeInvoiceId?: string | null;
+  sentAt?: string;
+}): Promise<boolean> {
+  const filter = stripeReferenceFilter(reference);
+  if (!filter.match) return false;
+  const supabase = getSupabaseAdmin();
+  const sentAt = reference.sentAt || new Date().toISOString();
+  if (!supabase) return true;
+
+  let query = supabase
+    .from("donations")
+    .update({ staff_follow_up_sent_at: sentAt })
+    .is("staff_follow_up_sent_at", null);
+  query = filter.apply(query);
+  const { data, error } = await query.select("id").maybeSingle();
+  if (error)
+    throw new Error(`Donation staff follow-up claim failed: ${error.message}`);
+  return Boolean(data?.id);
+}
+
+/** Release only the internal-notification claim after a failed send. */
+export async function clearDonationStaffFollowUp(reference: {
+  stripePaymentIntentId?: string | null;
+  stripeInvoiceId?: string | null;
+}): Promise<void> {
+  const filter = stripeReferenceFilter(reference);
+  if (!filter.match) return;
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return;
+
+  let query = supabase
+    .from("donations")
+    .update({ staff_follow_up_sent_at: null })
+    .not("staff_follow_up_sent_at", "is", null);
+  query = filter.apply(query);
+  const { error } = await query;
+  if (error)
+    throw new Error(`Donation staff follow-up clear failed: ${error.message}`);
 }
 
 export async function getDonationsForEmail(
