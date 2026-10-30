@@ -590,13 +590,15 @@ Steps:
 2. setup Node 22
 3. `npm ci`
 4. `npm run build`
-5. upload a Worker version tagged with the unique GitHub run ID and attempt
-6. deploy that exact tag to 100% traffic with `wrangler versions deploy`
+5. upload a Worker version tagged with the checked-out commit and unique GitHub run/attempt
+6. capture the version ID returned by that upload and deploy that exact ID to 100% traffic with `wrangler versions deploy`
 
 The deploy workflow uses version upload/deploy commands so routine releases do
-not update the Worker's existing custom routes. The version tag binds the
-upload and deployment to the same workflow run; `--keep-vars` preserves
-dashboard-managed runtime variables. Existing Worker secrets remain attached.
+not update the Worker's existing custom routes. It deploys the version ID
+returned by the current upload, rather than resolving a "latest" version or
+using a tag lookup. The version tag links the upload to the workflow run;
+`--keep-vars` preserves dashboard-managed runtime variables. Existing Worker
+secrets remain attached.
 
 The biweekly schedule gate is important for date-based project lifecycle refreshes.
 
