@@ -265,6 +265,10 @@ describe("subscription route", () => {
     } as any);
 
     expect(response.status).toBe(200);
+    expect(customerCreate).toHaveBeenCalledWith(
+      expect.objectContaining({ email: "monthly@example.com" }),
+      { idempotencyKey: `cus_${checkoutAttemptId}` },
+    );
     await expect(response.json()).resolves.toMatchObject({
       clientSecret: "pi_monthly_secret",
       subscriptionId: "sub_123",

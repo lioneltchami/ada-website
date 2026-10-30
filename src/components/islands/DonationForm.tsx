@@ -5,7 +5,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { loadStripe, type Stripe } from "@stripe/stripe-js";
-import { Component, type ReactNode, useEffect, useState } from "react";
+import { Component, type ReactNode, useEffect, useRef, useState } from "react";
 
 const AMOUNTS = [10, 25, 50, 100, 250];
 
@@ -308,6 +308,9 @@ export default function DonationForm({
   const [stripeLoading, setStripeLoading] = useState(false);
   const [stripeError, setStripeError] = useState("");
   const [project, setProject] = useState<string | null>(null);
+  const checkoutAttempt = useRef<{ signature: string; id: string } | null>(
+    null,
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -383,7 +386,19 @@ export default function DonationForm({
     setError("");
 
     try {
-      const checkoutAttemptId = crypto.randomUUID();
+      const signature = JSON.stringify({
+        amount: Math.round(selectedAmount * 100),
+        frequency,
+        name: donor.name.trim(),
+        email: donor.email.trim().toLowerCase(),
+        anonymous: donor.anonymous,
+        project,
+        locale,
+      });
+      if (checkoutAttempt.current?.signature !== signature) {
+        checkoutAttempt.current = { signature, id: crypto.randomUUID() };
+      }
+      const checkoutAttemptId = checkoutAttempt.current.id;
       const endpoint =
         frequency === "monthly"
           ? "/api/create-subscription"
