@@ -61,7 +61,25 @@ jobs:
           PUBLIC_POSTHOG_UI_HOST: https://us.posthog.com
           PUBLIC_SITE_URL: https://apotidev.org
 
-      - uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Upload and deploy this Worker version without changing routes
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          source_sha="$(git rev-parse HEAD)"
+          version_tag="ada-${source_sha:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          version_message="Commit ${source_sha} (GitHub Actions run ${GITHUB_RUN_ID})"
+
+          npx wrangler versions upload \
+            --name ada-website \
+            --tag "$version_tag" \
+            --keep-vars \
+            --message "$version_message"
+
+          npx wrangler versions deploy \
+            --name ada-website \
+            --version-tag "$version_tag" \
+            --percentage 100 \
+            --yes \
+            --message "$version_message"
