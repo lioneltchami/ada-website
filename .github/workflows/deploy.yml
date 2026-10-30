@@ -70,16 +70,28 @@ jobs:
           source_sha="$(git rev-parse HEAD)"
           version_tag="ada-${source_sha:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           version_message="Commit ${source_sha} (GitHub Actions run ${GITHUB_RUN_ID})"
+          upload_output_file="$(mktemp)"
+          trap 'rm -f "$upload_output_file"' EXIT
 
-          npx wrangler versions upload \
-            --name ada-website \
-            --tag "$version_tag" \
-            --keep-vars \
-            --message "$version_message"
+          if ! npx wrangler versions upload \
+              --name ada-website \
+              --tag "$version_tag" \
+              --keep-vars \
+              --message "$version_message" >"$upload_output_file" 2>&1; then
+            cat "$upload_output_file"
+            exit 1
+          fi
+
+          worker_version_id="$(sed -nE 's/^[[:space:]]*Worker Version ID:[[:space:]]*([[:xdigit:]-]{36})[[:space:]]*$/\1/p' "$upload_output_file" | tail -n 1)"
+          if [[ ! "$worker_version_id" =~ ^[[:xdigit:]-]{36}$ ]]; then
+            echo "Wrangler upload succeeded but did not return a recognizable Worker Version ID."
+            grep -E '^(Uploaded ada-website|Worker Version ID:|Version Preview URL:)' "$upload_output_file" || true
+            exit 1
+          fi
+          echo "Uploaded Worker version ${worker_version_id}."
 
           npx wrangler versions deploy \
+            "${worker_version_id}@100%" \
             --name ada-website \
-            --version-tag "$version_tag" \
-            --percentage 100 \
             --yes \
             --message "$version_message"
