@@ -590,7 +590,13 @@ Steps:
 2. setup Node 22
 3. `npm ci`
 4. `npm run build`
-5. deploy with `cloudflare/wrangler-action`
+5. upload a Worker version tagged with the unique GitHub run ID and attempt
+6. deploy that exact tag to 100% traffic with `wrangler versions deploy`
+
+The deploy workflow uses version upload/deploy commands so routine releases do
+not update the Worker's existing custom routes. The version tag binds the
+upload and deployment to the same workflow run; `--keep-vars` preserves
+dashboard-managed runtime variables. Existing Worker secrets remain attached.
 
 The biweekly schedule gate is important for date-based project lifecycle refreshes.
 
