@@ -168,6 +168,7 @@ export interface SanityAboutPage {
 export interface SanityFaqResponse {
 	_id: string;
 	keywords: string[];
+	keywordsFr?: string[];
 	response: string;
 	responseFr?: string;
 	sortOrder: number;

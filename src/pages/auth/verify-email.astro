@@ -1,22 +1,24 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
+const fr = Astro.url.searchParams.get("locale") === "fr";
+export const prerender = false;
 ---
 <!-- Hallmark · genre: editorial · macrostructure: App · design-system: design.md · designed-as-app -->
 
-<PageLayout title="Verify Email" description="Check your email for a verification link." noIndex>
+<PageLayout title={fr ? "Vérifier l'e-mail" : "Verify Email"} description={fr ? "Consultez votre boîte e-mail pour trouver le lien de vérification." : "Check your email for a verification link."} noIndex>
   <Section background="gray" padding="lg">
     <div class="max-w-md mx-auto text-center">
-      <h1 class=" text-2xl font-heading font-bold text-gray-900">Check Your Email</h1>
+      <h1 class=" text-2xl font-heading font-bold text-gray-900">{fr ? "Consultez votre boîte e-mail" : "Check Your Email"}</h1>
       <p class="mt-2 text-gray-600">
-        We've sent a verification link to your email address. Click the link to activate your account.
+        {fr ? "Nous avons envoyé un lien de vérification à votre adresse e-mail. Cliquez dessus pour activer votre compte." : "We've sent a verification link to your email address. Click the link to activate your account."}
       </p>
       <p class="mt-4 text-sm text-gray-500">
-        Didn't receive it? Check your spam folder or
-        <a href="/auth/register" class="text-primary-600 hover:underline">try again</a>.
+        {fr ? "Vous ne l'avez pas reçu ? Vérifiez vos courriers indésirables ou " : "Didn't receive it? Check your spam folder or "}
+        <a href={fr ? "/auth/register?locale=fr" : "/auth/register"} class="text-primary-600 hover:underline">{fr ? "réessayez" : "try again"}</a>.
       </p>
-      <a href="/auth/login" class="mt-6 inline-block px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50">
-        Back to Login
+      <a href={fr ? "/auth/login?locale=fr" : "/auth/login"} class="mt-6 inline-block px-5 py-2.5 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50">
+        {fr ? "Retour à la connexion" : "Back to Login"}
       </a>
     </div>
   </Section>

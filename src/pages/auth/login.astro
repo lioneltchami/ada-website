@@ -2,18 +2,20 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
 import LoginForm from "../../components/islands/LoginForm";
+const fr = Astro.url.searchParams.get("locale") === "fr";
+export const prerender = false;
 ---
 <!-- Hallmark · genre: editorial · macrostructure: App · design-system: design.md · designed-as-app -->
 
-<PageLayout title="Login" description="Sign in to your ADA account." noIndex>
+<PageLayout title={fr ? "Connexion" : "Login"} description={fr ? "Connectez-vous à votre compte ADA." : "Sign in to your ADA account."} noIndex>
   <Section background="gray" padding="lg">
     <div class="max-w-md mx-auto">
       <div class="mb-8">
-        <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">Welcome Back</h1>
-        <p class="mt-1 text-sm text-gray-600">Sign in to view your donation history and profile.</p>
+        <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">{fr ? "Bon retour" : "Welcome Back"}</h1>
+        <p class="mt-1 text-sm text-gray-600">{fr ? "Connectez-vous pour consulter votre historique de dons et votre profil." : "Sign in to view your donation history and profile."}</p>
       </div>
       <div class="bg-[#faf8f4] p-6 rounded-md border border-gray-200">
-        <LoginForm client:load />
+        <LoginForm client:load locale={fr ? "fr" : "en"} />
       </div>
     </div>
   </Section>

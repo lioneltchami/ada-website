@@ -51,7 +51,7 @@ export interface ProjectArchiveEntry {
   outcomes?: string[];
   outcomesFr?: string[];
   photo?: { asset?: { _ref?: string } | null; alt?: string } | null;
-  photos?: { asset?: { _ref?: string } | null; caption?: string }[];
+  photos?: { asset?: { _ref?: string } | null; caption?: string; captionFr?: string }[];
   torUrl?: string;
   reportUrl?: string;
   financialReportUrl?: string;
@@ -391,7 +391,7 @@ export async function loadProjectArchiveEntries(): Promise<
         outcomes,
         outcomesFr,
         photo { asset { _ref }, alt },
-        photos[] { asset { _ref }, caption },
+        photos[] { asset { _ref }, caption, captionFr },
         "hasToR": defined(termsOfReference),
         "hasReport": defined(finalReport),
         "torUrl": termsOfReference.asset->url,

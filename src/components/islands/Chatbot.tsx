@@ -2,52 +2,63 @@ import { useEffect, useRef, useState } from "react";
 
 interface FaqItem {
   keywords: string[];
+  keywordsFr?: string[];
   response: string;
 }
 
 interface Props {
   faqs?: FaqItem[];
+  locale?: "en" | "fr";
 }
 
-const FALLBACK_RESPONSES: [RegExp, string][] = [
+const FALLBACK_RESPONSES: [RegExp, string, string][] = [
   [
-    /project|program|work/i,
+    /project|program|work|projet|programme|activit/i,
     "ADA runs 6 programs: Food Distribution, Skills Training, Hospital Visits, Back-to-School, Clean Water, and Community Clean-Up.",
+    "ADA mène 6 programmes : distribution alimentaire, formation professionnelle, visites à l’hôpital, rentrée scolaire, accès à l’eau potable et nettoyage communautaire.",
   ],
   [
-    /donate|give|money/i,
+    /donate|give|money|don|donner|argent|imp[oô]t|re[cç]u/i,
     "Your donation makes a real difference. 80% goes directly to programs. Even $25 provides school supplies for 2 children.",
+    "Votre don fait une réelle différence. 80 % des dons sont directement affectés aux programmes. Un don de 25 $ permet de fournir du matériel scolaire à deux enfants.",
   ],
   [
-    /volunteer|help|join/i,
+    /volunteer|help|join|b[eé]n[eé]vol|aider|rejoindre/i,
     "We welcome volunteers in Cameroon and remotely! Roles include education mentoring, community outreach, and digital communications.",
+    "Nous accueillons les bénévoles au Cameroun et à distance ! Les missions comprennent le mentorat scolaire, la mobilisation communautaire et les communications numériques.",
   ],
   [
-    /contact|email|phone/i,
+    /contact|email|phone|courriel|t[eé]l[eé]phone|joindre|whatsapp/i,
     "Email info@apotidev.org or WhatsApp +237 676 282 346. Mon-Fri 8AM-5PM CAT.",
+    "Écrivez à info@apotidev.org ou contactez-nous sur WhatsApp au +237 676 282 346. Du lundi au vendredi, de 8 h à 17 h (heure du Cameroun).",
   ],
   [
-    /impact|result/i,
+    /impact|result|r[eé]sultat/i,
     "Since 2021, we have impacted 200+ lives across 5 communities in Cameroon.",
+    "Depuis 2021, nous avons soutenu plus de 200 personnes dans 5 communautés au Cameroun.",
   ],
   [
-    /hours|open|when/i,
+    /hours|open|when|horaire|ouvert|heure/i,
     "Our office is open Mon–Fri, 8AM–5PM CAT. You can also reach us anytime via WhatsApp at +237 676 282 346.",
+    "Nos bureaux sont ouverts du lundi au vendredi, de 8 h à 17 h (heure du Cameroun). Vous pouvez aussi nous joindre à tout moment sur WhatsApp au +237 676 282 346.",
   ],
   [
-    /location|where|address/i,
+    /location|where|address|lieu|o[uù]|adresse/i,
     "We operate across Cameroon, with programs in Bamenda, Douala, Yaoundé, and rural communities in the Central Region.",
+    "Nos programmes sont menés au Cameroun, notamment à Bamenda, Douala, Yaoundé et dans des communautés rurales de la Région du Centre.",
   ],
 ];
 
-const DEFAULT =
-  "I can help with info about our projects, donations, volunteering, or contact details. What would you like to know?";
+const DEFAULT = {
+  en: "I can help with info about our projects, donations, volunteering, or contact details. What would you like to know?",
+  fr: "Je peux vous renseigner sur nos projets, les dons, le bénévolat ou nos coordonnées. Que souhaitez-vous savoir ?",
+};
 
-export default function Chatbot({ faqs = [] }: Props) {
+export default function Chatbot({ faqs = [], locale = "en" }: Props) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<
     { from: "user" | "bot"; text: string }[]
-  >([{ from: "bot", text: DEFAULT }]);
+  >([{ from: "bot", text: DEFAULT[locale] }]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const logRef = useRef<HTMLDivElement>(null);
@@ -56,15 +67,18 @@ export default function Chatbot({ faqs = [] }: Props) {
     const lower = msg.toLowerCase();
     if (faqs.length) {
       for (const faq of faqs) {
-        if (faq.keywords.some((kw) => lower.includes(kw.toLowerCase()))) {
+        const keywords = locale === "fr"
+          ? [...faq.keywords, ...(faq.keywordsFr || [])]
+          : faq.keywords;
+        if (keywords.some((kw) => lower.includes(kw.toLowerCase()))) {
           return faq.response;
         }
       }
     } else {
-      for (const [re, reply] of FALLBACK_RESPONSES)
-        if (re.test(msg)) return reply;
+      for (const [re, replyEn, replyFr] of FALLBACK_RESPONSES)
+        if (re.test(msg)) return locale === "fr" ? replyFr : replyEn;
     }
-    return DEFAULT;
+    return DEFAULT[locale];
   }
 
   useEffect(() => {
@@ -96,7 +110,7 @@ export default function Chatbot({ faqs = [] }: Props) {
     <>
       <button
         onClick={() => setOpen(!open)}
-        aria-label={open ? "Close chat" : "Open chat"}
+        aria-label={open ? (locale === "fr" ? "Fermer la discussion" : "Close chat") : (locale === "fr" ? "Ouvrir la discussion" : "Open chat")}
         className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-md bg-primary-700 text-white border border-primary-800 flex items-center justify-center hover:bg-primary-800 transition-colors"
       >
         <svg
@@ -118,14 +132,14 @@ export default function Chatbot({ faqs = [] }: Props) {
       {open && (
         <div
           role="dialog"
-          aria-label="FAQ Chatbot"
+          aria-label={locale === "fr" ? "Assistant de questions fréquentes" : "FAQ Chatbot"}
           className="fixed bottom-24 right-6 z-50 w-80 max-h-[28rem] bg-[#faf8f4] rounded-md border border-gray-200 flex flex-col"
         >
           <div className="bg-primary-800 text-white px-4 py-3 rounded-t-md font-heading font-semibold flex justify-between items-center">
-            <span>ADA Chat</span>
+            <span>{locale === "fr" ? "Discussion ADA" : "ADA Chat"}</span>
             <button
               onClick={() => setOpen(false)}
-              aria-label="Close chat"
+              aria-label={locale === "fr" ? "Fermer la discussion" : "Close chat"}
               className="text-white/80 hover:text-white"
             >
               ✕
@@ -148,7 +162,7 @@ export default function Chatbot({ faqs = [] }: Props) {
                   </span>
                 ) : (
                   <span className="w-6 h-6 rounded-md bg-gray-600 flex items-center justify-center text-[10px] text-white flex-shrink-0">
-                    You
+                    {locale === "fr" ? "Vous" : "You"}
                   </span>
                 )}
                 <div
@@ -183,16 +197,16 @@ export default function Chatbot({ faqs = [] }: Props) {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about ADA..."
-              aria-label="Type your question"
+              placeholder={locale === "fr" ? "Posez une question sur ADA…" : "Ask about ADA..."}
+              aria-label={locale === "fr" ? "Saisissez votre question" : "Type your question"}
               className="flex-1 px-3 py-2 text-sm outline-none rounded-bl-md bg-white"
             />
             <button
               type="submit"
-              aria-label="Send message"
+              aria-label={locale === "fr" ? "Envoyer le message" : "Send message"}
               className="px-4 py-2 bg-primary-700 text-white text-sm font-medium hover:bg-primary-800 rounded-br-md"
             >
-              Send
+              {locale === "fr" ? "Envoyer" : "Send"}
             </button>
           </form>
         </div>

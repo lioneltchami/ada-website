@@ -2,18 +2,20 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
 import RegisterForm from "../../components/islands/RegisterForm";
+const fr = Astro.url.searchParams.get("locale") === "fr";
+export const prerender = false;
 ---
 <!-- Hallmark · genre: editorial · macrostructure: App · design-system: design.md · designed-as-app -->
 
-<PageLayout title="Create Account" description="Create your ADA account to track donations and manage your profile." noIndex>
+<PageLayout title={fr ? "Créer un compte" : "Create Account"} description={fr ? "Créez votre compte ADA pour suivre vos dons et gérer votre profil." : "Create your ADA account to track donations and manage your profile."} noIndex>
   <Section background="gray" padding="lg">
     <div class="max-w-md mx-auto">
       <div class="mb-8">
-        <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">Create Your Account</h1>
-        <p class="mt-1 text-sm text-gray-600">Join our community of supporters.</p>
+        <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">{fr ? "Créer votre compte" : "Create Your Account"}</h1>
+        <p class="mt-1 text-sm text-gray-600">{fr ? "Rejoignez notre communauté de soutien." : "Join our community of supporters."}</p>
       </div>
       <div class="bg-[#faf8f4] p-6 rounded-md border border-gray-200">
-        <RegisterForm client:load />
+        <RegisterForm client:load locale={fr ? "fr" : "en"} />
       </div>
     </div>
   </Section>

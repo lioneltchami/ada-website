@@ -6,8 +6,9 @@ export type Translations = typeof en;
 
 const translations: Record<Locale, Translations> = { en, fr };
 
-export function getLocale(pathname: string): Locale {
-  return pathname.startsWith('/fr') ? 'fr' : 'en';
+export function getLocale(pathname: string, requestedLocale?: string | null): Locale {
+  if (pathname.startsWith('/fr')) return 'fr';
+  return requestedLocale === 'fr' ? 'fr' : 'en';
 }
 
 export function t(locale: Locale): Translations {

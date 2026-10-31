@@ -16,7 +16,7 @@ const title = record.titleFr || record.title;
 const description = record.descriptionFr || record.description;
 const outcomes = record.outcomesFr || record.outcomes;
 const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._ref, 800) : '';
-const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).map((p: any) => ({ url: sanityImageUrl(p.asset._ref, 800), caption: p.caption || '' }));
+const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).map((p: any) => ({ url: sanityImageUrl(p.asset._ref, 800), caption: p.captionFr || p.caption || '' }));
 const isAutoArchived = Boolean(record.autoArchived);
 ---
 <!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
