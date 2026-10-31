@@ -30,7 +30,7 @@ const {
   jsonLdExtra = [],
 } = Astro.props;
 
-const locale = getLocale(Astro.url.pathname);
+const locale = getLocale(Astro.url.pathname, Astro.url.searchParams.get("locale"));
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const alternateLocale = locale === "fr" ? "en" : "fr";
 const alternateUrl = new URL(switchLocalePath(Astro.url.pathname), Astro.site);
@@ -103,7 +103,11 @@ const structuredBlocks = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | Apoti Development Association</title>
+    <title>
+      {title.startsWith("Apoti Development Association |")
+        ? title
+        : `${title} | Apoti Development Association`}
+    </title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     {

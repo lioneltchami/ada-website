@@ -1,19 +1,21 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import Section from '../../components/layout/Section.astro';
+const fr = Astro.url.searchParams.get("locale") === "fr";
+export const prerender = false;
 ---
 <!-- Hallmark · genre: editorial · macrostructure: App · design-system: design.md · designed-as-app -->
 
-<PageLayout title="Email Verified" description="Your email has been verified successfully." noIndex>
+<PageLayout title={fr ? "E-mail vérifié" : "Email Verified"} description={fr ? "Votre adresse e-mail a été vérifiée." : "Your email has been verified successfully."} noIndex>
   <Section background="gray" padding="lg">
     <div class="max-w-md mx-auto text-center">
       <span class="text-5xl">✅</span>
-      <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">Email Verified!</h1>
+      <h1 class="mt-4 text-2xl font-heading font-bold text-gray-900">{fr ? "E-mail vérifié !" : "Email Verified!"}</h1>
       <p class="mt-2 text-gray-600">
-        Your account is ready. You can now sign in and start supporting our mission.
+        {fr ? "Votre compte est prêt. Vous pouvez vous connecter et soutenir notre mission." : "Your account is ready. You can now sign in and start supporting our mission."}
       </p>
-      <a href="/auth/login" class="mt-6 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
-        Go to Login
+      <a href={fr ? "/auth/login?locale=fr" : "/auth/login"} class="mt-6 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
+        {fr ? "Se connecter" : "Go to Login"}
       </a>
     </div>
   </Section>

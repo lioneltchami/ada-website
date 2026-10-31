@@ -20,7 +20,7 @@ interface Props {
 }
 
 const props = Astro.props;
-const locale = getLocale(Astro.url.pathname);
+const locale = getLocale(Astro.url.pathname, Astro.url.searchParams.get("locale"));
 const labels = t(locale);
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const showFloatingDonate = !(
@@ -37,7 +37,7 @@ const showFloatingDonate = !(
   pathname.startsWith("/dashboard")
 );
 
-let faqData: { keywords: string[]; response: string }[] = [];
+let faqData: { keywords: string[]; keywordsFr?: string[]; response: string }[] = [];
 const faqPaths = new Set([
   "/",
   "/contact",
@@ -52,6 +52,7 @@ if (faqPaths.has(pathname)) {
     if (faqs?.length) {
       faqData = faqs.map((f) => ({
         keywords: f.keywords,
+        keywordsFr: f.keywordsFr,
         response: f.response,
       }));
     }
@@ -100,7 +101,7 @@ if (faqPaths.has(pathname)) {
     (Astro.url.pathname === "/" ||
       Astro.url.pathname === "/contact" ||
       Astro.url.pathname === "/get-involved") && (
-      <Chatbot client:idle faqs={faqData} />
+      <Chatbot client:idle faqs={faqData} locale={locale} />
     )
   }
 </BaseLayout>

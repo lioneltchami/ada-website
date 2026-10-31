@@ -1,7 +1,7 @@
 ---
 import { getLocale, t, switchLocalePath, localePath } from "../../i18n";
 
-const locale = getLocale(Astro.url.pathname);
+const locale = getLocale(Astro.url.pathname, Astro.url.searchParams.get("locale"));
 const i18n = t(locale);
 const currentPath = Astro.url.pathname;
 

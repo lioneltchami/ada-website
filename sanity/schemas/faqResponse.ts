@@ -15,6 +15,13 @@ export default defineType({
       validation: (r) => r.required(),
     }),
     defineField({
+      name: "keywordsFr",
+      title: "Trigger Keywords (French)",
+      type: "array",
+      of: [{ type: "string" }],
+      description: frHint,
+    }),
+    defineField({
       name: "response",
       title: "Response Text",
       type: "text",

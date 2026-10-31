@@ -3,7 +3,7 @@ import { getSiteSettings } from "../../lib/sanity";
 import { getLocale, t, localePath } from "../../i18n";
 import NewsletterSignup from "../islands/NewsletterSignup";
 
-const locale = getLocale(Astro.url.pathname);
+const locale = getLocale(Astro.url.pathname, Astro.url.searchParams.get("locale"));
 const i18n = t(locale);
 const currentYear = new Date().getFullYear();
 
@@ -107,7 +107,7 @@ const statement =
           {i18n.footer.updates}
         </p>
         <div class="max-w-sm">
-          <NewsletterSignup client:visible />
+          <NewsletterSignup client:visible locale={locale} />
         </div>
       </div>
 
@@ -214,8 +214,9 @@ const statement =
         >
       </div>
       <p class="font-mono tracking-tight">
-        Registered NGO · Cameroon N&deg; 415/G.37/D14/VolI/SAAJP · Led from
-        Canada
+        {locale === "fr"
+          ? "ONG enregistrée · Cameroun N° 415/G.37/D14/VolI/SAAJP · Dirigée depuis le Canada"
+          : "Registered NGO · Cameroon N° 415/G.37/D14/VolI/SAAJP · Led from Canada"}
       </p>
     </div>
   </div>

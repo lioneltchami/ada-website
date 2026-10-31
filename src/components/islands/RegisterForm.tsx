@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { getSupabaseBrowserClient } from "../../lib/supabase-browser";
 
-export default function RegisterForm() {
+export default function RegisterForm({ locale = "en" }: { locale?: "en" | "fr" }) {
+  const fr = locale === "fr";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,11 +15,11 @@ export default function RegisterForm() {
     setError("");
 
     if (password !== confirm) {
-      setError("Passwords do not match");
+      setError(fr ? "Les mots de passe ne correspondent pas." : "Passwords do not match");
       return;
     }
     if (password.length < 8) {
-      setError("Password must be at least 8 characters");
+      setError(fr ? "Le mot de passe doit contenir au moins 8 caractères." : "Password must be at least 8 characters");
       return;
     }
 
@@ -27,7 +28,7 @@ export default function RegisterForm() {
     try {
       const supabase = await getSupabaseBrowserClient();
       const emailRedirectTo = new URL(
-        "/auth/email-verified",
+        `/auth/email-verified${fr ? "?locale=fr" : ""}`,
         import.meta.env.PUBLIC_SITE_URL || window.location.origin,
       ).toString();
       const { error: authError } = await supabase.auth.signUp({
@@ -41,10 +42,10 @@ export default function RegisterForm() {
 
       if (authError) throw authError;
 
-      window.location.href = "/auth/verify-email";
+      window.location.href = `/auth/verify-email${fr ? "?locale=fr" : ""}`;
     } catch (err: any) {
       setError(
-        "Registration failed. Please try again or use a different email.",
+        fr ? "L'inscription a échoué. Réessayez ou utilisez une autre adresse e-mail." : "Registration failed. Please try again or use a different email.",
       );
     } finally {
       setLoading(false);
@@ -58,7 +59,7 @@ export default function RegisterForm() {
           htmlFor="reg-name"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Full Name
+          {fr ? "Nom complet" : "Full Name"}
         </label>
         <input
           id="reg-name"
@@ -75,7 +76,7 @@ export default function RegisterForm() {
           htmlFor="reg-email"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Email
+          {fr ? "E-mail" : "Email"}
         </label>
         <input
           id="reg-email"
@@ -91,7 +92,7 @@ export default function RegisterForm() {
           htmlFor="reg-password"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Password
+          {fr ? "Mot de passe" : "Password"}
         </label>
         <input
           id="reg-password"
@@ -102,14 +103,14 @@ export default function RegisterForm() {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
         />
-        <p className="mt-1 text-xs text-gray-500">Minimum 8 characters</p>
+        <p className="mt-1 text-xs text-gray-500">{fr ? "8 caractères minimum" : "Minimum 8 characters"}</p>
       </div>
       <div>
         <label
           htmlFor="reg-confirm"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Confirm Password
+          {fr ? "Confirmer le mot de passe" : "Confirm Password"}
         </label>
         <input
           id="reg-confirm"
@@ -132,13 +133,13 @@ export default function RegisterForm() {
         disabled={loading}
         className="w-full px-4 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50"
       >
-        {loading ? "Creating account..." : "Create Account"}
+        {loading ? (fr ? "Création du compte…" : "Creating account...") : (fr ? "Créer un compte" : "Create Account")}
       </button>
 
       <p className="text-center text-sm text-gray-600">
-        Already have an account?{" "}
-        <a href="/auth/login" className="text-primary-600 hover:underline">
-          Sign in
+        {fr ? "Vous avez déjà un compte ?" : "Already have an account?"}{" "}
+        <a href={fr ? "/auth/login?locale=fr" : "/auth/login"} className="text-primary-600 hover:underline">
+          {fr ? "Se connecter" : "Sign in"}
         </a>
       </p>
     </form>

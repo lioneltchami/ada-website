@@ -66,10 +66,10 @@ try {
   const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
   const dataset = import.meta.env.SANITY_DATASET || 'production';
   const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-  const photo = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0] { title, "ref": photo.asset._ref, "alt": photo.alt }');
+  const photo = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0] { title, titleFr, "ref": photo.asset._ref, "alt": photo.alt, "altFr": photo.altFr }');
   if (photo?.ref) {
     communityPhotoUrl = sanityImageUrl(photo.ref, 1400);
-    communityPhotoAlt = photo.alt || photo.title || communityPhotoAlt;
+    communityPhotoAlt = photo.altFr || photo.titleFr || photo.alt || photo.title || communityPhotoAlt;
   }
 } catch {}
 ---

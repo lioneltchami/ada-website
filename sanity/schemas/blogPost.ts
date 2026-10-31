@@ -58,6 +58,12 @@ export default defineType({
           type: 'string',
           validation: (r) => r.max(160),
         }),
+        defineField({
+          name: 'altFr',
+          title: 'Alt Text (French)',
+          type: 'string',
+          validation: (r) => r.max(160),
+        }),
       ],
       description: 'Optional image used by story index and detail pages.',
     }),

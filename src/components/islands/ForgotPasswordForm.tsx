@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { getSupabaseBrowserClient } from "../../lib/supabase-browser";
 
-export default function ForgotPasswordForm() {
+export default function ForgotPasswordForm({ locale = "en" }: { locale?: "en" | "fr" }) {
+  const fr = locale === "fr";
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -14,7 +15,7 @@ export default function ForgotPasswordForm() {
     setLoading(true);
 
     try {
-      const redirectTo = `${window.location.origin}/auth/reset-password`;
+      const redirectTo = `${window.location.origin}/auth/reset-password${fr ? "?locale=fr" : ""}`;
       const supabase = await getSupabaseBrowserClient();
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(
         email,
@@ -26,10 +27,14 @@ export default function ForgotPasswordForm() {
       if (resetError) throw resetError;
 
       setStatus(
-        "If an account exists with this email, you will receive a reset link.",
+        fr ? "Si un compte associé à cette adresse existe, vous recevrez un lien de réinitialisation." : "If an account exists with this email, you will receive a reset link.",
       );
     } catch (err: any) {
-      setError(err.message || "Unable to send a reset link right now.");
+      setError(
+        fr
+          ? "Impossible d'envoyer un lien de réinitialisation pour le moment. Veuillez réessayer."
+          : err.message || "Unable to send a reset link right now.",
+      );
     } finally {
       setLoading(false);
     }
@@ -42,7 +47,7 @@ export default function ForgotPasswordForm() {
           htmlFor="email"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Email
+          {fr ? "E-mail" : "Email"}
         </label>
         <input
           type="email"
@@ -59,7 +64,7 @@ export default function ForgotPasswordForm() {
         disabled={loading}
         className="w-full px-4 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? "Sending..." : "Send Reset Link"}
+        {loading ? (fr ? "Envoi…" : "Sending...") : (fr ? "Envoyer le lien de réinitialisation" : "Send Reset Link")}
       </button>
       {status && (
         <p
