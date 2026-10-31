@@ -319,16 +319,16 @@ function deriveArchiveYear(project: SanityProject): number {
   return Number(sourceDate.slice(0, 4));
 }
 
-function toAutoArchiveEntry(project: SanityProject): ProjectArchiveEntry {
+export function toAutoArchiveEntry(project: SanityProject): ProjectArchiveEntry {
   return {
     slug: { current: project.slug.current },
     title: project.title,
-    titleFr: project.title,
+    titleFr: project.titleFr || project.title,
     demographic: project.demographic || "community",
     year: deriveArchiveYear(project),
     status: "completed",
     description: project.description,
-    descriptionFr: project.description,
+    descriptionFr: project.descriptionFr || project.description,
     beneficiaries: project.beneficiaries,
     budget: project.goalAmount,
     location: project.location,
