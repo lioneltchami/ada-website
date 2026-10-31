@@ -1,7 +1,10 @@
 ---
 import { getLocale, t, switchLocalePath, localePath } from "../../i18n";
 
-const locale = getLocale(Astro.url.pathname, Astro.url.searchParams.get("locale"));
+const locale = getLocale(
+  Astro.url.pathname,
+  Astro.url.searchParams.get("locale"),
+);
 const i18n = t(locale);
 const currentPath = Astro.url.pathname;
 
@@ -69,22 +72,21 @@ function isActive(href: string): boolean {
   >
     <!-- N6 masthead: brand row -->
     <div class="flex items-center justify-between h-16">
-      <a
-        href={localePath("/", locale)}
-        class="flex items-center gap-2.5 min-w-0"
-      >
+      <a href={localePath("/", locale)} class="flex items-center gap-3 min-w-0">
         <img
           src="/brand/ada-logo.png"
           alt="Apoti Development Association"
-          class="w-11 h-11 sm:w-12 sm:h-12 object-contain"
+          class="w-12 h-12 sm:w-14 sm:h-14 object-contain"
           loading="eager"
           decoding="async"
         />
         <div class="hidden sm:block min-w-0 font-heading">
-          <span class="block text-sm font-bold text-gray-900 tracking-tight truncate"
+          <span
+            class="block text-[13px] leading-tight font-bold text-gray-900 tracking-tight truncate"
             >Apoti Development</span
           >
-          <span class="block text-[11px] text-gray-500 -mt-0.5 font-medium"
+          <span
+            class="block text-[13px] leading-tight text-gray-600 mt-0.5 font-medium tracking-[0.01em]"
             >Association</span
           >
         </div>
@@ -117,9 +119,12 @@ function isActive(href: string): boolean {
           class="lg:hidden p-2 text-gray-700 hover:text-gray-900"
           aria-expanded="false"
           aria-controls="mobile-menu"
+          aria-label={locale === "fr" ? "Ouvrir le menu" : "Open menu"}
           id="mobile-menu-btn"
         >
-          <span class="sr-only">Open menu</span>
+          <span class="sr-only" id="mobile-menu-label">
+            {locale === "fr" ? "Ouvrir le menu" : "Open menu"}
+          </span>
           <svg
             class="w-5 h-5"
             id="menu-icon-open"
@@ -152,14 +157,11 @@ function isActive(href: string): boolean {
 
     <!-- N6 secondary link row -->
     <ul
-      class="hidden lg:flex items-center gap-0 pb-3 -mt-1 font-heading text-sm"
+      class="hidden lg:flex items-center gap-6 pb-3 -mt-1 font-heading text-sm"
     >
       {
-        navLinks.map((link, i) => (
-          <li class="flex items-center">
-            {i > 0 && (
-              <span class="mx-3 h-3 w-px bg-gray-300" aria-hidden="true" />
-            )}
+        navLinks.map((link) => (
+          <li>
             <a
               href={link.href}
               class:list={[
@@ -231,8 +233,10 @@ function isActive(href: string): boolean {
   const header = document.getElementById("site-header");
   const btn = document.getElementById("mobile-menu-btn");
   const menu = document.getElementById("mobile-menu");
+  const menuLabel = document.getElementById("mobile-menu-label");
   const iconOpen = document.getElementById("menu-icon-open");
   const iconClose = document.getElementById("menu-icon-close");
+  const isFrench = document.documentElement.lang === "fr";
 
   window.addEventListener(
     "scroll",
@@ -246,6 +250,9 @@ function isActive(href: string): boolean {
 
   function openMenu() {
     btn?.setAttribute("aria-expanded", "true");
+    btn?.setAttribute("aria-label", isFrench ? "Fermer le menu" : "Close menu");
+    if (menuLabel)
+      menuLabel.textContent = isFrench ? "Fermer le menu" : "Close menu";
     menu?.classList.remove("hidden");
     iconOpen?.classList.add("hidden");
     iconClose?.classList.remove("hidden");
@@ -254,6 +261,9 @@ function isActive(href: string): boolean {
 
   function closeMenu() {
     btn?.setAttribute("aria-expanded", "false");
+    btn?.setAttribute("aria-label", isFrench ? "Ouvrir le menu" : "Open menu");
+    if (menuLabel)
+      menuLabel.textContent = isFrench ? "Ouvrir le menu" : "Open menu";
     menu?.classList.add("hidden");
     iconOpen?.classList.remove("hidden");
     iconClose?.classList.add("hidden");
