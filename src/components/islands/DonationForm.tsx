@@ -11,23 +11,6 @@ const AMOUNTS = [10, 25, 50, 100, 250];
 
 type FormLocale = "en" | "fr";
 
-const IMPACT_MAP: Record<FormLocale, Record<number, string>> = {
-  en: {
-    10: "meals or urgent household basics",
-    25: "school supplies and care for vulnerable children",
-    50: "widow and family support",
-    100: "skills training, mentoring, and follow-up",
-    250: "health referrals and family care",
-  },
-  fr: {
-    10: "des repas ou des produits essentiels en urgence",
-    25: "les fournitures scolaires et l'aide aux enfants vulnérables",
-    50: "le soutien aux veuves et familles",
-    100: "la formation, le mentorat et le suivi",
-    250: "les orientations en santé et l'aide aux familles",
-  },
-};
-
 const FALLBACK_PROJECT_NAMES: Record<FormLocale, Record<string, string>> = {
   en: {
     "widow-support": "Widow Support Program",
@@ -56,40 +39,39 @@ const FORM_COPY = {
     paymentFailed: "Payment failed. Please try again.",
     networkError: "Network error. Please check your connection and try again.",
     securePayment: "Secured by Stripe",
-    eligibleWallets: "eligible wallet options appear when available",
+    eligibleWallets:
+      "Apple Pay or Google Pay may appear when supported by your device and browser.",
     shortCheckout:
-      "Short checkout: amount, email, then secure payment. Apple Pay, Google Pay, and Link can appear when supported.",
+      "No account required. Choose a gift, enter your name and email, then pay securely. Apple Pay or Google Pay may appear when supported by your device and browser.",
     back: "Back",
     processing: "Processing...",
     completeDonation: "Complete Donation",
     donatingTo: "Donating to:",
     monthlyGiving: "Monthly giving",
     monthlyOnlyNote:
-      "This page is for recurring gifts only. Monthly gifts renew automatically until cancelled by contacting ADA.",
+      "Monthly gifts renew each month. To change or cancel one, contact ADA.",
     giftType: "Gift Type",
     oneTime: "One-Time",
     monthly: "Monthly",
     monthlyNote:
-      "Monthly gifts provide steadier care and can be changed or cancelled anytime by contacting ADA.",
+      "Monthly gifts renew each month. To change or cancel one, contact ADA.",
     amount: "Amount (USD)",
-    popular: "Popular",
-    your: "Your gift",
-    canHelp: "can help with",
-    customImpact: "Directed to urgent program needs",
+    currency: "USD",
+    monthlyUnit: "month",
     customAmount: "Custom amount",
-    customPlaceholder: "Enter amount ($5 minimum)",
-    amountError: "Please enter a valid amount of $5 or more.",
+    customPlaceholder: "USD 5 minimum",
+    amountError:
+      "Enter an amount from USD 5 to USD 100,000, with no more than two decimal places.",
     donationSummary: "Donation summary",
     gift: "Gift",
     project: "Project",
-    impact: "Impact",
     generalFund: "General Fund",
     continue: "Continue",
     fullName: "Full Name *",
     email: "Email *",
     anonymous: "Make my donation anonymous",
     taxNote:
-      "ADA is registered in Cameroon. Donations are not tax-deductible in Canada, the US, the UK, or the EU. Monthly gifts renew automatically until cancelled by contacting ADA.",
+      "ADA is registered as an NGO in Cameroon (N° 415/G.37/D14/VolI/SAAJP). Gifts are not presented as tax-deductible in Canada, the US, the UK, or the EU. Confirmed gifts receive an emailed receipt for your records.",
     settingUpPayment: "Setting up payment...",
     continueToPayment: "Continue to Payment",
     loadingPayment: "Loading payment system...",
@@ -109,40 +91,38 @@ const FORM_COPY = {
     networkError: "Erreur réseau. Vérifiez votre connexion et réessayez.",
     securePayment: "Paiement sécurisé par Stripe",
     eligibleWallets:
-      "les options de portefeuille admissibles apparaissent si disponibles",
+      "Apple Pay ou Google Pay peuvent être proposés selon votre appareil.",
     shortCheckout:
-      "Parcours court : montant, e-mail, puis paiement sécurisé. Apple Pay, Google Pay et Link peuvent apparaître si disponibles.",
+      "Aucun compte n'est requis. Choisissez un don, saisissez votre nom et votre e-mail, puis payez en toute sécurité. Apple Pay ou Google Pay peuvent être proposés selon votre appareil.",
     back: "Retour",
     processing: "Traitement...",
     completeDonation: "Finaliser le don",
     donatingTo: "Don pour :",
     monthlyGiving: "Don mensuel",
     monthlyOnlyNote:
-      "Cette page est réservée aux dons récurrents. Les dons mensuels sont renouvelés automatiquement jusqu'à leur annulation en contactant ADA.",
+      "Les dons sont renouvelés chaque mois. Pour modifier ou annuler un don, contactez ADA.",
     giftType: "Type de don",
     oneTime: "Ponctuel",
     monthly: "Mensuel",
     monthlyNote:
-      "Les dons mensuels apportent un soutien plus stable et peuvent être modifiés ou annulés à tout moment en contactant ADA.",
+      "Les dons sont renouvelés chaque mois. Pour modifier ou annuler un don, contactez ADA.",
     amount: "Montant (USD)",
-    popular: "Populaire",
-    your: "Votre don",
-    canHelp: "peut contribuer à financer",
-    customImpact: "Affecté aux besoins urgents des programmes",
+    currency: "USD",
+    monthlyUnit: "mois",
     customAmount: "Montant personnalisé",
-    customPlaceholder: "Saisir un montant (minimum 5 $)",
-    amountError: "Veuillez saisir un montant valide de 5 $ ou plus.",
+    customPlaceholder: "Minimum : 5 USD",
+    amountError:
+      "Saisissez un montant entre 5 USD et 100 000 USD, avec au plus deux décimales.",
     donationSummary: "Résumé du don",
     gift: "Don",
     project: "Projet",
-    impact: "Impact",
     generalFund: "Fonds général",
     continue: "Continuer",
     fullName: "Nom complet *",
     email: "E-mail *",
     anonymous: "Faire mon don anonymement",
     taxNote:
-      "ADA est enregistrée au Cameroun. Les dons ne sont pas déductibles d'impôt au Canada, aux États-Unis, au Royaume-Uni ou dans l'UE. Les dons mensuels sont renouvelés automatiquement jusqu'à leur annulation en contactant ADA.",
+      "ADA est enregistrée comme ONG au Cameroun (N° 415/G.37/D14/VolI/SAAJP). Les dons ne sont pas présentés comme déductibles d'impôt au Canada, aux États-Unis, au Royaume-Uni ou dans l'UE. Un reçu est envoyé après confirmation du don pour vos dossiers personnels.",
     settingUpPayment: "Préparation du paiement…",
     continueToPayment: "Continuer vers le paiement",
     loadingPayment: "Chargement du paiement...",
@@ -358,17 +338,19 @@ export default function DonationForm({
     ? `$${selectedAmount}`
     : copy.customAmount;
   const selectedProjectName = project ? projectMap[project] : copy.generalFund;
-  const selectedImpact = !customAmount
-    ? IMPACT_MAP[locale][amount]
-    : copy.customImpact;
-
   // Issue 6: Client-side validation for custom amounts
   function isValidAmount(): boolean {
     if (customAmount) {
       const num = Number(customAmount);
-      return !isNaN(num) && num >= 5 && isFinite(num);
+      const cents = num * 100;
+      return (
+        Number.isFinite(num) &&
+        num >= 5 &&
+        num <= 100000 &&
+        Math.abs(cents - Math.round(cents)) < 1e-7
+      );
     }
-    return selectedAmount >= 5;
+    return selectedAmount >= 5 && selectedAmount <= 100000;
   }
 
   async function handleStep2Submit(e: React.FormEvent) {
@@ -455,7 +437,7 @@ export default function DonationForm({
           </div>
         ))}
       </div>
-      <p className="mb-6 text-xs leading-relaxed text-gray-500">
+      <p className="mb-6 text-sm leading-relaxed text-gray-600">
         {copy.shortCheckout}
       </p>
 
@@ -516,22 +498,10 @@ export default function DonationForm({
                   aria-pressed={amount === a && !customAmount}
                   className={`relative min-w-0 px-3 py-2.5 text-sm font-medium rounded-lg border-2 transition-colors ${amount === a && !customAmount ? "border-primary-500 bg-primary-50 text-primary-700" : "border-gray-200 text-gray-700 hover:border-gray-300"}`}
                 >
-                  {a === 25 && (
-                    <span className="absolute -top-2 left-1/2 -translate-x-1/2 font-heading text-[9px] font-semibold uppercase tracking-wider text-primary-700 bg-[#faf8f4] border border-primary-200 px-1.5 rounded-md">
-                      {copy.popular}
-                    </span>
-                  )}
                   ${a}
                 </button>
               ))}
             </div>
-            {!customAmount && IMPACT_MAP[locale][amount] && (
-              <p className="mt-2 text-sm text-primary-800">
-                {copy.your} {selectedAmountLabel}
-                {frequency === "monthly" ? "/mo" : ""} {copy.canHelp}{" "}
-                {IMPACT_MAP[locale][amount]}.
-              </p>
-            )}
             {/* Issue 4: Proper label for custom amount input */}
             <label
               htmlFor="custom-amount"
@@ -543,7 +513,9 @@ export default function DonationForm({
               id="custom-amount"
               type="number"
               min="5"
-              step="any"
+              max="100000"
+              step="0.01"
+              inputMode="decimal"
               placeholder={copy.customPlaceholder}
               value={customAmount}
               onChange={(e) => setCustomAmount(e.target.value)}
@@ -566,9 +538,9 @@ export default function DonationForm({
               <div className="flex justify-between gap-4">
                 <dt>{copy.gift}</dt>
                 <dd className="font-medium text-gray-900">
-                  {selectedAmountLabel}
+                  {selectedAmountLabel} {copy.currency}
                   {frequency === "monthly" && Number.isFinite(selectedAmount)
-                    ? "/month"
+                    ? ` / ${copy.monthlyUnit}`
                     : ""}
                 </dd>
               </div>
@@ -578,13 +550,11 @@ export default function DonationForm({
                   {selectedProjectName}
                 </dd>
               </div>
-              <div className="flex justify-between gap-4">
-                <dt>{copy.impact}</dt>
-                <dd className="font-medium text-gray-900 text-right break-words">
-                  {selectedImpact}
-                </dd>
-              </div>
             </dl>
+          </div>
+
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-sm leading-relaxed text-amber-900">
+            {copy.taxNote}
           </div>
 
           <button
@@ -595,7 +565,7 @@ export default function DonationForm({
           >
             {copy.continue}{" "}
             {Number.isFinite(selectedAmount)
-              ? `— $${selectedAmount}${frequency === "monthly" ? "/month" : ""}`
+              ? `— $${selectedAmount} ${copy.currency}${frequency === "monthly" ? ` / ${copy.monthlyUnit}` : ""}`
               : ""}
           </button>
         </div>
@@ -655,10 +625,6 @@ export default function DonationForm({
               {error}
             </p>
           )}
-
-          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
-            {copy.taxNote}
-          </div>
 
           <div className="flex gap-3">
             <button
@@ -721,7 +687,8 @@ export default function DonationForm({
                   <p>
                     <strong>
                       ${selectedAmount}
-                      {frequency === "monthly" ? "/month" : ""}
+                      {` ${copy.currency}`}
+                      {frequency === "monthly" ? ` / ${copy.monthlyUnit}` : ""}
                     </strong>{" "}
                     — {donor.anonymous ? copy.anonymousName : donor.name}
                   </p>
