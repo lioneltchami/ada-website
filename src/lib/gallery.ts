@@ -10,6 +10,11 @@ export interface GalleryMosaicPhoto {
 	projectTitle?: string;
 }
 
+/** Return locale-independent paths; the rendering component applies its locale prefix. */
+export function galleryMosaicHref(projectSlug?: string): string {
+	return projectSlug ? `/projects/${projectSlug}` : "/gallery";
+}
+
 /** Recent field photos for homepage mosaic / trust strips. */
 export async function loadGalleryMosaic(
 	limit = 8,
@@ -44,8 +49,6 @@ export async function loadGalleryMosaic(
 			{ limit },
 		);
 
-		const prefix = locale === "fr" ? "/fr" : "";
-
 		return rows
 			.filter((row) => row.photo?.asset?._ref)
 			.map((row) => {
@@ -68,9 +71,7 @@ export async function loadGalleryMosaic(
 					title,
 					alt: alt || title,
 					imageUrl: sanityImageUrl(row.photo!.asset!._ref!, 640),
-					href: row.projectSlug
-						? `${prefix}/projects/${row.projectSlug}`
-						: `${prefix}/gallery`,
+					href: galleryMosaicHref(row.projectSlug),
 					projectTitle: projectTitle || undefined,
 				};
 			});
