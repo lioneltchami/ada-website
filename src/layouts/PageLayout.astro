@@ -20,7 +20,10 @@ interface Props {
 }
 
 const props = Astro.props;
-const locale = getLocale(Astro.url.pathname, Astro.url.searchParams.get("locale"));
+const locale = getLocale(
+  Astro.url.pathname,
+  Astro.url.searchParams.get("locale"),
+);
 const labels = t(locale);
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const showFloatingDonate = !(
@@ -36,8 +39,10 @@ const showFloatingDonate = !(
   pathname.startsWith("/fr/auth") ||
   pathname.startsWith("/dashboard")
 );
+const showChatbot = ["/", "/contact", "/get-involved"].includes(pathname);
 
-let faqData: { keywords: string[]; keywordsFr?: string[]; response: string }[] = [];
+let faqData: { keywords: string[]; keywordsFr?: string[]; response: string }[] =
+  [];
 const faqPaths = new Set([
   "/",
   "/contact",
@@ -76,6 +81,11 @@ if (faqPaths.has(pathname)) {
       <a
         href={localePath("/donate", locale)}
         class="fixed bottom-4 right-4 z-50 sm:hidden flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors border border-secondary-600/20"
+        style={
+          showChatbot
+            ? "left:max(1rem,env(safe-area-inset-left));right:auto;bottom:max(1rem,env(safe-area-inset-bottom))"
+            : undefined
+        }
         aria-label={labels.nav.donate}
       >
         <svg
@@ -97,11 +107,5 @@ if (faqPaths.has(pathname)) {
     )
   }
   <Footer />
-  {
-    (Astro.url.pathname === "/" ||
-      Astro.url.pathname === "/contact" ||
-      Astro.url.pathname === "/get-involved") && (
-      <Chatbot client:idle faqs={faqData} locale={locale} />
-    )
-  }
+  {showChatbot && <Chatbot client:idle faqs={faqData} locale={locale} />}
 </BaseLayout>

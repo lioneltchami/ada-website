@@ -67,9 +67,10 @@ export default function Chatbot({ faqs = [], locale = "en" }: Props) {
     const lower = msg.toLowerCase();
     if (faqs.length) {
       for (const faq of faqs) {
-        const keywords = locale === "fr"
-          ? [...faq.keywords, ...(faq.keywordsFr || [])]
-          : faq.keywords;
+        const keywords =
+          locale === "fr"
+            ? [...faq.keywords, ...(faq.keywordsFr || [])]
+            : faq.keywords;
         if (keywords.some((kw) => lower.includes(kw.toLowerCase()))) {
           return faq.response;
         }
@@ -110,8 +111,23 @@ export default function Chatbot({ faqs = [], locale = "en" }: Props) {
     <>
       <button
         onClick={() => setOpen(!open)}
-        aria-label={open ? (locale === "fr" ? "Fermer la discussion" : "Close chat") : (locale === "fr" ? "Ouvrir la discussion" : "Open chat")}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-md bg-primary-700 text-white border border-primary-800 flex items-center justify-center hover:bg-primary-800 transition-colors"
+        aria-label={
+          open
+            ? locale === "fr"
+              ? "Fermer la discussion"
+              : "Close chat"
+            : locale === "fr"
+              ? "Ouvrir la discussion"
+              : "Open chat"
+        }
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls="ada-chat-dialog"
+        className="fixed z-50 w-12 h-12 rounded-md bg-primary-700 text-white border border-primary-800 flex items-center justify-center hover:bg-primary-800 transition-colors"
+        style={{
+          right: "max(1rem, env(safe-area-inset-right))",
+          bottom: "max(1.5rem, env(safe-area-inset-bottom))",
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -131,15 +147,29 @@ export default function Chatbot({ faqs = [], locale = "en" }: Props) {
 
       {open && (
         <div
+          id="ada-chat-dialog"
           role="dialog"
-          aria-label={locale === "fr" ? "Assistant de questions fréquentes" : "FAQ Chatbot"}
-          className="fixed bottom-24 right-6 z-50 w-80 max-h-[28rem] bg-[#faf8f4] rounded-md border border-gray-200 flex flex-col"
+          aria-label={
+            locale === "fr"
+              ? "Assistant de questions fréquentes"
+              : "FAQ Chatbot"
+          }
+          className="fixed z-50 bg-[#faf8f4] rounded-md border border-gray-200 flex flex-col"
+          style={{
+            right: "max(1rem, env(safe-area-inset-right))",
+            bottom: "max(5rem, calc(env(safe-area-inset-bottom) + 4rem))",
+            width: "min(20rem, calc(100vw - 2rem))",
+            maxHeight:
+              "min(28rem, calc(100dvh - env(safe-area-inset-top) - 7rem))",
+          }}
         >
           <div className="bg-primary-800 text-white px-4 py-3 rounded-t-md font-heading font-semibold flex justify-between items-center">
             <span>{locale === "fr" ? "Discussion ADA" : "ADA Chat"}</span>
             <button
               onClick={() => setOpen(false)}
-              aria-label={locale === "fr" ? "Fermer la discussion" : "Close chat"}
+              aria-label={
+                locale === "fr" ? "Fermer la discussion" : "Close chat"
+              }
               className="text-white/80 hover:text-white"
             >
               ✕
@@ -197,13 +227,23 @@ export default function Chatbot({ faqs = [], locale = "en" }: Props) {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={locale === "fr" ? "Posez une question sur ADA…" : "Ask about ADA..."}
-              aria-label={locale === "fr" ? "Saisissez votre question" : "Type your question"}
+              placeholder={
+                locale === "fr"
+                  ? "Posez une question sur ADA…"
+                  : "Ask about ADA..."
+              }
+              aria-label={
+                locale === "fr"
+                  ? "Saisissez votre question"
+                  : "Type your question"
+              }
               className="flex-1 px-3 py-2 text-sm outline-none rounded-bl-md bg-white"
             />
             <button
               type="submit"
-              aria-label={locale === "fr" ? "Envoyer le message" : "Send message"}
+              aria-label={
+                locale === "fr" ? "Envoyer le message" : "Send message"
+              }
               className="px-4 py-2 bg-primary-700 text-white text-sm font-medium hover:bg-primary-800 rounded-br-md"
             >
               {locale === "fr" ? "Envoyer" : "Send"}
