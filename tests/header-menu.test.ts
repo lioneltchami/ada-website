@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 const header = readFileSync("src/components/layout/Header.astro", "utf8");
 const menuScript = readFileSync("public/scripts/header-menu.js", "utf8");
-const csp = readFileSync("src/lib/csp.ts", "utf8");
+const cspPolicy = readFileSync("src/lib/csp-policy.mjs", "utf8");
 
 describe("mobile header menu delivery", () => {
   it("loads its controller as a same-origin external script", () => {
@@ -11,7 +11,7 @@ describe("mobile header menu delivery", () => {
       '<script is:inline src="/scripts/header-menu.js"></script>',
     );
     expect(header).not.toMatch(/<script>\s*const header/);
-    expect(csp).toContain("\"'self'\"");
+    expect(cspPolicy).toContain("\"'self'\"");
   });
 
   it("keeps toggle, Escape, and accessible state behavior", () => {

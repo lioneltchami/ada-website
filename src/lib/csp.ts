@@ -1,83 +1,26 @@
 import { getEnv } from "./runtime-env";
+import { getCspPolicy } from "./csp-policy.mjs";
+import {
+  collectInlineStyleAttributeHashes,
+  collectInlineStyleElementHashes,
+  normalizeCspMetaPolicy,
+} from "./csp-meta.mjs";
 
-const BASE_SCRIPT_SRC = [
-  "'self'",
-  "https://js.stripe.com",
-  "https://*.js.stripe.com",
-  "https://static.cloudflareinsights.com",
-];
-
-const BASE_CONNECT_SRC = [
-  "'self'",
-  "https://*.supabase.co",
-  "https://api.stripe.com",
-  "https://r.stripe.com",
-  "https://cdn.sanity.io",
-  "https://cloudflareinsights.com",
-];
-
-function originFromUrl(value: string | undefined): string | null {
-  if (!value) return null;
-  try {
-    return new URL(value).origin;
-  } catch {
-    return null;
-  }
-}
-
-/** Build CSP directives. script-src has no 'unsafe-inline'; hashes added per HTML response. */
+/** Build CSP directives without unsafe-inline/eval; add per-response script/style hashes. */
 export function buildCspDirectives(): string[] {
-  const scriptSrc = [...BASE_SCRIPT_SRC];
-  const connectSrc = [...BASE_CONNECT_SRC];
-
-  const supabaseOrigin = originFromUrl(getEnv("PUBLIC_SUPABASE_URL"));
-  if (
-    supabaseOrigin &&
-    !supabaseOrigin.endsWith(".supabase.co") &&
-    !connectSrc.includes(supabaseOrigin)
-  ) {
-    connectSrc.push(supabaseOrigin);
-  }
-
-  const umamiOrigin = originFromUrl(
-    getEnv("PUBLIC_UMAMI_URL") || "https://cloud.umami.is",
-  );
-  if (umamiOrigin) {
-    if (!scriptSrc.includes(umamiOrigin)) scriptSrc.push(umamiOrigin);
-    if (!connectSrc.includes(umamiOrigin)) connectSrc.push(umamiOrigin);
-  }
-
-  const posthogKey = getEnv("PUBLIC_POSTHOG_KEY");
-  if (posthogKey) {
-    for (const host of ["https://*.posthog.com", "https://*.i.posthog.com"]) {
-      if (!scriptSrc.includes(host)) scriptSrc.push(host);
-      if (!connectSrc.includes(host)) connectSrc.push(host);
-    }
-  }
-
-  return [
-    "default-src 'self'",
-    `script-src ${scriptSrc.join(" ")}`,
-    // Astro/Tailwind scoped styles + Stripe Elements still need inline styles.
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "font-src 'self' https://fonts.gstatic.com",
-    "img-src 'self' https://cdn.sanity.io data: blob:",
-    "media-src 'self' https://cdn.sanity.io",
-    `connect-src ${connectSrc.join(" ")}`,
-    "frame-src https://js.stripe.com https://*.js.stripe.com https://hooks.stripe.com",
-    // PostHog session replay loads a worker from blob: when enabled in project settings.
-    posthogKey ? "worker-src 'self' blob: data:" : "worker-src 'self'",
-    "base-uri 'self'",
-    "form-action 'self'",
-    "frame-ancestors 'none'",
-  ];
+  return getCspPolicy({
+    PUBLIC_SUPABASE_URL: getEnv("PUBLIC_SUPABASE_URL"),
+    PUBLIC_UMAMI_URL: getEnv("PUBLIC_UMAMI_URL"),
+    PUBLIC_POSTHOG_KEY: getEnv("PUBLIC_POSTHOG_KEY"),
+  }).directives;
 }
 
 export function buildContentSecurityPolicy(
   inlineScriptHashes: string[] = [],
+  inlineStyleAttributeHashes: string[] = [],
+  inlineStyleElementHashes: string[] = [],
 ): string {
   const directives = buildCspDirectives();
-  if (inlineScriptHashes.length === 0) return directives.join("; ");
 
   return directives
     .map((directive) => {
@@ -86,6 +29,20 @@ export function buildContentSecurityPolicy(
         .map((hash) => `'sha256-${hash}'`)
         .join(" ");
       return `${directive} ${hashes}`;
+    })
+    .map((directive) => {
+      if (!directive.startsWith("style-src ")) return directive;
+      const hashes = inlineStyleElementHashes
+        .map((hash) => `'sha256-${hash}'`)
+        .join(" ");
+      return hashes ? `${directive} ${hashes}` : directive;
+    })
+    .map((directive) => {
+      if (!directive.startsWith("style-src-attr ")) return directive;
+      const hashes = inlineStyleAttributeHashes
+        .map((hash) => `'sha256-${hash}'`)
+        .join(" ");
+      return hashes ? `${directive} ${hashes}` : directive;
     })
     .join("; ");
 }
@@ -110,7 +67,7 @@ export async function collectInlineScriptHashes(
   let match: RegExpExecArray | null;
   while ((match = scriptRe.exec(html)) !== null) {
     const attrs = match[1] || "";
-    if (/\bsrc\s*=/i.test(attrs)) continue;
+    if (/\s+src\s*=/i.test(attrs)) continue;
     const body = match[2] ?? "";
     hashes.push(await sha256Base64(body));
   }
@@ -133,9 +90,21 @@ export async function applyContentSecurityPolicy(
     });
   }
 
-  const html = await response.text();
-  const hashes = await collectInlineScriptHashes(html);
-  headers.set("Content-Security-Policy", buildContentSecurityPolicy(hashes));
+  const html = await normalizeCspMetaPolicy(await response.text());
+  const [scriptHashes, styleAttributeHashes, styleElementHashes] =
+    await Promise.all([
+      collectInlineScriptHashes(html),
+      collectInlineStyleAttributeHashes(html),
+      collectInlineStyleElementHashes(html),
+    ]);
+  headers.set(
+    "Content-Security-Policy",
+    buildContentSecurityPolicy(
+      scriptHashes,
+      styleAttributeHashes,
+      styleElementHashes,
+    ),
+  );
   return new Response(html, {
     status: response.status,
     statusText: response.statusText,
