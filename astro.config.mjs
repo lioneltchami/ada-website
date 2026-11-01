@@ -4,10 +4,26 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
+import { getCspPolicy } from "./src/lib/csp-policy.mjs";
+
+const cspPolicy = getCspPolicy(process.env);
 
 export default defineConfig({
   site: "https://apotidev.org",
   adapter: cloudflare(),
+  security: {
+    csp: {
+      directives: cspPolicy.directives.filter(
+        (directive) =>
+          !directive.startsWith("script-src ") &&
+          !directive.startsWith("style-src ") &&
+          !directive.startsWith("style-src-attr ") &&
+          !directive.startsWith("frame-ancestors "),
+      ),
+      scriptDirective: { resources: cspPolicy.scriptSources },
+      styleDirective: { resources: cspPolicy.styleSources },
+    },
+  },
   integrations: [
     react(),
     sitemap({
