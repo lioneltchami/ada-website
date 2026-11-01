@@ -55,7 +55,8 @@ if (pages.length < 20) {
 
 let pagesWithMeta = 0;
 let checkedInlineScripts = 0;
-let checkedStyleAttributes = 0;
+let checkedStyleElementHashes = 0;
+let checkedStyleAttributeHashes = 0;
 for (const pagePath of pages) {
   const html = await readFile(pagePath, "utf8");
   const metaMatch = html.match(
@@ -155,6 +156,7 @@ for (const pagePath of pages) {
     ),
   );
   for (const expectedHash of await collectInlineStyleElementHashes(html)) {
+    checkedStyleElementHashes += 1;
     if (!allowedStyleElementHashes.has(expectedHash)) {
       throw new Error(
         `${path.relative(clientDir, pagePath)} is missing the hash for an emitted style element.`,
@@ -162,7 +164,7 @@ for (const pagePath of pages) {
     }
   }
   for (const expectedHash of await collectInlineStyleAttributeHashes(html)) {
-    checkedStyleAttributes += 1;
+    checkedStyleAttributeHashes += 1;
     if (!allowedStyleAttributeHashes.has(expectedHash)) {
       throw new Error(
         `${path.relative(clientDir, pagePath)} is missing the hash for an emitted style attribute.`,
@@ -188,5 +190,5 @@ for (const pagePath of pages) {
 }
 
 console.log(
-  `Static CSP verified: ${pages.length} HTML files, ${pagesWithMeta} CSP meta policies, ${checkedInlineScripts} inline scripts and ${checkedStyleAttributes} inline style attributes hash-authorized.`,
+  `Static CSP verified: ${pages.length} HTML files, ${pagesWithMeta} CSP meta policies, ${checkedInlineScripts} inline scripts, ${checkedStyleElementHashes} unique style-element hashes, and ${checkedStyleAttributeHashes} unique style-attribute hashes hash-authorized.`,
 );
