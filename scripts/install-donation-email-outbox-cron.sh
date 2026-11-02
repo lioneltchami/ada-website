@@ -25,6 +25,7 @@ fi
 cat > "$REMOTE_SCRIPT" <<'SCRIPT'
 #!/usr/bin/env bash
 set -euo pipefail
+umask 077
 . /opt/backups/ada-followup-cron.env
 curl -fsS \
   -H "Authorization: Bearer ${DONATION_FOLLOWUP_CRON_SECRET}" \
