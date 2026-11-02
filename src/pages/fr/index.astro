@@ -4,12 +4,11 @@ import Section from "../../components/layout/Section.astro";
 import CurrentWork from "../../components/home/CurrentWork.astro";
 import PhotoMosaic from "../../components/home/PhotoMosaic.astro";
 import WorkVideo from "../../components/home/WorkVideo.astro";
-import FeaturedStory from "../../components/home/FeaturedStory.astro";
+import StoryReviewNotice from "../../components/home/StoryReviewNotice.astro";
 import {
   getImpactMetrics,
   getProjects,
   getTestimonials,
-  getBlogPostBySlug,
   getHomePage,
   sanityImageUrl,
   type SanityImpactMetric,
@@ -143,30 +142,6 @@ try {
 
 const spotlightProjects = await loadSpotlightProjects("fr", 4);
 const mosaicPhotos = await loadGalleryMosaic(8, "fr");
-
-let featuredStory = {
-  title:
-    "Mama Patience : De la vente de ses dernières marmites à la gestion d'un commerce",
-  excerpt:
-    "Quand son mari est décédé, Patience a tout perdu. Elle vendait ses marmites une par une pour nourrir ses quatre enfants. Aujourd'hui, grâce à un investissement de 400$ sur 12 mois, elle gère un commerce alimentaire au marché de Bamenda.",
-  href: "/fr/stories/why-we-focus-on-widows",
-  imageUrl: "",
-  imageAlt: "",
-};
-try {
-  const story = await getBlogPostBySlug("why-we-focus-on-widows", "fr");
-  if (story) {
-    featuredStory = {
-      title: story.title || featuredStory.title,
-      excerpt: story.excerpt || featuredStory.excerpt,
-      href: "/fr/stories/why-we-focus-on-widows",
-      imageUrl: story.personPhoto?.asset?._ref
-        ? sanityImageUrl(story.personPhoto.asset._ref, 800)
-        : "",
-      imageAlt: story.personPhoto?.alt || story.title,
-    };
-  }
-} catch {}
 
 const programPillars = [
   {
@@ -607,14 +582,7 @@ const actionPaths = [
     </div>
   </Section>
 
-  <FeaturedStory
-    locale="fr"
-    title={featuredStory.title}
-    excerpt={featuredStory.excerpt}
-    href={featuredStory.href}
-    imageUrl={featuredStory.imageUrl}
-    imageAlt={featuredStory.imageAlt}
-  />
+  <StoryReviewNotice locale="fr" variant="featured" />
 
   <Section background="white" padding="lg">
     <p

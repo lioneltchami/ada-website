@@ -4,13 +4,12 @@ import Section from "../components/layout/Section.astro";
 import CurrentWork from "../components/home/CurrentWork.astro";
 import PhotoMosaic from "../components/home/PhotoMosaic.astro";
 import WorkVideo from "../components/home/WorkVideo.astro";
-import FeaturedStory from "../components/home/FeaturedStory.astro";
+import StoryReviewNotice from "../components/home/StoryReviewNotice.astro";
 import {
   getImpactMetrics,
   getHomePage,
   getTestimonials,
   getProjects,
-  getBlogPostBySlug,
   type SanityImpactMetric,
   type SanityProject,
   sanityImageUrl,
@@ -150,30 +149,6 @@ try {
 
 const spotlightProjects = await loadSpotlightProjects("en", 4);
 const mosaicPhotos = await loadGalleryMosaic(8);
-
-let featuredStory = {
-  title:
-    "Mama Patience: From Selling Her Last Cooking Pots to Running a Business",
-  excerpt:
-    "When her husband died, Patience lost everything. She was selling her cooking pots one by one to feed her four children. Today, thanks to a $400 investment over 12 months, she runs a food business at the Bamenda market.",
-  href: "/stories/why-we-focus-on-widows",
-  imageUrl: "",
-  imageAlt: "",
-};
-try {
-  const story = await getBlogPostBySlug("why-we-focus-on-widows");
-  if (story) {
-    featuredStory = {
-      title: story.title || featuredStory.title,
-      excerpt: story.excerpt || featuredStory.excerpt,
-      href: "/stories/why-we-focus-on-widows",
-      imageUrl: story.personPhoto?.asset?._ref
-        ? sanityImageUrl(story.personPhoto.asset._ref, 800)
-        : "",
-      imageAlt: story.personPhoto?.alt || story.title,
-    };
-  }
-} catch {}
 
 const programPillars = [
   {
@@ -619,14 +594,7 @@ const actionPaths = [
     </div>
   </Section>
 
-  <FeaturedStory
-    locale="en"
-    title={featuredStory.title}
-    excerpt={featuredStory.excerpt}
-    href={featuredStory.href}
-    imageUrl={featuredStory.imageUrl}
-    imageAlt={featuredStory.imageAlt}
-  />
+  <StoryReviewNotice locale="en" variant="featured" />
 
   <!-- Testimonials — featured quote + supporting -->
   <Section background="white" padding="lg">

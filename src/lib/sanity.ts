@@ -483,6 +483,18 @@ export async function getBlogPosts(
 	);
 }
 
+/** Slugs only, for rendering story routes while withholding story content. */
+export async function getBlogPostSlugs(): Promise<string[]> {
+	const rows = await getSanityClient().fetch(
+		`*[_type == "blogPost" && defined(slug.current)] | order(publishedAt desc) { "current": slug.current }`,
+	);
+	return Array.isArray(rows)
+		? rows
+				.map((row: { current?: unknown }) => row?.current)
+				.filter((slug: unknown): slug is string => typeof slug === "string" && slug.length > 0)
+		: [];
+}
+
 export async function getBlogPostBySlug(
 	slug: string,
 	locale: ContentLocale = "en",

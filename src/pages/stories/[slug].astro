@@ -1,146 +1,46 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
 import Section from '../../components/layout/Section.astro';
-import PortableTextRenderer from '../../components/PortableTextRenderer';
-import { sanityImageUrl } from '../../lib/sanity';
-import { createClient } from '@sanity/client';
-import {
-  buildBlogPosting,
-  toSchemaDate,
-} from '../../lib/structured-data';
-import { resolveStoryImageAlt } from '../../lib/story-image-alt';
+import StoryReviewNotice from '../../components/home/StoryReviewNotice.astro';
+import { getBlogPostSlugs } from '../../lib/sanity';
+import { getStoryReviewCopy } from '../../lib/story-review-notice';
 
 export async function getStaticPaths() {
-  let posts: any[] = [];
   try {
-    const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
-    const dataset = import.meta.env.SANITY_DATASET || 'production';
-    const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-    posts = await client.fetch('*[_type == "blogPost"] | order(publishedAt desc) { _id, title, slug, excerpt, body, publishedAt, category, personPhoto { asset { _ref }, alt } }');
-  } catch {}
-  return posts.map((post) => ({ params: { slug: post.slug.current }, props: { post } }));
+    const slugs = await getBlogPostSlugs();
+    return slugs.map((slug) => ({ params: { slug } }));
+  } catch {
+    return [];
+  }
 }
 
-const { post } = Astro.props;
-const slug = post.slug.current;
-const pageUrl = new URL(`/stories/${slug}`, Astro.site).toString();
-const photoUrl = post.personPhoto?.asset?._ref
-  ? sanityImageUrl(post.personPhoto.asset._ref, 400)
-  : '';
-const ogImage = post.personPhoto?.asset?._ref
-  ? sanityImageUrl(post.personPhoto.asset._ref, 1200)
-  : undefined;
-const ogImageAlt = resolveStoryImageAlt(
-  post.personPhoto?.alt,
-  post.title,
-  'Story image',
-);
-const publishedTime = toSchemaDate(post.publishedAt);
-const blogPosting = buildBlogPosting({
-  title: post.title,
-  description: post.excerpt || post.title,
-  url: pageUrl,
-  imageUrl: ogImage,
-  datePublished: post.publishedAt,
-  category: post.category,
-  inLanguage: 'en',
-});
+const copy = getStoryReviewCopy('en');
 ---
-<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout
-  title={post.title}
-  description={post.excerpt || post.title}
-  ogType="article"
-  ogImage={ogImage}
-  ogImageAlt={ogImageAlt}
-  publishedTime={publishedTime}
-  modifiedTime={publishedTime}
-  jsonLdExtra={[blogPosting]}
+  title={copy.detailTitle}
+  description={copy.detailDescription}
+  ogImage="/brand/ada-logo.png"
+  ogImageAlt="Apoti Development Association"
+  noIndex={true}
+  noBreadcrumbJsonLd={true}
 >
-  <article itemscope itemtype="https://schema.org/BlogPosting">
-    <!-- Hero -->
-    <section class="bg-primary-900 text-white py-16 md:py-20">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav aria-label="Breadcrumb" class="mb-6">
-          <ol class="flex items-center gap-1.5 text-sm text-white/70">
-            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
-            <li class="text-white/40">/</li>
-            <li><a href="/stories" class="hover:text-white transition-colors">Stories</a></li>
-            <li class="text-white/40">/</li>
-            <li class="text-white/90 truncate max-w-[200px]">{post.title}</li>
-          </ol>
-        </nav>
-        <div class="flex items-center gap-3 mb-4">
-          <span class="px-3 py-1 text-xs font-medium uppercase bg-white/10 text-white/90 rounded-md border border-white/20">{post.category || 'update'}</span>
-          {post.publishedAt && (
-            <time
-              class="text-sm text-white/60"
-              datetime={publishedTime}
-              itemprop="datePublished"
-            >
-              {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </time>
-          )}
-        </div>
-        <h1 class="text-3xl md:text-4xl font-heading font-bold leading-tight" itemprop="headline">
-          {post.title}
-        </h1>
-        <p class="mt-4 text-lg text-white/80 leading-relaxed" itemprop="description">
-          {post.excerpt}
-        </p>
-      </div>
-    </section>
+  <PageHero title={copy.detailTitle} compact />
 
-    <!-- Body -->
-    <Section background="white" padding="lg">
-      <div class="max-w-3xl mx-auto" itemprop="articleBody">
-        {photoUrl && (
-          <div class="mb-8 flex justify-center">
-            <img
-              src={photoUrl}
-              alt={ogImageAlt}
-              class="w-48 h-48 rounded-md object-cover border border-gray-200"
-              loading="eager"
-              itemprop="image"
-            />
-          </div>
-        )}
-        <div class="prose prose-gray prose-lg">
-        {Array.isArray(post.body) ? (
-          <PortableTextRenderer client:load value={post.body} />
-        ) : (
-          <div>
-            {(post.body || '').split('\n\n').filter(Boolean).map((para) => (
-              <p class="text-gray-600 leading-relaxed mb-4">{para.trim()}</p>
-            ))}
-          </div>
-        )}
-        </div>
-      </div>
-    </Section>
+  <Section background="white" padding="lg">
+    <StoryReviewNotice locale="en" variant="detail" />
+  </Section>
 
-    <!-- Share -->
-    <Section background="white" padding="sm">
-      <div class="max-w-3xl mx-auto flex items-center justify-center gap-3">
-        <span class="text-sm text-gray-500">Share this story:</span>
-        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Share “${post.title}” on X`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">X</a>
-        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Share “${post.title}” on Facebook`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Facebook</a>
-        <a href={`https://wa.me/?text=${encodeURIComponent(post.title + ' ' + pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Share “${post.title}” on WhatsApp`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">WhatsApp</a>
+  <Section background="gray" padding="md">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-gray-700">Explore other ways to connect with ADA.</p>
+      <div class="mt-4 flex flex-col sm:flex-row items-start gap-3">
+        <a href="/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Donate</a>
+        <a href="/projects" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Explore ADA projects</a>
+        <a href="/get-involved" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Explore ways to get involved</a>
+        <a href="/contact" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Contact ADA</a>
       </div>
-    </Section>
-
-    <!-- CTA -->
-    <Section background="gray" padding="md">
-      <div class="max-w-3xl mx-auto">
-        <p class="text-gray-600">Inspired by this story? Explore more ways to connect with ADA.</p>
-        <div class="mt-4 flex flex-col sm:flex-row items-start gap-3">
-          <a href="/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Support ADA’s work</a>
-          <a href="/get-involved" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Explore ways to get involved</a>
-          <a href="/projects" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Explore ADA projects</a>
-          <a href="/stories" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Read more stories</a>
-        </div>
-      </div>
-    </Section>
-  </article>
+    </div>
+  </Section>
 </PageLayout>

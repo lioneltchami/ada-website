@@ -2,159 +2,25 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/layout/PageHero.astro';
 import Section from '../../components/layout/Section.astro';
-import { sanityImageUrl } from '../../lib/sanity';
-import { createClient } from '@sanity/client';
-import { countStoriesInCategory } from '../../lib/story-filters';
-import { resolveStoryImageAlt } from '../../lib/story-image-alt';
+import StoryReviewNotice from '../../components/home/StoryReviewNotice.astro';
+import { getStoryReviewCopy } from '../../lib/story-review-notice';
 
-let posts: any[] = [];
-try {
-  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
-  const dataset = import.meta.env.SANITY_DATASET || 'production';
-  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-  posts = await client.fetch('*[_type == "blogPost"] | order(publishedAt desc) { _id, title, slug, excerpt, publishedAt, category, personPhoto { asset { _ref }, alt } }');
-} catch {}
-
-let galleryPhotos: any[] = [];
-try {
-  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
-  const dataset = import.meta.env.SANITY_DATASET || 'production';
-  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-  galleryPhotos = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0...4] { _id, title, photo { asset { _ref }, alt } }');
-} catch {}
-
-const categories = ['all', 'story', 'update', 'announcement'];
-const categoryLabels: Record<string, string> = {
-  all: 'All',
-  story: 'Stories',
-  update: 'Updates',
-  announcement: 'Announcements',
-};
-
-const storyHero =
-  posts.find((p) => p.personPhoto?.asset?._ref) ||
-  galleryPhotos.find((g) => g.photo?.asset?._ref);
-const storyHeroUrl = storyHero?.personPhoto?.asset?._ref
-  ? sanityImageUrl(storyHero.personPhoto.asset._ref, 1400)
-  : storyHero?.photo?.asset?._ref
-    ? sanityImageUrl(storyHero.photo.asset._ref, 1400)
-    : '';
-const storyHeroAlt = resolveStoryImageAlt(
-  storyHero?.personPhoto?.alt || storyHero?.photo?.alt,
-  storyHero?.title,
-  'ADA stories',
-);
+const copy = getStoryReviewCopy('en');
 ---
-<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
-<PageLayout title="Stories & Updates" description="Read stories of impact, program updates, and announcements from Apoti Development Association.">
+<PageLayout
+  title={copy.indexPageTitle}
+  description={copy.indexPageDescription}
+  ogImage="/brand/ada-logo.png"
+  ogImageAlt="Apoti Development Association"
+>
   <PageHero
-    title="Stories & Updates"
-    subtitle="News, impact stories, and announcements from our programs."
-    
+    title={copy.indexPageTitle}
+    subtitle={copy.indexHeroSubtitle}
     compact
-    imageUrl={storyHeroUrl}
-    imageAlt={storyHeroAlt}
   />
 
   <Section background="white" padding="lg">
-    {posts.length > 0 ? (
-      <div>
-        <!-- Category Filters -->
-        <div class="flex flex-wrap gap-2 mb-2" id="story-filters" role="group" aria-label="Filter stories by category">
-          {categories.map((cat) => (
-            <button
-              type="button"
-              data-filter={cat}
-              aria-pressed={cat === 'all' ? "true" : "false"}
-              aria-controls="stories-grid"
-              class="font-heading px-3 py-1.5 text-sm font-medium rounded-md transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700 aria-pressed:bg-primary-700 aria-pressed:text-white"
-            >
-              {categoryLabels[cat]} ({cat === 'all' ? posts.length : countStoriesInCategory(posts, cat)})
-            </button>
-          ))}
-        </div>
-        <p id="stories-results-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-
-        <!-- Posts list -->
-        <ul class="divide-y divide-gray-200 border-y border-gray-200" id="stories-grid">
-          {posts.map((post) => (
-            <li class="story-card" data-category={post.category || 'update'}>
-              <a href={`/stories/${post.slug.current}`} class="group flex flex-col sm:flex-row gap-4 py-6">
-                {post.personPhoto?.asset?._ref && (
-                  <div class="w-full sm:w-36 h-28 shrink-0 overflow-hidden rounded-md bg-gray-100">
-                    <img src={sanityImageUrl(post.personPhoto.asset._ref, 400)} alt={resolveStoryImageAlt(post.personPhoto?.alt, post.title, 'Story image')} class="w-full h-full object-cover" loading="lazy" />
-                  </div>
-                )}
-                <div class="min-w-0 flex-1">
-                  <div class="flex flex-wrap items-center gap-2 mb-2">
-                    <span class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
-                      {categoryLabels[post.category || 'update'] || categoryLabels.update}
-                    </span>
-                    {post.publishedAt && (
-                      <time class="text-xs text-gray-500">{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}</time>
-                    )}
-                  </div>
-                  <h2 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors leading-tight">{post.title}</h2>
-                  <p class="mt-2 text-sm text-gray-600 line-clamp-2 leading-relaxed">{post.excerpt}</p>
-                  <span class="mt-3 inline-block font-heading text-sm font-semibold text-primary-700">Read more →</span>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    ) : (
-      <div class="py-12">
-        <h2 class="text-xl font-semibold text-gray-900">Stories Coming Soon</h2>
-        <p class="mt-2 text-gray-600">We're working on sharing more stories of impact. Check back soon!</p>
-      </div>
-    )}
-  </Section>
-
-  <Section background="gray" padding="md">
-    <div>
-      <h2 class="text-lg font-heading font-semibold text-gray-900 mb-4">From our gallery</h2>
-      {galleryPhotos.length > 0 && (
-        <div class="flex gap-3 mb-4">
-          {galleryPhotos.map((img) => (
-            <a href="/gallery" class="block w-20 h-20 rounded-lg overflow-hidden hover:opacity-80 transition-opacity">
-              <img src={sanityImageUrl(img.photo.asset._ref, 160)} alt={resolveStoryImageAlt(img.photo?.alt, img.title, 'ADA gallery photo')} class="w-full h-full object-cover" loading="lazy" />
-            </a>
-          ))}
-        </div>
-      )}
-      <a href="/gallery" class="inline-flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors">
-        View full gallery →
-      </a>
-    </div>
+    <StoryReviewNotice locale="en" />
   </Section>
 </PageLayout>
-
-<script>
-  import { storyFilterAnnouncement } from '../../lib/story-filters';
-
-  const buttons = document.querySelectorAll('#story-filters button');
-  const cards = document.querySelectorAll('.story-card');
-  const status = document.getElementById('stories-results-status');
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
-
-      buttons.forEach(b => {
-        b.setAttribute('aria-pressed', 'false');
-      });
-      btn.setAttribute('aria-pressed', 'true');
-
-      // Filter cards
-      let visibleCount = 0;
-      cards.forEach(card => {
-        const visible = filter === 'all' || card.getAttribute('data-category') === filter;
-        (card as HTMLElement).hidden = !visible;
-        if (visible) visibleCount += 1;
-      });
-      if (status) status.textContent = storyFilterAnnouncement(visibleCount, 'en');
-    });
-  });
-</script>
