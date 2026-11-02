@@ -46,6 +46,7 @@ try {
           originalStatus: p.status,
           archiveHref: lifecycle.archiveHref,
           archiveReady: lifecycle.archiveReady,
+          isAutoArchived: lifecycle.isAutoCompleted,
           hasEnded: lifecycle.hasEnded,
           isUpcoming: lifecycle.isUpcoming,
           startDate: p.startDate,
@@ -87,15 +88,15 @@ const copy = isFr
   ? {
       metaTitle: "Nos Projets",
       metaDescription:
-        "Découvrez les programmes d'ADA soutenant les veuves, orphelins et jeunes femmes au Cameroun — y compris les campagnes Back to School à venir.",
+        "Découvrez les programmes d'ADA soutenant les veuves, orphelins et jeunes femmes au Cameroun, ainsi que les dossiers de projets disponibles.",
       heroTitle: "Nos Projets",
       heroSubtitle:
-        "Programmes actifs et campagnes à venir au Cameroun. Quand la date de fin passe, le projet quitte la liste active et peut rejoindre les archives.",
+        "Découvrez les programmes actifs d’ADA au Cameroun et parcourez les dossiers de projets disponibles.",
       heroBadge: "Programmes & Campagnes",
-      upcomingEyebrow: "À venir — août 2026",
-      upcomingTitle: "Campagnes Back to School",
+      upcomingEyebrow: "Campagne à venir",
+      upcomingTitle: "Campagne communautaire",
       upcomingBody:
-        "Deux campagnes communautaires de rentrée scolaire — Buea (Sud-Ouest) et Bamenda (Nord-Ouest). Les dons sont ouverts dès maintenant ; l'action sur le terrain suit le calendrier des flyers.",
+        "Consultez les dates et les informations indiquées sur chaque dossier de projet.",
       upcomingDonate: "Soutenir",
       upcomingDetails: "Détails",
       scheduled: "Prévu",
@@ -105,35 +106,38 @@ const copy = isFr
       of: "sur",
       details: "Détails",
       donate: "Donner",
-      completedEyebrow: "Récemment terminés",
-      completedTitle: "Projets passés au bilan",
+      completedEyebrow: "Terminés ou archivés",
+      completedTitle: "Dossiers de projets",
       completedBody:
-        "Lorsqu'une date de fin est dépassée, le projet n'est plus une priorité de collecte. S'il dispose d'un dossier d'archive, les visiteurs voient le rapport final.",
-      archiveReady: "Archive prête",
-      completed: "Terminé",
-      viewArchive: "Voir le rapport d'archive",
+        "Certains dossiers sont marqués comme terminés par ADA. D’autres sont archivés après leur date de fin prévue; la date seule ne confirme ni la réalisation ni l’existence d’un rapport final.",
+      archiveReady: "Dossier d’archive disponible",
+      autoArchived: "Archivé selon la date de fin",
+      completed: "Marqué comme terminé",
+      viewArchive: "Voir le dossier d’archive",
       viewDetails: "Voir les détails de clôture",
-      archiveCta: "Voir toutes les archives de projets (2022–2026) →",
+      archiveCta: "Voir toutes les archives de projets →",
       archiveHint:
-        "Parcourez les projets terminés par démographie, avec rapports téléchargeables.",
+        "Parcourez les dossiers de projets par démographie et consultez les documents disponibles.",
       statActive: "Programmes actifs",
       statUpcoming: "À venir",
-      statCommunities: "Communautés",
-      statBeneficiaries: "Bénéficiaires",
-      statRaised: "Fonds collectés",
+      statCommunities: "Lieux indiqués",
+      statBeneficiaries: "Bénéficiaires indiqués",
+      statRaised: "Montants déclarés collectés",
+      statsNote:
+        "Ces chiffres résument les dossiers affichés ; une même personne peut être comptée dans plusieurs projets.",
     }
   : {
       metaTitle: "Our Projects",
       metaDescription:
-        "Explore ADA's programs supporting widows, orphans, and young women across Cameroon — including upcoming Back to School outreaches.",
+        "Explore ADA's programs supporting widows, orphans, and young women across Cameroon, along with available project records.",
       heroTitle: "Our Projects",
       heroSubtitle:
-        "Active programs and upcoming campaigns across Cameroon. When a project end date passes, it leaves the active list and can move into the archive.",
+        "Explore ADA's active programs in Cameroon and browse available project records.",
       heroBadge: "Programs & Campaigns",
-      upcomingEyebrow: "Coming up — August 2026",
-      upcomingTitle: "Back to School outreaches",
+      upcomingEyebrow: "Upcoming campaign",
+      upcomingTitle: "Community campaign",
       upcomingBody:
-        "Two community Back to School campaigns — Buea (South West) and Bamenda (North West). Donations are open now; field delivery follows the flyer schedule.",
+        "Check each project record for its listed dates and available information.",
       upcomingDonate: "Support this campaign",
       upcomingDetails: "Details",
       scheduled: "Scheduled",
@@ -143,22 +147,25 @@ const copy = isFr
       of: "of",
       details: "Details",
       donate: "Donate",
-      completedEyebrow: "Recently completed",
-      completedTitle: "Projects that have moved into the track record",
+      completedEyebrow: "Completed or archived",
+      completedTitle: "Project records",
       completedBody:
-        "When a project end date passes, it stops appearing as an active fundraising priority. If its archive record is ready, visitors go straight to the final report page.",
-      archiveReady: "Archive ready",
-      completed: "Completed",
-      viewArchive: "View archive report",
+        "Some records are marked completed by ADA. Others move here after their planned end date; a date alone does not confirm delivery or a final report.",
+      archiveReady: "Archive record available",
+      autoArchived: "Archived by end date",
+      completed: "Marked completed",
+      viewArchive: "View archive record",
       viewDetails: "View completion details",
-      archiveCta: "View full project archive (2022–2026) →",
+      archiveCta: "View full project archive →",
       archiveHint:
-        "Browse all completed and ongoing projects by demographic, with downloadable reports.",
+        "Browse project records by demographic and review available documents.",
       statActive: "Active Programs",
       statUpcoming: "Upcoming",
-      statCommunities: "Communities",
-      statBeneficiaries: "Beneficiaries",
-      statRaised: "Funds Raised",
+      statCommunities: "Listed locations",
+      statBeneficiaries: "Beneficiaries listed",
+      statRaised: "Reported funds raised",
+      statsNote:
+        "These figures summarize the listed records; the same person may be counted in more than one project.",
     };
 
 function statusBadgeClass(status: ProjectStatus): string {
@@ -176,7 +183,10 @@ function formatSchedule(start?: string, end?: string): string {
     year: "numeric",
   };
   const loc = isFr ? "fr-FR" : "en-US";
-  const startLabel = new Date(`${start}T12:00:00`).toLocaleDateString(loc, opts);
+  const startLabel = new Date(`${start}T12:00:00`).toLocaleDateString(
+    loc,
+    opts,
+  );
   if (!end || end === start) return startLabel;
   const endLabel = new Date(`${end}T12:00:00`).toLocaleDateString(loc, opts);
   return `${startLabel} – ${endLabel}`;
@@ -268,15 +278,14 @@ function formatSchedule(start?: string, end?: string): string {
                 <a
                   href={localePath(`/projects/${project.slug}`, locale)}
                   class="flex-1 text-center px-3 py-2.5 text-sm font-medium text-primary-800 border border-primary-200 rounded-lg bg-white/90 hover:bg-primary-50 transition-colors"
+                  aria-label={`${copy.upcomingDetails}: ${project.title}`}
                 >
                   {copy.upcomingDetails}
                 </a>
                 <a
-                  href={localePath(
-                    `/donate?project=${project.slug}`,
-                    locale,
-                  )}
+                  href={localePath(`/donate?project=${project.slug}`, locale)}
                   class="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors"
+                  aria-label={`${copy.upcomingDonate}: ${project.title}`}
                 >
                   {copy.upcomingDonate}
                 </a>
@@ -296,11 +305,7 @@ function formatSchedule(start?: string, end?: string): string {
         </h2>
       )
     }
-    {
-      upcomingProjects.length === 0 && (
-        <h2 class="sr-only">{copy.activeSr}</h2>
-      )
-    }
+    {upcomingProjects.length === 0 && <h2 class="sr-only">{copy.activeSr}</h2>}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {
         activeProjects.map((project) => (
@@ -330,9 +335,7 @@ function formatSchedule(start?: string, end?: string): string {
                   >
                     {projectStatusLabel(project.status, locale)}
                   </span>
-                  <span class="text-xs text-gray-500">
-                    {project.location}
-                  </span>
+                  <span class="text-xs text-gray-500">{project.location}</span>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900">
                   {project.title}
@@ -371,16 +374,15 @@ function formatSchedule(start?: string, end?: string): string {
               <a
                 href={localePath(`/projects/${project.slug}`, locale)}
                 class="flex-1 text-center px-3 py-2 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
+                aria-label={`${copy.details}: ${project.title}`}
               >
                 {copy.details}
               </a>
               {isProjectFundable(project.status) ? (
                 <a
-                  href={localePath(
-                    `/donate?project=${project.slug}`,
-                    locale,
-                  )}
+                  href={localePath(`/donate?project=${project.slug}`, locale)}
                   class="flex-1 text-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+                  aria-label={`${copy.donate}: ${project.title}`}
                 >
                   {copy.donate}
                 </a>
@@ -428,7 +430,11 @@ function formatSchedule(start?: string, end?: string): string {
                 </div>
                 <div class="p-5">
                   <span class="font-heading inline-flex px-2 py-0.5 text-xs font-medium rounded-md bg-gray-100 text-gray-600">
-                    {project.archiveReady ? copy.archiveReady : copy.completed}
+                    {project.isAutoArchived
+                      ? copy.autoArchived
+                      : project.archiveReady
+                        ? copy.archiveReady
+                        : copy.completed}
                   </span>
                   <h3 class="mt-3 text-lg font-semibold text-gray-900">
                     {project.title}
@@ -484,5 +490,8 @@ function formatSchedule(start?: string, end?: string): string {
         <p class="mt-1 text-sm text-white/70">{copy.statRaised}</p>
       </div>
     </div>
+    <p class="mt-6 max-w-3xl text-xs leading-relaxed text-white/60">
+      {copy.statsNote}
+    </p>
   </Section>
 </PageLayout>

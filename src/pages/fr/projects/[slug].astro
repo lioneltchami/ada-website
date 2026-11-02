@@ -6,12 +6,16 @@ import { resolveProjectCardImage } from "../../../lib/project-images";
 import {
   getProjectLifecycleState,
   isProjectFundable,
-  projectStatusLabel,
 } from "../../../lib/project-lifecycle";
 import {
   mergeProjectLists,
   normalizeFallbackProjects,
 } from "../../../lib/project-fallbacks";
+import {
+  formatUsdAmount,
+  getPausedProjectMessage,
+  getProjectStatusText,
+} from "../../../lib/project-detail-presentation";
 
 export async function getStaticPaths() {
   let projectData;
@@ -27,6 +31,7 @@ export async function getStaticPaths() {
             title: p.title,
             location: p.location,
             status: lifecycle.status,
+            autoArchived: lifecycle.isAutoCompleted,
             archiveHref: lifecycle.archiveHref,
             archiveReady: lifecycle.archiveReady,
             hasEnded: lifecycle.hasEnded,
@@ -47,10 +52,17 @@ export async function getStaticPaths() {
     projectData = normalizeFallbackProjects({ locale: "fr" });
   }
 
-  return projectData.map((project) => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
+  return projectData.map((project) => {
+    const autoArchived =
+      project.autoArchived ??
+      (project.originalStatus === "active" &&
+        project.status === "completed" &&
+        project.autoArchiveAfterEndDate !== false);
+    return {
+      params: { slug: project.slug },
+      props: { project: { ...project, autoArchived } },
+    };
+  });
 }
 
 const { project } = Astro.props;
@@ -60,7 +72,16 @@ const costPerBeneficiary =
     ? Math.round(project.raised / project.beneficiaries)
     : 0;
 const isCompleted = project.status === "completed";
+const isAutoArchived = Boolean(project.autoArchived);
 const isFundable = isProjectFundable(project.status);
+const fundraisingNote = isFundable
+  ? "Paiement sécurisé · Reçu envoyé par e-mail"
+  : isAutoArchived
+    ? "Projet archivé après sa date de fin ; les dons dédiés sont clôturés."
+    : isCompleted
+      ? "Collecte clôturée pour ce projet."
+      : null;
+const formatUsd = (amount: number) => formatUsdAmount(amount, "fr");
 const statusBadgeClass =
   project.status === "upcoming"
     ? "bg-primary-400/20 text-primary-100 border border-primary-400/30"
@@ -69,14 +90,15 @@ const statusBadgeClass =
       : project.status === "completed"
         ? "bg-gray-400/20 text-gray-200 border border-gray-400/30"
         : "bg-yellow-400/20 text-yellow-200 border border-yellow-400/30";
-const statusBadgeLabel =
-  project.status === "upcoming"
-    ? "◎ À venir"
+const statusBadgeLabel = isAutoArchived
+  ? "○ Archivé"
+  : project.status === "upcoming"
+    ? `◎ ${getProjectStatusText(project.status, false, "fr")}`
     : project.status === "active"
-      ? "● Actif"
+      ? `● ${getProjectStatusText(project.status, false, "fr")}`
       : project.status === "completed"
-        ? "✓ Terminé"
-        : "⏸ En pause";
+        ? `✓ ${getProjectStatusText(project.status, false, "fr")}`
+        : `⏸ ${getProjectStatusText(project.status, false, "fr")}`;
 
 const paragraphs = project.description
   .split(/[.;]\s*(?=[A-Z(])/)
@@ -104,7 +126,7 @@ const paragraphs = project.description
     class="relative py-16 md:py-24 bg-primary-900 text-white"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav aria-label="Breadcrumb" class="mb-6">
+      <nav aria-label="Fil d’Ariane" class="mb-6">
         <ol class="flex items-center gap-1.5 text-sm text-white/70">
           <li>
             <a href="/fr" class="hover:text-white transition-colors">Accueil</a>
@@ -164,10 +186,12 @@ const paragraphs = project.description
         </div>
         <div>
           <p class="font-heading text-xl font-bold text-primary-700">
-            ${project.raised.toLocaleString()}
+            {formatUsd(project.raised)}
           </p>
           <p class="text-xs text-gray-500">
-            {isCompleted ? "Total collecté" : "Collecté à ce jour"}
+            {isCompleted && !isAutoArchived
+              ? "Total collecté (USD)"
+              : "Collecté à ce jour (USD)"}
           </p>
         </div>
         <div>
@@ -175,14 +199,16 @@ const paragraphs = project.description
             {Math.round(progress)}%
           </p>
           <p class="text-xs text-gray-500">
-            {isCompleted ? "Financement final" : "Financé"}
+            {isCompleted && !isAutoArchived
+              ? "Financement final"
+              : "Progression du financement"}
           </p>
         </div>
         <div>
           <p class="font-heading text-xl font-bold text-primary-700">
-            ${costPerBeneficiary}
+            {formatUsd(costPerBeneficiary)}
           </p>
-          <p class="text-xs text-gray-500">Coût par Personne</p>
+          <p class="text-xs text-gray-500">Montant collecté par bénéficiaire (USD, calculé)</p>
         </div>
       </div>
     </div>
@@ -224,9 +250,9 @@ const paragraphs = project.description
               </dd>
             </div>
             <div class="flex items-baseline justify-between gap-4 py-4">
-              <dt class="text-sm text-gray-600">Par Bénéficiaire</dt>
+              <dt class="text-sm text-gray-600">Montant collecté par bénéficiaire (calculé, USD)</dt>
               <dd class="font-heading text-2xl font-bold text-primary-700">
-                ${costPerBeneficiary}
+                {formatUsd(costPerBeneficiary)}
               </dd>
             </div>
           </dl>
@@ -271,15 +297,21 @@ const paragraphs = project.description
           class="p-6 bg-gray-50 rounded-md border border-gray-200 sticky top-24"
         >
           <h3 class="text-lg font-semibold text-gray-900">
-            {isCompleted ? "Projet terminé" : "Progression de la Collecte"}
+            {isAutoArchived
+              ? "Projet archivé après sa date de fin"
+              : project.status === "paused"
+                ? "Collecte en pause"
+              : isCompleted
+                ? "Projet terminé"
+                : "Progression de la collecte (USD)"}
           </h3>
           <div class="mt-4">
             <div class="flex justify-between text-sm mb-2">
               <span class="font-bold text-gray-900"
-                >${project.raised.toLocaleString()}</span
+                >{formatUsd(project.raised)}</span
               >
               <span class="text-gray-500"
-                >sur ${project.goal.toLocaleString()}</span
+                >sur {formatUsd(project.goal)}</span
               >
             </div>
             <div
@@ -303,9 +335,11 @@ const paragraphs = project.description
               {
                 isCompleted
                   ? "Collecte clôturée pour ce projet."
-                  : project.status === "upcoming"
-                    ? `Fenêtre d'action bientôt · objectif $${(project.goal - project.raised).toLocaleString()}`
-                    : `$${(project.goal - project.raised).toLocaleString()} encore nécessaires`
+                  : project.status === "paused"
+                    ? getPausedProjectMessage("fr")
+                    : project.status === "upcoming"
+                      ? `Fenêtre d'action bientôt · objectif ${formatUsd(project.goal - project.raised)}`
+                      : `${formatUsd(project.goal - project.raised)} encore nécessaires`
               }
             </p>
           </div>
@@ -315,25 +349,24 @@ const paragraphs = project.description
               ? `/fr/donate?project=${project.slug}`
               : project.archiveHref || "/fr/projects/archive"}
             class="mt-6 block w-full text-center px-4 py-3.5 text-base font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+            aria-label={
+              isFundable
+                ? `Soutenir ${project.title}`
+                : `Voir les archives du projet ${project.title}`
+            }
           >
             {
               isFundable
                 ? "Soutenir ce Projet"
-                : project.archiveReady
-                  ? "Voir le rapport final"
-                  : "Voir les archives"
+                : "Voir les archives du projet"
             }
           </a>
 
-          <div class="mt-4">
-            <p class="text-xs text-gray-500">
-              {
-                isFundable
-                  ? "Sécurisé · 80% aux programmes · Reçu par email"
-                  : "Ce projet n'accepte plus de dons dédiés."
-              }
-            </p>
-          </div>
+          {fundraisingNote && (
+            <div class="mt-4">
+              <p class="text-xs text-gray-500">{fundraisingNote}</p>
+            </div>
+          )}
         </div>
 
         <!-- Quick Facts -->
@@ -347,7 +380,7 @@ const paragraphs = project.description
             <div class="flex justify-between">
               <dt class="text-xs text-gray-500">Statut</dt>
               <dd class="text-xs font-medium text-gray-900">
-                {projectStatusLabel(project.status, "fr")}
+                {getProjectStatusText(project.status, isAutoArchived, "fr")}
               </dd>
             </div>
             <div class="flex justify-between">
@@ -363,9 +396,9 @@ const paragraphs = project.description
               </dd>
             </div>
             <div class="flex justify-between">
-              <dt class="text-xs text-gray-500">Coût par personne</dt>
+              <dt class="text-xs text-gray-500">Montant collecté par bénéficiaire (USD, calculé)</dt>
               <dd class="text-xs font-medium text-gray-900">
-                ${costPerBeneficiary}
+                {formatUsd(costPerBeneficiary)}
               </dd>
             </div>
             <div class="flex justify-between">
@@ -393,6 +426,7 @@ const paragraphs = project.description
               href={`https://twitter.com/intent/tweet?text=Soutenez ${encodeURIComponent(project.title)} au Cameroun&url=https://apotidev.org/fr/projects/${project.slug}`}
               target="_blank"
               rel="noopener"
+              aria-label={`Partager ${project.title} sur X`}
               class="flex-1 text-center px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >X</a
             >
@@ -400,6 +434,7 @@ const paragraphs = project.description
               href={`https://www.facebook.com/sharer/sharer.php?u=https://apotidev.org/fr/projects/${project.slug}`}
               target="_blank"
               rel="noopener"
+              aria-label={`Partager ${project.title} sur Facebook`}
               class="flex-1 text-center px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >Facebook</a
             >
@@ -407,6 +442,7 @@ const paragraphs = project.description
               href={`https://wa.me/?text=Soutenez ${encodeURIComponent(project.title)} https://apotidev.org/fr/projects/${project.slug}`}
               target="_blank"
               rel="noopener"
+              aria-label={`Partager ${project.title} sur WhatsApp`}
               class="flex-1 text-center px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >WhatsApp</a
             >

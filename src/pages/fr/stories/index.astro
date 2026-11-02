@@ -7,6 +7,7 @@ import {
   getGalleryImages,
   sanityImageUrl,
 } from '../../../lib/sanity';
+import { countStoriesInCategory } from '../../../lib/story-filters';
 
 let posts: any[] = [];
 let galleryPhotos: any[] = [];
@@ -52,18 +53,20 @@ const storyHeroAlt =
     {posts.length > 0 ? (
       <div>
         <!-- Category Filters -->
-        <div class="flex flex-wrap gap-2 mb-8" id="story-filters">
+        <div class="flex flex-wrap gap-2 mb-2" id="story-filters" role="group" aria-label="Filtrer les témoignages par catégorie">
           {categories.map((cat) => (
             <button
               type="button"
               data-filter={cat}
               aria-pressed={cat === 'all' ? "true" : "false"}
-              class:list={["font-heading px-3 py-1.5 text-sm font-medium rounded-md transition-colors", cat === 'all' ? "bg-primary-700 text-white" : "text-gray-700 hover:text-primary-700"]}
+              aria-controls="stories-grid"
+              class="font-heading px-3 py-1.5 text-sm font-medium rounded-md transition-colors bg-gray-100 text-gray-800 hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700 aria-pressed:bg-primary-700 aria-pressed:text-white"
             >
-              {categoryLabels[cat]} ({cat === 'all' ? posts.length : posts.filter(p => p.category === cat).length})
+              {categoryLabels[cat]} ({cat === 'all' ? posts.length : countStoriesInCategory(posts, cat)})
             </button>
           ))}
         </div>
+        <p id="stories-results-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 
         <!-- Posts list -->
         <ul class="divide-y divide-gray-200 border-y border-gray-200" id="stories-grid">
@@ -103,7 +106,7 @@ const storyHeroAlt =
 
   <Section background="gray" padding="md">
     <div>
-      <h3 class="text-lg font-heading font-semibold text-gray-900 mb-4">De notre galerie</h3>
+      <h2 class="text-lg font-heading font-semibold text-gray-900 mb-4">De notre galerie</h2>
       {galleryPhotos.length > 0 && (
         <div class="flex gap-3 mb-4">
           {galleryPhotos.map((img) => (
@@ -121,29 +124,28 @@ const storyHeroAlt =
 </PageLayout>
 
 <script>
+  import { storyFilterAnnouncement } from '../../../lib/story-filters';
+
   const buttons = document.querySelectorAll('#story-filters button');
   const cards = document.querySelectorAll('.story-card');
+  const status = document.getElementById('stories-results-status');
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       const filter = btn.getAttribute('data-filter');
 
       buttons.forEach(b => {
-        b.classList.remove('bg-primary-600', 'text-white');
-        b.classList.add('bg-gray-100', 'text-gray-700');
         b.setAttribute('aria-pressed', 'false');
       });
-      btn.classList.remove('bg-gray-100', 'text-gray-700');
-      btn.classList.add('bg-primary-600', 'text-white');
       btn.setAttribute('aria-pressed', 'true');
 
+      let visibleCount = 0;
       cards.forEach(card => {
-        if (filter === 'all' || card.getAttribute('data-category') === filter) {
-          (card as HTMLElement).style.display = '';
-        } else {
-          (card as HTMLElement).style.display = 'none';
-        }
+        const visible = filter === 'all' || card.getAttribute('data-category') === filter;
+        (card as HTMLElement).hidden = !visible;
+        if (visible) visibleCount += 1;
       });
+      if (status) status.textContent = storyFilterAnnouncement(visibleCount, 'fr');
     });
   });
 </script>

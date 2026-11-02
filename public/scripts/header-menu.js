@@ -5,6 +5,18 @@ const menuLabel = document.getElementById("mobile-menu-label");
 const iconOpen = document.getElementById("menu-icon-open");
 const iconClose = document.getElementById("menu-icon-close");
 const isFrench = document.documentElement.lang === "fr";
+const authLocaleLinks = document.querySelectorAll("[data-auth-locale-switch]");
+const authQueryKeys = [...new URLSearchParams(window.location.search).keys()];
+const authLocaleSwitchIsSafe =
+  window.location.hash === "" && authQueryKeys.every((key) => key === "locale");
+
+if (authLocaleSwitchIsSafe) {
+  authLocaleLinks.forEach((link) => {
+    link.removeAttribute("hidden");
+    link.classList.remove("hidden");
+    if (link.closest("#mobile-menu")) link.classList.add("block");
+  });
+}
 
 window.addEventListener(
   "scroll",

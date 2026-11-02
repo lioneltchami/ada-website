@@ -6,12 +6,16 @@ import { resolveProjectCardImage } from "../../lib/project-images";
 import {
   getProjectLifecycleState,
   isProjectFundable,
-  projectStatusLabel,
 } from "../../lib/project-lifecycle";
 import {
   mergeProjectLists,
   normalizeFallbackArchiveProjects,
 } from "../../lib/project-fallbacks";
+import {
+  formatUsdAmount,
+  getPausedProjectMessage,
+  getProjectStatusText,
+} from "../../lib/project-detail-presentation";
 
 export async function getStaticPaths() {
   let projectData;
@@ -27,6 +31,7 @@ export async function getStaticPaths() {
             title: p.title,
             location: p.location,
             status: lifecycle.status,
+            autoArchived: lifecycle.isAutoCompleted,
             archiveHref: lifecycle.archiveHref,
             archiveReady: lifecycle.archiveReady,
             hasEnded: lifecycle.hasEnded,
@@ -47,10 +52,17 @@ export async function getStaticPaths() {
     projectData = normalizeFallbackArchiveProjects();
   }
 
-  return projectData.map((project) => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
+  return projectData.map((project) => {
+    const autoArchived =
+      project.autoArchived ??
+      (project.originalStatus === "active" &&
+        project.status === "completed" &&
+        project.autoArchiveAfterEndDate !== false);
+    return {
+      params: { slug: project.slug },
+      props: { project: { ...project, autoArchived } },
+    };
+  });
 }
 
 const { project } = Astro.props;
@@ -60,7 +72,16 @@ const costPerBeneficiary =
     ? Math.round(project.raised / project.beneficiaries)
     : 0;
 const isCompleted = project.status === "completed";
+const isAutoArchived = Boolean(project.autoArchived);
 const isFundable = isProjectFundable(project.status);
+const fundraisingNote = isFundable
+  ? "Secure checkout · Receipt emailed"
+  : isAutoArchived
+    ? "This project was archived after its end date; dedicated donations are closed."
+    : isCompleted
+      ? "Fundraising is closed for this project."
+      : null;
+const formatUsd = (amount: number) => formatUsdAmount(amount, "en");
 const statusBadgeClass =
   project.status === "upcoming"
     ? "bg-primary-400/20 text-primary-100 border border-primary-400/30"
@@ -69,14 +90,15 @@ const statusBadgeClass =
       : project.status === "completed"
         ? "bg-gray-400/20 text-gray-200 border border-gray-400/30"
         : "bg-yellow-400/20 text-yellow-200 border border-yellow-400/30";
-const statusBadgeLabel =
-  project.status === "upcoming"
-    ? "◎ Upcoming"
+const statusBadgeLabel = isAutoArchived
+  ? "○ Archived"
+  : project.status === "upcoming"
+    ? `◎ ${getProjectStatusText(project.status, false, "en")}`
     : project.status === "active"
-      ? "● Active"
+      ? `● ${getProjectStatusText(project.status, false, "en")}`
       : project.status === "completed"
-        ? "✓ Completed"
-        : "⏸ Paused";
+        ? `✓ ${getProjectStatusText(project.status, false, "en")}`
+        : `⏸ ${getProjectStatusText(project.status, false, "en")}`;
 
 // Split description into paragraphs for better readability
 const paragraphs = project.description
@@ -165,10 +187,12 @@ const paragraphs = project.description
         </div>
         <div>
           <p class="font-heading text-xl font-bold text-primary-700">
-            ${project.raised.toLocaleString()}
+            {formatUsd(project.raised)}
           </p>
           <p class="text-xs text-gray-500">
-            {isCompleted ? "Final Raised" : "Raised So Far"}
+            {isCompleted && !isAutoArchived
+              ? "Final raised (USD)"
+              : "Raised so far (USD)"}
           </p>
         </div>
         <div>
@@ -176,14 +200,16 @@ const paragraphs = project.description
             {Math.round(progress)}%
           </p>
           <p class="text-xs text-gray-500">
-            {isCompleted ? "Final Funding" : "Funded"}
+            {isCompleted && !isAutoArchived
+              ? "Final funding"
+              : "Funding progress"}
           </p>
         </div>
         <div>
           <p class="font-heading text-xl font-bold text-primary-700">
-            ${costPerBeneficiary}
+            {formatUsd(costPerBeneficiary)}
           </p>
-          <p class="text-xs text-gray-500">Cost Per Person</p>
+          <p class="text-xs text-gray-500">Raised per beneficiary (USD, derived)</p>
         </div>
       </div>
     </div>
@@ -226,9 +252,9 @@ const paragraphs = project.description
               </dd>
             </div>
             <div class="flex items-baseline justify-between gap-4 py-4">
-              <dt class="text-sm text-gray-600">Per Beneficiary</dt>
+              <dt class="text-sm text-gray-600">Amount raised per beneficiary (derived, USD)</dt>
               <dd class="font-heading text-2xl font-bold text-primary-700">
-                ${costPerBeneficiary}
+                {formatUsd(costPerBeneficiary)}
               </dd>
             </div>
           </dl>
@@ -271,15 +297,21 @@ const paragraphs = project.description
           class="p-6 bg-gray-50 rounded-md border border-gray-200 sticky top-24"
         >
           <h3 class="text-lg font-semibold text-gray-900">
-            {isCompleted ? "Project Completed" : "Fundraising Progress"}
+            {isAutoArchived
+              ? "Project archived after its end date"
+              : project.status === "paused"
+                ? "Fundraising paused"
+              : isCompleted
+                ? "Project Completed"
+                : "Fundraising Progress (USD)"}
           </h3>
           <div class="mt-4">
             <div class="flex justify-between text-sm mb-2">
               <span class="font-bold text-gray-900"
-                >${project.raised.toLocaleString()}</span
+                >{formatUsd(project.raised)}</span
               >
               <span class="text-gray-500"
-                >of ${project.goal.toLocaleString()}</span
+                >of {formatUsd(project.goal)}</span
               >
             </div>
             <div
@@ -303,9 +335,11 @@ const paragraphs = project.description
               {
                 isCompleted
                   ? "Fundraising closed for this project."
-                  : project.status === "upcoming"
-                    ? `Outreach window opens soon · $${(project.goal - project.raised).toLocaleString()} goal`
-                    : `$${(project.goal - project.raised).toLocaleString()} still needed`
+                  : project.status === "paused"
+                    ? getPausedProjectMessage("en")
+                    : project.status === "upcoming"
+                      ? `Outreach window opens soon · ${formatUsd(project.goal - project.raised)} goal`
+                      : `${formatUsd(project.goal - project.raised)} still needed`
               }
             </p>
           </div>
@@ -315,25 +349,24 @@ const paragraphs = project.description
               ? `/donate?project=${project.slug}`
               : project.archiveHref || "/projects/archive"}
             class="mt-6 block w-full text-center px-4 py-3.5 text-base font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+            aria-label={
+              isFundable
+                ? `Support ${project.title}`
+                : `View archive for ${project.title}`
+            }
           >
             {
               isFundable
                 ? "Support This Project"
-                : project.archiveReady
-                  ? "View Final Report"
-                  : "View Project Archive"
+                : "View Project Archive"
             }
           </a>
 
-          <div class="mt-4">
-            <p class="text-xs text-gray-500">
-              {
-                isFundable
-                  ? "Secure · 80% to programs · Receipt emailed"
-                  : "This project is no longer accepting project-specific donations."
-              }
-            </p>
-          </div>
+          {fundraisingNote && (
+            <div class="mt-4">
+              <p class="text-xs text-gray-500">{fundraisingNote}</p>
+            </div>
+          )}
         </div>
 
         <!-- Quick Facts -->
@@ -347,7 +380,7 @@ const paragraphs = project.description
             <div class="flex justify-between">
               <dt class="text-xs text-gray-500">Status</dt>
               <dd class="text-xs font-medium text-gray-900">
-                {projectStatusLabel(project.status)}
+                {getProjectStatusText(project.status, isAutoArchived, "en")}
               </dd>
             </div>
             <div class="flex justify-between">
@@ -363,9 +396,9 @@ const paragraphs = project.description
               </dd>
             </div>
             <div class="flex justify-between">
-              <dt class="text-xs text-gray-500">Cost per person</dt>
+              <dt class="text-xs text-gray-500">Raised per beneficiary (USD, derived)</dt>
               <dd class="text-xs font-medium text-gray-900">
-                ${costPerBeneficiary}
+                {formatUsd(costPerBeneficiary)}
               </dd>
             </div>
             <div class="flex justify-between">
@@ -393,6 +426,7 @@ const paragraphs = project.description
               href={`https://twitter.com/intent/tweet?text=Support ${encodeURIComponent(project.title)} in Cameroon&url=https://apotidev.org/projects/${project.slug}`}
               target="_blank"
               rel="noopener"
+              aria-label={`Share ${project.title} on X`}
               class="flex-1 text-center px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >X</a
             >
@@ -400,6 +434,7 @@ const paragraphs = project.description
               href={`https://www.facebook.com/sharer/sharer.php?u=https://apotidev.org/projects/${project.slug}`}
               target="_blank"
               rel="noopener"
+              aria-label={`Share ${project.title} on Facebook`}
               class="flex-1 text-center px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >Facebook</a
             >
@@ -407,6 +442,7 @@ const paragraphs = project.description
               href={`https://wa.me/?text=Support ${encodeURIComponent(project.title)} https://apotidev.org/projects/${project.slug}`}
               target="_blank"
               rel="noopener"
+              aria-label={`Share ${project.title} on WhatsApp`}
               class="flex-1 text-center px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >WhatsApp</a
             >

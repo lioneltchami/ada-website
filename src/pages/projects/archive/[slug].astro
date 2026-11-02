@@ -4,6 +4,11 @@ import Section from '../../../components/layout/Section.astro';
 import { sanityImageUrl } from '../../../lib/sanity';
 import { loadProjectArchiveEntries } from "../../../lib/project-archive";
 import PhotoLightbox from '../../../components/islands/PhotoLightbox';
+import {
+  formatUsdAmount,
+  getArchiveRecordStatusText,
+  getProjectReportLabel,
+} from '../../../lib/project-detail-presentation';
 
 export async function getStaticPaths() {
   const records = await loadProjectArchiveEntries();
@@ -15,6 +20,8 @@ const demoLabels: Record<string, string> = { widows: 'Widows', orphans: 'Orphans
 const photoUrl = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._ref, 800) : '';
 const galleryPhotos = (record.photos || []).filter((p: any) => p?.asset?._ref).map((p: any) => ({ url: sanityImageUrl(p.asset._ref, 800), caption: p.caption || '' }));
 const isAutoArchived = Boolean(record.autoArchived);
+const formatUsd = (amount: number) => formatUsdAmount(amount, 'en');
+const statusLabel = getArchiveRecordStatusText(record.status, isAutoArchived, 'en');
 ---
 <!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
@@ -31,8 +38,8 @@ const isAutoArchived = Boolean(record.autoArchived);
         </ol>
       </nav>
       <div class="flex flex-wrap items-center gap-2 mb-4">
-        <span class:list={["px-3 py-1 text-xs font-semibold rounded-md", record.status === 'completed' ? 'bg-green-400/20 text-green-200 border border-green-400/30' : record.status === 'ongoing' ? 'bg-yellow-400/20 text-yellow-200 border border-yellow-400/30' : 'bg-gray-400/20 text-gray-200 border border-gray-400/30']}>
-          {record.status === 'completed' ? '✓ Completed' : record.status === 'ongoing' ? '● Ongoing' : '○ Planned'}
+        <span class:list={["px-3 py-1 text-xs font-semibold rounded-md", record.status === 'completed' && !isAutoArchived ? 'bg-green-400/20 text-green-200 border border-green-400/30' : record.status === 'ongoing' ? 'bg-yellow-400/20 text-yellow-200 border border-yellow-400/30' : 'bg-gray-400/20 text-gray-200 border border-gray-400/30']}>
+          {record.status === 'completed' && !isAutoArchived ? '✓ Completed' : record.status === 'ongoing' ? '● Ongoing' : record.status === 'planned' ? '○ Planned' : '○ Archived'}
         </span>
         <span class="px-3 py-1 text-xs font-medium bg-white/10 rounded-md border border-white/20">{demoLabels[record.demographic]}</span>
         <span class="text-sm text-white/70">{record.year}</span>
@@ -45,7 +52,7 @@ const isAutoArchived = Boolean(record.autoArchived);
   <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="md:col-span-2">
-        {photoUrl && <img src={photoUrl} alt={record.title} class="w-full rounded-xl mb-6" loading="eager" />}
+        {photoUrl && <img src={photoUrl} alt={record.photo?.alt || record.title} class="w-full rounded-xl mb-6" loading="eager" />}
         {record.description && (
           <div class="prose prose-gray">
             {record.description.split('\n').filter(Boolean).map(p => <p class="text-gray-600 leading-relaxed">{p}</p>)}
@@ -67,24 +74,24 @@ const isAutoArchived = Boolean(record.autoArchived);
         {galleryPhotos.length > 0 && (
           <div class="mt-8">
             <h2 class="text-lg font-heading font-semibold text-gray-900 mb-4">Project Photos</h2>
-            <PhotoLightbox client:visible photos={galleryPhotos} />
+            <PhotoLightbox client:visible photos={galleryPhotos} locale="en" projectTitle={record.title} />
           </div>
         )}
       </div>
       <div class="space-y-6">
         {isAutoArchived && (
           <div class="p-4 rounded-xl border border-primary-100 bg-primary-50 text-sm text-primary-900">
-            This archive page was generated automatically from the live project record after its end date passed.
+            This archive entry was generated automatically from the project record after its listed end date. It does not confirm project completion or outcomes.
           </div>
         )}
         <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
-          <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Project Details</h3>
+          <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Project Details</h2>
           <dl class="mt-4 space-y-3">
-            <div class="flex justify-between"><dt class="text-xs text-gray-500">Status</dt><dd class="text-xs font-medium text-gray-900 capitalize">{record.status}</dd></div>
+            <div class="flex justify-between"><dt class="text-xs text-gray-500">Status</dt><dd class="text-xs font-medium text-gray-900">{statusLabel}</dd></div>
             <div class="flex justify-between"><dt class="text-xs text-gray-500">Demographic</dt><dd class="text-xs font-medium text-gray-900">{demoLabels[record.demographic]}</dd></div>
             <div class="flex justify-between"><dt class="text-xs text-gray-500">Year</dt><dd class="text-xs font-medium text-gray-900">{record.year}</dd></div>
             {record.beneficiaries && <div class="flex justify-between"><dt class="text-xs text-gray-500">Beneficiaries</dt><dd class="text-xs font-medium text-gray-900">{record.beneficiaries}</dd></div>}
-            {record.budget && <div class="flex justify-between"><dt class="text-xs text-gray-500">Budget</dt><dd class="text-xs font-medium text-gray-900">${Number(record.budget).toLocaleString()}</dd></div>}
+            {record.budget && <div class="flex justify-between"><dt class="text-xs text-gray-500">Budget (USD)</dt><dd class="text-xs font-medium text-gray-900">{formatUsd(Number(record.budget))}</dd></div>}
             {record.location && <div class="flex justify-between"><dt class="text-xs text-gray-500">Location</dt><dd class="text-xs font-medium text-gray-900">{record.location}</dd></div>}
             {record.startDate && <div class="flex justify-between"><dt class="text-xs text-gray-500">Started</dt><dd class="text-xs font-medium text-gray-900">{new Date(record.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</dd></div>}
             {record.endDate && <div class="flex justify-between"><dt class="text-xs text-gray-500">Ended</dt><dd class="text-xs font-medium text-gray-900">{new Date(record.endDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</dd></div>}
@@ -92,15 +99,15 @@ const isAutoArchived = Boolean(record.autoArchived);
         </div>
         {(record.torUrl || record.reportUrl || record.financialReportUrl) && (
           <div class="p-5 bg-primary-50 rounded-xl border border-primary-100">
-            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Documents</h3>
+            <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Documents</h2>
             <div class="mt-3 space-y-2">
               {record.torUrl && <a href={record.torUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📄 Terms of Reference (PDF)</a>}
-              {record.reportUrl && <a href={record.reportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📊 Final Report (PDF)</a>}
+              {record.reportUrl && <a href={record.reportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📊 {getProjectReportLabel('en')}</a>}
               {record.financialReportUrl && <a href={record.financialReportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">💰 Financial Report (PDF)</a>}
             </div>
           </div>
         )}
-        <a href="/donate" class="block w-full text-center px-4 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors">Support Our Work</a>
+        <a href="/donate" aria-label={`Support ADA's general work, project archive: ${record.title}`} class="block w-full text-center px-4 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors">Support Our Work</a>
       </div>
     </div>
   </Section>

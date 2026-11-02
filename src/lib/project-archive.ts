@@ -50,8 +50,16 @@ export interface ProjectArchiveEntry {
   endDate?: string;
   outcomes?: string[];
   outcomesFr?: string[];
-  photo?: { asset?: { _ref?: string } | null; alt?: string } | null;
-  photos?: { asset?: { _ref?: string } | null; caption?: string; captionFr?: string }[];
+  photo?: {
+    asset?: { _ref?: string } | null;
+    alt?: string;
+    altFr?: string;
+  } | null;
+  photos?: {
+    asset?: { _ref?: string } | null;
+    caption?: string;
+    captionFr?: string;
+  }[];
   torUrl?: string;
   reportUrl?: string;
   financialReportUrl?: string;
@@ -59,6 +67,14 @@ export interface ProjectArchiveEntry {
   hasReport?: boolean;
   href?: string;
   autoArchived?: boolean;
+}
+
+export function countOwnerMarkedCompletions(
+  entries: readonly Pick<ProjectArchiveEntry, "status" | "autoArchived">[],
+): number {
+  return entries.filter(
+    (entry) => entry.status === "completed" && !entry.autoArchived,
+  ).length;
 }
 
 const DEMOGRAPHIC_ORDER: ProjectDemographic[] = [
@@ -319,7 +335,10 @@ function deriveArchiveYear(project: SanityProject): number {
   return Number(sourceDate.slice(0, 4));
 }
 
-export function toAutoArchiveEntry(project: SanityProject): ProjectArchiveEntry {
+export function toAutoArchiveEntry(
+  project: SanityProject,
+  lifecycle = getProjectLifecycleState(project),
+): ProjectArchiveEntry {
   return {
     slug: { current: project.slug.current },
     title: project.title,
@@ -335,7 +354,23 @@ export function toAutoArchiveEntry(project: SanityProject): ProjectArchiveEntry 
     startDate: project.startDate,
     endDate: project.endDate,
     photo: project.mainImage || null,
-    autoArchived: true,
+    autoArchived: lifecycle.isAutoCompleted,
+  };
+}
+
+export function toFallbackArchiveEntry(
+  record: ProjectArchiveDocument,
+): ProjectArchiveEntry {
+  return {
+    slug: { current: record.slug },
+    title: record.title,
+    titleFr: record.titleFr || record.title,
+    demographic: record.demographic,
+    year: record.year,
+    status: "completed",
+    description: record.title,
+    descriptionFr: record.titleFr || record.title,
+    autoArchived: false,
   };
 }
 
@@ -390,7 +425,7 @@ export async function loadProjectArchiveEntries(): Promise<
         endDate,
         outcomes,
         outcomesFr,
-        photo { asset { _ref }, alt },
+        photo { asset { _ref }, alt, altFr },
         photos[] { asset { _ref }, caption, captionFr },
         "hasToR": defined(termsOfReference),
         "hasReport": defined(finalReport),
@@ -414,7 +449,7 @@ export async function loadProjectArchiveEntries(): Promise<
         lifecycle: getProjectLifecycleState(project),
       }))
       .filter(({ lifecycle }) => lifecycle.status === "completed")
-      .map(({ project }) => toAutoArchiveEntry(project));
+      .map(({ project, lifecycle }) => toAutoArchiveEntry(project, lifecycle));
     const seen = new Set(records.map((record) => record.slug.current));
     records = [
       ...records,
@@ -437,17 +472,7 @@ export async function loadProjectArchiveEntries(): Promise<
   }
 
   if (!records.length) {
-    records = FALLBACK_RECORDS.map((record) => ({
-      slug: { current: record.slug },
-      title: record.title,
-      titleFr: record.title,
-      demographic: record.demographic,
-      year: record.year,
-      status: "completed",
-      description: record.title,
-      descriptionFr: record.title,
-      autoArchived: true,
-    }));
+    records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
   }
 
   return records.map(withCanonicalProjectDocuments);

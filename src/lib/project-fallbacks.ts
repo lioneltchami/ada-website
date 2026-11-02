@@ -22,6 +22,7 @@ export function normalizeFallbackProjects(
       originalStatus: p.status,
       archiveHref: lifecycle.archiveHref,
       archiveReady: lifecycle.archiveReady,
+      isAutoArchived: lifecycle.isAutoCompleted,
       hasEnded: lifecycle.hasEnded,
       isUpcoming: lifecycle.isUpcoming,
       startDate: p.startDate,
