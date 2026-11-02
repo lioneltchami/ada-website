@@ -20,7 +20,26 @@ export interface DonationRecord {
   staff_follow_up_sent_at?: string | null;
   follow_up_due_at?: string | null;
   follow_up_reminder_sent_at?: string | null;
+  follow_up_reminder_outbox_id?: string | null;
   follow_up_status?: "pending_30_day_update" | "sent" | "not_required";
+}
+
+export type DonationEmailOutboxKind =
+  | "donor_receipt"
+  | "staff_follow_up"
+  | "follow_up_digest";
+
+export interface DonationEmailOutboxRecord {
+  id: string;
+  donation_id: string | null;
+  kind: DonationEmailOutboxKind;
+  idempotency_key: string;
+  email_payload: Record<string, unknown>;
+  payload_sha256: string;
+  status: "pending" | "processing" | "sent" | "needs_review";
+  attempt_count: number;
+  first_attempt_at: string | null;
+  lease_token: string | null;
 }
 
 let adminClient: SupabaseClient | null = null;
@@ -198,6 +217,119 @@ export async function saveDonationRecord(
   if (error) throw new Error(`Donation persistence failed: ${error.message}`);
 }
 
+export async function persistDonationAndEnqueueEmails(input: {
+  donation: DonationRecord;
+  receiptPayload: Record<string, unknown>;
+  receiptPayloadSha256: string;
+  staffPayload: Record<string, unknown>;
+  staffPayloadSha256: string;
+}): Promise<{
+  donationId: string;
+  receiptOutboxId: string | null;
+  staffOutboxId: string | null;
+} | null> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    console.log("[donations] Would persist donation and enqueue email jobs");
+    return null;
+  }
+
+  const { data, error } = await supabase.rpc("persist_donation_email_outbox", {
+    p_donation: input.donation,
+    p_receipt_payload: input.receiptPayload,
+    p_receipt_sha256: input.receiptPayloadSha256,
+    p_staff_payload: input.staffPayload,
+    p_staff_sha256: input.staffPayloadSha256,
+  });
+  if (error) {
+    throw new Error(`Donation outbox enqueue failed: ${error.message}`);
+  }
+
+  const result = Array.isArray(data) ? data[0] : data;
+  if (!result?.donation_id) {
+    throw new Error("Donation outbox enqueue returned no donation ID");
+  }
+  return {
+    donationId: result.donation_id,
+    receiptOutboxId: result.receipt_outbox_id || null,
+    staffOutboxId: result.staff_outbox_id || null,
+  };
+}
+
+export async function enqueueFollowUpDigest(input: {
+  donationIds: string[];
+  emailPayload: Record<string, unknown>;
+  payloadSha256: string;
+  now?: Date;
+}): Promise<string | null> {
+  if (input.donationIds.length === 0) return null;
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase.rpc("enqueue_follow_up_digest", {
+    p_donation_ids: input.donationIds,
+    p_email_payload: input.emailPayload,
+    p_payload_sha256: input.payloadSha256,
+    p_now: (input.now || new Date()).toISOString(),
+  });
+  if (error)
+    throw new Error(`Follow-up digest enqueue failed: ${error.message}`);
+  return typeof data === "string" ? data : null;
+}
+
+export async function claimDonationEmailOutbox(
+  input: {
+    limit?: number;
+    onlyIds?: string[];
+  } = {},
+): Promise<DonationEmailOutboxRecord[]> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("claim_donation_email_outbox", {
+    p_limit: input.limit || 20,
+    p_only_ids: input.onlyIds?.length ? input.onlyIds : null,
+  });
+  if (error)
+    throw new Error(`Donation email outbox claim failed: ${error.message}`);
+  return (data || []) as DonationEmailOutboxRecord[];
+}
+
+export async function completeDonationEmailOutbox(input: {
+  outboxId: string;
+  leaseToken: string;
+  providerMessageId: string | null;
+}): Promise<boolean> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return false;
+  const { data, error } = await supabase.rpc("complete_donation_email_outbox", {
+    p_outbox_id: input.outboxId,
+    p_lease_token: input.leaseToken,
+    p_provider_message_id: input.providerMessageId,
+  });
+  if (error)
+    throw new Error(`Donation email completion failed: ${error.message}`);
+  return data === true;
+}
+
+export async function failDonationEmailOutbox(input: {
+  outboxId: string;
+  leaseToken: string;
+  error: string;
+  needsReview?: boolean;
+}): Promise<string> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return "not_persisted";
+  const { data, error } = await supabase.rpc("fail_donation_email_outbox", {
+    p_outbox_id: input.outboxId,
+    p_lease_token: input.leaseToken,
+    p_error: input.error.slice(0, 2000),
+    p_needs_review: input.needsReview || false,
+  });
+  if (error)
+    throw new Error(`Donation email retry scheduling failed: ${error.message}`);
+  return String(data);
+}
+
 function stripeReferenceFilter(reference: {
   stripePaymentIntentId?: string | null;
   stripeInvoiceId?: string | null;
@@ -358,6 +490,7 @@ export async function getDueDonationFollowUps(
     .from("donations")
     .select("*")
     .eq("follow_up_status", "pending_30_day_update")
+    .is("follow_up_reminder_outbox_id", null)
     .lte("follow_up_due_at", now.toISOString())
     .or(
       `follow_up_reminder_sent_at.is.null,follow_up_reminder_sent_at.lt.${reminderBefore.toISOString()}`,

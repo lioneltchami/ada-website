@@ -9,6 +9,10 @@ const sendSponsorInquiryNotification = vi.fn();
 const sendDonationFollowUpDigest = vi.fn();
 const getDueDonationFollowUps = vi.fn();
 const markDonationFollowUpReminderSent = vi.fn();
+const enqueueFollowUpDigest = vi.fn();
+const createDonationFollowUpDigestPayload = vi.fn();
+const sha256EmailPayload = vi.fn();
+const processDonationEmailOutbox = vi.fn();
 
 vi.mock("../src/lib/stripe", () => ({
   getStripe: () => ({
@@ -21,11 +25,18 @@ vi.mock("../src/lib/stripe", () => ({
 vi.mock("../src/lib/email", () => ({
   sendSponsorInquiryNotification,
   sendDonationFollowUpDigest,
+  createDonationFollowUpDigestPayload,
 }));
 
 vi.mock("../src/lib/donations", () => ({
+  enqueueFollowUpDigest,
   getDueDonationFollowUps,
   markDonationFollowUpReminderSent,
+}));
+
+vi.mock("../src/lib/donation-email-outbox", () => ({
+  sha256EmailPayload,
+  processDonationEmailOutbox,
 }));
 
 function jsonRequest(body: unknown, origin = "https://apotidev.org") {
@@ -388,6 +399,10 @@ describe("donation follow-up cron route", () => {
     getDueDonationFollowUps.mockReset();
     markDonationFollowUpReminderSent.mockReset();
     sendDonationFollowUpDigest.mockReset();
+    enqueueFollowUpDigest.mockReset();
+    createDonationFollowUpDigestPayload.mockReset();
+    sha256EmailPayload.mockReset();
+    processDonationEmailOutbox.mockReset();
   });
 
   it("rejects requests without the cron secret", async () => {
@@ -419,8 +434,19 @@ describe("donation follow-up cron route", () => {
         follow_up_due_at: "2026-06-29T12:00:00.000Z",
       },
     ]);
-    sendDonationFollowUpDigest.mockResolvedValue({ success: true });
-    markDonationFollowUpReminderSent.mockResolvedValue(undefined);
+    createDonationFollowUpDigestPayload.mockReturnValue({
+      to: "info@apotidev.org",
+      subject: "Donation follow-ups due: 1",
+      text: "fixture digest",
+    });
+    sha256EmailPayload.mockResolvedValue("a".repeat(64));
+    enqueueFollowUpDigest.mockResolvedValue("outbox_123");
+    processDonationEmailOutbox.mockResolvedValue({
+      claimed: 1,
+      sent: 1,
+      deferred: 0,
+      staleLease: 0,
+    });
     const { POST } = await import("../src/pages/api/cron/donation-followups");
 
     const response = await POST({
@@ -435,23 +461,27 @@ describe("donation follow-up cron route", () => {
       reminderMarkedCount: 1,
       dryRun: false,
     });
-    expect(sendDonationFollowUpDigest).toHaveBeenCalledWith(
+    expect(createDonationFollowUpDigestPayload).toHaveBeenCalledWith(
       expect.objectContaining({
         donations: expect.arrayContaining([
           expect.objectContaining({ id: "don_123" }),
         ]),
+        generatedAt: expect.any(Date),
       }),
     );
-    expect(markDonationFollowUpReminderSent).toHaveBeenCalledWith(
-      ["don_123"],
-      expect.any(Date),
+    expect(enqueueFollowUpDigest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        donationIds: ["don_123"],
+        payloadSha256: "a".repeat(64),
+      }),
     );
-    expect(sendDonationFollowUpDigest.mock.invocationCallOrder[0]).toBeLessThan(
-      markDonationFollowUpReminderSent.mock.invocationCallOrder[0],
-    );
+    expect(processDonationEmailOutbox).toHaveBeenCalledWith({
+      limit: 1,
+      onlyIds: ["outbox_123"],
+    });
   });
 
-  it("surfaces reminder-mark failures after the digest has already been sent", async () => {
+  it("leaves a durably queued digest for outbox retry when a worker defers it", async () => {
     vi.stubEnv("DONATION_FOLLOWUP_CRON_SECRET", "cron_secret");
     getDueDonationFollowUps.mockResolvedValue([
       {
@@ -466,24 +496,36 @@ describe("donation follow-up cron route", () => {
         follow_up_due_at: "2026-06-29T12:00:00.000Z",
       },
     ]);
-    sendDonationFollowUpDigest.mockResolvedValue({ success: true });
-    markDonationFollowUpReminderSent.mockRejectedValue(
-      new Error("fixture marker write failure"),
-    );
+    createDonationFollowUpDigestPayload.mockReturnValue({
+      to: "info@apotidev.org",
+      subject: "Donation follow-ups due: 1",
+      text: "fixture digest",
+    });
+    sha256EmailPayload.mockResolvedValue("b".repeat(64));
+    enqueueFollowUpDigest.mockResolvedValue("outbox_456");
+    processDonationEmailOutbox.mockResolvedValue({
+      claimed: 1,
+      sent: 0,
+      deferred: 1,
+      staleLease: 0,
+    });
     const { POST } = await import("../src/pages/api/cron/donation-followups");
 
-    await expect(
-      POST({
-        request: cronRequest(),
-        url: new URL("https://apotidev.org/api/cron/donation-followups"),
-      } as any),
-    ).rejects.toThrow("fixture marker write failure");
+    const response = await POST({
+      request: cronRequest(),
+      url: new URL("https://apotidev.org/api/cron/donation-followups"),
+    } as any);
 
-    expect(sendDonationFollowUpDigest).toHaveBeenCalledTimes(1);
-    expect(markDonationFollowUpReminderSent).toHaveBeenCalledTimes(1);
-    expect(sendDonationFollowUpDigest.mock.invocationCallOrder[0]).toBeLessThan(
-      markDonationFollowUpReminderSent.mock.invocationCallOrder[0],
-    );
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      ok: true,
+      outboxId: "outbox_456",
+      reminderMarkedCount: 0,
+    });
+    expect(processDonationEmailOutbox).toHaveBeenCalledWith({
+      limit: 1,
+      onlyIds: ["outbox_456"],
+    });
   });
 
   it("does not mark reminders during dry runs", async () => {
@@ -515,6 +557,8 @@ describe("donation follow-up cron route", () => {
     expect(response.status).toBe(200);
     expect(sendDonationFollowUpDigest).not.toHaveBeenCalled();
     expect(markDonationFollowUpReminderSent).not.toHaveBeenCalled();
+    expect(enqueueFollowUpDigest).not.toHaveBeenCalled();
+    expect(processDonationEmailOutbox).not.toHaveBeenCalled();
   });
 });
 
