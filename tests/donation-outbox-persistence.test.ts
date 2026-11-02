@@ -222,6 +222,7 @@ describe("proposed outbox migration contract (static source checks)", () => {
     expect(sql).toContain("follow_up_reminder_outbox_id = v_outbox_id");
     expect(sql).toContain("interval '23 hours'");
     expect(sql).toContain("attempt_count >= 6");
+    expect(sql).toContain("email_payload = '{}'::jsonb");
     expect(sql).toContain("Digest completion reservation mismatch");
   });
 });

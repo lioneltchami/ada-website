@@ -330,6 +330,7 @@ as $$
 begin
   update public.donation_email_outbox
      set status = 'needs_review', lease_token = null, lease_expires_at = null,
+         email_payload = '{}'::jsonb,
          last_error = coalesce(last_error, 'Automatic retry safety window expired')
    where status in ('pending', 'processing')
      and (attempt_count >= 6
