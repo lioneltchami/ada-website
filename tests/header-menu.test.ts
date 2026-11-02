@@ -37,8 +37,16 @@ describe("mobile header menu delivery", () => {
 
   it("keeps auth locale links hidden around callback hashes or extra query values", () => {
     for (const location of [
-      { hash: "#access_token=redacted", search: "?locale=fr" },
-      { hash: "", search: "?locale=fr&code=redacted" },
+      {
+        hash: "#access_token=redacted",
+        search: "?locale=fr",
+        pathname: "/auth/register",
+      },
+      {
+        hash: "",
+        search: "?locale=fr&code=redacted",
+        pathname: "/auth/register",
+      },
     ]) {
       const classes = new Set(["hidden"]);
       const link = {
@@ -91,11 +99,61 @@ describe("mobile header menu delivery", () => {
       addEventListener: () => undefined,
     };
     const window = {
-      location: { hash: "", search: "?locale=fr" },
+      location: { hash: "", search: "?locale=fr", pathname: "/auth/register" },
       addEventListener: () => undefined,
     };
     runInNewContext(menuScript, { document, window, URLSearchParams });
     expect(link.revealed).toBe(true);
     expect(classes.has("hidden")).toBe(false);
+  });
+
+  it("preserves only a recognized sponsor tier on the runtime locale switch", () => {
+    const links = [{ href: "/fr/sponsor/inquiry/" }];
+    const document = {
+      documentElement: { lang: "en" },
+      getElementById: () => null,
+      querySelectorAll: (selector: string) =>
+        selector === "[data-locale-switch]" ? links : [],
+      addEventListener: () => undefined,
+    };
+    const window = {
+      location: {
+        hash: "",
+        origin: "https://apotidev.org",
+        pathname: "/sponsor/inquiry/",
+        search: "?budgetRange=%242%2C500-%245%2C000&token=do-not-copy",
+      },
+      addEventListener: () => undefined,
+    };
+
+    runInNewContext(menuScript, { document, window, URL, URLSearchParams, Set });
+
+    expect(links[0].href).toBe(
+      "/fr/sponsor/inquiry/?budgetRange=%242%2C500-%245%2C000",
+    );
+  });
+
+  it("does not copy an unrecognized sponsor query value into locale links", () => {
+    const links = [{ href: "/fr/sponsor/inquiry/" }];
+    const document = {
+      documentElement: { lang: "en" },
+      getElementById: () => null,
+      querySelectorAll: (selector: string) =>
+        selector === "[data-locale-switch]" ? links : [],
+      addEventListener: () => undefined,
+    };
+    const window = {
+      location: {
+        hash: "",
+        origin: "https://apotidev.org",
+        pathname: "/sponsor/inquiry/",
+        search: "?budgetRange=%242%2C500-%245%2C000%20OR%20secret&token=do-not-copy",
+      },
+      addEventListener: () => undefined,
+    };
+
+    runInNewContext(menuScript, { document, window, URL, URLSearchParams, Set });
+
+    expect(links[0].href).toBe("/fr/sponsor/inquiry/");
   });
 });
