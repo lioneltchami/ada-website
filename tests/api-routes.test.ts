@@ -446,6 +446,44 @@ describe("donation follow-up cron route", () => {
       ["don_123"],
       expect.any(Date),
     );
+    expect(sendDonationFollowUpDigest.mock.invocationCallOrder[0]).toBeLessThan(
+      markDonationFollowUpReminderSent.mock.invocationCallOrder[0],
+    );
+  });
+
+  it("surfaces reminder-mark failures after the digest has already been sent", async () => {
+    vi.stubEnv("DONATION_FOLLOWUP_CRON_SECRET", "cron_secret");
+    getDueDonationFollowUps.mockResolvedValue([
+      {
+        id: "don_123",
+        donor_email: "donor@example.com",
+        donor_name: "Ada Donor",
+        amount_cents: 2500,
+        currency: "usd",
+        frequency: "one-time",
+        project_slug: "education-drive",
+        paid_at: "2026-05-30T12:00:00.000Z",
+        follow_up_due_at: "2026-06-29T12:00:00.000Z",
+      },
+    ]);
+    sendDonationFollowUpDigest.mockResolvedValue({ success: true });
+    markDonationFollowUpReminderSent.mockRejectedValue(
+      new Error("fixture marker write failure"),
+    );
+    const { POST } = await import("../src/pages/api/cron/donation-followups");
+
+    await expect(
+      POST({
+        request: cronRequest(),
+        url: new URL("https://apotidev.org/api/cron/donation-followups"),
+      } as any),
+    ).rejects.toThrow("fixture marker write failure");
+
+    expect(sendDonationFollowUpDigest).toHaveBeenCalledTimes(1);
+    expect(markDonationFollowUpReminderSent).toHaveBeenCalledTimes(1);
+    expect(sendDonationFollowUpDigest.mock.invocationCallOrder[0]).toBeLessThan(
+      markDonationFollowUpReminderSent.mock.invocationCallOrder[0],
+    );
   });
 
   it("does not mark reminders during dry runs", async () => {
