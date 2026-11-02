@@ -5,6 +5,7 @@ import Section from '../../components/layout/Section.astro';
 import { sanityImageUrl } from '../../lib/sanity';
 import { createClient } from '@sanity/client';
 import { countStoriesInCategory } from '../../lib/story-filters';
+import { resolveStoryImageAlt } from '../../lib/story-image-alt';
 
 let posts: any[] = [];
 try {
@@ -38,11 +39,11 @@ const storyHeroUrl = storyHero?.personPhoto?.asset?._ref
   : storyHero?.photo?.asset?._ref
     ? sanityImageUrl(storyHero.photo.asset._ref, 1400)
     : '';
-const storyHeroAlt =
-  storyHero?.personPhoto?.alt ||
-  storyHero?.photo?.alt ||
-  storyHero?.title ||
-  'ADA stories';
+const storyHeroAlt = resolveStoryImageAlt(
+  storyHero?.personPhoto?.alt || storyHero?.photo?.alt,
+  storyHero?.title,
+  'ADA stories',
+);
 ---
 <!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
@@ -82,7 +83,7 @@ const storyHeroAlt =
               <a href={`/stories/${post.slug.current}`} class="group flex flex-col sm:flex-row gap-4 py-6">
                 {post.personPhoto?.asset?._ref && (
                   <div class="w-full sm:w-36 h-28 shrink-0 overflow-hidden rounded-md bg-gray-100">
-                    <img src={sanityImageUrl(post.personPhoto.asset._ref, 400)} alt={post.personPhoto?.alt || post.title} class="w-full h-full object-cover" loading="lazy" />
+                    <img src={sanityImageUrl(post.personPhoto.asset._ref, 400)} alt={resolveStoryImageAlt(post.personPhoto?.alt, post.title, 'Story image')} class="w-full h-full object-cover" loading="lazy" />
                   </div>
                 )}
                 <div class="min-w-0 flex-1">
@@ -118,7 +119,7 @@ const storyHeroAlt =
         <div class="flex gap-3 mb-4">
           {galleryPhotos.map((img) => (
             <a href="/gallery" class="block w-20 h-20 rounded-lg overflow-hidden hover:opacity-80 transition-opacity">
-              <img src={sanityImageUrl(img.photo.asset._ref, 160)} alt={img.photo?.alt || img.title} class="w-full h-full object-cover" loading="lazy" />
+              <img src={sanityImageUrl(img.photo.asset._ref, 160)} alt={resolveStoryImageAlt(img.photo?.alt, img.title, 'ADA gallery photo')} class="w-full h-full object-cover" loading="lazy" />
             </a>
           ))}
         </div>
