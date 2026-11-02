@@ -1,94 +1,284 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/layout/PageHero.astro';
-import Section from '../../components/layout/Section.astro';
-import { getSiteSettings } from '../../lib/sanity';
-import { resolveHeroImage } from '../../lib/hero-images';
+import PageLayout from "../../layouts/PageLayout.astro";
+import PageHero from "../../components/layout/PageHero.astro";
+import Section from "../../components/layout/Section.astro";
+import { getSiteSettings } from "../../lib/sanity";
+import { resolveHeroImage } from "../../lib/hero-images";
 
-let contactEmail = 'info@apotidev.org';
-let contactPhone = '+237 676 282 346';
-let whatsappLink = 'https://wa.me/237676282346';
-let officeHours = 'Lun–Ven, 8h–17h (HAC)';
+let contactEmail = "info@apotidev.org";
+let contactPhone = "+237 676 282 346";
+let whatsappLink = "https://wa.me/237676282346";
+const officeHours =
+  "Du lundi au vendredi, de 8 h à 17 h, heure du Cameroun (UTC+1)";
 
 try {
   const settings = await getSiteSettings("fr");
   if (settings) {
     contactEmail = settings.contactEmail || contactEmail;
     contactPhone = settings.contactPhone || contactPhone;
-    whatsappLink = `https://wa.me/${(settings.contactPhone || '').replace(/[^0-9]/g, '')}`;
-    officeHours = settings.officeHours || officeHours;
+    const phoneDigits = (settings.contactPhone || contactPhone).replace(
+      /[^0-9]/g,
+      "",
+    );
+    whatsappLink = phoneDigits ? `https://wa.me/${phoneDigits}` : whatsappLink;
   }
 } catch {}
 
-const heroImage = await resolveHeroImage(['widow-support', 'women-empowerment']);
+const heroImage = await resolveHeroImage([
+  "widow-support",
+  "women-empowerment",
+]);
 ---
-<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
-<PageLayout title="Contactez-Nous" description="Contactez Apoti Development Association par email, téléphone ou WhatsApp. Situé au Cameroun, Afrique Centrale.">
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
+<PageLayout
+  title="Contact"
+  description="Contactez Apoti Development Association par e-mail ou WhatsApp pour toute question ou demande d'information."
+>
   <PageHero
-    title="Contactez-Nous"
-    subtitle="Des questions ou envie de vous impliquer ? Nous serions ravis de vous entendre."
+    title="Contactez-nous"
+    subtitle="Une question ou envie de vous impliquer ? Écrivez-nous."
     compact
     imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
+    imageAlt={heroImage?.imageUrl
+      ? "Activité de soutien communautaire d’ADA au Cameroun"
+      : undefined}
   />
 
   <Section background="white" padding="lg">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <div class="space-y-6">
-        <h2 class="text-xl font-semibold text-gray-900">Nous Contacter Directement</h2>
-        <div class="space-y-4">
-          <div class="flex items-start gap-3">
-            <div class="w-1 h-10 rounded-sm bg-primary-600 flex-shrink-0"></div>
-            <div><p class="text-sm font-medium text-gray-900">Email</p><a href={`mailto:${contactEmail}`} class="text-sm text-primary-600 hover:underline">{contactEmail}</a></div>
-          </div>
-          <div class="flex items-start gap-3">
-            <div class="w-1 h-10 rounded-sm bg-primary-600 flex-shrink-0"></div>
-            <div><p class="text-sm font-medium text-gray-900">Téléphone / WhatsApp</p><a href={whatsappLink} class="text-sm text-primary-600 hover:underline">{contactPhone}</a></div>
-          </div>
-          <div class="flex items-start gap-3">
-            <div class="w-1 h-10 rounded-sm bg-primary-600 flex-shrink-0"></div>
-            <div><p class="text-sm font-medium text-gray-900">Localisation</p><p class="text-sm text-gray-600">Cameroun, Afrique Centrale</p></div>
-          </div>
-          <div class="flex items-start gap-3">
-            <div class="w-1 h-10 rounded-sm bg-primary-600 flex-shrink-0"></div>
-            <div><p class="text-sm font-medium text-gray-900">Heures d'Ouverture</p><p class="text-sm text-gray-600">{officeHours}</p></div>
-          </div>
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-12">
+      <section class="space-y-6" aria-labelledby="contact-direct">
+        <div>
+          <h2 id="contact-direct" class="text-xl font-semibold text-gray-900">
+            Nous contacter directement
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-gray-600">
+            Choisissez le moyen qui vous convient.
+          </p>
         </div>
-      </div>
 
-      <div class="lg:col-span-2">
-        <form class="space-y-4" id="contact-form">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div><label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom *</label><input type="text" id="name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" /></div>
-            <div><label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label><input type="email" id="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" /></div>
+        <dl class="space-y-4">
+          <div class="flex items-start gap-3">
+            <span
+              aria-hidden="true"
+              class="mt-1 h-8 w-1 flex-shrink-0 rounded-sm bg-primary-600"
+            ></span>
+            <div>
+              <dt class="text-sm font-medium text-gray-900">E-mail</dt>
+              <dd class="mt-1">
+                <a
+                  href={`mailto:${contactEmail}`}
+                  class="text-sm font-medium text-primary-700 underline-offset-4 hover:underline"
+                >
+                  {contactEmail}
+                </a>
+              </dd>
+            </div>
           </div>
-          <div><label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Sujet *</label><input type="text" id="subject" name="subject" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" /></div>
-          <div><label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message *</label><textarea id="message" name="message" rows="5" required minlength="10" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"></textarea></div>
-          <button type="submit" class="w-full sm:w-auto px-6 py-3 text-base font-semibold text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">Envoyer le Message</button>
+          <div class="flex items-start gap-3">
+            <span
+              aria-hidden="true"
+              class="mt-1 h-8 w-1 flex-shrink-0 rounded-sm bg-primary-600"
+            ></span>
+            <div>
+              <dt class="text-sm font-medium text-gray-900">
+                Heures d’ouverture
+              </dt>
+              <dd class="mt-1 text-sm leading-relaxed text-gray-700">
+                {officeHours}
+              </dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span
+              aria-hidden="true"
+              class="mt-1 h-8 w-1 flex-shrink-0 rounded-sm bg-primary-600"
+            ></span>
+            <div>
+              <dt class="text-sm font-medium text-gray-900">WhatsApp</dt>
+              <dd class="mt-1">
+                <a
+                  href={whatsappLink}
+                  class="text-sm font-medium text-primary-700 underline-offset-4 hover:underline"
+                >
+                  {contactPhone}
+                </a>
+              </dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span
+              aria-hidden="true"
+              class="mt-1 h-8 w-1 flex-shrink-0 rounded-sm bg-primary-600"
+            ></span>
+            <div>
+              <dt class="text-sm font-medium text-gray-900">Lieu</dt>
+              <dd class="mt-1 text-sm leading-relaxed text-gray-700">
+                Cameroun, Afrique centrale
+              </dd>
+            </div>
+          </div>
+        </dl>
+      </section>
+
+      <section class="lg:col-span-2" aria-labelledby="contact-form-heading">
+        <div class="mb-5">
+          <h2
+            id="contact-form-heading"
+            class="text-xl font-semibold text-gray-900"
+          >
+            Envoyez-nous un message
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-gray-600">
+            Les champs marqués d’un astérisque (*) sont obligatoires.
+          </p>
+        </div>
+
+        <form class="space-y-5" id="contact-form">
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div>
+              <label
+                for="name"
+                class="mb-1.5 block text-sm font-medium text-gray-800"
+                >Nom <span aria-hidden="true">*</span></label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                autocomplete="name"
+                required
+                aria-required="true"
+                class="w-full rounded-lg border border-gray-400 bg-white px-3 py-2.5 text-base text-gray-900 shadow-sm focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+            <div>
+              <label
+                for="email"
+                class="mb-1.5 block text-sm font-medium text-gray-800"
+                >Adresse e-mail <span aria-hidden="true">*</span></label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                required
+                aria-required="true"
+                class="w-full rounded-lg border border-gray-400 bg-white px-3 py-2.5 text-base text-gray-900 shadow-sm focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              for="subject"
+              class="mb-1.5 block text-sm font-medium text-gray-800"
+              >Objet <span aria-hidden="true">*</span></label
+            >
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              autocomplete="off"
+              required
+              aria-required="true"
+              class="w-full rounded-lg border border-gray-400 bg-white px-3 py-2.5 text-base text-gray-900 shadow-sm focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            />
+          </div>
+          <div>
+            <label
+              for="message"
+              class="mb-1.5 block text-sm font-medium text-gray-800"
+              >Message <span aria-hidden="true">*</span></label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              required
+              aria-required="true"
+              minlength="10"
+              aria-describedby="message-help"
+              class="w-full rounded-lg border border-gray-400 bg-white px-3 py-2.5 text-base leading-relaxed text-gray-900 shadow-sm focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            ></textarea>
+            <p
+              id="message-help"
+              class="mt-1.5 text-sm leading-relaxed text-gray-600"
+            >
+              Votre message doit contenir au moins 10 caractères.
+            </p>
+          </div>
+          <button
+            type="submit"
+            class="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-primary-700 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 sm:w-auto"
+          >
+            Envoyer le message
+          </button>
         </form>
-        <p class="mt-3 text-xs text-gray-500">* Champs obligatoires. Nous répondons généralement sous 24 à 48 heures.</p>
-      </div>
+        <p class="mt-4 text-sm leading-relaxed text-gray-700">
+          Votre message sera utilisé pour répondre à votre demande. Consultez
+          notre
+          <a
+            href="/fr/privacy"
+            class="font-medium text-primary-700 underline underline-offset-4 hover:text-primary-800"
+          >
+            politique de confidentialité
+          </a>
+          pour en savoir plus.
+        </p>
+      </section>
     </div>
   </Section>
 </PageLayout>
 
 <script>
-  const form = document.getElementById('contact-form');
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-    btn.disabled = true;
-    btn.textContent = 'Envoi...';
-    const data = Object.fromEntries(new FormData(form as HTMLFormElement));
+  const urlParams = new URLSearchParams(window.location.search);
+  const subjectParam = urlParams.get("subject");
+  if (subjectParam) {
+    const subjectInput = document.getElementById(
+      "subject",
+    ) as HTMLInputElement | null;
+    if (subjectInput) subjectInput.value = subjectParam;
+  }
+
+  const form = document.getElementById("contact-form");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const contactForm = form as HTMLFormElement;
+    const button = form.querySelector(
+      'button[type="submit"]',
+    ) as HTMLButtonElement;
+    form.querySelector("[data-form-msg]")?.remove();
+    button.disabled = true;
+    button.textContent = "Envoi en cours…";
+
+    const message = document.createElement("p");
+    message.setAttribute("data-form-msg", "true");
+    message.setAttribute("aria-live", "polite");
+    message.setAttribute("role", "status");
+
     try {
-      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-      const msg = document.createElement('p');
-      msg.setAttribute('role', 'alert');
-      msg.setAttribute('aria-live', 'polite');
-      if (res.ok) { msg.className = 'mt-4 text-sm text-green-700 font-medium'; msg.textContent = 'Message envoyé ! Nous répondrons sous 24-48 heures.'; (form as HTMLFormElement).reset(); }
-      else { msg.className = 'mt-4 text-sm text-red-600'; msg.textContent = "Échec de l'envoi. Veuillez réessayer."; }
-      form.appendChild(msg);
-    } catch { btn.textContent = 'Envoyer le Message'; btn.disabled = false; }
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(contactForm))),
+      });
+
+      if (!response.ok) throw new Error("CONTACT_SEND_FAILED");
+
+      message.className = "mt-4 text-sm font-medium text-green-800";
+      message.textContent = "Message envoyé. Merci de nous avoir écrit.";
+      contactForm.reset();
+      button.textContent = "Message envoyé";
+    } catch {
+      message.className = "mt-4 text-sm text-red-700";
+      message.setAttribute("role", "alert");
+      message.textContent =
+        "Échec de l’envoi. Veuillez réessayer ou nous écrire directement par e-mail.";
+      button.disabled = false;
+      button.textContent = "Envoyer le message";
+    }
+
+    form.appendChild(message);
   });
 </script>

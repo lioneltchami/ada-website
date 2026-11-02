@@ -176,12 +176,12 @@ export const SPONSOR_FAQS_EN: FaqItem[] = [
   {
     question: "What do sponsors receive?",
     answer:
-      "Depending on the tier, sponsors typically receive an ADA receipt or invoice, a use-of-funds note or final report, and optional public or private recognition. Larger sponsorships include budgets, people served, and outcome summaries.",
+      "Sponsor updates are quarterly and annual and include milestones and briefings. Any separate project or final report depends on the sponsorship agreement. Recognition is by preference and approval.",
   },
   {
     question: "How do I start a sponsorship?",
     answer:
-      "Use the sponsor inquiry form to describe your organization and what you want to fund. ADA will respond with the right next step: donation link, sponsorship agreement, due-diligence packet, or a call.",
+      "Use the sponsor inquiry form to describe what you want to fund and any records you need. You can also state your preferred contact method; submitting a preference does not schedule a call.",
   },
   {
     question: "Where can I find registration and diligence documents?",
@@ -203,12 +203,12 @@ export const SPONSOR_FAQS_FR: FaqItem[] = [
   {
     question: "Que reçoivent les sponsors ?",
     answer:
-      "Selon le niveau, les sponsors reçoivent généralement un reçu ou une facture ADA, une note d'utilisation des fonds ou un rapport final, et une reconnaissance publique ou discrète au choix. Les parrainages plus importants incluent budgets, personnes servies et résumés de résultats.",
+      "Les mises à jour des sponsors sont trimestrielles et annuelles et incluent des jalons et des points d'information. Tout rapport de projet ou rapport final distinct dépend de l'accord de parrainage. La reconnaissance se fait selon la préférence et avec approbation.",
   },
   {
     question: "Comment démarrer un parrainage ?",
     answer:
-      "Utilisez le formulaire de demande de parrainage pour décrire votre organisation et ce que vous souhaitez financer. ADA répondra avec la bonne prochaine étape : lien de don, accord, dossier de diligence ou appel.",
+      "Utilisez le formulaire de demande de parrainage pour décrire ce que vous souhaitez financer et les documents dont vous avez besoin. Vous pouvez aussi indiquer votre moyen de contact préféré; une préférence pour un appel ne constitue pas un rendez-vous.",
   },
   {
     question: "Où trouver les documents d'enregistrement et de diligence ?",

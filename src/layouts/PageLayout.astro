@@ -33,13 +33,17 @@ const showFloatingDonate = !(
   pathname === "/fr/monthly" ||
   pathname === "/donate/thank-you" ||
   pathname === "/fr/donate/thank-you" ||
+  pathname === "/contact" ||
+  pathname === "/fr/contact" ||
   pathname === "/sponsor" ||
   pathname === "/fr/sponsor" ||
+  pathname === "/sponsor/inquiry" ||
+  pathname === "/fr/sponsor/inquiry" ||
   pathname.startsWith("/auth") ||
   pathname.startsWith("/fr/auth") ||
   pathname.startsWith("/dashboard")
 );
-const showChatbot = ["/", "/contact", "/get-involved"].includes(pathname);
+const showChatbot = ["/", "/get-involved"].includes(pathname);
 
 let faqData: { keywords: string[]; keywordsFr?: string[]; response: string }[] =
   [];
