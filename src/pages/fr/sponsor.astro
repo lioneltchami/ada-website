@@ -5,10 +5,7 @@ import Section from "../../components/layout/Section.astro";
 import FaqSection from "../../components/seo/FaqSection.astro";
 import { REGISTRATION_NUMBER } from "../../data/organization";
 import { resolveHeroImage } from "../../lib/hero-images";
-import {
-  SPONSOR_FAQS_FR,
-  buildFaqPage,
-} from "../../lib/structured-data";
+import { SPONSOR_FAQS_FR, buildFaqPage } from "../../lib/structured-data";
 
 const heroImage = await resolveHeroImage([
   "widow-support",
@@ -25,6 +22,7 @@ const sponsorTiers = [
   {
     name: "Sponsor communautaire",
     amount: "500 $-1 000 $",
+    budgetValue: "$500-$1,000",
     funds:
       "Fournitures scolaires, soutien alimentaire, campagne saisonnière ou besoins urgents de ménage.",
     outcome:
@@ -35,32 +33,35 @@ const sponsorTiers = [
   {
     name: "Sponsor de projet",
     amount: "2 500 $-5 000 $",
+    budgetValue: "$2,500-$5,000",
     funds:
       "Projet défini pour l'éducation, les veuves, les orphelins, les jeunes femmes ou les familles déplacées.",
     outcome:
       "Finance un projet limité avec personnes servies, budget, preuves et résumé final.",
     receives:
-      "Photos si consenties, résumé d'impact, rapport final et remerciement public optionnel.",
+      "Mises à jour trimestrielles et annuelles avec jalons et points d'information; photos de projet avec consentement, résumé d'impact et rapport final.",
   },
   {
     name: "Sponsor de programme",
     amount: "10 000 $+",
+    budgetValue: "$10,000+",
     funds:
       "Saison complète de programme, cycle de soutien à plusieurs familles ou réponse communautaire récurrente.",
     outcome:
-      "Soutient un programme mesurable avec courriel d'impact trimestriel et rapport final.",
+      "Soutient un programme mesurable avec des mises à jour trimestrielles et annuelles incluant les jalons et les points d'information, ainsi qu'un rapport final de résultats.",
     receives:
-      "Accord de parrainage, mises à jour trimestrielles, rapport final, logo si approuvé et présentation de groupe.",
+      "Accord de parrainage, mises à jour trimestrielles et annuelles incluant les jalons et les points d'information, rapport final distinct et logo si approuvé.",
   },
   {
     name: "Partenaire stratégique",
     amount: "Sur mesure",
+    budgetValue: "Custom / discuss first",
     funds:
       "Engagement pluriannuel, soutien aux capacités ou initiative adaptée avec la direction d'ADA.",
     outcome:
       "Crée des objectifs partagés, une cadence de rapports et un plan de partenariat avant tout transfert de fonds.",
     receives:
-      "Jalons co-construits, entretiens avec la direction, appui diligence, reconnaissance ou anonymat selon préférence.",
+      "Mises à jour trimestrielles et annuelles, incluant les jalons et les points d'information; reconnaissance ou anonymat selon préférence.",
   },
 ];
 
@@ -71,7 +72,7 @@ const fundingPaths = [
   },
   {
     title: "Lancer une campagne de groupe",
-    text: "Églises, entreprises, écoles et groupes de la diaspora peuvent financer un besoin visible et demander une courte présentation virtuelle.",
+    text: "Églises, entreprises, écoles et groupes de la diaspora peuvent explorer avec ADA un soutien commun à une campagne.",
   },
   {
     title: "Soutenir régulièrement",
@@ -86,12 +87,10 @@ const fundingPaths = [
 const sponsorReceives = [
   "Reçu ou confirmation de parrainage pour vos dossiers",
   "Résumé clair de l'utilisation des fonds",
-  "Mise à jour de projet ou récapitulatif de campagne",
+  "Mises à jour trimestrielles et annuelles, incluant les jalons et les points d'information",
   "Reconnaissance par nom ou logo, seulement avec approbation",
   "Reconnaissance publique, mention interne ou anonymat complet selon préférence",
   "Photos ou témoignages lorsque cela est approprié et consenti",
-  "Présentation pour entreprise, église, école ou groupe de la diaspora si utile",
-  "Appel optionnel avec la direction pour les parrainages plus importants",
 ];
 
 const outcomeProofs = [
@@ -117,6 +116,7 @@ const outcomeProofs = [
   },
   {
     project: "Soutien rentrée scolaire",
+    costLabel: "Activité passée",
     cost: "Deux campagnes scolaires en 2024",
     served: "40 enfants orphelins",
     outcome:
@@ -135,16 +135,6 @@ const outcomeProofs = [
       "Registres de distribution, reçus, notes de terrain et rapport de clôture.",
     next: "Pré-positionner un fonds d'urgence soutenu par sponsors avant la prochaine période de crise.",
   },
-];
-
-const paymentOptions = [
-  "Le don par carte via Stripe est disponible en ligne pour les dons ponctuels ou mensuels en USD; les portefeuilles admissibles peuvent apparaître selon Stripe, l'appareil et le navigateur.",
-  "PayPal, Venmo et ACH ne doivent pas être présentés comme actifs tant que les opérations et le rapprochement ne sont pas confirmés.",
-  "Les demandes de facture, d'accord de parrainage ou de bon de commande peuvent commencer par le formulaire sponsor.",
-  "Les demandes de virement bancaire ou transfert direct sont examinées manuellement avant qu'ADA ne partage des instructions de paiement.",
-  "Les dons doublés par l'employeur sont bienvenus, mais l'employeur doit confirmer l'éligibilité car ADA est enregistrée au Cameroun et n'est pas une charité canadienne ni une 501(c)(3) américaine.",
-  "Les dons restreints doivent être discutés avant paiement afin de confirmer l'objet, les rapports et la reconnaissance.",
-  "Les dons par chèque ne doivent être utilisés que si un sponsor fiscal qualifié ou partenaire caritatif enregistré est confirmé par écrit.",
 ];
 
 const trustProofs = [
@@ -166,8 +156,8 @@ const diligenceItems = [
   "Attentes de rapport et chemin de contact",
 ];
 ---
-<!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
+<!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 <PageLayout
   title="Sponsoriser un Programme"
   description="Sponsorisez un soutien pratique pour les veuves, orphelins, jeunes femmes, familles déplacées et élèves au Cameroun. Options claires, reçus, rapports et diligence raisonnable."
@@ -194,21 +184,23 @@ const diligenceItems = [
         <h2
           class="mt-4 max-w-3xl text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight"
         >
-          Des parcours clairs pour églises, entreprises et bailleurs
+          Parrainer des programmes communautaires
         </h2>
         <p class="mt-5 text-lg text-gray-600 leading-relaxed max-w-2xl">
-          Associez-vous à Apoti Development Association pour financer des
-          programmes communautaires directs pour les veuves, orphelins, jeunes
-          femmes, familles déplacées, élèves et interventions d'urgence. Le
-          parrainage reste simple : options claires, documents écrits, mises à
-          jour utiles et utilisation transparente des fonds.
+          Le parrainage permet de discuter d'un soutien à un projet ou programme
+          défini, ainsi que des documents ou mises à jour associés. Pour un don
+          général, consultez la <a
+            href="/fr/donate"
+            class="font-semibold text-primary-700 underline underline-offset-2"
+            >page des dons</a
+          >.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
           <a
             href="/fr/sponsor/inquiry"
-            class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
+            class="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-white bg-primary-700 rounded-md hover:bg-primary-800 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700"
           >
-            Commencer une demande
+            Discuter d'un parrainage
           </a>
           <a
             href="/docs/diligence/ada-corporate-sponsor-one-pager.pdf"
@@ -226,14 +218,12 @@ const diligenceItems = [
           </a>
         </div>
         <p class="mt-5 text-xs text-gray-500">
-          Enregistrée au Cameroun ({REGISTRATION_NUMBER}). Direction exécutive
-          bénévole. 80% des fonds orientés vers l'exécution des programmes.
+          Enregistrée au Cameroun ({REGISTRATION_NUMBER}). Le modèle public
+          d'allocation d'ADA vise 80% des dépenses pour les programmes directs.
         </p>
       </div>
 
-      <div
-        class="rounded-md border border-gray-200 bg-gray-50 p-6 md:p-8"
-      >
+      <div class="rounded-md border border-gray-200 bg-gray-50 p-6 md:p-8">
         <h2 class="text-xl font-heading font-bold text-gray-900">
           Prêt pour les sponsors, en bref
         </h2>
@@ -265,7 +255,7 @@ const diligenceItems = [
             <dd
               class="min-w-0 break-words text-sm font-semibold text-gray-900 sm:text-right"
             >
-              Carte Stripe; facture ou virement sur demande
+              Dons par carte en USD; ponctuels ou mensuels
             </dd>
           </div>
           <div
@@ -329,7 +319,9 @@ const diligenceItems = [
         diaspora, fondation ou famille.
       </p>
     </div>
-    <dl class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t border-gray-200">
+    <dl
+      class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t border-gray-200"
+    >
       {
         fundingPaths.map((path) => (
           <div class="border-b border-gray-200 py-6">
@@ -350,8 +342,8 @@ const diligenceItems = [
       </h2>
       <p class="mt-3 text-sm text-gray-600 leading-relaxed">
         Les sponsors doivent voir ce qui a changé, pas seulement ce qu'ADA a
-        fait. Ces exemples montrent le problème traité à travers le coût, les
-        personnes servies, le résultat, les preuves et le prochain jalon.
+        fait. Ces exemples présentent l'activité, les personnes servies, les
+        résultats, les preuves et le prochain jalon.
       </p>
     </div>
     <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -361,7 +353,9 @@ const diligenceItems = [
             <h3 class="text-lg font-semibold text-gray-900">{proof.project}</h3>
             <dl class="mt-4 space-y-3 text-sm">
               <div>
-                <dt class="font-semibold text-gray-900">Coût</dt>
+                <dt class="font-semibold text-gray-900">
+                  {proof.costLabel || "Coût documenté (USD)"}
+                </dt>
                 <dd class="mt-1 text-gray-600 leading-relaxed">{proof.cost}</dd>
               </div>
               <div>
@@ -400,13 +394,15 @@ const diligenceItems = [
           Options de parrainage
         </h2>
         <p class="mt-3 text-sm text-gray-600">
-          Les dons par carte en ligne sont actuellement traités en USD via
-          Stripe. Les sponsors qui ont besoin d'une autre devise, d'une facture,
-          d'un virement bancaire ou d'un don restreint plus important peuvent
-          commencer par un court accord avant paiement.
+          Les montants suggérés sont en USD. Les dons par carte sont possibles
+          en une fois ou chaque mois; utilisez le formulaire de demande pour
+          discuter du soutien à un projet ou programme défini.
         </p>
       </div>
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0 border-t border-gray-200">
+      <p class="mt-4 text-xs text-gray-500">Tous les montants sont en USD.</p>
+      <div
+        class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0 border-t border-gray-200"
+      >
         {
           sponsorTiers.map((tier) => (
             <article class="flex h-full flex-col border-b border-gray-200 py-6">
@@ -433,7 +429,8 @@ const diligenceItems = [
                 {tier.receives}
               </p>
               <a
-                href="/fr/sponsor/inquiry"
+                href={`/fr/sponsor/inquiry?budgetRange=${encodeURIComponent(tier.budgetValue)}`}
+                aria-label={`Demander des renseignements sur ${tier.name} (${tier.amount})`}
                 class="mt-6 inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
               >
                 Demander cette option
@@ -539,26 +536,27 @@ const diligenceItems = [
     >
       <div>
         <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
-          Des façons simples de sponsoriser
+          Dons et parrainage
         </h2>
         <p class="mt-3 text-gray-600 leading-relaxed">
-          Garder le chemin courant simple, puis orienter les dons importants ou
-          restreints vers une conversation avant tout transfert. Cela protège le
-          sponsor, ADA et la communauté servie.
+          Un don général soutient le travail d'ADA. Une demande de parrainage
+          permet de discuter d'un projet ou programme défini avant de décider de
+          donner.
         </p>
       </div>
       <div class="space-y-4">
         <div class="rounded-md border border-gray-200 bg-white p-5">
-          <h3 class="text-base font-semibold text-gray-900">
-            Paiement et administration sponsor
-          </h3>
-          <ul class="mt-4 space-y-3">
-            {
-              paymentOptions.map((option) => (
-                <li class="text-sm text-gray-700 leading-relaxed">{option}</li>
-              ))
-            }
-          </ul>
+          <h3 class="text-base font-semibold text-gray-900">Dons en ligne</h3>
+          <p class="mt-3 text-sm text-gray-700 leading-relaxed">
+            Donnez par carte en USD, en une fois ou chaque mois. La page de don
+            d'ADA est accessible sans créer de compte.
+          </p>
+          <a
+            href="/fr/donate"
+            class="mt-4 inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
+          >
+            Faire un don
+          </a>
         </div>
         <div class="rounded-md border border-amber-200 bg-amber-50 p-5">
           <h3 class="text-base font-semibold text-amber-950">
@@ -595,7 +593,7 @@ const diligenceItems = [
       subtitle="Statut fiscal, utilisation des fonds, rapports et démarches."
       faqs={sponsorFaqs}
       contactHref="/fr/sponsor/inquiry"
-      contactLabel="Encore indécis ? Lancez une demande — nous indiquerons la bonne prochaine étape."
+      contactLabel="Une question ? Envoyez une demande de parrainage à ADA."
     />
   </Section>
 
@@ -605,9 +603,10 @@ const diligenceItems = [
         Prêt à sponsoriser un programme ciblé ?
       </h2>
       <p class="mt-3 text-sm text-white/80 leading-relaxed">
-        Dites-nous quel type de sponsor vous êtes et ce que vous souhaitez
-        financer. ADA répondra avec la bonne prochaine étape : lien de don,
-        accord de parrainage, dossier de diligence ou appel.
+        Dites-nous quel type de sponsor vous êtes, ce que vous souhaitez
+        financer et les documents dont vous avez besoin. ADA pourra vous
+        transmettre des informations pertinentes sur les options de don ou de
+        parrainage.
       </p>
       <div class="mt-7 flex flex-col sm:flex-row gap-3">
         <a
@@ -623,9 +622,7 @@ const diligenceItems = [
           Donner maintenant
         </a>
       </div>
-      <div
-        class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2"
-      >
+      <div class="mt-8 grid grid-cols-1 gap-2 text-left sm:grid-cols-2">
         {
           trustProofs.map((proof) => (
             <div class="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85">

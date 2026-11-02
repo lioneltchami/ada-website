@@ -72,24 +72,54 @@ const CallPreference = z.enum([
   "Send documents first",
 ]);
 
-const Schema = z.object({
-  website: z.string().max(0).optional().default(""),
-  name: z.string().trim().min(2).max(100),
-  email: z.string().trim().toLowerCase().email(),
-  phone: z.string().trim().max(40).optional().default(""),
-  organization: z.string().trim().min(2).max(150),
-  country: z.string().trim().min(2).max(80),
-  sponsorType: SponsorType,
-  interest: Interest,
-  budgetRange: BudgetRange,
-  preferredTiming: PreferredTiming,
-  recognitionPreference: RecognitionPreference,
-  fundingPurpose: z.string().trim().min(10).max(1000),
-  reportingNeeds: z.array(ReportingNeed).max(7).default([]),
-  invoiceOrWire: z.boolean(),
-  callPreference: CallPreference,
-  notes: z.string().trim().max(1000).optional().default(""),
-});
+const Schema = z
+  .object({
+    website: z.string().max(0).optional().default(""),
+    name: z.string().trim().min(2).max(100),
+    email: z.string().trim().toLowerCase().email(),
+    phone: z.string().trim().max(40).optional().default(""),
+    organization: z.string().trim().max(150).optional().default(""),
+    country: z.string().trim().min(2).max(80),
+    sponsorType: SponsorType,
+    interest: Interest,
+    budgetRange: z
+      .preprocess(
+        (value) => (value === "" || value === undefined ? undefined : value),
+        BudgetRange.optional(),
+      )
+      .transform((value) => value ?? "Not specified"),
+    preferredTiming: z
+      .preprocess(
+        (value) => (value === "" || value === undefined ? undefined : value),
+        PreferredTiming.optional(),
+      )
+      .transform((value) => value ?? "Not specified"),
+    recognitionPreference: z
+      .preprocess(
+        (value) => (value === "" || value === undefined ? undefined : value),
+        RecognitionPreference.optional(),
+      )
+      .transform((value) => value ?? "Not specified"),
+    fundingPurpose: z.string().trim().min(10).max(1000),
+    reportingNeeds: z.array(ReportingNeed).max(7).default([]),
+    invoiceOrWire: z.boolean(),
+    callPreference: z
+      .preprocess(
+        (value) => (value === "" || value === undefined ? undefined : value),
+        CallPreference.optional(),
+      )
+      .transform((value) => value ?? "Not specified"),
+    notes: z.string().trim().max(1000).optional().default(""),
+  })
+  .superRefine((data, ctx) => {
+    if (data.sponsorType !== "Individual" && data.organization.length < 2) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["organization"],
+        message: "Organization is required for this sponsor type",
+      });
+    }
+  });
 
 export const POST: APIRoute = async ({ request, url }) => {
   const originError = rejectInvalidOrigin(request, url.href, PRIMARY_ORIGIN);
@@ -108,8 +138,14 @@ export const POST: APIRoute = async ({ request, url }) => {
   try {
     const body = await readJsonBody(request);
     const data = Schema.parse(body);
+    const notificationData = {
+      ...data,
+      organization:
+        data.organization ||
+        (data.sponsorType === "Individual" ? "Individual sponsor" : ""),
+    };
 
-    await sendSponsorInquiryNotification(data);
+    await sendSponsorInquiryNotification(notificationData);
 
     return jsonResponse({ success: true });
   } catch (err: any) {

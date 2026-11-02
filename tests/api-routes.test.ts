@@ -41,7 +41,11 @@ function jsonRequest(body: unknown, origin = "https://apotidev.org") {
   });
 }
 
-function sponsorRequest(body: unknown, origin = "https://apotidev.org") {
+function sponsorRequest(
+  body: unknown,
+  origin = "https://apotidev.org",
+  clientIp = "192.0.2.1",
+) {
   const text = typeof body === "string" ? body : JSON.stringify(body);
   return new Request("https://apotidev.org/api/sponsor-inquiry", {
     method: "POST",
@@ -49,6 +53,7 @@ function sponsorRequest(body: unknown, origin = "https://apotidev.org") {
       "Content-Type": "application/json",
       "Content-Length": String(text.length),
       Origin: origin,
+      "cf-connecting-ip": clientIp,
     },
     body: text,
   });
@@ -560,5 +565,53 @@ describe("sponsor inquiry route", () => {
         reportingNeeds: ["Sponsor packet", "Project reports"],
       }),
     );
+  });
+
+  it("accepts individual inquiries without an organization or optional preferences", async () => {
+    sendSponsorInquiryNotification.mockResolvedValue({ success: true });
+    const { POST } = await import("../src/pages/api/sponsor-inquiry");
+    const { organization: _organization, ...individualInquiry } =
+      validSponsorInquiry;
+    const response = await POST({
+      request: sponsorRequest(
+        {
+          ...individualInquiry,
+          sponsorType: "Individual",
+          budgetRange: "",
+          preferredTiming: "",
+          recognitionPreference: "",
+          callPreference: "",
+        },
+        "https://apotidev.org",
+        "198.51.100.10",
+      ),
+      url: new URL("https://apotidev.org/api/sponsor-inquiry"),
+    } as any);
+
+    expect(response.status).toBe(200);
+    expect(sendSponsorInquiryNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        organization: "Individual sponsor",
+        budgetRange: "Not specified",
+        preferredTiming: "Not specified",
+        recognitionPreference: "Not specified",
+        callPreference: "Not specified",
+      }),
+    );
+  });
+
+  it("still requires an organization for non-individual sponsor types", async () => {
+    const { POST } = await import("../src/pages/api/sponsor-inquiry");
+    const response = await POST({
+      request: sponsorRequest(
+        { ...validSponsorInquiry, organization: " " },
+        "https://apotidev.org",
+        "198.51.100.11",
+      ),
+      url: new URL("https://apotidev.org/api/sponsor-inquiry"),
+    } as any);
+
+    expect(response.status).toBe(400);
+    expect(sendSponsorInquiryNotification).not.toHaveBeenCalled();
   });
 });

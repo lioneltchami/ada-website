@@ -30,11 +30,11 @@ const interests = [
 ];
 
 const budgetRanges = [
-  "$500-$1,000",
-  "$2,500-$5,000",
-  "$10,000+",
-  "Custom / discuss first",
-  "In-kind support",
+  { label: "500–1 000 USD", value: "$500-$1,000" },
+  { label: "2 500–5 000 USD", value: "$2,500-$5,000" },
+  { label: "10 000 USD et plus", value: "$10,000+" },
+  { label: "Montant à discuter", value: "Custom / discuss first" },
+  { label: "Contribution en nature", value: "In-kind support" },
 ];
 
 const timings = [
@@ -80,13 +80,13 @@ const reportingNeeds = [
 
 const callPreferences = [
   { label: "Email d'abord", value: "Email first" },
-  { label: "Réserver un court appel", value: "Book a short call" },
+  { label: "Demander un court appel", value: "Book a short call" },
   { label: "WhatsApp de préférence", value: "WhatsApp is best" },
   { label: "Envoyer les documents d'abord", value: "Send documents first" },
 ];
 ---
-<!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
+<!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 <PageLayout
   title="Demande de Parrainage"
   description="Commencez une demande de parrainage avec ADA. Indiquez ce que vous souhaitez financer et les documents nécessaires."
@@ -101,9 +101,9 @@ const callPreferences = [
         </h1>
         <p class="mt-4 text-lg text-gray-600 leading-relaxed">
           Dites-nous ce que vous voulez financer et quels documents votre
-          organisation doit examiner. ADA répondra avec la bonne prochaine étape
-          : lien de don, facture, accord de parrainage, dossier de diligence ou
-          court appel.
+          organisation doit examiner. Indiquez ci-dessous comment vous souhaitez
+          être contacté·e. Une préférence pour un appel est une demande, pas un
+          rendez-vous confirmé.
         </p>
         <p class="mt-4 text-sm text-gray-500">
           ONG enregistrée au Cameroun ({REGISTRATION_NUMBER}) · Reçus pour les
@@ -203,19 +203,25 @@ const callPreferences = [
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
               />
             </div>
-            <div>
+            <div id="organization-field">
               <label
                 for="organization"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Organisation ou groupe *</label
+                >Organisation ou groupe</label
               >
               <input
                 id="organization"
                 name="organization"
                 required
+                aria-required="true"
                 autocomplete="organization"
+                aria-describedby="organization-help"
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
               />
+              <p id="organization-help" class="mt-1 text-xs text-gray-600">
+                Obligatoire pour les organisations et groupes; facultatif pour
+                les particuliers.
+              </p>
             </div>
             <div>
               <label
@@ -240,6 +246,7 @@ const callPreferences = [
               <input
                 id="phone"
                 name="phone"
+                type="tel"
                 autocomplete="tel"
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
               />
@@ -296,39 +303,36 @@ const callPreferences = [
               <label
                 for="budgetRange"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Fourchette estimée *</label
+                >Fourchette estimée (facultatif)</label
               >
               <select
                 id="budgetRange"
                 name="budgetRange"
-                required
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
               >
-                <option value="">Choisir</option>
+                <option value="">Ne pas préciser</option>
                 {
                   budgetRanges.map((option) => (
-                    <option value={option}>{option}</option>
+                    <option value={option.value}>{option.label}</option>
                   ))
                 }
               </select>
               <p class="mt-1 text-xs text-gray-500">
-                Pour les dons restreints, factures ou paiements hors carte,
-                contactez ADA avant paiement.
+                Les montants sont en USD. Vous pouvez laisser ce champ vide.
               </p>
             </div>
             <div>
               <label
                 for="preferredTiming"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Calendrier préféré *</label
+                >Calendrier préféré (facultatif)</label
               >
               <select
                 id="preferredTiming"
                 name="preferredTiming"
-                required
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
               >
-                <option value="">Choisir</option>
+                <option value="">À préciser si vous le souhaitez</option>
                 {
                   timings.map((option) => (
                     <option value={option.value}>{option.label}</option>
@@ -340,15 +344,14 @@ const callPreferences = [
               <label
                 for="recognitionPreference"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Préférence de reconnaissance *</label
+                >Préférence de reconnaissance (facultatif)</label
               >
               <select
                 id="recognitionPreference"
                 name="recognitionPreference"
-                required
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
               >
-                <option value="">Choisir</option>
+                <option value="">À préciser si vous le souhaitez</option>
                 {
                   recognitionOptions.map((option) => (
                     <option value={option.value}>{option.label}</option>
@@ -364,15 +367,14 @@ const callPreferences = [
               <label
                 for="callPreference"
                 class="block text-sm font-medium text-gray-700 mb-1"
-                >Préférence d'appel *</label
+                >Préférence de contact (facultatif)</label
               >
               <select
                 id="callPreference"
                 name="callPreference"
-                required
                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
               >
-                <option value="">Choisir</option>
+                <option value="">À préciser si vous le souhaitez</option>
                 {
                   callPreferences.map((option) => (
                     <option value={option.value}>{option.label}</option>
@@ -495,6 +497,44 @@ const callPreferences = [
   ) as HTMLButtonElement | null;
   const status = document.getElementById("form-status");
   const errorSummary = document.getElementById("form-error-summary");
+  const sponsorTypeSelect = document.getElementById(
+    "sponsorType",
+  ) as HTMLSelectElement | null;
+  const organizationInput = document.getElementById(
+    "organization",
+  ) as HTMLInputElement | null;
+  const organizationField = document.getElementById("organization-field");
+  const budgetRangeSelect = document.getElementById(
+    "budgetRange",
+  ) as HTMLSelectElement | null;
+
+  const requestedBudgetRange = new URLSearchParams(window.location.search).get(
+    "budgetRange",
+  );
+  if (
+    budgetRangeSelect &&
+    requestedBudgetRange &&
+    Array.from(budgetRangeSelect.options).some(
+      (option) => option.value === requestedBudgetRange,
+    )
+  ) {
+    budgetRangeSelect.value = requestedBudgetRange;
+  }
+
+  function syncOrganizationRequirement() {
+    if (!sponsorTypeSelect || !organizationInput || !organizationField) return;
+    const isIndividual = sponsorTypeSelect.value === "Individual";
+    organizationField.hidden = isIndividual;
+    organizationInput.required = !isIndividual;
+    organizationInput.setAttribute("aria-required", String(!isIndividual));
+    if (isIndividual) {
+      organizationInput.value = "";
+      organizationInput.removeAttribute("aria-invalid");
+    }
+  }
+
+  sponsorTypeSelect?.addEventListener("change", syncOrganizationRequirement);
+  syncOrganizationRequirement();
 
   function setError(message: string) {
     if (!errorSummary) return;
@@ -509,11 +549,51 @@ const callPreferences = [
     errorSummary.classList.add("hidden");
   }
 
+  function updateFieldErrorDescription(field: Element, invalid: boolean) {
+    const describedBy = new Set(
+      (field.getAttribute("aria-describedby") || "")
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (invalid) describedBy.add("form-error-summary");
+    else describedBy.delete("form-error-summary");
+    if (describedBy.size) {
+      field.setAttribute("aria-describedby", [...describedBy].join(" "));
+    } else {
+      field.removeAttribute("aria-describedby");
+    }
+  }
+
+  form?.addEventListener("input", (event) => {
+    const field = event.target;
+    if (
+      field instanceof HTMLInputElement ||
+      field instanceof HTMLTextAreaElement
+    ) {
+      if (field.checkValidity()) {
+        field.removeAttribute("aria-invalid");
+        updateFieldErrorDescription(field, false);
+      }
+    }
+  });
+
+  form?.addEventListener("change", (event) => {
+    const field = event.target;
+    if (field instanceof HTMLSelectElement && field.checkValidity()) {
+      field.removeAttribute("aria-invalid");
+      updateFieldErrorDescription(field, false);
+    }
+  });
+
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearError();
 
     if (!form.checkValidity()) {
+      form.querySelectorAll(":invalid").forEach((field) => {
+        field.setAttribute("aria-invalid", "true");
+        updateFieldErrorDescription(field, true);
+      });
       form.reportValidity();
       setError("Veuillez remplir les champs obligatoires avant l'envoi.");
       return;
@@ -554,11 +634,16 @@ const callPreferences = [
       if (!response.ok) throw new Error("Submission failed");
 
       form.reset();
+      syncOrganizationRequirement();
+      form.querySelectorAll('[aria-invalid="true"]').forEach((field) => {
+        field.removeAttribute("aria-invalid");
+        updateFieldErrorDescription(field, false);
+      });
       if (status) {
         status.className =
           "mt-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm font-medium text-green-700";
         status.textContent =
-          "Merci. ADA examinera votre demande et répondra sous 2 jours ouvrables avec le chemin de parrainage le plus approprié.";
+          "Votre demande a été envoyée à ADA. Pour toute autre question, écrivez à info@apotidev.org.";
         status.setAttribute("tabindex", "-1");
         status.focus();
       }
