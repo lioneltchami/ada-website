@@ -30,7 +30,8 @@ export default defineConfig({
       filter: (page) =>
         !page.includes("/auth/") &&
         !page.includes("/dashboard/") &&
-        !page.includes("/donate/thank-you"),
+        !page.includes("/donate/thank-you") &&
+        !/^https:\/\/apotidev\.org\/(?:fr\/)?stories\/[^/]+\/?$/.test(page),
     }),
   ],
   vite: {
