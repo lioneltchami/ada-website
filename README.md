@@ -372,10 +372,16 @@ This powers the post-donation follow-up sequence:
 
 1. A verified Stripe event creates or updates the donation record.
 2. The donor receives one locale-aware email containing the PDF receipt, thank-you, "what happens next," and the expected 30-day update date.
-3. ADA receives an internal follow-up task email with the donor, amount, project, receipt ID, Stripe reference, and due date.
-4. Thank-you emails are claim-locked via `thank_you_sent_at` before send, so Stripe retries and concurrent deliveries cannot double-email. Failed sends clear the claim so Stripe can retry.
+3. The verified Stripe event atomically upserts the donation and queues the receipt and staff notification in the email outbox.
+4. Outbox workers lease jobs, send the frozen payload with a stable Resend idempotency key, and record success only after provider acceptance. Ambiguous or repeated failures are moved to `needs_review`; they are not automatically resent beyond the 23-hour retry window.
 
-The site does not pretend to have a full external CRM queue by itself. The reliable automation implemented here is webhook-backed recording plus immediate donor/admin follow-up. The actual 30-day impact message still needs ADA staff or a future email automation platform to send the field update, unless a scheduled worker/CRM is added later.
+The follow-up cron builds an immutable digest of due donor updates. It is an internal reminder for staff; ADA staff still prepare and send the actual 30-day field update.
+
+### Outbox database and scheduler
+
+Apply `supabase/migrations/20261102161100_add_donation_email_outbox.sql` after the donations table migration and before deploying code that calls its RPCs. It creates service-role-only outbox tables and RPCs. The rollback under `supabase/rollback/` deletes delivery history and must not be run as routine cleanup.
+
+The existing VPS cron sends follow-up digests daily. The outbox also needs a frequent drain so transient email failures retry inside Resend's 24-hour idempotency window. After the migration and Worker route are deployed, run `scripts/install-donation-email-outbox-cron.sh` to add an outbox-only drain every five minutes. It reuses the existing `DONATION_FOLLOWUP_CRON_SECRET` file and does not rotate or print the secret. Pending jobs retain their frozen email payload until sent or moved to review; sent and review-needed payloads are scrubbed. The cron must be able to authenticate to the Worker for the retry cutoff and payload cleanup to run.
 
 ## Supabase
 
@@ -620,7 +626,7 @@ The biweekly schedule gate is important for date-based project lifecycle refresh
 | `PUBLIC_SUPABASE_URL`           | Supabase URL for client/server auth                                |
 | `PUBLIC_SUPABASE_ANON_KEY`      | Supabase anonymous key                                             |
 | `SUPABASE_SERVICE_ROLE_KEY`     | Server-only Supabase key for donation persistence/dashboard lookup |
-| `DONATION_FOLLOWUP_CRON_SECRET` | Bearer secret for the 30-day donation follow-up cron endpoint      |
+| `DONATION_FOLLOWUP_CRON_SECRET` | Bearer secret shared by the daily follow-up and five-minute outbox drain endpoints |
 | `CLOUDFLARE_API_TOKEN`          | GitHub Actions deploy to Cloudflare                                |
 | `CLOUDFLARE_ACCOUNT_ID`         | Cloudflare account for deploy workflow                             |
 

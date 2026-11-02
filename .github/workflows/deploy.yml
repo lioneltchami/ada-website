@@ -47,6 +47,8 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - name: Audit locked dependencies
+        run: npm audit --audit-level=low
       - run: npx playwright install --with-deps chromium
       - run: npm run build
         env:
