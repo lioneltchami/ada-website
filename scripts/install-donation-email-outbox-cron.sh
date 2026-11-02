@@ -10,7 +10,7 @@ REMOTE_ENV="/opt/backups/ada-followup-cron.env"
 REMOTE_SCRIPT="/opt/backups/ada-donation-email-outbox.sh"
 CRON_MARKER="ada-donation-email-outbox"
 
-ssh "$VPS_HOST" "bash -s" <<'REMOTE'
+ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$VPS_HOST" "bash -s" <<'REMOTE'
 set -euo pipefail
 umask 077
 REMOTE_ENV="/opt/backups/ada-followup-cron.env"
@@ -27,7 +27,7 @@ cat > "$REMOTE_SCRIPT" <<'SCRIPT'
 set -euo pipefail
 umask 077
 . /opt/backups/ada-followup-cron.env
-curl -fsS \
+curl -fsS -X POST \
   -H "Authorization: Bearer ${DONATION_FOLLOWUP_CRON_SECRET}" \
   "https://apotidev.org/api/cron/donation-email-outbox" \
   >/dev/null 2>> /opt/backups/ada-donation-email-outbox.log
