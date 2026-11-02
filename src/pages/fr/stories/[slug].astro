@@ -7,6 +7,7 @@ import {
   buildBlogPosting,
   toSchemaDate,
 } from '../../../lib/structured-data';
+import { resolveStoryImageAlt } from '../../../lib/story-image-alt';
 
 export async function getStaticPaths() {
   let posts: any[] = [];
@@ -28,7 +29,11 @@ const photoUrl = post.personPhoto?.asset?._ref
 const ogImage = post.personPhoto?.asset?._ref
   ? sanityImageUrl(post.personPhoto.asset._ref, 1200)
   : undefined;
-const ogImageAlt = post.personPhoto?.alt || title;
+const ogImageAlt = resolveStoryImageAlt(
+  post.personPhoto?.alt,
+  title,
+  'Image de témoignage',
+);
 const publishedTime = toSchemaDate(post.publishedAt);
 const blogPosting = buildBlogPosting({
   title,
