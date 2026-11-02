@@ -67,6 +67,7 @@ function isActive(href: string): boolean {
           showLocaleSwitch && (
             <a
               href={localeSwitch.href}
+              data-locale-switch={!localeSwitch.authRoute ? "" : undefined}
               class="font-heading text-xs font-semibold text-gray-600 hover:text-primary-700 underline-offset-4 hover:underline"
               hidden={localeSwitch.authRoute}
               data-auth-locale-switch={localeSwitch.authRoute ? "" : undefined}
@@ -181,6 +182,7 @@ function isActive(href: string): boolean {
             <li>
               <a
                 href={localeSwitch.href}
+                data-locale-switch={!localeSwitch.authRoute ? "" : undefined}
                 class:list={[
                   localeSwitch.authRoute ? "hidden" : "block",
                   "px-1 py-2.5 text-base text-gray-700 hover:text-primary-700",
