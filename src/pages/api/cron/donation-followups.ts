@@ -26,29 +26,66 @@ export const POST: APIRoute = async ({ request, url }) => {
     100,
   );
   const now = new Date();
-  const {
-    getDueDonationFollowUps,
-    markDonationFollowUpReminderSent,
-  } = await import("../../../lib/donations");
-  const { sendDonationFollowUpDigest } = await import("../../../lib/email");
+  const { enqueueFollowUpDigest, getDueDonationFollowUps } =
+    await import("../../../lib/donations");
+  const { createDonationFollowUpDigestPayload } =
+    await import("../../../lib/email");
+  const { processDonationEmailOutbox, sha256EmailPayload } =
+    await import("../../../lib/donation-email-outbox");
 
   const donations = await getDueDonationFollowUps(now, limit);
   if (donations.length === 0) {
-    return jsonResponse({ ok: true, dueCount: 0, dryRun });
+    if (dryRun) {
+      return jsonResponse({
+        ok: true,
+        dueCount: 0,
+        dryRun,
+        reminderMarkedCount: 0,
+      });
+    }
+    const outboxDrain = await processDonationEmailOutbox({ limit: 20 });
+    return jsonResponse({
+      ok: true,
+      dueCount: 0,
+      dryRun,
+      reminderMarkedCount: 0,
+      outboxDrain,
+    });
   }
 
   const ids = donations
     .map((donation) => donation.id)
     .filter((id): id is string => Boolean(id));
+  let outboxId: string | null = null;
+  let sentCount = 0;
+  let outboxDrain = { claimed: 0, sent: 0, deferred: 0, staleLease: 0 };
   if (!dryRun) {
-    await sendDonationFollowUpDigest({ donations, generatedAt: now });
-    await markDonationFollowUpReminderSent(ids, now);
+    const payload = createDonationFollowUpDigestPayload({
+      donations,
+      generatedAt: now,
+    });
+    outboxId = await enqueueFollowUpDigest({
+      donationIds: ids,
+      emailPayload: payload,
+      payloadSha256: await sha256EmailPayload(payload),
+      now,
+    });
+    if (outboxId) {
+      const result = await processDonationEmailOutbox({
+        limit: 1,
+        onlyIds: [outboxId],
+      });
+      sentCount = result.sent;
+    }
+    outboxDrain = await processDonationEmailOutbox({ limit: 20 });
   }
 
   return jsonResponse({
     ok: true,
     dueCount: donations.length,
-    reminderMarkedCount: dryRun ? 0 : ids.length,
+    reminderMarkedCount: sentCount ? ids.length : 0,
+    outboxId,
+    outboxDrain,
     dryRun,
   });
 };

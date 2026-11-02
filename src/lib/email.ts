@@ -46,6 +46,63 @@ interface SendEmailOptions {
   html?: string;
   text?: string;
   replyTo?: string;
+  idempotencyKey?: string;
+}
+
+export type ResendEmailPayload = Record<string, unknown>;
+
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    const object = value as Record<string, unknown>;
+    const entries = Object.keys(object)
+      .filter((key) => object[key] !== undefined)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableJson(object[key])}`);
+    return `{${entries.join(",")}}`;
+  }
+  return JSON.stringify(value) ?? "null";
+}
+
+export async function sendResendEmailPayload(
+  payload: ResendEmailPayload,
+  idempotencyKey?: string,
+) {
+  assertEmailConfigured();
+  const apiKey = resendApiKey();
+
+  if (!apiKey) {
+    console.log(
+      `[email] Would send message with idempotency key ${idempotencyKey || "none"}`,
+    );
+    return { success: true, simulated: true };
+  }
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${apiKey}`,
+  };
+  if (idempotencyKey) headers["Idempotency-Key"] = idempotencyKey;
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers,
+    body: stableJson(payload),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Email send failed: ${res.status} ${err}`);
+  }
+
+  let providerMessageId: string | null = null;
+  try {
+    const body = (await res.json()) as { id?: unknown };
+    if (typeof body.id === "string") providerMessageId = body.id;
+  } catch {
+    // A 2xx response still represents provider acceptance when no JSON body is returned.
+  }
+  return { success: true, providerMessageId };
 }
 
 export async function sendEmail({
@@ -54,37 +111,19 @@ export async function sendEmail({
   html,
   text,
   replyTo,
+  idempotencyKey,
 }: SendEmailOptions) {
-  assertEmailConfigured();
-  const apiKey = resendApiKey();
-
-  if (!apiKey) {
-    console.log(`[email] Would send to ${to}: ${subject}`);
-    return { success: true, simulated: true };
-  }
-
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
+  return sendResendEmailPayload(
+    {
       from: fromEmail(),
       to,
       subject,
       html,
       text,
       reply_to: replyTo,
-    }),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Email send failed: ${res.status} ${err}`);
-  }
-
-  return { success: true };
+    },
+    idempotencyKey,
+  );
 }
 
 export async function sendContactNotification(data: {
@@ -241,7 +280,7 @@ const DONATION_EMAIL_COPY = {
   },
 } satisfies Record<DonationLocale, Record<string, string>>;
 
-export async function sendDonationReceipt(data: {
+export async function createDonationReceiptEmailPayload(data: {
   email: string;
   name: string;
   amount: number;
@@ -250,13 +289,11 @@ export async function sendDonationReceipt(data: {
   locale?: DonationLocale;
   receiptId?: string;
   followUpDueAt?: string;
+  receiptDate?: string;
 }) {
-  assertEmailConfigured();
-  const apiKey = resendApiKey();
-
   const emailLocale: DonationLocale = data.locale === "fr" ? "fr" : "en";
   const copy = DONATION_EMAIL_COPY[emailLocale];
-  const date = formatDate(new Date(), emailLocale);
+  const date = formatDate(data.receiptDate || new Date(), emailLocale);
   const receiptId = data.receiptId || defaultReceiptId();
   const followUpDate = data.followUpDueAt
     ? formatDate(data.followUpDueAt, emailLocale)
@@ -337,29 +374,31 @@ export async function sendDonationReceipt(data: {
     },
   ];
 
-  if (!apiKey) {
-    console.log(`[email] Would send receipt to ${data.email}: ${receiptId}`);
-    return { success: true, simulated: true, receiptId };
-  }
-
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify(emailPayload),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Email send failed: ${res.status} ${err}`);
-  }
-
-  return { success: true, receiptId };
+  return emailPayload as ResendEmailPayload;
 }
 
-export async function sendDonationFollowUpNotification(data: {
+export async function sendDonationReceipt(data: {
+  email: string;
+  name: string;
+  amount: number;
+  project?: string;
+  frequency?: DonationFrequency;
+  locale?: DonationLocale;
+  receiptId?: string;
+  followUpDueAt?: string;
+  receiptDate?: string;
+  idempotencyKey?: string;
+}) {
+  const receiptId = data.receiptId || defaultReceiptId();
+  const payload = await createDonationReceiptEmailPayload({
+    ...data,
+    receiptId,
+  });
+  const result = await sendResendEmailPayload(payload, data.idempotencyKey);
+  return { ...result, receiptId };
+}
+
+export function createDonationFollowUpNotificationPayload(data: {
   email: string;
   name: string;
   amount: number;
@@ -369,10 +408,11 @@ export async function sendDonationFollowUpNotification(data: {
   followUpDueAt: string;
   stripeReference: string;
 }) {
-  return sendEmail({
+  return {
+    from: fromEmail(),
     to: "info@apotidev.org",
     subject: `30-day impact update due: ${data.name}`,
-    replyTo: data.email,
+    reply_to: data.email,
     text: [
       "Donation follow-up task",
       "",
@@ -393,10 +433,27 @@ export async function sendDonationFollowUpNotification(data: {
       "",
       "Do not include sensitive beneficiary details without consent.",
     ].join("\n"),
-  });
+  } satisfies ResendEmailPayload;
 }
 
-export async function sendDonationFollowUpDigest(data: {
+export async function sendDonationFollowUpNotification(data: {
+  email: string;
+  name: string;
+  amount: number;
+  project?: string;
+  frequency: DonationFrequency;
+  receiptId: string;
+  followUpDueAt: string;
+  stripeReference: string;
+  idempotencyKey?: string;
+}) {
+  return sendResendEmailPayload(
+    createDonationFollowUpNotificationPayload(data),
+    data.idempotencyKey,
+  );
+}
+
+export function createDonationFollowUpDigestPayload(data: {
   donations: Array<{
     donor_email: string;
     donor_name: string;
@@ -423,7 +480,8 @@ export async function sendDonationFollowUpDigest(data: {
     ].join("\n");
   });
 
-  return sendEmail({
+  return {
+    from: fromEmail(),
     to: "info@apotidev.org",
     subject: `Donation follow-ups due: ${data.donations.length}`,
     text: [
@@ -441,5 +499,26 @@ export async function sendDonationFollowUpDigest(data: {
       "",
       "Do not include sensitive beneficiary details without consent.",
     ].join("\n\n"),
-  });
+  } satisfies ResendEmailPayload;
+}
+
+export async function sendDonationFollowUpDigest(data: {
+  donations: Array<{
+    donor_email: string;
+    donor_name: string;
+    amount_cents: number;
+    currency: string;
+    frequency: DonationFrequency;
+    project_slug: string;
+    receipt_id?: string | null;
+    follow_up_due_at?: string | null;
+    paid_at: string;
+  }>;
+  generatedAt?: Date;
+  idempotencyKey?: string;
+}) {
+  return sendResendEmailPayload(
+    createDonationFollowUpDigestPayload(data),
+    data.idempotencyKey,
+  );
 }
