@@ -1,5 +1,6 @@
 ---
-import { getLocale, t, switchLocalePath, localePath } from "../../i18n";
+import { getLocale, t, localePath } from "../../i18n";
+import { getLocaleSwitchPath } from "../../i18n/routes";
 
 const locale = getLocale(
   Astro.url.pathname,
@@ -7,43 +8,12 @@ const locale = getLocale(
 );
 const i18n = t(locale);
 const currentPath = Astro.url.pathname;
-
-function hasLocaleAlternative(pathname: string): boolean {
-  const englishPath = pathname.replace(/^\/fr(?=\/|$)/, "") || "/";
-  if (
-    englishPath.startsWith("/auth") ||
-    englishPath === "/404" ||
-    englishPath.startsWith("/dashboard")
-  )
-    return false;
-  if (englishPath === "/donate/thank-you") return false;
-
-  return (
-    englishPath === "/" ||
-    englishPath === "/about" ||
-    englishPath === "/contact" ||
-    englishPath === "/donate" ||
-    englishPath === "/gallery" ||
-    englishPath === "/get-involved" ||
-    englishPath === "/monthly" ||
-    englishPath === "/sponsor" ||
-    englishPath === "/sponsor/inquiry" ||
-    englishPath === "/impact-scorecard" ||
-    englishPath === "/partners" ||
-    englishPath === "/privacy" ||
-    englishPath === "/resources" ||
-    englishPath === "/team" ||
-    englishPath === "/terms" ||
-    englishPath === "/transparency" ||
-    englishPath === "/projects" ||
-    englishPath.startsWith("/projects/") ||
-    englishPath === "/stories" ||
-    englishPath.startsWith("/stories/")
-  );
-}
-
-const switchPath = switchLocalePath(currentPath);
-const showLocaleSwitch = hasLocaleAlternative(currentPath);
+const localeSwitch = getLocaleSwitchPath(
+  currentPath,
+  locale,
+  Astro.url.searchParams,
+);
+const showLocaleSwitch = localeSwitch !== null;
 
 const navLinks = [
   { href: localePath("/about", locale), label: i18n.nav.about },
@@ -68,7 +38,7 @@ function isActive(href: string): boolean {
 >
   <nav
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-    aria-label="Main navigation"
+    aria-label={locale === "fr" ? "Navigation principale" : "Main navigation"}
   >
     <!-- N6 masthead: brand row -->
     <div class="flex items-center justify-between h-16">
@@ -96,8 +66,10 @@ function isActive(href: string): boolean {
         {
           showLocaleSwitch && (
             <a
-              href={switchPath}
+              href={localeSwitch.href}
               class="font-heading text-xs font-semibold text-gray-600 hover:text-primary-700 underline-offset-4 hover:underline"
+              hidden={localeSwitch.authRoute}
+              data-auth-locale-switch={localeSwitch.authRoute ? "" : undefined}
               aria-label={
                 locale === "en" ? "Switch to French" : "Passer en anglais"
               }
@@ -208,8 +180,18 @@ function isActive(href: string): boolean {
           showLocaleSwitch && (
             <li>
               <a
-                href={switchPath}
-                class="block px-1 py-2.5 text-base text-gray-700 hover:text-primary-700"
+                href={localeSwitch.href}
+                class:list={[
+                  localeSwitch.authRoute ? "hidden" : "block",
+                  "px-1 py-2.5 text-base text-gray-700 hover:text-primary-700",
+                ]}
+                hidden={localeSwitch.authRoute}
+                data-auth-locale-switch={
+                  localeSwitch.authRoute ? "" : undefined
+                }
+                aria-label={
+                  locale === "en" ? "Switch to French" : "Passer en anglais"
+                }
               >
                 {locale === "en" ? "Français" : "English"}
               </a>

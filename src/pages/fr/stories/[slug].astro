@@ -55,7 +55,7 @@ const blogPosting = buildBlogPosting({
   <article itemscope itemtype="https://schema.org/BlogPosting">
     <section class="bg-primary-900 text-white py-16 md:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav aria-label="Breadcrumb" class="mb-6">
+        <nav aria-label="Fil d’Ariane" class="mb-6">
           <ol class="flex items-center gap-1.5 text-sm text-white/70">
             <li><a href="/fr" class="hover:text-white transition-colors">Accueil</a></li>
             <li class="text-white/40">/</li>
@@ -115,18 +115,20 @@ const blogPosting = buildBlogPosting({
     <Section background="white" padding="sm">
       <div class="max-w-3xl mx-auto flex items-center justify-center gap-3">
         <span class="text-sm text-gray-500">Partager :</span>
-        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">X</a>
-        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">Facebook</a>
-        <a href={`https://wa.me/?text=${encodeURIComponent(title + ' ' + pageUrl)}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">WhatsApp</a>
+        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Partager « ${title} » sur X`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">X</a>
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Partager « ${title} » sur Facebook`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Facebook</a>
+        <a href={`https://wa.me/?text=${encodeURIComponent(title + ' ' + pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Partager « ${title} » sur WhatsApp`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">WhatsApp</a>
       </div>
     </Section>
 
     <Section background="gray" padding="md">
       <div class="max-w-3xl mx-auto">
-        <p class="text-gray-600">Inspiré(e) par cette histoire ?</p>
+        <p class="text-gray-600">Cette histoire vous inspire ? Découvrez d’autres façons de soutenir ADA.</p>
         <div class="mt-4 flex flex-col sm:flex-row items-start gap-3">
-          <a href="/fr/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors">Soutenir Notre Mission</a>
-          <a href="/fr/stories" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">Lire Plus d'Histoires</a>
+          <a href="/fr/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Soutenir les actions d’ADA</a>
+          <a href="/fr/get-involved" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Découvrir comment s’impliquer</a>
+          <a href="/fr/projects" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Découvrir les projets d’ADA</a>
+          <a href="/fr/stories" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Lire d’autres témoignages</a>
         </div>
       </div>
     </Section>

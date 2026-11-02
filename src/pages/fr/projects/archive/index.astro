@@ -2,7 +2,10 @@
 import PageLayout from "../../../../layouts/PageLayout.astro";
 import PageHero from "../../../../components/layout/PageHero.astro";
 import Section from "../../../../components/layout/Section.astro";
-import { loadProjectArchiveEntries } from "../../../../lib/project-archive";
+import {
+  countOwnerMarkedCompletions,
+  loadProjectArchiveEntries,
+} from "../../../../lib/project-archive";
 import { sanityImageUrl } from "../../../../lib/sanity";
 import { resolveHeroImage } from "../../../../lib/hero-images";
 
@@ -14,9 +17,7 @@ const heroImage = await resolveHeroImage([
 
 const archiveItems = records.map((r) => ({
   ...r,
-  thumbUrl: r.photo?.asset?._ref
-    ? sanityImageUrl(r.photo.asset._ref, 240)
-    : "",
+  thumbUrl: r.photo?.asset?._ref ? sanityImageUrl(r.photo.asset._ref, 240) : "",
   thumbAlt: r.photo?.alt || r.titleFr || r.title,
 }));
 
@@ -54,8 +55,15 @@ const totalBeneficiaries = archiveItems.reduce(
   0,
 );
 const totalBudget = archiveItems.reduce((sum, r) => sum + (r.budget || 0), 0);
-const completedCount = archiveItems.filter((r) => r.status === "completed").length;
-const years = [...new Set(archiveItems.map((r) => r.year))].sort((a, b) => b - a);
+const usdFormatter = new Intl.NumberFormat('fr-FR', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+});
+const completedCount = countOwnerMarkedCompletions(archiveItems);
+const years = [...new Set(archiveItems.map((r) => r.year))].sort(
+  (a, b) => b - a,
+);
 
 const byYear: Record<number, typeof archiveItems> = {};
 for (const r of archiveItems) {
@@ -63,15 +71,15 @@ for (const r of archiveItems) {
   byYear[r.year].push(r);
 }
 ---
-<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
+<!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 <PageLayout
-  title="Archives des Projets"
-  description="Parcourez le bilan complet des projets d'ADA depuis 2022."
+  title="Archives des dossiers de projets"
+  description="Parcourez les dossiers de projets d'ADA."
 >
   <PageHero
-    title="Notre Bilan"
-    subtitle="Tous les projets r\u00e9alis\u00e9s depuis 2022. Cliquez sur un d\u00e9mographique pour filtrer, ou parcourez la chronologie compl\u00e8te."
+    title="Archives des dossiers de projets"
+    subtitle="Parcourez les entrées d’archives par groupe ou explorez la chronologie."
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -87,28 +95,47 @@ for (const r of archiveItems) {
   </div>
 
   <Section background="white" padding="sm">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 border-y border-gray-200 py-6">
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 border-y border-gray-200 py-6"
+    >
       <div>
         <p class="text-2xl font-bold text-primary-700 tabular-nums">
           {totalBeneficiaries.toLocaleString()}
         </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">B\u00e9n\u00e9ficiaires Atteints</p>
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-primary-700 tabular-nums">{archiveItems.length}</p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">Projets R\u00e9alis\u00e9s</p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">
+          Nombres de bénéficiaires déclarés
+        </p>
+        <p class="mt-1 text-xs text-gray-500">
+          Somme par dossier; une même personne peut figurer dans plusieurs
+          projets.
+        </p>
       </div>
       <div>
         <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          ${totalBudget.toLocaleString()}
+          {archiveItems.length}
         </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">Total Investi</p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">
+          Entrées d’archives
+        </p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">
+          {usdFormatter.format(totalBudget)}
+        </p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">
+          Budgets et objectifs indiqués (USD)
+        </p>
+        <p class="mt-1 text-xs text-gray-500">
+          Somme des valeurs indiquées; ne représente pas une dépense vérifiée.
+        </p>
       </div>
       <div>
         <p class="text-2xl font-bold text-primary-700 tabular-nums">
           {completedCount}/{archiveItems.length}
         </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">Termin\u00e9s</p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">
+          Marqués comme terminés
+        </p>
       </div>
     </div>
   </Section>
@@ -118,17 +145,17 @@ for (const r of archiveItems) {
       <div
         class="flex flex-wrap gap-2 mb-8 justify-center"
         id="demo-tabs"
-        role="tablist"
-        aria-label="Filtrer par d\u00e9mographique"
+        role="group"
+        aria-label="Filtrer par groupe"
       >
         {
           demographics.map((d) => (
             <button
-              role="tab"
-              aria-selected={d === "all" ? "true" : "false"}
+              type="button"
+              aria-pressed={d === "all" ? "true" : "false"}
               data-demo={d}
               class:list={[
-                "px-4 py-2 text-sm font-medium rounded-md transition-all",
+                "px-4 py-2 text-sm font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2",
                 d === "all"
                   ? "bg-primary-600 text-white"
                   : "bg-white text-gray-700 border border-gray-200 hover:border-primary-300 hover:text-primary-700",
@@ -146,6 +173,22 @@ for (const r of archiveItems) {
           ))
         }
       </div>
+      <p
+        id="filter-result-count"
+        class="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {archiveItems.length} entrées d’archives affichées
+      </p>
+      <p
+        id="filter-no-results"
+        class="hidden text-center text-sm text-gray-600"
+        aria-live="polite"
+      >
+        Aucun projet ne correspond à ce groupe.
+      </p>
 
       <div class="relative">
         <div
@@ -159,9 +202,9 @@ for (const r of archiveItems) {
             <div class="mb-8" data-year-group={year}>
               <div class="relative flex items-center mb-4">
                 <div class="px-3 py-1 rounded-md border border-primary-600 bg-white flex items-center justify-center z-10">
-                  <span class="text-primary-700 font-bold text-xs md:text-sm tabular-nums">
+                  <h2 class="text-primary-700 font-bold text-xs md:text-sm tabular-nums">
                     {year}
-                  </span>
+                  </h2>
                 </div>
                 <div class="ml-3 h-px flex-1 bg-primary-100" />
               </div>
@@ -195,7 +238,11 @@ for (const r of archiveItems) {
                             <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-md font-medium">
                               {demoLabels[r.demographic]}
                             </span>
-                            {r.beneficiaries && <span>{r.beneficiaries.toLocaleString()} b\u00e9n\u00e9ficiaires</span>}
+                            {r.beneficiaries && (
+                              <span>
+                                {r.beneficiaries.toLocaleString()} bénéficiaires
+                              </span>
+                            )}
                             {r.location && <span>{r.location}</span>}
                             {r.hasToR && (
                               <span class="text-primary-600">TdR</span>
@@ -211,8 +258,17 @@ for (const r of archiveItems) {
                               ${r.budget.toLocaleString()}
                             </p>
                           )}
-                          <p class:list={["text-xs", statusColors[r.status]]}>
-                            {statusLabels[r.status]}
+                          <p
+                            class:list={[
+                              "text-xs",
+                              r.autoArchived
+                                ? "text-gray-500"
+                                : statusColors[r.status],
+                            ]}
+                          >
+                            {r.autoArchived
+                              ? "Archivé selon la date de fin"
+                              : statusLabels[r.status]}
                           </p>
                         </div>
                       </div>
@@ -232,6 +288,8 @@ for (const r of archiveItems) {
   const tabs = document.querySelectorAll("#demo-tabs button");
   const items = document.querySelectorAll(".archive-item");
   const yearGroups = document.querySelectorAll("[data-year-group]");
+  const resultCount = document.getElementById("filter-result-count");
+  const noResults = document.getElementById("filter-no-results");
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -245,7 +303,7 @@ for (const r of archiveItems) {
           "border",
           "border-gray-200",
         );
-        t.setAttribute("aria-selected", "false");
+        t.setAttribute("aria-pressed", "false");
       });
       tab.classList.remove(
         "bg-white",
@@ -254,13 +312,20 @@ for (const r of archiveItems) {
         "border-gray-200",
       );
       tab.classList.add("bg-primary-600", "text-white");
-      tab.setAttribute("aria-selected", "true");
+      tab.setAttribute("aria-pressed", "true");
 
+      let visibleCount = 0;
       items.forEach((item) => {
         const el = item as HTMLElement;
-        el.style.display =
-          demo === "all" || el.dataset.demo === demo ? "" : "none";
+        const isVisible = demo === "all" || el.dataset.demo === demo;
+        el.style.display = isVisible ? "" : "none";
+        if (isVisible) visibleCount += 1;
       });
+
+      if (resultCount) {
+        resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? "entrée d’archive affichée" : "entrées d’archives affichées"}`;
+      }
+      noResults?.classList.toggle("hidden", visibleCount > 0);
 
       yearGroups.forEach((group) => {
         const el = group as HTMLElement;

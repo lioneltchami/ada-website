@@ -119,19 +119,21 @@ const blogPosting = buildBlogPosting({
     <Section background="white" padding="sm">
       <div class="max-w-3xl mx-auto flex items-center justify-center gap-3">
         <span class="text-sm text-gray-500">Share this story:</span>
-        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">X</a>
-        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">Facebook</a>
-        <a href={`https://wa.me/?text=${encodeURIComponent(post.title + ' ' + pageUrl)}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">WhatsApp</a>
+        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Share “${post.title}” on X`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">X</a>
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Share “${post.title}” on Facebook`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Facebook</a>
+        <a href={`https://wa.me/?text=${encodeURIComponent(post.title + ' ' + pageUrl)}`} target="_blank" rel="noopener noreferrer" aria-label={`Share “${post.title}” on WhatsApp`} class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">WhatsApp</a>
       </div>
     </Section>
 
     <!-- CTA -->
     <Section background="gray" padding="md">
       <div class="max-w-3xl mx-auto">
-        <p class="text-gray-600">Inspired by this story?</p>
+        <p class="text-gray-600">Inspired by this story? Explore more ways to connect with ADA.</p>
         <div class="mt-4 flex flex-col sm:flex-row items-start gap-3">
-          <a href="/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors">Support Our Mission</a>
-          <a href="/stories" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">Read More Stories</a>
+          <a href="/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Support ADA’s work</a>
+          <a href="/get-involved" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Explore ways to get involved</a>
+          <a href="/projects" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Explore ADA projects</a>
+          <a href="/stories" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Read more stories</a>
         </div>
       </div>
     </Section>
