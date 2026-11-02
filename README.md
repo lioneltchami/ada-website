@@ -644,7 +644,7 @@ Use `.env.example` as the template.
 
 ### Requirements
 
-- Node.js `>=22.12.0`
+- Node.js `>=22.23.4`
 - npm
 - Access to Sanity project if working with live content
 - Stripe/Supabase credentials if testing payments/auth
