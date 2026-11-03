@@ -16,69 +16,52 @@ async function htmlFiles(directory) {
 	return files;
 }
 
-function page(directory, route) {
-	return path.join(directory, route, "index.html");
+const route = (locale, slug) => path.join(client, locale === "fr" ? "fr/stories" : "stories", slug, "index.html");
+const enIndex = await readFile(path.join(client, "stories/index.html"), "utf8");
+const frIndex = await readFile(path.join(client, "fr/stories/index.html"), "utf8");
+assert.match(enIndex, /Most articles below discuss general themes/);
+assert.match(frIndex, /ne décrivent pas des témoignages individuels vérifiés/);
+assert.equal((enIndex.match(/class="group block rounded-xl/g) || []).length, 18);
+assert.equal((frIndex.match(/class="group block rounded-xl/g) || []).length, 18);
+assert.doesNotMatch(`${enIndex}${frIndex}`, /cdn\.sanity\.io\/images\/rj2m21gk|\[[A-Z][A-Z0-9 _/-]*\]/);
+
+const enPages = (await htmlFiles(storyRoot)).filter((file) => file !== path.join(storyRoot, "index.html"));
+const frPages = (await htmlFiles(path.join(client, "fr/stories"))).filter((file) => file !== path.join(client, "fr/stories/index.html"));
+assert.equal(enPages.length, 18, `Expected 18 English routes, found ${enPages.length}`);
+assert.equal(frPages.length, 18, `Expected 18 French routes, found ${frPages.length}`);
+
+for (const slug of ["donations-changed-lives-2024", "transparency-report-2024"]) {
+	const en = await readFile(route("en", slug), "utf8");
+	const fr = await readFile(route("fr", slug), "utf8");
+	assert.match(en, /under review/i);
+	assert.match(fr, /en cours de vérification/i);
+	assert.match(en, /No totals are shown here/);
+	assert.match(fr, /Aucun total n’est présenté ici/);
+	assert.doesNotMatch(`${en}${fr}`, /\$\s?\d|\d[,.]?\d*\s?CFA/);
 }
 
-const enIndexPath = page(client, "stories");
-const frIndexPath = page(client, "fr/stories");
-const enIndex = await readFile(enIndexPath, "utf8");
-const frIndex = await readFile(frIndexPath, "utf8");
-
-assert.match(enIndex, /Stories are temporarily unavailable/);
-assert.match(frIndex, /Les récits sont temporairement indisponibles/);
-assert.doesNotMatch(enIndex, /class="story-card"|story-filters|cdn\.sanity\.io\/images\/rj2m21gk/);
-assert.doesNotMatch(frIndex, /class="story-card"|story-filters|cdn\.sanity\.io\/images\/rj2m21gk/);
-
-const enPages = (await htmlFiles(storyRoot)).filter((file) =>
-	file !== enIndexPath,
-);
-const frPages = await htmlFiles(path.join(client, "fr/stories"));
-const frDetails = frPages.filter((file) => file !== frIndexPath);
-assert.equal(enPages.length, 18, `Expected 18 English story routes, found ${enPages.length}`);
-assert.equal(frDetails.length, 18, `Expected 18 French story routes, found ${frDetails.length}`);
-
-for (const [files, marker, locale] of [
-	[enPages, "Story details are being updated", "English"],
-	[frDetails, "Les détails du récit sont en cours de mise à jour", "French"],
-]) {
+for (const [files, lang, locale] of [[enPages, "en", "English"], [frPages, "fr", "French"]]) {
 	for (const file of files) {
 		const html = await readFile(file, "utf8");
-		assert.ok(html.includes(marker), `${locale} placeholder missing from ${file}`);
-		assert.doesNotMatch(
-			html,
-			/BlogPosting|BreadcrumbList|itemprop="headline"|article:published_time|og:type" content="article"|cdn\.sanity\.io\/images\/rj2m21gk/,
-			`${locale} story metadata or image leaked into ${file}`,
-		);
-		assert.match(html, /<meta name="robots" content="noindex, follow"\s*\/?>/,
-			`${locale} placeholder route should not be indexed: ${file}`);
-		assert.doesNotMatch(html, /hreflang=/,
-			`${locale} placeholder route should not advertise an empty alternate-language page: ${file}`);
+		assert.match(html, new RegExp(`<html[^>]+lang="${lang}"`), `${locale} lang missing: ${file}`);
+		assert.match(html, /<meta name="robots" content="noindex, follow"\s*\/?\s*>/,
+			`${locale} Story should remain noindex pending owner fact review: ${file}`);
+		assert.doesNotMatch(html, /BlogPosting|BreadcrumbList|article:published_time|og:type" content="article"|cdn\.sanity\.io\/images\/rj2m21gk|\[[A-Z][A-Z0-9 _/-]*\]/,
+			`${locale} page contains original CMS metadata, images, or placeholders: ${file}`);
+		assert.match(html, /This page discusses a general theme|Cette page présente un thème général|Summary under review|Synthèse en cours de vérification/,
+			`${locale} safe context missing: ${file}`);
 	}
 }
 
-const enHome = await readFile(path.join(client, "index.html"), "utf8");
-const frHome = await readFile(page(client, "fr"), "utf8");
-assert.match(enHome, /Story details are being reviewed/);
-assert.match(frHome, /Les détails des récits sont en cours de vérification/);
-
-const sitemapFiles = (await readdir(client)).filter((file) =>
-	/^sitemap-.*\.xml$/.test(file),
-);
+const sitemapFiles = (await readdir(client)).filter((file) => /^sitemap-.*\.xml$/.test(file));
 assert.ok(sitemapFiles.length > 0, "Expected generated sitemap files");
-const sitemap = (
-	await Promise.all(
-		sitemapFiles.map((file) => readFile(path.join(client, file), "utf8")),
-	)
-).join("\n");
-assert.match(sitemap, /https:\/\/apotidev\.org\/stories\//);
-assert.match(sitemap, /https:\/\/apotidev\.org\/fr\/stories\//);
-assert.doesNotMatch(
-	sitemap,
-	/<loc>https:\/\/apotidev\.org\/(?:fr\/)?stories\/[^<]+<\/loc>/,
-	"Story detail placeholders should not be advertised in the sitemap",
-);
+const sitemap = (await Promise.all(sitemapFiles.map((file) => readFile(path.join(client, file), "utf8")))).join("\n");
+assert.doesNotMatch(sitemap, /https:\/\/apotidev\.org\/(?:fr\/)?stories\/[^<]+<\/loc>/,
+	"Story detail URLs retain existing noindex status until owner review is complete");
 
-console.log(
-	`Story review mode verified: 18 English and 18 French noindex detail routes excluded from the sitemap, both indexes retained, and bilingual homepage notice.`,
-);
+const enHome = await readFile(path.join(client, "index.html"), "utf8");
+const frHome = await readFile(path.join(client, "fr/index.html"), "utf8");
+assert.match(enHome, /general support themes, not verified individual case reports/);
+assert.match(frHome, /thèmes généraux de soutien, et non des témoignages individuels vérifiés/);
+
+console.log("Story release verified: 18 bilingual safe pages, 2 financial notices, no fact placeholders, personal images, structured data, or detail URLs in the sitemap.");

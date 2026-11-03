@@ -1,20 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { getStoryReviewCopy } from "../src/lib/story-review-notice";
 
-describe("bilingual interim story notices", () => {
-	it("provides parallel, non-factual English and French notices", () => {
+describe("bilingual homepage Stories feature", () => {
+	it("explains that most articles are program perspectives and finance remains under review", () => {
 		const en = getStoryReviewCopy("en");
 		const fr = getStoryReviewCopy("fr");
 
-		expect(en.indexTitle).toMatch(/temporarily unavailable/i);
-		expect(fr.indexTitle).toMatch(/temporairement indisponibles/i);
-		expect(en.detailDescription).toMatch(/English and French/i);
-		expect(fr.detailDescription).toMatch(/anglaise et française/i);
-		expect(en.featuredMessage).toMatch(/reviewing/i);
-		expect(fr.featuredMessage).toMatch(/vérifie/i);
+		expect(en.featuredMessage).toMatch(/general support themes/i);
+		expect(en.featuredMessage).toMatch(/financial summaries remain under review/i);
+		expect(fr.featuredMessage).toMatch(/thèmes généraux de soutien/i);
+		expect(fr.featuredMessage).toMatch(/synthèses financières.*en cours de vérification/i);
 	});
 
-	it("keeps locale links and next steps in the selected language", () => {
+	it("keeps the featured link and next steps in the selected language", () => {
 		expect(getStoryReviewCopy("en").featuredLink).toBe("Stories and updates →");
 		expect(getStoryReviewCopy("fr").featuredLink).toBe("Témoignages et actualités →");
 		expect(getStoryReviewCopy("en").donate).toBe("Donate");

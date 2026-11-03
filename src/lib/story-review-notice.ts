@@ -19,10 +19,10 @@ const COPY = {
 		detailNoticeMessage:
 			"This story is temporarily unavailable while ADA reviews its English and French text.",
 		detailBackLink: "Back to Stories & Updates →",
-		featuredLabel: "Stories update",
-		featuredTitle: "Story details are being reviewed",
+		featuredLabel: "Stories & updates",
+		featuredTitle: "Explore our program perspectives",
 		featuredMessage:
-			"ADA is reviewing the English and French story text. Please visit the Stories page for updates.",
+			"These bilingual articles discuss general support themes, not verified individual case reports. ADA’s two financial summaries remain under review.",
 		featuredLink: "Stories and updates →",
 		home: "Home",
 		stories: "Stories & Updates",
@@ -46,10 +46,10 @@ const COPY = {
 		detailNoticeMessage:
 			"Ce récit est temporairement indisponible pendant qu’ADA vérifie ses versions anglaise et française.",
 		detailBackLink: "Retour aux témoignages et actualités →",
-		featuredLabel: "Mise à jour des récits",
-		featuredTitle: "Les détails des récits sont en cours de vérification",
+		featuredLabel: "Témoignages et actualités",
+		featuredTitle: "Découvrir nos perspectives sur les programmes",
 		featuredMessage:
-			"ADA vérifie les textes des récits en anglais et en français. Consultez la page des témoignages pour les mises à jour.",
+			"Ces articles bilingues présentent des thèmes généraux de soutien, et non des témoignages individuels vérifiés. Les deux synthèses financières d’ADA restent en cours de vérification.",
 		featuredLink: "Témoignages et actualités →",
 		home: "Accueil",
 		stories: "Témoignages & Actualités",

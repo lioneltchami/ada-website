@@ -1,46 +1,25 @@
 ---
-import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/layout/PageHero.astro';
-import Section from '../../components/layout/Section.astro';
-import StoryReviewNotice from '../../components/home/StoryReviewNotice.astro';
-import { getBlogPostSlugs } from '../../lib/sanity';
-import { getStoryReviewCopy } from '../../lib/story-review-notice';
+import PageLayout from "../../layouts/PageLayout.astro";
+import StoryReleaseDetail from "../../components/stories/StoryReleaseDetail.astro";
+import { STORY_RELEASE_COPY } from "../../lib/story-release-copy";
 
-export async function getStaticPaths() {
-  try {
-    const slugs = await getBlogPostSlugs();
-    return slugs.map((slug) => ({ params: { slug } }));
-  } catch {
-    return [];
-  }
+export function getStaticPaths() {
+	return Object.keys(STORY_RELEASE_COPY).map((slug) => ({ params: { slug } }));
 }
 
-const copy = getStoryReviewCopy('en');
+const { slug = "" } = Astro.params;
+const post = STORY_RELEASE_COPY[slug as keyof typeof STORY_RELEASE_COPY];
+if (!post) throw new Error(`Unknown Story slug: ${slug}`);
+const copy = post.en;
 ---
 
 <PageLayout
-  title={copy.detailTitle}
-  description={copy.detailDescription}
-  ogImage="/brand/ada-logo.png"
-  ogImageAlt="Apoti Development Association"
-  noIndex={true}
-  noBreadcrumbJsonLd={true}
+	title={copy.title}
+	description={copy.excerpt}
+	ogImage="/brand/ada-logo.png"
+	ogImageAlt="Apoti Development Association"
+	noIndex
+	noBreadcrumbJsonLd
 >
-  <PageHero title={copy.detailTitle} compact />
-
-  <Section background="white" padding="lg">
-    <StoryReviewNotice locale="en" variant="detail" />
-  </Section>
-
-  <Section background="gray" padding="md">
-    <div class="max-w-3xl mx-auto">
-      <p class="text-gray-700">Explore other ways to connect with ADA.</p>
-      <div class="mt-4 flex flex-col sm:flex-row items-start gap-3">
-        <a href="/donate" class="px-6 py-3 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Donate</a>
-        <a href="/projects" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Explore ADA projects</a>
-        <a href="/get-involved" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Explore ways to get involved</a>
-        <a href="/contact" class="px-6 py-3 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">Contact ADA</a>
-      </div>
-    </div>
-  </Section>
+	<StoryReleaseDetail slug={slug} locale="en" />
 </PageLayout>
