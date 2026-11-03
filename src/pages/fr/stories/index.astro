@@ -1,26 +1,16 @@
 ---
-import PageLayout from '../../../layouts/PageLayout.astro';
-import PageHero from '../../../components/layout/PageHero.astro';
-import Section from '../../../components/layout/Section.astro';
-import StoryReviewNotice from '../../../components/home/StoryReviewNotice.astro';
-import { getStoryReviewCopy } from '../../../lib/story-review-notice';
+import PageLayout from "../../../layouts/PageLayout.astro";
+import PageHero from "../../../components/layout/PageHero.astro";
+import Section from "../../../components/layout/Section.astro";
+import StoryReleaseIndex from "../../../components/stories/StoryReleaseIndex.astro";
 
-const copy = getStoryReviewCopy('fr');
+const title = "Témoignages et actualités";
+const description = "Perspectives sur les programmes et conseils pratiques d’Apoti Development Association. Les synthèses financières restent en cours de vérification.";
 ---
 
-<PageLayout
-  title={copy.indexPageTitle}
-  description={copy.indexPageDescription}
-  ogImage="/brand/ada-logo.png"
-  ogImageAlt="Apoti Development Association"
->
-  <PageHero
-    title={copy.indexPageTitle}
-    subtitle={copy.indexHeroSubtitle}
-    compact
-  />
-
-  <Section background="white" padding="lg">
-    <StoryReviewNotice locale="fr" />
-  </Section>
+<PageLayout title={title} description={description} ogImage="/brand/ada-logo.png" ogImageAlt="Apoti Development Association">
+	<PageHero title={title} subtitle="Perspectives sur les programmes et conseils pratiques." badge="Témoignages et actualités" compact />
+	<Section background="white" padding="lg">
+		<StoryReleaseIndex locale="fr" />
+	</Section>
 </PageLayout>

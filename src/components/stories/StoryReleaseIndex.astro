@@ -1,0 +1,50 @@
+---
+import { localePath } from "../../i18n";
+import {
+	STORY_RELEASE_COPY,
+	STORY_RELEASE_ORDER,
+	type StoryReleaseLocale,
+} from "../../lib/story-release-copy";
+
+interface Props {
+	locale: StoryReleaseLocale;
+}
+
+const { locale } = Astro.props;
+const strings = locale === "fr"
+	? {
+		intro: "La plupart des textes ci-dessous présentent des thèmes généraux. Ils ne décrivent pas des témoignages individuels vérifiés ni des résultats mesurés.",
+		review: "En cours de vérification",
+		guide: "Guide pratique",
+		program: "Perspective de programme",
+		read: "Lire l’article →",
+	}
+	: {
+		intro: "Most articles below discuss general themes. They are not verified individual case studies or reports of measured results.",
+		review: "Under review",
+		guide: "Practical guide",
+		program: "Program perspective",
+		read: "Read article →",
+	};
+const items = STORY_RELEASE_ORDER.map((slug) => ({ slug, post: STORY_RELEASE_COPY[slug] }));
+---
+
+<div>
+	<p class="mx-auto mb-8 max-w-3xl text-sm leading-relaxed text-gray-600">{strings.intro}</p>
+	<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+		{items.map(({ slug, post }) => {
+			const copy = post[locale];
+			const badge = post.type === "review" ? strings.review : slug === "5-ways-to-support-free" ? strings.guide : strings.program;
+			return (
+				<a href={localePath(`/stories/${slug}`, locale)} class="group block rounded-xl border border-gray-200 bg-gray-50 p-5 transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">
+					<article class="flex h-full flex-col">
+						<span class:list={["mb-3 w-fit rounded-full px-2.5 py-1 text-xs font-semibold", post.type === "review" ? "bg-amber-100 text-amber-900" : "bg-primary-50 text-primary-800"]}>{badge}</span>
+						<h2 class="text-lg font-semibold leading-tight text-gray-900 group-hover:text-primary-700">{copy.title}</h2>
+						<p class="mt-3 flex-1 text-sm leading-relaxed text-gray-600">{copy.excerpt}</p>
+						<span class="mt-5 text-sm font-semibold text-primary-700">{strings.read}</span>
+					</article>
+				</a>
+			);
+		})}
+	</div>
+</div>

@@ -1,0 +1,64 @@
+---
+import PageHero from "../layout/PageHero.astro";
+import Section from "../layout/Section.astro";
+import { localePath } from "../../i18n";
+import {
+	getStoryReleaseCopy,
+	type StoryReleaseLocale,
+} from "../../lib/story-release-copy";
+
+interface Props {
+	slug: string;
+	locale: StoryReleaseLocale;
+}
+
+const { slug, locale } = Astro.props;
+const copy = getStoryReleaseCopy(slug, locale);
+if (!copy) throw new Error(`No safe Story copy is available for ${slug}`);
+const isReview = copy.type === "review";
+const copyMeta = locale === "fr"
+	? {
+		context: "Cette page présente un thème général. Il ne s’agit pas d’un témoignage individuel vérifié ni d’un compte rendu de résultats mesurés.",
+		reviewTitle: "Synthèse en cours de vérification",
+		reviewText: "Les chiffres ne sont pas affichés pendant la vérification de la période, de la devise et de la base comptable.",
+		donate: "Faire un don",
+		projects: "Découvrir les projets",
+		contact: "Contacter ADA",
+		back: "Retour aux témoignages et actualités",
+	}
+	: {
+		context: "This page discusses a general theme. It is not a verified individual case study or a report of measured outcomes.",
+		reviewTitle: "Summary under review",
+		reviewText: "Figures are not shown while the reporting period, currency, and accounting basis are being checked.",
+		donate: "Donate",
+		projects: "Explore projects",
+		contact: "Contact ADA",
+		back: "Back to Stories & Updates",
+	};
+---
+
+<PageHero title={copy.title} subtitle={isReview ? copyMeta.reviewTitle : ""} compact />
+<Section background="white" padding="lg">
+	<div class="mx-auto max-w-3xl">
+		{isReview ? (
+			<div class="rounded-lg border border-amber-300 bg-amber-50 p-5" role="status">
+				<h2 class="font-heading text-lg font-bold text-amber-950">{copyMeta.reviewTitle}</h2>
+				<p class="mt-2 text-sm leading-relaxed text-amber-950">{copyMeta.reviewText}</p>
+			</div>
+		) : (
+			<p class="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm leading-relaxed text-gray-700">{copyMeta.context}</p>
+		)}
+		<article class="space-y-5 text-base leading-8 text-gray-700">
+			{copy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+		</article>
+		<nav class="mt-10 border-t border-gray-200 pt-6" aria-label={locale === "fr" ? "Pages associées" : "Related pages"}>
+			<p class="font-semibold text-gray-900">{locale === "fr" ? "En savoir plus" : "Explore further"}</p>
+			<div class="mt-3 flex flex-wrap gap-3">
+				<a class="rounded-lg bg-secondary-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-secondary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700" href={localePath("/donate", locale)}>{copyMeta.donate}</a>
+				<a class="rounded-lg border border-primary-200 px-4 py-2.5 text-sm font-semibold text-primary-800 hover:bg-primary-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700" href={localePath("/projects", locale)}>{copyMeta.projects}</a>
+				<a class="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700" href={localePath("/contact", locale)}>{copyMeta.contact}</a>
+			</div>
+			<a class="mt-6 inline-block text-sm font-semibold text-primary-800 underline underline-offset-4" href={localePath("/stories", locale)}>{copyMeta.back} →</a>
+		</nav>
+	</div>
+</Section>
