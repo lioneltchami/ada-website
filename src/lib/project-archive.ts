@@ -7,6 +7,7 @@ import {
 } from "../data/organization";
 import { getProjectLifecycleState } from "./project-lifecycle";
 import { getProjects, type SanityProject } from "./sanity";
+import { isWithdrawnProjectSlug } from "./withdrawn-project-content";
 
 export type ProjectDemographic =
   | "widows"
@@ -87,10 +88,8 @@ const DEMOGRAPHIC_ORDER: ProjectDemographic[] = [
 ];
 
 const SLUG_SET = new Set<string>(documentArchiveProjects);
-const WITHDRAWN_PROJECT_SLUGS = new Set(["clean-water-well-nkwen-mbatu"]);
-
 export function isWithdrawnProject(slug: string): boolean {
-  return WITHDRAWN_PROJECT_SLUGS.has(slug);
+	return isWithdrawnProjectSlug(slug);
 }
 
 /** Fallback when Sanity is unavailable at build time */

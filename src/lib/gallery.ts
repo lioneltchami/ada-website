@@ -1,5 +1,6 @@
 import { getSanityClient, sanityImageUrl } from "./sanity";
 import { type ContentLocale, pickLocalized } from "./sanity-locale";
+import { isWithdrawnGalleryImage } from "./withdrawn-project-content";
 
 export interface GalleryMosaicPhoto {
 	id: string;
@@ -21,6 +22,7 @@ export async function loadGalleryMosaic(
 	locale: ContentLocale = "en",
 ): Promise<GalleryMosaicPhoto[]> {
 	try {
+		const scanLimit = Math.max(limit * 4, limit);
 		const rows = await getSanityClient().fetch<
 			{
 				_id: string;
@@ -34,6 +36,7 @@ export async function loadGalleryMosaic(
 				projectTitle?: string;
 				projectTitleFr?: string;
 				projectSlug?: string;
+				reportUrl?: string;
 			}[]
 		>(
 			`*[_type == "galleryImage" && defined(photo.asset._ref)]
@@ -44,13 +47,14 @@ export async function loadGalleryMosaic(
           photo { asset { _ref }, alt, altFr },
           "projectTitle": project->title,
           "projectTitleFr": project->titleFr,
-          "projectSlug": project->slug.current
+          "projectSlug": project->slug.current,
+          reportUrl
         }`,
-			{ limit },
+			{ limit: scanLimit },
 		);
 
 		return rows
-			.filter((row) => row.photo?.asset?._ref)
+			.filter((row) => row.photo?.asset?._ref && !isWithdrawnGalleryImage(row))
 			.map((row) => {
 				const title = pickLocalized(row, "title", locale);
 				const alt = pickLocalized(
@@ -74,7 +78,8 @@ export async function loadGalleryMosaic(
 					href: galleryMosaicHref(row.projectSlug),
 					projectTitle: projectTitle || undefined,
 				};
-			});
+			})
+			.slice(0, limit);
 	} catch {
 		return [];
 	}
