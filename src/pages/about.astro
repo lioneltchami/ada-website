@@ -11,11 +11,13 @@ const i18n = t(locale);
 
 // Fallbacks
 let missionStatement = 'Shine the light of Jesus Christ by empowering widows, orphans, and young women in Cameroon through food distribution, education, vocational training, and healthcare — restoring dignity and building self-sufficiency.';
+const defaultMissionStatement = missionStatement;
 let storyParagraphs = [
   'Founded in 2021, Apoti Development Association was born from a deep conviction that faith must be expressed through action. In the heart of Cameroon, where widows, orphans, and young women face daily challenges of poverty and marginalization, we saw an opportunity to make a tangible difference.',
   'Pastor Emmanuel Tchami, witnessing the struggles of widows in his community who had lost everything — their husbands, their income, their dignity — felt called to act. He gathered a small group of committed believers and together they delivered their first food packages to three widows in Bamenda.',
-  'What began as a simple act of compassion has grown into a community-driven organization serving 5 communities across Cameroon, touching over 200 lives through six focused programs. Every program is designed not just to provide relief, but to build lasting self-sufficiency.',
+  'What began as a simple act of compassion has grown into a community-driven organization serving communities across Cameroon. Its programs are designed not just to provide relief, but to build lasting self-sufficiency.',
 ];
+const defaultStoryParagraphs = storyParagraphs;
 let coreValues = [
   { icon: '', title: 'Faith & Love', desc: 'Grounded in Christian faith, we serve with unconditional love and compassion.' },
   { icon: '', title: 'Dignity & Respect', desc: 'Every person we serve is treated with the dignity they deserve as God\'s creation.' },
@@ -29,7 +31,6 @@ let programs = [
   { icon: '', title: 'Skills Training', desc: 'Vocational training in tailoring, hairdressing, and crafts for young women.', slug: 'women-empowerment' },
   { icon: '', title: 'Hospital Visits', desc: 'Medical support and hospital visits for community members.', slug: 'emergency-relief' },
   { icon: '', title: 'Back-to-School Support', desc: 'School supplies, uniforms, and tuition for orphaned children.', slug: 'education-orphans' },
-  { icon: '', title: 'Clean Water Initiative', desc: 'Access to clean water for underserved communities, reducing waterborne disease.', slug: 'widow-support' },
   { icon: '', title: 'Community Clean-Up', desc: 'Environmental stewardship through clean-up drives, tree planting, and waste management education.', slug: 'women-empowerment' },
 ];
 let timeline = [
@@ -38,7 +39,7 @@ let timeline = [
   { year: '2023', event: 'Education program begins — 20 orphaned children sponsored for school' },
   { year: '2024', event: 'Bamenda office opened — expanded regional reach and partner documentation' },
   { year: '2025', event: '200+ lives impacted — community clean-up mobilizes 200 volunteers' },
-  { year: '2026', event: 'Pursuing Canadian institutional partnerships — planning second well and skills center' },
+  { year: '2026', event: 'Pursuing Canadian institutional partnerships and planning a skills center' },
 ];
 
 try {
@@ -64,6 +65,13 @@ try {
     if (page.timeline?.length) timeline = page.timeline;
   }
 } catch {}
+
+const wellReference = /clean water|water well|borehole|water access|puits|forage|eau potable/i;
+if (wellReference.test(missionStatement)) missionStatement = defaultMissionStatement;
+storyParagraphs = storyParagraphs.filter((paragraph) => !wellReference.test(paragraph));
+if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
+programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`));
+timeline = timeline.filter((item) => !wellReference.test(item.event));
 
 // Fetch a community photo for the story section + page hero
 let communityPhotoUrl = '';
@@ -221,7 +229,7 @@ try {
         Our Programs
       </h2>
       <p class="mt-4 text-lg text-gray-600 leading-relaxed">
-        Six focused programs addressing the most pressing needs in our communities.
+        Focused programs addressing the most pressing needs in our communities.
       </p>
     </div>
     <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200 max-w-4xl">

@@ -59,6 +59,7 @@ export type TransparencyCopy = {
     }>;
     allocationNote: string;
     annualSummary: string;
+    annualSummaryNote: string;
     tableHeaders: {
       year: string;
       totalReceived: string;
@@ -286,7 +287,7 @@ const en: TransparencyCopy = {
         value: "80%",
         width: "80%",
         detail:
-          "Food aid, school support, emergency relief, clean water, skills training, and beneficiary support delivered in Cameroon.",
+          "Food aid, school support, emergency relief, skills training, and beneficiary support delivered in Cameroon.",
       },
       {
         label: "Program Operations",
@@ -304,8 +305,9 @@ const en: TransparencyCopy = {
       },
     ],
     allocationNote:
-      "Allocation percentages are ADA's operating commitment and should be read with the annual summaries below. Project-restricted gifts are tracked against donor designations when provided.",
+      "Allocation percentages describe ADA's public operating model. Project-restricted gifts are tracked against donor designations when provided.",
     annualSummary: "Annual Financial Summary",
+    annualSummaryNote: "Annual financial figures are temporarily unavailable while project records are reviewed.",
     tableHeaders: {
       year: "Year",
       totalReceived: "Total Received",
@@ -313,36 +315,7 @@ const en: TransparencyCopy = {
       operations: "Operations (15%)",
       admin: "Admin (5%)",
     },
-    rows: [
-      {
-        year: "2022",
-        total: "$1,200",
-        programs: "$960",
-        operations: "$180",
-        admin: "$60",
-      },
-      {
-        year: "2023",
-        total: "$3,400",
-        programs: "$2,720",
-        operations: "$510",
-        admin: "$170",
-      },
-      {
-        year: "2024",
-        total: "$6,800",
-        programs: "$5,440",
-        operations: "$1,020",
-        admin: "$340",
-      },
-      {
-        year: "2025 (YTD)",
-        total: "$4,500",
-        programs: "$3,600",
-        operations: "$675",
-        admin: "$225",
-      },
-    ],
+    rows: [],
     totalLabel: "Total",
     totals: {
       total: "$15,900",
@@ -389,7 +362,7 @@ const en: TransparencyCopy = {
   },
   sdg: {
     intro:
-      "ADA's programs directly contribute to 7 of the 17 UN Sustainable Development Goals.",
+      "ADA's program areas align with several United Nations Sustainable Development Goals.",
     goals: [
       {
         number: "1",
@@ -416,12 +389,6 @@ const en: TransparencyCopy = {
         detail: "85% women/girls beneficiaries, empowerment programs",
       },
       {
-        number: "6",
-        color: "#26BDE2",
-        title: "Clean Water",
-        detail: "Borehole drilling, solar pump, 300+ served",
-      },
-      {
         number: "10",
         color: "#DD1367",
         title: "Reduced Inequalities",
@@ -443,10 +410,6 @@ const en: TransparencyCopy = {
     intro:
       "Every ADA program integrates environmental awareness — because healthy communities need a healthy planet.",
     items: [
-      {
-        title: "Clean Water Infrastructure",
-        desc: "Our boreholes eliminate reliance on polluted streams, reducing waterborne disease and protecting local water ecosystems from over-extraction.",
-      },
       {
         title: "Tree Planting & Reforestation",
         desc: "Every community clean-up includes tree planting. In 2024, we planted 50 trees across Bamenda — combating deforestation and providing future shade and fruit.",
@@ -672,7 +635,7 @@ const fr: TransparencyCopy = {
         value: "80%",
         width: "80%",
         detail:
-          "Aide alimentaire, soutien scolaire, secours d'urgence, eau potable, formation professionnelle et soutien aux bénéficiaires au Cameroun.",
+          "Aide alimentaire, soutien scolaire, secours d'urgence, formation professionnelle et soutien aux bénéficiaires au Cameroun.",
       },
       {
         label: "Opérations de Programme",
@@ -690,8 +653,9 @@ const fr: TransparencyCopy = {
       },
     ],
     allocationNote:
-      "Les pourcentages d'allocation sont l'engagement opérationnel d'ADA et doivent être lus avec les résumés annuels ci-dessous. Les dons affectés à un projet sont suivis selon les désignations des donateurs lorsqu'elles sont fournies.",
-    annualSummary: "Résumé Financier Annuel",
+      "Les pourcentages d'allocation décrivent le modèle opérationnel public d'ADA. Les dons affectés à un projet sont suivis selon les désignations des donateurs lorsqu'elles sont fournies.",
+    annualSummary: "Résumé financier annuel",
+    annualSummaryNote: "Les chiffres financiers annuels sont temporairement indisponibles pendant la revue des dossiers de projets.",
     tableHeaders: {
       year: "Année",
       totalReceived: "Total Reçu",
@@ -699,36 +663,7 @@ const fr: TransparencyCopy = {
       operations: "Opérations (15%)",
       admin: "Admin (5%)",
     },
-    rows: [
-      {
-        year: "2022",
-        total: "$1 200",
-        programs: "$960",
-        operations: "$180",
-        admin: "$60",
-      },
-      {
-        year: "2023",
-        total: "$3 400",
-        programs: "$2 720",
-        operations: "$510",
-        admin: "$170",
-      },
-      {
-        year: "2024",
-        total: "$6 800",
-        programs: "$5 440",
-        operations: "$1 020",
-        admin: "$340",
-      },
-      {
-        year: "2025 (cumul)",
-        total: "$4 500",
-        programs: "$3 600",
-        operations: "$675",
-        admin: "$225",
-      },
-    ],
+    rows: [],
     totalLabel: "Total",
     totals: {
       total: "$15 900",
@@ -802,12 +737,6 @@ const fr: TransparencyCopy = {
         detail: "85% femmes/filles bénéficiaires, programmes d'autonomisation",
       },
       {
-        number: "6",
-        color: "#26BDE2",
-        title: "Eau Propre",
-        detail: "Forage, pompe solaire, 300+ desservis",
-      },
-      {
         number: "10",
         color: "#DD1367",
         title: "Inégalités Réduites",
@@ -830,10 +759,6 @@ const fr: TransparencyCopy = {
     intro:
       "Chaque programme ADA intègre la sensibilisation environnementale — car des communautés saines ont besoin d'une planète saine.",
     items: [
-      {
-        title: "Infrastructure d'Eau Potable",
-        desc: "Nos forages éliminent la dépendance aux cours d'eau pollués, réduisant les maladies hydriques et protégeant les écosystèmes aquatiques locaux.",
-      },
       {
         title: "Plantation d'Arbres et Reboisement",
         desc: "Chaque nettoyage communautaire inclut la plantation d'arbres. En 2024, nous avons planté 50 arbres à Bamenda — luttant contre la déforestation.",

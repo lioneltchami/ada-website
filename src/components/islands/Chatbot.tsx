@@ -14,8 +14,8 @@ interface Props {
 const FALLBACK_RESPONSES: [RegExp, string, string][] = [
   [
     /project|program|work|projet|programme|activit/i,
-    "ADA runs 6 programs: Food Distribution, Skills Training, Hospital Visits, Back-to-School, Clean Water, and Community Clean-Up.",
-    "ADA mène 6 programmes : distribution alimentaire, formation professionnelle, visites à l’hôpital, rentrée scolaire, accès à l’eau potable et nettoyage communautaire.",
+    "ADA's programs include food distribution, skills training, hospital visits, back-to-school support, and community clean-up.",
+    "Les programmes d’ADA comprennent la distribution alimentaire, la formation professionnelle, les visites à l’hôpital, le soutien scolaire et le nettoyage communautaire.",
   ],
   [
     /donate|give|money|don|donner|argent|imp[oô]t|re[cç]u/i,

@@ -7,7 +7,6 @@ export const STORY_RELEASE_ORDER = [
 	"founder-letter-2026",
 	"5-ways-to-support-free",
 	"meet-esther-skills-training",
-	"clean-water-first-well-completed",
 	"fabrice-teenage-mentor",
 	"donations-changed-lives-2024",
 	"carine-graduate-to-mentor",

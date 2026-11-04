@@ -2,9 +2,9 @@
 
 This ledger focuses on the archived projects and their budget records from 2021 through 2025. It pairs the narrative completion reports with the financial reports so the story of each project stays tied to the numbers.
 
-Compiled on June 11, 2026 from the project archive under `public/docs/projects/`.
+Compiled on November 4, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 25. Total approved budget represented in the archive: 16,440,000 CFA. Total reported actual/spent amount: 12,501,800 CFA. Aggregate variance: 3,938,200 CFA.
+Archived projects included: 24. Total approved budget represented in the archive: 13,740,000 CFA. Total reported actual/spent amount: 9,851,800 CFA. Aggregate variance: 3,888,200 CFA.
 
 Active projects are intentionally excluded here so the focus stays on completed and archived work.
 
@@ -13,7 +13,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 | Year | Projects | Approved Budget | Actual / Spent | Variance |
 |---|---:|---:|---:|---:|
 | 2025 | 7 | 4,860,000 CFA | 3,750,000 CFA | 1,110,000 CFA |
-| 2024 | 6 | 7,080,000 CFA | 6,001,800 CFA | 1,078,200 CFA |
+| 2024 | 5 | 4,380,000 CFA | 3,351,800 CFA | 1,028,200 CFA |
 | 2023 | 4 | 1,560,000 CFA | 1,285,000 CFA | 275,000 CFA |
 | 2022 | 7 | 2,820,000 CFA | 1,380,000 CFA | 1,440,000 CFA |
 | 2021 | 1 | 120,000 CFA | 85,000 CFA | 35,000 CFA |
@@ -109,16 +109,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Budget: Approved 960,000 CFA; Actual/Spent —; Variance 15,000 CFA; Utilization 98.4%.
 - Finance note: 15,000 CFA under budget.
 - Source files: [`report.md`](public/docs/projects/back-to-school-sep-2024/report.md), [`financial.md`](public/docs/projects/back-to-school-sep-2024/financial.md)
-
-#### Borehole Drilling and Solar Pump Installation — Nkwen-Mbatu
-
-- Reference: `ADA/2024/002` | Location: Nkwen-Mbatu Village, ~15 km from Bamenda, North-West Region, Cameroon | Period: June 1 – October 31, 2024 | Status: ✅ Completed
-- Beneficiaries: 300+ villagers
-- What we did: The Clean Water Well project in Nkwen-Mbatu village was successfully completed within the planned 5-month timeframe and under budget. A 42-meter borehole was drilled, equipped with a solar-powered submersible pump, and connected to an elevated storage tank with two community tap stands.
-- Outcomes: The Clean Water Well project in Nkwen-Mbatu village was successfully completed within the planned 5-month timeframe and under budget. A 42-meter borehole was drilled, equipped with a solar-powered submersible pump, and connected to an elevated storage tank with two community tap stands.
-- Budget: Approved 2,700,000 CFA; Actual/Spent 2,650,000 CFA; Variance 50,000 CFA; Utilization 98.1%.
-- Finance note: 50,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/clean-water-well-nkwen-mbatu/report.md), [`financial.md`](public/docs/projects/clean-water-well-nkwen-mbatu/financial.md)
 
 #### Christmas Giving 2024
 

@@ -16,7 +16,6 @@ export const REGISTRATION_CERTIFICATE_URL =
   "/docs/diligence/ada-registration-certificate.pdf";
 
 export const annualReportPdfs = [
-  { year: "2024", path: "/docs/annual-reports/2024-annual-report.pdf" },
   { year: "2023", path: "/docs/annual-reports/2023-annual-report.pdf" },
   { year: "2022", path: "/docs/annual-reports/2022-annual-report.pdf" },
   { year: "2021", path: "/docs/annual-reports/2021-annual-report.pdf" },
@@ -33,7 +32,6 @@ export const documentArchiveProjects = [
   "christmas-giving-dec-2024",
   "city-cleanup-may-2023",
   "city-cleanup-may-2025",
-  "clean-water-well-nkwen-mbatu",
   "emergency-food-relief-bamenda-crisis",
   "first-widow-home-visits-2021",
   "hospital-prenatal-care-jul-2025",

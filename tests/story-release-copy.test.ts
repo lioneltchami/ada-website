@@ -6,11 +6,13 @@ import {
 } from "../src/lib/story-release-copy";
 
 describe("safe bilingual Story release copy", () => {
-	it("contains all 18 published Story routes once", () => {
+	it("contains the 17 remaining public Story routes once", () => {
 		const slugs = Object.keys(STORY_RELEASE_COPY);
-		expect(slugs).toHaveLength(18);
-		expect(new Set(STORY_RELEASE_ORDER).size).toBe(18);
+		expect(slugs).toHaveLength(17);
+		expect(new Set(STORY_RELEASE_ORDER).size).toBe(17);
 		expect(new Set(slugs)).toEqual(new Set(STORY_RELEASE_ORDER));
+		expect(getStoryReleaseCopy("clean-water-first-well-completed", "en")).toBeNull();
+		expect(getStoryReleaseCopy("clean-water-first-well-completed", "fr")).toBeNull();
 	});
 
 	it("has usable English and French copy without fact placeholders or personal source images", () => {

@@ -22,24 +22,6 @@ export type DiligenceDoc = {
 
 const EN: DiligenceDoc[] = [
 	{
-		group: "sponsor",
-		title: "Corporate Sponsor One-Pager",
-		desc: "One-page brief for HR, CSR, church boards, and internal sponsor approval emails.",
-		link: "/docs/diligence/ada-corporate-sponsor-one-pager.pdf",
-		external: true,
-		meta: "PDF · one page",
-		icon: "",
-	},
-	{
-		group: "sponsor",
-		title: "Sponsor Readiness Packet",
-		desc: "Concise sponsor tiers, reporting expectations, payment paths, and tax-status note.",
-		link: "/docs/diligence/ada-sponsor-readiness-packet.pdf",
-		external: true,
-		meta: "PDF · sponsor overview",
-		icon: "",
-	},
-	{
 		group: "legal",
 		title: "Registration Certificate",
 		desc: "Official Cameroon NGO registration certificate for sponsor files.",
@@ -67,15 +49,6 @@ const EN: DiligenceDoc[] = [
 		icon: "",
 	},
 	{
-		group: "budgets",
-		title: "Latest Financial Summary",
-		desc: "2024 program delivery totals, allocation model, and sponsor-facing finance notes.",
-		link: "/docs/diligence/ada-financial-summary-2024.pdf",
-		external: true,
-		meta: "PDF · 2024 summary",
-		icon: "",
-	},
-	{
 		group: "policies",
 		title: "Safeguarding Policy",
 		desc: "Child protection, consent, incident response, and community safety commitments.",
@@ -100,15 +73,6 @@ const EN: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-program-budget-template.pdf",
 		external: true,
 		meta: "PDF · template",
-		icon: "",
-	},
-	{
-		group: "sponsor",
-		title: "Impact Scorecard",
-		desc: "Lean set of public metrics with measurement basis, cadence, and source links.",
-		link: "/docs/diligence/ada-impact-scorecard.pdf",
-		external: true,
-		meta: "PDF · May 2026",
 		icon: "",
 	},
 	{
@@ -142,24 +106,6 @@ const EN: DiligenceDoc[] = [
 
 const FR: DiligenceDoc[] = [
 	{
-		group: "sponsor",
-		title: "Fiche Sponsor Corporate",
-		desc: "Résumé d'une page pour RH, CSR, conseils d'église et validations internes.",
-		link: "/docs/diligence/ada-corporate-sponsor-one-pager.pdf",
-		external: true,
-		meta: "PDF · 1 page · anglais",
-		icon: "",
-	},
-	{
-		group: "sponsor",
-		title: "Dossier de Parrainage",
-		desc: "Niveaux de parrainage, attentes de rapport, modes de paiement et note fiscale.",
-		link: "/docs/diligence/ada-sponsor-readiness-packet.pdf",
-		external: true,
-		meta: "PDF · aperçu sponsor",
-		icon: "",
-	},
-	{
 		group: "legal",
 		title: "Certificat d'Enregistrement",
 		desc: "Certificat officiel d'enregistrement ONG au Cameroun pour les dossiers sponsor.",
@@ -187,15 +133,6 @@ const FR: DiligenceDoc[] = [
 		icon: "",
 	},
 	{
-		group: "budgets",
-		title: "Résumé Financier Récent",
-		desc: "Totaux 2024, modèle d'allocation et notes financières pour sponsors.",
-		link: "/docs/diligence/ada-financial-summary-2024.pdf",
-		external: true,
-		meta: "PDF · résumé 2024",
-		icon: "",
-	},
-	{
 		group: "policies",
 		title: "Politique de Protection",
 		desc: "Protection de l'enfance, consentement, réponse aux incidents et sécurité.",
@@ -220,15 +157,6 @@ const FR: DiligenceDoc[] = [
 		link: "/docs/diligence/ada-program-budget-template.pdf",
 		external: true,
 		meta: "PDF · modèle",
-		icon: "",
-	},
-	{
-		group: "sponsor",
-		title: "Tableau de Bord d'Impact",
-		desc: "Indicateurs publics avec base de mesure, cadence et liens sources.",
-		link: "/docs/diligence/ada-impact-scorecard.pdf",
-		external: true,
-		meta: "PDF · mai 2026",
 		icon: "",
 	},
 	{

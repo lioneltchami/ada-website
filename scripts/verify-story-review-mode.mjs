@@ -21,14 +21,15 @@ const enIndex = await readFile(path.join(client, "stories/index.html"), "utf8");
 const frIndex = await readFile(path.join(client, "fr/stories/index.html"), "utf8");
 assert.match(enIndex, /Most articles below discuss general themes/);
 assert.match(frIndex, /ne décrivent pas des témoignages individuels vérifiés/);
-assert.equal((enIndex.match(/class="group block rounded-xl/g) || []).length, 18);
-assert.equal((frIndex.match(/class="group block rounded-xl/g) || []).length, 18);
+assert.equal((enIndex.match(/class="group block rounded-xl/g) || []).length, 17);
+assert.equal((frIndex.match(/class="group block rounded-xl/g) || []).length, 17);
 assert.doesNotMatch(`${enIndex}${frIndex}`, /cdn\.sanity\.io\/images\/rj2m21gk|\[[A-Z][A-Z0-9 _/-]*\]/);
 
 const enPages = (await htmlFiles(storyRoot)).filter((file) => file !== path.join(storyRoot, "index.html"));
 const frPages = (await htmlFiles(path.join(client, "fr/stories"))).filter((file) => file !== path.join(client, "fr/stories/index.html"));
-assert.equal(enPages.length, 18, `Expected 18 English routes, found ${enPages.length}`);
-assert.equal(frPages.length, 18, `Expected 18 French routes, found ${frPages.length}`);
+assert.equal(enPages.length, 17, `Expected 17 English routes, found ${enPages.length}`);
+assert.equal(frPages.length, 17, `Expected 17 French routes, found ${frPages.length}`);
+assert.doesNotMatch(`${enIndex}${frIndex}`, /clean-water-first-well-completed|water access and everyday life|accès à l’eau au quotidien/i);
 
 for (const slug of ["donations-changed-lives-2024", "transparency-report-2024"]) {
 	const en = await readFile(route("en", slug), "utf8");
@@ -64,4 +65,4 @@ const frHome = await readFile(path.join(client, "fr/index.html"), "utf8");
 assert.match(enHome, /general support themes, not verified individual case reports/);
 assert.match(frHome, /thèmes généraux de soutien, et non des témoignages individuels vérifiés/);
 
-console.log("Story release verified: 18 bilingual safe pages, 2 financial notices, no fact placeholders, personal images, structured data, or detail URLs in the sitemap.");
+console.log("Story release verified: 17 bilingual safe pages, 2 financial notices, no removed well story, fact placeholders, personal images, structured data, or detail URLs in the sitemap.");
