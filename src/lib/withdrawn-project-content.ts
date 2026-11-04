@@ -40,9 +40,11 @@ export function isWithdrawnGalleryImage(image: {
 	titleFr?: string;
 	alt?: string;
 	altFr?: string;
+	category?: string;
 	projectTitle?: string;
 	projectTitleFr?: string;
 	reportUrl?: string;
+	photo?: { alt?: string; altFr?: string };
 }): boolean {
 	if (isWithdrawnProjectSlug(image.projectSlug)) return true;
 	const identifiers = [
@@ -51,6 +53,9 @@ export function isWithdrawnGalleryImage(image: {
 		image.titleFr,
 		image.alt,
 		image.altFr,
+		image.category,
+		image.photo?.alt,
+		image.photo?.altFr,
 		image.projectTitle,
 		image.projectTitleFr,
 		image.reportUrl,

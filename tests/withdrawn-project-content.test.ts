@@ -75,9 +75,13 @@ describe("withdrawn water-project content safeguards", () => {
 		expect(isWithdrawnGalleryImage({ title: "Clean Water Well Completed" })).toBe(true);
 		expect(isWithdrawnGalleryImage({ titleFr: "Premier puits achevé à Nkwen-Mbatu" })).toBe(true);
 		expect(isWithdrawnGalleryImage({ reportUrl: "/docs/projects/clean-water-well-nkwen-mbatu/report.pdf" })).toBe(true);
+		expect(isWithdrawnGalleryImage({ photo: { alt: "Borehole Drilling and Solar Pump Installation — Nkwen-Mbatu" } })).toBe(true);
+		expect(isWithdrawnGalleryImage({ photo: { altFr: "Forage et pompe solaire — Nkwen-Mbatu" } })).toBe(true);
+		expect(isWithdrawnGalleryImage({ category: "borehole-drilling-and-solar-pump" })).toBe(true);
 		expect(isWithdrawnGalleryImage({ title: "Community clean-water education session" })).toBe(false);
 		expect(isWithdrawnGalleryImage({ title: "Community water access workshop" })).toBe(false);
 		expect(isWithdrawnGalleryImage({ title: "Community clean-up in Nkwen-Mbatu" })).toBe(false);
 		expect(isWithdrawnGalleryImage({ titleFr: "Eau potable pour une autre communauté" })).toBe(false);
+		expect(isWithdrawnGalleryImage({ category: "clean-water" })).toBe(false);
 	});
 });
