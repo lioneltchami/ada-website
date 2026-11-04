@@ -6,7 +6,12 @@ import {
 	pickLocalized,
 	pickLocalizedStringArray,
 } from "./sanity-locale";
-import { isSafeProgramFaq } from "./withdrawn-project-content";
+import {
+	isSafeProgramFaq,
+	isWithdrawnGalleryImage,
+	isWithdrawnProjectRecord,
+	withoutWithdrawnProjects,
+} from "./withdrawn-project-content";
 
 export type { ContentLocale } from "./sanity-locale";
 
@@ -239,7 +244,9 @@ export async function getProjects(
     archiveRecord->{ slug, photo { asset { _ref }, alt, altFr } }
   }`,
 	);
-	return (rows as SanityProject[]).map((p) => localizeProject(p, locale));
+	return withoutWithdrawnProjects(rows as SanityProject[]).map((p) =>
+		localizeProject(p, locale),
+	);
 }
 
 export async function getProjectBySlug(
@@ -253,7 +260,9 @@ export async function getProjectBySlug(
   }`,
 		{ slug },
 	);
-	return row ? localizeProject(row as SanityProject, locale) : null;
+	return row && !isWithdrawnProjectRecord(row as SanityProject)
+		? localizeProject(row as SanityProject, locale)
+		: null;
 }
 
 export async function getImpactMetrics(
@@ -357,24 +366,26 @@ export async function getGalleryImages(
     }`,
 		{ category },
 	);
-	return (rows as any[]).map((img) => ({
-		...img,
-		title: pickLocalized(img, "title", locale),
-		projectTitle: pickLocalized(
-			{
-				projectTitle: img.projectTitle,
-				projectTitleFr: img.projectTitleFr,
-			},
-			"projectTitle",
-			locale,
-		),
-		photo: img.photo
-			? {
-					...img.photo,
-					alt: pickLocalized(img.photo, "alt", locale),
-				}
-			: img.photo,
-	}));
+	return (rows as any[])
+		.filter((img) => !isWithdrawnGalleryImage(img))
+		.map((img) => ({
+			...img,
+			title: pickLocalized(img, "title", locale),
+			projectTitle: pickLocalized(
+				{
+					projectTitle: img.projectTitle,
+					projectTitleFr: img.projectTitleFr,
+				},
+				"projectTitle",
+				locale,
+			),
+			photo: img.photo
+				? {
+						...img.photo,
+						alt: pickLocalized(img.photo, "alt", locale),
+					}
+				: img.photo,
+		}));
 }
 
 export async function getTestimonials(locale: ContentLocale = "en") {

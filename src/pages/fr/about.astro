@@ -2,8 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/layout/PageHero.astro';
 import Section from '../../components/layout/Section.astro';
-import { getAboutPage, type SanityAboutPage, sanityImageUrl } from '../../lib/sanity';
-import { createClient } from '@sanity/client';
+import { getAboutPage, getGalleryImages, type SanityAboutPage, sanityImageUrl } from '../../lib/sanity';
 
 let missionStatement = "Faire briller la lumière de Jésus-Christ en autonomisant les veuves, orphelins et jeunes femmes du Cameroun à travers la distribution alimentaire, l'éducation, la formation professionnelle et les soins de santé — restaurant la dignité et construisant l'autonomie.";
 const defaultMissionStatement = missionStatement;
@@ -71,13 +70,11 @@ timeline = timeline.filter((item) => !wellReference.test(item.event));
 let communityPhotoUrl = '';
 let communityPhotoAlt = 'Travail communautaire d\'ADA au Cameroun';
 try {
-  const projectId = import.meta.env.SANITY_PROJECT_ID || 'rj2m21gk';
-  const dataset = import.meta.env.SANITY_DATASET || 'production';
-  const client = createClient({ projectId, dataset, apiVersion: '2026-03-28', useCdn: true });
-  const photo = await client.fetch('*[_type == "galleryImage" && defined(photo)] | order(year desc) [0] { title, titleFr, "ref": photo.asset._ref, "alt": photo.alt, "altFr": photo.altFr }');
-  if (photo?.ref) {
-    communityPhotoUrl = sanityImageUrl(photo.ref, 1400);
-    communityPhotoAlt = photo.altFr || photo.titleFr || photo.alt || photo.title || communityPhotoAlt;
+  const photos = await getGalleryImages(undefined, "fr");
+  const photo = photos.find((item) => item.photo?.asset?._ref);
+  if (photo?.photo?.asset?._ref) {
+    communityPhotoUrl = sanityImageUrl(photo.photo.asset._ref, 1400);
+    communityPhotoAlt = photo.photo.alt || photo.title || communityPhotoAlt;
   }
 } catch {}
 ---

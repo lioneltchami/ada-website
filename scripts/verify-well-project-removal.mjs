@@ -28,14 +28,42 @@ for (const relative of [
 	assert.doesNotMatch(text, /ADA\/2024\/002|clean-water-well-nkwen-mbatu|Nkwen-Mbatu|Borehole Drilling and Solar Pump/i, `${relative} contains withdrawn project data`);
 }
 
-for (const relative of ["index.html", "fr/index.html", "about/index.html", "fr/about/index.html", "sponsor/index.html", "fr/sponsor/index.html", "transparency/index.html", "fr/transparency/index.html", "impact-scorecard/index.html", "fr/impact-scorecard/index.html", "resources/index.html", "fr/resources/index.html"]) {
+for (const relative of [
+	"index.html",
+	"fr/index.html",
+	"about/index.html",
+	"fr/about/index.html",
+	"projects/index.html",
+	"fr/projects/index.html",
+	"donate/index.html",
+	"fr/donate/index.html",
+	"monthly/index.html",
+	"fr/monthly/index.html",
+	"sponsor/index.html",
+	"fr/sponsor/index.html",
+	"transparency/index.html",
+	"fr/transparency/index.html",
+	"impact-scorecard/index.html",
+	"fr/impact-scorecard/index.html",
+	"resources/index.html",
+	"fr/resources/index.html",
+]) {
 	const html = await readFile(path.join(root, relative), "utf8");
-	assert.doesNotMatch(html, /clean-water-well-nkwen-mbatu|clean-water-first-well-completed|ADA\/2024\/002|Nkwen-Mbatu|Borehole drilling|Forage, pompe solaire|300\+ (?:served|desservis)/i, `${relative} contains a withdrawn project claim`);
+	assert.doesNotMatch(
+		html,
+		/clean-water-well-nkwen-mbatu|clean-water-first-well-completed|Clean Water Well|Borehole Drilling and Solar Pump|ADA\/2024\/002|Nkwen-Mbatu|Borehole drilling|Forage, pompe solaire|300\+ (?:served|desservis)/i,
+		`${relative} contains a withdrawn project claim`,
+	);
 }
 
 for (const relative of ["index.html", "fr/index.html"]) {
 	const html = await readFile(path.join(root, relative), "utf8");
 	assert.doesNotMatch(html, /ADA runs (?:six|6) programs|ADA propose (?:six|6) programmes|Clean Water Initiative|Eau Potable|second well|deuxième puits/i, `${relative} contains withdrawn chatbot or program copy`);
+}
+
+for (const relative of ["gallery/index.html", "fr/gallery/index.html"]) {
+	const html = await readFile(path.join(root, relative), "utf8");
+	assert.doesNotMatch(html, /Clean Water Well|First Water Well|Borehole Drilling and Solar Pump|Nkwen[\s-]*Mbatu|ADA\/2024\/002|Premier puits|Forage et pompe solaire/i, `${relative} contains imagery explicitly tied to the withdrawn project`);
 }
 
 for (const relative of ["transparency/index.html", "fr/transparency/index.html"]) {
