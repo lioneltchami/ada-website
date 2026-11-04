@@ -37,6 +37,7 @@ export async function loadGalleryMosaic(
 				projectTitleFr?: string;
 				projectSlug?: string;
 				reportUrl?: string;
+				category?: string;
 			}[]
 		>(
 			`*[_type == "galleryImage" && defined(photo.asset._ref)]
@@ -44,6 +45,7 @@ export async function loadGalleryMosaic(
           _id,
           title,
           titleFr,
+          category,
           photo { asset { _ref }, alt, altFr },
           "projectTitle": project->title,
           "projectTitleFr": project->titleFr,

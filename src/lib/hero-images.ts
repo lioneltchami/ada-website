@@ -46,6 +46,7 @@ export async function resolveHeroImage(
 			_id: string;
 			title: string;
 			titleFr?: string;
+			category?: string;
 			projectSlug?: string;
 			projectTitle?: string;
 			projectTitleFr?: string;
@@ -56,6 +57,7 @@ export async function resolveHeroImage(
         _id,
         title,
         titleFr,
+        category,
         reportUrl,
         photo { asset { _ref }, alt, altFr },
         "projectSlug": project->slug.current,
@@ -87,6 +89,7 @@ export async function resolveGalleryStrip(
 				_id: string;
 				title: string;
 				titleFr?: string;
+				category?: string;
 				projectSlug?: string;
 				projectTitle?: string;
 				projectTitleFr?: string;
@@ -98,6 +101,7 @@ export async function resolveGalleryStrip(
           _id,
           title,
           titleFr,
+          category,
           reportUrl,
           photo { asset { _ref }, alt, altFr },
           "projectSlug": project->slug.current,
