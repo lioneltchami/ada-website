@@ -6,11 +6,13 @@ import { getAboutPage, type SanityAboutPage, sanityImageUrl } from '../../lib/sa
 import { createClient } from '@sanity/client';
 
 let missionStatement = "Faire briller la lumière de Jésus-Christ en autonomisant les veuves, orphelins et jeunes femmes du Cameroun à travers la distribution alimentaire, l'éducation, la formation professionnelle et les soins de santé — restaurant la dignité et construisant l'autonomie.";
+const defaultMissionStatement = missionStatement;
 let storyParagraphs = [
   "Fondée en 2021, Apoti Development Association est née d'une conviction profonde que la foi doit s'exprimer par l'action. Au cœur du Cameroun, où les veuves, les orphelins et les jeunes femmes font face à des défis quotidiens de pauvreté et de marginalisation, nous avons vu une opportunité de faire une différence tangible.",
   "Le Pasteur Emmanuel Tchami, témoin des luttes des veuves de sa communauté qui avaient tout perdu — leur mari, leurs revenus, leur dignité — s'est senti appelé à agir. Il a rassemblé un petit groupe de croyants engagés et ensemble, ils ont livré leurs premiers colis alimentaires à trois veuves à Bamenda.",
-  "Ce qui a commencé comme un simple acte de compassion est devenu une organisation communautaire servant 5 communautés à travers le Cameroun, touchant plus de 200 vies à travers six programmes ciblés. Chaque programme est conçu non seulement pour apporter un soulagement, mais pour construire une autonomie durable.",
+  "Ce qui a commencé comme un simple acte de compassion est devenu une organisation communautaire au service de communautés à travers le Cameroun. Ses programmes sont conçus non seulement pour apporter un soutien immédiat, mais aussi pour renforcer l'autonomie.",
 ];
+const defaultStoryParagraphs = storyParagraphs;
 let coreValues = [
   { icon: '', title: 'Foi et Amour', desc: 'Enracinés dans la foi chrétienne, nous servons avec un amour inconditionnel.' },
   { icon: '', title: 'Dignité et Respect', desc: "Chaque personne est traitée avec la dignité qu'elle mérite." },
@@ -24,7 +26,6 @@ let programs = [
   { icon: '', title: 'Formation Professionnelle', desc: 'Couture, coiffure et artisanat pour les jeunes femmes.', slug: 'women-empowerment' },
   { icon: '', title: 'Visites Hospitalières', desc: 'Soutien médical et visites aux membres de la communauté.', slug: 'emergency-relief' },
   { icon: '', title: 'Soutien Scolaire', desc: 'Fournitures, uniformes et frais de scolarité pour les orphelins.', slug: 'education-orphans' },
-  { icon: '', title: 'Eau Potable', desc: "Accès à l'eau potable pour les communautés défavorisées.", slug: 'widow-support' },
   { icon: '', title: 'Nettoyage Communautaire', desc: "Gestion environnementale à travers des campagnes de nettoyage et plantation d'arbres.", slug: 'women-empowerment' },
 ];
 let timeline = [
@@ -33,7 +34,7 @@ let timeline = [
   { year: '2023', event: "Programme d'éducation — 20 orphelins parrainés pour l'école" },
   { year: '2024', event: 'Bureau de Bamenda ouvert — expansion régionale et documentation partenaires' },
   { year: '2025', event: '200+ vies impactées — nettoyage communautaire mobilise 200 bénévoles' },
-  { year: '2026', event: 'Partenariats institutionnels canadiens — planification du deuxième puits et centre de formation' },
+  { year: '2026', event: 'Partenariats institutionnels canadiens et préparation d’un centre de formation' },
 ];
 
 try {
@@ -59,6 +60,13 @@ try {
     if (page.timeline?.length) timeline = page.timeline;
   }
 } catch {}
+
+const wellReference = /clean water|water well|borehole|water access|puits|forage|eau potable/i;
+if (wellReference.test(missionStatement)) missionStatement = defaultMissionStatement;
+storyParagraphs = storyParagraphs.filter((paragraph) => !wellReference.test(paragraph));
+if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
+programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`));
+timeline = timeline.filter((item) => !wellReference.test(item.event));
 
 let communityPhotoUrl = '';
 let communityPhotoAlt = 'Travail communautaire d\'ADA au Cameroun';
@@ -215,7 +223,7 @@ try {
         Nos Programmes
       </h2>
       <p class="mt-4 text-lg text-gray-600 leading-relaxed">
-        Six programmes ciblés répondant aux besoins les plus pressants de nos communautés.
+        Des programmes ciblés répondent aux besoins les plus pressants de nos communautés.
       </p>
     </div>
     <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200 max-w-4xl">

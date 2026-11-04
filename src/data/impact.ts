@@ -31,23 +31,18 @@ export const IMPACT_FACTS = {
 	communitiesServed: 5,
 	widowsSupported: 15,
 	yearsOfService: 5,
-	documentedProjects: 25,
+	documentedProjects: 24,
 	womenEarningIncome: 20,
-	annualDeliveryUsd: 12_800,
-	annualPeopleReached: 520,
 	programAllocationPct: 80,
 	programOperationsPct: 15,
 	administrationPct: 5,
-	budgetUnderPct: 2.0,
 	educationCohortRetained: 20,
-	cleanWaterPeopleServed: 300,
 	emergencyFoodFamilies: 50,
 	emergencyFoodPeople: 150,
 	indicators: {
 		widowsIndependence: { actual: 12, target: 20, trained: 15 },
 		childrenInSchool: { actual: 20, target: 50 },
 		womenVocational: { actual: 10, target: 30, earning: 8 },
-		cleanWaterCommunities: { actual: 1, target: 3 },
 		emergencyFoodFamilies: { actual: 50, target: 100 },
 	},
 } as const;
@@ -139,15 +134,6 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 				targetValue: i.womenVocational.target,
 			},
 			{
-				indicator: "Communautés avec accès à l'eau potable",
-				baseline: "0 (2024)",
-				target: `${i.cleanWaterCommunities.target} d'ici 2026`,
-				actual: `${i.cleanWaterCommunities.actual} puits achevé (${IMPACT_FACTS.cleanWaterPeopleServed}+ desservis)`,
-				status: "in-progress",
-				actualValue: i.cleanWaterCommunities.actual,
-				targetValue: i.cleanWaterCommunities.target,
-			},
-			{
 				indicator: "Familles recevant une aide alimentaire d'urgence",
 				baseline: "3 (2022)",
 				target: `${i.emergencyFoodFamilies.target}/an`,
@@ -188,15 +174,6 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 			targetValue: i.womenVocational.target,
 		},
 		{
-			indicator: "Communities with clean water access",
-			baseline: "0 (2024)",
-			target: `${i.cleanWaterCommunities.target} by 2026`,
-			actual: `${i.cleanWaterCommunities.actual} well completed (${IMPACT_FACTS.cleanWaterPeopleServed}+ served)`,
-			status: "in-progress",
-			actualValue: i.cleanWaterCommunities.actual,
-			targetValue: i.cleanWaterCommunities.target,
-		},
-		{
 			indicator: "Families receiving emergency food support",
 			baseline: "3 (2022)",
 			target: `${i.emergencyFoodFamilies.target}/year`,
@@ -213,16 +190,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 	const prefix = locale === "fr" ? "/fr" : "";
 	if (locale === "fr") {
 		return [
-			{
-				label: "Dernière livraison annuelle",
-				value: `${f.annualDeliveryUsd.toLocaleString("fr-FR")} $ / ${f.annualPeopleReached}+ atteints`,
-				period: "Rapport annuel 2024",
-				measurement: "Measured",
-				cadence: "Annuel",
-				source: "Rapport annuel 2024",
-				sourceUrl: "/docs/annual-reports/2024-annual-report.pdf",
-				note: "Représente la livraison programmée déclarée en 2024 sur 6 projets, incluant portée directe et communautaire.",
-			},
 			{
 				label: "Dossiers de projets documentés",
 				value: String(f.documentedProjects),
@@ -255,16 +222,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 				note: `La cohorte Bamenda 2023 documente inscription, maintien et réussite de fin d'année pour ${f.educationCohortRetained} enfants.`,
 			},
 			{
-				label: "Personnes servies par l'infrastructure d'eau",
-				value: `${f.cleanWaterPeopleServed}+`,
-				period: "Projet 2024",
-				measurement: "Field records",
-				cadence: "Clôture de projet",
-				source: "Rapport du projet d'eau potable",
-				sourceUrl: "/docs/projects/clean-water-well-nkwen-mbatu/report.pdf",
-				note: "Estimation de portée communautaire basée sur le point d'eau terminé.",
-			},
-			{
 				label: "Portée de l'aide alimentaire d'urgence",
 				value: `${f.emergencyFoodFamilies} familles / ${f.emergencyFoodPeople}+ personnes`,
 				period: "Projet 2024",
@@ -285,30 +242,10 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 				sourceUrl: `${prefix}/transparency`,
 				note: "Objectif public de gestion responsable, pas un ratio de dépenses audité.",
 			},
-			{
-				label: "Discipline budgétaire",
-				value: `${f.budgetUnderPct.toFixed(1).replace(".", ",")}% sous budget`,
-				period: "Portefeuille 2024",
-				measurement: "Measured",
-				cadence: "Annuel",
-				source: "Rapport annuel 2024",
-				sourceUrl: "/docs/annual-reports/2024-annual-report.pdf",
-				note: "Écart du portefeuille 2024 déclaré par rapport aux budgets de projet.",
-			},
 		];
 	}
 
 	return [
-		{
-			label: "Latest annual delivery",
-			value: `$${f.annualDeliveryUsd.toLocaleString("en-US")} / ${f.annualPeopleReached}+ reached`,
-			period: "2024 annual report",
-			measurement: "Measured",
-			cadence: "Annual",
-			source: "2024 annual report",
-			sourceUrl: "/docs/annual-reports/2024-annual-report.pdf",
-			note: "Represents reported 2024 program delivery across 6 projects, including direct and community-level reach.",
-		},
 		{
 			label: "Documented project records",
 			value: String(f.documentedProjects),
@@ -341,16 +278,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 			note: `The Bamenda 2023 cohort documented enrollment, retention, and end-of-year pass results for ${f.educationCohortRetained} children.`,
 		},
 		{
-			label: "People served by clean water infrastructure",
-			value: `${f.cleanWaterPeopleServed}+`,
-			period: "2024 project",
-			measurement: "Field records",
-			cadence: "Project close-out",
-			source: "Clean water project report",
-			sourceUrl: "/docs/projects/clean-water-well-nkwen-mbatu/report.pdf",
-			note: "Community-level reach estimate based on the completed water point.",
-		},
-		{
 			label: "Emergency food relief reach",
 			value: `${f.emergencyFoodFamilies} families / ${f.emergencyFoodPeople}+ people`,
 			period: "2024 project",
@@ -370,16 +297,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 			source: "Transparency page and financial policy",
 			sourceUrl: `${prefix}/transparency`,
 			note: "A public allocation target for stewardship, not an audited expense ratio.",
-		},
-		{
-			label: "Budget discipline",
-			value: `${f.budgetUnderPct.toFixed(1)}% under budget`,
-			period: "2024 portfolio",
-			measurement: "Measured",
-			cadence: "Annual",
-			source: "2024 annual report",
-			sourceUrl: "/docs/annual-reports/2024-annual-report.pdf",
-			note: "Reported 2024 portfolio variance from project budgets.",
 		},
 	];
 }

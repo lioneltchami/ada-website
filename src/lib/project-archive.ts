@@ -87,6 +87,11 @@ const DEMOGRAPHIC_ORDER: ProjectDemographic[] = [
 ];
 
 const SLUG_SET = new Set<string>(documentArchiveProjects);
+const WITHDRAWN_PROJECT_SLUGS = new Set(["clean-water-well-nkwen-mbatu"]);
+
+export function isWithdrawnProject(slug: string): boolean {
+  return WITHDRAWN_PROJECT_SLUGS.has(slug);
+}
 
 /** Fallback when Sanity is unavailable at build time */
 const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
@@ -143,12 +148,6 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     title: "Back-to-School 2024",
     year: 2024,
     demographic: "orphans",
-  },
-  {
-    slug: "clean-water-well-nkwen-mbatu",
-    title: "Clean Water Well - Nkwen-Mbatu",
-    year: 2024,
-    demographic: "community",
   },
   {
     slug: "emergency-food-relief-bamenda-crisis",
@@ -475,7 +474,9 @@ export async function loadProjectArchiveEntries(): Promise<
     records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
   }
 
-  return records.map(withCanonicalProjectDocuments);
+  return records
+    .filter((record) => !isWithdrawnProject(record.slug.current))
+    .map(withCanonicalProjectDocuments);
 }
 
 export function demographicLabel(

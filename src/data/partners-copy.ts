@@ -187,7 +187,7 @@ const en: PartnersCopy = {
       {
         title: "Churches & Faith Communities",
         fit: "Mission boards, outreach teams, youth groups, and congregational campaigns.",
-        ask: "Sponsor school fees, clean water, widow support, or a seasonal giving campaign.",
+        ask: "Sponsor school fees, widow support, or a seasonal giving campaign.",
         proof:
           "Receive project photos, member-ready updates, receipts, and pastoral/community references.",
       },
@@ -280,10 +280,6 @@ const en: PartnersCopy = {
         label: "Education:",
         text: "Prioritizes girls who are first to be pulled from school when families face financial pressure",
       },
-      {
-        label: "Clean Water:",
-        text: "Frees girls from water-fetching duties (often 2+ hours/day), enabling school attendance",
-      },
     ],
   },
   alignment: {
@@ -302,7 +298,7 @@ const en: PartnersCopy = {
       {
         framework: "UN Sustainable Development Goals",
         alignment:
-          "SDG 1 (No Poverty), SDG 2 (Zero Hunger), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 6 (Clean Water), SDG 13 (Climate Action)",
+          "SDG 1 (No Poverty), SDG 2 (Zero Hunger), SDG 4 (Quality Education), SDG 5 (Gender Equality), SDG 13 (Climate Action)",
       },
       {
         framework: "European Consensus on Development",
@@ -317,7 +313,7 @@ const en: PartnersCopy = {
       {
         framework: "Paris Agreement / Climate Action",
         alignment:
-          "Clean water infrastructure, community clean-up programs, environmental stewardship education.",
+          "Community clean-up programs and environmental stewardship education.",
       },
     ],
   },
@@ -398,7 +394,7 @@ const en: PartnersCopy = {
           },
           {
             label: "Climate & Environment:",
-            text: "Our environmental programs (cleanups, tree planting, clean water) align with European Green Deal priorities.",
+            text: "Our environmental programs (cleanups and tree planting) align with European Green Deal priorities.",
           },
         ],
         tags: [
@@ -617,7 +613,7 @@ const fr: PartnersCopy = {
       {
         title: "Églises et Communautés de Foi",
         fit: "Conseils missionnaires, équipes d'évangélisation, groupes de jeunes et campagnes paroissiales.",
-        ask: "Sponsoriser les frais scolaires, l'eau potable, le soutien aux veuves ou une campagne de don saisonnière.",
+        ask: "Sponsoriser les frais scolaires, le soutien aux veuves ou une campagne de don saisonnière.",
         proof:
           "Recevoir des photos de projets, des mises à jour prêtes pour les membres, des reçus et des références pastorales/communautaires.",
       },
@@ -717,10 +713,6 @@ const fr: PartnersCopy = {
         label: "Éducation :",
         text: "Priorise les filles qui sont les premières retirées de l'école lorsque les familles font face à des pressions financières",
       },
-      {
-        label: "Eau Potable :",
-        text: "Libère les filles des corvées d'eau (souvent 2+ heures/jour), permettant la fréquentation scolaire",
-      },
     ],
   },
   alignment: {
@@ -739,7 +731,7 @@ const fr: PartnersCopy = {
       {
         framework: "Objectifs de Développement Durable de l'ONU",
         alignment:
-          "ODD 1 (Pas de pauvreté), ODD 2 (Faim zéro), ODD 4 (Éducation de qualité), ODD 5 (Égalité des genres), ODD 6 (Eau propre), ODD 13 (Action climatique)",
+          "ODD 1 (Pas de pauvreté), ODD 2 (Faim zéro), ODD 4 (Éducation de qualité), ODD 5 (Égalité des genres), ODD 13 (Action climatique)",
       },
       {
         framework: "Consensus Européen sur le Développement",
@@ -754,7 +746,7 @@ const fr: PartnersCopy = {
       {
         framework: "Accord de Paris / Action Climatique",
         alignment:
-          "Infrastructure d'eau potable, nettoyages communautaires, éducation à la responsabilité environnementale.",
+          "Nettoyages communautaires et éducation à la responsabilité environnementale.",
       },
     ],
   },
@@ -835,7 +827,7 @@ const fr: PartnersCopy = {
           },
           {
             label: "Climat & Environnement :",
-            text: "Nos programmes environnementaux (nettoyages, plantation d'arbres, eau potable) s'alignent sur les priorités du Pacte Vert européen.",
+            text: "Nos programmes environnementaux (nettoyages et plantation d'arbres) s'alignent sur les priorités du Pacte Vert européen.",
           },
         ],
         tags: [
