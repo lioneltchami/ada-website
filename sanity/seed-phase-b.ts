@@ -52,8 +52,7 @@ async function seed() {
       { _key: 'p2', icon: '\u2702\ufe0f', title: 'Skills Training', description: 'Vocational training in tailoring, hairdressing, and crafts for young women.' },
       { _key: 'p3', icon: '\ud83c\udfe5', title: 'Hospital Visits', description: 'Medical support and hospital visits for community members.' },
       { _key: 'p4', icon: '\ud83d\udcda', title: 'Back-to-School Support', description: 'School supplies, uniforms, and tuition for orphaned children.' },
-      { _key: 'p5', icon: '\ud83d\udca7', title: 'Clean Water Initiative', description: 'Access to clean water for underserved communities.' },
-      { _key: 'p6', icon: '\ud83e\uddf9', title: 'Community Clean-Up', description: 'Environmental stewardship through community clean-up drives.' },
+      { _key: 'p5', icon: '\ud83e\uddf9', title: 'Community Clean-Up', description: 'Environmental stewardship through community clean-up drives.' },
     ],
     financialSplit: [
       { _key: 'fs1', percentage: 80, label: 'Direct Aid' },
@@ -71,7 +70,7 @@ async function seed() {
 
   // FAQ Responses
   const faqs = [
-    { _id: 'faq-programs', keywords: ['project', 'program', 'work'], response: 'ADA runs 6 programs: Food Distribution, Skills Training, Hospital Visits, Back-to-School, Clean Water, and Community Clean-Up.', sortOrder: 1 },
+    { _id: 'faq-programs', keywords: ['project', 'program', 'work'], response: 'ADA’s program areas include food distribution, skills training, hospital visits, back-to-school support, and community clean-up.', sortOrder: 1 },
     { _id: 'faq-donate', keywords: ['donate', 'give', 'money'], response: 'Your donation makes a real difference. 80% goes directly to programs. Online card gifts currently process in USD through Stripe, and ADA issues a receipt for your records. Donations are not represented as tax-deductible in Canada, the US, the UK, or the EU unless a qualified registered partner is confirmed in writing.', sortOrder: 2 },
     { _id: 'faq-volunteer', keywords: ['volunteer', 'help', 'join'], response: 'We welcome volunteers in Cameroon and remotely! Roles include education mentoring, community outreach, and digital communications.', sortOrder: 3 },
     { _id: 'faq-contact', keywords: ['contact', 'email', 'phone'], response: 'Email info@apotidev.org or WhatsApp +237 676 282 346. Mon-Fri 8AM-5PM CAT.', sortOrder: 4 },

@@ -33,6 +33,11 @@ for (const relative of ["index.html", "fr/index.html", "about/index.html", "fr/a
 	assert.doesNotMatch(html, /clean-water-well-nkwen-mbatu|clean-water-first-well-completed|ADA\/2024\/002|Nkwen-Mbatu|Borehole drilling|Forage, pompe solaire|300\+ (?:served|desservis)/i, `${relative} contains a withdrawn project claim`);
 }
 
+for (const relative of ["index.html", "fr/index.html"]) {
+	const html = await readFile(path.join(root, relative), "utf8");
+	assert.doesNotMatch(html, /ADA runs (?:six|6) programs|ADA propose (?:six|6) programmes|Clean Water Initiative|Eau Potable|second well|deuxième puits/i, `${relative} contains withdrawn chatbot or program copy`);
+}
+
 for (const relative of ["transparency/index.html", "fr/transparency/index.html"]) {
 	const html = await readFile(path.join(root, relative), "utf8");
 	assert.match(html, /temporarily unavailable while project records are reviewed|temporairement indisponibles pendant la revue des dossiers de projets/i);

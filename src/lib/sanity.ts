@@ -6,6 +6,7 @@ import {
 	pickLocalized,
 	pickLocalizedStringArray,
 } from "./sanity-locale";
+import { isSafeProgramFaq } from "./withdrawn-project-content";
 
 export type { ContentLocale } from "./sanity-locale";
 
@@ -466,7 +467,7 @@ export async function getFaqResponses(
 	const rows = await getSanityClient().fetch(
 		`*[_type == "faqResponse"] | order(sortOrder asc)`,
 	);
-	return (rows as SanityFaqResponse[]).map((f) => ({
+	return (rows as SanityFaqResponse[]).filter(isSafeProgramFaq).map((f) => ({
 		...f,
 		response: pickLocalized(f as Record<string, unknown>, "response", locale),
 	}));

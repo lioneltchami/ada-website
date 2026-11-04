@@ -1,6 +1,6 @@
 /**
  * Seed French (*Fr) fields on live Sanity docs from known FR site copy.
- * Safe to re-run: only sets *Fr fields; never overwrites English base.
+ * Safe to re-run: sets French fields and omits the withdrawn water project.
  *
  * Run: npx tsx sanity/seed-locale-fr.ts
  */
@@ -37,7 +37,7 @@ const aboutFr = {
   storyParagraphsFr: [
     "Fondée en 2021, Apoti Development Association est née d'une conviction profonde que la foi doit s'exprimer par l'action. Au cœur du Cameroun, où les veuves, les orphelins et les jeunes femmes font face à des défis quotidiens de pauvreté et de marginalisation, nous avons vu une opportunité de faire une différence tangible.",
     "Le Pasteur Emmanuel Tchami, témoin des luttes des veuves de sa communauté qui avaient tout perdu — leur mari, leurs revenus, leur dignité — s'est senti appelé à agir. Il a rassemblé un petit groupe de croyants engagés et ensemble, ils ont livré leurs premiers colis alimentaires à trois veuves à Bamenda.",
-    "Ce qui a commencé comme un simple acte de compassion est devenu une organisation communautaire servant 5 communautés à travers le Cameroun, touchant plus de 200 vies à travers six programmes ciblés. Chaque programme est conçu non seulement pour apporter un soulagement, mais pour construire une autonomie durable.",
+    "Ce qui a commencé comme un simple acte de compassion est devenu une organisation communautaire. Ses programmes répondent à différents besoins et visent à soutenir l’autonomie.",
   ],
   coreValuesFr: [
     {
@@ -90,10 +90,6 @@ const aboutFr = {
         "Fournitures, uniformes et frais de scolarité pour les orphelins.",
     },
     {
-      titleFr: "Eau Potable",
-      descriptionFr: "Accès à l'eau potable pour les communautés défavorisées.",
-    },
-    {
       titleFr: "Nettoyage Communautaire",
       descriptionFr:
         "Gestion environnementale à travers des campagnes de nettoyage et plantation d'arbres.",
@@ -118,10 +114,6 @@ const aboutFr = {
     {
       eventFr:
         "200+ vies impactées — nettoyage communautaire mobilise 200 bénévoles",
-    },
-    {
-      eventFr:
-        "Partenariats institutionnels canadiens — planification du deuxième puits et centre de formation",
     },
   ],
   financialSplitFr: [
@@ -338,6 +330,18 @@ const siteSettingsFr = {
   officeHoursFr: "Lun–Ven, 8h–17h (HAC)",
 };
 
+const withdrawnWaterContent = /\b(?:clean[\s-]?water(?:\s+initiative)?|water\s+well|borehole|eau potable|puits|forage)\b/i;
+
+function withoutWithdrawnWater<T extends Record<string, unknown>>(rows: T[]) {
+  return rows.filter((row) =>
+    !withdrawnWaterContent.test(
+      [row.title, row.titleFr, row.description, row.descriptionFr, row.event, row.eventFr]
+        .filter((value): value is string => typeof value === "string")
+        .join(" "),
+    ),
+  );
+}
+
 function mergeFrIntoObjects<T extends Record<string, unknown>>(
   existing: T[] | null | undefined,
   frRows: Record<string, string>[],
@@ -359,6 +363,10 @@ async function patchAbout() {
     console.warn("skip aboutPage — not found");
     return;
   }
+  const programs = withoutWithdrawnWater(doc.programs || []);
+  const programsFr = withoutWithdrawnWater(aboutFr.programsFr);
+  const timeline = withoutWithdrawnWater(doc.timeline || []);
+  const timelineFr = withoutWithdrawnWater(aboutFr.timelineFr);
   await client
     .patch(doc._id)
     .set({
@@ -366,8 +374,8 @@ async function patchAbout() {
       storyHeadingFr: aboutFr.storyHeadingFr,
       storyParagraphsFr: aboutFr.storyParagraphsFr,
       coreValues: mergeFrIntoObjects(doc.coreValues, aboutFr.coreValuesFr),
-      programs: mergeFrIntoObjects(doc.programs, aboutFr.programsFr),
-      timeline: mergeFrIntoObjects(doc.timeline, aboutFr.timelineFr),
+      programs: mergeFrIntoObjects(programs, programsFr),
+      timeline: mergeFrIntoObjects(timeline, timelineFr),
       financialSplit: mergeFrIntoObjects(
         doc.financialSplit,
         aboutFr.financialSplitFr,
