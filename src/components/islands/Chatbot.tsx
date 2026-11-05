@@ -34,8 +34,8 @@ const FALLBACK_RESPONSES: [RegExp, string, string][] = [
   ],
   [
     /impact|result|r[eé]sultat/i,
-    "Since 2021, we have impacted 200+ lives across 5 communities in Cameroon.",
-    "Depuis 2021, nous avons soutenu plus de 200 personnes dans 5 communautés au Cameroun.",
+    "ADA supports community initiatives in Cameroon through practical care, education, and local partnerships.",
+    "ADA soutient des initiatives communautaires au Cameroun par des actions concrètes, l'éducation et des partenariats locaux.",
   ],
   [
     /hours|open|when|horaire|ouvert|heure/i,

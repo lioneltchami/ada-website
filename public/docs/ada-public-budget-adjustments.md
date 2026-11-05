@@ -1,11 +1,10 @@
 # ADA Public Budget Adjustments
 
-This sheet is the sponsor-facing budget layer. It keeps the archive intact, but caps each project at the realistic public ceiling of 400,000 CFA unless the archived figure is already below that ceiling.
+This sheet presents per-project public adjustment rows based on figures extracted from the archived project documents. It is not an independently verified financial statement.
 
 Compiled on November 4, 2026.
 
-Archived project total represented here: 12,431,800 CFA.
-Public target total after cap: 6,736,800 CFA.
+Aggregate financial totals are omitted because the source rows do not consistently report the same basis: some contain approved budgets, some reported actuals, and some both. These amounts should be checked against supporting records before being treated as final.
 
 | Year | Project | Reference | Archive Approved | Archive Actual | Public Target | Adjustment Needed | Status | Note |
 |---|---|---|---:|---:|---:|---:|---|---|
@@ -26,9 +25,7 @@ Public target total after cap: 6,736,800 CFA.
 | 2022 | Project Completion Report | ADA/2022/001 | 300,000 CFA | 280,000 CFA | 280,000 CFA | 0 CFA | ok | Within public cap |
 | 2022 | School Visit & Mentorship | ADA/2022/004 | 180,000 CFA | 165,000 CFA | 165,000 CFA | 0 CFA | ok | Within public cap |
 | 2022 | Widow Support — Food & Financial Aid | ADA/2022/003 | 480,000 CFA | — | 400,000 CFA | 80,000 CFA | adjusted | Capped from 480,000 CFA to 400,000 CFA |
-| 2025 | Interim Progress Report: Widow Support Program – Cohort 3 | ADA/2025/002 | 2,400,000 CFA | 1,400,000 CFA | 400,000 CFA | 1,000,000 CFA | adjusted | Capped from 1,400,000 CFA to 400,000 CFA |
 | 2023 | Project Completion Report | ADA/2023/001 | 360,000 CFA | 345,000 CFA | 345,000 CFA | 0 CFA | ok | Within public cap |
-| 2024 | Young Women Empowerment Conference | ADA/2024/005 | 1,200,000 CFA | 1,180,000 CFA | 400,000 CFA | 780,000 CFA | adjusted | Capped from 1,180,000 CFA to 400,000 CFA |
 | 2025 | Youth Mentorship Seminar | ADA/2025/007 | 480,000 CFA | 465,000 CFA | 400,000 CFA | 65,000 CFA | adjusted | Capped from 465,000 CFA to 400,000 CFA |
 
 Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.

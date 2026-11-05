@@ -74,17 +74,14 @@ def build_rows() -> list[BudgetRow]:
 
 
 def write_markdown(rows: list[BudgetRow]) -> str:
-    total_archive = sum((r.archive_actual or r.archive_approved or 0) for r in rows)
-    total_public = sum(r.public_target for r in rows)
     lines = [
         "# ADA Public Budget Adjustments",
         "",
-        "This sheet is the sponsor-facing budget layer. It keeps the archive intact, but caps each project at the realistic public ceiling of 400,000 CFA unless the archived figure is already below that ceiling.",
+        "This sheet presents per-project public adjustment rows based on figures extracted from the archived project documents. It is not an independently verified financial statement.",
         "",
         f"Compiled on {date.today().strftime('%B')} {date.today().day}, {date.today().year}.",
         "",
-        f"Archived project total represented here: {currency(total_archive)}.",
-        f"Public target total after cap: {currency(total_public)}.",
+        "Aggregate financial totals are omitted because the source rows do not consistently report the same basis: some contain approved budgets, some reported actuals, and some both. These amounts should be checked against supporting records before being treated as final.",
         "",
         "| Year | Project | Reference | Archive Approved | Archive Actual | Public Target | Adjustment Needed | Status | Note |",
         "|---|---|---|---:|---:|---:|---:|---|---|",

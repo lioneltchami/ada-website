@@ -47,4 +47,12 @@ describe("withdrawn Clean Water Well project", () => {
 			expect(text, file).not.toMatch(/ADA\/2024\/002|clean-water-well-nkwen-mbatu|Nkwen-Mbatu|Borehole Drilling and Solar Pump/i);
 		}
 	});
+
+	it("does not publish a mixed-basis archive aggregate in budget adjustments", () => {
+		const markdown = readFileSync("public/docs/ada-public-budget-adjustments.md", "utf8");
+		const renderer = readFileSync("scripts/render_public_budget_adjustments_pdf.mjs", "utf8");
+		expect(markdown).toMatch(/Aggregate financial totals are omitted/i);
+		expect(markdown).not.toMatch(/Archived project total represented here|Public target total after cap/i);
+		expect(renderer).not.toMatch(/Archive total:|Public target total|totalArchive|totalPublic/i);
+	});
 });

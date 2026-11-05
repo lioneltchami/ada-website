@@ -157,12 +157,6 @@ const en: PartnersCopy = {
     items: [
       {
         emoji: "",
-        title: "Widow Empowerment",
-        desc: "Train and equip 500 additional widows",
-        amount: "$48,000",
-      },
-      {
-        emoji: "",
         title: "Orphan Education",
         desc: "School scholarships for 300 orphans",
         amount: "$35,000",
@@ -227,7 +221,7 @@ const en: PartnersCopy = {
       {
         icon: "",
         title: "Gender Equality Focus",
-        desc: "85% of our beneficiaries are women and girls. Our programs directly advance gender equality through economic empowerment and education access.",
+        desc: "ADA's programs include community support, education, and opportunities for women and girls.",
       },
       {
         icon: "",
@@ -246,11 +240,6 @@ const en: PartnersCopy = {
       },
       {
         icon: "",
-        title: "Sustainability Built In",
-        desc: "Our train-the-trainer model means programs outlive funding. Graduates become mentors for the next cohort.",
-      },
-      {
-        icon: "",
         title: "Bilingual Capacity",
         desc: "Full reporting in English and French. Quarterly updates, annual reports, and M&E data on schedule.",
       },
@@ -260,17 +249,12 @@ const en: PartnersCopy = {
     title: "Gender Equality: At the Core of Everything We Do",
     intro:
       "ADA's programs are designed through a gender lens, directly advancing women's economic empowerment and girls' access to education.",
-    stats: [
-      { value: "85%", label: "Beneficiaries are women & girls" },
-      { value: "100%", label: "Skills programs target women" },
-      { value: "15", label: "Widows now financially independent" },
-      { value: "80%", label: "Graduates earning own income" },
-    ],
+    stats: [],
     benefitsTitle: "How our programs specifically benefit women and girls:",
     benefits: [
       {
         label: "Widow Support:",
-        text: "Restores economic agency to women who lost everything after spousal death",
+        text: "Connects widows with practical relief and community support.",
       },
       {
         label: "Skills Training:",
@@ -288,7 +272,7 @@ const en: PartnersCopy = {
       {
         framework: "Canada's Feminist International Assistance Policy",
         alignment:
-          "Gender equality is central to all ADA programs. 85% women/girl beneficiaries.",
+          "Gender equality is an important consideration in ADA's community programs.",
       },
       {
         framework: "US Foreign Assistance Framework (USAID)",
@@ -336,7 +320,7 @@ const en: PartnersCopy = {
           },
           {
             label: "Policy Alignment:",
-            text: "Our programs directly advance Canada's Feminist International Assistance Policy with 85% women/girl beneficiaries.",
+            text: "ADA's work includes education and community support for women and girls.",
           },
           {
             label: "Tax Receipts:",
@@ -512,8 +496,6 @@ const en: PartnersCopy = {
   trackRecord: {
     title: "Our Track Record",
     stats: [
-      { value: "200+", label: "Lives impacted" },
-      { value: "85%", label: "Women & girls" },
       { value: "5%", label: "Admin overhead" },
       { value: "4 yrs", label: "Continuous operation" },
     ],
@@ -653,7 +635,7 @@ const fr: PartnersCopy = {
       {
         icon: "",
         title: "Accent sur l'Égalité des Genres",
-        desc: "85% de nos bénéficiaires sont des femmes et des filles. Nos programmes font directement progresser l'égalité des genres par l'autonomisation économique et l'accès à l'éducation.",
+        desc: "Les programmes d'ADA comprennent le soutien communautaire, l'éducation et des possibilités pour les femmes et les filles.",
       },
       {
         icon: "",
@@ -672,11 +654,6 @@ const fr: PartnersCopy = {
       },
       {
         icon: "",
-        title: "Durabilité Intégrée",
-        desc: "Notre modèle de formation de formateurs signifie que les programmes survivent au financement. Les diplômés deviennent mentors pour la cohorte suivante.",
-      },
-      {
-        icon: "",
         title: "Capacité Bilingue",
         desc: "Rapports complets en anglais et en français. Mises à jour trimestrielles, rapports annuels et données de S&E dans les délais.",
       },
@@ -686,24 +663,13 @@ const fr: PartnersCopy = {
     title: "Égalité des Genres : Au Cœur de Tout Ce Que Nous Faisons",
     intro:
       "Les programmes d'ADA sont conçus à travers un prisme de genre, faisant directement progresser l'autonomisation économique des femmes et l'accès des filles à l'éducation.",
-    stats: [
-      { value: "85%", label: "Bénéficiaires sont des femmes et filles" },
-      {
-        value: "100%",
-        label: "Programmes de compétences ciblent les femmes",
-      },
-      {
-        value: "15",
-        label: "Veuves désormais financièrement indépendantes",
-      },
-      { value: "80%", label: "Diplômées gagnant leur propre revenu" },
-    ],
+    stats: [],
     benefitsTitle:
       "Comment nos programmes bénéficient spécifiquement aux femmes et aux filles :",
     benefits: [
       {
         label: "Soutien aux Veuves :",
-        text: "Restaure l'autonomie économique des femmes qui ont tout perdu après le décès de leur conjoint",
+        text: "Relie les veuves à une aide pratique et à un soutien communautaire.",
       },
       {
         label: "Formation Professionnelle :",
@@ -721,7 +687,7 @@ const fr: PartnersCopy = {
       {
         framework: "Politique d'Aide Internationale Féministe du Canada",
         alignment:
-          "L'égalité des genres est au cœur de tous les programmes d'ADA. 85% de bénéficiaires femmes/filles.",
+          "L'égalité des genres est une considération importante dans les programmes communautaires d'ADA.",
       },
       {
         framework: "Cadre d'Assistance Étrangère des États-Unis (USAID)",
@@ -769,7 +735,7 @@ const fr: PartnersCopy = {
           },
           {
             label: "Alignement politique :",
-            text: "Nos programmes avancent directement la Politique d'aide internationale féministe du Canada avec 85% de bénéficiaires femmes/filles.",
+            text: "Le travail d'ADA comprend l'éducation et le soutien communautaire pour les femmes et les filles.",
           },
           {
             label: "Reçus fiscaux :",
@@ -940,8 +906,6 @@ const fr: PartnersCopy = {
   trackRecord: {
     title: "Notre Bilan",
     stats: [
-      { value: "200+", label: "Vies impactées" },
-      { value: "85%", label: "Femmes et filles" },
       { value: "5%", label: "Frais administratifs" },
       { value: "4 ans", label: "Opération continue" },
     ],

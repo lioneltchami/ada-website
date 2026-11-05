@@ -19,21 +19,22 @@ describe("impact facts source of truth", () => {
     const enScorecard = impactMetricsFor("en");
     const seed = sanityImpactMetricSeed();
 
-    expect(enIndicators[0]?.actualValue).toBe(
-      IMPACT_FACTS.indicators.widowsIndependence.actual,
+    expect(enIndicators[1]?.actualValue).toBe(
+      IMPACT_FACTS.indicators.womenVocational.actual,
     );
-    expect(frIndicators[0]?.actualValue).toBe(
-      IMPACT_FACTS.indicators.widowsIndependence.actual,
+    expect(frIndicators[1]?.actualValue).toBe(
+      IMPACT_FACTS.indicators.womenVocational.actual,
     );
-    expect(enScorecard.find((m) => m.label.includes("Women"))?.value).toBe(
-      String(IMPACT_FACTS.womenEarningIncome),
+    expect(enScorecard.find((m) => m.label.toLowerCase().includes("women"))?.value).toBe(
+      String(IMPACT_FACTS.indicators.womenVocational.earning),
     );
-    expect(seed[0]).toMatchObject({
-      value: IMPACT_FACTS.livesImpacted,
-      suffix: "+",
-    });
+    expect(seed).toHaveLength(2);
+    expect(seed.map((metric) => metric._id)).toEqual([
+      "metric-communities",
+      "metric-years",
+    ]);
     expect(homepageStatsFallback("en")[0]?.value).toBe(
-      `${IMPACT_FACTS.livesImpacted}+`,
+      String(IMPACT_FACTS.communitiesServed),
     );
   });
 });

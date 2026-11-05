@@ -38,7 +38,7 @@ const client = createClient({
 
 /** Match current title (case-insensitive) → corrected title/alt */
 const CORRECTIONS: Record<string, string> = {
-	"widow receiving food package": "Training the younger generation",
+	"widow receiving food package": "Food support for widows",
 	"children studying together": "Visiting our pregnant women at the hospital",
 	"women empowerment certificate ceremony":
 		"Sharing love with our brothers and sisters at the orphanage",

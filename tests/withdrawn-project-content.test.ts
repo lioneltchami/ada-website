@@ -1,10 +1,16 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { hasStaticProjectDocuments } from "../src/data/organization";
 import {
 	isSafeProgramFaq,
+	isWithdrawnAboutEntry,
+	isWithdrawnImpactMetric,
 	isWithdrawnGalleryImage,
 	isWithdrawnProjectRecord,
 	isWithdrawnProjectSlug,
+	isWithdrawnProgramEntry,
+	isWithdrawnTestimonial,
+	safeWidowSupportDescription,
 	withoutWithdrawnProjects,
 } from "../src/lib/withdrawn-project-content";
 
@@ -18,6 +24,11 @@ describe("withdrawn water-project content safeguards", () => {
 				keywords: ["program", "work"],
 				response:
 					"ADA runs 6 programs including Clean Water and Community Clean-Up.",
+			}),
+		).toBe(false);
+		expect(
+			isSafeProgramFaq({
+				response: "Since 2021, we have impacted 200+ lives across 5 communities.",
 			}),
 		).toBe(false);
 		expect(
@@ -83,5 +94,71 @@ describe("withdrawn water-project content safeguards", () => {
 		expect(isWithdrawnGalleryImage({ title: "Community clean-up in Nkwen-Mbatu" })).toBe(false);
 		expect(isWithdrawnGalleryImage({ titleFr: "Eau potable pour une autre communauté" })).toBe(false);
 		expect(isWithdrawnGalleryImage({ category: "clean-water" })).toBe(false);
+	});
+});
+
+describe("conference and widow-training removal safeguards", () => {
+	it("filters only the withdrawn project records in either language", () => {
+		for (const slug of [
+			"young-women-conference-oct-2024",
+			"widow-vocational-training-cohort-1",
+			"widow-support-program-cohort-3",
+		]) expect(isWithdrawnProjectSlug(slug)).toBe(true);
+
+		for (const project of [
+			{ _id: "ADA/2024/005", title: "Young Women Empowerment Conference" },
+			{ _id: "I3ROLIaQjmV1gZbnPYijdi", title: "Widow Vocational Training Program Cohort 1" },
+			{ _id: "I3ROLIaQjmV1gZbnPYijz0", title: "Widow Support Program Cohort 3" },
+			{ titleFr: "Programme de formation professionnelle des veuves — Cohorte 2" },
+		]) expect(isWithdrawnProjectRecord(project)).toBe(true);
+
+		for (const project of [
+			{ slug: { current: "young-women-skills-training-program" }, title: "Young Women Skills Training Program" },
+			{ slug: { current: "idp-girls-baking-training-jul-2022" }, title: "IDP Girls Baking Training" },
+			{ slug: { current: "widow-support-food-cash-mar-2022" }, title: "Widow Support — Food & Financial Aid" },
+			{ slug: { current: "womens-day-home-visits-mar-2023" }, title: "Women's Day Home Visits" },
+		]) expect(isWithdrawnProjectRecord(project)).toBe(false);
+	});
+
+	it("removes archive-document links while retaining the separate programs", () => {
+		for (const slug of [
+			"young-women-conference-oct-2024",
+			"widow-vocational-training-cohort-1",
+			"widow-support-program-cohort-3",
+		]) expect(hasStaticProjectDocuments(slug)).toBe(false);
+		for (const slug of [
+			"idp-girls-baking-training-jul-2022",
+			"young-women-skills-training-program",
+			"widow-support-food-cash-mar-2022",
+			"womens-day-home-visits-mar-2023",
+		]) expect(hasStaticProjectDocuments(slug)).toBe(true);
+	});
+
+	it("filters explicit conference/cohort gallery associations but preserves shared or unrelated media", () => {
+		expect(isWithdrawnGalleryImage({ projectSlug: "young-women-conference-oct-2024" })).toBe(true);
+		expect(isWithdrawnGalleryImage({ titleFr: "Conférence d'autonomisation des jeunes femmes" })).toBe(true);
+		expect(isWithdrawnGalleryImage({ photo: { alt: "Widow vocational training cohort 1" } })).toBe(true);
+		expect(isWithdrawnGalleryImage({ projectSlug: "young-women-skills-training-program", title: "Training the younger generation" })).toBe(false);
+		expect(isWithdrawnGalleryImage({ title: "Community cleanup in Nkwen-Mbatu" })).toBe(false);
+	});
+
+	it("filters affected CMS fallback content while retaining general widow relief", () => {
+		expect(isSafeProgramFaq({ response: "The widow vocational training cohort supported participants." })).toBe(false);
+		expect(isSafeProgramFaq({ responseFr: "La formation professionnelle des veuves a accompagné les participantes." })).toBe(false);
+		expect(isSafeProgramFaq({ response: "ADA supports widows through food and financial relief." })).toBe(true);
+		expect(isWithdrawnAboutEntry({ eventFr: "15 veuves inscrites en formation professionnelle" })).toBe(true);
+		expect(isWithdrawnAboutEntry({ event: "200+ lives impacted across regions" })).toBe(true);
+		expect(isWithdrawnAboutEntry({ eventFr: "Nettoyage communautaire mobilise 200 bénévoles" })).toBe(true);
+		expect(isWithdrawnProgramEntry({ title: "Widow Vocational Training Cohort 1" })).toBe(true);
+		expect(isWithdrawnProgramEntry({ title: "Widow Support" })).toBe(false);
+		expect(safeWidowSupportDescription("Financial aid, tailoring training, and support for widows.")).toBe("Food and financial support for widows and families.");
+		expect(isWithdrawnTestimonial({ program: "Widow Support", quote: "The tailoring training changed my life." })).toBe(true);
+	});
+
+	it("removes affected aggregate metrics without suppressing unrelated program targets", () => {
+		expect(isWithdrawnImpactMetric({ _id: "metric-widows", label: "Widows Supported", value: 15 })).toBe(true);
+		expect(isWithdrawnImpactMetric({ label: "Women and girls beneficiaries", value: 85, suffix: "%" })).toBe(true);
+		expect(isWithdrawnImpactMetric({ label: "Young women earning income", value: 8 })).toBe(false);
+		expect(isWithdrawnImpactMetric({ label: "Communities Served", value: 5 })).toBe(false);
 	});
 });

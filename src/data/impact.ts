@@ -27,12 +27,8 @@ export type ImpactMetric = {
  * Transparency progress + scorecard derive from these facts.
  */
 export const IMPACT_FACTS = {
-	livesImpacted: 200,
 	communitiesServed: 5,
-	widowsSupported: 15,
 	yearsOfService: 5,
-	documentedProjects: 24,
-	womenEarningIncome: 20,
 	programAllocationPct: 80,
 	programOperationsPct: 15,
 	administrationPct: 5,
@@ -40,7 +36,6 @@ export const IMPACT_FACTS = {
 	emergencyFoodFamilies: 50,
 	emergencyFoodPeople: 150,
 	indicators: {
-		widowsIndependence: { actual: 12, target: 20, trained: 15 },
 		childrenInSchool: { actual: 20, target: 50 },
 		womenVocational: { actual: 10, target: 30, earning: 8 },
 		emergencyFoodFamilies: { actual: 50, target: 100 },
@@ -53,16 +48,12 @@ export function homepageStatsFallback(
 	const f = IMPACT_FACTS;
 	if (locale === "fr") {
 		return [
-			{ value: `${f.livesImpacted}+`, label: "Vies touchées" },
 			{ value: String(f.communitiesServed), label: "Communautés servies" },
-			{ value: `${f.widowsSupported}+`, label: "Veuves soutenues" },
 			{ value: String(f.yearsOfService), label: "Années de service" },
 		];
 	}
 	return [
-		{ value: `${f.livesImpacted}+`, label: "Lives Impacted" },
 		{ value: String(f.communitiesServed), label: "Communities Served" },
-		{ value: `${f.widowsSupported}+`, label: "Widows Supported" },
 		{ value: String(f.yearsOfService), label: "Years of Service" },
 	];
 }
@@ -72,25 +63,11 @@ export function sanityImpactMetricSeed() {
 	const f = IMPACT_FACTS;
 	return [
 		{
-			_id: "metric-lives",
-			label: "Lives Impacted",
-			value: f.livesImpacted,
-			suffix: "+",
-			displayOrder: 1,
-		},
-		{
 			_id: "metric-communities",
 			label: "Communities Served",
 			value: f.communitiesServed,
 			suffix: "",
 			displayOrder: 2,
-		},
-		{
-			_id: "metric-widows",
-			label: "Widows Supported",
-			value: f.widowsSupported,
-			suffix: "+",
-			displayOrder: 3,
 		},
 		{
 			_id: "metric-years",
@@ -107,15 +84,6 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 	if (locale === "fr") {
 		return [
 			{
-				indicator: "Veuves atteignant l'indépendance financière",
-				baseline: "0 (2021)",
-				target: `${i.widowsIndependence.target} d'ici 2025`,
-				actual: `${i.widowsIndependence.actual} sur ${i.widowsIndependence.trained} formées (${Math.round((i.widowsIndependence.actual / i.widowsIndependence.trained) * 100)}%)`,
-				status: "on-track",
-				actualValue: i.widowsIndependence.actual,
-				targetValue: i.widowsIndependence.target,
-			},
-			{
 				indicator: "Enfants inscrits et maintenus à l'école",
 				baseline: "0 (2021)",
 				target: `${i.childrenInSchool.target} d'ici 2026`,
@@ -125,7 +93,7 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 				targetValue: i.childrenInSchool.target,
 			},
 			{
-				indicator: "Femmes ayant terminé la formation professionnelle",
+				indicator: "Jeunes femmes ayant terminé une formation professionnelle",
 				baseline: "0 (2022)",
 				target: `${i.womenVocational.target} d'ici 2026`,
 				actual: `${i.womenVocational.actual} diplômées, ${i.womenVocational.earning} génèrent des revenus`,
@@ -147,15 +115,6 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 
 	return [
 		{
-			indicator: "Widows achieving financial independence",
-			baseline: "0 (2021)",
-			target: `${i.widowsIndependence.target} by 2025`,
-			actual: `${i.widowsIndependence.actual} of ${i.widowsIndependence.trained} trained (${Math.round((i.widowsIndependence.actual / i.widowsIndependence.trained) * 100)}%)`,
-			status: "on-track",
-			actualValue: i.widowsIndependence.actual,
-			targetValue: i.widowsIndependence.target,
-		},
-		{
 			indicator: "Children enrolled and retained in school",
 			baseline: "0 (2021)",
 			target: `${i.childrenInSchool.target} by 2026`,
@@ -165,7 +124,7 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 			targetValue: i.childrenInSchool.target,
 		},
 		{
-			indicator: "Women completing vocational training",
+			indicator: "Young women completing skills training",
 			baseline: "0 (2022)",
 			target: `${i.womenVocational.target} by 2026`,
 			actual: `${i.womenVocational.actual} graduated, ${i.womenVocational.earning} earning income`,
@@ -191,25 +150,15 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 	if (locale === "fr") {
 		return [
 			{
-				label: "Dossiers de projets documentés",
-				value: String(f.documentedProjects),
-				period: "Archives 2021-2025",
-				measurement: "Field records",
-				cadence: "Annuel",
-				source: "Bibliothèque de documents de projet",
-				sourceUrl: `${prefix}/resources#project-documents`,
-				note: "Chaque projet archivé inclut les termes, finances et rapports disponibles.",
-			},
-			{
-				label: "Femmes documentées générant un revenu",
-				value: String(f.womenEarningIncome),
-				period: "Cohortes de formation terminées",
+				label: "Jeunes femmes documentées générant un revenu",
+				value: String(f.indicators.womenVocational.earning),
+				period: "Programme de compétences pour jeunes femmes",
 				measurement: "Measured",
 				cadence: "Après clôture de cohorte",
-				source: "Rapports de formation professionnelle",
+				source: "Rapport du programme de compétences pour jeunes femmes",
 				sourceUrl:
 					"/docs/projects/young-women-skills-training-program/report.pdf",
-				note: `Combine ${f.indicators.widowsIndependence.actual} diplômées veuves et ${f.indicators.womenVocational.earning} jeunes femmes diplômées documentées comme générant un revenu.`,
+				note: "Source : rapport du programme de compétences pour jeunes femmes.",
 			},
 			{
 				label: "Cohorte scolaire suivie",
@@ -247,25 +196,15 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 
 	return [
 		{
-			label: "Documented project records",
-			value: String(f.documentedProjects),
-			period: "2021-2025 archive",
-			measurement: "Field records",
-			cadence: "Annual",
-			source: "Project document library",
-			sourceUrl: `${prefix}/resources#project-documents`,
-			note: "Each archived project includes available terms, financials, and close-out records.",
-		},
-		{
-			label: "Women documented earning income",
-			value: String(f.womenEarningIncome),
-			period: "Completed training cohorts",
+			label: "Young women documented earning income",
+			value: String(f.indicators.womenVocational.earning),
+			period: "Young women skills program",
 			measurement: "Measured",
 			cadence: "After cohort close-out",
-			source: "Vocational training reports",
+			source: "Young women skills program report",
 			sourceUrl:
 				"/docs/projects/young-women-skills-training-program/report.pdf",
-			note: `Combines ${f.indicators.widowsIndependence.actual} widow training graduates and ${f.indicators.womenVocational.earning} young women skills-training graduates documented as earning income.`,
+			note: "Source: the Young Women Skills Training Program report.",
 		},
 		{
 			label: "Tracked education cohort",

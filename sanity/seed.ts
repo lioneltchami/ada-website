@@ -73,7 +73,7 @@ async function seed() {
       status: "active",
       location: "Bamenda",
       description:
-        "Financial aid, food packages, and skills training for widows rebuilding their lives after loss. Our program provides monthly food supplies, vocational training in tailoring and hairdressing, and a supportive community network.",
+        "Financial aid and food support for widows and families rebuilding household stability.",
       beneficiaries: 15,
       goalAmount: 8000,
       raisedAmount: 6500,

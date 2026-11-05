@@ -7,7 +7,7 @@ import {
 } from "../data/organization";
 import { getProjectLifecycleState } from "./project-lifecycle";
 import { getProjects, type SanityProject } from "./sanity";
-import { isWithdrawnProjectSlug } from "./withdrawn-project-content";
+import { isWithdrawnProjectRecord, isWithdrawnProjectSlug } from "./withdrawn-project-content";
 
 export type ProjectDemographic =
   | "widows"
@@ -125,12 +125,6 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     demographic: "idps",
   },
   {
-    slug: "widow-support-program-cohort-3",
-    title: "Widow Support Program - Cohort 3",
-    year: 2025,
-    demographic: "widows",
-  },
-  {
     slug: "prenatal-care-support-program",
     title: "Prenatal Care Support Program",
     year: 2025,
@@ -153,12 +147,6 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     title: "Emergency Food Relief - Bamenda Crisis",
     year: 2024,
     demographic: "idps",
-  },
-  {
-    slug: "young-women-conference-oct-2024",
-    title: "Young Women Empowerment Conference",
-    year: 2024,
-    demographic: "young-women",
   },
   {
     slug: "back-to-school-bamenda-sep-2024",
@@ -219,12 +207,6 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     title: "School Supply Distribution",
     year: 2022,
     demographic: "orphans",
-  },
-  {
-    slug: "widow-vocational-training-cohort-1",
-    title: "Widow Vocational Training Cohort 1",
-    year: 2022,
-    demographic: "widows",
   },
   {
     slug: "christmas-giving-dec-2022",
@@ -474,7 +456,7 @@ export async function loadProjectArchiveEntries(): Promise<
   }
 
   return records
-    .filter((record) => !isWithdrawnProject(record.slug.current))
+    .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
     .map(withCanonicalProjectDocuments);
 }
 
