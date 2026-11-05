@@ -17,7 +17,7 @@ export default {
 		headline:
 			"Aucune Veuve Ne Devrait Choisir Entre Nourrir Ses Enfants et Payer L'École",
 		subtitle:
-			"Depuis 2021, nous avons aidé plus de 200 veuves, orphelins et jeunes femmes au Cameroun à passer de la crise à l'autonomie. 80% de chaque don va directement aux programmes.",
+			"Depuis 2021, ADA soutient des initiatives communautaires au Cameroun par des actions concrètes, l'éducation et des partenariats locaux. 80 centimes de chaque dollar sont affectés aux programmes.",
 		cta: "Faire un Don",
 		ctaSecondary: "Nos Projets",
 		socialProof:
@@ -82,7 +82,7 @@ export default {
 	partners: {
 		prioritiesTitle: "Priorités de Financement 2026",
 		widowsTitle: "Émancipation des Veuves",
-		widowsDesc: "Former et équiper 500 veuves supplémentaires",
+		widowsDesc: "Aide concrète et soutien communautaire aux veuves",
 		educationTitle: "Éducation pour les Orphelins",
 		educationDesc: "Bourses scolaires pour 300 orphelins",
 		healthTitle: "Santé et Nutrition",

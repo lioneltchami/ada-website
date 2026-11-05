@@ -333,7 +333,7 @@ const en: TransparencyCopy = {
       "We track outcomes, not just outputs. Here are our key indicators with baselines and actuals.",
   },
   theoryOfChange: {
-    intro: "How we create lasting impact — from crisis to self-sufficiency.",
+    intro: "How support is planned and reviewed across ADA's community programs.",
     steps: [
       {
         step: "1",
@@ -347,18 +347,18 @@ const en: TransparencyCopy = {
       },
       {
         step: "3",
-        title: "Empower",
-        desc: "Skills training, mentorship, microfinance — building capacity for independence.",
+        title: "Plan support",
+        desc: "Activities are planned around the scope of each project and identified community needs.",
       },
       {
         step: "4",
-        title: "Sustain",
-        desc: "Graduates become mentors. Community ownership ensures programs outlive funding.",
+        title: "Review",
+        desc: "Project records describe the plans, activities, and documentation available for each initiative.",
       },
     ],
     sustainabilityLabel: "Sustainability:",
     sustainability:
-      "Our model is designed so that each cohort of beneficiaries becomes the next generation of trainers and mentors. When external funding ends, the skills, networks, and community structures remain.",
+      "Long-term program planning depends on available resources and the needs identified with communities.",
   },
   sdg: {
     intro:
@@ -386,7 +386,7 @@ const en: TransparencyCopy = {
         number: "5",
         color: "#FF3A21",
         title: "Gender Equality",
-        detail: "85% women/girls beneficiaries, empowerment programs",
+        detail: "Programs that support women and girls",
       },
       {
         number: "10",
@@ -404,7 +404,7 @@ const en: TransparencyCopy = {
     feministLabel:
       "Alignment with Canada's Feminist International Assistance Policy:",
     feminist:
-      "ADA's programming prioritizes gender equality (SDG 5) as a cross-cutting theme. 85% of our direct beneficiaries are women and girls.",
+      "ADA's programs include support for women and girls, alongside education and community initiatives.",
   },
   environment: {
     intro:
@@ -681,7 +681,7 @@ const fr: TransparencyCopy = {
       "Nous suivons les résultats, pas seulement les activités. Voici nos indicateurs clés avec les bases de référence et les réalisations.",
   },
   theoryOfChange: {
-    intro: "Comment nous créons un impact durable — de la crise à l'autonomie.",
+    intro: "Comment le soutien est planifié et examiné dans les programmes communautaires d'ADA.",
     steps: [
       {
         step: "1",
@@ -695,18 +695,18 @@ const fr: TransparencyCopy = {
       },
       {
         step: "3",
-        title: "Autonomiser",
-        desc: "Formation professionnelle, mentorat, microfinance — renforcer les capacités pour l'indépendance.",
+        title: "Planifier le soutien",
+        desc: "Les activités sont planifiées selon le champ de chaque projet et les besoins identifiés dans les communautés.",
       },
       {
         step: "4",
-        title: "Pérenniser",
-        desc: "Les diplômées deviennent mentors. L'appropriation communautaire assure la pérennité des programmes.",
+        title: "Examiner",
+        desc: "Les dossiers de projet décrivent les plans, les activités et les documents disponibles pour chaque initiative.",
       },
     ],
     sustainabilityLabel: "Durabilité :",
     sustainability:
-      "Notre modèle est conçu pour que chaque cohorte de bénéficiaires devienne la prochaine génération de formateurs et de mentors. Lorsque le financement externe prend fin, les compétences, les réseaux et les structures communautaires demeurent.",
+      "La planification à long terme des programmes dépend des ressources disponibles et des besoins identifiés avec les communautés.",
   },
   sdg: {
     intro:
@@ -734,7 +734,7 @@ const fr: TransparencyCopy = {
         number: "5",
         color: "#FF3A21",
         title: "Égalité des Sexes",
-        detail: "85% femmes/filles bénéficiaires, programmes d'autonomisation",
+        detail: "Programmes de soutien aux femmes et aux filles",
       },
       {
         number: "10",
@@ -753,7 +753,7 @@ const fr: TransparencyCopy = {
     feministLabel:
       "Alignement avec la Politique d'aide internationale féministe du Canada :",
     feminist:
-      "La programmation d'ADA priorise l'égalité des genres (ODD 5) comme thème transversal. 85% de nos bénéficiaires directs sont des femmes et des filles.",
+      "Les programmes d'ADA comprennent un soutien aux femmes et aux filles, ainsi que des initiatives éducatives et communautaires.",
   },
   environment: {
     intro:

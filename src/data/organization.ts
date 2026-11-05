@@ -16,8 +16,6 @@ export const REGISTRATION_CERTIFICATE_URL =
   "/docs/diligence/ada-registration-certificate.pdf";
 
 export const annualReportPdfs = [
-  { year: "2023", path: "/docs/annual-reports/2023-annual-report.pdf" },
-  { year: "2022", path: "/docs/annual-reports/2022-annual-report.pdf" },
   { year: "2021", path: "/docs/annual-reports/2021-annual-report.pdf" },
 ] as const;
 
@@ -41,10 +39,7 @@ export const documentArchiveProjects = [
   "school-supply-distribution-feb-2022",
   "school-visit-mentorship-may-2022",
   "widow-support-food-cash-mar-2022",
-  "widow-support-program-cohort-3",
-  "widow-vocational-training-cohort-1",
   "womens-day-home-visits-mar-2023",
-  "young-women-conference-oct-2024",
   "young-women-skills-training-program",
   "youth-mentorship-seminar-oct-2025",
 ] as const;
@@ -83,18 +78,6 @@ export function indicatorProgress(indicator: MeasurableIndicator): number {
 
 export const measurableIndicatorsEn = measurableIndicatorsFor("en");
 export const measurableIndicatorsFr = measurableIndicatorsFor("fr");
-
-export const impactGrowthByYear = [
-  { year: "2021", value: 10, label: "10" },
-  { year: "2022", value: 50, label: "50" },
-  { year: "2023", value: 120, label: "120" },
-  {
-    year: "2024",
-    value: IMPACT_FACTS.livesImpacted,
-    label: String(IMPACT_FACTS.livesImpacted),
-  },
-  { year: "2025", value: 280, label: "280 (Est.)" },
-] as const;
 
 const BREADCRUMB_LABELS: Record<Locale, Record<string, string>> = {
   en: {

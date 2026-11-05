@@ -16,7 +16,7 @@ export default {
     badge: "Faith-Based Charity · Cameroon",
     headline: "No Widow Should Have to Choose Between Food and School Fees",
     subtitle:
-      "Since 2021, we've helped 200+ widows, orphans, and young women in Cameroon move from crisis to self-sufficiency. 80¢ of every dollar goes directly to programs.",
+      "Since 2021, ADA has supported community initiatives in Cameroon through practical care, education, and local partnerships. 80¢ of every dollar is allocated to programs.",
     cta: "Donate Now",
     ctaSecondary: "Our Projects",
     socialProof: "Join 47+ donors supporting communities in Cameroon",
@@ -79,7 +79,7 @@ export default {
   partners: {
     prioritiesTitle: "2026 Funding Priorities",
     widowsTitle: "Widow Empowerment",
-    widowsDesc: "Train and equip 500 additional widows",
+    widowsDesc: "Practical relief and community support for widows",
     educationTitle: "Orphan Education",
     educationDesc: "School scholarships for 300 orphans",
     healthTitle: "Health & Nutrition",

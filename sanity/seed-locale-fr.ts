@@ -101,10 +101,6 @@ const aboutFr = {
         "Fondée à Buea — premiers colis alimentaires livrés aux veuves en difficulté",
     },
     {
-      eventFr:
-        "Lancement du Programme Veuves — 15 veuves inscrites en formation professionnelle",
-    },
-    {
       eventFr: "Programme d'éducation — 20 orphelins parrainés pour l'école",
     },
     {
@@ -112,8 +108,7 @@ const aboutFr = {
         "Bureau de Bamenda ouvert — expansion régionale et documentation partenaires",
     },
     {
-      eventFr:
-        "200+ vies impactées — nettoyage communautaire mobilise 200 bénévoles",
+      eventFr: "Activités de nettoyage communautaire",
     },
   ],
   financialSplitFr: [
@@ -135,7 +130,7 @@ const homeFr = {
     {
       titleFr: "Soutien aux Veuves",
       descriptionFr:
-        "Aide financière, formation professionnelle et accompagnement communautaire pour les veuves qui reconstruisent leur vie.",
+        "Soutien alimentaire et financier pour les veuves et les familles.",
     },
     {
       titleFr: "Éducation",
@@ -168,7 +163,7 @@ const projectFrBySlug: Record<
     titleFr: "Programme de Soutien aux Veuves",
     locationFr: "Bamenda",
     descriptionFr:
-      "Aide financière, colis alimentaires et formation professionnelle pour les veuves qui reconstruisent leur vie après une perte. Notre programme fournit des vivres mensuels, une formation en couture et coiffure, et un réseau communautaire de soutien.",
+      "Aide alimentaire et financière pour les veuves et les familles.",
   },
   "education-orphans": {
     titleFr: "Éducation des Orphelins",
@@ -296,12 +291,6 @@ const testimonialFrByName: Record<
   string,
   { quoteFr: string; locationFr?: string; programFr: string }
 > = {
-  "Amina N.": {
-    quoteFr:
-      "Après le décès de mon mari, je ne savais pas comment nourrir mes enfants. ADA m'a fourni des colis alimentaires et m'a inscrite à une formation en couture. Aujourd'hui je gère ma propre boutique.",
-    locationFr: "Bamenda",
-    programFr: "Programme Veuves",
-  },
   "Marie F.": {
     quoteFr:
       "ADA a payé mes frais de scolarité quand ma grand-mère ne pouvait pas. Ils m'ont donné des livres, un uniforme et un mentor. Je veux devenir infirmière.",

@@ -187,17 +187,6 @@
     "note": "Capped from 480,000 CFA to 400,000 CFA"
   },
   {
-    "year": 2025,
-    "project": "Interim Progress Report: Widow Support Program \u2013 Cohort 3",
-    "reference": "ADA/2025/002",
-    "archive_approved": 2400000,
-    "archive_actual": 1400000,
-    "public_target": 400000,
-    "adjustment_needed": 1000000,
-    "status": "adjusted",
-    "note": "Capped from 1,400,000 CFA to 400,000 CFA"
-  },
-  {
     "year": 2023,
     "project": "Project Completion Report",
     "reference": "ADA/2023/001",
@@ -207,17 +196,6 @@
     "adjustment_needed": 0,
     "status": "ok",
     "note": "Within public cap"
-  },
-  {
-    "year": 2024,
-    "project": "Young Women Empowerment Conference",
-    "reference": "ADA/2024/005",
-    "archive_approved": 1200000,
-    "archive_actual": 1180000,
-    "public_target": 400000,
-    "adjustment_needed": 780000,
-    "status": "adjusted",
-    "note": "Capped from 1,180,000 CFA to 400,000 CFA"
   },
   {
     "year": 2025,

@@ -8,8 +8,13 @@ import {
 } from "./sanity-locale";
 import {
 	isSafeProgramFaq,
+	isWithdrawnAboutEntry,
 	isWithdrawnGalleryImage,
+	isWithdrawnImpactMetric,
+	isWithdrawnProgramEntry,
 	isWithdrawnProjectRecord,
+	isWithdrawnWidowTrainingTestimonial,
+	safeWidowSupportDescription,
 	withoutWithdrawnProjects,
 } from "./withdrawn-project-content";
 
@@ -217,11 +222,11 @@ function localizeProject(
 			"location",
 			locale,
 		),
-		description: pickLocalized(
+		description: safeWidowSupportDescription(pickLocalized(
 			project as Record<string, unknown>,
 			"description",
 			locale,
-		),
+		)),
 		mainImage: project.mainImage
 			? {
 					...project.mainImage,
@@ -271,10 +276,12 @@ export async function getImpactMetrics(
 	const rows = await getSanityClient().fetch(
 		`*[_type == "impactMetric"] | order(displayOrder asc)`,
 	);
-	return (rows as SanityImpactMetric[]).map((m) => ({
-		...m,
-		label: pickLocalized(m as Record<string, unknown>, "label", locale),
-	}));
+	return (rows as SanityImpactMetric[])
+		.filter((m) => !isWithdrawnImpactMetric(m))
+		.map((m) => ({
+			...m,
+			label: pickLocalized(m as Record<string, unknown>, "label", locale),
+		}));
 }
 
 export async function getVolunteerRoles(
@@ -401,7 +408,10 @@ export async function getTestimonials(locale: ContentLocale = "en") {
       photo { asset { _ref }, alt, altFr }
     }`,
 	);
-	return (rows as SanityTestimonial[]).map((item) => ({
+	return (rows as SanityTestimonial[]).filter((item) =>
+		!isWithdrawnWidowTrainingTestimonial(item) &&
+		!isWithdrawnAboutEntry({ title: item.program, titleFr: item.programFr, description: item.quote, descriptionFr: item.quoteFr }),
+	).map((item) => ({
 		name: item.name,
 		quote: pickLocalized(item as Record<string, unknown>, "quote", locale),
 		location: pickLocalized(
@@ -428,17 +438,25 @@ export async function getHomePage(
 ): Promise<SanityHomePage | null> {
 	const row = await getSanityClient().fetch(`*[_type == "homePage"][0]`);
 	if (!row) return null;
+	const heroSubtitle = pickLocalized(row, "heroSubtitle", locale);
 	return {
 		heroBadge: pickLocalized(row, "heroBadge", locale),
 		heroHeadline: pickLocalized(row, "heroHeadline", locale),
-		heroSubtitle: pickLocalized(row, "heroSubtitle", locale),
+		heroSubtitle: /\b200\s*\+|200\s+vies? impactées/i.test(heroSubtitle)
+			? ""
+			: heroSubtitle,
 		missionHeading: pickLocalized(row, "missionHeading", locale),
 		missionBody: pickLocalized(row, "missionBody", locale),
 		missionCards: localizeObjectArray(
-			row.missionCards || [],
+			(row.missionCards || []).filter((card: { title?: string; titleFr?: string; description?: string; descriptionFr?: string }) => !isWithdrawnProgramEntry(card)),
 			["title", "description"],
 			locale,
-		),
+		).map((card) => ({
+			...card,
+			description: /widow|veuve/i.test(card.title)
+				? safeWidowSupportDescription(card.description)
+				: card.description,
+		})),
 		ctaHeading: pickLocalized(row, "ctaHeading", locale),
 		ctaBody: pickLocalized(row, "ctaBody", locale),
 	};
@@ -452,23 +470,28 @@ export async function getAboutPage(
 	return {
 		missionStatement: pickLocalized(row, "missionStatement", locale),
 		storyHeading: pickLocalized(row, "storyHeading", locale),
-		storyParagraphs: pickLocalizedStringArray(row, "storyParagraphs", locale),
+		storyParagraphs: pickLocalizedStringArray(row, "storyParagraphs", locale).filter((paragraph) => !isWithdrawnAboutEntry({ description: paragraph })),
 		coreValues: localizeObjectArray(
 			row.coreValues || [],
 			["title", "description"],
 			locale,
 		),
 		programs: localizeObjectArray(
-			row.programs || [],
+			(row.programs || []).filter((program: { title?: string; titleFr?: string; description?: string; descriptionFr?: string }) => !isWithdrawnProgramEntry(program)),
 			["title", "description"],
 			locale,
-		),
+		).map((program) => ({
+			...program,
+			description: /widow|veuve/i.test(program.title)
+				? safeWidowSupportDescription(program.description)
+				: program.description,
+		})),
 		financialSplit: localizeObjectArray(
 			row.financialSplit || [],
 			["label"],
 			locale,
 		),
-		timeline: localizeObjectArray(row.timeline || [], ["event"], locale),
+		timeline: localizeObjectArray((row.timeline || []).filter((item: { event?: string; eventFr?: string }) => !isWithdrawnAboutEntry(item)), ["event"], locale),
 	};
 }
 

@@ -4,7 +4,7 @@ This ledger focuses on the archived projects and their budget records from 2021 
 
 Compiled on November 4, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 24. Total approved budget represented in the archive: 13,740,000 CFA. Total reported actual/spent amount: 9,851,800 CFA. Aggregate variance: 3,888,200 CFA.
+Archived projects included: 21. Total approved budget represented in the archive: 10,140,000 CFA. Total reported actual/spent amount: 7,271,800 CFA. Aggregate variance: 2,868,200 CFA.
 
 Active projects are intentionally excluded here so the focus stays on completed and archived work.
 
@@ -12,10 +12,10 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 | Year | Projects | Approved Budget | Actual / Spent | Variance |
 |---|---:|---:|---:|---:|
-| 2025 | 7 | 4,860,000 CFA | 3,750,000 CFA | 1,110,000 CFA |
-| 2024 | 5 | 4,380,000 CFA | 3,351,800 CFA | 1,028,200 CFA |
+| 2025 | 6 | 2,460,000 CFA | 2,350,000 CFA | 110,000 CFA |
+| 2024 | 4 | 3,180,000 CFA | 2,171,800 CFA | 1,008,200 CFA |
 | 2023 | 4 | 1,560,000 CFA | 1,285,000 CFA | 275,000 CFA |
-| 2022 | 7 | 2,820,000 CFA | 1,380,000 CFA | 1,440,000 CFA |
+| 2022 | 6 | 2,820,000 CFA | 1,380,000 CFA | 1,440,000 CFA |
 | 2021 | 1 | 120,000 CFA | 85,000 CFA | 35,000 CFA |
 
 ## Project Ledger
@@ -69,15 +69,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Finance note: 330,000 CFA under budget.
 - Source files: [`report.md`](public/docs/projects/prenatal-care-support-program/report.md), [`financial.md`](public/docs/projects/prenatal-care-support-program/financial.md)
 
-#### Interim Progress Report: Widow Support Program – Cohort 3
-
-- Reference: `ADA/2025/002` | Location: N/A | Period: February 1 – May 31, 2025 (Months 1–4 of 6) | Status: Interim Financial Report
-- What we did: The Widow Support Program Cohort 3 is progressing on schedule through its fourth month. All 20 beneficiaries remain enrolled across both Bamenda and Douala sites.
-- Outcomes: The Widow Support Program Cohort 3 is progressing on schedule through its fourth month. All 20 beneficiaries remain enrolled across both Bamenda and Douala sites.
-- Budget: Approved 2,400,000 CFA; Actual/Spent 1,400,000 CFA; Variance 1,000,000 CFA; Utilization 58%.
-- Finance note: 1,000,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/widow-support-program-cohort-3/report.md), [`financial.md`](public/docs/projects/widow-support-program-cohort-3/financial.md)
-
 #### Youth Mentorship Seminar
 
 - Reference: `ADA/2025/007` | Location: Full Gospel Mission Church, Buea, South-West Region, Cameroon | Period: October 26–27, 2025 | Status: COMPLETED
@@ -127,16 +118,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Budget: Approved 1,500,000 CFA; Actual/Spent 1,450,000 CFA; Variance 50,000 CFA; Utilization 96.7%.
 - Finance note: 50,000 CFA under budget.
 - Source files: [`report.md`](public/docs/projects/emergency-food-relief-bamenda-crisis/report.md), [`financial.md`](public/docs/projects/emergency-food-relief-bamenda-crisis/financial.md)
-
-#### Young Women Empowerment Conference
-
-- Reference: `ADA/2024/005` | Location: Buea, South-West Region, Cameroon | Period: N/A | Status: completed
-- Beneficiaries: 80+
-- What we did: The Apoti Development Association (ADA) successfully delivered its largest event to date—a two-day Young Women Empowerment Conference held on October 27–28, 2024, at a church venue in Buea, South-West Region, Cameroon. Over 80 young women and girls attended the faith-based conference, which featured teaching sessions on faith, purpose, and personal development led by two female speakers.
-- Outcomes: The Apoti Development Association (ADA) successfully delivered its largest event to date—a two-day Young Women Empowerment Conference held on October 27–28, 2024, at a church venue in Buea, South-West Region, Cameroon. Over 80 young women and girls attended the faith-based conference, which featured teaching sessions on faith, purpose, and personal development led by two female speakers.
-- Budget: Approved 1,200,000 CFA; Actual/Spent 1,180,000 CFA; Variance 20,000 CFA; Utilization 98.3%.
-- Finance note: 20,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/young-women-conference-oct-2024/report.md), [`financial.md`](public/docs/projects/young-women-conference-oct-2024/financial.md)
 
 
 ### 2023
@@ -208,14 +189,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Budget: Approved 300,000 CFA; Actual/Spent 280,000 CFA; Variance 20,000 CFA; Utilization 93.3%.
 - Finance note: 20,000 CFA under budget.
 - Source files: [`report.md`](public/docs/projects/school-supply-distribution-feb-2022/report.md), [`financial.md`](public/docs/projects/school-supply-distribution-feb-2022/financial.md)
-
-#### Project Completion Report: Widow Vocational Training Program — Cohort 1
-
-- Reference: `N/A` | Location: N/A | Period: N/A | Status: completed
-- What we did: The Widow Vocational Training Program (Cohort 1) was ADA's first long-term intervention, providing 6 months of vocational training in tailoring and hairdressing to 15 widows in Bamenda who lost their husbands to Anglophone crisis violence. The program exceeded its core targets: 12 of 15 enrolled women graduated with demonstrated competency, all 12 are now earning independent income, and 3 have launched their own small businesses.
-- Outcomes: The Widow Vocational Training Program (Cohort 1) was ADA's first long-term intervention, providing 6 months of vocational training in tailoring and hairdressing to 15 widows in Bamenda who lost their husbands to Anglophone crisis violence. The program exceeded its core targets: 12 of 15 enrolled women graduated with demonstrated competency, all 12 are now earning independent income, and 3 have launched their own small businesses.
-- Budget: Approved —; Actual/Spent —; Variance —; Utilization —.
-- Source files: [`report.md`](public/docs/projects/widow-vocational-training-cohort-1/report.md), [`financial.md`](public/docs/projects/widow-vocational-training-cohort-1/financial.md)
 
 #### Project Report: IDP Girls Baking Training & Startup Kits
 

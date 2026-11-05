@@ -17,11 +17,11 @@ async function seed() {
     _type: 'homePage',
     heroBadge: 'Faith-Based Charity \u00b7 Cameroon',
     heroHeadline: 'Empowering Vulnerable Communities in Cameroon',
-    heroSubtitle: 'Supporting widows, orphans, and young women through food distribution, skills training, healthcare, and education programs since 2021.',
+    heroSubtitle: 'Supporting communities in Cameroon through food distribution, education, healthcare, and local programs since 2021.',
     missionHeading: 'Our Mission',
     missionBody: 'To provide holistic support to vulnerable communities in Cameroon through faith-based programs that address immediate needs while building long-term self-sufficiency.',
     missionCards: [
-      { _key: 'mc1', icon: '\ud83e\udd1d', title: 'Widow Support', description: 'Financial aid, skills training, and community for widows rebuilding their lives.' },
+      { _key: 'mc1', icon: '\ud83e\udd1d', title: 'Widow Support', description: 'Food and financial support for widows and families rebuilding household stability.' },
       { _key: 'mc2', icon: '\ud83d\udcda', title: 'Education', description: 'School supplies, tuition support, and mentorship for orphaned children.' },
       { _key: 'mc3', icon: '\ud83d\udcaa', title: 'Empowerment', description: 'Vocational training and microfinance for young women seeking independence.' },
     ],
@@ -61,9 +61,9 @@ async function seed() {
     ],
     timeline: [
       { _key: 'tl1', year: '2021', event: 'Founded in Cameroon with a mission to serve the vulnerable' },
-      { _key: 'tl2', year: '2022', event: 'Launched first Widow Support Program' },
+      { _key: 'tl2', year: '2022', event: 'Community support activities continued' },
       { _key: 'tl3', year: '2023', event: 'Orphan Care and Education program begins' },
-      { _key: 'tl4', year: '2024', event: 'Expanded to 5 communities, 200+ lives impacted' },
+      { _key: 'tl4', year: '2024', event: 'Continued community programs in Cameroon' },
     ],
   });
   console.log('\u2713 About Page');
@@ -74,7 +74,7 @@ async function seed() {
     { _id: 'faq-donate', keywords: ['donate', 'give', 'money'], response: 'Your donation makes a real difference. 80% goes directly to programs. Online card gifts currently process in USD through Stripe, and ADA issues a receipt for your records. Donations are not represented as tax-deductible in Canada, the US, the UK, or the EU unless a qualified registered partner is confirmed in writing.', sortOrder: 2 },
     { _id: 'faq-volunteer', keywords: ['volunteer', 'help', 'join'], response: 'We welcome volunteers in Cameroon and remotely! Roles include education mentoring, community outreach, and digital communications.', sortOrder: 3 },
     { _id: 'faq-contact', keywords: ['contact', 'email', 'phone'], response: 'Email info@apotidev.org or WhatsApp +237 676 282 346. Mon-Fri 8AM-5PM CAT.', sortOrder: 4 },
-    { _id: 'faq-impact', keywords: ['impact', 'result'], response: 'Since 2021, we have impacted 200+ lives across 5 communities in Cameroon.', sortOrder: 5 },
+    { _id: 'faq-impact', keywords: ['impact', 'result'], response: 'ADA supports community initiatives in Cameroon through practical care, education, and local partnerships.', sortOrder: 5 },
     { _id: 'faq-sponsor', keywords: ['sponsor', 'corporate', 'company', 'church', 'foundation', 'due diligence', 'invoice', 'wire', 'matching'], response: 'Sponsors can support ADA through Community, Project, Program, or Strategic Partner options. ADA can provide a sponsor packet, due-diligence materials, outcome summaries, receipts, invoices, and reporting. Bank or wire details, corporate matching questions, restricted gifts, and group presentations should be discussed with ADA before payment.', sortOrder: 6 },
   ];
 

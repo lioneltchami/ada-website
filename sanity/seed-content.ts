@@ -27,7 +27,6 @@ async function seed() {
 
   // Testimonials (realistic beneficiary stories)
   const testimonials = [
-    { _id: 'testimonial-1', name: 'Amina N.', quote: 'After my husband passed, I did not know how I would feed my children. ADA provided food packages and enrolled me in tailoring training. Today I run a small shop and can support my family on my own.', location: 'Bamenda', program: 'Widow Support Program', isFeatured: true },
     { _id: 'testimonial-2', name: 'Marie F.', quote: 'ADA paid my school fees when my grandmother could not afford them. They gave me books, a uniform, and a mentor who checks on me every week. I want to become a nurse to help others.', location: 'Douala', program: 'Education for Orphans', isFeatured: true },
     { _id: 'testimonial-3', name: 'Esther K.', quote: 'The skills training program taught me hairdressing. ADA even helped me get my first set of tools. Now I have regular clients and I am saving to open my own salon.', location: 'Yaoundé', program: 'Young Women Empowerment', isFeatured: true },
   ];

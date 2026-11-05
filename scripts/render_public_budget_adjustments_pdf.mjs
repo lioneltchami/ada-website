@@ -49,11 +49,6 @@ function donutSvg(okCount, adjustedCount) {
 const rows = JSON.parse(await fs.readFile(INPUT_JSON, "utf8"));
 const adjustedRows = rows.filter((row) => row.status === "adjusted");
 const okRows = rows.filter((row) => row.status === "ok");
-const totalPublic = rows.reduce((sum, row) => sum + Number(row.public_target || 0), 0);
-const totalArchive = rows.reduce(
-  (sum, row) => sum + Number(row.archive_actual || row.archive_approved || 0),
-  0,
-);
 const topAdjusted = [...adjustedRows]
   .sort((a, b) => (b.adjustment_needed || 0) - (a.adjustment_needed || 0))
   .slice(0, 10);
@@ -127,12 +122,12 @@ const html = `<!doctype html>
       <div class="eyebrow">ADA sponsor document</div>
       <h1>Public Budget Adjustments</h1>
       <div class="sub">
-        This is the sponsor-facing budget layer. It keeps the archived record intact while capping each public project at 400,000 CFA unless the archived amount is already below that ceiling.
+        This review sheet shows per-project adjustments derived from archived records. It is not an independently verified financial statement.
       </div>
       <div class="meta">
         <span class="badge">Compiled from archive records</span>
         <span class="badge">Updated: ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
-        <span class="badge">Ready for investor review</span>
+        <span class="badge">Per-project review</span>
       </div>
     </div>
 
@@ -140,7 +135,7 @@ const html = `<!doctype html>
       <div class="card">
         <div class="label">Projects reviewed</div>
         <div class="value">${rows.length}</div>
-        <div class="note">All archived projects included in the public adjustment layer.</div>
+        <div class="note">Rows represented in this adjustment sheet.</div>
       </div>
       <div class="card">
         <div class="label">Within cap</div>
@@ -153,9 +148,9 @@ const html = `<!doctype html>
         <div class="note">Should be reviewed against verified receipts and records.</div>
       </div>
       <div class="card">
-        <div class="label">Public target total</div>
-        <div class="value">${currency(totalPublic)}</div>
-        <div class="note">Capped public-facing total across the archive.</div>
+        <div class="label">Financial basis</div>
+        <div class="value">Per project</div>
+        <div class="note">Aggregate totals are omitted because source rows mix approved budgets and reported actuals.</div>
       </div>
     </div>
 
@@ -189,12 +184,10 @@ const html = `<!doctype html>
           <div style="font-size:12px; line-height:1.6;">
             <div><span class="dot ok"></span> Within cap: ${okRows.length}</div>
             <div><span class="dot adjusted"></span> Adjusted: ${adjustedRows.length}</div>
-            <div style="margin-top:10px; color:#475569;">Archive total: ${currency(totalArchive)}</div>
-            <div style="color:#475569;">Public target total: ${currency(totalPublic)}</div>
           </div>
         </div>
         <div class="foot">
-          The donut chart shows how many projects fall inside the public cap versus how many need adjustment.
+          The chart counts rows within the listed cap and rows marked for adjustment; it does not represent total spending.
         </div>
       </div>
     </div>

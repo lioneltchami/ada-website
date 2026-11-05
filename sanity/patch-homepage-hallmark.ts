@@ -35,7 +35,7 @@ const missionCards = [
     icon: "",
     title: "Widow Support",
     description:
-      "Financial aid, skills training, and community for widows rebuilding their lives.",
+      "Food and financial support for widows and families rebuilding household stability.",
   },
   {
     _key: "education",
