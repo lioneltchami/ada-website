@@ -14,6 +14,7 @@ import {
 	isWithdrawnProgramEntry,
 	isWithdrawnProjectRecord,
 	isWithdrawnWidowTrainingTestimonial,
+	sanitizeAboutStoryParagraph,
 	safeWidowSupportDescription,
 	withoutWithdrawnProjects,
 } from "./withdrawn-project-content";
@@ -470,7 +471,9 @@ export async function getAboutPage(
 	return {
 		missionStatement: pickLocalized(row, "missionStatement", locale),
 		storyHeading: pickLocalized(row, "storyHeading", locale),
-		storyParagraphs: pickLocalizedStringArray(row, "storyParagraphs", locale).filter((paragraph) => !isWithdrawnAboutEntry({ description: paragraph })),
+		storyParagraphs: pickLocalizedStringArray(row, "storyParagraphs", locale)
+			.filter((paragraph) => !isWithdrawnAboutEntry({ description: paragraph }))
+			.map((paragraph) => sanitizeAboutStoryParagraph(paragraph, locale)),
 		coreValues: localizeObjectArray(
 			row.coreValues || [],
 			["title", "description"],

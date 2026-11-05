@@ -152,6 +152,22 @@ export function isWithdrawnAboutEntry(entry: {
 		/(?:200\s*\+\s*(?:lives|vies)\s*(?:impacted|impactées)|(?:200\s*(?:volunteers|bénévoles)))/i.test(identity);
 }
 
+/** Replace the About narrative's stale portfolio totals without changing the surrounding history. */
+export function sanitizeAboutStoryParagraph(
+	paragraph: string,
+	locale: "en" | "fr",
+): string {
+	const stalePortfolioTotal =
+		locale === "fr"
+			? /(?:plus de 200\s+(?:vies|personnes)|200\s*\+\s*(?:vies|personnes)).{0,120}\b(?:six|6)\s+programmes\b/i
+			: /(?:over 200\s+(?:lives|people)|200\s*\+\s*(?:lives|people)).{0,120}\b(?:six|6)\s+(?:focused\s+)?programs?\b/i;
+
+	if (!stalePortfolioTotal.test(paragraph)) return paragraph;
+	return locale === "fr"
+		? "Ce qui a commencé comme un simple acte de compassion est devenu une organisation communautaire au service de communautés à travers le Cameroun. Ses programmes sont conçus non seulement pour apporter un soutien immédiat, mais aussi pour renforcer l'autonomie."
+		: "What began as a simple act of compassion has grown into a community-driven organization serving communities across Cameroon. Its programs are designed not just to provide relief, but to build lasting self-sufficiency.";
+}
+
 /** Filter a withdrawn record by its title, while allowing general widow-relief cards to remain. */
 export function isWithdrawnProgramEntry(entry: {
 	title?: string;

@@ -10,6 +10,7 @@ import {
 	isWithdrawnProjectSlug,
 	isWithdrawnProgramEntry,
 	isWithdrawnTestimonial,
+	sanitizeAboutStoryParagraph,
 	safeWidowSupportDescription,
 	withoutWithdrawnProjects,
 } from "../src/lib/withdrawn-project-content";
@@ -153,6 +154,19 @@ describe("conference and widow-training removal safeguards", () => {
 		expect(isWithdrawnProgramEntry({ title: "Widow Support" })).toBe(false);
 		expect(safeWidowSupportDescription("Financial aid, tailoring training, and support for widows.")).toBe("Food and financial support for widows and families.");
 		expect(isWithdrawnTestimonial({ program: "Widow Support", quote: "The tailoring training changed my life." })).toBe(true);
+	});
+
+	it("replaces only the About paragraph with the withdrawn portfolio totals in both locales", () => {
+		const en = "What began as an act of compassion serves 5 communities, touching over 200 lives through six focused programs.";
+		const fr = "Ce qui a commencé comme un acte de compassion sert 5 communautés, touchant plus de 200 vies à travers six programmes ciblés.";
+		const safeEn = sanitizeAboutStoryParagraph(en, "en");
+		const safeFr = sanitizeAboutStoryParagraph(fr, "fr");
+		expect(safeEn).not.toMatch(/200|six/i);
+		expect(safeFr).not.toMatch(/200|six/i);
+		expect(safeEn).toContain("serving communities across Cameroon");
+		expect(safeFr).toContain("au service de communautés à travers le Cameroun");
+		const ordinary = "ADA works with community partners to support identified needs.";
+		expect(sanitizeAboutStoryParagraph(ordinary, "en")).toBe(ordinary);
 	});
 
 	it("removes affected aggregate metrics without suppressing unrelated program targets", () => {
