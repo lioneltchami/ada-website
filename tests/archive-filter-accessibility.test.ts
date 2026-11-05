@@ -73,7 +73,10 @@ describe("project archive filters", () => {
       /une même personne peut figurer dans plusieurs\s+projets/,
     );
     expect(french).toContain("Budgets et objectifs indiqués (USD)");
-    expect(french).toContain("ne représente pas une dépense vérifiée");
+    expect(french).toContain("ce n’est pas un total de dépenses vérifié");
+    expect(french).toContain("{financeReviewCount} dossiers sont exclus pendant la vérification");
+    expect(french).not.toContain("Deux dossiers sont exclus pendant la vérification");
+    expect(english).toContain("{financeReviewCount} project records are excluded");
     expect(french).toContain("Entrées d’archives");
   });
 

@@ -2,6 +2,8 @@
 
 ## Annual Report 2021
 
+> **Retrospective review copy (November 2026):** Selected financial wording was revised from owner recollection. This is not an independently verified annual financial statement; other historical narrative and beneficiary details are not independently verified in this review.
+
 ---
 
 **"Whoever does not love does not know God, because God is love."** — 1 John 4:8
@@ -26,7 +28,7 @@ In November 2021, three of us walked through the streets of Buea with bags of ri
 
 I had seen them — elderly women living alone, some caring for grandchildren, some unable to leave their beds. Women who had given their lives to their families and communities, now invisible to the world around them. I could not unsee what I had seen, and I could not remain still.
 
-ADA was not born from a grand strategy or a large budget. It was born from obedience. God placed a burden on my heart for the vulnerable — widows, orphans, young women without opportunity — and He asked me to take the first step, however small. That first step was $200 and three volunteers knocking on doors.
+ADA was not born from a grand strategy or a large budget. It was born from obedience. God placed a burden on my heart for the vulnerable — widows, orphans, young women without opportunity — and He asked me to take the first step, however small. That first step was three volunteers knocking on doors; the owner later recalled that 120,000 CFA francs was sent for the project.
 
 What we found during those visits broke us and built us at the same time. We found a bedridden widow living in a makeshift shelter with paper walls, caring for her grandchild with almost nothing. We found dignity in the midst of suffering. We found women who needed not just rice, but presence — someone to pray with them, someone to say "you are not forgotten."
 
@@ -82,10 +84,11 @@ A Cameroon where widows, orphans, and young women are seen, supported, and empow
 | Months of Operation | 1 (November) |
 | Projects Completed | 1 |
 | Direct Beneficiaries | 3 elderly widows |
-| Total Budget | $200 USD (120,000 CFA) |
-| Total Expenditure | $142 USD (85,000 CFA) |
+| Owner-recalled funds sent | 120,000 CFA (approximately US$209 using the November 2021 monthly average) |
+| Owner-estimated total spent, including withdrawal costs | About 110,000 CFA, including approximately 10,000 CFA in withdrawal costs |
+| Arithmetic difference | About 10,000 CFA; not a verified balance |
 | Volunteers Deployed | 3 |
-| Funding Source | Founding members' personal contributions |
+| Funding Source | Not independently verified for this project |
 
 ---
 
@@ -118,7 +121,7 @@ This single encounter confirmed everything we believed — that there are vulner
 
 1. **The need is real and urgent.** Vulnerable widows in Buea are living in conditions that demand attention.
 2. **Presence matters as much as provision.** The women we visited were grateful for the rice, but equally grateful that someone came, sat with them, and prayed.
-3. **Small teams can make an impact.** Three volunteers with $200 reached three lives in meaningful ways.
+3. **Small teams can make an impact.** Three volunteers began ADA’s community work through this project.
 4. **Documentation is essential.** Recording conditions allows us to plan better interventions and advocate for those who cannot advocate for themselves.
 
 #### Outcomes
@@ -130,30 +133,11 @@ This single encounter confirmed everything we believed — that there are vulner
 
 ---
 
-## Financial Summary
+## Financial Summary — Under Review
 
-### Income & Expenditure — November 2021
+For November 2021, the owner recalls that 120,000 CFA francs was sent for the project and estimates that about 110,000 CFA francs was spent in total, including approximately 10,000 CFA francs in withdrawal costs. The owner-recalled sent amount is approximately US$209 using the November 2021 monthly average exchange rate.
 
-| Category | Amount (USD) | Amount (CFA) |
-|----------|-------------|--------------|
-| **Income** | | |
-| Founding members' personal contributions | $200 | 120,000 |
-| **Total Income** | **$200** | **120,000** |
-| | | |
-| **Expenditure** | | |
-| Food supplies (rice) | $142 | 85,000 |
-| **Total Expenditure** | **$142** | **85,000** |
-| | | |
-| **Balance Carried Forward** | **$58** | **35,000** |
-
-### Notes
-
-- All funding in 2021 came from the personal contributions of ADA's founding members
-- No external donations or grants were received
-- The remaining balance of $58 was carried forward to support early 2022 activities
-- All expenditure was directed to beneficiary support — zero administrative costs
-
----
+The approximately 10,000 CFA difference is arithmetic only, not a verified cash balance. The source records available for this review do not establish a reconciled income-and-expenditure ledger, exact spend, or funds carried forward. Earlier exact expenditure, balance, contribution-source, and zero-administrative-cost claims have been removed pending verification.
 
 ## Governance
 
@@ -166,7 +150,7 @@ This single encounter confirmed everything we believed — that there are vulner
 
 ### Volunteer Team
 
-ADA launched with a founding team of 3 volunteers who contributed both their time and personal funds to make the first project possible.
+ADA launched with a founding team of 3 volunteers who contributed their time to make the first project possible. The source of project funds is not independently verified in this review.
 
 ### Governance Structure
 
@@ -209,7 +193,7 @@ Our first month showed us what is possible. In 2022, we plan to build on this fo
 ### Strengthen Our Foundation
 
 - Develop formal policies and procedures
-- Create a sustainable funding model beyond personal contributions
+- Create a sustainable funding model beyond project-specific funding
 - Build an online presence to share our work with the world
 
 ---
@@ -218,7 +202,7 @@ Our first month showed us what is possible. In 2022, we plan to build on this fo
 
 ### Give
 
-Every contribution, no matter how small, goes directly to serving vulnerable communities. $50 can feed a widow for a month. $200 can fund an entire project.
+Contributions support ADA’s work with vulnerable communities. Project costs vary, and financial figures are shared only when supported by records.
 
 ### Volunteer
 

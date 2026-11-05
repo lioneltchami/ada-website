@@ -19,6 +19,11 @@ OUT_XLSX = ROOT / "public" / "docs" / "ada-public-budget-adjustments.xlsx"
 OUT_CSV = ROOT / "public" / "docs" / "ada-public-budget-adjustments.csv"
 OUT_JSON = ROOT / "public" / "docs" / "ada-public-budget-adjustments.json"
 CAP_CFA = 400_000
+FINANCE_REVIEW_PROJECTS = {
+    "first-widow-home-visits-2021": "Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance.",
+    "school-supply-distribution-feb-2022": "Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These figures are not independently reconciled; the category allocation is illustrative only, not actual expenditure.",
+    "widow-support-food-cash-mar-2022": "Owner recalls about 220,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000 CFA transportation, leaving an estimated 205,000 CFA for the listed supplies. These approximate figures have not been independently reconciled; item quantities, category costs, cash assistance, and any balance are not established.",
+}
 
 
 def currency(value: int | None) -> str:
@@ -38,7 +43,7 @@ class BudgetRow:
     reference: str
     archive_approved: int | None
     archive_actual: int | None
-    public_target: int
+    public_target: int | None
     adjustment_needed: int | None
     status: str
     note: str
@@ -50,6 +55,21 @@ def build_rows() -> list[BudgetRow]:
         project = parse_project(slug_dir)
         if not project:
           continue
+        if slug_dir.name in FINANCE_REVIEW_PROJECTS:
+            rows.append(
+                BudgetRow(
+                    year=project.year,
+                    project=simple_title(project.title),
+                    reference=project.reference or "",
+                    archive_approved=None,
+                    archive_actual=None,
+                    public_target=None,
+                    adjustment_needed=None,
+                    status="under review",
+                    note=FINANCE_REVIEW_PROJECTS[slug_dir.name],
+                )
+            )
+            continue
         archive_value = project.actual_cfa if project.actual_cfa is not None else project.approved_budget_cfa
         if archive_value is None:
             continue
@@ -91,7 +111,7 @@ def write_markdown(rows: list[BudgetRow]) -> str:
             f"| {row.year} | {row.project} | {row.reference or '—'} | {currency(row.archive_approved)} | {currency(row.archive_actual)} | {currency(row.public_target)} | {currency(row.adjustment_needed)} | {row.status} | {row.note} |"
         )
     lines.append("")
-    lines.append("Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.")
+    lines.append("Projects marked `under review` have no numeric public target in this worksheet. Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.")
     lines.append("")
     return "\n".join(lines)
 
@@ -190,7 +210,7 @@ def main() -> None:
     OUT_JSON.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     with OUT_CSV.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, lineterminator="\n")
         writer.writerow([
             "Year",
             "Project",

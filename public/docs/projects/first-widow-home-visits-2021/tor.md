@@ -2,7 +2,6 @@
 
 ## First Widow Home Visits Programme
 
----
 
 | Field | Details |
 |-------|---------|
@@ -11,10 +10,11 @@
 | **Implementing Organization** | Apoti Development Association (ADA) |
 | **Location** | Buea, South-West Region, Cameroon |
 | **Duration** | November 1–30, 2021 (1 month) |
-| **Total Budget** | $200 USD (≈120,000 CFA) |
+| **Financial note** | Owner later recalled 120,000 CFA sent (approximately US$209 using the November 2021 monthly average); this is not a verified project budget. |
 | **Date Issued** | October 15, 2021 |
 
----
+Retrospective review copy (November 2026): This document was updated later to record owner-recalled financial information. Its original issue date is historical metadata; this review does not independently verify the project narrative or establish an approved budget.
+
 
 ## 1. Background & Context
 
@@ -82,7 +82,7 @@ The project shall undertake the following activities:
 
 ### 4.2 Procurement of Relief Items
 - Purchase 25kg bags of rice (one per beneficiary household)
-- Procure supplementary food items as budget allows (cooking oil, salt)
+- Procure supplementary food items as available project funds allow (cooking oil, salt)
 - Prepare food packages for distribution
 
 ### 4.3 Home Visits & Food Delivery
@@ -131,23 +131,9 @@ The project shall undertake the following activities:
 
 ---
 
-## 7. Budget Summary
+## 7. Financial Information — Under Review
 
-| Line Item | Description | Unit Cost (CFA) | Qty | Total (CFA) | Total (USD) |
-|-----------|-------------|---------------:|----:|------------:|------------:|
-| Food packages — Rice | 25kg bag of rice per beneficiary | 15,000 | 3 | 45,000 | $75.00 |
-| Food packages — Cooking oil | 5L cooking oil per beneficiary | 4,000 | 3 | 12,000 | $20.00 |
-| Food packages — Salt & seasoning | Assorted condiments per beneficiary | 2,000 | 3 | 6,000 | $10.00 |
-| Transport — Visit trips | Motorcycle/taxi to beneficiary locations | 5,000 | 6 | 30,000 | $50.00 |
-| Transport — Procurement | Market trips for food purchase | 3,000 | 2 | 6,000 | $10.00 |
-| Documentation supplies | Notebooks, pens, printed forms | — | — | 6,000 | $10.00 |
-| Communication | Airtime for coordination calls | 1,000 | 6 | 6,000 | $10.00 |
-| Contingency | Unforeseen expenses (≈8%) | — | — | 9,000 | $15.00 |
-| **TOTAL** | | | | **120,000** | **$200.00** |
-
-*Exchange rate applied: 1 USD = 600 CFA (approximate, November 2021)*
-
----
+The original itemized budget table has been withheld because its line-item allocations and USD conversion are not independently supported. The owner later recalled that 120,000 CFA francs was sent for the project. This after-the-fact recollection does not establish the approved budget or validate individual planned allocations. See the separate Financial Review Note for the owner-recalled amounts and reconciliation limits.
 
 ## 8. Implementation Approach
 
@@ -250,7 +236,7 @@ This project — ADA/2021/001 — represents the organization's founding interve
 |------|-----------|--------|------------|
 | Security deterioration due to Anglophone crisis restricts movement | Medium | High | Monitor security situation weekly; postpone visits if unsafe; identify alternative access routes |
 | Identified beneficiaries refuse assistance or are unavailable | Low | Medium | Maintain a reserve list of eligible widows; reschedule visits as needed |
-| Market price increases exceed budget | Low | Medium | Procure early in project cycle; adjust quantities within budget envelope |
+| Market price increases exceed budget | Low | Medium | Procure early in project cycle; adjust quantities within available project funds |
 | Volunteer attrition | Low | Medium | Brief additional community members as standby volunteers |
 | Adverse weather limits access to rural locations | Medium | Low | Schedule visits on dry days; allow flexibility in weekly planning |
 

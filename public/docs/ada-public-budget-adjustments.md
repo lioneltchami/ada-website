@@ -2,7 +2,7 @@
 
 This sheet presents per-project public adjustment rows based on figures extracted from the archived project documents. It is not an independently verified financial statement.
 
-Compiled on November 4, 2026.
+Compiled on November 5, 2026.
 
 Aggregate financial totals are omitted because the source rows do not consistently report the same basis: some contain approved budgets, some reported actuals, and some both. These amounts should be checked against supporting records before being treated as final.
 
@@ -18,14 +18,14 @@ Aggregate financial totals are omitted because the source rows do not consistent
 | 2023 | City Cleanup — Labour Day | ADA/2023/003 | 240,000 CFA | — | 240,000 CFA | 0 CFA | ok | Within public cap |
 | 2025 | City Cleanup — Labour Day 2025 | ADA/2025/003 | — | 290,000 CFA | 290,000 CFA | 0 CFA | ok | Within public cap |
 | 2024 | Emergency Food Relief - Bamenda Crisis | — | 1,500,000 CFA | 1,450,000 CFA | 400,000 CFA | 1,050,000 CFA | adjusted | Capped from 1,450,000 CFA to 400,000 CFA |
-| 2021 | Project Completion Report | ADA/2021/001 | 120,000 CFA | 85,000 CFA | 85,000 CFA | 0 CFA | ok | Within public cap |
+| 2021 | First Widow Home Visits | ADA/2021/001 | — | — | — | — | under review | Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance. |
 | 2025 | Interim Progress Report: IDP Children Education Fund | — | 720,000 CFA | 675,000 CFA | 400,000 CFA | 275,000 CFA | adjusted | Capped from 675,000 CFA to 400,000 CFA |
 | 2022 | IDP Girls Baking Training & Startup Kits | — | 900,000 CFA | — | 400,000 CFA | 500,000 CFA | adjusted | Capped from 900,000 CFA to 400,000 CFA |
 | 2025 | Interim Progress Report: Prenatal Care Support Program | ADA/2025/001 | 1,080,000 CFA | 750,000 CFA | 400,000 CFA | 350,000 CFA | adjusted | Capped from 750,000 CFA to 400,000 CFA |
-| 2022 | Project Completion Report | ADA/2022/001 | 300,000 CFA | 280,000 CFA | 280,000 CFA | 0 CFA | ok | Within public cap |
+| 2022 | School Supply Distribution | ADA/2022/001 | — | — | — | — | under review | Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These figures are not independently reconciled; the category allocation is illustrative only, not actual expenditure. |
 | 2022 | School Visit & Mentorship | ADA/2022/004 | 180,000 CFA | 165,000 CFA | 165,000 CFA | 0 CFA | ok | Within public cap |
-| 2022 | Widow Support — Food & Financial Aid | ADA/2022/003 | 480,000 CFA | — | 400,000 CFA | 80,000 CFA | adjusted | Capped from 480,000 CFA to 400,000 CFA |
+| 2022 | Women's Day Widow Outreach | ADA/2022/003 | — | — | — | — | under review | Owner recalls about 220,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000 CFA transportation, leaving an estimated 205,000 CFA for the listed supplies. These approximate figures have not been independently reconciled; item quantities, category costs, cash assistance, and any balance are not established. |
 | 2023 | Project Completion Report | ADA/2023/001 | 360,000 CFA | 345,000 CFA | 345,000 CFA | 0 CFA | ok | Within public cap |
 | 2025 | Youth Mentorship Seminar | ADA/2025/007 | 480,000 CFA | 465,000 CFA | 400,000 CFA | 65,000 CFA | adjusted | Capped from 465,000 CFA to 400,000 CFA |
 
-Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.
+Projects marked `under review` have no numeric public target in this worksheet. Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.

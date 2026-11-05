@@ -1,15 +1,17 @@
 # Project Completion Report
 
-**Project Title:** First Widow Home Visits  
-**Organization:** Apoti Development Association (ADA)  
-**Reference Number:** ADA/2021/001  
-**Project Location:** Buea, South-West Region, Cameroon  
-**Implementation Period:** November 1–30, 2021  
-**Total Beneficiaries:** 3 elderly widows  
-**Total Budget:** $200 USD  
-**Report Date:** December 15, 2021
+| Field | Details |
+|---|---|
+| **Project Title** | First Widow Home Visits |
+| **Organization** | Apoti Development Association (ADA) |
+| **Reference Number** | ADA/2021/001 |
+| **Project Location** | Buea, South-West Region, Cameroon |
+| **Implementation Period** | November 1–30, 2021 |
+| **Total Beneficiaries** | 3 elderly widows (as reported in the source; not independently verified) |
+| **Financial status** | Owner-recalled figures are not independently reconciled |
+| **Report Date** | December 15, 2021 |
 
----
+Retrospective review copy (November 2026): Financial wording was revised from owner recollection. This review does not independently verify other narrative details, participant counts, or the project balance.
 
 ## 1. Executive Summary
 
@@ -59,7 +61,7 @@ The project was motivated by:
 
 The volunteer team spent the first week identifying potential beneficiaries through word-of-mouth referrals from local church communities and neighbors. This process proved more challenging than anticipated — many widows live in isolated locations without clear addresses, and community members were sometimes hesitant to share personal information about their neighbors.
 
-The team pooled personal funds to purchase bags of rice, cooking oil, and basic condiments from the local market and organized transportation logistics for reaching the widows' homes.
+The team organized procurement of food items and transportation for reaching the widows' homes. The source of project funds is not independently verified in this review.
 
 ### 4.2 Visit One: The Widow Living Alone
 
@@ -145,7 +147,7 @@ All names have been withheld to protect the privacy and dignity of the beneficia
 |---|---|---|
 | **Locating beneficiaries** | No formal addresses; relied on verbal directions and community referrals | Spent additional time asking neighbors; arrived early to allow for searching |
 | **Emotional impact on volunteers** | The conditions witnessed — particularly the bedridden widow — were emotionally overwhelming for the young team | Team debriefed together after each visit; leaned on faith and prayer for processing |
-| **Limited resources** | $200 budget meant only basic food items could be provided; could not address shelter or medical needs | Documented needs for future projects; accepted the limitation of this first effort |
+| **Limited resources** | Limited available resources meant only basic food items could be provided; could not address shelter or medical needs | Documented needs for future projects; accepted the limitation of this first effort |
 | **No organizational infrastructure** | No transport, no office, no formal processes | Used personal phones for documentation; walked or used public transport; coordinated via WhatsApp |
 | **Community trust** | Some community members were initially suspicious of young strangers asking about vulnerable widows | Introduced themselves through church connections; explained ADA's mission clearly |
 
@@ -161,7 +163,7 @@ All names have been withheld to protect the privacy and dignity of the beneficia
 
 5. **Community entry requires relationships.** Finding and accessing vulnerable individuals requires trust and local connections. ADA should invest in building relationships with community leaders, churches, and local authorities.
 
-6. **Small teams can accomplish meaningful work.** Three committed volunteers with $200 were able to launch an organization, serve three families, and generate insights that would shape years of future programming.
+6. **Small teams can accomplish meaningful work.** Three volunteers began ADA’s community work through this project and documented needs for future planning.
 
 ---
 
@@ -205,31 +207,15 @@ Based on the findings and lessons from this inaugural project, the team recommen
 
 ---
 
-## 10. Financial Summary
+## 10. Financial Summary — Under Review
 
-| Item | Budgeted (USD) | Actual (USD) | Variance | Notes |
-|---|---|---|---|---|
-| Rice (3 × 25kg bags) | $75.00 | $78.00 | +$3.00 | Market price slightly higher than estimated |
-| Cooking oil (3 × 5L) | $20.00 | $18.00 | −$2.00 | Purchased from local market |
-| Salt & seasoning | $10.00 | $9.00 | −$1.00 | Assorted condiments per household |
-| Transport — visit trips | $50.00 | $45.00 | −$5.00 | Motorcycle/taxi to beneficiary locations |
-| Transport — procurement | $10.00 | $12.00 | +$2.00 | Two market trips required |
-| Documentation supplies | $10.00 | $8.00 | −$2.00 | Notebooks and pens |
-| Communication (airtime) | $10.00 | $10.00 | $0.00 | Coordination calls and WhatsApp |
-| Contingency | $15.00 | $20.00 | +$5.00 | Additional transport and water for team |
-| **Total** | **$200.00** | **$200.00** | **$0.00** | — |
+The owner recalls that 120,000 CFA francs was sent for the November 2021 project and estimates that about 110,000 CFA francs was spent in total, including approximately 10,000 CFA francs in withdrawal costs. The owner-recalled sent amount is approximately US$209 using the November 2021 monthly average exchange rate.
 
-**Funding source:** Personal contributions from the three volunteer team members.
-
-**Financial accountability:** All expenditures were tracked informally by the team lead. Receipts were retained where available (market purchases). The team acknowledges the need for more formal financial tracking in future projects.
-
-**Note on variance:** Minor variances between budgeted and actual amounts reflect market price fluctuations and the reallocation of small savings from one line to another. Total expenditure remained within the approved $200 budget.
-
----
+The approximately 10,000 CFA difference is arithmetic only; it is not a verified remaining balance. No independently reconciled budget, exact expenditure, itemized allocation, or returned balance is established by this report. The former itemized USD table and claims about exact variances and supporting receipts have therefore been removed pending reconciliation.
 
 ## 11. Conclusion
 
-The First Widow Home Visits project was, by conventional metrics, a small intervention — three visits, three bags of rice, $200 spent. But its significance to the Apoti Development Association cannot be overstated. This project was the moment ADA moved from aspiration to action, from conversation to compassion in practice.
+The First Widow Home Visits project was, by conventional metrics, a small intervention — three visits and food support. But its significance to the Apoti Development Association cannot be overstated. This project was the moment ADA moved from aspiration to action, from conversation to compassion in practice.
 
 What the team found in those homes — particularly the image of an elderly, bedridden grandmother caring for a grandchild in a paper-walled shelter — became the moral foundation upon which ADA would build all of its subsequent work. It answered the question of whether the need was real, whether young people could make a difference, and whether faith could be translated into tangible service.
 

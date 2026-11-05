@@ -3,6 +3,7 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 import PageHero from "../../../components/layout/PageHero.astro";
 import Section from "../../../components/layout/Section.astro";
 import {
+  countProjectsUnderFinancialReview,
   countOwnerMarkedCompletions,
   loadProjectArchiveEntries,
 } from "../../../lib/project-archive";
@@ -51,6 +52,7 @@ const totalBeneficiaries = archiveItems.reduce(
   0,
 );
 const totalBudget = archiveItems.reduce((sum, r) => sum + (r.budget || 0), 0);
+const financeReviewCount = countProjectsUnderFinancialReview(archiveItems);
 const completedCount = countOwnerMarkedCompletions(archiveItems);
 const years = [...new Set(archiveItems.map((r) => r.year))].sort(
   (a, b) => b - a,
@@ -118,7 +120,7 @@ for (const r of archiveItems) {
           Listed budget/goal fields (USD)
         </p>
         <p class="mt-1 text-xs text-gray-500">
-          Sum of listed values; not a verified expenditure total.
+          Sum of displayed USD budget/goal fields; not a verified expenditure total. {financeReviewCount} project records are excluded while their financial details are reviewed.
         </p>
       </div>
       <div>
@@ -252,6 +254,9 @@ for (const r of archiveItems) {
                             <p class="text-sm font-semibold text-gray-900">
                               ${r.budget.toLocaleString()}
                             </p>
+                          )}
+                          {r.financialReviewNote && !r.budget && (
+                            <p class="mt-2 text-xs text-amber-800">Financial figures under review</p>
                           )}
                           <p
                             class:list={[

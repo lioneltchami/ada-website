@@ -64,10 +64,95 @@ export interface ProjectArchiveEntry {
   torUrl?: string;
   reportUrl?: string;
   financialReportUrl?: string;
+  financialReviewNote?: string;
+  financialReviewNoteFr?: string;
   hasToR?: boolean;
   hasReport?: boolean;
   href?: string;
   autoArchived?: boolean;
+}
+
+const OWNER_RECALLED_FINANCE_NOTES: Record<string, { en: string; fr: string }> = {
+  "first-widow-home-visits-2021": {
+    en: "Owner-recalled figures, not independently reconciled: 120,000 CFA francs was sent; about 110,000 CFA francs was spent, including approximately 10,000 CFA francs in withdrawal costs. The approximately 10,000 CFA difference is arithmetic only, not a verified balance. The sent amount is approximately US$209 using the November 2021 monthly average exchange rate.",
+    fr: "Chiffres rappelés par le responsable, sans rapprochement indépendant : 120 000 francs CFA ont été envoyés ; environ 110 000 francs CFA auraient été dépensés, y compris environ 10 000 francs CFA de frais de retrait. La différence d’environ 10 000 francs CFA est uniquement arithmétique et ne constitue pas un solde vérifié. Le montant envoyé équivaut à environ 209 $ US selon la moyenne mensuelle de novembre 2021.",
+  },
+  "school-supply-distribution-feb-2022": {
+    en: "Financial figures are under review. The owner recalls that 215,000 CFA francs was sent, about 5,000 CFA francs was used for withdrawal costs, and transportation was about 10,000–15,000 CFA francs, leaving an estimated 195,000–200,000 CFA francs for supplies. These figures have not been independently reconciled, and no actual expenditure or cash balance is verified. The downloadable financial document contains an illustrative category allocation for review only; it is not a record of historical item costs. The owner-confirmed supply categories were buckets, utensils, school bags, exercise books, pens, and mathematical sets.",
+    fr: "Les chiffres financiers sont en cours de vérification. Le responsable se souvient que 215 000 francs CFA ont été envoyés, qu’environ 5 000 francs CFA ont servi aux frais de retrait et que le transport a coûté environ 10 000 à 15 000 francs CFA, ce qui laisse une estimation de 195 000 à 200 000 francs CFA pour les fournitures. Ces chiffres n’ont pas été rapprochés de manière indépendante; aucune dépense réelle ni aucun solde de trésorerie n’est vérifié. Le document financier téléchargeable contient une répartition illustrative par catégorie, à examiner uniquement; elle ne constitue pas un relevé des coûts historiques. Les catégories de fournitures confirmées par le responsable sont les seaux, les ustensiles, les cartables, les cahiers d’exercices, les stylos et les ensembles géométriques.",
+  },
+  "widow-support-food-cash-mar-2022": {
+    en: "Financial figures are under review. The owner recalls about 220,000 CFA francs sent, about 5,000 CFA francs in withdrawal costs, and about 10,000 CFA francs for transportation, leaving an estimated 205,000 CFA francs for supplies. These approximate figures have not been independently reconciled. The recalled supply categories were buckets, African fabric wrappers, soap, oil, foodstuffs, and bags. No item quantities, category costs, cash assistance, or remaining balance are verified.",
+    fr: "Les chiffres financiers sont en cours de vérification. Le responsable se souvient qu’environ 220 000 francs CFA ont été envoyés, qu’environ 5 000 francs CFA ont servi aux frais de retrait et qu’environ 10 000 francs CFA ont été utilisés pour le transport, ce qui laisse une estimation de 205 000 francs CFA pour les fournitures. Ces montants approximatifs n’ont pas été rapprochés de manière indépendante. Les catégories de fournitures rappelées sont les seaux, les pagnes africains, le savon, l’huile, les denrées alimentaires et les sacs. Aucune quantité, aucun coût par catégorie, aucune aide financière en espèces ni aucun solde restant n’est vérifié.",
+  },
+};
+
+const OWNER_REVIEW_ARCHIVE_CONTENT: Record<
+  string,
+  Partial<Pick<ProjectArchiveEntry, "title" | "titleFr" | "description" | "descriptionFr" | "beneficiaries" | "location" | "startDate" | "endDate" | "outcomes" | "outcomesFr">>
+> = {
+  "first-widow-home-visits-2021": {
+    title: "First Widow Home Visits",
+    titleFr: "Premières visites à domicile auprès des veuves",
+    description: "ADA's first community outreach was a series of home visits in November 2021. The owner recalls that 120,000 CFA francs was sent for the project; the financial figures are under review.",
+    descriptionFr: "La première action communautaire d'ADA a pris la forme de visites à domicile en novembre 2021. Le responsable se souvient que 120 000 francs CFA ont été envoyés pour le projet; les chiffres financiers sont en cours de vérification.",
+    beneficiaries: undefined,
+    outcomes: [],
+    outcomesFr: [],
+  },
+  "school-supply-distribution-feb-2022": {
+    title: "School Supply Distribution",
+    titleFr: "Distribution de fournitures scolaires",
+    description: "The owner recalls a school-supply activity in February 2022. The recalled categories were buckets, utensils, school bags, exercise books, pens, and mathematical sets. Quantities, individual allocations, and financial figures remain under review.",
+    descriptionFr: "Le responsable se souvient d'une activité de fournitures scolaires en février 2022. Les catégories rappelées sont les seaux, les ustensiles, les cartables, les cahiers d'exercices, les stylos et les ensembles géométriques. Les quantités, les répartitions individuelles et les chiffres financiers sont en cours de vérification.",
+    beneficiaries: undefined,
+    outcomes: [],
+    outcomesFr: [],
+  },
+  "widow-support-food-cash-mar-2022": {
+    title: "Women's Day Widow Outreach",
+    titleFr: "Action de soutien aux veuves pour la Journée des femmes",
+    description: "A Women's Day widow outreach identified by the owner as taking place in March 2022. The owner-recalled supply categories were buckets, African fabric wrappers, soap, oil, foodstuffs, and bags.",
+    descriptionFr: "Une action de soutien aux veuves à l'occasion de la Journée des femmes, située par le responsable en mars 2022. Les catégories de fournitures rappelées sont les seaux, les pagnes africains, le savon, l'huile, les denrées alimentaires et les sacs.",
+    beneficiaries: undefined,
+    location: undefined,
+    startDate: undefined,
+    endDate: undefined,
+    outcomes: [],
+    outcomesFr: [],
+  },
+};
+
+/** Remove stale USD budget fields for records whose finance basis is being reconciled. */
+export function applyOwnerFinancialReview(entry: ProjectArchiveEntry): ProjectArchiveEntry {
+  const slug = entry.slug.current;
+  const note = OWNER_RECALLED_FINANCE_NOTES[slug];
+  if (!note) return entry;
+  const archiveContent = OWNER_REVIEW_ARCHIVE_CONTENT[slug];
+  const isMarchWidowOutreach = slug === "widow-support-food-cash-mar-2022";
+  const reviewedPhoto = isMarchWidowOutreach && entry.photo
+    ? {
+        ...entry.photo,
+        alt: "Project photograph; event details are not verified.",
+        altFr: "Photographie de projet; les détails de l'événement ne sont pas vérifiés.",
+      }
+    : entry.photo;
+  const reviewedPhotos = isMarchWidowOutreach && entry.photos
+    ? entry.photos.map((photo) => ({
+        ...photo,
+        caption: "Project photograph; event date and activity are not verified.",
+        captionFr: "Photographie de projet; la date et l'activité ne sont pas vérifiées.",
+      }))
+    : entry.photos;
+  return {
+    ...entry,
+    ...archiveContent,
+    photo: reviewedPhoto,
+    photos: reviewedPhotos,
+    budget: undefined,
+    financialReviewNote: note.en,
+    financialReviewNoteFr: note.fr,
+  };
 }
 
 export function countOwnerMarkedCompletions(
@@ -257,7 +342,9 @@ async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
 export function groupProjectsByYear(
   records: ProjectArchiveDocument[],
 ): YearDocumentGroup[] {
-  const filtered = records.filter((r) => SLUG_SET.has(r.slug));
+  const filtered = records
+    .filter((r) => SLUG_SET.has(r.slug))
+    .map(applyOwnerFinancialReviewToDocument);
   const byYear = new Map<
     number,
     Map<ProjectDemographic, ProjectArchiveDocument[]>
@@ -288,6 +375,25 @@ export function groupProjectsByYear(
       )?.path;
       return { year, demographics, projectCount, annualReportPath };
     });
+}
+
+/** Count archive entries whose displayed budget details are held for review. */
+export function countProjectsUnderFinancialReview(
+  entries: readonly Pick<ProjectArchiveEntry, "financialReviewNote">[],
+): number {
+  return entries.filter((entry) => Boolean(entry.financialReviewNote)).length;
+}
+
+function applyOwnerFinancialReviewToDocument(
+  record: ProjectArchiveDocument,
+): ProjectArchiveDocument {
+  const override = OWNER_REVIEW_ARCHIVE_CONTENT[record.slug];
+  if (!override) return record;
+  return {
+    ...record,
+    title: override.title || record.title,
+    titleFr: override.titleFr || record.titleFr,
+  };
 }
 
 export async function loadProjectDocumentLibrary(): Promise<{
@@ -457,6 +563,7 @@ export async function loadProjectArchiveEntries(): Promise<
 
   return records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
+    .map(applyOwnerFinancialReview)
     .map(withCanonicalProjectDocuments);
 }
 

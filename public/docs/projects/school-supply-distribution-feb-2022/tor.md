@@ -2,7 +2,6 @@
 
 ## School Supply Distribution Programme
 
----
 
 | Field | Details |
 |-------|---------|
@@ -11,10 +10,11 @@
 | **Implementing Organization** | Apoti Development Association (ADA) |
 | **Location** | Buea, South-West Region, Cameroon |
 | **Duration** | February 1–28, 2022 (1 month) |
-| **Total Budget** | $500 USD (≈300,000 CFA) |
+| **Financial status** | Owner-recalled funding flow; no independently reconciled budget or expenditure. |
 | **Date Issued** | January 15, 2022 |
 
----
+Retrospective review copy (November 2026): This document was updated later to record owner-recalled supply categories and funding information. Its original issue date is historical metadata; this review does not independently verify quantities, allocations, or an approved budget.
+
 
 ## 1. Background & Context
 
@@ -36,7 +36,7 @@ To improve the material well-being and educational readiness of orphaned childre
 
 ### Specific Objectives
 
-1. **SO1:** To procure and distribute complete supply kits (school bags, plastic buckets, plates, cups, and utensils) to 20 identified orphaned children at a rural primary school by February 15, 2022.
+1. **SO1:** To procure and distribute complete supply kits (buckets, utensils, school bags, exercise books, pens, and mathematical sets) to 20 identified orphaned children at a rural primary school by February 15, 2022.
 2. **SO2:** To conduct an interactive engagement session with beneficiary children to foster a sense of community, belonging, and encouragement.
 3. **SO3:** To establish ADA's first institutional partnership with a primary school as a platform for future child-focused programming.
 4. **SO4:** To demonstrate ADA's expanded operational capacity through the coordination of 8 volunteers in a school-based distribution event.
@@ -86,11 +86,10 @@ The project shall undertake the following activities:
 - Finalize list of 20 beneficiary children with basic profile information
 
 ### 4.2 Procurement of Supply Kits
-- Purchase 20 colorful plastic buckets (to serve as storage containers and carrying vessels)
-- Purchase 20 sets of plates, cups, and eating utensils
-- Purchase 20 pink school bags suitable for primary school children
+- Include buckets, utensils, school bags, exercise books, pens, and mathematical sets in the planned supply list.
+- Confirm item quantities and specific product details from contemporaneous project records; this document does not assert unverified allocations.
 - Inspect all items for quality and completeness
-- Assemble individual kits: bucket filled with plate, cup, and utensils, paired with school bag
+- Assemble supply kits using the confirmed categories; per-kit quantities and contents should follow verified distribution records.
 
 ### 4.3 Event Logistics & Preparation
 - Coordinate event date and venue with school administration
@@ -104,7 +103,7 @@ The project shall undertake the following activities:
 - Set up distribution area within school premises
 - Conduct interactive engagement session with children (songs, encouragement, group activities)
 - Distribute individual supply kits to each identified beneficiary child
-- Ensure each child receives complete kit and understands the contents
+- Distribute the planned supplies; document individual allocations only where records support them
 - Provide refreshments to children during the event
 
 ### 4.5 Documentation & Photography
@@ -125,7 +124,7 @@ The project shall undertake the following activities:
 
 | Expected Outcome | Indicator | Means of Verification |
 |-----------------|-----------|----------------------|
-| 20 orphaned children receive complete supply kits | Number of kits distributed | Distribution records, beneficiary acknowledgment forms |
+| School supplies are distributed to the intended participants | Distribution records, where available | Distribution records, beneficiary acknowledgment forms |
 | Children engage in interactive community-building session | Number of children participating in engagement activities | Event photos, volunteer reports |
 | School partnership established | Written or verbal agreement with school administration | Correspondence records, meeting notes |
 | ADA demonstrates expanded volunteer capacity | Number of volunteers coordinated for event | Volunteer attendance records, event photos |
@@ -139,29 +138,31 @@ The project shall undertake the following activities:
 | Week | Dates | Activities | Milestone |
 |------|-------|-----------|-----------|
 | **Week 1** | Feb 1–5, 2022 | School engagement; partnership agreement; beneficiary identification and verification with teachers | Beneficiary list finalized (20 children) |
-| **Week 2** | Feb 6–10, 2022 | Market procurement of buckets, utensils, school bags; quality inspection; kit assembly | All 20 supply kits assembled and ready |
+| **Week 2** | Feb 6–10, 2022 | Procurement and preparation of the planned supplies | Supply preparation records, if available |
 | **Week 3** | Feb 11–15, 2022 | Final logistics coordination; volunteer briefing; vehicle hire; event execution on February 15 | Distribution event completed |
 | **Week 4** | Feb 16–28, 2022 | Post-event documentation; photo compilation; financial reconciliation; report writing | Final report and financial report submitted |
 
 ---
 
-## 7. Budget Summary
+## 7. Financial Information — Under Review
 
-| Line Item | Description | Unit Cost (CFA) | Qty | Total (CFA) | Total (USD) |
-|-----------|-------------|---------------:|----:|------------:|------------:|
-| Plastic buckets | Colorful plastic buckets for storage/carrying | 3,000 | 20 | 60,000 | $100.00 |
-| Plates, cups & utensils | Complete eating set per child | 5,000 | 20 | 100,000 | $166.67 |
-| School bags | Pink school bags for primary school children | 4,000 | 20 | 80,000 | $133.33 |
-| Transport | Vehicle hire for kit delivery to school | — | 1 | 25,000 | $41.67 |
-| Refreshments | Drinks and snacks for children during event | — | — | 15,000 | $25.00 |
-| Communication | Airtime for coordination with school, volunteers | — | — | 5,000 | $8.33 |
-| Documentation & printing | Beneficiary forms, event materials, printing | — | — | 5,000 | $8.33 |
-| Contingency | Unforeseen expenses (≈3.3%) | — | — | 10,000 | $16.67 |
-| **TOTAL** | | | | **300,000** | **$500.00** |
+The owner now recalls that 215,000 CFA francs was sent, about 5,000 CFA francs was used for withdrawal costs, and transportation cost about 10,000–15,000 CFA francs. This suggests approximately 195,000–200,000 CFA francs was available for supplies, but these figures are recollections and are not independently reconciled.
 
-*Exchange rate applied: 1 USD = 600 CFA (approximate, February 2022)*
+### Illustrative allocation for review only
 
----
+This example allocates 200,000 CFA francs across the owner-confirmed supply categories. It is not an approved budget or a record of actual historical spending; quantities and actual category costs are unknown.
+
+| Supply category | Illustrative amount only (CFA) |
+|---|---:|
+| Buckets | 25,000 |
+| Utensils | 30,000 |
+| School bags | 45,000 |
+| Exercise books | 50,000 |
+| Pens | 15,000 |
+| Mathematical sets | 35,000 |
+| **Illustrative total** | **200,000** |
+
+The upper-end example assumes about 10,000 CFA francs in transportation. If transportation was closer to 15,000 CFA francs, the supply estimate would be about 195,000 CFA francs and this example would need a 5,000 CFA adjustment. The actual allocation remains unverified. Earlier USD conversions and the unsupported itemized budget have been removed.
 
 ## 8. Implementation Approach
 
@@ -171,13 +172,13 @@ The project employs a **school-based, community-partnership, event-driven** appr
 
 1. **Institutional Partnership:** Unlike ADA's previous door-to-door model, this project partners with an existing institution (primary school) to identify beneficiaries and host the distribution event. This approach enables reaching more beneficiaries efficiently while building sustainable relationships with community institutions.
 
-2. **Kit-Based Distribution:** Rather than distributing individual items, the project provides complete kits (bucket + utensils + school bag) that address multiple needs simultaneously. The bucket serves as both a carrying vessel and a storage container, maximizing utility.
+2. **Supply Categories:** The owner recalls buckets, utensils, school bags, exercise books, pens, and mathematical sets on the project supply list. Quantities and participant-level allocations are not established in this review.
 
 3. **Interactive Engagement:** The distribution is embedded within an engagement session designed to make children feel valued and celebrated, not merely recipients of charity. Songs, encouragement, and group activities create a positive, memorable experience.
 
 4. **Volunteer-Driven:** The expanded team of 8 volunteers enables a more ambitious event while maintaining ADA's low-overhead, community-based model. Volunteer roles are clearly defined to ensure smooth coordination.
 
-5. **Dignity-Centred:** All children receive identical kits to avoid comparison or stigma. The event is designed to be celebratory rather than transactional, emphasizing community care over charitable handout.
+5. **Dignity-Centred:** Plan the distribution to treat participants with respect. The available review does not establish whether item allocations were identical.
 
 ### Team Composition
 
@@ -204,7 +205,7 @@ The project employs a **school-based, community-partnership, event-driven** appr
 
 ### Evaluation Approach
 
-- **Pre-event checklist:** Verification that all 20 kits are complete and transport is confirmed
+- **Pre-event checklist:** Confirm planned supplies and transport arrangements
 - **Event-day monitoring:** Real-time tracking of distribution progress and child engagement
 - **Post-event debrief:** Team meeting within 48 hours to capture observations, challenges, and lessons
 - **School feedback:** Brief conversation with school administration regarding event execution and impact
@@ -213,9 +214,9 @@ The project employs a **school-based, community-partnership, event-driven** appr
 ### Success Criteria
 
 The project will be considered successful if:
-- All 20 identified children receive complete supply kits
+- Planned supplies are distributed; quantities and individual allocations are documented only when verified
 - The interactive engagement session is conducted with active child participation
-- The event is completed within the planned timeline and budget
+- The event activities are completed within the planned timeline; financial reporting is completed after reconciliation
 - School administration expresses willingness for future collaboration
 - A comprehensive event report with photos is produced within 2 weeks of the event
 - At least 3 actionable recommendations for future school-based events are identified
@@ -258,7 +259,7 @@ This project — ADA/2022/001 — represents a significant organizational milest
 
 | Reference | Title | Date | Beneficiaries | Budget | Status |
 |-----------|-------|------|---------------|--------|--------|
-| ADA/2021/001 | First Widow Home Visits | November 2021 | 3 elderly widows | $200 USD | Completed |
+| ADA/2021/001 | First Widow Home Visits | November 2021 | 3 elderly widows | Financial figures under review | Completed |
 
 ---
 
@@ -268,7 +269,7 @@ This project — ADA/2022/001 — represents a significant organizational milest
 
 - School administration will cooperate in identifying eligible orphaned children and hosting the event
 - Identified children will be present at school on the distribution day
-- Market prices for buckets, utensils, and school bags will remain within budgeted estimates
+- Budget and item prices require verification against source records
 - All 8 volunteers will be available on the event day
 - Road and transport conditions will permit vehicle access to the school
 - Weather conditions will allow an outdoor or semi-outdoor event
@@ -280,7 +281,7 @@ This project — ADA/2022/001 — represents a significant organizational milest
 |------|-----------|--------|------------|
 | Security deterioration due to Anglophone crisis restricts movement or school closure | Medium | High | Monitor security situation; identify backup date; maintain communication with school on operational status |
 | Fewer than 20 eligible children identified at the school | Low | Medium | Expand identification to neighbouring schools or community referrals; adjust kit quantities accordingly |
-| Market price increases exceed budget for supply items | Low | Medium | Procure early in project cycle; seek wholesale pricing; adjust item specifications within budget |
+| Market price increases exceed budget for supply items | Low | Medium | Procure early in project cycle; confirm available funds and item specifications before procurement |
 | Volunteer attrition on event day | Low | Medium | Confirm attendance 48 hours before; identify 2 standby volunteers; assign backup roles |
 | Adverse weather on distribution day | Medium | Low | Identify indoor backup venue at school; have flexible date option |
 | Children absent on distribution day | Low | Low | Coordinate with school to ensure attendance; hold reserved kits for absent children to collect later |
