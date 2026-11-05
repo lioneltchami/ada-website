@@ -1,21 +1,23 @@
 # Project Completion Report
 
-**Project Title:** School Supply Distribution  
-**Organization:** Apoti Development Association (ADA)  
-**Reference Number:** ADA/2022/001  
-**Project Location:** Buea, South-West Region, Cameroon  
-**Implementation Period:** February 1–28, 2022  
-**Total Beneficiaries:** 20 orphaned children  
-**Total Budget:** $500 USD (300,000 CFA)  
-**Report Date:** March 10, 2022
+| Field | Details |
+|---|---|
+| **Project Title** | School Supply Distribution |
+| **Organization** | Apoti Development Association (ADA) |
+| **Reference Number** | ADA/2022/001 |
+| **Project Location** | Buea, South-West Region, Cameroon |
+| **Implementation Period** | February 1–28, 2022 |
+| **Total Beneficiaries** | 20 orphaned children (as reported in the source; not independently verified) |
+| **Financial status** | Owner-recalled funding flow under review; no verified expenditure is stated |
+| **Report Date** | March 10, 2022 |
 
----
+Retrospective review copy (November 2026): Supply categories and financial wording were revised from owner recollection. This review does not independently verify quantities, individual allocations, participant counts, or other historical narrative details.
 
 ## 1. Executive Summary
 
-On February 15, 2022, the Apoti Development Association (ADA) conducted its first school-based distribution event at a rural primary school in Buea, South-West Region, Cameroon. A team of 8 volunteers — more than double the founding team of 3 — distributed complete supply kits to 20 orphaned children enrolled at the school. Each child received a colorful plastic bucket filled with plates, cups, and eating utensils, along with a pink school bag. The distribution was accompanied by an interactive engagement session featuring songs, encouragement, and group activities designed to make the children feel celebrated and valued.
+On February 15, 2022, the Apoti Development Association (ADA) conducted its first school-based distribution event at a rural primary school in Buea, South-West Region, Cameroon. The owner later confirmed that the project supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The available review does not establish the quantity or allocation of each item. The distribution was accompanied by an interactive engagement session featuring songs, encouragement, and group activities designed to make the children feel celebrated and valued.
 
-This project marked several organizational firsts for ADA: the first intervention targeting children, the first partnership with a school institution, the first large-scale distribution event (as opposed to individual home visits), and the first project coordinated by an expanded volunteer team. The event was completed within budget — spending approximately 280,000 CFA ($467 USD) of the 300,000 CFA ($500 USD) approved — and achieved all planned objectives. The success of this event validated ADA's capacity to scale beyond individual home visits and established a replicable model for future school-based interventions.
+This project marked several organizational firsts for ADA: the first intervention targeting children, the first partnership with a school institution, the first large-scale distribution event (as opposed to individual home visits), and the first project coordinated by an expanded volunteer team. The owner has since confirmed that the supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The project’s budget and expenditure remain under review; the available recollection does not establish a verified total or itemized spending. This project marked an expansion from individual home visits to a school-based activity.
 
 ---
 
@@ -50,7 +52,7 @@ The project was motivated by:
 
 | # | Planned Objective | Achievement | Status |
 |---|---|---|---|
-| 1 | Distribute complete supply kits to 20 orphaned children | 20 children received full kits (bucket, utensils, school bag) | ✅ Achieved |
+| 1 | Distribute school and household supplies | The source report describes a distribution to children; this review does not establish the participant count or each participant's item allocation | ✅ Reported in source |
 | 2 | Conduct interactive engagement session with children | Songs, games, and encouragement session held with all 20 children | ✅ Achieved |
 | 3 | Establish partnership with a primary school | School administration actively collaborated on identification and hosting | ✅ Achieved |
 | 4 | Coordinate 8 volunteers in a school-based event | All 8 volunteers participated with defined roles | ✅ Achieved |
@@ -66,19 +68,11 @@ The project was motivated by:
 
 The project coordinator engaged the school administration to explain ADA's mission and propose the distribution event. The school head teacher was receptive and enthusiastic, having observed the material needs of orphaned students firsthand. Together with class teachers, the team identified 20 children meeting the selection criteria: orphaned, enrolled, and lacking basic supplies. Teachers provided valuable context about each child's home situation, confirming eligibility.
 
-Simultaneously, the logistics lead began market research for procurement, visiting Buea Main Market and surrounding shops to compare prices for plastic buckets, eating utensils, and school bags. Wholesale pricing was identified for several items, which would ultimately contribute to the project coming in under budget.
+The report describes procurement of buckets, utensils, school bags, exercise books, pens, and mathematical sets. Item prices and any comparison between suppliers have not been verified in the available records.
 
 ### 4.2 Procurement & Kit Assembly (February 6–10)
 
-The logistics team purchased all items over two market visits:
-
-- **20 colorful plastic buckets** — Selected in bright colors (red, blue, yellow, green) to appeal to children and serve as both storage containers and carrying vessels
-- **20 sets of plates, cups, and utensils** — Durable melamine plates, plastic cups, and stainless steel spoons and forks suitable for children
-- **20 pink school bags** — Lightweight, child-sized bags with multiple compartments, selected in pink as a unifying color for the cohort
-
-Kit assembly was conducted at a volunteer's home, with team members filling each bucket with the plate, cup, and utensil set, then pairing each bucket with a school bag. The assembly process doubled as a team-building exercise, with volunteers working together while discussing event logistics.
-
-Several items were purchased at wholesale prices below the budgeted unit cost, resulting in savings that were noted for the financial report.
+The owner confirms the supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The available records do not establish verified quantities, individual prices, procurement methods, or savings.
 
 ### 4.3 Volunteer Briefing & Logistics (February 11–14)
 
@@ -93,7 +87,7 @@ Vehicle hire was confirmed for February 15 to transport the 20 assembled kits fr
 
 ### 4.4 Distribution Event (February 15, 2022)
 
-The team arrived at the school by 9:00 AM with all 20 supply kits loaded in the hired vehicle. Setup took approximately 30 minutes, with kits arranged in a colorful display that immediately attracted the attention and excitement of the children.
+The report describes the team arriving at the school with supply kits and setting up the distribution area. The available review does not verify the quantity of each item or the contents of individual kits.
 
 **Interactive Engagement Session (9:30–10:15 AM)**
 
@@ -107,11 +101,7 @@ The children were initially shy but quickly warmed to the activities. Several te
 
 **Distribution (10:15–11:00 AM)**
 
-Each child was called by name to receive their kit. The distribution team ensured every child received:
-- One colorful plastic bucket containing a plate, cup, spoon, and fork
-- One pink school bag
-
-Children's reactions ranged from quiet smiles to open expressions of joy. Several children immediately put on their new school bags and carried their buckets with visible pride. The uniformity of the kits — everyone receiving the same items — was noted by teachers as important for avoiding comparison or jealousy among the children.
+The owner confirms that the overall supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The reviewed records do not establish the quantities or the allocation of these items to individual children. The report describes an engagement session alongside the distribution; individual reactions are not independently verified here.
 
 **Refreshments & Closing (11:00–11:30 AM)**
 
@@ -119,7 +109,7 @@ Following the distribution, children were provided with drinks and biscuits. The
 
 ### 4.5 Post-Event Activities (February 16–28)
 
-Following the event, the team conducted a debrief session to capture observations and lessons learned. The documentation lead compiled photographs, organized beneficiary records, and drafted the event report. The logistics lead reconciled all expenditures against the budget and collected outstanding receipts. A brief follow-up conversation with the school head teacher confirmed satisfaction with the event and expressed interest in future collaboration.
+Following the event, the team conducted a debrief session to capture observations and lessons learned. The documentation lead compiled photographs, organized beneficiary records, and drafted the event report. The project’s financial records remain under reconciliation. A brief follow-up conversation with the school head teacher confirmed satisfaction with the event and expressed interest in future collaboration.
 
 ---
 
@@ -147,10 +137,9 @@ All 20 beneficiary children shared the following characteristics:
 
 ### 5.3 Notable Observations
 
-- Several children had never owned a school bag before and were visibly emotional upon receiving one
-- The plastic buckets were immediately recognized as valuable household items — children understood they could use them for water carrying, storage, and washing
+- The report describes school bags and buckets among the supply categories; individual reactions and uses are not independently verified in this review
 - Teachers reported that the 6 double orphans were among the most vulnerable children in the school, with some walking significant distances from caregivers' homes
-- The youngest beneficiaries (age 5–6) required assistance from older children to carry their complete kits home
+- The source report notes that younger participants needed help carrying supplies; this review does not establish individual loads or item allocation
 
 *Note: Individual names and identifying details are withheld to protect the privacy and dignity of the children.*
 
@@ -160,10 +149,10 @@ All 20 beneficiary children shared the following characteristics:
 
 ### 6.1 Immediate Outcomes
 
-- **Material provision:** All 20 children received complete supply kits addressing both school needs (bag) and household needs (bucket, eating utensils)
+- **Material provision:** The report states that supply kits were distributed to 20 children. The owner confirms the overall supply categories, but the reviewed records do not establish each child's allocation
 - **Dignity and belonging:** The celebratory nature of the event — with songs, games, and individual recognition — communicated to each child that they are valued members of their community
-- **Practical utility:** Each kit item serves ongoing daily needs: bags for school materials, buckets for water/storage, utensils for meals
-- **Peer equity:** Uniform kits eliminated visible markers of deprivation among the 20 children within the school community
+- **Practical utility:** The owner-confirmed categories included both school and household supplies; quantities and individual kit contents remain unverified
+- **Peer equity:** The records reviewed do not establish whether item allocations were the same for all participants.
 
 ### 6.2 Organizational Outcomes
 
@@ -194,7 +183,7 @@ All 20 beneficiary children shared the following characteristics:
 | **Shy children during engagement** | Some younger children were initially overwhelmed by the attention and unfamiliar adults | Engagement team used gentle, age-appropriate activities; paired shy children with more confident peers |
 | **Coordination of 8 volunteers** | First time managing a team this size; required clearer communication than the 3-person model | Pre-event briefing with written role assignments; designated team leads for each function |
 | **Time management** | Event ran approximately 20 minutes longer than planned due to individual photo documentation | Adjusted programme in real-time; prioritized distribution completion over strict schedule adherence |
-| **Budget constraints on kit contents** | Would have liked to include additional items (notebooks, pencils) but budget was limited | Focused on high-impact, durable items; noted additional items as opportunity for future projects |
+| **Supply list** | The owner confirms that the project supply list included exercise books and pens as well as buckets, utensils, school bags, and mathematical sets | Quantities, item prices, and the financial classification remain under review |
 
 ### 7.2 Lessons Learned
 
@@ -202,11 +191,11 @@ All 20 beneficiary children shared the following characteristics:
 
 2. **Children need celebration, not just provision.** The interactive engagement session was as important as the material distribution. Children responded to being seen, named, and celebrated. Future events should always include a relational component.
 
-3. **Uniform kits prevent stigma.** Giving every child identical items eliminated comparison and ensured no child felt they received "less." This principle should be maintained in all future distributions.
+3. **Document distribution details.** Future reports should record confirmed item quantities and allocations for each distribution.
 
 4. **Larger teams require structure.** The jump from 3 to 8 volunteers necessitated written role assignments, a pre-event briefing, and designated team leads. ADA should formalize volunteer coordination processes as the team continues to grow.
 
-5. **Wholesale procurement saves money.** Buying items in bulk (20 units) enabled wholesale pricing that brought the project under budget. Future projects should always seek bulk discounts and compare multiple vendors.
+5. **Record complete supply lists.** The owner confirms the listed school and household items included exercise books, pens, and mathematical sets. Future reports should record item quantities and costs from source documents.
 
 6. **Documentation requires a dedicated person.** Assigning one volunteer exclusively to photography and forms ensured comprehensive documentation without disrupting the event flow. This role should be standard for all future events.
 
@@ -218,8 +207,7 @@ All 20 beneficiary children shared the following characteristics:
 
 Photographs were taken during the distribution event with the consent of school administration and in accordance with child protection principles. These images document:
 
-- Assembled supply kits (buckets filled with utensils, paired with school bags) before distribution
-- The colorful display of kits at the school venue
+- Supply kits prepared for the distribution; the exact contents and per-child allocation are not verified in this review
 - Interactive engagement session (songs, games, group activities)
 - Individual children receiving their kits
 - Children's reactions — smiles, excitement, pride in new school bags
@@ -245,7 +233,7 @@ Based on the findings and lessons from this project, the team recommends the fol
 ### 9.2 Program Development
 
 4. **Standardize the school-based model:** Document the event planning process as a replicable template for future school distributions at other schools
-5. **Add educational materials:** Future kits should include notebooks, pencils, and other writing materials alongside household items
+5. **Record educational materials:** Keep exercise books and pens in the project’s confirmed supply list; verify future quantities and costs from source records
 6. **Develop engagement curriculum:** Create a structured programme for the interactive sessions that can be adapted for different age groups and contexts
 7. **Include guardian engagement:** Consider inviting caregivers/guardians to future events to build relationships and understand household needs
 
@@ -259,35 +247,21 @@ Based on the findings and lessons from this project, the team recommends the fol
 
 ---
 
-## 10. Financial Summary
+## 10. Financial Summary — Under Review
 
-| Item | Budgeted (CFA) | Budgeted (USD) | Actual (CFA) | Actual (USD) | Variance (CFA) | Notes |
-|---|---:|---:|---:|---:|---:|---|
-| Plastic buckets (20) | 60,000 | $100.00 | 54,000 | $90.00 | −6,000 | Wholesale price: 2,700 CFA/unit |
-| Plates, cups & utensils (20 sets) | 100,000 | $166.67 | 92,000 | $153.33 | −8,000 | Bulk discount from single vendor |
-| School bags (20) | 80,000 | $133.33 | 80,000 | $133.33 | 0 | Purchased at budgeted rate |
-| Transport (vehicle hire) | 25,000 | $41.67 | 25,000 | $41.67 | 0 | Single trip, hired vehicle |
-| Refreshments for children | 15,000 | $25.00 | 14,000 | $23.33 | −1,000 | Drinks and biscuits for 20 children |
-| Communication/coordination | 5,000 | $8.33 | 5,000 | $8.33 | 0 | Airtime for calls and coordination |
-| Documentation/printing | 5,000 | $8.33 | 4,000 | $6.67 | −1,000 | Beneficiary forms and event materials |
-| Contingency | 10,000 | $16.67 | 6,000 | $10.00 | −4,000 | Minor unforeseen expenses |
-| **Total** | **300,000** | **$500.00** | **280,000** | **$466.67** | **−20,000** | Under budget |
+The owner now recalls that 215,000 CFA francs was sent. About 5,000 CFA francs was used for withdrawal costs, leaving about 210,000 CFA francs in hand. Transportation is recalled at about 10,000–15,000 CFA francs, leaving approximately 195,000–200,000 CFA francs for supplies. These amounts are not independently reconciled, and no actual expenditure or balance is verified.
 
-**Unspent balance:** 20,000 CFA ($33.33 USD) — returned to ADA general fund for future projects.
-
-**Funding source:** Community donations and personal contributions from ADA members.
-
----
+The owner confirms that the overall supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The illustrative allocation in the accompanying Financial Review Note is a planning example only, not a historical spending record. Quantities, actual item costs, exact expenditure, and any remaining balance are not established here. The former USD conversions, budget variance, savings explanations, and claims of returned funds remain removed.
 
 ## 11. Conclusion
 
 The School Supply Distribution project represents a pivotal moment in ADA's organizational journey. In just three months since its founding intervention, ADA grew from 3 volunteers visiting individual widows to 8 volunteers executing a coordinated school-based event for 20 children. This growth — in team size, ambition, and operational complexity — demonstrates the organization's trajectory and the community's confidence in its mission.
 
-But beyond the organizational milestones, this project was fundamentally about 20 children. Twenty orphaned boys and girls who walked into school that February morning without bags, without their own plates, without the basic items that signal to a child: someone cares about you. They walked out carrying colorful buckets and wearing pink school bags, having spent a morning being celebrated, encouraged, and reminded that they are not forgotten.
+But beyond the organizational milestones, this project focused on school and household supplies for children. The owner confirms that the overall supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The available review does not establish which items each child received, their quantities, or their colors.
 
 The image that stays with the team is not the logistics or the planning — it is the faces of children who had never owned a school bag putting one on for the first time. It is the quiet pride of a child carrying a bucket that is theirs. It is the laughter during the engagement session from children who, for one morning, were not defined by what they had lost but by what they were given.
 
-ADA's mission is to empower vulnerable communities. On February 15, 2022, in a rural primary school in Buea, that mission took the form of 20 buckets, 20 bags, and 8 volunteers who showed up. It was enough. It is always enough to begin.
+ADA's mission is to empower vulnerable communities. The report places this school-based activity in February 2022 in Buea. Its precise per-child supply allocations remain unverified, so this review does not state counts of specific items.
 
 ---
 

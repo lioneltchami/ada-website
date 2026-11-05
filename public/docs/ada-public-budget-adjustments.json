@@ -111,14 +111,14 @@
   },
   {
     "year": 2021,
-    "project": "Project Completion Report",
+    "project": "First Widow Home Visits",
     "reference": "ADA/2021/001",
-    "archive_approved": 120000,
-    "archive_actual": 85000,
-    "public_target": 85000,
-    "adjustment_needed": 0,
-    "status": "ok",
-    "note": "Within public cap"
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "under review",
+    "note": "Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance."
   },
   {
     "year": 2025,
@@ -155,14 +155,14 @@
   },
   {
     "year": 2022,
-    "project": "Project Completion Report",
+    "project": "School Supply Distribution",
     "reference": "ADA/2022/001",
-    "archive_approved": 300000,
-    "archive_actual": 280000,
-    "public_target": 280000,
-    "adjustment_needed": 0,
-    "status": "ok",
-    "note": "Within public cap"
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "under review",
+    "note": "Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000\u201315,000 CFA transportation, leaving an estimated 195,000\u2013200,000 CFA for supplies. These figures are not independently reconciled; the category allocation is illustrative only, not actual expenditure."
   },
   {
     "year": 2022,
@@ -177,14 +177,14 @@
   },
   {
     "year": 2022,
-    "project": "Widow Support \u2014 Food & Financial Aid",
+    "project": "Women's Day Widow Outreach",
     "reference": "ADA/2022/003",
-    "archive_approved": 480000,
+    "archive_approved": null,
     "archive_actual": null,
-    "public_target": 400000,
-    "adjustment_needed": 80000,
-    "status": "adjusted",
-    "note": "Capped from 480,000 CFA to 400,000 CFA"
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "under review",
+    "note": "Owner recalls about 220,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000 CFA transportation, leaving an estimated 205,000 CFA for the listed supplies. These approximate figures have not been independently reconciled; item quantities, category costs, cash assistance, and any balance are not established."
   },
   {
     "year": 2023,

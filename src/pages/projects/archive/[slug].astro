@@ -79,6 +79,12 @@ const statusLabel = getArchiveRecordStatusText(record.status, isAutoArchived, 'e
         )}
       </div>
       <div class="space-y-6">
+        {record.financialReviewNote && (
+          <div class="p-4 rounded-xl border border-amber-200 bg-amber-50 text-sm text-amber-950">
+            <h2 class="font-semibold">Financial figures under review</h2>
+            <p class="mt-2 leading-relaxed">{record.financialReviewNote}</p>
+          </div>
+        )}
         {isAutoArchived && (
           <div class="p-4 rounded-xl border border-primary-100 bg-primary-50 text-sm text-primary-900">
             This archive entry was generated automatically from the project record after its listed end date. It does not confirm project completion or outcomes.

@@ -17,6 +17,23 @@ PROJECTS_DIR = ROOT / "public" / "docs" / "projects"
 MARKDOWN_OUT = ROOT / "public" / "docs" / "ada-project-history.md"
 XLSX_OUT = ROOT / "public" / "docs" / "ada-project-budgets.xlsx"
 
+FINANCE_REVIEW_NOTES = {
+    "first-widow-home-visits-2021": (
+        "Owner recollection only: 120,000 CFA sent; about 110,000 CFA spent including about 10,000 CFA withdrawal costs. Approximate 10,000 CFA difference is not a verified balance."
+    ),
+    "school-supply-distribution-feb-2022": (
+        "Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These are not independently reconciled. The category amounts shown in the project documents are illustrative only, not historical expenditure."
+    ),
+    "widow-support-food-cash-mar-2022": (
+        "Owner recalls about 220,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000 CFA transportation, leaving an estimated 205,000 CFA for the listed supplies. These approximate figures have not been independently reconciled; no item quantities, category costs, cash assistance, or balance are verified."
+    ),
+}
+PROJECT_IDENTITY_OVERRIDES = {
+    "first-widow-home-visits-2021": ("First Widow Home Visits", "ADA/2021/001"),
+    "school-supply-distribution-feb-2022": ("School Supply Distribution", "ADA/2022/001"),
+    "widow-support-food-cash-mar-2022": ("Women's Day Widow Outreach", "ADA/2022/003"),
+}
+
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
@@ -429,6 +446,8 @@ def parse_project(slug_dir: Path) -> ProjectRecord | None:
             extract_field(financial_text, ["Reference", "Project Reference"]),
         ]
     )
+    if slug_dir.name in PROJECT_IDENTITY_OVERRIDES:
+        title, reference = PROJECT_IDENTITY_OVERRIDES[slug_dir.name]
 
     year_match = re.search(r"ADA/(\d{4})/", report_text)
     year = int(year_match.group(1)) if year_match else int(slug_dir.name.rsplit("-", 1)[-1]) if re.search(r"-\d{4}$", slug_dir.name) else 0
@@ -502,6 +521,14 @@ def parse_project(slug_dir: Path) -> ProjectRecord | None:
     if utilization_pct is None and approved_budget_cfa and actual_cfa is not None:
         utilization_pct = round((actual_cfa / approved_budget_cfa) * 100, 1)
 
+    finance_review_note = FINANCE_REVIEW_NOTES.get(slug_dir.name)
+    if finance_review_note:
+        # Do not let withdrawn figures in old source text feed generated totals or line items.
+        approved_budget_cfa = None
+        actual_cfa = None
+        variance_cfa = None
+        utilization_pct = None
+
     summary_block = extract_heading_block(
         report_text,
         [
@@ -556,14 +583,18 @@ def parse_project(slug_dir: Path) -> ProjectRecord | None:
     elif summary_snippet:
         outcome_parts.append(summary_snippet)
     outcomes = " ".join(outcome_parts).strip()
+    if finance_review_note:
+        outcomes = "Not established in this review."
 
     finance_note_parts = extract_bullet_lines(variance_block, limit=2)
-    if not finance_note_parts and variance_cfa is not None:
+    if finance_review_note:
+        finance_note_parts = [finance_review_note]
+    elif not finance_note_parts and variance_cfa is not None:
         sign = "under" if variance_cfa >= 0 else "over"
         finance_note_parts = [f"{abs(variance_cfa):,} CFA {sign} budget."]
     finance_note = " ".join(finance_note_parts).strip()
 
-    line_items = extract_expense_rows(
+    line_items = [] if finance_review_note else extract_expense_rows(
         financial_tables,
         project_title=title,
         year=year,
@@ -619,7 +650,6 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
     years = sorted(projects_by_year, reverse=True)
     total_approved = sum(p.approved_budget_cfa or 0 for p in projects)
     total_actual = sum(p.actual_cfa or 0 for p in projects)
-    total_variance = total_approved - total_actual
 
     lines: list[str] = []
     lines.append("# ADA Project History and Budget Ledger")
@@ -634,9 +664,14 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
     lines.append(f"Compiled on {compiled_on} from the project archive under `public/docs/projects/`.")
     lines.append("")
     lines.append(
-        f"Archived projects included: {len(projects)}. Total approved budget represented in the archive: {currency(total_approved)}. "
-        f"Total reported actual/spent amount: {currency(total_actual)}. Aggregate variance: {currency(total_variance)}."
+        f"Archived projects included: {len(projects)}. Sum of reported approved amounts: {currency(total_approved)}. "
+        f"Sum of reported actual/spent amounts: {currency(total_actual)}. These sums may cover different project sets and are not comparable as a portfolio variance."
     )
+    if FINANCE_REVIEW_NOTES:
+        lines.append("")
+        lines.append(
+            f"Figures for {len(FINANCE_REVIEW_NOTES)} projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified."
+        )
     lines.append("")
     lines.append(
         "Active projects are intentionally excluded here so the focus stays on completed and archived work."
@@ -644,15 +679,17 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
     lines.append("")
     lines.append("## Portfolio Snapshot")
     lines.append("")
-    lines.append("| Year | Projects | Approved Budget | Actual / Spent | Variance |")
+    lines.append("| Year | Projects | Records with figures | Sum of reported approved amounts | Sum of reported actual/spent amounts |")
     lines.append("|---|---:|---:|---:|---:|")
     for year in years:
         year_projects = projects_by_year[year]
-        approved = sum(p.approved_budget_cfa or 0 for p in year_projects)
-        actual = sum(p.actual_cfa or 0 for p in year_projects)
-        variance = approved - actual
+        approved_records = [p.approved_budget_cfa for p in year_projects if p.approved_budget_cfa is not None]
+        actual_records = [p.actual_cfa for p in year_projects if p.actual_cfa is not None]
+        approved = sum(approved_records) if approved_records else None
+        actual = sum(actual_records) if actual_records else None
+        records_with_figures = sum(1 for p in year_projects if p.approved_budget_cfa is not None or p.actual_cfa is not None)
         lines.append(
-            f"| {year} | {len(year_projects)} | {currency(approved)} | {currency(actual)} | {currency(variance)} |"
+            f"| {year} | {len(year_projects)} | {records_with_figures} | {currency(approved)} | {currency(actual)} |"
         )
     lines.append("")
     lines.append("## Project Ledger")
@@ -672,13 +709,16 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
                 lines.append(f"- What we did: {project.what_we_did}")
             if project.outcomes:
                 lines.append(f"- Outcomes: {project.outcomes}")
-            budget_summary = (
-                f"Approved {currency(project.approved_budget_cfa)}; "
-                f"Actual/Spent {currency(project.actual_cfa)}; "
-                f"Variance {currency(project.variance_cfa)}; "
-                f"Utilization {percent(project.utilization_pct)}."
-            )
-            lines.append(f"- Budget: {budget_summary}")
+            if project.slug in FINANCE_REVIEW_NOTES:
+                lines.append("- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.")
+            else:
+                budget_summary = (
+                    f"Reported approved {currency(project.approved_budget_cfa)}; "
+                    f"reported actual/spent {currency(project.actual_cfa)}; "
+                    f"difference {currency(project.variance_cfa)}; "
+                    f"utilization {percent(project.utilization_pct)}."
+                )
+                lines.append(f"- Financial summary: {budget_summary}")
             if project.finance_note:
                 lines.append(f"- Finance note: {project.finance_note}")
             lines.append(
@@ -815,6 +855,7 @@ def build_workbook_rows(projects: list[ProjectRecord]) -> tuple[list[list[object
         "Outcomes",
         "Report file",
         "Financial file",
+        "Finance review note",
     ]]
     detail_rows: list[list[object]] = [[
         "Year",
@@ -853,6 +894,7 @@ def build_workbook_rows(projects: list[ProjectRecord]) -> tuple[list[list[object
             project.outcomes,
             project.report_path,
             project.financial_path,
+            project.finance_note,
         ])
         for item in project.line_items:
             detail_rows.append([
