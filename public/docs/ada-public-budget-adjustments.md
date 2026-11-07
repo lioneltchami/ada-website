@@ -2,7 +2,7 @@
 
 This sheet presents per-project public adjustment rows based on figures extracted from the archived project documents. It is not an independently verified financial statement.
 
-Compiled on November 5, 2026.
+Compiled on November 7, 2026.
 
 Aggregate financial totals are omitted because the source rows do not consistently report the same basis: some contain approved budgets, some reported actuals, and some both. These amounts should be checked against supporting records before being treated as final.
 
@@ -10,7 +10,7 @@ Aggregate financial totals are omitted because the source rows do not consistent
 |---|---|---|---:|---:|---:|---:|---|---|
 | 2024 | Back-to-School Drive — Bamenda 2024 | ADA/2024/003 | 720,000 CFA | 710,000 CFA | 400,000 CFA | 310,000 CFA | adjusted | Capped from 710,000 CFA to 400,000 CFA |
 | 2023 | Back-to-School Drive 2023 | — | 960,000 CFA | 940,000 CFA | 400,000 CFA | 540,000 CFA | adjusted | Capped from 940,000 CFA to 400,000 CFA |
-| 2022 | Back-to-School Kit Distribution 2022 | ADA/2022/006 | 600,000 CFA | 585,000 CFA | 400,000 CFA | 185,000 CFA | adjusted | Capped from 585,000 CFA to 400,000 CFA |
+| 2022 | Back-to-School 2022 | ADA/2022/006 | — | — | — | — | under review | The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here. |
 | 2024 | Back-to-School Supply Distribution 2024 | ADA/2024/004 | 960,000 CFA | — | 400,000 CFA | 560,000 CFA | adjusted | Capped from 960,000 CFA to 400,000 CFA |
 | 2025 | Campus Environmental Cleanup | ADA/2025/005 | 180,000 CFA | 170,000 CFA | 170,000 CFA | 0 CFA | ok | Within public cap |
 | 2022 | Christmas Giving 2022 | ADA/2022/007 | 360,000 CFA | 350,000 CFA | 350,000 CFA | 0 CFA | ok | Within public cap |

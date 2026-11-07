@@ -20,6 +20,7 @@ OUT_CSV = ROOT / "public" / "docs" / "ada-public-budget-adjustments.csv"
 OUT_JSON = ROOT / "public" / "docs" / "ada-public-budget-adjustments.json"
 CAP_CFA = 400_000
 FINANCE_REVIEW_PROJECTS = {
+    "back-to-school-sep-2022": "The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
     "first-widow-home-visits-2021": "Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance.",
     "school-supply-distribution-feb-2022": "Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These figures are not independently reconciled; the category allocation is illustrative only, not actual expenditure.",
     "widow-support-food-cash-mar-2022": "Owner recalls about 220,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000 CFA transportation, leaving an estimated 205,000 CFA for the listed supplies. These approximate figures have not been independently reconciled; item quantities, category costs, cash assistance, and any balance are not established.",

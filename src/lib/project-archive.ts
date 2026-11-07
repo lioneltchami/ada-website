@@ -73,6 +73,10 @@ export interface ProjectArchiveEntry {
 }
 
 const OWNER_RECALLED_FINANCE_NOTES: Record<string, { en: string; fr: string }> = {
+  "back-to-school-sep-2022": {
+    en: "The previous financial schedule has been withdrawn. The revised project account and financial breakdown are under review.",
+    fr: "Le précédent état financier a été retiré. Le compte rendu révisé du projet et la ventilation financière sont en cours de vérification.",
+  },
   "first-widow-home-visits-2021": {
     en: "Owner-recalled figures, not independently reconciled: 120,000 CFA francs was sent; about 110,000 CFA francs was spent, including approximately 10,000 CFA francs in withdrawal costs. The approximately 10,000 CFA difference is arithmetic only, not a verified balance. The sent amount is approximately US$209 using the November 2021 monthly average exchange rate.",
     fr: "Chiffres rappelés par le responsable, sans rapprochement indépendant : 120 000 francs CFA ont été envoyés ; environ 110 000 francs CFA auraient été dépensés, y compris environ 10 000 francs CFA de frais de retrait. La différence d’environ 10 000 francs CFA est uniquement arithmétique et ne constitue pas un solde vérifié. Le montant envoyé équivaut à environ 209 $ US selon la moyenne mensuelle de novembre 2021.",
@@ -91,6 +95,15 @@ const OWNER_REVIEW_ARCHIVE_CONTENT: Record<
   string,
   Partial<Pick<ProjectArchiveEntry, "title" | "titleFr" | "description" | "descriptionFr" | "beneficiaries" | "location" | "startDate" | "endDate" | "outcomes" | "outcomesFr">>
 > = {
+  "back-to-school-sep-2022": {
+    title: "Back-to-School 2022",
+    titleFr: "Rentrée scolaire 2022",
+    description: "A back-to-school activity in Buea. The previous project documents have been withdrawn while a revised account is reviewed.",
+    descriptionFr: "Une activité de rentrée scolaire à Buea. Les précédents documents du projet ont été retirés pendant la vérification d’un compte rendu révisé.",
+    beneficiaries: undefined,
+    outcomes: [],
+    outcomesFr: [],
+  },
   "first-widow-home-visits-2021": {
     title: "First Widow Home Visits",
     titleFr: "Premières visites à domicile auprès des veuves",

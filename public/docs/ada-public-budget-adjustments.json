@@ -23,14 +23,14 @@
   },
   {
     "year": 2022,
-    "project": "Back-to-School Kit Distribution 2022",
+    "project": "Back-to-School 2022",
     "reference": "ADA/2022/006",
-    "archive_approved": 600000,
-    "archive_actual": 585000,
-    "public_target": 400000,
-    "adjustment_needed": 185000,
-    "status": "adjusted",
-    "note": "Capped from 585,000 CFA to 400,000 CFA"
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "under review",
+    "note": "The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here."
   },
   {
     "year": 2024,

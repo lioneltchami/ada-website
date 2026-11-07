@@ -18,6 +18,7 @@ MARKDOWN_OUT = ROOT / "public" / "docs" / "ada-project-history.md"
 XLSX_OUT = ROOT / "public" / "docs" / "ada-project-budgets.xlsx"
 
 FINANCE_REVIEW_NOTES = {
+    "back-to-school-sep-2022": "The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
     "first-widow-home-visits-2021": (
         "Owner recollection only: 120,000 CFA sent; about 110,000 CFA spent including about 10,000 CFA withdrawal costs. Approximate 10,000 CFA difference is not a verified balance."
     ),

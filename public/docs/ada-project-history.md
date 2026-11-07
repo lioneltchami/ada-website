@@ -2,11 +2,11 @@
 
 This ledger focuses on the archived projects and their budget records from 2021 through 2025. It pairs the narrative completion reports with the financial reports so the story of each project stays tied to the numbers.
 
-Compiled on November 5, 2026 from the project archive under `public/docs/projects/`.
+Compiled on November 7, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 21. Sum of reported approved amounts: 9,240,000 CFA. Sum of reported actual/spent amounts: 6,906,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
+Archived projects included: 21. Sum of reported approved amounts: 8,640,000 CFA. Sum of reported actual/spent amounts: 6,321,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
-Figures for 3 projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified.
+Figures for 4 projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified.
 
 Active projects are intentionally excluded here so the focus stays on completed and archived work.
 
@@ -17,7 +17,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 | 2025 | 6 | 5 | 2,460,000 CFA | 2,350,000 CFA |
 | 2024 | 4 | 4 | 3,180,000 CFA | 2,171,800 CFA |
 | 2023 | 4 | 3 | 1,560,000 CFA | 1,285,000 CFA |
-| 2022 | 6 | 4 | 2,040,000 CFA | 1,100,000 CFA |
+| 2022 | 6 | 3 | 1,440,000 CFA | 515,000 CFA |
 | 2021 | 1 | 0 | — | — |
 
 ## Project Ledger
@@ -163,14 +163,13 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 ### 2022
 
-#### Back-to-School Kit Distribution 2022
+#### Back-to-School 2022
 
-- Reference: `ADA/2022/006` | Location: Buea, South-West Region, Cameroon | Period: September 1–30, 2022 | Status: completed
-- Beneficiaries: 20 vulnerable children
-- What we did: ADA successfully completed its second annual Back-to-School drive in September 2022, providing complete school kits to 20 vulnerable children at an under-resourced community school in Buea. The project was delivered under budget at 585,000 CFA ($975) due to savings from bulk uniform purchases.
-- Outcomes: ADA successfully completed its second annual Back-to-School drive in September 2022, providing complete school kits to 20 vulnerable children at an under-resourced community school in Buea. The project was delivered under budget at 585,000 CFA ($975) due to savings from bulk uniform purchases.
-- Financial summary: Reported approved 600,000 CFA; reported actual/spent 585,000 CFA; difference 15,000 CFA; utilization 97.5%.
-- Finance note: 15,000 CFA under budget.
+- Reference: `ADA/2022/006` | Location: Buea, Cameroon | Period: 2022 | Status: Previous document withdrawn; revised record under review
+- What we did: The previous version of this document has been withdrawn because it contained superseded financial and project details. Its budget, expenditure schedule, unit prices, quantities, and associated claims must not be used as current project records.
+- Outcomes: Not established in this review.
+- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
+- Finance note: The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.
 - Source files: [`report.md`](public/docs/projects/back-to-school-sep-2022/report.md), [`financial.md`](public/docs/projects/back-to-school-sep-2022/financial.md)
 
 #### Christmas Giving 2022
