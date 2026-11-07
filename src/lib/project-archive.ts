@@ -73,6 +73,10 @@ export interface ProjectArchiveEntry {
 }
 
 const OWNER_RECALLED_FINANCE_NOTES: Record<string, { en: string; fr: string }> = {
+  "school-visit-mentorship-may-2022": {
+    en: "The previous May project account and financial schedule have been withdrawn. The revised community-cleanup record is under review.",
+    fr: "Le précédent compte rendu du projet de mai et son état financier ont été retirés. Le compte rendu révisé du nettoyage communautaire est en cours de vérification.",
+  },
   "back-to-school-sep-2022": {
     en: "The previous financial schedule has been withdrawn. The revised project account and financial breakdown are under review.",
     fr: "Le précédent état financier a été retiré. Le compte rendu révisé du projet et la ventilation financière sont en cours de vérification.",
@@ -95,6 +99,17 @@ const OWNER_REVIEW_ARCHIVE_CONTENT: Record<
   string,
   Partial<Pick<ProjectArchiveEntry, "title" | "titleFr" | "description" | "descriptionFr" | "beneficiaries" | "location" | "startDate" | "endDate" | "outcomes" | "outcomesFr">>
 > = {
+  "school-visit-mentorship-may-2022": {
+    title: "May 2022 Community Cleanup",
+    titleFr: "Nettoyage communautaire de mai 2022",
+    description: "The previous May project documents have been withdrawn while a revised community-cleanup account is reviewed.",
+    descriptionFr: "Les précédents documents du projet de mai ont été retirés pendant la vérification du compte rendu révisé du nettoyage communautaire.",
+    beneficiaries: undefined,
+    startDate: undefined,
+    endDate: undefined,
+    outcomes: [],
+    outcomesFr: [],
+  },
   "back-to-school-sep-2022": {
     title: "Back-to-School 2022",
     titleFr: "Rentrée scolaire 2022",
@@ -290,7 +305,7 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
   },
   {
     slug: "school-visit-mentorship-may-2022",
-    title: "School Visit & Mentorship",
+    title: "May 2022 Community Cleanup",
     year: 2022,
     demographic: "orphans",
   },

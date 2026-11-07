@@ -4,9 +4,9 @@ This ledger focuses on the archived projects and their budget records from 2021 
 
 Compiled on November 7, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 21. Sum of reported approved amounts: 8,640,000 CFA. Sum of reported actual/spent amounts: 6,321,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
+Archived projects included: 21. Sum of reported approved amounts: 8,460,000 CFA. Sum of reported actual/spent amounts: 6,156,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
-Figures for 4 projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified.
+Figures for 5 projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified.
 
 Active projects are intentionally excluded here so the focus stays on completed and archived work.
 
@@ -17,7 +17,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 | 2025 | 6 | 5 | 2,460,000 CFA | 2,350,000 CFA |
 | 2024 | 4 | 4 | 3,180,000 CFA | 2,171,800 CFA |
 | 2023 | 4 | 3 | 1,560,000 CFA | 1,285,000 CFA |
-| 2022 | 6 | 3 | 1,440,000 CFA | 515,000 CFA |
+| 2022 | 6 | 2 | 1,260,000 CFA | 350,000 CFA |
 | 2021 | 1 | 0 | — | — |
 
 ## Project Ledger
@@ -181,6 +181,15 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Finance note: 10,000 CFA under budget.
 - Source files: [`report.md`](public/docs/projects/christmas-giving-dec-2022/report.md), [`financial.md`](public/docs/projects/christmas-giving-dec-2022/financial.md)
 
+#### May 2022 Community Cleanup
+
+- Reference: `ADA/2022/004` | Location: Buea, Cameroon | Period: May 2022 | Status: Previous document withdrawn; revised record under review
+- What we did: The previous version of this document has been withdrawn because it described an incorrect activity and contained superseded financial and project details. Its mentorship narrative, participant count, budget, expenditure schedule, receipt claims, quantities, and outcomes must not be used as current project records.
+- Outcomes: Not established in this review.
+- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
+- Finance note: The previous May project account and financial schedule have been withdrawn. A revised community-cleanup record is under review; no numeric budget or actual expenditure is published here.
+- Source files: [`report.md`](public/docs/projects/school-visit-mentorship-may-2022/report.md), [`financial.md`](public/docs/projects/school-visit-mentorship-may-2022/financial.md)
+
 #### Project Report: IDP Girls Baking Training & Startup Kits
 
 - Reference: `N/A` | Location: N/A | Period: Item | Status: completed
@@ -198,16 +207,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
 - Finance note: Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These are not independently reconciled. The category amounts shown in the project documents are illustrative only, not historical expenditure.
 - Source files: [`report.md`](public/docs/projects/school-supply-distribution-feb-2022/report.md), [`financial.md`](public/docs/projects/school-supply-distribution-feb-2022/financial.md)
-
-#### School Visit & Mentorship
-
-- Reference: `ADA/2022/004` | Location: Buea, South-West Region, Cameroon | Period: May 1–31, 2022 | Status: completed
-- Beneficiaries: 25 students
-- What we did: ADA conducted its first in-school mentorship visit in May 2022, engaging 25 secondary school students (ages 10–14, predominantly boys in blue uniforms) in Buea. The project marked a strategic shift from one-time distributions to relationship-based engagement within an existing school structure.
-- Outcomes: ADA conducted its first in-school mentorship visit in May 2022, engaging 25 secondary school students (ages 10–14, predominantly boys in blue uniforms) in Buea. The project marked a strategic shift from one-time distributions to relationship-based engagement within an existing school structure.
-- Financial summary: Reported approved 180,000 CFA; reported actual/spent 165,000 CFA; difference 15,000 CFA; utilization 91.7%.
-- Finance note: 15,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/school-visit-mentorship-may-2022/report.md), [`financial.md`](public/docs/projects/school-visit-mentorship-may-2022/financial.md)
 
 #### Women's Day Widow Outreach
 
