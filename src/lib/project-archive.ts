@@ -73,6 +73,10 @@ export interface ProjectArchiveEntry {
 }
 
 const OWNER_RECALLED_FINANCE_NOTES: Record<string, { en: string; fr: string }> = {
+  "idp-girls-baking-training-jul-2022": {
+    en: "The previous July baking project documents and financial schedule have been withdrawn. The revised record is under review.",
+    fr: "Les précédents documents du projet de pâtisserie de juillet et son état financier ont été retirés. Le compte rendu révisé est en cours de vérification.",
+  },
   "school-visit-mentorship-may-2022": {
     en: "The previous May project account and financial schedule have been withdrawn. The revised community-cleanup record is under review.",
     fr: "Le précédent compte rendu du projet de mai et son état financier ont été retirés. Le compte rendu révisé du nettoyage communautaire est en cours de vérification.",
@@ -99,6 +103,17 @@ const OWNER_REVIEW_ARCHIVE_CONTENT: Record<
   string,
   Partial<Pick<ProjectArchiveEntry, "title" | "titleFr" | "description" | "descriptionFr" | "beneficiaries" | "location" | "startDate" | "endDate" | "outcomes" | "outcomesFr">>
 > = {
+  "idp-girls-baking-training-jul-2022": {
+    title: "July 2022 Baking Workshop",
+    titleFr: "Atelier de pâtisserie de juillet 2022",
+    description: "The previous July baking project documents have been withdrawn while a revised account is reviewed.",
+    descriptionFr: "Les précédents documents du projet de pâtisserie de juillet ont été retirés pendant la vérification du compte rendu révisé.",
+    beneficiaries: undefined,
+    startDate: undefined,
+    endDate: undefined,
+    outcomes: [],
+    outcomesFr: [],
+  },
   "school-visit-mentorship-may-2022": {
     title: "May 2022 Community Cleanup",
     titleFr: "Nettoyage communautaire de mai 2022",
@@ -175,8 +190,8 @@ export function applyOwnerFinancialReview(entry: ProjectArchiveEntry): ProjectAr
   return {
     ...entry,
     ...archiveContent,
-    photo: reviewedPhoto,
-    photos: reviewedPhotos,
+    photo: slug === "idp-girls-baking-training-jul-2022" ? undefined : reviewedPhoto,
+    photos: slug === "idp-girls-baking-training-jul-2022" ? [] : reviewedPhotos,
     budget: undefined,
     financialReviewNote: note.en,
     financialReviewNoteFr: note.fr,

@@ -18,6 +18,7 @@ MARKDOWN_OUT = ROOT / "public" / "docs" / "ada-project-history.md"
 XLSX_OUT = ROOT / "public" / "docs" / "ada-project-budgets.xlsx"
 
 FINANCE_REVIEW_NOTES = {
+    "idp-girls-baking-training-jul-2022": "The previous July baking project documents and financial schedule have been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
     "school-visit-mentorship-may-2022": "The previous May project account and financial schedule have been withdrawn. A revised community-cleanup record is under review; no numeric budget or actual expenditure is published here.",
     "back-to-school-sep-2022": "The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
     "first-widow-home-visits-2021": (

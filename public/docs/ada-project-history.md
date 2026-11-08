@@ -2,11 +2,11 @@
 
 This ledger focuses on the archived projects and their budget records from 2021 through 2025. It pairs the narrative completion reports with the financial reports so the story of each project stays tied to the numbers.
 
-Compiled on November 7, 2026 from the project archive under `public/docs/projects/`.
+Compiled on November 8, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 21. Sum of reported approved amounts: 8,460,000 CFA. Sum of reported actual/spent amounts: 6,156,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
+Archived projects included: 21. Sum of reported approved amounts: 7,560,000 CFA. Sum of reported actual/spent amounts: 6,156,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
-Figures for 5 projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified.
+Figures for 6 projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified.
 
 Active projects are intentionally excluded here so the focus stays on completed and archived work.
 
@@ -17,7 +17,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 | 2025 | 6 | 5 | 2,460,000 CFA | 2,350,000 CFA |
 | 2024 | 4 | 4 | 3,180,000 CFA | 2,171,800 CFA |
 | 2023 | 4 | 3 | 1,560,000 CFA | 1,285,000 CFA |
-| 2022 | 6 | 2 | 1,260,000 CFA | 350,000 CFA |
+| 2022 | 6 | 1 | 360,000 CFA | 350,000 CFA |
 | 2021 | 1 | 0 | — | — |
 
 ## Project Ledger
@@ -181,6 +181,15 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Finance note: 10,000 CFA under budget.
 - Source files: [`report.md`](public/docs/projects/christmas-giving-dec-2022/report.md), [`financial.md`](public/docs/projects/christmas-giving-dec-2022/financial.md)
 
+#### July 2022 Baking Workshop
+
+- Reference: `ADA/2022/005` | Location: Buea, Cameroon | Period: July 2022 | Status: Previous document withdrawn; revised record under review
+- What we did: The previous version of this document has been withdrawn because it contained superseded financial and project details. Its duration, participant accounts, budget, expenditure schedule, receipt claims, quantities, and outcomes must not be used as current project records.
+- Outcomes: Not established in this review.
+- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
+- Finance note: The previous July baking project documents and financial schedule have been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.
+- Source files: [`report.md`](public/docs/projects/idp-girls-baking-training-jul-2022/report.md), [`financial.md`](public/docs/projects/idp-girls-baking-training-jul-2022/financial.md)
+
 #### May 2022 Community Cleanup
 
 - Reference: `ADA/2022/004` | Location: Buea, Cameroon | Period: May 2022 | Status: Previous document withdrawn; revised record under review
@@ -189,14 +198,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
 - Finance note: The previous May project account and financial schedule have been withdrawn. A revised community-cleanup record is under review; no numeric budget or actual expenditure is published here.
 - Source files: [`report.md`](public/docs/projects/school-visit-mentorship-may-2022/report.md), [`financial.md`](public/docs/projects/school-visit-mentorship-may-2022/financial.md)
-
-#### Project Report: IDP Girls Baking Training & Startup Kits
-
-- Reference: `N/A` | Location: N/A | Period: Item | Status: completed
-- What we did: In July 2022, ADA successfully implemented its first vocational training program — a 4-week baking and pastry-making course for 15 internally displaced young girls in Buea. All 15 participants completed the training, received startup kits, and were equipped with both practical skills and business knowledge to launch small food enterprises.
-- Outcomes: In July 2022, ADA successfully implemented its first vocational training program — a 4-week baking and pastry-making course for 15 internally displaced young girls in Buea. All 15 participants completed the training, received startup kits, and were equipped with both practical skills and business knowledge to launch small food enterprises.
-- Financial summary: Reported approved 900,000 CFA; reported actual/spent —; difference —; utilization —.
-- Source files: [`report.md`](public/docs/projects/idp-girls-baking-training-jul-2022/report.md), [`financial.md`](public/docs/projects/idp-girls-baking-training-jul-2022/financial.md)
 
 #### School Supply Distribution
 

@@ -2,7 +2,7 @@
 
 This sheet presents per-project public adjustment rows based on figures extracted from the archived project documents. It is not an independently verified financial statement.
 
-Compiled on November 7, 2026.
+Compiled on November 8, 2026.
 
 Aggregate financial totals are omitted because the source rows do not consistently report the same basis: some contain approved budgets, some reported actuals, and some both. These amounts should be checked against supporting records before being treated as final.
 
@@ -20,7 +20,7 @@ Aggregate financial totals are omitted because the source rows do not consistent
 | 2024 | Emergency Food Relief - Bamenda Crisis | — | 1,500,000 CFA | 1,450,000 CFA | 400,000 CFA | 1,050,000 CFA | adjusted | Capped from 1,450,000 CFA to 400,000 CFA |
 | 2021 | First Widow Home Visits | ADA/2021/001 | — | — | — | — | under review | Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance. |
 | 2025 | Interim Progress Report: IDP Children Education Fund | — | 720,000 CFA | 675,000 CFA | 400,000 CFA | 275,000 CFA | adjusted | Capped from 675,000 CFA to 400,000 CFA |
-| 2022 | IDP Girls Baking Training & Startup Kits | — | 900,000 CFA | — | 400,000 CFA | 500,000 CFA | adjusted | Capped from 900,000 CFA to 400,000 CFA |
+| 2022 | July 2022 Baking Workshop | ADA/2022/005 | — | — | — | — | under review | The previous July baking project documents and financial schedule have been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here. |
 | 2025 | Interim Progress Report: Prenatal Care Support Program | ADA/2025/001 | 1,080,000 CFA | 750,000 CFA | 400,000 CFA | 350,000 CFA | adjusted | Capped from 750,000 CFA to 400,000 CFA |
 | 2022 | School Supply Distribution | ADA/2022/001 | — | — | — | — | under review | Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These figures are not independently reconciled; the category allocation is illustrative only, not actual expenditure. |
 | 2022 | May 2022 Community Cleanup | ADA/2022/004 | — | — | — | — | under review | The previous May project account and financial schedule have been withdrawn. A revised community-cleanup record is under review; no numeric budget or actual expenditure is published here. |

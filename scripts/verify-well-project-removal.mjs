@@ -54,7 +54,7 @@ for (const relative of ["ada-project-budgets.xlsx", "ada-public-budget-adjustmen
 	const file = path.join(root, "docs", relative);
 	const text = execFileSync("python3", ["-c", "import sys, zipfile; z=zipfile.ZipFile(sys.argv[1]); print(' '.join(z.read(n).decode('utf-8','ignore') for n in z.namelist() if n.endswith('.xml')))", file], { encoding: "utf8" });
 	assert.doesNotMatch(text, /ADA\/2024\/005|Young Women Empowerment Conference|ADA\/2022\/002|ADA\/2025\/002|Widow (?:Vocational Training|Support Program).{0,30}Cohort/i, `${relative} contains a withdrawn conference or widow-training record`);
-	assert.match(text, /idp-girls-baking-training-jul-2022|Girls Baking/i, `${relative} should retain separate girls' baking records`);
+	assert.match(text, /idp-girls-baking-training-jul-2022|Girls Baking|July 2022 Baking Workshop/i, `${relative} should retain separate girls' baking records`);
 }
 
 for (const relative of [

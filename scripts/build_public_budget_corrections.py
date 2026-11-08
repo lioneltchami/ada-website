@@ -20,6 +20,7 @@ OUT_CSV = ROOT / "public" / "docs" / "ada-public-budget-adjustments.csv"
 OUT_JSON = ROOT / "public" / "docs" / "ada-public-budget-adjustments.json"
 CAP_CFA = 400_000
 FINANCE_REVIEW_PROJECTS = {
+    "idp-girls-baking-training-jul-2022": "The previous July baking project documents and financial schedule have been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
     "school-visit-mentorship-may-2022": "The previous May project account and financial schedule have been withdrawn. A revised community-cleanup record is under review; no numeric budget or actual expenditure is published here.",
     "back-to-school-sep-2022": "The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
     "first-widow-home-visits-2021": "Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance.",
