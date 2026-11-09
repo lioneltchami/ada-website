@@ -5,6 +5,7 @@
 | **Project Title** | School Supply Distribution |
 | **Organization** | Apoti Development Association (ADA) |
 | **Reference Number** | ADA/2022/001 |
+| **Visit Date** | February 16, 2022 |
 | **Project Location** | Buea, South-West Region, Cameroon |
 | **Implementation Period** | February 1–28, 2022 |
 | **Total Beneficiaries** | 20 orphaned children (as reported in the source; not independently verified) |
@@ -15,7 +16,7 @@ Retrospective review copy (November 2026): Supply categories and financial wordi
 
 ## 1. Executive Summary
 
-On February 15, 2022, the Apoti Development Association (ADA) conducted its first school-based distribution event at a rural primary school in Buea, South-West Region, Cameroon. The owner later confirmed that the project supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The available review does not establish the quantity or allocation of each item. The distribution was accompanied by an interactive engagement session featuring songs, encouragement, and group activities designed to make the children feel celebrated and valued.
+On February 16, 2022, the Apoti Development Association (ADA) conducted its first school-based distribution event at a rural primary school in Buea, South-West Region, Cameroon. The owner later confirmed that the project supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The available review does not establish the quantity or allocation of each item. The distribution was accompanied by an interactive engagement session featuring songs, encouragement, and group activities designed to make the children feel celebrated and valued.
 
 This project marked several organizational firsts for ADA: the first intervention targeting children, the first partnership with a school institution, the first large-scale distribution event (as opposed to individual home visits), and the first project coordinated by an expanded volunteer team. The owner has since confirmed that the supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets. The project’s budget and expenditure remain under review; the available recollection does not establish a verified total or itemized spending. This project marked an expansion from individual home visits to a school-based activity.
 
@@ -83,9 +84,9 @@ A volunteer briefing session was held on February 13 to assign roles, review the
 - **Engagement team** (2 persons): Interactive session facilitation, songs, games
 - **Documentation team** (1 person): Photography, beneficiary forms, event records
 
-Vehicle hire was confirmed for February 15 to transport the 20 assembled kits from the assembly point to the school. The event programme was finalized: arrival and setup, interactive engagement session, distribution of kits, refreshments, and closing.
+Vehicle hire was confirmed for February 16 to transport the 20 assembled kits from the assembly point to the school. The event programme was finalized: arrival and setup, interactive engagement session, distribution of kits, refreshments, and closing.
 
-### 4.4 Distribution Event (February 15, 2022)
+### 4.4 Distribution Event (February 16, 2022)
 
 The report describes the team arriving at the school with supply kits and setting up the distribution area. The available review does not verify the quantity of each item or the contents of individual kits.
 

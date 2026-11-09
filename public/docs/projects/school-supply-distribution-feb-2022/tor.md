@@ -6,6 +6,7 @@
 | Field | Details |
 |-------|---------|
 | **Project Reference** | ADA/2022/001 |
+| **Visit Date** | February 16, 2022 |
 | **Project Title** | School Supply Distribution |
 | **Implementing Organization** | Apoti Development Association (ADA) |
 | **Location** | Buea, South-West Region, Cameroon |
@@ -36,7 +37,7 @@ To improve the material well-being and educational readiness of orphaned childre
 
 ### Specific Objectives
 
-1. **SO1:** To procure and distribute complete supply kits (buckets, utensils, school bags, exercise books, pens, and mathematical sets) to 20 identified orphaned children at a rural primary school by February 15, 2022.
+1. **SO1:** To procure and distribute complete supply kits (buckets, utensils, school bags, exercise books, pens, and mathematical sets) to 20 identified orphaned children at a rural primary school by February 16, 2022.
 2. **SO2:** To conduct an interactive engagement session with beneficiary children to foster a sense of community, belonging, and encouragement.
 3. **SO3:** To establish ADA's first institutional partnership with a primary school as a platform for future child-focused programming.
 4. **SO4:** To demonstrate ADA's expanded operational capacity through the coordination of 8 volunteers in a school-based distribution event.
@@ -99,7 +100,7 @@ The project shall undertake the following activities:
 - Print beneficiary acknowledgment forms and event documentation materials
 
 ### 4.4 Distribution Event
-- Transport all supply kits to the school on event day (February 15, 2022)
+- Transport all supply kits to the school on event day (February 16, 2022)
 - Set up distribution area within school premises
 - Conduct interactive engagement session with children (songs, encouragement, group activities)
 - Distribute individual supply kits to each identified beneficiary child
@@ -139,7 +140,7 @@ The project shall undertake the following activities:
 |------|-------|-----------|-----------|
 | **Week 1** | Feb 1–5, 2022 | School engagement; partnership agreement; beneficiary identification and verification with teachers | Beneficiary list finalized (20 children) |
 | **Week 2** | Feb 6–10, 2022 | Procurement and preparation of the planned supplies | Supply preparation records, if available |
-| **Week 3** | Feb 11–15, 2022 | Final logistics coordination; volunteer briefing; vehicle hire; event execution on February 15 | Distribution event completed |
+| **Week 3** | Feb 11–16, 2022 | Final logistics coordination; volunteer briefing; vehicle hire; event execution on February 16 | Distribution event completed |
 | **Week 4** | Feb 16–28, 2022 | Post-event documentation; photo compilation; financial reconciliation; report writing | Final report and financial report submitted |
 
 ---

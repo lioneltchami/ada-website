@@ -2,6 +2,7 @@
 |---|---|
 | **Project Title** | School Supply Distribution |
 | **Project Reference** | ADA/2022/001 |
+| **Visit Date** | February 16, 2022 |
 | **Period** | February 2022 |
 | **Financial status** | Owner-recalled funding flow; not independently reconciled |
 

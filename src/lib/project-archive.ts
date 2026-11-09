@@ -131,8 +131,10 @@ const OWNER_REVIEW_ARCHIVE_CONTENT: Record<
   "school-supply-distribution-feb-2022": {
     title: "School Supply Distribution",
     titleFr: "Distribution de fournitures scolaires",
-    description: "The owner recalls a school-supply activity in February 2022. The recalled categories were buckets, utensils, school bags, exercise books, pens, and mathematical sets. Quantities, individual allocations, and financial figures remain under review.",
-    descriptionFr: "Le responsable se souvient d'une activité de fournitures scolaires en février 2022. Les catégories rappelées sont les seaux, les ustensiles, les cartables, les cahiers d'exercices, les stylos et les ensembles géométriques. Les quantités, les répartitions individuelles et les chiffres financiers sont en cours de vérification.",
+    description: "The school-supply visit took place on February 16, 2022. The recalled categories were buckets, utensils, school bags, exercise books, pens, and mathematical sets. Quantities, individual allocations, and financial figures remain under review.",
+    descriptionFr: "La visite de distribution de fournitures scolaires a eu lieu le 16 février 2022. Les catégories rappelées sont les seaux, les ustensiles, les cartables, les cahiers d'exercices, les stylos et les ensembles géométriques. Les quantités, les répartitions individuelles et les chiffres financiers sont en cours de vérification.",
+    startDate: "2022-02-16",
+    endDate: "2022-02-16",
     beneficiaries: undefined,
     outcomes: [],
     outcomesFr: [],

@@ -194,7 +194,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 - Reference: `ADA/2022/001` | Location: Buea, South-West Region, Cameroon | Period: February 1–28, 2022 | Status: completed
 - Beneficiaries: 20 orphaned children (as reported in the source; not independently verified)
-- What we did: On February 15, 2022, the Apoti Development Association (ADA) conducted its first school-based distribution event at a rural primary school in Buea, South-West Region, Cameroon. The owner later confirmed that the project supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets.
+- What we did: On February 16, 2022, the Apoti Development Association (ADA) conducted its first school-based distribution event at a rural primary school in Buea, South-West Region, Cameroon. The owner later confirmed that the project supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets.
 - Outcomes: Not established in this review.
 - Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
 - Finance note: Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These are not independently reconciled. The category amounts shown in the project documents are illustrative only, not historical expenditure.
