@@ -19,7 +19,6 @@ XLSX_OUT = ROOT / "public" / "docs" / "ada-project-budgets.xlsx"
 
 FINANCE_REVIEW_NOTES = {
     "idp-girls-baking-training-jul-2022": "The previous July baking project documents and financial schedule have been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
-    "school-visit-mentorship-may-2022": "The previous May project account and financial schedule have been withdrawn. A revised community-cleanup record is under review; no numeric budget or actual expenditure is published here.",
     "back-to-school-sep-2022": "The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
     "first-widow-home-visits-2021": (
         "Owner recollection only: 120,000 CFA sent; about 110,000 CFA spent including about 10,000 CFA withdrawal costs. Approximate 10,000 CFA difference is not a verified balance."
@@ -925,6 +924,8 @@ def build_workbook_rows(projects: list[ProjectRecord]) -> tuple[list[list[object
 def main() -> None:
     projects: list[ProjectRecord] = []
     for slug_dir in sorted(p for p in PROJECTS_DIR.iterdir() if p.is_dir()):
+        if slug_dir.name == "school-visit-mentorship-may-2022":
+            continue  # Misdated record; actual year is awaiting confirmation.
         project = parse_project(slug_dir)
         if project:
             projects.append(project)

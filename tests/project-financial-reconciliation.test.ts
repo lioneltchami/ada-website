@@ -85,7 +85,7 @@ describe("2021 and February 2022 owner-recalled finance corrections", () => {
     for (const stale of ["Approved 120,000 CFA; Actual/Spent 85,000 CFA", "Approved 300,000 CFA; Actual/Spent 280,000 CFA"]) {
       expect(history).not.toContain(stale);
     }
-    expect(history).toContain("Figures for 6 projects are under reconciliation");
+    expect(history).toContain("Figures for 5 projects are under reconciliation");
     expect(history).toContain("First Widow Home Visits");
     expect(history).toContain("School Supply Distribution");
     expect(adjustments).toContain("First Widow Home Visits");
@@ -100,7 +100,6 @@ describe("2021 and February 2022 owner-recalled finance corrections", () => {
     for (const title of [
       "First Widow Home Visits",
       "July 2022 Baking Workshop",
-      "May 2022 Community Cleanup",
       "School Supply Distribution",
       "Women's Day Widow Outreach",
     ]) {
@@ -133,17 +132,16 @@ describe("2021 and February 2022 owner-recalled finance corrections", () => {
     expect(report).not.toContain("20 buckets, 20 bags");
   });
 
-  it("shows all budget-adjustment rows in exactly one status, including the six under review", () => {
+  it("shows all budget-adjustment rows in exactly one status, including the five under review", () => {
     const adjustments = JSON.parse(
       fs.readFileSync(path.resolve(docs, "ada-public-budget-adjustments.json"), "utf8"),
     ) as Array<{ status: string; project: string; archive_approved: number | null; archive_actual: number | null; public_target: number | null }>;
     const reviewRows = adjustments.filter((row) => row.status === "under review");
-    expect(adjustments).toHaveLength(19);
+    expect(adjustments).toHaveLength(18);
     expect(reviewRows.map((row) => row.project).sort()).toEqual([
       "Back-to-School 2022",
       "First Widow Home Visits",
       "July 2022 Baking Workshop",
-      "May 2022 Community Cleanup",
       "School Supply Distribution",
       "Women's Day Widow Outreach",
     ]);

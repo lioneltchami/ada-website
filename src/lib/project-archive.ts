@@ -77,10 +77,6 @@ const OWNER_RECALLED_FINANCE_NOTES: Record<string, { en: string; fr: string }> =
     en: "The previous July baking project documents and financial schedule have been withdrawn. The revised record is under review.",
     fr: "Les précédents documents du projet de pâtisserie de juillet et son état financier ont été retirés. Le compte rendu révisé est en cours de vérification.",
   },
-  "school-visit-mentorship-may-2022": {
-    en: "The previous May project account and financial schedule have been withdrawn. The revised community-cleanup record is under review.",
-    fr: "Le précédent compte rendu du projet de mai et son état financier ont été retirés. Le compte rendu révisé du nettoyage communautaire est en cours de vérification.",
-  },
   "back-to-school-sep-2022": {
     en: "The previous financial schedule has been withdrawn. The revised project account and financial breakdown are under review.",
     fr: "Le précédent état financier a été retiré. Le compte rendu révisé du projet et la ventilation financière sont en cours de vérification.",
@@ -108,17 +104,6 @@ const OWNER_REVIEW_ARCHIVE_CONTENT: Record<
     titleFr: "Atelier de pâtisserie de juillet 2022",
     description: "The previous July baking project documents have been withdrawn while a revised account is reviewed.",
     descriptionFr: "Les précédents documents du projet de pâtisserie de juillet ont été retirés pendant la vérification du compte rendu révisé.",
-    beneficiaries: undefined,
-    startDate: undefined,
-    endDate: undefined,
-    outcomes: [],
-    outcomesFr: [],
-  },
-  "school-visit-mentorship-may-2022": {
-    title: "May 2022 Community Cleanup",
-    titleFr: "Nettoyage communautaire de mai 2022",
-    description: "The previous May project documents have been withdrawn while a revised community-cleanup account is reviewed.",
-    descriptionFr: "Les précédents documents du projet de mai ont été retirés pendant la vérification du compte rendu révisé du nettoyage communautaire.",
     beneficiaries: undefined,
     startDate: undefined,
     endDate: undefined,
@@ -317,12 +302,6 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     title: "IDP Girls Baking Training & Startup Kits",
     year: 2022,
     demographic: "idps",
-  },
-  {
-    slug: "school-visit-mentorship-may-2022",
-    title: "May 2022 Community Cleanup",
-    year: 2022,
-    demographic: "orphans",
   },
   {
     slug: "widow-support-food-cash-mar-2022",

@@ -21,7 +21,6 @@ OUT_JSON = ROOT / "public" / "docs" / "ada-public-budget-adjustments.json"
 CAP_CFA = 400_000
 FINANCE_REVIEW_PROJECTS = {
     "idp-girls-baking-training-jul-2022": "The previous July baking project documents and financial schedule have been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
-    "school-visit-mentorship-may-2022": "The previous May project account and financial schedule have been withdrawn. A revised community-cleanup record is under review; no numeric budget or actual expenditure is published here.",
     "back-to-school-sep-2022": "The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.",
     "first-widow-home-visits-2021": "Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance.",
     "school-supply-distribution-feb-2022": "Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These figures are not independently reconciled; the category allocation is illustrative only, not actual expenditure.",
@@ -55,6 +54,8 @@ class BudgetRow:
 def build_rows() -> list[BudgetRow]:
     rows: list[BudgetRow] = []
     for slug_dir in sorted(p for p in PROJECTS_DIR.iterdir() if p.is_dir()):
+        if slug_dir.name == "school-visit-mentorship-may-2022":
+            continue  # Misdated record; actual year is awaiting confirmation.
         project = parse_project(slug_dir)
         if not project:
           continue

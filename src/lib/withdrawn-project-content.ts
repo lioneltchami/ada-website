@@ -1,7 +1,9 @@
 const WITHDRAWN_WATER_CLAIM = /\b(?:clean[\s-]?water(?:\s+initiative)?|water\s+well|borehole|eau potable|puits|forage)\b/i;
 const UNSUPPORTED_PROGRAM_COUNT = /\b(?:six|6)\s+(?:programs?|programmes?)\b/i;
 const WITHDRAWN_WIDOW_TRAINING = /widow.{0,50}(?:vocational[\s-]*)?training.{0,40}(?:cohort|program)|widow.{0,35}(?:tailoring|hairdressing).{0,25}training|training.{0,35}widow.{0,35}(?:cohort|program)|veuve.{0,50}(?:formation professionnelle|formation des veuves|cohorte)|formation.{0,35}veuve.{0,35}(?:cohorte|programme)/i;
+// The misdated cleanup is withheld until its actual year is established.
 const WITHDRAWN_PROJECT_SLUGS = new Set([
+	"school-visit-mentorship-may-2022",
 	"clean-water-well-nkwen-mbatu",
 	"young-women-conference-oct-2024",
 	"widow-vocational-training-cohort-1",

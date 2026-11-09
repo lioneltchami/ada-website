@@ -37,7 +37,6 @@ export const documentArchiveProjects = [
   "idp-girls-baking-training-jul-2022",
   "prenatal-care-support-program",
   "school-supply-distribution-feb-2022",
-  "school-visit-mentorship-may-2022",
   "widow-support-food-cash-mar-2022",
   "womens-day-home-visits-mar-2023",
   "young-women-skills-training-program",

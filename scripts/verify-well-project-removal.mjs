@@ -5,6 +5,9 @@ import path from "node:path";
 
 const root = path.resolve("dist/client");
 const absent = [
+	"projects/archive/school-visit-mentorship-may-2022/index.html",
+	"fr/projects/archive/school-visit-mentorship-may-2022/index.html",
+	"docs/projects/school-visit-mentorship-may-2022",
 	"stories/clean-water-first-well-completed/index.html",
 	"fr/stories/clean-water-first-well-completed/index.html",
 	"projects/archive/clean-water-well-nkwen-mbatu/index.html",
@@ -38,6 +41,7 @@ for (const relative of [
 	"ada-public-budget-adjustments.md",
 ]) {
 	const text = await readFile(path.join(root, "docs", relative), "utf8");
+	assert.doesNotMatch(text, /school-visit-mentorship-may-2022|May 2022 Community Cleanup|ADA\/2022\/004/i, `${relative} contains misdated cleanup data`);
 	assert.doesNotMatch(text, /ADA\/2024\/002|clean-water-well-nkwen-mbatu|Nkwen-Mbatu|Borehole Drilling and Solar Pump/i, `${relative} contains withdrawn water-project data`);
 	assert.doesNotMatch(text, /ADA\/2024\/005|Young Women Empowerment Conference|young-women-conference-oct-2024/i, `${relative} contains withdrawn conference data`);
 	assert.doesNotMatch(text, /ADA\/2022\/002|ADA\/2025\/002|widow-vocational-training-cohort-1|widow-support-program-cohort-3|Widow (?:Vocational Training|Support Program).{0,30}Cohort/i, `${relative} contains withdrawn widow-training data`);
