@@ -28,6 +28,8 @@ const locale = getLocale(
 const labels = t(locale);
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
 const showFloatingDonate = !(
+  pathname === "/" ||
+  pathname === "/fr" ||
   pathname === "/donate" ||
   pathname === "/fr/donate" ||
   pathname === "/monthly" ||
@@ -85,6 +87,7 @@ if (faqPaths.has(pathname)) {
     showFloatingDonate && (
       <a
         href={localePath("/donate", locale)}
+        data-floating-donate
         class="fixed bottom-4 right-4 z-50 sm:hidden flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors border border-secondary-600/20"
         style={
           showChatbot
@@ -112,5 +115,6 @@ if (faqPaths.has(pathname)) {
     )
   }
   <Footer />
+  <script is:inline src="/scripts/footer-donate.js"></script>
   {showChatbot && <Chatbot client:idle faqs={faqData} locale={locale} />}
 </BaseLayout>
