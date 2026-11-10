@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { marked } from "marked";
+import { verifyReviewedProjectRecords } from "./verify-reviewed-project-records.mjs";
 import { verifyDocumentReleases } from "./verify-project-document-releases.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -325,6 +326,7 @@ marked.setOptions({
   gfm: true,
 });
 
+await verifyReviewedProjectRecords(ROOT);
 const protectedSlugs = await verifyDocumentReleases(ROOT);
 
 const browser = await chromium.launch({

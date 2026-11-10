@@ -1,3 +1,4 @@
+import { isProjectDocumentReviewPending } from '../lib/reviewed-project-records';
 import documentReleases from "../../config/project-document-releases.json";
 import type { Locale } from "../i18n";
 import {
@@ -68,6 +69,7 @@ export function projectDocumentPaths(slug: string) {
 }
 
 export function hasStaticProjectDocuments(slug: string): boolean {
+  if (isProjectDocumentReviewPending(slug)) return false;
   return hasReleasedProjectDocumentSet(slug) || (documentArchiveProjects as readonly string[]).includes(slug);
 }
 

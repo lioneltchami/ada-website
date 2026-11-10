@@ -104,6 +104,12 @@ const statusLabel = getArchiveRecordStatusText(record.status, isAutoArchived, 'e
             {record.endDate && <div class="flex justify-between gap-3"><dt class="shrink-0 text-xs text-gray-500">Ended</dt><dd class="min-w-0 text-right text-xs font-medium text-gray-900">{new Date(record.endDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</dd></div>}
           </dl>
         </div>
+        {record.documentReviewNote && (
+          <div class="p-5 bg-primary-50 rounded-xl border border-primary-100">
+            <h2 class="text-sm font-semibold text-gray-900">Project documents</h2>
+            <p class="mt-2 text-sm text-gray-700 leading-relaxed">{record.documentReviewNote}</p>
+          </div>
+        )}
         {(record.torUrl || record.reportUrl || record.financialReportUrl) && (
           <div class="p-5 bg-primary-50 rounded-xl border border-primary-100">
             <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Documents</h2>

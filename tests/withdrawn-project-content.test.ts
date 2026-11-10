@@ -129,8 +129,8 @@ describe("conference and widow-training removal safeguards", () => {
 		for (const slug of [
 			"idp-girls-baking-training-jul-2022",
 			"widow-support-food-cash-mar-2022",
-			"womens-day-home-visits-mar-2023",
 		]) expect(hasStaticProjectDocuments(slug)).toBe(true);
+		expect(hasStaticProjectDocuments("womens-day-home-visits-mar-2023")).toBe(false);
 	});
 
 	it("filters explicit conference/cohort gallery associations but preserves shared or unrelated media", () => {

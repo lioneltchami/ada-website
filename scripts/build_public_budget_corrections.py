@@ -53,9 +53,13 @@ class BudgetRow:
 
 def build_rows() -> list[BudgetRow]:
     rows: list[BudgetRow] = []
+    from reconcile_2023_records import records as reviewed_2023_records
+    reviewed_2023_slugs = {p["slug"] for p in reviewed_2023_records()}
     for slug_dir in sorted(p for p in PROJECTS_DIR.iterdir() if p.is_dir()):
         if slug_dir.name in {"school-visit-mentorship-may-2022", "young-women-skills-training-program"}:
             continue  # Withdrawn records are excluded even if an old source directory reappears.
+        if slug_dir.name in reviewed_2023_slugs:
+            continue  # The qualified adapter replaces stale source claims before aggregation.
         project = parse_project(slug_dir)
         if not project:
           continue
@@ -95,7 +99,8 @@ def build_rows() -> list[BudgetRow]:
             )
         )
     from reconcile_2022_finance import reconcile_budget
-    return reconcile_budget(rows)
+    from reconcile_2023_records import reconcile_budget as reconcile_2023_budget
+    return reconcile_2023_budget(reconcile_budget(rows))
 
 
 def write_markdown(rows: list[BudgetRow]) -> str:
@@ -116,7 +121,7 @@ def write_markdown(rows: list[BudgetRow]) -> str:
             f"| {row.year} | {row.project} | {row.reference or '—'} | {currency(row.archive_approved)} | {currency(row.archive_actual)} | {currency(row.public_target)} | {currency(row.adjustment_needed)} | {row.status} | {row.note} |"
         )
     lines.append("")
-    lines.append("Projects marked `reported / reconstructed; see basis` retain their detailed category schedules and evidence qualifications in the project reports; they do not establish verified spending or a current account balance. Projects marked `under review` have no numeric public target in this worksheet. Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.")
+    lines.append("Projects marked `reported / reconstructed; see basis` retain their detailed category schedules and evidence qualifications in the project reports; they do not establish verified spending or a current account balance. Projects marked `reported; document review pending` contain qualified summaries while revised documents are reviewed; proposed item prices are excluded. Projects marked `under review` have no numeric public target in this worksheet. Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.")
     lines.append("")
     return "\n".join(lines)
 

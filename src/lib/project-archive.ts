@@ -1,3 +1,4 @@
+import { applyReviewedProjectContent } from './reviewed-project-records';
 import { applyReleasedProjectContent, applyReleasedDocumentLibrary } from "./released-project-documents";
 import { createClient } from "@sanity/client";
 import {
@@ -66,6 +67,8 @@ export interface ProjectArchiveEntry {
   torUrl?: string;
   reportUrl?: string;
   financialReportUrl?: string;
+  documentReviewNote?: string;
+  documentReviewNoteFr?: string;
   financialReviewNote?: string;
   financialReviewNoteFr?: string;
   hasToR?: boolean;
@@ -581,10 +584,10 @@ export async function loadProjectArchiveEntries(): Promise<
     records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
   }
 
-  return applyReleasedProjectContent(records
+  return applyReviewedProjectContent(applyReleasedProjectContent(records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
     .map(applyOwnerFinancialReview))
-    .map(withCanonicalProjectDocuments);
+    .map(withCanonicalProjectDocuments));
 }
 
 export function demographicLabel(

@@ -721,6 +721,8 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
                 lines.append(f"- Outcomes: {project.outcomes}")
             if project.finance_basis == "evidence-qualified":
                 lines.append("- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.")
+            elif project.finance_basis == "reported; document review pending":
+                lines.append("- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.")
             elif project.slug in FINANCE_REVIEW_NOTES:
                 lines.append("- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.")
             else:
@@ -733,7 +735,7 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
                 lines.append(f"- Financial summary: {budget_summary}")
             if project.finance_note:
                 lines.append(f"- Finance note: {project.finance_note}")
-            source_paths = list(dict.fromkeys([project.report_path, project.financial_path]))
+            source_paths = list(dict.fromkeys(source for source in [project.report_path, project.financial_path] if source))
             lines.append("- Source files: " + ", ".join(f"[`{Path(source).name}`]({source})" for source in source_paths))
             lines.append("")
         lines.append("")
@@ -941,6 +943,8 @@ def main() -> None:
 
     from reconcile_2022_finance import reconcile_ledger
     projects = reconcile_ledger(projects)
+    from reconcile_2023_records import reconcile_ledger as reconcile_2023_ledger
+    projects = reconcile_2023_ledger(projects)
     projects.sort(key=lambda p: (p.year, p.title))
 
     MARKDOWN_OUT.write_text(build_markdown(projects), encoding="utf-8")

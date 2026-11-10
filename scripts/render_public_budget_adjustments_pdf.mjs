@@ -54,7 +54,7 @@ const rows = JSON.parse(await fs.readFile(INPUT_JSON, "utf8"));
 const adjustedRows = rows.filter((row) => row.status === "adjusted");
 const okRows = rows.filter((row) => row.status === "ok");
 const underReviewRows = rows.filter((row) => row.status === "under review");
-const qualifiedRows = rows.filter((row) => row.status === "reported / reconstructed; see basis");
+const qualifiedRows = rows.filter((row) => ["reported / reconstructed; see basis", "reported; document review pending"].includes(row.status));
 const basisRows = [...underReviewRows, ...qualifiedRows];
 if (okRows.length + adjustedRows.length + basisRows.length !== rows.length) {
   throw new Error("Every budget adjustment row must have a recognized status.");

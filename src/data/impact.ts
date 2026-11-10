@@ -32,11 +32,9 @@ export const IMPACT_FACTS = {
 	programAllocationPct: 80,
 	programOperationsPct: 15,
 	administrationPct: 5,
-	educationCohortRetained: 20,
 	emergencyFoodFamilies: 50,
 	emergencyFoodPeople: 150,
 	indicators: {
-		childrenInSchool: { actual: 20, target: 50 },
 		emergencyFoodFamilies: { actual: 50, target: 100 },
 	},
 } as const;
@@ -83,15 +81,6 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 	if (locale === "fr") {
 		return [
 			{
-				indicator: "Enfants inscrits et maintenus à l'école",
-				baseline: "0 (2021)",
-				target: `${i.childrenInSchool.target} d'ici 2026`,
-				actual: `${i.childrenInSchool.actual} inscrits, 100% de rétention`,
-				status: "on-track",
-				actualValue: i.childrenInSchool.actual,
-				targetValue: i.childrenInSchool.target,
-			},
-			{
 				indicator: "Familles recevant une aide alimentaire d'urgence",
 				baseline: "3 (2022)",
 				target: `${i.emergencyFoodFamilies.target}/an`,
@@ -104,15 +93,6 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 	}
 
 	return [
-		{
-			indicator: "Children enrolled and retained in school",
-			baseline: "0 (2021)",
-			target: `${i.childrenInSchool.target} by 2026`,
-			actual: `${i.childrenInSchool.actual} enrolled, 100% retention`,
-			status: "on-track",
-			actualValue: i.childrenInSchool.actual,
-			targetValue: i.childrenInSchool.target,
-		},
 		{
 			indicator: "Families receiving emergency food support",
 			baseline: "3 (2022)",
@@ -130,16 +110,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 	const prefix = locale === "fr" ? "/fr" : "";
 	if (locale === "fr") {
 		return [
-			{
-				label: "Cohorte scolaire suivie",
-				value: `${f.educationCohortRetained} maintenus et admis`,
-				period: "Année scolaire 2023-2024",
-				measurement: "Measured",
-				cadence: "Clôture d'année scolaire",
-				source: "Rapport du projet rentrée scolaire",
-				sourceUrl: "/docs/projects/back-to-school-drive-2023/report.pdf",
-				note: `La cohorte Bamenda 2023 documente inscription, maintien et réussite de fin d'année pour ${f.educationCohortRetained} enfants.`,
-			},
 			{
 				label: "Portée de l'aide alimentaire d'urgence",
 				value: `${f.emergencyFoodFamilies} familles / ${f.emergencyFoodPeople}+ personnes`,
@@ -165,16 +135,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 	}
 
 	return [
-		{
-			label: "Tracked education cohort",
-			value: `${f.educationCohortRetained} retained and passed`,
-			period: "2023-2024 school year",
-			measurement: "Measured",
-			cadence: "School-year close-out",
-			source: "Back-to-school project report",
-			sourceUrl: "/docs/projects/back-to-school-drive-2023/report.pdf",
-			note: `The Bamenda 2023 cohort documented enrollment, retention, and end-of-year pass results for ${f.educationCohortRetained} children.`,
-		},
 		{
 			label: "Emergency food relief reach",
 			value: `${f.emergencyFoodFamilies} families / ${f.emergencyFoodPeople}+ people`,

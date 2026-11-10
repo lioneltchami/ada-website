@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run build:docs && astro build && node scripts/normalize-static-csp.mjs && node scripts/verify-static-csp.mjs && node scripts/verify-story-review-mode.mjs && node scripts/verify-well-project-removal.mjs",
-    "build:docs": "npm run verify:document-releases && python3 scripts/build_project_ledger.py && python3 scripts/build_public_budget_corrections.py && node scripts/render_public_budget_adjustments_pdf.mjs && node scripts/render_bamenda_girls_dignity_outreach_pdf.mjs && node scripts/render_project_documents.mjs",
+    "build": "npm run build:docs && astro build && node scripts/normalize-static-csp.mjs && node scripts/verify-static-csp.mjs && node scripts/verify-story-review-mode.mjs && node scripts/verify-well-project-removal.mjs && node scripts/verify-reviewed-project-records.mjs --dist",
+    "build:docs": "npm run verify:document-releases && node scripts/verify-reviewed-project-records.mjs && python3 scripts/build_project_ledger.py && python3 scripts/build_public_budget_corrections.py && node scripts/render_public_budget_adjustments_pdf.mjs && node scripts/render_bamenda_girls_dignity_outreach_pdf.mjs && node scripts/render_project_documents.mjs",
     "test": "vitest run",
     "preview": "astro preview",
     "astro": "astro",

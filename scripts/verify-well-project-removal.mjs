@@ -74,7 +74,6 @@ for (const relative of ["ada-project-budgets.xlsx", "ada-public-budget-adjustmen
 for (const relative of [
 	"docs/projects/idp-girls-baking-training-jul-2022/report.pdf",
 	"docs/projects/widow-support-food-cash-mar-2022/report.pdf",
-	"docs/projects/womens-day-home-visits-mar-2023/report.pdf",
 	"docs/projects/first-widow-home-visits-2021/report.pdf",
 ]) {
 	await access(path.join(root, relative));
