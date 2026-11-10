@@ -304,7 +304,7 @@ export async function createDonationReceiptEmailPayload(data: {
   const safeName = escapeHtml(data.name);
   const safeProject = escapeHtml(formatProjectName(data.project));
   const safeFollowUpDate = escapeHtml(followUpDate);
-  const logoUrl = "https://apotidev.org/brand/ada-logo.png";
+  const logoUrl = "https://apotidev.org/brand/ada-symbol.png";
 
   const { generateReceiptPdf } = await import("./receipt");
   const pdfBuffer = await generateReceiptPdf({
@@ -319,7 +319,7 @@ export async function createDonationReceiptEmailPayload(data: {
   const htmlEmail = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="text-align: center; padding: 24px 0; border-bottom: 2px solid #16a34a;">
-        <div style="display: inline-flex; width: 52px; height: 52px; border-radius: 12px; overflow: hidden; background: #f8fafc; align-items: center; justify-content: center;">
+        <div style="display: inline-flex; width: 52px; height: 52px; border-radius: 12px; overflow: hidden; align-items: center; justify-content: center;">
           <img src="${logoUrl}" alt="Apoti Development Association" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
         </div>
         <h1 style="margin: 12px 0 4px; font-size: 20px; color: #111827;">${copy.heading}, ${safeName}!</h1>

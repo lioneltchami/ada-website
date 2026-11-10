@@ -18,7 +18,7 @@ export type BlogPostingInput = {
   blogUrl?: string;
 };
 
-const ORG_LOGO = "https://apotidev.org/brand/ada-logo.png";
+const ORG_LOGO = "https://apotidev.org/brand/ada-primary-lockup.png";
 const ORG_URL = "https://apotidev.org";
 const ORG_NAME = "Apoti Development Association";
 

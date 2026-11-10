@@ -14,7 +14,7 @@ describe("generateReceiptHtml", () => {
 
     expect(html).not.toContain("<script>");
     expect(html).toContain(
-      '<img src="https://apotidev.org/brand/ada-logo.png" alt="Apoti Development Association"',
+      '<img src="https://apotidev.org/brand/ada-symbol.png" alt="Apoti Development Association"',
     );
     expect(html).not.toContain("<strong>General Fund</strong>");
     expect(html).toContain("&lt;img");

@@ -22,7 +22,7 @@ export function generateReceiptHtml(data: ReceiptData): string {
   const name = escapeHtml(data.name);
   const email = escapeHtml(data.email);
   const project = data.project ? escapeHtml(data.project) : "";
-  const logoUrl = "https://apotidev.org/brand/ada-logo.png";
+  const logoUrl = "https://apotidev.org/brand/ada-symbol.png";
 
   return `<!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@ export function generateReceiptHtml(data: ReceiptData): string {
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 40px; color: #1f2937; }
     .container { max-width: 600px; margin: 0 auto; }
     .header { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid #16a34a; }
-    .logo { width: 52px; height: 52px; border-radius: 12px; overflow: hidden; flex: 0 0 auto; background: #f8fafc; display: flex; align-items: center; justify-content: center; }
+    .logo { width: 52px; height: 52px; border-radius: 12px; overflow: hidden; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
     .logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
     .org-name { font-size: 20px; font-weight: 700; color: #111827; }
     .org-sub { font-size: 12px; color: #6b7280; }

@@ -2,8 +2,12 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
-import { getAboutPage, getGalleryImages, getProjects, type SanityAboutPage, type SanityProject, sanityImageUrl } from '../lib/sanity';
+import { getAboutPage, getGalleryImages, getProjects, sanityImageUrl } from '../lib/sanity';
 import { getLocale, t, localePath } from '../i18n';
+import { projects as fallbackProjects } from '../data/projects';
+import { isWithdrawnProjectRecord } from '../lib/withdrawn-project-content';
+import { getAboutProgramHref } from '../lib/about-program-routes';
+import { getAboutTimelineEvent } from '../lib/about-timeline';
 
 const locale = getLocale(Astro.url.pathname);
 const i18n = t(locale);
@@ -25,15 +29,27 @@ let coreValues = [
   { icon: '', title: 'Community Partnership', desc: 'We work alongside local leaders and organizations for lasting impact.' },
   { icon: '', title: 'Sustainable Impact', desc: 'Our programs are designed to create long-term change, not temporary relief.' },
 ];
-let programs = [
+type AboutProgram = { icon: string; title: string; desc: string; slug?: string };
+let programs: AboutProgram[] = [
   { icon: '', title: 'Food Distribution', desc: 'Regular food packages for widows and families in need.', slug: 'widow-support' },
   { icon: '', title: 'Hospital Visits', desc: 'Medical support and hospital visits for community members.', slug: 'emergency-relief' },
   { icon: '', title: 'Back-to-School Support', desc: 'School supplies, uniforms, and tuition for orphaned children.', slug: 'education-orphans' },
-  { icon: '', title: 'Community Clean-Up', desc: 'Environmental stewardship through clean-up drives, tree planting, and waste management education.', slug: 'archive/city-cleanup-may-2023' },
+  { icon: '', title: 'Community Clean-Up', desc: 'Environmental stewardship through clean-up drives, tree planting, and waste management education.' },
 ];
+const availableProjectSlugs = new Set(
+  fallbackProjects
+    .filter((project) => !isWithdrawnProjectRecord(project))
+    .map((project) => project.slug),
+);
+try {
+  const currentProjects = await getProjects(locale);
+  for (const project of currentProjects) {
+    if (project.slug?.current) availableProjectSlugs.add(project.slug.current);
+  }
+} catch {}
 let timeline = [
   { year: '2021', event: 'Founded in Buea — first food packages delivered to widows facing crisis' },
-  { year: '2023', event: 'Education program begins — 20 orphaned children sponsored for school' },
+  { year: '2023', event: 'Back-to-school supplies in Buea' },
   { year: '2024', event: 'Bamenda office opened — expanded regional reach and partner documentation' },
   { year: '2025', event: 'Community clean-up activities' },
   { year: '2026', event: 'Pursuing Canadian institutional partnerships and planning a skills center' },
@@ -56,7 +72,7 @@ try {
         icon: p.icon || "",
         title: p.title,
         desc: p.description,
-        slug: p.slug || "widow-support",
+        slug: typeof p.slug === "string" ? p.slug : undefined,
       }));
     }
     if (page.timeline?.length) timeline = page.timeline;
@@ -68,7 +84,9 @@ if (wellReference.test(missionStatement)) missionStatement = defaultMissionState
 storyParagraphs = storyParagraphs.filter((paragraph) => !wellReference.test(paragraph));
 if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
 programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`) && program.slug !== "women-empowerment" && program.slug !== "young-women-skills-training-program");
-timeline = timeline.filter((item) => !wellReference.test(item.event));
+timeline = timeline
+  .filter((item) => !wellReference.test(item.event))
+  .map((item) => ({ ...item, event: getAboutTimelineEvent(item.year, item.event, locale) }));
 
 // Fetch a community photo for the story section + page hero
 let communityPhotoUrl = '';
@@ -226,7 +244,7 @@ try {
     <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200 max-w-4xl">
       {programs.map((program) => (
         <li class="border-b border-gray-200">
-          <a href={`/projects/${program.slug}`} class="group flex items-baseline justify-between gap-4 py-5">
+          <a href={getAboutProgramHref(program.slug, availableProjectSlugs, locale, program.title)} class="group flex items-baseline justify-between gap-4 py-5">
             <div>
               <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
                 {program.title}

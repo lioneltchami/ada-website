@@ -2,7 +2,11 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/layout/PageHero.astro';
 import Section from '../../components/layout/Section.astro';
-import { getAboutPage, getGalleryImages, type SanityAboutPage, sanityImageUrl } from '../../lib/sanity';
+import { getAboutPage, getGalleryImages, getProjects, sanityImageUrl } from '../../lib/sanity';
+import { projects as fallbackProjects } from '../../data/projects';
+import { isWithdrawnProjectRecord } from '../../lib/withdrawn-project-content';
+import { getAboutProgramHref } from '../../lib/about-program-routes';
+import { getAboutTimelineEvent } from '../../lib/about-timeline';
 
 let missionStatement = "Faire briller la lumière de Jésus-Christ en autonomisant les veuves, orphelins et jeunes femmes du Cameroun à travers la distribution alimentaire, l'éducation, la formation professionnelle et les soins de santé — restaurant la dignité et construisant l'autonomie.";
 const defaultMissionStatement = missionStatement;
@@ -20,15 +24,27 @@ let coreValues = [
   { icon: '', title: 'Partenariat Communautaire', desc: 'Nous travaillons aux côtés des leaders locaux.' },
   { icon: '', title: 'Impact Durable', desc: 'Nos programmes créent un changement à long terme, pas un soulagement temporaire.' },
 ];
-let programs = [
+type AboutProgram = { icon: string; title: string; desc: string; slug?: string };
+let programs: AboutProgram[] = [
   { icon: '', title: 'Distribution Alimentaire', desc: 'Colis alimentaires réguliers pour les veuves et familles.', slug: 'widow-support' },
   { icon: '', title: 'Visites Hospitalières', desc: 'Soutien médical et visites aux membres de la communauté.', slug: 'emergency-relief' },
   { icon: '', title: 'Soutien Scolaire', desc: 'Fournitures, uniformes et frais de scolarité pour les orphelins.', slug: 'education-orphans' },
-  { icon: '', title: 'Nettoyage Communautaire', desc: "Gestion environnementale à travers des campagnes de nettoyage et plantation d'arbres.", slug: 'archive/city-cleanup-may-2023' },
+  { icon: '', title: 'Nettoyage Communautaire', desc: "Gestion environnementale à travers des campagnes de nettoyage et plantation d'arbres." },
 ];
+const availableProjectSlugs = new Set(
+  fallbackProjects
+    .filter((project) => !isWithdrawnProjectRecord(project))
+    .map((project) => project.slug),
+);
+try {
+  const currentProjects = await getProjects("fr");
+  for (const project of currentProjects) {
+    if (project.slug?.current) availableProjectSlugs.add(project.slug.current);
+  }
+} catch {}
 let timeline = [
   { year: '2021', event: 'Fondée à Buea — premiers colis alimentaires livrés aux veuves en difficulté' },
-  { year: '2023', event: "Programme d'éducation — 20 orphelins parrainés pour l'école" },
+  { year: '2023', event: "Fournitures scolaires à Buea" },
   { year: '2024', event: 'Bureau de Bamenda ouvert — expansion régionale et documentation partenaires' },
   { year: '2025', event: 'Activités de nettoyage communautaire' },
   { year: '2026', event: 'Partenariats institutionnels canadiens et préparation d’un centre de formation' },
@@ -51,7 +67,7 @@ try {
         icon: p.icon || "",
         title: p.title,
         desc: p.description,
-        slug: p.slug || "widow-support",
+        slug: typeof p.slug === "string" ? p.slug : undefined,
       }));
     }
     if (page.timeline?.length) timeline = page.timeline;
@@ -63,7 +79,9 @@ if (wellReference.test(missionStatement)) missionStatement = defaultMissionState
 storyParagraphs = storyParagraphs.filter((paragraph) => !wellReference.test(paragraph));
 if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
 programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`) && program.slug !== "women-empowerment" && program.slug !== "young-women-skills-training-program");
-timeline = timeline.filter((item) => !wellReference.test(item.event));
+timeline = timeline
+  .filter((item) => !wellReference.test(item.event))
+  .map((item) => ({ ...item, event: getAboutTimelineEvent(item.year, item.event, "fr") }));
 
 let communityPhotoUrl = '';
 let communityPhotoAlt = 'Travail communautaire d\'ADA au Cameroun';
@@ -220,7 +238,7 @@ try {
     <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200 max-w-4xl">
       {programs.map((program) => (
         <li class="border-b border-gray-200">
-          <a href={`/fr/projects/${program.slug}`} class="group flex items-baseline justify-between gap-4 py-5">
+          <a href={getAboutProgramHref(program.slug, availableProjectSlugs, "fr", program.title)} class="group flex items-baseline justify-between gap-4 py-5">
             <div>
               <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
                 {program.title}

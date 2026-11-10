@@ -7,10 +7,10 @@ const SITE_CHROME_IMAGES = new Set([
 	"/brand/ada-symbol.png",
 	"/brand/ada-logo.png",
 	"https://apotidev.org/brand/ada-logo.png",
-	"/favicon.svg?v=2",
-	"/favicon.png?v=2",
 	"/favicon.png",
-	"/favicon.png?v=3",
+	"/favicon.png?v=4",
+	"/brand/ada-primary-lockup.png",
+	"https://apotidev.org/brand/ada-primary-lockup.png",
 ]);
 
 function decodeHtml(value) {
