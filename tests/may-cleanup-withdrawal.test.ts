@@ -1,3 +1,4 @@
+import releases from "../config/project-document-releases.json";
 import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import { documentArchiveProjects } from '../src/data/organization';
@@ -17,9 +18,14 @@ describe('misdated cleanup withheld from 2022', () => {
   });
   it('removes the misdated record from generated public ledgers', () => {
     const rows = JSON.parse(fs.readFileSync('public/docs/ada-public-budget-adjustments.json', 'utf8'));
-    expect(rows.some((row:any) => row.reference === 'ADA/2022/004')).toBe(false);
+    const schoolReleased = releases.projects.some(p => p.slug === 'school-visit-may-2022' && p.status === 'released');
+    const mayRows = rows.filter((row:any) => row.reference === 'ADA/2022/004');
+    expect(mayRows).toHaveLength(schoolReleased ? 1 : 0);
+    if (schoolReleased) expect(mayRows[0].project).toBe('School visit in Buea');
     for (const name of ['ada-project-history.md','ada-public-budget-adjustments.md','ada-public-budget-adjustments.csv']) {
-      expect(fs.readFileSync(`public/docs/${name}`, 'utf8')).not.toMatch(/school-visit-mentorship-may-2022|May 2022 Community Cleanup|ADA\/2022\/004/);
+      const text = fs.readFileSync(`public/docs/${name}`, 'utf8');
+      expect(text).not.toMatch(/school-visit-mentorship-may-2022|May 2022 Community Cleanup/);
+      if (!schoolReleased) expect(text).not.toMatch(/ADA\/2022\/004/);
     }
   });
 });

@@ -1,6 +1,6 @@
 ---
 import { getLocale, t, localePath } from "../../i18n";
-import { getLocaleSwitchPath } from "../../i18n/routes";
+import LanguageBar from "./LanguageBar.astro";
 
 const locale = getLocale(
   Astro.url.pathname,
@@ -8,12 +8,6 @@ const locale = getLocale(
 );
 const i18n = t(locale);
 const currentPath = Astro.url.pathname;
-const localeSwitch = getLocaleSwitchPath(
-  currentPath,
-  locale,
-  Astro.url.searchParams,
-);
-const showLocaleSwitch = localeSwitch !== null;
 
 const navLinks = [
   { href: localePath("/about", locale), label: i18n.nav.about },
@@ -36,6 +30,7 @@ function isActive(href: string): boolean {
   id="site-header"
   class="sticky top-0 z-40 bg-[#f7f5f0] border-b border-transparent transition-[border-color] duration-200"
 >
+  <LanguageBar />
   <nav
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
     aria-label={locale === "fr" ? "Navigation principale" : "Main navigation"}
@@ -63,22 +58,6 @@ function isActive(href: string): boolean {
       </a>
 
       <div class="flex items-center gap-2 sm:gap-3">
-        {
-          showLocaleSwitch && (
-            <a
-              href={localeSwitch.href}
-              data-locale-switch={!localeSwitch.authRoute ? "" : undefined}
-              class="font-heading text-xs font-semibold text-gray-600 hover:text-primary-700 underline-offset-4 hover:underline"
-              hidden={localeSwitch.authRoute}
-              data-auth-locale-switch={localeSwitch.authRoute ? "" : undefined}
-              aria-label={
-                locale === "en" ? "Switch to French" : "Passer en anglais"
-              }
-            >
-              {i18n.common.language}
-            </a>
-          )
-        }
         <a
           href={localePath("/donate", locale)}
           class="font-heading inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
@@ -176,29 +155,6 @@ function isActive(href: string): boolean {
               </a>
             </li>
           ))
-        }
-        {
-          showLocaleSwitch && (
-            <li>
-              <a
-                href={localeSwitch.href}
-                data-locale-switch={!localeSwitch.authRoute ? "" : undefined}
-                class:list={[
-                  localeSwitch.authRoute ? "hidden" : "block",
-                  "px-1 py-2.5 text-base text-gray-700 hover:text-primary-700",
-                ]}
-                hidden={localeSwitch.authRoute}
-                data-auth-locale-switch={
-                  localeSwitch.authRoute ? "" : undefined
-                }
-                aria-label={
-                  locale === "en" ? "Switch to French" : "Passer en anglais"
-                }
-              >
-                {locale === "en" ? "Français" : "English"}
-              </a>
-            </li>
-          )
         }
         <li class="pt-2">
           <a

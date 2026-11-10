@@ -1,3 +1,4 @@
+import { applyReleasedProjectContent, applyReleasedDocumentLibrary } from "./released-project-documents";
 import { createClient } from "@sanity/client";
 import {
   annualReportPdfs,
@@ -47,6 +48,7 @@ export interface ProjectArchiveEntry {
   beneficiaries?: number;
   budget?: number;
   location?: string;
+  locationFr?: string;
   startDate?: string;
   endDate?: string;
   outcomes?: string[];
@@ -366,9 +368,9 @@ async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
 export function groupProjectsByYear(
   records: ProjectArchiveDocument[],
 ): YearDocumentGroup[] {
-  const filtered = records
-    .filter((r) => SLUG_SET.has(r.slug))
-    .map(applyOwnerFinancialReviewToDocument);
+  const filtered = applyReleasedDocumentLibrary(records
+    .filter((r) => hasStaticProjectDocuments(r.slug))
+    .map(applyOwnerFinancialReviewToDocument));
   const byYear = new Map<
     number,
     Map<ProjectDemographic, ProjectArchiveDocument[]>
@@ -585,9 +587,9 @@ export async function loadProjectArchiveEntries(): Promise<
     records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
   }
 
-  return records
+  return applyReleasedProjectContent(records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
-    .map(applyOwnerFinancialReview)
+    .map(applyOwnerFinancialReview))
     .map(withCanonicalProjectDocuments);
 }
 

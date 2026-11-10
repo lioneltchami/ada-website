@@ -1,163 +1,90 @@
-import { describe, expect, it } from "vitest";
-import fs from "node:fs";
-import path from "node:path";
+import { describe, expect, it } from 'vitest';
+import fs from 'node:fs';
+import path from 'node:path';
+import finance from '../config/project-finance-2022.json';
+import releases from '../config/project-document-releases.json';
+const docs=path.resolve('public/docs');
+const read=(relative:string)=>fs.readFileSync(path.join(docs,relative),'utf8');
+const plain=(relative:string)=>read(relative).replace(/\s+/g,' ');
 
-const docs = path.resolve("public/docs");
-const read = (relative: string) => fs.readFileSync(path.join(docs, relative), "utf8");
-
-describe("2021 and February 2022 owner-recalled finance corrections", () => {
-  it("keeps the 2021 sent amount, estimated spend, and unverified difference distinct", () => {
-    const finance = read("projects/first-widow-home-visits-2021/financial.md");
-    expect(finance).toContain("120,000 CFA francs was sent");
-    expect(finance).toContain("about 110,000 CFA francs was spent");
-    expect(finance).toContain("approximately 10,000 CFA francs in withdrawal costs");
-    expect(finance).toContain("not a verified cash balance");
-    expect(finance).toContain("approximately US$209");
-    expect(finance).not.toContain("85,000 CFA");
-    expect(finance).not.toContain("35,000 CFA");
-  });
-
-  it("distinguishes the February 2022 owner-recalled flow from the illustrative allocation", () => {
-    const finance = read("projects/school-supply-distribution-feb-2022/financial.md");
-    expect(finance).toContain("215,000 CFA francs was sent");
-    expect(finance).toContain("5,000 CFA francs");
-    expect(finance).toContain("10,000–15,000 CFA francs");
-    expect(finance).toContain("195,000–200,000 CFA francs");
-    expect(finance).toContain("not a reconstruction of actual historical line-item spending");
-    expect(finance).toContain("actual category amounts remain unknown");
-    const allocationSection = finance.split("## Illustrative allocation for review only")[1]?.split("## Reconciliation status")[0] ?? "";
-    const allocation = [...allocationSection.matchAll(/^\| [^|]+ \| \*{0,2}([0-9,]+)\*{0,2} \|$/gm)]
-      .map((match) => Number(match[1].replaceAll(",", "")));
-    expect(allocation).toEqual([25_000, 30_000, 45_000, 50_000, 15_000, 35_000, 200_000]);
-    expect(allocation.slice(0, -1).reduce((sum, value) => sum + value, 0)).toBe(allocation.at(-1));
-    expect(finance).toContain("buckets, utensils, school bags, exercise books, pens, and mathematical sets");
-    expect(finance).not.toContain("300,000 CFA");
-    expect(finance).not.toContain("280,000 CFA");
-    expect(finance).not.toContain("20,000 CFA");
-  });
-
-  it("keeps archive copy and generated finance notes aligned with the new owner recollection", () => {
-    const archive = fs.readFileSync(path.resolve("src/lib/project-archive.ts"), "utf8");
-    const ledgerScript = fs.readFileSync(path.resolve("scripts/build_project_ledger.py"), "utf8");
-    const adjustmentsScript = fs.readFileSync(path.resolve("scripts/build_public_budget_corrections.py"), "utf8");
-    for (const source of [archive, ledgerScript, adjustmentsScript]) {
-      expect(source).toContain("215,000 CFA");
-      expect(source).toContain("195,000–200,000 CFA");
-      expect(source).toContain("illustrative");
-      expect(source).not.toContain("sent-versus-spent classification is unconfirmed");
-    }
-    expect(archive).toContain("ne constitue pas un relevé des coûts historiques");
-  });
-
-  it("marks the March 2022 widow outreach under review without retaining unsupported cash details", () => {
-    const folder = "projects/widow-support-food-cash-mar-2022/";
-    const financial = read(`${folder}financial.md`);
-    const report = read(`${folder}report.md`);
-    const tor = read(`${folder}tor.md`);
-    for (const rawSource of [financial, report, tor]) {
-      const source = rawSource.replaceAll("**", "");
-      expect(source).toContain("about 220,000 CFA francs");
-      expect(source).toMatch(/about 5,000 CFA francs/i);
-      expect(source).toContain("about 10,000 CFA francs");
-      expect(source).toContain("205,000 CFA francs");
-      expect(source).toContain("buckets, African fabric wrappers, soap, oil, foodstuffs, and bags");
-      expect(source).not.toMatch(/\b(?:480,000|460,000|15 widows|15 cash envelopes|3,000 CFA|95\.8%)\b/);
-      expect(source).not.toMatch(/\b(?:rice \(25kg\)|Thai rice|5L bottle|handbag|cash envelope)\b/i);
-    }
-    expect(financial).toContain("No cash-assistance amount is included");
-    expect(financial).toContain("This is not a finding that no cash assistance occurred");
-  });
-
-  it("uses the corrected March project title and removes unsupported CMS archive details", () => {
-    const archive = fs.readFileSync(path.resolve("src/lib/project-archive.ts"), "utf8");
-    expect(archive).toContain('title: "Women\'s Day Widow Outreach"');
-    expect(archive).toContain("Action de soutien aux veuves pour la Journée des femmes");
-    expect(archive).toContain("beneficiaries: undefined");
-    expect(archive).toContain("outcomes: []");
-    const video = fs.readFileSync(path.resolve("src/components/home/WorkVideo.astro"), "utf8");
-    expect(video).not.toContain("financial aid in Buea, 2022");
-    expect(video).toContain("Women's Day widow outreach — food and household supplies, March 2022");
-  });
-
-  it("does not reintroduce stale totals in the generated public ledgers", () => {
-    const history = read("ada-project-history.md");
-    const adjustments = read("ada-public-budget-adjustments.md");
-    for (const stale of ["Approved 120,000 CFA; Actual/Spent 85,000 CFA", "Approved 300,000 CFA; Actual/Spent 280,000 CFA"]) {
-      expect(history).not.toContain(stale);
-    }
-    expect(history).toContain("Figures for 5 projects are under reconciliation");
-    expect(history).toContain("First Widow Home Visits");
-    expect(history).toContain("School Supply Distribution");
-    expect(adjustments).toContain("First Widow Home Visits");
-    expect(adjustments).toContain("School Supply Distribution");
-    expect(adjustments).toContain("under review");
-    expect(adjustments).not.toContain("| 2021 | Project Completion Report | ADA/2021/001 | 120,000 CFA | 85,000 CFA");
-    expect(adjustments).not.toContain("| 2022 | Project Completion Report | ADA/2022/001 | 300,000 CFA | 280,000 CFA");
-  });
-
-  it("does not repeat project summaries as unverified outcomes in under-review ledger entries", () => {
-    const history = read("ada-project-history.md");
-    for (const title of [
-      "First Widow Home Visits",
-      "July 2022 Baking Workshop",
-      "School Supply Distribution",
-      "Women's Day Widow Outreach",
-    ]) {
-      const start = history.indexOf(`#### ${title}`);
-      expect(start).toBeGreaterThanOrEqual(0);
-      const section = history.slice(start, history.indexOf("\n#### ", start + 1) > 0
-        ? history.indexOf("\n#### ", start + 1)
-        : history.length);
-      expect(section).toContain("Outcomes: Not established in this review.");
-      expect(section).not.toContain("Outcomes: The owner identifies this project");
-    }
-  });
-
-  it("states that the 2022 item list included exercise books and pens without claiming a line-item cost", () => {
-    const report = read("projects/school-supply-distribution-feb-2022/report.md");
-    const tor = read("projects/school-supply-distribution-feb-2022/tor.md");
-    expect(report).toContain("exercise books, pens, and mathematical sets");
-    expect(report).not.toContain("Would have liked to include additional items (notebooks, pencils)");
-    expect(report).not.toContain("brought the project under budget");
-    expect(report).not.toContain("Unspent balance:");
-    expect(tor).toContain("buckets, utensils, school bags, exercise books, pens, and mathematical sets");
-    expect(tor).toContain("does not assert unverified allocations");
-    expect(tor).not.toContain("Purchase 20 colorful plastic buckets");
-    expect(tor).not.toContain("Purchase 20 sets of plates");
-    expect(tor).not.toContain("Purchase 20 pink school bags");
-    expect(tor).not.toContain("bucket filled with plate, cup");
-    expect(report).not.toContain("exact contents of individual kits");
-    expect(report).not.toContain("One colorful plastic bucket");
-    expect(report).not.toContain("One pink school bag");
-    expect(report).not.toContain("20 buckets, 20 bags");
-  });
-
-  it("shows all budget-adjustment rows in exactly one status, including the five under review", () => {
-    const adjustments = JSON.parse(
-      fs.readFileSync(path.resolve(docs, "ada-public-budget-adjustments.json"), "utf8"),
-    ) as Array<{ status: string; project: string; archive_approved: number | null; archive_actual: number | null; public_target: number | null }>;
-    const reviewRows = adjustments.filter((row) => row.status === "under review");
-    expect(adjustments).toHaveLength(18);
-    expect(reviewRows.map((row) => row.project).sort()).toEqual([
-      "Back-to-School 2022",
-      "First Widow Home Visits",
-      "July 2022 Baking Workshop",
-      "School Supply Distribution",
-      "Women's Day Widow Outreach",
-    ]);
-    expect(adjustments.filter((row) => row.status === "ok")).toHaveLength(6);
-    expect(adjustments.filter((row) => row.status === "adjusted")).toHaveLength(7);
-    expect(reviewRows.every((row) => row.archive_approved === null && row.archive_actual === null && row.public_target === null)).toBe(true);
-
-    const renderer = fs.readFileSync(path.resolve("scripts/render_public_budget_adjustments_pdf.mjs"), "utf8");
-    expect(renderer).toContain('const underReviewRows = rows.filter((row) => row.status === "under review")');
-    expect(renderer).toContain("okRows.length + adjustedRows.length + underReviewRows.length !== rows.length");
-    expect(renderer).toContain('class="label">Under review</div>');
-    expect(renderer).toContain("Under review: ${underReviewRows.length}");
-    expect(renderer).toContain('class="section-title">Projects under review</h2>');
-    expect(renderer).toContain("counts all ${rows.length} rows by status");
-    expect(renderer).toContain("<th>Reported actual</th>");
-    expect(renderer).toContain("${currency(row.archive_actual)}");
-    expect(renderer).not.toContain("row.archive_actual || row.archive_approved");
-  });
+describe('evidence-qualified historical finance',()=>{
+ it('preserves 2021 sent amount, estimated spend and unverified difference distinctly',()=>{
+  const f=read('projects/first-widow-home-visits-2021/financial.md');
+  for(const value of ['120,000 CFA francs was sent','about 110,000 CFA francs was spent','approximately 10,000 CFA francs in withdrawal costs','not a verified cash balance','approximately US$209']) expect(f).toContain(value);
+  expect(f).not.toMatch(/85,000 CFA|35,000 CFA/);
+ });
+ it('separates February funding and reconstructed allocation from verified payments',()=>{
+  const f=plain('projects/school-supply-distribution-feb-2022/report.md');
+  expect(f).toContain('215,000');expect(f).toContain('5,000');expect(f).toContain('10,000 to 15,000');
+  expect(f).toMatch(/not independently verified|not verified/i);expect(f).toMatch(/reconstructed allocation/i);
+  expect(f).not.toMatch(/300,000 CFA|280,000 CFA/);
+  const row=finance.find(p=>p.slug==='school-supply-distribution-feb-2022')!;
+  expect(row.reported_funding).toBe(215000);expect(row.reported_spending).toBeNull();expect(row.historical_balance).toBeNull();
+  expect(row.lines.map(l=>l.amount_xaf)).toEqual([60000,55000,25000,20000,15000,20000,15000,5000]);
+ });
+ it('keeps March approximate reach and goods-only support without inventing payments',()=>{
+  const f=plain('projects/widow-support-food-cash-mar-2022/report.md');
+  for(const amount of ['220,000','205,000','5,000','10,000'])expect(f).toContain(amount);
+  expect(f).toContain('approximately 20 widows');expect(f).toContain('goods only, not cash assistance');
+  expect(f).toContain('not independently verified payments');
+  expect(f).not.toMatch(/480,000|460,000|15 cash envelopes|95\.8%|Thai rice|5L bottle/);
+  const row=finance.find(p=>p.slug==='widow-support-food-cash-mar-2022')!;
+  expect(row.reported_spending).toBeNull();expect(row.historical_balance).toBeNull();
+ });
+ it('keeps all detailed schedules with arithmetic checks and explicit evidence bases',()=>{
+  expect(finance).toHaveLength(6);
+  for(const row of finance){
+   expect(row.currency).toBe('XAF');expect(row.current_account_balance).toBeNull();
+   expect(row.lines.reduce((s,l)=>s+l.amount_xaf,0)).toBe(row.schedule_total);
+   expect(row.lines.every(l=>Boolean(l.basis))).toBe(true);
+   expect(plain(`projects/${row.slug}/report.md`)).toMatch(/not.*verified|not an audited|not independently audited/i);
+  }
+ });
+ it('does not treat May in-kind support or July funding minus plan as cash balances',()=>{
+  const may=finance.find(p=>p.slug==='school-visit-may-2022')!;
+  expect(may.reported_funding).toBeNull();expect(may.reported_spending).toBeNull();expect(may.historical_balance).toBeNull();
+  expect(may.lines.filter(l=>l.kind==='cash allocation').reduce((s,l)=>s+l.amount_xaf,0)).toBe(165000);
+  expect(may.schedule_total).toBe(180000);expect(may.note).toContain('15,000 is not a cash balance');
+  const july=finance.find(p=>p.slug==='idp-girls-baking-training-jul-2022')!;
+  expect(july.reported_funding).toBe(400000);expect(july.schedule_total).toBe(342750);expect(july.historical_balance).toBeNull();
+  expect(july.note).toContain('57,250 is funding less plan, not a confirmed balance');
+ });
+ it('preserves August historical account while distinguishing it from current cash',()=>{
+  const row=finance.find(p=>p.slug==='back-to-school-sep-2022')!;
+  expect(row.reported_funding).toBe(220000);expect(row.reported_spending).toBe(205000);expect(row.historical_balance).toBe(15000);
+  const f=plain(`projects/${row.slug}/report.md`);
+  expect(f).toContain("not today's account balance");expect(f).toContain('not an audited or independently receipt-verified statement');
+ });
+ it('excludes reconstructed amounts from aggregate approved or actual totals',()=>{
+  const history=read('ada-project-history.md');
+  expect(history).toContain('6 evidence-qualified project accounts');
+  expect(history).toContain('Blank summary cells do not mean zero spending');
+  expect(history).not.toMatch(/Approved 120,000 CFA; Actual\/Spent 85,000 CFA|Approved 300,000 CFA; Actual\/Spent 280,000 CFA/);
+  for(const p of releases.projects){
+   const start=history.indexOf(`#### ${p.archive.title}`);expect(start).toBeGreaterThanOrEqual(0);
+   const end=history.indexOf('\n#### ',start+1);const section=history.slice(start,end>0?end:undefined);
+   expect(section).toContain('Detailed evidence-qualified account');expect(section).not.toContain('- Outcomes:');
+   expect(section).toContain(`/docs/projects/${p.slug}/report.pdf`);
+  }
+ });
+ it('keeps item categories without inventing quantities or identical kits',()=>{
+  const f=plain('projects/school-supply-distribution-feb-2022/report.md');
+  const t=plain('projects/school-supply-distribution-feb-2022/tor.md');
+  for(const word of ['exercise books','pens','mathematical sets','buckets','utensils']){expect(f).toContain(word);expect(t).toContain(word);}
+  expect(t).toContain('We do not specify a target headcount or equal packages');
+  expect(f+t).not.toMatch(/Purchase 20 colorful|Purchase 20 pink|20 buckets, 20 bags|brought the project under budget/);
+ });
+ it('accounts for all public budget statuses without treating qualified accounts as cap adjustments',()=>{
+  const rows=JSON.parse(read('ada-public-budget-adjustments.json'));
+  expect(rows).toHaveLength(19);
+  expect(rows.filter((r:any)=>r.status==='under review').map((r:any)=>r.project)).toEqual(['First Widow Home Visits']);
+  expect(rows.filter((r:any)=>r.status==='ok')).toHaveLength(5);
+  expect(rows.filter((r:any)=>r.status==='adjusted')).toHaveLength(7);
+  const qualified=rows.filter((r:any)=>r.status==='reported / reconstructed; see basis');expect(qualified).toHaveLength(6);
+  expect(qualified.every((r:any)=>r.archive_approved===null && r.archive_actual===null && r.public_target===null && r.adjustment_needed===null)).toBe(true);
+  const renderer=fs.readFileSync('scripts/render_public_budget_adjustments_pdf.mjs','utf8');
+  expect(renderer).toContain('const basisRows = [...underReviewRows, ...qualifiedRows]');
+  expect(renderer).toContain('okRows.length + adjustedRows.length + basisRows.length !== rows.length');
+  expect(renderer).not.toContain('row.archive_actual || row.archive_approved');
+ });
 });

@@ -224,11 +224,11 @@ describe("owner-recalled finance display overrides", () => {
     expect(records.find((record) => record.slug === "first-widow-home-visits-2021")?.titleFr)
       .toBe("Premières visites à domicile auprès des veuves");
     expect(records.find((record) => record.slug === "school-supply-distribution-feb-2022")?.title)
-      .toBe("School Supply Distribution");
+      .toBe("School supplies and encouragement");
     expect(records.find((record) => record.slug === "school-supply-distribution-feb-2022")?.titleFr)
-      .toBe("Distribution de fournitures scolaires");
+      .toBe("Fournitures scolaires et encouragement");
     expect(records.find((record) => record.slug === "widow-support-food-cash-mar-2022")?.title)
-      .toBe("Women's Day Widow Outreach");
+      .toBe("Widows’ home outreach");
   });
 
   it("keeps the February report transition and retrospective review notice accurate", () => {
@@ -236,8 +236,9 @@ describe("owner-recalled finance display overrides", () => {
       "public/docs/projects/school-supply-distribution-feb-2022/report.md",
       "utf8",
     );
-    expect(report).toContain("Retrospective review copy (November 2026)");
-    expect(report).toContain("**Distribution (10:15–11:00 AM)**\n\nThe owner confirms");
+    expect(report).toContain("Prepared some time after the project was carried out");
+    expect(report).toContain("16 February 2022");
+    expect(report).not.toContain("Private review - not for publication");
     expect(report).not.toContain("ensured every child received:");
     expect(report).not.toMatch(/uniform kits eliminated|giving every child identical|uniform kits prevent stigma/i);
   });
@@ -319,11 +320,11 @@ describe("owner-recalled finance display overrides", () => {
         demographic: "widows",
       },
     ]);
-    const record = groups[0]?.demographics[0]?.projects[0];
+    const record = groups.flatMap(g=>g.demographics.flatMap(d=>d.projects)).find(p=>p.slug === "widow-support-food-cash-mar-2022");
 
     expect(record).toMatchObject({
-      title: "Women's Day Widow Outreach",
-      titleFr: "Action de soutien aux veuves pour la Journée des femmes",
+      title: "Widows’ home outreach",
+      titleFr: "Visites à domicile auprès des veuves",
     });
   });
 

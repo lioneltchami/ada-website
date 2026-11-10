@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "year": 2022,
+  "projects": [
+    {
+      "slug": "school-supply-distribution-feb-2022",
+      "status": "released",
+      "currency": "XAF",
+      "approvals": {
+        "privacy": true,
+        "financialEvidence": true,
+        "translation": true,
+        "visualQa": true
+      },
+      "documents": {
+        "tor": {
+          "sha256": "765a24dd40e8493ca5437a9fc38bbc02e0d7020a0bd281eade58ab515424ec6b",
+          "reviewOnly": false
+        },
+        "report": {
+          "sha256": "2f18ad3db46066e0c9923f58e23f26660144678bdebdff3d9ab449cb015840ad",
+          "reviewOnly": false
+        }
+      },
+      "archive": {
+        "title": "School supplies and encouragement",
+        "titleFr": "Fournitures scolaires et encouragement",
+        "demographic": "community",
+        "location": "Lycée de Buea, Buea",
+        "description": "We visited Lycée de Buea to encourage the school’s prayer club and provide school supplies, buckets and utensils for students.",
+        "descriptionFr": "Nous avons visité le Lycée de Buea pour encourager le club de prière et offrir aux élèves des fournitures scolaires, des seaux et des ustensiles.",
+        "startDate": "2022-02-16",
+        "endDate": "2022-02-16"
+      }
+    },
+    {
+      "slug": "widow-support-food-cash-mar-2022",
+      "status": "released",
+      "currency": "XAF",
+      "approvals": {
+        "privacy": true,
+        "financialEvidence": true,
+        "translation": true,
+        "visualQa": true
+      },
+      "documents": {
+        "tor": {
+          "sha256": "5f98460a06ff48389f8a122b52e723ebd6b8c273f29d8bed5710fa11aa6ddeab",
+          "reviewOnly": false
+        },
+        "report": {
+          "sha256": "d94be12731005add93f2e653c33da4a9cec5b284870d6d08bd2d98336177fc1c",
+          "reviewOnly": false
+        }
+      },
+      "archive": {
+        "title": "Widows’ home outreach",
+        "titleFr": "Visites à domicile auprès des veuves",
+        "demographic": "widows",
+        "location": "Muea, Buea",
+        "description": "We visited approximately 20 widows at home in Muea, providing goods selected after listening to their needs. Support did not depend on joining prayer.",
+        "descriptionFr": "Nous avons rendu visite à environ 20 veuves à domicile à Muea, avec des biens choisis après avoir écouté leurs besoins. L’aide ne dépendait pas de la participation à la prière.",
+        "startDate": "2022-03-12",
+        "endDate": "2022-03-12"
+      }
+    },
+    {
+      "slug": "school-visit-may-2022",
+      "status": "released",
+      "currency": "XAF",
+      "approvals": {
+        "privacy": true,
+        "financialEvidence": true,
+        "translation": true,
+        "visualQa": true
+      },
+      "documents": {
+        "tor": {
+          "sha256": "d92a44b8266818bc977eaa296bf6154c588983dde1218b77f371f88ea0153859",
+          "reviewOnly": false
+        },
+        "report": {
+          "sha256": "7f845d98403b7d45b460a52c82a6fe2077228e2aff97b75742b566e37003acf1",
+          "reviewOnly": false
+        }
+      },
+      "archive": {
+        "title": "School visit in Buea",
+        "titleFr": "Visite scolaire à Buea",
+        "demographic": "community",
+        "location": "Lycée de Buea (remembered name), Buea",
+        "description": "On Wednesday, 11 May 2022, our school visit combined encouragement, refreshments and educational materials. This is a school visit, not the cleanup activity that was assigned to the wrong year.",
+        "descriptionFr": "Le mercredi 11 mai 2022, notre visite scolaire associait encouragement, collations et matériel éducatif. Il s’agit d’une visite scolaire, distincte de l’activité de nettoyage attribuée à une année incorrecte.",
+        "startDate": "2022-05-11",
+        "endDate": "2022-05-11",
+        "locationFr": "Lycée de Buea (nom rappelé), Buea"
+      }
+    },
+    {
+      "slug": "idp-girls-baking-training-jul-2022",
+      "status": "released",
+      "currency": "XAF",
+      "approvals": {
+        "privacy": true,
+        "financialEvidence": true,
+        "translation": true,
+        "visualQa": true
+      },
+      "documents": {
+        "tor": {
+          "sha256": "95d97c1c747d9fa08db34acd25a49ce034bb05a160276a117142885aa09ef7a6",
+          "reviewOnly": false
+        },
+        "report": {
+          "sha256": "43bb1c8ce71f2b286d46e6a21dc317af6f55cfebbe8e5b22e3842195afa9ffad",
+          "reviewOnly": false
+        }
+      },
+      "archive": {
+        "title": "Practical baking skills for displaced girls",
+        "titleFr": "Initiation pratique à la pâtisserie pour des jeunes filles déplacées",
+        "demographic": "young-women",
+        "location": "Full Gospel Mission, Molyko, Buea",
+        "description": "We brought together 15 internally displaced teenage girls for a four-hour practical baking session, with ingredients, materials and modest support to continue practicing.",
+        "descriptionFr": "Nous avons réuni 15 adolescentes déplacées internes pour une séance pratique de pâtisserie de quatre heures, avec des ingrédients, du matériel et un soutien modeste pour poursuivre la pratique.",
+        "startDate": null,
+        "endDate": null
+      }
+    },
+    {
+      "slug": "back-to-school-sep-2022",
+      "status": "released",
+      "currency": "XAF",
+      "approvals": {
+        "privacy": true,
+        "financialEvidence": true,
+        "translation": true,
+        "visualQa": true
+      },
+      "documents": {
+        "tor": {
+          "sha256": "169f4e2b87bf601c7058e35a08f82c2deb72ab5c11ecfdc30940d12c04d03df6",
+          "reviewOnly": false
+        },
+        "report": {
+          "sha256": "e591542db43001d099e53aa18ba7a2bcf0e46c7d3c7427e67d862cda9d32cad7",
+          "reviewOnly": false
+        }
+      },
+      "archive": {
+        "title": "Back to school in Buea",
+        "titleFr": "Rentrée scolaire à Buea",
+        "demographic": "community",
+        "location": "Buea Regional Secondary School (remembered name), Buea",
+        "description": "We reached 40 students with school bags, books, exercise books, pens and other school materials. The students did not all receive identical brands or packages.",
+        "descriptionFr": "Nous avons atteint 40 élèves avec des cartables, des livres, des cahiers, des stylos et d’autres fournitures scolaires. Les élèves n’ont pas tous reçu les mêmes marques ni des lots identiques.",
+        "startDate": "2022-08-12",
+        "endDate": "2022-08-12",
+        "locationFr": "Buea Regional Secondary School (nom rappelé), Buea"
+      }
+    },
+    {
+      "slug": "christmas-giving-dec-2022",
+      "status": "released",
+      "currency": "XAF",
+      "approvals": {
+        "privacy": true,
+        "financialEvidence": true,
+        "translation": true,
+        "visualQa": true
+      },
+      "documents": {
+        "tor": {
+          "sha256": "44fe704f72bf454704a4c3d749513728a0e79bd33a75f284d123a9e687207a88",
+          "reviewOnly": false
+        },
+        "report": {
+          "sha256": "f6fd68963944f13997a92f83e359ca10edf67a26614d653d59e9e1f40cf29d54",
+          "reviewOnly": false
+        }
+      },
+      "archive": {
+        "title": "Christmas giving in Buea",
+        "titleFr": "Dons de Noël à Buea",
+        "demographic": "orphans",
+        "location": "Sima orphanage, Buea",
+        "description": "Our account records support for 33 children and 3 adult caregivers, with food supplies and Christmas gifts. The financial report distinguishes reported totals from reconstructed category allocations.",
+        "descriptionFr": "Notre compte rendu fait état d’un soutien à 33 enfants et 3 adultes responsables, avec des denrées alimentaires et des cadeaux de Noël. Le rapport financier distingue les totaux déclarés des répartitions reconstituées par catégorie.",
+        "startDate": "2022-12-22",
+        "endDate": "2022-12-22"
+      }
+    }
+  ]
+}

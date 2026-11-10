@@ -94,7 +94,8 @@ def build_rows() -> list[BudgetRow]:
                 note=note,
             )
         )
-    return rows
+    from reconcile_2022_finance import reconcile_budget
+    return reconcile_budget(rows)
 
 
 def write_markdown(rows: list[BudgetRow]) -> str:
@@ -115,7 +116,7 @@ def write_markdown(rows: list[BudgetRow]) -> str:
             f"| {row.year} | {row.project} | {row.reference or '—'} | {currency(row.archive_approved)} | {currency(row.archive_actual)} | {currency(row.public_target)} | {currency(row.adjustment_needed)} | {row.status} | {row.note} |"
         )
     lines.append("")
-    lines.append("Projects marked `under review` have no numeric public target in this worksheet. Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.")
+    lines.append("Projects marked `reported / reconstructed; see basis` retain their detailed category schedules and evidence qualifications in the project reports; they do not establish verified spending or a current account balance. Projects marked `under review` have no numeric public target in this worksheet. Projects marked `adjusted` should be reviewed with receipts, bank/mobile money history, or staff confirmation before publication as a final spend record.")
     lines.append("")
     return "\n".join(lines)
 

@@ -22,17 +22,6 @@
     "note": "Capped from 940,000 CFA to 400,000 CFA"
   },
   {
-    "year": 2022,
-    "project": "Back-to-School 2022",
-    "reference": "ADA/2022/006",
-    "archive_approved": null,
-    "archive_actual": null,
-    "public_target": null,
-    "adjustment_needed": null,
-    "status": "under review",
-    "note": "The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here."
-  },
-  {
     "year": 2024,
     "project": "Back-to-School Supply Distribution 2024",
     "reference": "ADA/2024/004",
@@ -50,17 +39,6 @@
     "archive_approved": 180000,
     "archive_actual": 170000,
     "public_target": 170000,
-    "adjustment_needed": 0,
-    "status": "ok",
-    "note": "Within public cap"
-  },
-  {
-    "year": 2022,
-    "project": "Christmas Giving 2022",
-    "reference": "ADA/2022/007",
-    "archive_approved": 360000,
-    "archive_actual": 350000,
-    "public_target": 350000,
     "adjustment_needed": 0,
     "status": "ok",
     "note": "Within public cap"
@@ -132,17 +110,6 @@
     "note": "Capped from 675,000 CFA to 400,000 CFA"
   },
   {
-    "year": 2022,
-    "project": "July 2022 Baking Workshop",
-    "reference": "ADA/2022/005",
-    "archive_approved": null,
-    "archive_actual": null,
-    "public_target": null,
-    "adjustment_needed": null,
-    "status": "under review",
-    "note": "The previous July baking project documents and financial schedule have been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here."
-  },
-  {
     "year": 2025,
     "project": "Interim Progress Report: Prenatal Care Support Program",
     "reference": "ADA/2025/001",
@@ -152,28 +119,6 @@
     "adjustment_needed": 350000,
     "status": "adjusted",
     "note": "Capped from 750,000 CFA to 400,000 CFA"
-  },
-  {
-    "year": 2022,
-    "project": "School Supply Distribution",
-    "reference": "ADA/2022/001",
-    "archive_approved": null,
-    "archive_actual": null,
-    "public_target": null,
-    "adjustment_needed": null,
-    "status": "under review",
-    "note": "Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000\u201315,000 CFA transportation, leaving an estimated 195,000\u2013200,000 CFA for supplies. These figures are not independently reconciled; the category allocation is illustrative only, not actual expenditure."
-  },
-  {
-    "year": 2022,
-    "project": "Women's Day Widow Outreach",
-    "reference": "ADA/2022/003",
-    "archive_approved": null,
-    "archive_actual": null,
-    "public_target": null,
-    "adjustment_needed": null,
-    "status": "under review",
-    "note": "Owner recalls about 220,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000 CFA transportation, leaving an estimated 205,000 CFA for the listed supplies. These approximate figures have not been independently reconciled; item quantities, category costs, cash assistance, and any balance are not established."
   },
   {
     "year": 2023,
@@ -196,5 +141,71 @@
     "adjustment_needed": 65000,
     "status": "adjusted",
     "note": "Capped from 465,000 CFA to 400,000 CFA"
+  },
+  {
+    "year": 2022,
+    "project": "School supplies and encouragement",
+    "reference": "ADA/2022/001",
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "reported / reconstructed; see basis",
+    "note": "215,000 XAF sent, confirmed in our account but not transfer-verified. Withdrawal recalled about 5,000 and transport 10,000\u201315,000. The detailed schedule uses 15,000 transport and fully allocates funding by construction. Exact total spending and closing balance are not established."
+  },
+  {
+    "year": 2022,
+    "project": "Widows\u2019 home outreach",
+    "reference": "ADA/2022/003",
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "reported / reconstructed; see basis",
+    "note": "Funding recalled about 220,000 XAF, withdrawal 5,000 and transport about 10,000. Goods allocation 205,000 is reconstructed. Exact spending and closing balance are not established."
+  },
+  {
+    "year": 2022,
+    "project": "School visit in Buea",
+    "reference": "ADA/2022/004",
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "reported / reconstructed; see basis",
+    "note": "Earlier source budget 180,000 XAF. Reconstructed cash categories 165,000 plus in-kind refreshments valued at 15,000. Neither 180,000 nor 165,000 establishes a cash transfer or actual expenditure; 15,000 is not a cash balance. The earlier account attributes the in-kind refreshments to the school; attribution and value are not independently verified."
+  },
+  {
+    "year": 2022,
+    "project": "Practical baking skills for displaced girls",
+    "reference": "ADA/2022/005",
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "reported / reconstructed; see basis",
+    "note": "400,000 XAF reported sent. Original planned amounts sum to 342,750, not actual expenditure. Participant support 75,000 (15 \u00d7 5,000) confirmed in our account. Flour, salt and sticker quantities/rates conflict; fish pricing unclear and actual trainer payment unconfirmed. Difference 57,250 is funding less plan, not a confirmed balance."
+  },
+  {
+    "year": 2022,
+    "project": "Back to school in Buea",
+    "reference": "ADA/2022/006",
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "reported / reconstructed; see basis",
+    "note": "220,000 XAF sent; 205,000 reported spending including operating costs; 15,000 historical balance remaining in our accounts. Category split organization-confirmed but not receipt-verified. The historical balance is not today\u2019s mobile-money balance."
+  },
+  {
+    "year": 2022,
+    "project": "Christmas giving in Buea",
+    "reference": "ADA/2022/007",
+    "archive_approved": null,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "reported / reconstructed; see basis",
+    "note": "Reported project account 360,000 XAF: goods 330,000, transport 20,000, withdrawal 10,000. Goods categories reconstructed, not verified historical prices. Zero arithmetic difference is not a bank or mobile-money balance."
   }
 ]

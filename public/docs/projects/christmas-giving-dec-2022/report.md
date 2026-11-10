@@ -1,91 +1,172 @@
-# Project Report: Christmas Giving 2022
+# Christmas giving in Buea
 
-| Field | Details |
-|-------|---------|
-| **Project Title** | Christmas Giving 2022 |
-| **Reference** | ADA/2022/007 |
-| **Organization** | Apoti Development Association (ADA) |
-| **Date** | December 20–25, 2022 |
-| **Location** | Buea, South-West Region, Cameroon |
-| **Status** | Completed |
+## Project report and financial account
 
-## 1. Executive Summary
+The PDF is the authoritative layout, including tables and photographs. This text companion preserves its evidence qualifications.
 
-ADA's first annual Christmas Giving campaign was successfully conducted in Buea from December 20–25, 2022. The project provided material support and spiritual encouragement to 30 vulnerable families including widows, orphans, and vulnerable households. A team of 8 volunteers organized a Christmas celebration with worship and distributed food packages and supplies to all beneficiary families. The project came in under budget at 350,000 CFA ($583 USD) due to food items donated by church members.
+Apoti Development Association
+Sharing Christ’s Love, Restoring Hope
+Christmas giving in Buea
+Project completion report
+22 December 2022 • Buea, Cameroon
+On Thursday, 22 December 2022, our team visited Sima orphanage in Buea for our first Christmas
+programme for children in orphanage care. We brought practical provisions and seasonal gifts,
+extending support to the children and the adults caring for them. This was one way of expressing
+our Christian commitment to share Christ's love through service, using the resources entrusted
+to us.
+Who we reached
+Our account records 33 children, aged
+approximately 10 to 15, and 3 adult
+caregivers. The two groups are reported
+separately. Sima is the name we remember
+for the institution. These details come from
+our project recollection rather than a verified
+attendance register; no names or identifying
+details of children are disclosed.
+What we brought
+The purchases included rice, cooking oil and
+other foodstuffs, together with Christmas
+clothing, shoes and slippers, and toys. Food
+provisions and seasonal gifts served different
+purposes within the same outreach.
+Caregivers also received support through the
+visit.
+December 2022 • Project report and financial account
+1
+Food supplies in the December project photographs.
 
-## 2. Activities Conducted
+Apoti Development Association
+Sharing Christ’s Love, Restoring Hope
+Sharing practical care
+Christmas giving in Buea • 22 December 2022
+How the support was delivered
+We arranged purchases, including travel to
+market, and visited the orphanage to provide the
+goods. Transport and withdrawal charges were
+part of the project costs, separate from the goods
+themselves. The goods and operating costs are
+presented separately in the financial account on
+the next page.
+What this visit accomplished
+The reported result was delivery of the listed
+categories of goods to the orphanage
+community, reaching the children and
+caregivers described above. The documented
+scope of this report is the support provided
+during the visit. Longer-term outcomes are not
+established in the available account.
+Our approach to faith and care
+Our Christian identity explains the heart behind this service. Assistance was available regardless
+of participation in prayer or worship. Our usual practice after projects is to reflect together on
+delivery, timing and improvements for future work.
+December 2022 • Project report and financial account
+2
+Food being handled during the visit.
+Reporting basis: Prepared some time after the project was carried out, using our recollection and available
+working files. Quantities and individual allocations are not established. The financial section distinguishes our
+confirmed aggregate account from reconstructed category allocations that are not independently verified.
 
-### 2.1 Christmas Celebration
-A worship gathering was held featuring singing and prayer. Beneficiary families came together for a festive celebration combining spiritual encouragement with community fellowship. Volunteers wore Santa hats and ADA branded shirts to create a joyful atmosphere.
+Apoti Development Association
+Sharing Christ’s Love, Restoring Hope
+Financial account
+Christmas giving 2022 • Amounts in FCFA (XAF)
+Funding and costs
+Our reported account for this project is 360,000 FCFA in total, including 330,000 for goods, 20,000
+for transport to market for purchases and 10,000 for withdrawal. These aggregate figures were
+confirmed in our project account; they have not been independently checked against transfer
+records or receipts. The detailed category allocations on page 4 are reconstructed, not verified
+historical prices.
+Account line
+FCFA
+Basis
+Total project funds
+360,000
+Reported project account
+Goods
+330,000
+Reported aggregate goods amount
+Transport for purchases
+20,000
+Reported operating cost
+Withdrawal
+10,000
+Reported operating cost
+Total accounted for
+360,000
+330,000 + 20,000 + 10,000
+Difference within this account
+0
+360,000 less 360,000
+What the zero difference means
+The reported goods and operating costs account for the full project total. This project account
+identifies no balance remaining in our accounts from this project. The zero difference is an
+arithmetic reconciliation of the figures provided, not a bank or mobile-money reconciliation,
+and it is not today's account balance.
+What the goods total covers
+The 330,000 FCFA goods total covers rice, cooking oil, other foodstuffs, Christmas clothing, shoes
+and slippers, and toys. Page 4 breaks down this total by category so the allocations can be
+reviewed in detail. Those category amounts are reconstructed; their sum matches the confirmed
+aggregate by construction and does not verify the individual prices paid.
+Records and limits
+The available sources contain no inspected receipts, itemized purchase ledger or verified
+distribution register. The account therefore establishes neither unit prices nor equal packages;
+the reach figures should not be used as a standard cost per person.
+December 2022 • Project report and financial account
+3
+Withdrawal means the charge for withdrawing project funds as cash. This account is not an audited statement.
+The detailed schedule forms part of this report. It distinguishes reconstructed allocations from the confirmed
+aggregate totals; neither is represented as independently audited expenditure.
 
-### 2.2 Food Distribution
-Each of the 30 families received:
-- 1 × 5kg bag of rice (Riz Bijou brand)
-- Portioned cooking oil (from 15L shared bottles)
-- Portioned dried fish (from bulk purchase)
-- Woven bags containing additional food items
-
-### 2.3 Supply Distribution
-Each family received an orange bucket filled with household supplies.
-
-### 2.4 Children's Gifts
-Children from beneficiary families received Christmas gifts and treats during the celebration event.
-
-## 3. Beneficiaries Reached
-
-| Category | Number |
-|----------|--------|
-| Families served | 30 |
-| Elderly widows (in traditional headwraps) | Included |
-| Children receiving gifts | Included |
-| Volunteers deployed | 8 |
-
-## 4. Outcomes Achieved
-
-| Expected Outcome | Status |
-|-----------------|--------|
-| 30 families receive food/supply packages | ✅ Achieved |
-| Rice distributed to all families | ✅ Achieved |
-| Cooking oil and dried fish provided | ✅ Achieved |
-| Worship celebration held | ✅ Achieved |
-| Children receive gifts/treats | ✅ Achieved |
-| First annual Christmas campaign established | ✅ Achieved |
-
-## 5. Budget Performance
-
-- **Budgeted:** 360,000 CFA ($600 USD)
-- **Actual Spend:** 350,000 CFA ($583 USD)
-- **Variance:** -10,000 CFA ($17 USD under budget)
-- **Reason:** Some food items were donated by church members
-
-## 6. Challenges and Lessons Learned
-
-### Challenges
-- First-time execution required establishing all processes from scratch
-- Coordinating logistics for 30 families with limited prior data
-
-### Lessons Learned
-- Combining worship with material distribution creates meaningful community connection
-- Smaller rice portions (5kg vs 25kg) allowed reaching more families within budget
-- Orange buckets serve dual purpose as container and household item
-- Church member donations can supplement budget — build partnerships early
-- Santa hats and branded shirts create festive, recognizable team identity
-
-## 7. Sustainability and Future Plans
-
-This campaign established ADA's annual Christmas giving tradition. Key elements to carry forward:
-- Combined spiritual and material support model
-- Volunteer team with branded identification
-- Community gathering format before distribution
-- Partnership with church members for supplementary donations
-
-## 8. Conclusion
-
-Christmas Giving 2022 successfully achieved all objectives, serving 30 vulnerable families with food packages, supplies, and spiritual encouragement. The project established a replicable model for future annual campaigns and demonstrated ADA's capacity to mobilize volunteers and resources for community impact.
-
-## 9. Prepared By
-
-| Role | Name | Date |
-|------|------|------|
-| Report Author | | |
-| Reviewed By | | |
+Apoti Development Association
+Sharing Christ’s Love, Restoring Hope
+Detailed goods allocation
+Reconstructed category amounts • Not independently verified
+The goods categories below were recalled for the project. Their individual amounts are
+reconstructed allocations preserved from our working schedule, not independently verified
+historical purchase amounts. Transport and withdrawal retain the reported amounts, rather
+than being new allocations.
+Category
+FCFA
+Status
+Rice
+90,000
+Reconstructed allocation
+Cooking oil
+50,000
+Reconstructed; oil types not split
+Other foodstuffs
+35,000
+Reconstructed; excludes rice and oil
+Christmas clothing
+65,000
+Reconstructed allocation
+Shoes and slippers
+50,000
+Reconstructed; footwear types not split
+Christmas toys
+40,000
+Reconstructed allocation
+Goods subtotal
+330,000
+Confirmed aggregate; split
+reconstructed
+Transport for purchases
+20,000
+Reported operating cost
+Withdrawal
+10,000
+Reported operating cost
+Combined schedule total
+360,000
+Matches reported project total
+Arithmetic check
+90,000 + 50,000 + 35,000 + 65,000 + 50,000 + 40,000 = 330,000 FCFA. Adding transport of 20,000 and
+withdrawal of 10,000 gives 360,000 FCFA. No operating amount has been counted twice.
+No quantities, unit prices, identical packages or per-person costs are implied. Cooking oil remains one category;
+the exact mix of red oil and groundnut oil for this visit is not established.
+December 2022 • Project report and financial account
+4
+Reading the category schedule
+The category allocations describe the reconstructed distribution across food, clothing, footwear
+and toys. They remain distinct from independently verified expenditure and will be updated if
+further records become available.

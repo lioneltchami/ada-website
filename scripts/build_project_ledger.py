@@ -421,6 +421,7 @@ class ProjectRecord:
     report_path: str
     financial_path: str
     line_items: list[dict[str, object]]
+    finance_basis: str = "legacy"
 
 
 def parse_project(slug_dir: Path) -> ProjectRecord | None:
@@ -669,10 +670,17 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
         f"Archived projects included: {len(projects)}. Sum of reported approved amounts: {currency(total_approved)}. "
         f"Sum of reported actual/spent amounts: {currency(total_actual)}. These sums may cover different project sets and are not comparable as a portfolio variance."
     )
-    if FINANCE_REVIEW_NOTES:
+    pending = [p for p in projects if p.slug in FINANCE_REVIEW_NOTES and p.finance_basis == "legacy"]
+    qualified = [p for p in projects if p.finance_basis == "evidence-qualified"]
+    if pending:
         lines.append("")
         lines.append(
-            f"Figures for {len(FINANCE_REVIEW_NOTES)} projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified."
+            f"Figures for {len(pending)} projects remain under reconciliation and are excluded from numeric summaries and line-item totals. Other legacy figures below are transcribed from source documents and have not been independently verified."
+        )
+    if qualified:
+        lines.append("")
+        lines.append(
+            f"For {len(qualified)} evidence-qualified project accounts, detailed category schedules remain available in the workbook and project reports. Their reported figures, reconstructed allocations, written plans and non-cash support are labeled separately. These accounts are excluded from the legacy approved/actual portfolio sums because those columns do not represent their different evidence bases. Blank summary cells do not mean zero spending or missing detailed schedules."
         )
     lines.append("")
     lines.append(
@@ -711,7 +719,9 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
                 lines.append(f"- What we did: {project.what_we_did}")
             if project.outcomes:
                 lines.append(f"- Outcomes: {project.outcomes}")
-            if project.slug in FINANCE_REVIEW_NOTES:
+            if project.finance_basis == "evidence-qualified":
+                lines.append("- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.")
+            elif project.slug in FINANCE_REVIEW_NOTES:
                 lines.append("- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.")
             else:
                 budget_summary = (
@@ -723,9 +733,8 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
                 lines.append(f"- Financial summary: {budget_summary}")
             if project.finance_note:
                 lines.append(f"- Finance note: {project.finance_note}")
-            lines.append(
-                f"- Source files: [`{Path(project.report_path).name}`]({project.report_path}), [`{Path(project.financial_path).name}`]({project.financial_path})"
-            )
+            source_paths = list(dict.fromkeys([project.report_path, project.financial_path]))
+            lines.append("- Source files: " + ", ".join(f"[`{Path(source).name}`]({source})" for source in source_paths))
             lines.append("")
         lines.append("")
     lines.append("## Budget Workbook")
@@ -930,6 +939,8 @@ def main() -> None:
         if project:
             projects.append(project)
 
+    from reconcile_2022_finance import reconcile_ledger
+    projects = reconcile_ledger(projects)
     projects.sort(key=lambda p: (p.year, p.title))
 
     MARKDOWN_OUT.write_text(build_markdown(projects), encoding="utf-8")

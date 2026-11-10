@@ -2,11 +2,13 @@
 
 This ledger focuses on the archived projects and their budget records from 2021 through 2025. It pairs the narrative completion reports with the financial reports so the story of each project stays tied to the numbers.
 
-Compiled on November 8, 2026 from the project archive under `public/docs/projects/`.
+Compiled on November 9, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 20. Sum of reported approved amounts: 7,560,000 CFA. Sum of reported actual/spent amounts: 6,156,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
+Archived projects included: 21. Sum of reported approved amounts: 7,200,000 CFA. Sum of reported actual/spent amounts: 5,806,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
-Figures for 5 projects are under reconciliation and are excluded from numeric summaries and line-item totals. Other figures below are transcribed from source documents and have not been independently verified.
+Figures for 1 projects remain under reconciliation and are excluded from numeric summaries and line-item totals. Other legacy figures below are transcribed from source documents and have not been independently verified.
+
+For 6 evidence-qualified project accounts, detailed category schedules remain available in the workbook and project reports. Their reported figures, reconstructed allocations, written plans and non-cash support are labeled separately. These accounts are excluded from the legacy approved/actual portfolio sums because those columns do not represent their different evidence bases. Blank summary cells do not mean zero spending or missing detailed schedules.
 
 Active projects are intentionally excluded here so the focus stays on completed and archived work.
 
@@ -17,7 +19,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 | 2025 | 6 | 5 | 2,460,000 CFA | 2,350,000 CFA |
 | 2024 | 4 | 4 | 3,180,000 CFA | 2,171,800 CFA |
 | 2023 | 4 | 3 | 1,560,000 CFA | 1,285,000 CFA |
-| 2022 | 5 | 1 | 360,000 CFA | 350,000 CFA |
+| 2022 | 6 | 0 | — | — |
 | 2021 | 1 | 0 | — | — |
 
 ## Project Ledger
@@ -163,51 +165,59 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 ### 2022
 
-#### Back-to-School 2022
+#### Back to school in Buea
 
-- Reference: `ADA/2022/006` | Location: Buea, Cameroon | Period: 2022 | Status: Previous document withdrawn; revised record under review
-- What we did: The previous version of this document has been withdrawn because it contained superseded financial and project details. Its budget, expenditure schedule, unit prices, quantities, and associated claims must not be used as current project records.
-- Outcomes: Not established in this review.
-- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
-- Finance note: The previous financial schedule has been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.
-- Source files: [`report.md`](public/docs/projects/back-to-school-sep-2022/report.md), [`financial.md`](public/docs/projects/back-to-school-sep-2022/financial.md)
+- Reference: `ADA/2022/006` | Location: Buea Regional Secondary School (remembered name), Buea | Period: 2022-08-12 | Status: completed
+- Beneficiaries: See qualified reach in project report
+- What we did: We reached 40 students with school bags, books, exercise books, pens and other school materials. The students did not all receive identical brands or packages.
+- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.
+- Finance note: 220,000 XAF sent; 205,000 reported spending including operating costs; 15,000 historical balance remaining in our accounts. Category split organization-confirmed but not receipt-verified. The historical balance is not today’s mobile-money balance.
+- Source files: [`report.pdf`](/docs/projects/back-to-school-sep-2022/report.pdf)
 
-#### Christmas Giving 2022
+#### Christmas giving in Buea
 
-- Reference: `ADA/2022/007` | Location: Buea, South-West Region, Cameroon | Period: December 20–25, 2022 | Status: Completed
-- What we did: ADA's first annual Christmas Giving campaign was successfully conducted in Buea from December 20–25, 2022. The project provided material support and spiritual encouragement to 30 vulnerable families including widows, orphans, and vulnerable households.
-- Outcomes: ADA's first annual Christmas Giving campaign was successfully conducted in Buea from December 20–25, 2022. The project provided material support and spiritual encouragement to 30 vulnerable families including widows, orphans, and vulnerable households.
-- Financial summary: Reported approved 360,000 CFA; reported actual/spent 350,000 CFA; difference 10,000 CFA; utilization 97.2%.
-- Finance note: 10,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/christmas-giving-dec-2022/report.md), [`financial.md`](public/docs/projects/christmas-giving-dec-2022/financial.md)
+- Reference: `ADA/2022/007` | Location: Sima orphanage, Buea | Period: 2022-12-22 | Status: completed
+- Beneficiaries: See qualified reach in project report
+- What we did: Our account records support for 33 children and 3 adult caregivers, with food supplies and Christmas gifts. The financial report distinguishes reported totals from reconstructed category allocations.
+- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.
+- Finance note: Reported project account 360,000 XAF: goods 330,000, transport 20,000, withdrawal 10,000. Goods categories reconstructed, not verified historical prices. Zero arithmetic difference is not a bank or mobile-money balance.
+- Source files: [`report.pdf`](/docs/projects/christmas-giving-dec-2022/report.pdf)
 
-#### July 2022 Baking Workshop
+#### Practical baking skills for displaced girls
 
-- Reference: `ADA/2022/005` | Location: Buea, Cameroon | Period: July 2022 | Status: Previous document withdrawn; revised record under review
-- What we did: The previous version of this document has been withdrawn because it contained superseded financial and project details. Its duration, participant accounts, budget, expenditure schedule, receipt claims, quantities, and outcomes must not be used as current project records.
-- Outcomes: Not established in this review.
-- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
-- Finance note: The previous July baking project documents and financial schedule have been withdrawn. A revised record is under review; no numeric budget or actual expenditure is published here.
-- Source files: [`report.md`](public/docs/projects/idp-girls-baking-training-jul-2022/report.md), [`financial.md`](public/docs/projects/idp-girls-baking-training-jul-2022/financial.md)
+- Reference: `ADA/2022/005` | Location: Full Gospel Mission, Molyko, Buea | Period: July 2022; day not established | Status: completed
+- Beneficiaries: See qualified reach in project report
+- What we did: We brought together 15 internally displaced teenage girls for a four-hour practical baking session, with ingredients, materials and modest support to continue practicing.
+- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.
+- Finance note: 400,000 XAF reported sent. Original planned amounts sum to 342,750, not actual expenditure. Participant support 75,000 (15 × 5,000) confirmed in our account. Flour, salt and sticker quantities/rates conflict; fish pricing unclear and actual trainer payment unconfirmed. Difference 57,250 is funding less plan, not a confirmed balance.
+- Source files: [`report.pdf`](/docs/projects/idp-girls-baking-training-jul-2022/report.pdf)
 
-#### School Supply Distribution
+#### School supplies and encouragement
 
-- Reference: `ADA/2022/001` | Location: Buea, South-West Region, Cameroon | Period: February 1–28, 2022 | Status: completed
-- Beneficiaries: 20 orphaned children (as reported in the source; not independently verified)
-- What we did: On February 16, 2022, the Apoti Development Association (ADA) conducted its first school-based distribution event at a rural primary school in Buea, South-West Region, Cameroon. The owner later confirmed that the project supply list included buckets, utensils, school bags, exercise books, pens, and mathematical sets.
-- Outcomes: Not established in this review.
-- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
-- Finance note: Owner recalls 215,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000–15,000 CFA transportation, leaving an estimated 195,000–200,000 CFA for supplies. These are not independently reconciled. The category amounts shown in the project documents are illustrative only, not historical expenditure.
-- Source files: [`report.md`](public/docs/projects/school-supply-distribution-feb-2022/report.md), [`financial.md`](public/docs/projects/school-supply-distribution-feb-2022/financial.md)
+- Reference: `ADA/2022/001` | Location: Lycée de Buea, Buea | Period: 2022-02-16 | Status: completed
+- Beneficiaries: See qualified reach in project report
+- What we did: We visited Lycée de Buea to encourage the school’s prayer club and provide school supplies, buckets and utensils for students.
+- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.
+- Finance note: 215,000 XAF sent, confirmed in our account but not transfer-verified. Withdrawal recalled about 5,000 and transport 10,000–15,000. The detailed schedule uses 15,000 transport and fully allocates funding by construction. Exact total spending and closing balance are not established.
+- Source files: [`report.pdf`](/docs/projects/school-supply-distribution-feb-2022/report.pdf)
 
-#### Women's Day Widow Outreach
+#### School visit in Buea
 
-- Reference: `ADA/2022/003` | Location: N/A | Period: March 2022 (owner recollection) | Status: completed
-- What we did: The owner identifies this project as a Women's Day widow outreach in March 2022. The owner recalls that the supply list included buckets, African fabric wrappers, soap, oil, foodstuffs, and bags.
-- Outcomes: Not established in this review.
-- Financial status: Under reconciliation; no figures from the previous itemized table are included in numeric summaries.
-- Finance note: Owner recalls about 220,000 CFA sent, about 5,000 CFA withdrawal costs, and about 10,000 CFA transportation, leaving an estimated 205,000 CFA for the listed supplies. These approximate figures have not been independently reconciled; no item quantities, category costs, cash assistance, or balance are verified.
-- Source files: [`report.md`](public/docs/projects/widow-support-food-cash-mar-2022/report.md), [`financial.md`](public/docs/projects/widow-support-food-cash-mar-2022/financial.md)
+- Reference: `ADA/2022/004` | Location: Lycée de Buea (remembered name), Buea | Period: 2022-05-11 | Status: completed
+- Beneficiaries: See qualified reach in project report
+- What we did: On Wednesday, 11 May 2022, our school visit combined encouragement, refreshments and educational materials. This is a school visit, not the cleanup activity that was assigned to the wrong year.
+- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.
+- Finance note: Earlier source budget 180,000 XAF. Reconstructed cash categories 165,000 plus in-kind refreshments valued at 15,000. Neither 180,000 nor 165,000 establishes a cash transfer or actual expenditure; 15,000 is not a cash balance. The earlier account attributes the in-kind refreshments to the school; attribution and value are not independently verified.
+- Source files: [`report.pdf`](/docs/projects/school-visit-may-2022/report.pdf)
+
+#### Widows’ home outreach
+
+- Reference: `ADA/2022/003` | Location: Muea, Buea | Period: 2022-03-12 | Status: completed
+- Beneficiaries: See qualified reach in project report
+- What we did: We visited approximately 20 widows at home in Muea, providing goods selected after listening to their needs. Support did not depend on joining prayer.
+- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.
+- Finance note: Funding recalled about 220,000 XAF, withdrawal 5,000 and transport about 10,000. Goods allocation 205,000 is reconstructed. Exact spending and closing balance are not established.
+- Source files: [`report.pdf`](/docs/projects/widow-support-food-cash-mar-2022/report.pdf)
 
 
 ### 2021

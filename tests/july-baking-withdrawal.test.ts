@@ -3,10 +3,11 @@ import fs from 'node:fs';
 import { applyOwnerFinancialReview } from '../src/lib/project-archive';
 
 describe('superseded 2022 July project account', () => {
-  it('withdraws the obsolete documents instead of inventing a replacement schedule', () => {
-    for (const kind of ['tor', 'report', 'financial']) {
+  it('replaces obsolete documents with approved evidence-qualified accounts', () => {
+    for (const kind of ['tor', 'report']) {
       const text = fs.readFileSync(`public/docs/projects/idp-girls-baking-training-jul-2022/${kind}.md`, 'utf8');
-      expect(text).toContain('previous version of this document has been withdrawn');
+      expect(text).not.toContain('Private review - not for publication');
+      expect(text).toMatch(/retrospective|prepared|reconstructed/i);
       expect(text).not.toMatch(/900[,. ]?000|875[,. ]?000|receipts on file/);
     }
   });
@@ -26,7 +27,7 @@ describe('superseded 2022 July project account', () => {
   it('excludes obsolete figures from public adjustment rows', () => {
     const rows = JSON.parse(fs.readFileSync('public/docs/ada-public-budget-adjustments.json', 'utf8'));
     const row = rows.find((row: any) => row.reference === 'ADA/2022/005');
-    expect(row.status).toBe('under review');
+    expect(row.status).toBe('reported / reconstructed; see basis');
     expect(row.archive_approved).toBeNull();
     expect(row.archive_actual).toBeNull();
   });

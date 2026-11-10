@@ -1,77 +1,45 @@
-# Terms of Reference: Christmas Giving 2022
+# Christmas giving in Buea
 
-| Field | Details |
-|-------|---------|
-| **Project Title** | Christmas Giving 2022 |
-| **Reference** | ADA/2022/007 |
-| **Organization** | Apoti Development Association (ADA) |
-| **Date** | December 20–25, 2022 |
-| **Location** | Buea, South-West Region, Cameroon |
-| **Budget** | $600 USD (~360,000 CFA) |
+## Terms of reference
 
-## 1. Background
+The PDF is the authoritative layout, including tables and photographs. This text companion preserves its evidence qualifications.
 
-The Apoti Development Association (ADA) supports vulnerable communities in Cameroon through faith-based programs targeting widows, orphans, and young women. Christmas Giving 2022 is ADA's inaugural Christmas campaign, combining spiritual celebration with material support for families in need during the festive season.
-
-## 2. Objective
-
-To provide material and spiritual support to 30 vulnerable families (widows, orphans, and vulnerable households) in Buea through a Christmas celebration and distribution of essential food items and supplies.
-
-## 3. Target Beneficiaries
-
-- 30 families comprising widows, orphans, and vulnerable households in Buea
-- Elderly widows
-- Children from beneficiary families
-
-## 4. Scope of Activities
-
-1. **Christmas Celebration Gathering** — Worship service with singing and prayer for beneficiary families
-2. **Food Distribution** — Distribution of rice (5kg bags, Riz Bijou brand), cooking oil, and dried fish to each family
-3. **Supply Distribution** — Orange buckets filled with household supplies and woven bags of food items
-4. **Children's Gifts** — Distribution of gifts and treats to children from beneficiary families
-
-## 5. Implementation Team
-
-- 8 ADA volunteers (wearing Santa hats and ADA branded shirts)
-- ADA coordination and logistics staff
-
-## 6. Timeline
-
-| Date | Activity |
-|------|----------|
-| Dec 20–22, 2022 | Procurement and packaging of items |
-| Dec 23, 2022 | Venue setup and logistics coordination |
-| Dec 24–25, 2022 | Christmas celebration and distribution event |
-
-## 7. Expected Outcomes
-
-- 30 families receive complete food and supply packages
-- Worship celebration held for beneficiary community
-- Children receive Christmas gifts and treats
-- Establishment of ADA's annual Christmas giving tradition
-
-## 8. Budget Summary
-
-| Item | Amount (CFA) |
-|------|-------------|
-| Rice (30 × 5kg bags) | 150,000 |
-| Cooking oil | 45,000 |
-| Dried fish | 30,000 |
-| Children's gifts/treats | 40,000 |
-| Orange buckets (30) | 45,000 |
-| Transport/delivery | 25,000 |
-| Venue/chairs | 10,000 |
-| Communication | 5,000 |
-| Contingency | 10,000 |
-| **Total** | **360,000 CFA ($600 USD)** |
-
-## 9. Reporting
-
-A project completion report and financial statement will be prepared within 30 days of project completion.
-
-## 10. Approval
-
-| Role | Name | Signature | Date |
-|------|------|-----------|------|
-| Project Lead | | | |
-| ADA Director | | | |
+Apoti Development Association
+Sharing Christ's Love, Restoring Hope
+Christmas giving in Buea
+Retrospective terms of reference | 22 December 2022 | ADA/2022/007
+Why this project mattered
+Christmas is a time when our Christian commitment to care for others takes practical form.
+Through this visit, we wanted to share food and seasonal gifts with children living in an
+orphanage and extend support to the adults caring for them. Our intention was to offer useful
+provisions and a sense of being remembered, through the time, money and effort our team and
+supporters gave.
+Who and where
+The project was a visit to Sima orphanage in Buea, Cameroon, on Thursday, 22 December 2022.
+Sima is the institution name remembered in our account. The companion completion report
+records 33 children, approximately 10 to 15 years old, and 3 adult caregivers. These figures
+describe the reported reach of the visit.
+Purpose and scope
+The intended support combined foodstuffs with seasonal gifts. The categories recalled for this
+visit are rice, cooking oil, other foodstuffs, Christmas clothing, shoes and slippers, and toys.
+Support also extended to caregivers. The focus was on practical provisions and seasonal gifts for
+the orphanage community.
+How the work was organised
+Our team arranged purchases and transport and brought the goods to the orphanage. The
+resources covered goods, travel to market for project purchases and withdrawal charges.
+Purchasing and delivery formed the practical work of the visit.
+Resources and accountability
+The reported project total is 360,000 FCFA: 330,000 for goods, 20,000 for transport and 10,000 for
+withdrawal. The completion report presents these reported totals and explains their basis. The
+report also includes a detailed reconstructed allocation by goods category, distinguished from
+these confirmed aggregate amounts and not independently verified.
+Our faith motivates our service; receiving assistance does not depend on joining prayer or
+worship. Children's names, identifying photographs and personal stories are not included. Our
+usual practice is to reflect together after a project on delivery, timing and improvements.
+December 2022 • Retrospective terms of reference
+1
+Dignity and reflection
+Document basis: Prepared some time after the project was carried out, using our account and
+available working files. This is a reconstruction of the project purpose and scope, not an original
+pre-event approval. Institutional details and reach are recalled; item quantities and individual
+allocations are not established.

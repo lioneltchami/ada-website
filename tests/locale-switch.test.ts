@@ -4,6 +4,7 @@ import { sep } from "node:path";
 import { getLocale } from "../src/i18n";
 import {
   getLocaleSwitchPath,
+  getLanguageBarSwitch,
   hasLocaleAlternative,
   normalizeLocalePath,
 } from "../src/i18n/routes";
@@ -149,5 +150,58 @@ describe("shared locale switch route coverage", () => {
         new URLSearchParams("code=secret"),
       ),
     ).toBeNull();
+  });
+});
+
+describe("top language bar destinations", () => {
+  it("keeps the exact translated page for each public route family", () => {
+    for (const path of [
+      "/",
+      "/about/",
+      "/projects/example/",
+      "/projects/archive/example/",
+      "/stories/example/",
+    ]) {
+      const next = getLanguageBarSwitch(path, "en");
+      expect(next?.href).toBe(getLocaleSwitchPath(path, "en")?.href);
+      expect(next?.homeFallback).toBe(false);
+      expect(next?.authRoute).toBe(false);
+      expect(getLanguageBarSwitch(next!.href, "fr")?.href).toBe(path);
+    }
+  });
+
+  it("uses an explicitly labelled homepage fallback rather than a missing translation", () => {
+    expect(getLanguageBarSwitch("/404", "en")).toEqual({
+      href: "/fr",
+      authRoute: false,
+      homeFallback: true,
+    });
+    expect(getLanguageBarSwitch("/dashboard/donations", "fr")).toEqual({
+      href: "/",
+      authRoute: false,
+      homeFallback: true,
+    });
+  });
+
+  it("does not bypass callback protection with a homepage fallback", () => {
+    expect(
+      getLanguageBarSwitch(
+        "/auth/email-verified",
+        "en",
+        new URLSearchParams("code=private"),
+      ),
+    ).toBeNull();
+    expect(
+      getLanguageBarSwitch(
+        "/auth/reset-password",
+        "fr",
+        new URLSearchParams("token_hash=private"),
+      ),
+    ).toBeNull();
+    expect(getLanguageBarSwitch("/auth/login", "en")).toEqual({
+      href: "/auth/login?locale=fr",
+      authRoute: true,
+      homeFallback: false,
+    });
   });
 });

@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { marked } from "marked";
+import { verifyDocumentReleases } from "./verify-project-document-releases.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -324,6 +325,8 @@ marked.setOptions({
   gfm: true,
 });
 
+const protectedSlugs = await verifyDocumentReleases(ROOT);
+
 const browser = await chromium.launch({
   headless: true,
   ...(CHROME_PATH ? { executablePath: CHROME_PATH } : {}),
@@ -334,6 +337,10 @@ try {
   for (const dirent of projects) {
     if (!dirent.isDirectory()) continue;
     const slug = dirent.name;
+    if (protectedSlugs.has(slug)) {
+      console.log(`Preserved reviewed document set: ${slug}`);
+      continue;
+    }
     for (const kind of ["tor", "report", "financial"]) {
       const mdPath = path.join(PROJECTS_DIR, slug, `${kind}.md`);
       const pdfPath = path.join(PROJECTS_DIR, slug, `${kind}.pdf`);

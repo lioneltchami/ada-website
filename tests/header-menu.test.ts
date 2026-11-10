@@ -60,6 +60,9 @@ describe("mobile header menu delivery", () => {
           },
         },
         closest: () => null,
+        setAttribute(name: string) {
+          if (name === "hidden") this.revealed = false;
+        },
         removeAttribute(name: string) {
           if (name === "hidden") this.revealed = true;
         },
@@ -88,6 +91,9 @@ describe("mobile header menu delivery", () => {
         },
       },
       closest: () => null,
+      setAttribute(name: string) {
+        if (name === "hidden") this.revealed = false;
+      },
       removeAttribute(name: string) {
         if (name === "hidden") this.revealed = true;
       },
@@ -105,6 +111,52 @@ describe("mobile header menu delivery", () => {
     runInNewContext(menuScript, { document, window, URLSearchParams });
     expect(link.revealed).toBe(true);
     expect(classes.has("hidden")).toBe(false);
+  });
+
+  it("rechecks auth callback safety on same-document fragment and history changes", () => {
+    const listeners = new Map<string, () => void>();
+    const classes = new Set(["hidden"]);
+    const link = {
+      hidden: true,
+      classList: {
+        add: (name: string) => classes.add(name),
+        remove: (name: string) => classes.delete(name),
+      },
+      closest: () => null,
+      setAttribute(name: string) {
+        if (name === "hidden") this.hidden = true;
+      },
+      removeAttribute(name: string) {
+        if (name === "hidden") this.hidden = false;
+      },
+    };
+    const document = {
+      documentElement: { lang: "fr" },
+      getElementById: () => null,
+      querySelectorAll: (selector: string) =>
+        selector === "[data-auth-locale-switch]" ? [link] : [],
+      addEventListener: () => undefined,
+    };
+    const window = {
+      location: { hash: "", search: "?locale=fr", pathname: "/auth/login" },
+      addEventListener: (event: string, callback: () => void) =>
+        listeners.set(event, callback),
+    };
+    runInNewContext(menuScript, { document, window, URLSearchParams });
+    expect(link.hidden).toBe(false);
+    window.location.hash = "#access_token=redacted";
+    listeners.get("hashchange")!();
+    expect(link.hidden).toBe(true);
+    expect(classes.has("hidden")).toBe(true);
+    window.location.hash = "";
+    listeners.get("hashchange")!();
+    expect(link.hidden).toBe(false);
+    window.location.search = "?code=redacted";
+    listeners.get("popstate")!();
+    expect(link.hidden).toBe(true);
+    window.location.search = "?locale=fr";
+    listeners.get("popstate")!();
+    expect(link.hidden).toBe(false);
   });
 
   it("preserves only a recognized sponsor tier on the runtime locale switch", () => {
@@ -126,7 +178,13 @@ describe("mobile header menu delivery", () => {
       addEventListener: () => undefined,
     };
 
-    runInNewContext(menuScript, { document, window, URL, URLSearchParams, Set });
+    runInNewContext(menuScript, {
+      document,
+      window,
+      URL,
+      URLSearchParams,
+      Set,
+    });
 
     expect(links[0].href).toBe(
       "/fr/sponsor/inquiry/?budgetRange=%242%2C500-%245%2C000",
@@ -147,13 +205,93 @@ describe("mobile header menu delivery", () => {
         hash: "",
         origin: "https://apotidev.org",
         pathname: "/sponsor/inquiry/",
-        search: "?budgetRange=%242%2C500-%245%2C000%20OR%20secret&token=do-not-copy",
+        search:
+          "?budgetRange=%242%2C500-%245%2C000%20OR%20secret&token=do-not-copy",
       },
       addEventListener: () => undefined,
     };
 
-    runInNewContext(menuScript, { document, window, URL, URLSearchParams, Set });
+    runInNewContext(menuScript, {
+      document,
+      window,
+      URL,
+      URLSearchParams,
+      Set,
+    });
 
     expect(links[0].href).toBe("/fr/sponsor/inquiry/");
+  });
+});
+
+describe("thank-you locale-switch frequency", () => {
+  function runLocaleSwitch(pathname: string, search: string, href: string) {
+    const links = [{ href }];
+    const document = {
+      documentElement: { lang: pathname.startsWith("/fr/") ? "fr" : "en" },
+      getElementById: () => null,
+      querySelectorAll: (selector: string) =>
+        selector === "[data-locale-switch]" ? links : [],
+      addEventListener: () => undefined,
+    };
+    const window = {
+      location: {
+        hash: "#payment-intent-test-do-not-copy",
+        origin: "https://apotidev.org",
+        pathname,
+        search,
+      },
+      addEventListener: () => undefined,
+    };
+    runInNewContext(menuScript, {
+      document,
+      window,
+      URL,
+      URLSearchParams,
+      Set,
+    });
+    return links[0].href;
+  }
+
+  it.each(["monthly", "one-time"])(
+    "preserves approved %s frequency in both directions without payment data",
+    (frequency) => {
+      for (const [source, target] of [
+        ["/donate/thank-you/", "/fr/donate/thank-you/"],
+        ["/fr/donate/thank-you", "/donate/thank-you"],
+      ]) {
+        expect(
+          runLocaleSwitch(
+            source,
+            `?frequency=${frequency}&payment_intent=secret&session_id=secret&redirect_status=succeeded`,
+            `${target}?unexpected=secret#secret`,
+          ),
+        ).toBe(`${target}?frequency=${frequency}`);
+      }
+    },
+  );
+
+  it.each([
+    "",
+    "?frequency=yearly",
+    "?frequency=Monthly",
+    "?frequency=monthly%20secret",
+    "?session_id=secret",
+  ])("does not copy unrecognized or missing frequency: %s", (search) => {
+    expect(
+      runLocaleSwitch("/donate/thank-you/", search, "/fr/donate/thank-you/"),
+    ).toBe("/fr/donate/thank-you/");
+  });
+
+  it("does not transfer donation frequency to unrelated page families", () => {
+    expect(runLocaleSwitch("/about/", "?frequency=monthly", "/fr/about/")).toBe(
+      "/fr/about/",
+    );
+    expect(
+      runLocaleSwitch(
+        "/sponsor/inquiry/",
+        "?frequency=monthly",
+        "/fr/sponsor/inquiry/",
+      ),
+    ).toBe("/fr/sponsor/inquiry/");
   });
 });

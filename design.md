@@ -63,7 +63,8 @@ breaks; avoid stacking many equal `gap-8` card grids.
 
 ## Nav (N6 masthead)
 
-- Top row: wordmark + FR/EN + Donate
+- Utility row: always-visible globe + English / Français segmented language bar, active language filled green, above the main header on desktop and mobile
+- Brand row: wordmark + Donate; mobile menu stays separate from language choice
 - Second row (desktop): text links with hairline separators, left-aligned under brand
 - Solid paper background when sticky; no blur glass
 

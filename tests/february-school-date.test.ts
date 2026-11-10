@@ -10,10 +10,10 @@ describe("confirmed February 2022 school visit date", () => {
     expect(entry.description).toContain("February 16, 2022");
     expect(entry.descriptionFr).toContain("16 février 2022");
   });
-  it("keeps all three public source documents on the corrected date", () => {
-    for (const kind of ["tor", "report", "financial"]) {
+  it("keeps both released public source documents on the corrected date", () => {
+    for (const kind of ["tor", "report"]) {
       const source = fs.readFileSync(`public/docs/projects/school-supply-distribution-feb-2022/${kind}.md`, "utf8");
-      expect(source).toContain("February 16, 2022");
+      expect(source).toContain("16 February 2022");
       expect(source).not.toMatch(/February 15|2022-02-15|Feb 11–15/);
     }
   });

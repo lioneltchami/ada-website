@@ -1,3 +1,4 @@
+import documentReleases from "../../config/project-document-releases.json";
 import type { Locale } from "../i18n";
 import {
   IMPACT_FACTS,
@@ -54,17 +55,21 @@ export function archiveProjectTitle(slug: string): string {
     .join(" ");
 }
 
+export function hasReleasedProjectDocumentSet(slug: string): boolean {
+  return documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
+}
+
 export function projectDocumentPaths(slug: string) {
   const base = `/docs/projects/${slug}`;
   return {
     tor: `${base}/tor.pdf`,
-    financial: `${base}/financial.pdf`,
+    financial: hasReleasedProjectDocumentSet(slug) ? undefined : `${base}/financial.pdf`,
     report: `${base}/report.pdf`,
   };
 }
 
 export function hasStaticProjectDocuments(slug: string): boolean {
-  return (documentArchiveProjects as readonly string[]).includes(slug);
+  return hasReleasedProjectDocumentSet(slug) || (documentArchiveProjects as readonly string[]).includes(slug);
 }
 
 export function indicatorProgress(indicator: MeasurableIndicator): number {

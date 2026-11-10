@@ -109,3 +109,21 @@ export function getLocaleSwitchPath(
     authRoute: false,
   };
 }
+
+/** Keep the top bar useful on unpaired pages without inventing a translation.
+ * Auth callbacks must not gain a fallback that could discard an in-flight session.
+ */
+export function getLanguageBarSwitch(
+  pathname: string,
+  locale: "en" | "fr",
+  searchParams = new URLSearchParams(),
+): { href: string; authRoute: boolean; homeFallback: boolean } | null {
+  const pairedRoute = getLocaleSwitchPath(pathname, locale, searchParams);
+  if (pairedRoute) return { ...pairedRoute, homeFallback: false };
+  if (isAuthLocaleRoute(pathname)) return null;
+  return {
+    href: locale === "en" ? "/fr" : "/",
+    authRoute: false,
+    homeFallback: true,
+  };
+}

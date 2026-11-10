@@ -7,24 +7,34 @@ const iconClose = document.getElementById("menu-icon-close");
 const isFrench = document.documentElement.lang === "fr";
 const authLocaleLinks = document.querySelectorAll("[data-auth-locale-switch]");
 const localeLinks = document.querySelectorAll("[data-locale-switch]");
-const authQueryKeys = [...new URLSearchParams(window.location.search).keys()];
-const authLocaleSwitchIsSafe =
-  window.location.hash === "" && authQueryKeys.every((key) => key === "locale");
+function syncAuthLocaleSwitches() {
+  const authQueryKeys = [...new URLSearchParams(window.location.search).keys()];
+  const authLocaleSwitchIsSafe =
+    window.location.hash === "" &&
+    authQueryKeys.every((key) => key === "locale");
 
-if (authLocaleSwitchIsSafe) {
   authLocaleLinks.forEach((link) => {
-    link.removeAttribute("hidden");
-    link.classList.remove("hidden");
-    if (link.closest("#mobile-menu")) link.classList.add("block");
+    if (authLocaleSwitchIsSafe) {
+      link.removeAttribute("hidden");
+      link.classList.remove("hidden");
+      if (link.closest("#mobile-menu")) link.classList.add("block");
+    } else {
+      link.setAttribute("hidden", "");
+      link.classList.add("hidden");
+    }
   });
 }
 
+syncAuthLocaleSwitches();
+window.addEventListener("hashchange", syncAuthLocaleSwitches);
+window.addEventListener("popstate", syncAuthLocaleSwitches);
+
 // Static pages cannot read the visitor's query string while rendering. Keep a
-// recognized sponsor tier prefill when switching locales, and discard every
-// other query parameter so secrets or arbitrary state are never copied.
-const unlocalizedPath = window.location.pathname
-  .replace(/^\/fr(?=\/|$)/, "")
-  .replace(/\/+$/, "") || "/";
+// recognized sponsor tier or donation frequency when switching locales, and
+// discard every other query parameter so secrets or arbitrary state are never copied.
+const unlocalizedPath =
+  window.location.pathname.replace(/^\/fr(?=\/|$)/, "").replace(/\/+$/, "") ||
+  "/";
 const safeSponsorBudgets = new Set([
   "$500-$1,000",
   "$2,500-$5,000",
@@ -34,13 +44,32 @@ const safeSponsorBudgets = new Set([
 ]);
 
 if (unlocalizedPath === "/sponsor/inquiry") {
-  const budgetRange = new URLSearchParams(window.location.search).get("budgetRange");
+  const budgetRange = new URLSearchParams(window.location.search).get(
+    "budgetRange",
+  );
   if (budgetRange && safeSponsorBudgets.has(budgetRange)) {
     localeLinks.forEach((link) => {
       const target = new URL(link.href, window.location.origin);
       target.search = "";
       target.hash = "";
       target.searchParams.set("budgetRange", budgetRange);
+      link.href = `${target.pathname}?${target.searchParams.toString()}`;
+    });
+  }
+}
+
+// The static thank-you page hides its monthly-giving suggestion for recurring
+// donors. Keep that harmless display state in either language, never payment IDs.
+if (unlocalizedPath === "/donate/thank-you") {
+  const frequency = new URLSearchParams(window.location.search).get(
+    "frequency",
+  );
+  if (frequency === "monthly" || frequency === "one-time") {
+    localeLinks.forEach((link) => {
+      const target = new URL(link.href, window.location.origin);
+      target.search = "";
+      target.hash = "";
+      target.searchParams.set("frequency", frequency);
       link.href = `${target.pathname}?${target.searchParams.toString()}`;
     });
   }

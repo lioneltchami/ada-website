@@ -36,7 +36,7 @@ function donutSvg(okCount, adjustedCount, underReviewCount) {
   const adjustedDash = c * adjustedPct;
   const underReviewDash = c * underReviewPct;
   return `
-    <svg viewBox="0 0 160 160" width="160" height="160" aria-label="Project status chart: ${okCount} within cap, ${adjustedCount} adjusted, ${underReviewCount} under review" role="img">
+    <svg viewBox="0 0 160 160" width="160" height="160" aria-label="Project status chart: ${okCount} within cap, ${adjustedCount} adjusted, ${underReviewCount} evidence-qualified or under review" role="img">
       <circle cx="80" cy="80" r="${r}" fill="none" stroke="#e5eef7" stroke-width="20"></circle>
       <circle cx="80" cy="80" r="${r}" fill="none" stroke="#0f766e" stroke-width="20" stroke-linecap="round"
         stroke-dasharray="${okDash} ${c}" transform="rotate(-90 80 80)"></circle>
@@ -54,7 +54,9 @@ const rows = JSON.parse(await fs.readFile(INPUT_JSON, "utf8"));
 const adjustedRows = rows.filter((row) => row.status === "adjusted");
 const okRows = rows.filter((row) => row.status === "ok");
 const underReviewRows = rows.filter((row) => row.status === "under review");
-if (okRows.length + adjustedRows.length + underReviewRows.length !== rows.length) {
+const qualifiedRows = rows.filter((row) => row.status === "reported / reconstructed; see basis");
+const basisRows = [...underReviewRows, ...qualifiedRows];
+if (okRows.length + adjustedRows.length + basisRows.length !== rows.length) {
   throw new Error("Every budget adjustment row must have a recognized status.");
 }
 const topAdjusted = [...adjustedRows]
@@ -118,6 +120,7 @@ const html = `<!doctype html>
     .dot.under-review { background: #94a3b8; }
     .status-under-review { color: #475569; font-weight: 700; }
     table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    tr { break-inside: avoid; }
     th, td { padding: 8px 8px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
     th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #64748b; }
     .status-ok { color: #0f766e; font-weight: 700; }
@@ -158,9 +161,9 @@ const html = `<!doctype html>
         <div class="note">Should be reviewed against verified receipts and records.</div>
       </div>
       <div class="card">
-        <div class="label">Under review</div>
-        <div class="value">${underReviewRows.length}</div>
-        <div class="note">No numeric target or actual is shown for these rows.</div>
+        <div class="label">Evidence-qualified / review</div>
+        <div class="value">${basisRows.length}</div>
+        <div class="note">${qualifiedRows.length} qualified accounts; ${underReviewRows.length} under review. No combined target or actual is asserted.</div>
       </div>
     </div>
 
@@ -180,7 +183,7 @@ const html = `<!doctype html>
                   <td>${row.year}</td>
                   <td>${escapeHtml(row.project)}</td>
                   <td>${currency(row.public_target)}</td>
-                  <td class="${row.status === "ok" ? "status-ok" : row.status === "under review" ? "status-under-review" : "status-adjusted"}">${row.status}</td>
+                  <td class="${row.status === "ok" ? "status-ok" : basisRows.includes(row) ? "status-under-review" : "status-adjusted"}">${row.status}</td>
                 </tr>`,
               )
               .join("")}
@@ -190,15 +193,15 @@ const html = `<!doctype html>
       <div class="panel">
         <h2 class="section-title">Archive vs. public target</h2>
         <div style="display:flex; gap:18px; align-items:center; justify-content:center;">
-          ${donutSvg(okRows.length, adjustedRows.length, underReviewRows.length)}
+          ${donutSvg(okRows.length, adjustedRows.length, basisRows.length)}
           <div style="font-size:12px; line-height:1.6;">
             <div><span class="dot ok"></span> Within cap: ${okRows.length}</div>
             <div><span class="dot adjusted"></span> Adjusted: ${adjustedRows.length}</div>
-            <div><span class="dot under-review"></span> Under review: ${underReviewRows.length}</div>
+            <div><span class="dot under-review"></span> Evidence-qualified / review: ${basisRows.length}</div>
           </div>
         </div>
         <div class="foot">
-          The chart counts all ${rows.length} rows by status: within cap, adjusted, or under review. It does not represent total spending. Aggregate totals are omitted because source rows mix approved budgets and reported actuals.
+          The chart counts all ${rows.length} rows by status: within cap, adjusted, or evidence-qualified/under review. It does not represent total spending. Aggregate totals are omitted because source rows mix approved budgets and reported actuals.
         </div>
       </div>
     </div>
@@ -234,13 +237,13 @@ const html = `<!doctype html>
             .join("")}
         </tbody>
       </table>
-      ${underReviewRows.length ? `
+      ${basisRows.length ? `
       <div class="section-break"></div>
-      <h2 class="section-title">Projects under review</h2>
+      <h2 class="section-title">Evidence-qualified accounts and projects under review</h2>
       <table>
-        <thead><tr><th>Year</th><th>Project</th><th>Reference</th><th>Review note</th></tr></thead>
+        <thead><tr><th>Year</th><th>Project</th><th>Reference</th><th>Evidence basis</th></tr></thead>
         <tbody>
-          ${underReviewRows.map((row) => `
+          ${basisRows.map((row) => `
             <tr>
               <td>${row.year}</td>
               <td>${escapeHtml(row.project)}</td>

@@ -1,0 +1,470 @@
+[
+  {
+    "slug": "school-supply-distribution-feb-2022",
+    "year": 2022,
+    "currency": "XAF",
+    "reference": "ADA/2022/001",
+    "reported_funding": 215000,
+    "funding_basis": "organization account, not transfer-verified",
+    "reported_spending": null,
+    "historical_balance": null,
+    "current_account_balance": null,
+    "written_plan": null,
+    "schedule_basis": "reconstructed allocation",
+    "schedule_total": 215000,
+    "note": "215,000 XAF sent, confirmed in our account but not transfer-verified. Withdrawal recalled about 5,000 and transport 10,000–15,000. The detailed schedule uses 15,000 transport and fully allocates funding by construction. Exact total spending and closing balance are not established.",
+    "lines": [
+      {
+        "category": "School bags",
+        "amount_xaf": 60000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Exercise books",
+        "amount_xaf": 55000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Buckets",
+        "amount_xaf": 25000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Utensils",
+        "amount_xaf": 20000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Pens",
+        "amount_xaf": 15000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Mathematical sets",
+        "amount_xaf": 20000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Transport",
+        "amount_xaf": 15000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Withdrawal fees",
+        "amount_xaf": 5000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      }
+    ]
+  },
+  {
+    "slug": "widow-support-food-cash-mar-2022",
+    "year": 2022,
+    "currency": "XAF",
+    "reference": "ADA/2022/003",
+    "reported_funding": 220000,
+    "funding_basis": "approximate recollection",
+    "reported_spending": null,
+    "historical_balance": null,
+    "current_account_balance": null,
+    "written_plan": null,
+    "schedule_basis": "reconstructed allocation",
+    "schedule_total": 220000,
+    "note": "Funding recalled about 220,000 XAF, withdrawal 5,000 and transport about 10,000. Goods allocation 205,000 is reconstructed. Exact spending and closing balance are not established.",
+    "lines": [
+      {
+        "category": "African fabric wrappers",
+        "amount_xaf": 45000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Rice",
+        "amount_xaf": 40000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Other foodstuffs",
+        "amount_xaf": 30000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Groundnut oil",
+        "amount_xaf": 20000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Red oil",
+        "amount_xaf": 15000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Soap",
+        "amount_xaf": 10000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Buckets",
+        "amount_xaf": 15000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Bags",
+        "amount_xaf": 15000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Salt",
+        "amount_xaf": 5000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Pharmacy items",
+        "amount_xaf": 10000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Transport",
+        "amount_xaf": 10000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Withdrawal fees",
+        "amount_xaf": 5000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      }
+    ]
+  },
+  {
+    "slug": "school-visit-may-2022",
+    "year": 2022,
+    "currency": "XAF",
+    "reference": "ADA/2022/004",
+    "reported_funding": null,
+    "funding_basis": "not established",
+    "reported_spending": null,
+    "historical_balance": null,
+    "current_account_balance": null,
+    "written_plan": 180000,
+    "schedule_basis": "reconstructed allocation",
+    "schedule_total": 180000,
+    "note": "Earlier source budget 180,000 XAF. Reconstructed cash categories 165,000 plus in-kind refreshments valued at 15,000. Neither 180,000 nor 165,000 establishes a cash transfer or actual expenditure; 15,000 is not a cash balance. The earlier account attributes the in-kind refreshments to the school; attribution and value are not independently verified.",
+    "lines": [
+      {
+        "category": "Food snacks and drinks",
+        "amount_xaf": 85000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Volunteer transport",
+        "amount_xaf": 30000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Educational materials and handouts",
+        "amount_xaf": 20000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Communication and coordination",
+        "amount_xaf": 10000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Withdrawal or transfer-related costs",
+        "amount_xaf": 5000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Additional supplies or incidentals",
+        "amount_xaf": 15000,
+        "kind": "cash allocation",
+        "basis": "reconstructed allocation"
+      },
+      {
+        "category": "Refreshments in kind (earlier account)",
+        "amount_xaf": 15000,
+        "kind": "in-kind",
+        "basis": "Earlier account attributes this contribution to the school; attribution and reconstructed value not independently verified"
+      }
+    ]
+  },
+  {
+    "slug": "idp-girls-baking-training-jul-2022",
+    "year": 2022,
+    "currency": "XAF",
+    "reference": "ADA/2022/005",
+    "reported_funding": 400000,
+    "funding_basis": "organization account, not transfer-verified",
+    "reported_spending": null,
+    "historical_balance": null,
+    "current_account_balance": null,
+    "written_plan": 342750,
+    "schedule_basis": "original written plan",
+    "schedule_total": 342750,
+    "note": "400,000 XAF reported sent. Original planned amounts sum to 342,750, not actual expenditure. Participant support 75,000 (15 × 5,000) confirmed in our account. Flour, salt and sticker quantities/rates conflict; fish pricing unclear and actual trainer payment unconfirmed. Difference 57,250 is funding less plan, not a confirmed balance.",
+    "lines": [
+      {
+        "category": "Flour",
+        "amount_xaf": 50000,
+        "kind": "cash allocation",
+        "basis": "original planned line amount; quantity/rate conflict unresolved"
+      },
+      {
+        "category": "Sugar",
+        "amount_xaf": 12800,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Tray of eggs",
+        "amount_xaf": 2000,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Fresh fish",
+        "amount_xaf": 4000,
+        "kind": "cash allocation",
+        "basis": "original planned amount; pricing convention unclear"
+      },
+      {
+        "category": "Groundnut oil",
+        "amount_xaf": 80000,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Yeast",
+        "amount_xaf": 8000,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Butter",
+        "amount_xaf": 16000,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Salt",
+        "amount_xaf": 5250,
+        "kind": "cash allocation",
+        "basis": "original planned line amount; quantity/rate conflict unresolved"
+      },
+      {
+        "category": "Bread crumbs",
+        "amount_xaf": 300,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Milk",
+        "amount_xaf": 12800,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Pepper",
+        "amount_xaf": 500,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Carrot / garlic / green spice",
+        "amount_xaf": 600,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Kerosene",
+        "amount_xaf": 2000,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Transparent buckets",
+        "amount_xaf": 22500,
+        "kind": "cash allocation",
+        "basis": "original written plan"
+      },
+      {
+        "category": "Printed stickers",
+        "amount_xaf": 1000,
+        "kind": "cash allocation",
+        "basis": "original planned line amount; quantity/rate conflict unresolved"
+      },
+      {
+        "category": "Participant cash support",
+        "amount_xaf": 75000,
+        "kind": "cash allocation",
+        "basis": "original plan and organization-confirmed 15 × 5,000; not receipt-verified"
+      },
+      {
+        "category": "Trainer pay / honorarium",
+        "amount_xaf": 50000,
+        "kind": "cash allocation",
+        "basis": "original planned amount; actual payment amount unconfirmed"
+      }
+    ]
+  },
+  {
+    "slug": "back-to-school-sep-2022",
+    "year": 2022,
+    "currency": "XAF",
+    "reference": "ADA/2022/006",
+    "reported_funding": 220000,
+    "funding_basis": "organization account, not transfer-verified",
+    "reported_spending": 205000,
+    "historical_balance": 15000,
+    "current_account_balance": null,
+    "written_plan": null,
+    "schedule_basis": "organization-confirmed allocation, not receipt-verified",
+    "schedule_total": 205000,
+    "note": "220,000 XAF sent; 205,000 reported spending including operating costs; 15,000 historical balance remaining in our accounts. Category split organization-confirmed but not receipt-verified. The historical balance is not today’s mobile-money balance.",
+    "lines": [
+      {
+        "category": "Books and exercise books",
+        "amount_xaf": 75000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      },
+      {
+        "category": "School bags",
+        "amount_xaf": 65000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      },
+      {
+        "category": "Pens",
+        "amount_xaf": 15000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      },
+      {
+        "category": "Pencils erasers and sharpeners",
+        "amount_xaf": 10000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      },
+      {
+        "category": "Rulers and geometry materials",
+        "amount_xaf": 10000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      },
+      {
+        "category": "Community enquiry and school-visit transport",
+        "amount_xaf": 6000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      },
+      {
+        "category": "Market trips and delivery transport",
+        "amount_xaf": 9000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      },
+      {
+        "category": "Withdrawal fees",
+        "amount_xaf": 5000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      },
+      {
+        "category": "Snacks and refreshments",
+        "amount_xaf": 10000,
+        "kind": "cash allocation",
+        "basis": "organization-confirmed allocation, not receipt-verified"
+      }
+    ]
+  },
+  {
+    "slug": "christmas-giving-dec-2022",
+    "year": 2022,
+    "currency": "XAF",
+    "reference": "ADA/2022/007",
+    "reported_funding": 360000,
+    "funding_basis": "organization account, not transfer-verified",
+    "reported_spending": 360000,
+    "historical_balance": null,
+    "current_account_balance": null,
+    "written_plan": null,
+    "schedule_basis": "reconstructed goods / reported operating costs",
+    "schedule_total": 360000,
+    "note": "Reported project account 360,000 XAF: goods 330,000, transport 20,000, withdrawal 10,000. Goods categories reconstructed, not verified historical prices. Zero arithmetic difference is not a bank or mobile-money balance.",
+    "lines": [
+      {
+        "category": "Rice",
+        "amount_xaf": 90000,
+        "kind": "cash allocation",
+        "basis": "reconstructed goods allocation, not verified historical price"
+      },
+      {
+        "category": "Cooking oil",
+        "amount_xaf": 50000,
+        "kind": "cash allocation",
+        "basis": "reconstructed goods allocation, not verified historical price"
+      },
+      {
+        "category": "Other foodstuffs",
+        "amount_xaf": 35000,
+        "kind": "cash allocation",
+        "basis": "reconstructed goods allocation, not verified historical price"
+      },
+      {
+        "category": "Christmas clothing",
+        "amount_xaf": 65000,
+        "kind": "cash allocation",
+        "basis": "reconstructed goods allocation, not verified historical price"
+      },
+      {
+        "category": "Shoes and slippers",
+        "amount_xaf": 50000,
+        "kind": "cash allocation",
+        "basis": "reconstructed goods allocation, not verified historical price"
+      },
+      {
+        "category": "Christmas toys",
+        "amount_xaf": 40000,
+        "kind": "cash allocation",
+        "basis": "reconstructed goods allocation, not verified historical price"
+      },
+      {
+        "category": "Transport for purchases",
+        "amount_xaf": 20000,
+        "kind": "cash allocation",
+        "basis": "reported operating cost, not independently verified"
+      },
+      {
+        "category": "Withdrawal",
+        "amount_xaf": 10000,
+        "kind": "cash allocation",
+        "basis": "reported operating cost, not independently verified"
+      }
+    ]
+  }
+]
