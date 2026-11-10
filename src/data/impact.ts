@@ -37,7 +37,6 @@ export const IMPACT_FACTS = {
 	emergencyFoodPeople: 150,
 	indicators: {
 		childrenInSchool: { actual: 20, target: 50 },
-		womenVocational: { actual: 10, target: 30, earning: 8 },
 		emergencyFoodFamilies: { actual: 50, target: 100 },
 	},
 } as const;
@@ -93,15 +92,6 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 				targetValue: i.childrenInSchool.target,
 			},
 			{
-				indicator: "Jeunes femmes ayant terminé une formation professionnelle",
-				baseline: "0 (2022)",
-				target: `${i.womenVocational.target} d'ici 2026`,
-				actual: `${i.womenVocational.actual} diplômées, ${i.womenVocational.earning} génèrent des revenus`,
-				status: "on-track",
-				actualValue: i.womenVocational.actual,
-				targetValue: i.womenVocational.target,
-			},
-			{
 				indicator: "Familles recevant une aide alimentaire d'urgence",
 				baseline: "3 (2022)",
 				target: `${i.emergencyFoodFamilies.target}/an`,
@@ -124,15 +114,6 @@ export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
 			targetValue: i.childrenInSchool.target,
 		},
 		{
-			indicator: "Young women completing skills training",
-			baseline: "0 (2022)",
-			target: `${i.womenVocational.target} by 2026`,
-			actual: `${i.womenVocational.actual} graduated, ${i.womenVocational.earning} earning income`,
-			status: "on-track",
-			actualValue: i.womenVocational.actual,
-			targetValue: i.womenVocational.target,
-		},
-		{
 			indicator: "Families receiving emergency food support",
 			baseline: "3 (2022)",
 			target: `${i.emergencyFoodFamilies.target}/year`,
@@ -149,17 +130,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 	const prefix = locale === "fr" ? "/fr" : "";
 	if (locale === "fr") {
 		return [
-			{
-				label: "Jeunes femmes documentées générant un revenu",
-				value: String(f.indicators.womenVocational.earning),
-				period: "Programme de compétences pour jeunes femmes",
-				measurement: "Measured",
-				cadence: "Après clôture de cohorte",
-				source: "Rapport du programme de compétences pour jeunes femmes",
-				sourceUrl:
-					"/docs/projects/young-women-skills-training-program/report.pdf",
-				note: "Source : rapport du programme de compétences pour jeunes femmes.",
-			},
 			{
 				label: "Cohorte scolaire suivie",
 				value: `${f.educationCohortRetained} maintenus et admis`,
@@ -195,17 +165,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 	}
 
 	return [
-		{
-			label: "Young women documented earning income",
-			value: String(f.indicators.womenVocational.earning),
-			period: "Young women skills program",
-			measurement: "Measured",
-			cadence: "After cohort close-out",
-			source: "Young women skills program report",
-			sourceUrl:
-				"/docs/projects/young-women-skills-training-program/report.pdf",
-			note: "Source: the Young Women Skills Training Program report.",
-		},
 		{
 			label: "Tracked education cohort",
 			value: `${f.educationCohortRetained} retained and passed`,

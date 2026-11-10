@@ -54,8 +54,8 @@ class BudgetRow:
 def build_rows() -> list[BudgetRow]:
     rows: list[BudgetRow] = []
     for slug_dir in sorted(p for p in PROJECTS_DIR.iterdir() if p.is_dir()):
-        if slug_dir.name == "school-visit-mentorship-may-2022":
-            continue  # Misdated record; actual year is awaiting confirmation.
+        if slug_dir.name in {"school-visit-mentorship-may-2022", "young-women-skills-training-program"}:
+            continue  # Withdrawn records are excluded even if an old source directory reappears.
         project = parse_project(slug_dir)
         if not project:
           continue

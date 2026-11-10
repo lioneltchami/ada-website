@@ -14,7 +14,6 @@ export async function resolveHeroImage(
 	preferredSlugs: string[] = [
 		"widow-support",
 		"education-orphans",
-		"women-empowerment",
 	],
 ): Promise<HeroImage | null> {
 	try {
@@ -48,6 +47,7 @@ export async function resolveHeroImage(
 			titleFr?: string;
 			category?: string;
 			projectSlug?: string;
+			projectId?: string;
 			projectTitle?: string;
 			projectTitleFr?: string;
 			reportUrl?: string;
@@ -61,6 +61,7 @@ export async function resolveHeroImage(
         reportUrl,
         photo { asset { _ref }, alt, altFr },
         "projectSlug": project->slug.current,
+        "projectId": project._ref,
         "projectTitle": project->title,
         "projectTitleFr": project->titleFr
       }`,
@@ -91,6 +92,7 @@ export async function resolveGalleryStrip(
 				titleFr?: string;
 				category?: string;
 				projectSlug?: string;
+				projectId?: string;
 				projectTitle?: string;
 				projectTitleFr?: string;
 				reportUrl?: string;
@@ -105,6 +107,7 @@ export async function resolveGalleryStrip(
           reportUrl,
           photo { asset { _ref }, alt, altFr },
           "projectSlug": project->slug.current,
+          "projectId": project._ref,
           "projectTitle": project->title,
           "projectTitleFr": project->titleFr
       }`,

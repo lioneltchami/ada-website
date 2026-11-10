@@ -27,10 +27,9 @@ let coreValues = [
 ];
 let programs = [
   { icon: '', title: 'Food Distribution', desc: 'Regular food packages for widows and families in need.', slug: 'widow-support' },
-  { icon: '', title: 'Skills Training', desc: 'Vocational training in tailoring, hairdressing, and crafts for young women.', slug: 'women-empowerment' },
   { icon: '', title: 'Hospital Visits', desc: 'Medical support and hospital visits for community members.', slug: 'emergency-relief' },
   { icon: '', title: 'Back-to-School Support', desc: 'School supplies, uniforms, and tuition for orphaned children.', slug: 'education-orphans' },
-  { icon: '', title: 'Community Clean-Up', desc: 'Environmental stewardship through clean-up drives, tree planting, and waste management education.', slug: 'women-empowerment' },
+  { icon: '', title: 'Community Clean-Up', desc: 'Environmental stewardship through clean-up drives, tree planting, and waste management education.', slug: 'archive/city-cleanup-may-2023' },
 ];
 let timeline = [
   { year: '2021', event: 'Founded in Buea — first food packages delivered to widows facing crisis' },
@@ -68,7 +67,7 @@ const wellReference = /clean water|water well|borehole|water access|puits|forage
 if (wellReference.test(missionStatement)) missionStatement = defaultMissionStatement;
 storyParagraphs = storyParagraphs.filter((paragraph) => !wellReference.test(paragraph));
 if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
-programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`));
+programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`) && program.slug !== "women-empowerment" && program.slug !== "young-women-skills-training-program");
 timeline = timeline.filter((item) => !wellReference.test(item.event));
 
 // Fetch a community photo for the story section + page hero

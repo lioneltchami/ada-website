@@ -1,17 +1,21 @@
 const WITHDRAWN_WATER_CLAIM = /\b(?:clean[\s-]?water(?:\s+initiative)?|water\s+well|borehole|eau potable|puits|forage)\b/i;
 const UNSUPPORTED_PROGRAM_COUNT = /\b(?:six|6)\s+(?:programs?|programmes?)\b/i;
 const WITHDRAWN_WIDOW_TRAINING = /widow.{0,50}(?:vocational[\s-]*)?training.{0,40}(?:cohort|program)|widow.{0,35}(?:tailoring|hairdressing).{0,25}training|training.{0,35}widow.{0,35}(?:cohort|program)|veuve.{0,50}(?:formation professionnelle|formation des veuves|cohorte)|formation.{0,35}veuve.{0,35}(?:cohorte|programme)/i;
+// Rejected programs stay blocked even if stale CMS records are restored.
 // The misdated cleanup is withheld until its actual year is established.
 const WITHDRAWN_PROJECT_SLUGS = new Set([
+	"young-women-skills-training-program",
+	"women-empowerment",
 	"school-visit-mentorship-may-2022",
 	"clean-water-well-nkwen-mbatu",
 	"young-women-conference-oct-2024",
 	"widow-vocational-training-cohort-1",
 	"widow-support-program-cohort-3",
 ]);
-const WITHDRAWN_RECORD_ID_PATTERN = /ADA[/_-]2024[/_-]002|ADA[/_-]2024[/_-]005|ADA[/_-]2022[/_-]002|ADA[/_-]2025[/_-]002/i;
-const WITHDRAWN_PROJECT_IDENTIFIERS = /ADA[/_-]2024[/_-]002|clean[\s-]*water[\s-]*well|borehole[\s-]*drilling[\s-]*and[\s-]*solar[\s-]*pump|(?:well|borehole|puits|forage).{0,60}Nkwen[\s-]*Mbatu|Nkwen[\s-]*Mbatu.{0,60}(?:well|borehole|puits|forage)|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,50}(?:vocational[\s-]*)?training.{0,40}cohort|widow.{0,30}support.{0,20}cohort[\s-]*[123]|(?:vocational[\s-]*)?training.{0,30}widow.{0,30}cohort|veuve.{0,45}(?:formation|cohorte).{0,30}(?:cohorte|[123])|cohorte.{0,25}veuve|widow.{0,35}(?:vocational|tailoring|hairdressing).{0,25}training|(?:vocational|tailoring|hairdressing).{0,25}training.{0,35}widow|veuve.{0,35}(?:formation|couture|coiffure)|(?:formation|couture|coiffure).{0,35}veuve/i;
-const WITHDRAWN_GALLERY_IDENTIFIERS = /ADA[/_-]2024[/_-]002|clean[\s-]*water[\s-]*well|first[\s-]*water[\s-]*well|borehole[\s-]*drilling[\s-]*and[\s-]*solar[\s-]*pump|(?:well|borehole|puits|forage).{0,60}Nkwen[\s-]*Mbatu|Nkwen[\s-]*Mbatu.{0,60}(?:well|borehole|puits|forage)|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,50}(?:vocational[\s-]*)?training.{0,40}cohort|widow.{0,30}support.{0,20}cohort[\s-]*[123]|(?:vocational[\s-]*)?training.{0,30}widow.{0,30}cohort|veuve.{0,45}(?:formation|cohorte).{0,30}(?:cohorte|[123])|cohorte.{0,25}veuve|widow.{0,35}(?:vocational|tailoring|hairdressing).{0,25}training|(?:vocational|tailoring|hairdressing).{0,25}training.{0,35}widow|veuve.{0,35}(?:formation|couture|coiffure)|(?:formation|couture|coiffure).{0,35}veuve/i;
+const REJECTED_TRAINING_OUTCOMES = /Young women (?:documented )?earning income|Young women completing skills training|Jeunes femmes (?:documentées générant un revenu|ayant terminé une formation professionnelle)|10 (?:women )?graduated.{0,30}8 (?:now )?earning income|10 (?:femmes )?diplômées.{0,30}8 (?:génèrent|gagnent)/i;
+const WITHDRAWN_RECORD_ID_PATTERN = /ADA[/_-]2023[/_-]002|ADA[/_-]2024[/_-]002|ADA[/_-]2024[/_-]005|ADA[/_-]2022[/_-]002|ADA[/_-]2025[/_-]002/i;
+const WITHDRAWN_PROJECT_IDENTIFIERS = /ADA[/_-]2023[/_-]002|I3ROLIaQjmV1gZbnPYijko|project-women-empowerment|young-women-skills-training-program|Young Women Skills Training Program|Programme de Formation des Jeunes Femmes|Young Women Empowerment|Autonomisation des Jeunes Femmes|ADA[/_-]2024[/_-]002|clean[\s-]*water[\s-]*well|borehole[\s-]*drilling[\s-]*and[\s-]*solar[\s-]*pump|(?:well|borehole|puits|forage).{0,60}Nkwen[\s-]*Mbatu|Nkwen[\s-]*Mbatu.{0,60}(?:well|borehole|puits|forage)|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,50}(?:vocational[\s-]*)?training.{0,40}cohort|widow.{0,30}support.{0,20}cohort[\s-]*[123]|(?:vocational[\s-]*)?training.{0,30}widow.{0,30}cohort|veuve.{0,45}(?:formation|cohorte).{0,30}(?:cohorte|[123])|cohorte.{0,25}veuve|widow.{0,35}(?:vocational|tailoring|hairdressing).{0,25}training|(?:vocational|tailoring|hairdressing).{0,25}training.{0,35}widow|veuve.{0,35}(?:formation|couture|coiffure)|(?:formation|couture|coiffure).{0,35}veuve/i;
+const WITHDRAWN_GALLERY_IDENTIFIERS = /ADA[/_-]2023[/_-]002|I3ROLIaQjmV1gZbnPYijko|project-women-empowerment|young-women-skills-training-program|Young Women Skills Training Program|Programme de Formation des Jeunes Femmes|Young Women Empowerment|Autonomisation des Jeunes Femmes|ADA[/_-]2024[/_-]002|clean[\s-]*water[\s-]*well|first[\s-]*water[\s-]*well|borehole[\s-]*drilling[\s-]*and[\s-]*solar[\s-]*pump|(?:well|borehole|puits|forage).{0,60}Nkwen[\s-]*Mbatu|Nkwen[\s-]*Mbatu.{0,60}(?:well|borehole|puits|forage)|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,50}(?:vocational[\s-]*)?training.{0,40}cohort|widow.{0,30}support.{0,20}cohort[\s-]*[123]|(?:vocational[\s-]*)?training.{0,30}widow.{0,30}cohort|veuve.{0,45}(?:formation|cohorte).{0,30}(?:cohorte|[123])|cohorte.{0,25}veuve|widow.{0,35}(?:vocational|tailoring|hairdressing).{0,25}training|(?:vocational|tailoring|hairdressing).{0,25}training.{0,35}widow|veuve.{0,35}(?:formation|couture|coiffure)|(?:formation|couture|coiffure).{0,35}veuve/i;
 
 export function isWithdrawnProjectSlug(slug: unknown): boolean {
 	return typeof slug === "string" && WITHDRAWN_PROJECT_SLUGS.has(slug);
@@ -45,6 +49,7 @@ export function withoutWithdrawnProjects<
 export function isWithdrawnGalleryImage(image: {
 	_id?: string;
 	projectSlug?: string;
+	projectId?: string;
 	title?: string;
 	titleFr?: string;
 	alt?: string;
@@ -58,6 +63,7 @@ export function isWithdrawnGalleryImage(image: {
 	if (isWithdrawnProjectSlug(image.projectSlug)) return true;
 	const identifiers = [
 		image._id,
+		image.projectId,
 		image.title,
 		image.titleFr,
 		image.alt,
@@ -89,7 +95,7 @@ export function isSafeProgramFaq(faq: {
 		faq.responseFr || "",
 	].join(" ");
 	const withdrawnAggregate = /(?:200\s*\+|plus de 200)\s*(?:lives|people|widows|vies|personnes|veuves)|(?:lives|people|widows|vies|personnes|veuves)\s*(?:impacted|supported|served|impactées|accompagnées|soutenues).{0,30}(?:200\s*\+|plus de 200)/i;
-	return !WITHDRAWN_WATER_CLAIM.test(text) && !UNSUPPORTED_PROGRAM_COUNT.test(text) && !WITHDRAWN_WIDOW_TRAINING.test(text) && !WITHDRAWN_PROJECT_IDENTIFIERS.test(text) && !withdrawnAggregate.test(text);
+	return !WITHDRAWN_WATER_CLAIM.test(text) && !UNSUPPORTED_PROGRAM_COUNT.test(text) && !WITHDRAWN_WIDOW_TRAINING.test(text) && !WITHDRAWN_PROJECT_IDENTIFIERS.test(text) && !withdrawnAggregate.test(text) && !REJECTED_TRAINING_OUTCOMES.test(text);
 }
 
 export function isWithdrawnImpactMetric(metric: {
@@ -106,6 +112,7 @@ export function isWithdrawnImpactMetric(metric: {
 	return /^(?:metric-lives|metric-widows|metric-document-count)$/i.test(metric._id || "") ||
 		WITHDRAWN_RECORD_ID_PATTERN.test(metricText) ||
 		WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) ||
+		REJECTED_TRAINING_OUTCOMES.test(identity) ||
 		/\b(?:lives impacted|vies impactées|documented project records|dossiers de projets documentés|widows supported|widow independence|widow graduates|widow training|veuves soutenues|indépendance des veuves|diplômées veuves)\b/i.test(identity) ||
 		/(?:85\s*%.*(?:women|girls|femmes|filles)|(?:women|girls|femmes|filles).*85\s*%)/i.test(metricText);
 }
@@ -151,6 +158,7 @@ export function isWithdrawnAboutEntry(entry: {
 		.filter((value): value is string => typeof value === "string")
 		.join(" ");
 	return WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) ||
+		REJECTED_TRAINING_OUTCOMES.test(identity) ||
 		/(?:200\s*\+\s*(?:lives|vies)\s*(?:impacted|impactées)|(?:200\s*(?:volunteers|bénévoles)))/i.test(identity);
 }
 
@@ -178,7 +186,7 @@ export function isWithdrawnProgramEntry(entry: {
 	const identity = [entry.title, entry.titleFr]
 		.filter((value): value is string => typeof value === "string")
 		.join(" ");
-	return /ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,60}(?:vocational[\s-]*)?training|widow.{0,35}support.{0,20}cohort[\s-]*[123]|veuve.{0,50}(?:formation|cohorte)|cohorte.{0,25}veuve/i.test(identity);
+	return /Young Women Skills Training Program|Programme de Formation des Jeunes Femmes|Young Women Empowerment|Autonomisation des Jeunes Femmes|ADA[/_-]2023[/_-]002|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,60}(?:vocational[\s-]*)?training|widow.{0,35}support.{0,20}cohort[\s-]*[123]|veuve.{0,50}(?:formation|cohorte)|cohorte.{0,25}veuve/i.test(identity);
 }
 
 export function isWithdrawnTestimonial(testimonial: {

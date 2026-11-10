@@ -114,7 +114,6 @@ describe("conference and widow-training removal safeguards", () => {
 		]) expect(isWithdrawnProjectRecord(project)).toBe(true);
 
 		for (const project of [
-			{ slug: { current: "young-women-skills-training-program" }, title: "Young Women Skills Training Program" },
 			{ slug: { current: "idp-girls-baking-training-jul-2022" }, title: "IDP Girls Baking Training" },
 			{ slug: { current: "widow-support-food-cash-mar-2022" }, title: "Widow Support — Food & Financial Aid" },
 			{ slug: { current: "womens-day-home-visits-mar-2023" }, title: "Women's Day Home Visits" },
@@ -129,7 +128,6 @@ describe("conference and widow-training removal safeguards", () => {
 		]) expect(hasStaticProjectDocuments(slug)).toBe(false);
 		for (const slug of [
 			"idp-girls-baking-training-jul-2022",
-			"young-women-skills-training-program",
 			"widow-support-food-cash-mar-2022",
 			"womens-day-home-visits-mar-2023",
 		]) expect(hasStaticProjectDocuments(slug)).toBe(true);
@@ -139,7 +137,7 @@ describe("conference and widow-training removal safeguards", () => {
 		expect(isWithdrawnGalleryImage({ projectSlug: "young-women-conference-oct-2024" })).toBe(true);
 		expect(isWithdrawnGalleryImage({ titleFr: "Conférence d'autonomisation des jeunes femmes" })).toBe(true);
 		expect(isWithdrawnGalleryImage({ photo: { alt: "Widow vocational training cohort 1" } })).toBe(true);
-		expect(isWithdrawnGalleryImage({ projectSlug: "young-women-skills-training-program", title: "Training the younger generation" })).toBe(false);
+		expect(isWithdrawnGalleryImage({ projectSlug: "young-women-skills-training-program", title: "Training the younger generation" })).toBe(true);
 		expect(isWithdrawnGalleryImage({ title: "Community cleanup in Nkwen-Mbatu" })).toBe(false);
 	});
 
@@ -172,7 +170,7 @@ describe("conference and widow-training removal safeguards", () => {
 	it("removes affected aggregate metrics without suppressing unrelated program targets", () => {
 		expect(isWithdrawnImpactMetric({ _id: "metric-widows", label: "Widows Supported", value: 15 })).toBe(true);
 		expect(isWithdrawnImpactMetric({ label: "Women and girls beneficiaries", value: 85, suffix: "%" })).toBe(true);
-		expect(isWithdrawnImpactMetric({ label: "Young women earning income", value: 8 })).toBe(false);
+		expect(isWithdrawnImpactMetric({ label: "Young women earning income", value: 8 })).toBe(true);
 		expect(isWithdrawnImpactMetric({ label: "Communities Served", value: 5 })).toBe(false);
 	});
 });

@@ -153,6 +153,13 @@ describe("payment intent route", () => {
     });
   });
 
+  it.each(["women-empowerment", "young-women-skills-training-program"])("rejects withdrawn project %s before payment creation", async (projectSlug) => {
+    const { POST } = await import("../src/pages/api/create-payment-intent");
+    const response = await POST({request: jsonRequest({ amount: 2500, type: "one-time", donorName: "Ada Donor", donorEmail: "ada@example.com", projectSlug, checkoutAttemptId: "11111111-1111-4111-8111-111111111111" }), url: new URL("https://apotidev.org/api/create-payment-intent")} as any);
+    expect(response.status).toBe(400);
+    expect(paymentIntentCreate).not.toHaveBeenCalled();
+  });
+
   it("normalizes donor metadata for valid one-time gifts", async () => {
     paymentIntentCreate.mockResolvedValue({ client_secret: "pi_secret" });
     const { POST } = await import("../src/pages/api/create-payment-intent");
@@ -251,6 +258,14 @@ describe("subscription route", () => {
     customerCreate.mockReset();
     subscriptionCreate.mockReset();
     resetRateLimitStoreForTests();
+  });
+
+  it.each(["women-empowerment", "young-women-skills-training-program"])("rejects withdrawn project %s before subscription creation", async (projectSlug) => {
+    const { POST } = await import("../src/pages/api/create-subscription");
+    const response = await POST({request: subscriptionRequest({ amount: 2500, type: "monthly", donorName: "Ada Donor", donorEmail: "ada@example.com", projectSlug, checkoutAttemptId: "11111111-1111-4111-8111-111111111111" }), url: new URL("https://apotidev.org/api/create-subscription")} as any);
+    expect(response.status).toBe(400);
+    expect(subscriptionCreate).not.toHaveBeenCalled();
+    expect(customerCreate).not.toHaveBeenCalled();
   });
 
   it("creates monthly donation subscriptions with saved payment setup", async () => {

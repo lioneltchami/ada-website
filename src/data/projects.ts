@@ -100,18 +100,6 @@ export const projects: Project[] = [
     raised: 2500,
   },
   {
-    slug: "women-empowerment",
-    title: "Young Women Empowerment",
-    location: "Yaoundé",
-    status: "active",
-    demographic: "young-women",
-    description:
-      "Vocational training and microfinance opportunities for young women seeking financial independence. Programs include tailoring, hairdressing, computer skills, and small business management.",
-    beneficiaries: 10,
-    goal: 2000,
-    raised: 1200,
-  },
-  {
     slug: "emergency-relief",
     title: "Emergency Relief Fund",
     location: "Multiple Regions",

@@ -160,7 +160,7 @@ async function main() {
     },
     {
       id: "post-7",
-      ref: byProject.get("project-women-empowerment")?.ref || "",
+      ref: "", // Withdrawn project image source; do not repopulate story covers.
       alt: "Transparency and program delivery documentation",
     },
     {
@@ -180,7 +180,7 @@ async function main() {
     },
     {
       id: "post-12",
-      ref: byProject.get("project-women-empowerment")?.ref || "",
+      ref: "", // Withdrawn project image source; do not repopulate story covers.
       alt: "ADA program celebration and community gathering",
     },
   ].filter((row) => Boolean(row.ref));

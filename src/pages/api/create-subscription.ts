@@ -8,6 +8,7 @@ import {
 } from "../../lib/api-requests";
 import { subscriptionIdempotencyKey } from "../../lib/checkout-idempotency";
 import { RATE_LIMITS, rejectIfRateLimited } from "../../lib/rate-limit";
+import { isWithdrawnProjectSlug } from "../../lib/withdrawn-project-content";
 import { getStripe } from "../../lib/stripe";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
@@ -29,7 +30,8 @@ const SubscriptionSchema = z.object({
     .max(80)
     .nullable()
     .optional()
-    .transform((value) => value || undefined),
+    .transform((value) => value || undefined)
+    .refine((value) => !isWithdrawnProjectSlug(value), "Project is withdrawn"),
 });
 
 export const POST: APIRoute = async ({ request, url }) => {

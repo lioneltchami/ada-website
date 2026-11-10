@@ -171,12 +171,6 @@ const projectFrBySlug: Record<
     descriptionFr:
       "Soutien scolaire complet pour les enfants orphelins : fournitures, uniformes, frais de scolarité et mentorat. Chaque enfant mérite une éducation de qualité, quelles que soient ses circonstances.",
   },
-  "women-empowerment": {
-    titleFr: "Autonomisation des Jeunes Femmes",
-    locationFr: "Yaoundé",
-    descriptionFr:
-      "Formation professionnelle et microfinance pour les jeunes femmes en quête d'indépendance financière. Couture, coiffure, informatique et gestion de petite entreprise.",
-  },
   "emergency-relief": {
     titleFr: "Fonds de Secours d'Urgence",
     locationFr: "Plusieurs régions",

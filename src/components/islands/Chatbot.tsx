@@ -44,8 +44,8 @@ const FALLBACK_RESPONSES: [RegExp, string, string][] = [
   ],
   [
     /location|where|address|lieu|o[uù]|adresse/i,
-    "We operate across Cameroon, with programs in Bamenda, Douala, Yaoundé, and rural communities in the Central Region.",
-    "Nos programmes sont menés au Cameroun, notamment à Bamenda, Douala, Yaoundé et dans des communautés rurales de la Région du Centre.",
+    "Our offices are in Buea and Bamenda, Cameroon.",
+    "Nos bureaux sont situés à Buea et à Bamenda, au Cameroun.",
   ],
 ];
 

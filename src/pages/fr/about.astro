@@ -22,10 +22,9 @@ let coreValues = [
 ];
 let programs = [
   { icon: '', title: 'Distribution Alimentaire', desc: 'Colis alimentaires réguliers pour les veuves et familles.', slug: 'widow-support' },
-  { icon: '', title: 'Formation Professionnelle', desc: 'Couture, coiffure et artisanat pour les jeunes femmes.', slug: 'women-empowerment' },
   { icon: '', title: 'Visites Hospitalières', desc: 'Soutien médical et visites aux membres de la communauté.', slug: 'emergency-relief' },
   { icon: '', title: 'Soutien Scolaire', desc: 'Fournitures, uniformes et frais de scolarité pour les orphelins.', slug: 'education-orphans' },
-  { icon: '', title: 'Nettoyage Communautaire', desc: "Gestion environnementale à travers des campagnes de nettoyage et plantation d'arbres.", slug: 'women-empowerment' },
+  { icon: '', title: 'Nettoyage Communautaire', desc: "Gestion environnementale à travers des campagnes de nettoyage et plantation d'arbres.", slug: 'archive/city-cleanup-may-2023' },
 ];
 let timeline = [
   { year: '2021', event: 'Fondée à Buea — premiers colis alimentaires livrés aux veuves en difficulté' },
@@ -63,7 +62,7 @@ const wellReference = /clean water|water well|borehole|water access|puits|forage
 if (wellReference.test(missionStatement)) missionStatement = defaultMissionStatement;
 storyParagraphs = storyParagraphs.filter((paragraph) => !wellReference.test(paragraph));
 if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
-programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`));
+programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`) && program.slug !== "women-empowerment" && program.slug !== "young-women-skills-training-program");
 timeline = timeline.filter((item) => !wellReference.test(item.event));
 
 let communityPhotoUrl = '';

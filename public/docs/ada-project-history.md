@@ -4,7 +4,7 @@ This ledger focuses on the archived projects and their budget records from 2021 
 
 Compiled on November 9, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 21. Sum of reported approved amounts: 7,200,000 CFA. Sum of reported actual/spent amounts: 5,806,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
+Archived projects included: 20. Sum of reported approved amounts: 7,200,000 CFA. Sum of reported actual/spent amounts: 5,806,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
 Figures for 1 projects remain under reconciliation and are excluded from numeric summaries and line-item totals. Other legacy figures below are transcribed from source documents and have not been independently verified.
 
@@ -18,7 +18,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 |---|---:|---:|---:|---:|
 | 2025 | 6 | 5 | 2,460,000 CFA | 2,350,000 CFA |
 | 2024 | 4 | 4 | 3,180,000 CFA | 2,171,800 CFA |
-| 2023 | 4 | 3 | 1,560,000 CFA | 1,285,000 CFA |
+| 2023 | 3 | 3 | 1,560,000 CFA | 1,285,000 CFA |
 | 2022 | 6 | 0 | — | — |
 | 2021 | 1 | 0 | — | — |
 
@@ -143,14 +143,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Financial summary: Reported approved 360,000 CFA; reported actual/spent 345,000 CFA; difference 15,000 CFA; utilization 95.8%.
 - Finance note: 15,000 CFA under budget.
 - Source files: [`report.md`](public/docs/projects/womens-day-home-visits-mar-2023/report.md), [`financial.md`](public/docs/projects/womens-day-home-visits-mar-2023/financial.md)
-
-#### Project Report
-
-- Reference: `ADA/2023/002` | Location: Yaoundé, Centre Region, Cameroon | Period: April 1 – October 31, 2023 | Status: completed
-- What we did: The Young Women Skills Training Program successfully trained 10 young women in hairdressing and tailoring over a 6-month intensive program in Yaoundé. This was ADA's first project outside its established areas of Buea and Bamenda.
-- Outcomes: The Young Women Skills Training Program successfully trained 10 young women in hairdressing and tailoring over a 6-month intensive program in Yaoundé. This was ADA's first project outside its established areas of Buea and Bamenda.
-- Financial summary: Reported approved —; reported actual/spent —; difference —; utilization —.
-- Source files: [`report.md`](public/docs/projects/young-women-skills-training-program/report.md), [`financial.md`](public/docs/projects/young-women-skills-training-program/financial.md)
 
 #### Project Report: Back-to-School Drive 2023
 

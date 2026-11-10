@@ -4,6 +4,13 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 export async function verifyDocumentReleases(root) {
+  // Fail before any renderer can recreate the rejected program from stale sources.
+  for (const slug of ["young-women-skills-training-program"]) {
+    try {
+      await fs.access(path.join(root, "public/docs/projects", slug));
+      throw new Error(`Withdrawn project documents must not be published: ${slug}`);
+    } catch (error) { if (error.code !== "ENOENT") throw error; }
+  }
   const manifest = JSON.parse(await fs.readFile(path.join(root, 'config/project-document-releases.json'), 'utf8'));
   if (manifest.version !== 1 || manifest.year !== 2022 || manifest.projects.length !== 6) throw new Error('Invalid 2022 release manifest');
   const released = new Set();

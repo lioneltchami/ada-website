@@ -19,15 +19,9 @@ describe("impact facts source of truth", () => {
     const enScorecard = impactMetricsFor("en");
     const seed = sanityImpactMetricSeed();
 
-    expect(enIndicators[1]?.actualValue).toBe(
-      IMPACT_FACTS.indicators.womenVocational.actual,
-    );
-    expect(frIndicators[1]?.actualValue).toBe(
-      IMPACT_FACTS.indicators.womenVocational.actual,
-    );
-    expect(enScorecard.find((m) => m.label.toLowerCase().includes("women"))?.value).toBe(
-      String(IMPACT_FACTS.indicators.womenVocational.earning),
-    );
+    expect(enIndicators.some((i) => /women completing/.test(i.indicator))).toBe(false);
+    expect(frIndicators.some((i) => /formation professionnelle/.test(i.indicator))).toBe(false);
+    expect(enScorecard.some((m) => /women.*income/.test(m.label))).toBe(false);
     expect(seed).toHaveLength(2);
     expect(seed.map((metric) => metric._id)).toEqual([
       "metric-communities",
@@ -46,14 +40,13 @@ describe("canonical project PDFs", () => {
     );
     expect(REGISTRATION_CERTIFICATE_URL).not.toContain("cdn.sanity.io");
     expect(
-      hasStaticProjectDocuments("young-women-skills-training-program"),
+      hasStaticProjectDocuments("idp-girls-baking-training-jul-2022"),
     ).toBe(true);
-    expect(projectDocumentPaths("young-women-skills-training-program")).toEqual(
+    expect(projectDocumentPaths("idp-girls-baking-training-jul-2022")).toEqual(
       {
-        tor: "/docs/projects/young-women-skills-training-program/tor.pdf",
-        financial:
-          "/docs/projects/young-women-skills-training-program/financial.pdf",
-        report: "/docs/projects/young-women-skills-training-program/report.pdf",
+        tor: "/docs/projects/idp-girls-baking-training-jul-2022/tor.pdf",
+        financial: undefined,
+        report: "/docs/projects/idp-girls-baking-training-jul-2022/report.pdf",
       },
     );
   });

@@ -284,12 +284,6 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     demographic: "widows",
   },
   {
-    slug: "young-women-skills-training-program",
-    title: "Young Women Skills Training Program",
-    year: 2023,
-    demographic: "young-women",
-  },
-  {
     slug: "back-to-school-drive-2023",
     title: "Back-to-School Drive 2023",
     year: 2023,

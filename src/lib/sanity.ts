@@ -370,7 +370,8 @@ export async function getGalleryImages(
       photo { asset { _ref }, alt, altFr },
       "projectTitle": project->title,
       "projectTitleFr": project->titleFr,
-      "projectSlug": project->slug.current
+      "projectSlug": project->slug.current,
+      "projectId": project._ref
     }`,
 		{ category },
 	);
@@ -398,7 +399,7 @@ export async function getGalleryImages(
 
 export async function getTestimonials(locale: ContentLocale = "en") {
 	const rows = await getSanityClient().fetch(
-		`*[_type == "testimonial" && isFeatured == true]{
+		`*[_type == "testimonial" && isFeatured == true && _id != "testimonial-3"]{
       name,
       quote,
       quoteFr,

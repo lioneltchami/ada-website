@@ -110,19 +110,6 @@ async function seed() {
       sortOrder: 4,
     },
     {
-      _id: "project-women-empowerment",
-      slug: "women-empowerment",
-      title: "Young Women Empowerment",
-      status: "active",
-      location: "Yaound\u00e9",
-      description:
-        "Vocational training and microfinance opportunities for young women seeking financial independence. Programs include tailoring, hairdressing, computer skills, and small business management.",
-      beneficiaries: 10,
-      goalAmount: 6000,
-      raisedAmount: 3500,
-      sortOrder: 5,
-    },
-    {
       _id: "project-emergency-relief",
       slug: "emergency-relief",
       title: "Emergency Relief Fund",

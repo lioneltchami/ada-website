@@ -28,7 +28,6 @@ async function seed() {
   // Testimonials (realistic beneficiary stories)
   const testimonials = [
     { _id: 'testimonial-2', name: 'Marie F.', quote: 'ADA paid my school fees when my grandmother could not afford them. They gave me books, a uniform, and a mentor who checks on me every week. I want to become a nurse to help others.', location: 'Douala', program: 'Education for Orphans', isFeatured: true },
-    { _id: 'testimonial-3', name: 'Esther K.', quote: 'The skills training program taught me hairdressing. ADA even helped me get my first set of tools. Now I have regular clients and I am saving to open my own salon.', location: 'Yaoundé', program: 'Young Women Empowerment', isFeatured: true },
   ];
 
   for (const t of testimonials) {
