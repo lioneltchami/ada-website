@@ -92,6 +92,8 @@ describe("About page program routes", () => {
       "../donate",
       "clean-water-well-nkwen-mbatu",
       "widow-vocational-training-cohort-1",
+      "women-empowerment",
+      "young-women-skills-training-program",
     ]);
 
     for (const slug of hostileOrWithdrawn) {
