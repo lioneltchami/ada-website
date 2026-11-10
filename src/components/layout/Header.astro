@@ -8,7 +8,6 @@ const locale = getLocale(
 );
 const i18n = t(locale);
 const currentPath = Astro.url.pathname;
-
 const navLinks = [
   { href: localePath("/about", locale), label: i18n.nav.about },
   { href: localePath("/projects", locale), label: i18n.nav.projects },
@@ -30,37 +29,72 @@ function isActive(href: string): boolean {
   id="site-header"
   class="sticky top-0 z-40 bg-[#f7f5f0] border-b border-transparent transition-[border-color] duration-200"
 >
-  <LanguageBar />
   <nav
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
     aria-label={locale === "fr" ? "Navigation principale" : "Main navigation"}
   >
-    <!-- N6 masthead: brand row -->
-    <div class="flex items-center justify-between h-16">
-      <a href={localePath("/", locale)} class="flex items-center gap-3 min-w-0">
+    <!-- One masthead row: brand, centered desktop navigation, language and Donate. -->
+    <div
+      class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 h-16 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:h-20"
+    >
+      <a
+        href={localePath("/", locale)}
+        class="flex items-center gap-3 min-w-0"
+        data-header-brand
+        aria-label={locale === "fr"
+          ? "Accueil — Apoti Development Association"
+          : "Apoti Development Association home"}
+      >
         <img
-          src="/brand/ada-logo.png"
-          alt="Apoti Development Association"
-          class="w-12 h-12 sm:w-14 sm:h-14 object-contain"
+          src="/brand/ada-symbol.png"
+          alt=""
+          width="56"
+          height="56"
+          class="w-11 h-11 sm:w-12 sm:h-12 xl:w-14 xl:h-14 shrink-0 object-contain"
           loading="eager"
           decoding="async"
         />
         <div class="hidden sm:block min-w-0 font-heading">
           <span
-            class="block text-[13px] leading-tight font-bold text-gray-900 tracking-tight truncate"
+            class="block text-[13px] xl:text-base leading-tight font-bold text-gray-900 tracking-tight truncate"
             >Apoti Development</span
           >
           <span
-            class="block text-[13px] leading-tight text-gray-600 mt-0.5 font-medium tracking-[0.01em]"
+            class="block text-[13px] xl:text-sm leading-tight text-gray-600 mt-0.5 font-medium tracking-[0.01em]"
             >Association</span
           >
         </div>
       </a>
 
-      <div class="flex items-center gap-2 sm:gap-3">
+      <ul
+        class="hidden xl:flex items-center justify-center gap-1 2xl:gap-2 font-heading text-sm"
+        data-desktop-navigation
+      >
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class:list={[
+                  "inline-flex min-h-11 items-center rounded-md px-2 py-2 transition-colors whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700",
+                  isActive(link.href)
+                    ? "bg-primary-50 text-primary-900 font-semibold ring-1 ring-inset ring-primary-200 underline decoration-2 underline-offset-4"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-primary-700",
+                ]}
+                aria-current={isActive(link.href) ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="flex items-center gap-1.5 sm:gap-3" data-header-actions>
+        <LanguageBar />
         <a
           href={localePath("/donate", locale)}
-          class="font-heading inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+          class="font-heading inline-flex min-h-11 items-center whitespace-nowrap px-3 sm:px-4 py-2 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
           data-umami-event="nav-donate"
         >
           {i18n.nav.donate}
@@ -68,7 +102,7 @@ function isActive(href: string): boolean {
 
         <button
           type="button"
-          class="lg:hidden flex h-11 w-11 items-center justify-center text-gray-700 hover:text-gray-900"
+          class="xl:hidden flex h-11 w-11 items-center justify-center text-gray-700 hover:text-gray-900"
           aria-expanded="false"
           aria-controls="mobile-menu"
           aria-label={locale === "fr" ? "Ouvrir le menu" : "Open menu"}
@@ -107,35 +141,11 @@ function isActive(href: string): boolean {
       </div>
     </div>
 
-    <!-- N6 secondary link row -->
-    <ul
-      class="hidden lg:flex items-center gap-6 pb-3 -mt-1 font-heading text-sm"
-    >
-      {
-        navLinks.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              class:list={[
-                "py-1 transition-colors",
-                isActive(link.href)
-                  ? "text-primary-700 font-semibold"
-                  : "text-gray-600 hover:text-primary-700",
-              ]}
-              aria-current={isActive(link.href) ? "page" : undefined}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-
     <!-- Mobile Menu -->
     <div
       id="mobile-menu"
-      class="hidden lg:hidden pb-4"
-      aria-label="Mobile navigation"
+      class="hidden xl:hidden pb-4"
+      aria-label={locale === "fr" ? "Navigation mobile" : "Mobile navigation"}
     >
       <ul class="space-y-0.5 pt-2 border-t border-gray-200 font-heading">
         {
@@ -144,13 +154,20 @@ function isActive(href: string): boolean {
               <a
                 href={link.href}
                 class:list={[
-                  "block px-1 py-2.5 text-base",
+                  "flex items-center gap-2 rounded-md px-3 py-2.5 text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700",
                   isActive(link.href)
-                    ? "text-primary-700 font-semibold"
-                    : "text-gray-700 hover:text-primary-700",
+                    ? "bg-primary-50 font-semibold text-primary-900 shadow-sm"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-primary-700",
                 ]}
                 aria-current={isActive(link.href) ? "page" : undefined}
               >
+                <span
+                  class:list={[
+                    "h-2 w-2 shrink-0 rounded-full",
+                    isActive(link.href) ? "bg-primary-700" : "bg-transparent",
+                  ]}
+                  aria-hidden="true"
+                />
                 {link.label}
               </a>
             </li>

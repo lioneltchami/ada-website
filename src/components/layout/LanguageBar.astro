@@ -12,97 +12,70 @@ const localeSwitch = getLanguageBarSwitch(
   Astro.url.searchParams,
 );
 const languages = [
-  { code: "en", label: "English" },
-  { code: "fr", label: "Français" },
+  { code: "en", label: "English", compact: "EN" },
+  { code: "fr", label: "Français", compact: "FR" },
 ] as const;
 ---
 
-<div class="border-b border-primary-200 bg-primary-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-end">
-    <nav
-      id="language-navigation"
-      aria-label="Language / Langue"
-      class="flex items-center gap-2 sm:gap-3 font-heading"
-    >
-      <svg
-        class="h-5 w-5 shrink-0 text-primary-700"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <circle cx="12" cy="12" r="9"></circle>
-        <path d="M3 12h18M12 3a17 17 0 0 1 0 18 17 17 0 0 1 0-18Z"></path>
-      </svg>
-      <span class="hidden sm:inline text-xs font-semibold text-primary-800">
-        Language / Langue
-      </span>
-      <ul
-        class="inline-flex items-center gap-1 rounded-full border border-primary-200 bg-white p-1"
-      >
-        {
-          languages.map(({ code, label }) => (
-            <li>
-              {code === locale ? (
-                <span
-                  lang={code}
-                  aria-current="true"
-                  class="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-primary-700 px-3 sm:px-4 text-sm font-bold text-white"
-                >
-                  <svg
-                    class="h-3.5 w-3.5"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path d="m3 8 3 3 7-7" />
-                  </svg>
-                  {label}
+<nav
+  id="language-navigation"
+  aria-label="Language / Langue"
+  class="shrink-0 font-heading"
+>
+  <ul
+    class="inline-flex items-center rounded-full border border-primary-200 bg-white p-0.5"
+  >
+    {
+      languages.map(({ code, label, compact }) => (
+        <li>
+          {code === locale ? (
+            <span
+              lang={code}
+              aria-current="true"
+              class="inline-flex min-h-11 min-w-11 justify-center items-center rounded-full bg-primary-700 px-2 sm:px-3 text-xs sm:text-sm font-bold text-white underline decoration-2 underline-offset-4"
+            >
+              <span class="sr-only sm:not-sr-only">{label}</span>
+              <span class="sm:hidden" aria-hidden="true">
+                {compact}
+              </span>
+            </span>
+          ) : localeSwitch ? (
+            <a
+              href={localeSwitch.href}
+              lang={code}
+              hreflang={code}
+              data-locale-switch={
+                !localeSwitch.authRoute && !localeSwitch.homeFallback
+                  ? ""
+                  : undefined
+              }
+              data-auth-locale-switch={localeSwitch.authRoute ? "" : undefined}
+              hidden={localeSwitch.authRoute}
+              class="inline-flex min-h-11 min-w-11 justify-center items-center rounded-full px-2 sm:px-3 text-xs sm:text-sm font-semibold text-primary-800 hover:bg-primary-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700"
+              title={
+                localeSwitch.homeFallback
+                  ? code === "fr"
+                    ? "Accueil en français"
+                    : "English homepage"
+                  : undefined
+              }
+            >
+              <span class="sr-only sm:not-sr-only">{label}</span>
+              <span class="sm:hidden" aria-hidden="true">
+                {compact}
+              </span>
+              {localeSwitch.homeFallback && (
+                <span class="sr-only">
+                  {code === "fr" ? " — accueil" : " — homepage"}
                 </span>
-              ) : localeSwitch ? (
-                <a
-                  href={localeSwitch.href}
-                  lang={code}
-                  hreflang={code}
-                  data-locale-switch={
-                    !localeSwitch.authRoute && !localeSwitch.homeFallback
-                      ? ""
-                      : undefined
-                  }
-                  data-auth-locale-switch={
-                    localeSwitch.authRoute ? "" : undefined
-                  }
-                  hidden={localeSwitch.authRoute}
-                  class="inline-flex min-h-11 items-center rounded-full px-3 sm:px-4 text-sm font-semibold text-primary-800 hover:bg-primary-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700"
-                  title={
-                    localeSwitch.homeFallback
-                      ? code === "fr"
-                        ? "Accueil en français"
-                        : "English homepage"
-                      : undefined
-                  }
-                >
-                  {label}
-                  {localeSwitch.homeFallback && (
-                    <span class="sr-only">
-                      {code === "fr" ? " — accueil" : " — homepage"}
-                    </span>
-                  )}
-                </a>
-              ) : null}
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-  </div>
-</div>
+              )}
+            </a>
+          ) : null}
+        </li>
+      ))
+    }
+  </ul>
+</nav>
 
 <style>
   /* Author display utilities must not override hidden auth-callback controls. */

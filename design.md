@@ -63,9 +63,9 @@ breaks; avoid stacking many equal `gap-8` card grids.
 
 ## Nav (N6 masthead)
 
-- Utility row: always-visible globe + English / Français segmented language bar, active language filled green, above the main header on desktop and mobile
-- Brand row: wordmark + Donate; mobile menu stays separate from language choice
-- Second row (desktop): text links with hairline separators, left-aligned under brand
+- One masthead row: approved symbol and wordmark at left, desktop links centered, language selector immediately left of Donate at right. No separate language strip or second desktop navigation row.
+- Language: English / Français on wider screens; EN / FR with full accessible names on narrow phones. Selected language is filled green and underlined. Both choices remain outside the mobile menu.
+- Responsive: preserve the larger approved brand at tablet/desktop; use the approved symbol alone on narrow phones. Collapse navigation before the row gets crowded.
 - Solid paper background when sticky; no blur glass
 
 ## Footer (Ft5 statement)
