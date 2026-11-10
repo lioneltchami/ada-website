@@ -3,13 +3,14 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../../components/layout/PageHero.astro";
 import Section from "../../components/layout/Section.astro";
 import StoryReleaseIndex from "../../components/stories/StoryReleaseIndex.astro";
+import { STORY_RELEASE_HERO_IMAGE } from "../../lib/story-release-index";
 
 const title = "Stories & Updates";
 const description = "Bilingual program perspectives and practical guidance from Apoti Development Association. Financial summaries remain under review.";
 ---
 
 <PageLayout title={title} description={description} ogImage="/brand/ada-logo.png" ogImageAlt="Apoti Development Association">
-	<PageHero title={title} subtitle="Program perspectives and practical guidance." badge="Stories & Updates" compact />
+	<PageHero title={title} subtitle="Program perspectives and practical guidance." imageUrl={STORY_RELEASE_HERO_IMAGE} imageDecorative imageLayout="side" />
 	<Section background="white" padding="lg">
 		<StoryReleaseIndex locale="en" />
 	</Section>

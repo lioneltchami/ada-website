@@ -7,6 +7,8 @@ interface Props {
   compact?: boolean;
   imageUrl?: string;
   imageAlt?: string;
+  imageDecorative?: boolean;
+  imageLayout?: "background" | "side";
 }
 
 const {
@@ -15,23 +17,31 @@ const {
   compact = false,
   imageUrl = "",
   imageAlt = "",
+  imageDecorative = false,
+  imageLayout = "background",
 } = Astro.props;
 ---
 
 <!-- Hallmark · genre: editorial · chrome: PageHero · design-system: design.md · designed-as-app -->
 <section
   class:list={[
-    "relative overflow-hidden text-white",
+    "relative isolate overflow-hidden text-white",
     compact ? "py-14 md:py-16" : "py-20 md:py-28",
-    !imageUrl && "bg-primary-900",
+    (!imageUrl || imageLayout === "side") && "bg-primary-900",
   ]}
 >
   {
     imageUrl ? (
       <img
         src={imageUrl}
-        alt={imageAlt || title}
-        class="absolute inset-0 w-full h-full object-cover"
+        alt={imageDecorative ? "" : imageAlt || title}
+        aria-hidden={imageDecorative ? "true" : undefined}
+        class:list={[
+          "absolute object-cover",
+          imageLayout === "side"
+	            ? "inset-y-0 right-0 h-full w-full object-center lg:left-auto lg:w-auto lg:object-contain"
+            : "inset-0 h-full w-full",
+        ]}
         loading="eager"
       />
     ) : null
@@ -40,7 +50,9 @@ const {
     class:list={[
       "absolute inset-0",
       imageUrl
-        ? "bg-gradient-to-r from-primary-950/92 via-primary-900/75 to-primary-900/40"
+        ? imageLayout === "side"
+          ? "bg-gradient-to-r from-primary-900 via-primary-900/90 to-primary-900/25"
+          : "bg-gradient-to-r from-primary-950/92 via-primary-900/75 to-primary-900/40"
         : "bg-primary-900",
     ]}
   >

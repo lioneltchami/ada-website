@@ -3,13 +3,14 @@ import PageLayout from "../../../layouts/PageLayout.astro";
 import PageHero from "../../../components/layout/PageHero.astro";
 import Section from "../../../components/layout/Section.astro";
 import StoryReleaseIndex from "../../../components/stories/StoryReleaseIndex.astro";
+import { STORY_RELEASE_HERO_IMAGE } from "../../../lib/story-release-index";
 
 const title = "Témoignages et actualités";
 const description = "Perspectives sur les programmes et conseils pratiques d’Apoti Development Association. Les synthèses financières restent en cours de vérification.";
 ---
 
 <PageLayout title={title} description={description} ogImage="/brand/ada-logo.png" ogImageAlt="Apoti Development Association">
-	<PageHero title={title} subtitle="Perspectives sur les programmes et conseils pratiques." badge="Témoignages et actualités" compact />
+	<PageHero title={title} subtitle="Perspectives sur les programmes et conseils pratiques." imageUrl={STORY_RELEASE_HERO_IMAGE} imageDecorative imageLayout="side" />
 	<Section background="white" padding="lg">
 		<StoryReleaseIndex locale="fr" />
 	</Section>

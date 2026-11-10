@@ -4,8 +4,11 @@ import Section from "../layout/Section.astro";
 import { localePath } from "../../i18n";
 import {
 	getStoryReleaseCopy,
+	STORY_RELEASE_COPY,
+	type StoryReleaseSlug,
 	type StoryReleaseLocale,
 } from "../../lib/story-release-copy";
+import { ESTHER_PORTRAIT_IMAGE } from "../../lib/story-release-index";
 
 interface Props {
 	slug: string;
@@ -15,10 +18,10 @@ interface Props {
 const { slug, locale } = Astro.props;
 const copy = getStoryReleaseCopy(slug, locale);
 if (!copy) throw new Error(`No safe Story copy is available for ${slug}`);
-const isReview = copy.type === "review";
+const isReview = STORY_RELEASE_COPY[slug as StoryReleaseSlug].type === "review";
+const estherAlt = locale === "fr" ? "Portrait d’Esther" : "Portrait of Esther";
 const copyMeta = locale === "fr"
 	? {
-		context: "Cette page présente un thème général. Il ne s’agit pas d’un témoignage individuel vérifié ni d’un compte rendu de résultats mesurés.",
 		reviewTitle: "Synthèse en cours de vérification",
 		reviewText: "Les chiffres ne sont pas affichés pendant la vérification de la période, de la devise et de la base comptable.",
 		donate: "Faire un don",
@@ -27,7 +30,6 @@ const copyMeta = locale === "fr"
 		back: "Retour aux témoignages et actualités",
 	}
 	: {
-		context: "This page discusses a general theme. It is not a verified individual case study or a report of measured outcomes.",
 		reviewTitle: "Summary under review",
 		reviewText: "Figures are not shown while the reporting period, currency, and accounting basis are being checked.",
 		donate: "Donate",
@@ -37,18 +39,30 @@ const copyMeta = locale === "fr"
 	};
 ---
 
+<nav class="mx-auto max-w-7xl px-4 pt-5 sm:px-6 lg:px-8" aria-label={locale === "fr" ? "Navigation de l’article" : "Article navigation"}>
+	<a
+		class="inline-flex min-h-11 items-center gap-2 rounded-md px-3 text-sm font-semibold text-primary-800 underline decoration-primary-300 underline-offset-4 transition-colors hover:bg-primary-50 hover:text-primary-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700"
+		href={localePath("/stories", locale)}
+	>
+		<span aria-hidden="true" class="text-lg leading-none">←</span>
+		{copyMeta.back}
+	</a>
+</nav>
 <PageHero title={copy.title} subtitle={isReview ? copyMeta.reviewTitle : ""} compact />
 <Section background="white" padding="lg">
 	<div class="mx-auto max-w-3xl">
 		{isReview ? (
-			<div class="rounded-lg border border-amber-300 bg-amber-50 p-5" role="status">
+			<div class="mb-8 rounded-lg border border-amber-300 bg-amber-50 p-5" role="status">
 				<h2 class="font-heading text-lg font-bold text-amber-950">{copyMeta.reviewTitle}</h2>
 				<p class="mt-2 text-sm leading-relaxed text-amber-950">{copyMeta.reviewText}</p>
 			</div>
-		) : (
-			<p class="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm leading-relaxed text-gray-700">{copyMeta.context}</p>
-		)}
+		) : null}
 		<article class="space-y-5 text-base leading-8 text-gray-700">
+			{slug === "meet-esther-skills-training" && (
+				<figure class="mb-8 flex justify-start">
+					<img src={ESTHER_PORTRAIT_IMAGE} alt={estherAlt} width="400" height="600" class="max-h-80 w-auto max-w-full rounded-xl object-contain shadow-sm" loading="eager" decoding="async" />
+				</figure>
+			)}
 			{copy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 		</article>
 		<nav class="mt-10 border-t border-gray-200 pt-6" aria-label={locale === "fr" ? "Pages associées" : "Related pages"}>
@@ -58,7 +72,6 @@ const copyMeta = locale === "fr"
 				<a class="rounded-lg border border-primary-200 px-4 py-2.5 text-sm font-semibold text-primary-800 hover:bg-primary-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700" href={localePath("/projects", locale)}>{copyMeta.projects}</a>
 				<a class="rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-800 hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700" href={localePath("/contact", locale)}>{copyMeta.contact}</a>
 			</div>
-			<a class="mt-6 inline-block text-sm font-semibold text-primary-800 underline underline-offset-4" href={localePath("/stories", locale)}>{copyMeta.back} →</a>
 		</nav>
 	</div>
 </Section>

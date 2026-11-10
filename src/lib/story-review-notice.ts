@@ -22,7 +22,7 @@ const COPY = {
 		featuredLabel: "Stories & updates",
 		featuredTitle: "Explore our program perspectives",
 		featuredMessage:
-			"These bilingual articles discuss general support themes, not verified individual case reports. ADA’s two financial summaries remain under review.",
+			"ADA’s 2024 financial summary and 2024 donations summary remain under review while the reporting period, currency, and accounting basis are checked.",
 		featuredLink: "Stories and updates →",
 		home: "Home",
 		stories: "Stories & Updates",
@@ -49,7 +49,7 @@ const COPY = {
 		featuredLabel: "Témoignages et actualités",
 		featuredTitle: "Découvrir nos perspectives sur les programmes",
 		featuredMessage:
-			"Ces articles bilingues présentent des thèmes généraux de soutien, et non des témoignages individuels vérifiés. Les deux synthèses financières d’ADA restent en cours de vérification.",
+			"La synthèse financière 2024 et la synthèse des dons 2024 d’ADA restent en cours de vérification de la période, de la devise et de la base comptable.",
 		featuredLink: "Témoignages et actualités →",
 		home: "Accueil",
 		stories: "Témoignages & Actualités",

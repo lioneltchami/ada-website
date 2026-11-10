@@ -5,6 +5,12 @@ import {
 	STORY_RELEASE_ORDER,
 	type StoryReleaseLocale,
 } from "../../lib/story-release-copy";
+import { storyFilterAnnouncement } from "../../lib/story-filters";
+import {
+	STORY_CATEGORY_BY_SLUG,
+	STORY_CATEGORY_LABELS,
+	ESTHER_PORTRAIT_IMAGE,
+} from "../../lib/story-release-index";
 
 interface Props {
 	locale: StoryReleaseLocale;
@@ -13,31 +19,62 @@ interface Props {
 const { locale } = Astro.props;
 const strings = locale === "fr"
 	? {
-		intro: "La plupart des textes ci-dessous présentent des thèmes généraux. Ils ne décrivent pas des témoignages individuels vérifiés ni des résultats mesurés.",
+		filterLabel: "Filtrer les articles",
+		all: "Tous",
 		review: "En cours de vérification",
-		guide: "Guide pratique",
-		program: "Perspective de programme",
 		read: "Lire l’article →",
 	}
 	: {
-		intro: "Most articles below discuss general themes. They are not verified individual case studies or reports of measured results.",
+		filterLabel: "Filter articles",
+		all: "All",
 		review: "Under review",
-		guide: "Practical guide",
-		program: "Program perspective",
 		read: "Read article →",
 	};
 const items = STORY_RELEASE_ORDER.map((slug) => ({ slug, post: STORY_RELEASE_COPY[slug] }));
+const filters = [
+	{ id: "all", label: strings.all },
+	...Object.entries(STORY_CATEGORY_LABELS).map(([id, labels]) => ({
+		id,
+		label: labels[locale],
+	})),
+];
+const countForFilter = (id: string) => items.filter(({ slug }) =>
+	id === "all"
+		? true
+		: STORY_CATEGORY_BY_SLUG[slug] === id,
+).length;
 ---
 
-<div>
-	<p class="mx-auto mb-8 max-w-3xl text-sm leading-relaxed text-gray-600">{strings.intro}</p>
+<div data-story-release-index data-locale={locale}>
+	<div class="mb-6 hidden flex-wrap gap-2" data-story-filter-controls role="group" aria-label={strings.filterLabel}>
+		{filters.map((filter) => (
+			<button
+				type="button"
+				data-story-filter={filter.id}
+				aria-pressed={filter.id === "all" ? "true" : "false"}
+				class="story-filter min-h-11 rounded-full border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:border-primary-500 hover:text-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700"
+			>
+				{filter.label}<span class="ml-1 opacity-80" aria-hidden="true">({countForFilter(filter.id)})</span>
+			</button>
+		))}
+	</div>
+	<p class="sr-only" data-story-filter-count aria-live="polite" aria-atomic="true">{storyFilterAnnouncement(items.length, locale)}</p>
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 		{items.map(({ slug, post }) => {
 			const copy = post[locale];
-			const badge = post.type === "review" ? strings.review : slug === "5-ways-to-support-free" ? strings.guide : strings.program;
+			const category = STORY_CATEGORY_BY_SLUG[slug];
+			const estherAlt = locale === "fr" ? "Portrait d’Esther" : "Portrait of Esther";
+			const badge = post.type === "review"
+				? strings.review
+				: STORY_CATEGORY_LABELS[category][locale];
 			return (
-				<a href={localePath(`/stories/${slug}`, locale)} class="group block rounded-xl border border-gray-200 bg-gray-50 p-5 transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">
+				<a href={localePath(`/stories/${slug}`, locale)} data-story-card data-story-category={category} data-story-review={post.type === "review" ? "true" : "false"} class="group block rounded-xl border border-gray-200 bg-gray-50 p-5 transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">
 					<article class="flex h-full flex-col">
+						{slug === "meet-esther-skills-training" && (
+							<div class="mb-4 flex h-56 items-center justify-center overflow-hidden rounded-lg bg-gray-100">
+								<img src={ESTHER_PORTRAIT_IMAGE} alt={estherAlt} width="400" height="600" class="h-full w-auto max-w-full object-contain" loading="lazy" decoding="async" />
+							</div>
+						)}
 						<span class:list={["mb-3 w-fit rounded-full px-2.5 py-1 text-xs font-semibold", post.type === "review" ? "bg-amber-100 text-amber-900" : "bg-primary-50 text-primary-800"]}>{badge}</span>
 						<h2 class="text-lg font-semibold leading-tight text-gray-900 group-hover:text-primary-700">{copy.title}</h2>
 						<p class="mt-3 flex-1 text-sm leading-relaxed text-gray-600">{copy.excerpt}</p>
@@ -48,3 +85,52 @@ const items = STORY_RELEASE_ORDER.map((slug) => ({ slug, post: STORY_RELEASE_COP
 		})}
 	</div>
 </div>
+
+<style>
+	.story-filter[aria-pressed="true"] {
+		background-color: #14532d;
+		border-color: #14532d;
+		color: #fff;
+		font-weight: 700;
+		box-shadow: 0 0 0 2px #fff, 0 0 0 4px #14532d;
+	}
+
+	.story-filter[aria-pressed="true"]::before {
+		content: "✓";
+		display: inline-block;
+		margin-right: 0.4rem;
+	}
+</style>
+
+<script>
+	import { storyFilterAnnouncement } from "../../lib/story-filters";
+
+	const roots = document.querySelectorAll<HTMLElement>("[data-story-release-index]");
+	for (const root of roots) {
+		const controls = root.querySelector<HTMLElement>("[data-story-filter-controls]");
+		const count = root.querySelector<HTMLElement>("[data-story-filter-count]");
+		const cards = [...root.querySelectorAll<HTMLAnchorElement>("[data-story-card]")];
+		const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-story-filter]")];
+		const locale = root.dataset.locale === "fr" ? "fr" : "en";
+
+		const applyFilter = (filter: string) => {
+			let visibleCount = 0;
+			for (const card of cards) {
+				const matches = filter === "all" || card.dataset.storyCategory === filter;
+				card.hidden = !matches;
+				card.style.display = matches ? "" : "none";
+				if (matches) visibleCount += 1;
+			}
+			for (const button of buttons) {
+				button.setAttribute("aria-pressed", String(button.dataset.storyFilter === filter));
+			}
+			if (count) count.textContent = storyFilterAnnouncement(visibleCount, locale);
+		};
+
+		for (const button of buttons) {
+			button.addEventListener("click", () => applyFilter(button.dataset.storyFilter || "all"));
+		}
+		controls?.classList.remove("hidden");
+		controls?.classList.add("flex");
+	}
+</script>

@@ -2,14 +2,13 @@ import { describe, expect, it } from "vitest";
 import { getStoryReviewCopy } from "../src/lib/story-review-notice";
 
 describe("bilingual homepage Stories feature", () => {
-	it("explains that most articles are program perspectives and finance remains under review", () => {
+	it("keeps the featured notice specific to the two financial summaries under review", () => {
 		const en = getStoryReviewCopy("en");
 		const fr = getStoryReviewCopy("fr");
 
-		expect(en.featuredMessage).toMatch(/general support themes/i);
-		expect(en.featuredMessage).toMatch(/financial summaries remain under review/i);
-		expect(fr.featuredMessage).toMatch(/thèmes généraux de soutien/i);
-		expect(fr.featuredMessage).toMatch(/synthèses financières.*en cours de vérification/i);
+		expect(en.featuredMessage).toMatch(/2024 financial summary and 2024 donations summary remain under review/i);
+		expect(fr.featuredMessage).toMatch(/synthèse financière 2024 et la synthèse des dons 2024.*restent en cours de vérification/i);
+		expect(`${en.featuredMessage} ${fr.featuredMessage}`).not.toMatch(/general support themes|thèmes généraux de soutien|verified individual case reports|témoignages individuels vérifiés/i);
 	});
 
 	it("keeps the featured link and next steps in the selected language", () => {

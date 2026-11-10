@@ -46,4 +46,19 @@ describe("safe bilingual Story release copy", () => {
 		expect(getStoryReleaseCopy("back-to-school-2025", "en")?.paragraphs.join(" ")).toMatch(/Around August/);
 		expect(getStoryReleaseCopy("back-to-school-2025", "fr")?.paragraphs.join(" ")).toMatch(/Autour du mois d’août/);
 	});
+
+	it("keeps Esther’s English story and French translation limited to confirmed salon facts", () => {
+		const esther = getStoryReleaseCopy("meet-esther-skills-training", "en")!;
+		const estherFr = getStoryReleaseCopy("meet-esther-skills-training", "fr")!;
+		expect(esther.title).toBe("Esther Joins Hannah’s Hair Salon");
+		expect(esther.paragraphs).toEqual([
+			"Esther joined Hannah’s hair salon. Hannah is a member of the ADA team. We’re glad to share this brief update about Esther.",
+		]);
+		expect(estherFr.title).toBe("Esther rejoint le salon de coiffure d’Hannah");
+		expect(estherFr.paragraphs).toEqual([
+			"Esther a rejoint le salon de coiffure d’Hannah. Hannah fait partie de l’équipe d’ADA. Nous sommes heureux de partager cette brève nouvelle à son sujet.",
+		]);
+		const fullCopy = `${esther.title} ${esther.excerpt} ${esther.paragraphs.join(" ")} ${estherFr.title} ${estherFr.excerpt} ${estherFr.paragraphs.join(" ")}`;
+		expect(fullCopy).not.toMatch(/owner|owns|her own salon|income|salary|employs|trained|training|mentor|quotes|\b20\d\d\b|propriétaire|son propre salon|revenu|salaire|formation|mentor|citation|à \d+ ans/i);
+	});
 });
