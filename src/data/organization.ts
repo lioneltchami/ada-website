@@ -1,4 +1,4 @@
-import { isProjectDocumentReviewPending } from '../lib/reviewed-project-records';
+import { hasReleased2023ProjectDocumentSet, isProjectDocumentReviewPending } from '../lib/reviewed-project-records';
 import documentReleases from "../../config/project-document-releases.json";
 import type { Locale } from "../i18n";
 import {
@@ -56,7 +56,7 @@ export function archiveProjectTitle(slug: string): string {
 }
 
 export function hasReleasedProjectDocumentSet(slug: string): boolean {
-  return documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
+  return hasReleased2023ProjectDocumentSet(slug) || documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
 }
 
 export function projectDocumentPaths(slug: string) {

@@ -1,4 +1,5 @@
 ---
+import { hasReleased2023ProjectDocumentSet } from "../../lib/reviewed-project-records";
 import { hasReleasedProjectDocumentSet, projectDocumentPaths } from "../../data/organization";
 import Section from "../layout/Section.astro";
 import type { Locale } from "../../i18n";
@@ -194,7 +195,7 @@ const projectDocsIntro =
                               rel="noopener"
                               class="text-primary-700 hover:underline"
                             >
-                              {labels.tor}
+                              {labels.tor}{locale === "fr" && hasReleased2023ProjectDocumentSet(project.slug) && " (anglais)"}
                             </a>
                             <span class="text-gray-300" aria-hidden="true">
                               ·
@@ -216,7 +217,7 @@ const projectDocsIntro =
                               rel="noopener"
                               class="text-primary-700 hover:underline"
                             >
-                              {hasReleasedProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et compte financier" : "Project report and financial account") : labels.completionReport}
+                              {hasReleasedProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et compte financier" : "Project report and financial account") : labels.completionReport}{locale === "fr" && hasReleased2023ProjectDocumentSet(project.slug) && " (anglais)"}
                             </a>
                           </p>
                         </li>

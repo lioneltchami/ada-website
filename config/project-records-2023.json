@@ -70,7 +70,11 @@
       "financialNote": "Funding of 100,000 FCFA is confirmed. Using the sum of the recorded items, expenses total 94,400 FCFA plus 1,500 FCFA in fees, or 95,900 FCFA. The 4,100 FCFA difference is a historical project figure, not the current account balance. The item sum takes precedence over the incorrectly calculated total in the sheet. These figures are based on the project record, not an independent audit.",
       "financialNoteFr": "Le financement de 100 000 FCFA est confirmé. En additionnant les postes enregistrés, les dépenses s’élèvent à 94 400 FCFA, plus 1 500 FCFA de frais, soit 95 900 FCFA. L’écart de 4 100 FCFA est un montant historique du projet, pas le solde actuel du compte. La somme des postes prévaut sur le total mal calculé dans la feuille. Ces chiffres reposent sur le relevé du projet, sans audit indépendant.",
       "year": 2023,
-      "documentStatus": "review-pending",
+      "documentStatus": "released",
+      "documents": {
+        "tor": "149c623e7676ec5e1806679a936d7daa359ff13b0763af3fcb2c6fdcaf379994",
+        "report": "2ef026d8ef8e4be3508b87235bd1a3d72393b49215f80005350c737b575323bf"
+      },
       "legacyDocumentSet": true,
       "financialNoteTitle": "Financial record",
       "financialNoteTitleFr": "Relevé financier"
