@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { applyReviewedProjectContent, reviewedProjectRecords, isProjectDocumentReviewPending } from '../src/lib/reviewed-project-records';
 import { applyReleasedProjectContent } from '../src/lib/released-project-documents';
-import { groupProjectsByYear } from '../src/lib/project-archive';
+import { countProjectsUnderFinancialReview, groupProjectsByYear } from '../src/lib/project-archive';
 import { hasStaticProjectDocuments } from '../src/data/organization';
 import { impactMetricsFor, measurableIndicatorsFor } from '../src/data/impact';
 
@@ -30,12 +30,28 @@ describe('confirmed 2023 project summaries before PDF publication', () => {
   expect(feb[0].startDate).toBe('2023-02-11');expect(feb[1].startDate).toBeNull();
   for(const p of feb){expect(p.financialNote).toContain('50,000');expect(p.financialNote).toContain('approximately 5,000');}
  });
- it('corrects March gathering and preserves the unresolved May financial accounts',()=>{
+ it('corrects March gathering and reconciles May using item sums without double-counting transfers',()=>{
   const march=reviewedProjectRecords.find(p=>p.slug==='womens-day-home-visits-mar-2023')!;
   expect(march.startDate).toBe('2023-03-11');expect(march.description).toContain('church');expect(march.financialNote).toContain('245,000');
   const may=reviewedProjectRecords.find(p=>p.slug==='city-cleanup-may-2023')!;
-  for(const value of ['100,000','94,400','1,500','95,900','95,000','5,000','not yet been reconciled']) expect(may.financialNote).toContain(value);
-  expect(may.financialNote).not.toContain('4,100');
+  for(const value of ['100,000','94,400','1,500','95,900','4,100','historical project figure','not the current account balance','item sum takes precedence']) expect(may.financialNote).toContain(value);
+  for(const value of ['100 000','94 400','1 500','95 900','4 100','montant historique du projet','pas le solde actuel du compte','somme des postes prévaut']) expect(may.financialNoteFr).toContain(value);
+  expect(may.financialNote).not.toMatch(/not yet been reconciled|95,000 FCFA spent|5,000 FCFA for other needs/);
+  expect(may.financialNoteFr).not.toMatch(/n’ont pas encore été rapprochés|95 000 FCFA dépensés|5 000 FCFA pour d’autres besoins/);
+  expect(94400 + 1500).toBe(95900);expect(100000 - 95900).toBe(4100);
+  const mapped=applyReviewedProjectContent([]);
+  expect(mapped.find(p=>p.slug.current===may.slug)?.financialReviewTitle).toBe("Financial record");
+  expect(mapped.find(p=>p.slug.current===may.slug)?.financialReviewTitleFr).toBe("Relevé financier");
+  for(const p of mapped.filter(p=>p.slug.current!==may.slug)){expect(p.financialReviewTitle).toBeUndefined();expect(p.financialReviewTitleFr).toBeUndefined();}
+ });
+ it('excludes the confirmed May financial summary from the under-review count while leaving the documents pending',()=>{
+  const rows=applyReviewedProjectContent([]);
+  expect(countProjectsUnderFinancialReview(rows)).toBe(6);
+  const may=rows.find(r=>r.slug.current==='city-cleanup-may-2023')!;
+  expect(may.financialReviewTitle).toBe('Financial record');
+  expect(may.financialReviewTitleFr).toBe('Relevé financier');
+  expect(may.torUrl).toBeUndefined();
+  expect(may.reportUrl).toBeUndefined();
  });
  it('withholds pending document links without hiding the project, with exact redirects for privately preserved originals',()=>{
   for(const p of reviewedProjectRecords){expect(isProjectDocumentReviewPending(p.slug)).toBe(true);expect(hasStaticProjectDocuments(p.slug)).toBe(false);}

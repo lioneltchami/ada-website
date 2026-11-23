@@ -21,6 +21,7 @@ export function applyReviewedProjectContent(entries: ProjectArchiveEntry[]): Pro
       photo: undefined, photos: [],
       torUrl: undefined, reportUrl: undefined, financialReportUrl: undefined,
       hasToR: false, hasReport: false,
+      financialReviewTitle: project.financialNoteTitle, financialReviewTitleFr: project.financialNoteTitleFr,
       financialReviewNote: project.financialNote, financialReviewNoteFr: project.financialNoteFr,
       documentReviewNote: (project.legacyDocumentSet ? 'The earlier documents have been withdrawn while their corrections are reviewed. ' : '') + 'The separate terms of reference and project report are being reviewed. Download links will be added when the corrected documents are ready.',
       documentReviewNoteFr: (project.legacyDocumentSet ? 'Les documents précédents ont été retirés pendant la vérification de leurs corrections. ' : '') + 'Les termes de référence et le rapport de projet distincts sont en cours de vérification. Les liens de téléchargement seront ajoutés lorsque les documents corrigés seront prêts.',

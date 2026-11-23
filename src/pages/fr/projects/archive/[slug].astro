@@ -86,7 +86,7 @@ const statusLabel = getArchiveRecordStatusText(record.status, isAutoArchived, 'f
       <div class="space-y-6">
         {record.financialReviewNoteFr && (
           <div class="p-4 rounded-xl border border-amber-200 bg-amber-50 text-sm text-amber-950">
-            <h2 class="font-semibold">Chiffres financiers en cours de vérification</h2>
+            <h2 class="font-semibold">{record.financialReviewTitleFr || "Chiffres financiers en cours de vérification"}</h2>
             <p class="mt-2 leading-relaxed">{record.financialReviewNoteFr}</p>
           </div>
         )}

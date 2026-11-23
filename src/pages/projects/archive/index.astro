@@ -256,7 +256,7 @@ for (const r of archiveItems) {
                             </p>
                           )}
                           {r.financialReviewNote && !r.budget && (
-                            <p class="mt-2 text-xs text-amber-800">Financial figures under review</p>
+                            <p class="mt-2 text-xs text-amber-800">{r.financialReviewTitle || "Financial figures under review"}</p>
                           )}
                           <p
                             class:list={[
