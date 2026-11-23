@@ -590,8 +590,8 @@ export async function loadProjectArchiveEntries(): Promise<
 
   return applyReviewedProjectContent(applyReleasedProjectContent(records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
-    .map(applyOwnerFinancialReview))
-    .map(withCanonicalProjectDocuments));
+    .map(applyOwnerFinancialReview)))
+    .map(withCanonicalProjectDocuments);
 }
 
 export function demographicLabel(

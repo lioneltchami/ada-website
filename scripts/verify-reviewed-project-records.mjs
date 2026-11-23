@@ -46,7 +46,7 @@ export async function verifyReviewedProjectRecords(root, checkDist = false) {
   if(checkDist)for(const prefix of ['','fr/']) {
    const html=await fs.readFile(path.join(root,`dist/client/${prefix}projects/archive/${p.slug}/index.html`),'utf8');
    if(allowed)for(const kind of approvedDocumentKinds) {
-    assert.ok(html.includes(`${assetDir}${kind}.pdf`),'Released project detail must link the reviewed PDF');
+    assert.ok(html.includes(`${assetDir}${kind}.pdf`),'Released project detail must link the reviewed PDF: '+prefix+p.slug+'/'+kind);
    } else {
     assert.ok(!html.includes(assetDir),'Pending project page must not link obsolete downloads');
    }
