@@ -326,8 +326,8 @@ marked.setOptions({
   gfm: true,
 });
 
-await verifyReviewedProjectRecords(ROOT);
-const protectedSlugs = await verifyDocumentReleases(ROOT);
+const reviewed2023Releases = await verifyReviewedProjectRecords(ROOT);
+const protectedSlugs = new Set([...await verifyDocumentReleases(ROOT), ...reviewed2023Releases]);
 
 const browser = await chromium.launch({
   headless: true,

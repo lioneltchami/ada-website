@@ -1,4 +1,5 @@
 ---
+import { hasReleased2023ProjectDocumentSet } from "../../../../lib/reviewed-project-records";
 import { hasReleasedProjectDocumentSet } from "../../../../data/organization";
 import PageLayout from '../../../../layouts/PageLayout.astro';
 import Section from '../../../../components/layout/Section.astro';
@@ -118,8 +119,8 @@ const statusLabel = getArchiveRecordStatusText(record.status, isAutoArchived, 'f
           <div class="p-5 bg-primary-50 rounded-xl border border-primary-100">
             <h2 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Documents</h2>
             <div class="mt-3 space-y-2">
-              {record.torUrl && <a href={record.torUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📄 Termes de Référence (PDF)</a>}
-              {record.reportUrl && <a href={record.reportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📊 {hasReleasedProjectDocumentSet(record.slug.current) ? 'Rapport de projet et compte financier (PDF)' : getProjectReportLabel('fr')}</a>}
+              {record.torUrl && <a href={record.torUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📄 Termes de Référence (PDF){hasReleased2023ProjectDocumentSet(record.slug.current) && " (anglais)"}</a>}
+              {record.reportUrl && <a href={record.reportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">📊 {hasReleasedProjectDocumentSet(record.slug.current) ? 'Rapport de projet et compte financier (PDF)' : getProjectReportLabel('fr')}{hasReleased2023ProjectDocumentSet(record.slug.current) && " (anglais)"}</a>}
               {record.financialReportUrl && <a href={record.financialReportUrl} target="_blank" rel="noopener" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary-700 bg-white rounded-lg border border-primary-200 hover:bg-primary-100 transition-colors">💰 Rapport Financier (PDF)</a>}
             </div>
           </div>

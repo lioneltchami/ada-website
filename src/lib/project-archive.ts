@@ -1,4 +1,4 @@
-import { applyReviewedProjectContent } from './reviewed-project-records';
+import { applyReviewedProjectContent, listReleased2023ProjectDocuments } from './reviewed-project-records';
 import { applyReleasedProjectContent, applyReleasedDocumentLibrary } from "./released-project-documents";
 import { createClient } from "@sanity/client";
 import {
@@ -367,7 +367,9 @@ async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
 export function groupProjectsByYear(
   records: ProjectArchiveDocument[],
 ): YearDocumentGroup[] {
-  const filtered = applyReleasedDocumentLibrary(records
+  const released2023 = listReleased2023ProjectDocuments();
+  const released2023Slugs = new Set(released2023.map((p) => p.slug));
+  const filtered = applyReleasedDocumentLibrary([...records.filter((r) => !released2023Slugs.has(r.slug)), ...released2023]
     .filter((r) => hasStaticProjectDocuments(r.slug))
     .map(applyOwnerFinancialReviewToDocument));
   const byYear = new Map<

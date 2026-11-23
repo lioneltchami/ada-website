@@ -51,14 +51,25 @@ describe('confirmed 2023 project summaries before PDF publication', () => {
   expect(may.financialReviewTitle).toBe('Financial record');
   expect(may.financialReviewTitleFr).toBe('Relevé financier');
   expect(may.torUrl).toBeUndefined();
-  expect(may.reportUrl).toBeUndefined();
+  expect(may.reportUrl).toBeUndefined(); // static URLs attach in the archive loader
+  expect(may.documentReviewNote).toBeUndefined();
  });
- it('withholds pending document links without hiding the project, with exact redirects for privately preserved originals',()=>{
-  for(const p of reviewedProjectRecords){expect(isProjectDocumentReviewPending(p.slug)).toBe(true);expect(hasStaticProjectDocuments(p.slug)).toBe(false);}
-  expect(groupProjectsByYear(reviewedProjectRecords.map(p=>({...p,demographic:p.demographic as 'community'}))).find(g=>g.year===2023)).toBeUndefined();
-  for(const slug of ['back-to-school-drive-2023','city-cleanup-may-2023','womens-day-home-visits-mar-2023'])for(const kind of ['tor','report','financial']){
-   for(const ext of ['md','pdf'])expect(fs.existsSync(`public/docs/projects/${slug}/${kind}.${ext}`)).toBe(false);
-   expect(fs.readFileSync('public/_redirects','utf8')).toContain(`/docs/projects/${slug}/${kind}.pdf /projects/archive/${slug}/ 302`);
+ it('releases only the May cleanup PDF pair and withholds all six other projects',()=>{
+  const releasedSlug='city-cleanup-may-2023';
+  for(const p of reviewedProjectRecords) {
+   expect(isProjectDocumentReviewPending(p.slug)).toBe(p.slug!==releasedSlug);
+   expect(hasStaticProjectDocuments(p.slug)).toBe(p.slug===releasedSlug);
+  }
+  const resources=groupProjectsByYear([]).find(g=>g.year===2023);
+  expect(resources?.projectCount).toBe(1);
+  expect(JSON.stringify(resources)).toContain(releasedSlug);
+  const redirects=fs.readFileSync('public/_redirects','utf8');
+  for(const slug of ['back-to-school-drive-2023',releasedSlug,'womens-day-home-visits-mar-2023'])for(const kind of ['tor','report','financial']){
+   for(const ext of ['md','pdf']) {
+    const isRelease=slug===releasedSlug&&kind!=='financial'&&ext==='pdf';
+    expect(fs.existsSync(`public/docs/projects/${slug}/${kind}.${ext}`)).toBe(isRelease);
+    expect(redirects.includes(`/docs/projects/${slug}/${kind}.${ext} /projects/archive/${slug}/ 302`)).toBe(!isRelease);
+   }
   }
  });
  it('does not repeat unsupported enrollment, retention or exam outcomes as measured education impact',()=>{
