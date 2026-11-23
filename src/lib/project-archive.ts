@@ -69,6 +69,8 @@ export interface ProjectArchiveEntry {
   financialReportUrl?: string;
   documentReviewNote?: string;
   documentReviewNoteFr?: string;
+  financialReviewTitle?: string;
+  financialReviewTitleFr?: string;
   financialReviewNote?: string;
   financialReviewNoteFr?: string;
   hasToR?: boolean;
@@ -402,9 +404,9 @@ export function groupProjectsByYear(
 
 /** Count archive entries whose displayed budget details are held for review. */
 export function countProjectsUnderFinancialReview(
-  entries: readonly Pick<ProjectArchiveEntry, "financialReviewNote">[],
+  entries: readonly Pick<ProjectArchiveEntry, "financialReviewNote" | "financialReviewTitle">[],
 ): number {
-  return entries.filter((entry) => Boolean(entry.financialReviewNote)).length;
+  return entries.filter((entry) => Boolean(entry.financialReviewNote) && !entry.financialReviewTitle).length;
 }
 
 function applyOwnerFinancialReviewToDocument(

@@ -67,11 +67,13 @@
       "locationFr": "Buea",
       "description": "On 1 May 2023, our team took part in a community cleanup in Buea. The activity brought volunteers together to clean shared areas. The available account does not establish an exact participant count or a measured public-health outcome.",
       "descriptionFr": "Le 1er mai 2023, notre équipe a participé à un nettoyage communautaire à Buea. L’activité a réuni des bénévoles pour nettoyer des espaces communs. Le compte rendu disponible ne permet pas d’établir un nombre exact de participants ni un résultat mesuré en matière de santé publique.",
-      "financialNote": "Funding of 100,000 FCFA is confirmed. The itemized sheet totals 94,400 FCFA plus 1,500 FCFA in fees, or 95,900 FCFA. An earlier account described 95,000 FCFA spent and 5,000 FCFA for other needs. These accounts have not yet been reconciled; no final expenditure or remaining balance is asserted here.",
-      "financialNoteFr": "Le financement de 100 000 FCFA est confirmé. La feuille détaillée totalise 94 400 FCFA, plus 1 500 FCFA de frais, soit 95 900 FCFA. Un compte rendu antérieur indiquait 95 000 FCFA dépensés et 5 000 FCFA pour d’autres besoins. Ces comptes rendus n’ont pas encore été rapprochés ; aucune dépense finale ni aucun solde restant n’est affirmé ici.",
+      "financialNote": "Funding of 100,000 FCFA is confirmed. Using the sum of the recorded items, expenses total 94,400 FCFA plus 1,500 FCFA in fees, or 95,900 FCFA. The 4,100 FCFA difference is a historical project figure, not the current account balance. The item sum takes precedence over the incorrectly calculated total in the sheet. These figures are based on the project record, not an independent audit.",
+      "financialNoteFr": "Le financement de 100 000 FCFA est confirmé. En additionnant les postes enregistrés, les dépenses s’élèvent à 94 400 FCFA, plus 1 500 FCFA de frais, soit 95 900 FCFA. L’écart de 4 100 FCFA est un montant historique du projet, pas le solde actuel du compte. La somme des postes prévaut sur le total mal calculé dans la feuille. Ces chiffres reposent sur le relevé du projet, sans audit indépendant.",
       "year": 2023,
       "documentStatus": "review-pending",
-      "legacyDocumentSet": true
+      "legacyDocumentSet": true,
+      "financialNoteTitle": "Financial record",
+      "financialNoteTitleFr": "Relevé financier"
     },
     {
       "slug": "back-to-school-drive-2023",
