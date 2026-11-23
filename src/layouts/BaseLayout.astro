@@ -1,6 +1,7 @@
 ---
 import { getLocale, switchLocalePath } from "../i18n";
 import { REGISTRATION_NUMBER, buildBreadcrumbList } from "../data/organization";
+import { additionalSocialProfiles } from "../data/social-profiles";
 
 interface Props {
   title: string;
@@ -87,6 +88,7 @@ const jsonLd = {
   sameAs: [
     "https://facebook.com/apotidev",
     "https://instagram.com/apotidev",
+    ...additionalSocialProfiles.map(({ href }) => href),
     "https://twitter.com/apotidev",
   ],
 };
