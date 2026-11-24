@@ -18,8 +18,6 @@ export function applyReviewed2024And2025Summaries(entries: ProjectArchiveEntry[]
       location: project.location,
       startDate: project.date,
       endDate: project.date,
-      documentReviewNote: 'The terms of reference and project report are not yet available.',
-      documentReviewNoteFr: 'Les termes de référence et le rapport de projet ne sont pas encore disponibles.',
       financialReviewNote: 'No financial figures are published for this project while the records are reviewed.',
       financialReviewNoteFr: 'Aucun chiffre financier n’est publié pour ce projet pendant la vérification des documents.',
       hasToR: false,

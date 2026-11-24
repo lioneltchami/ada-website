@@ -7,6 +7,7 @@ import {
   countOwnerMarkedCompletions,
   loadProjectArchiveEntries,
 } from "../../../lib/project-archive";
+import { archiveProjectDocumentAvailability } from "../../../lib/archive-project-document-links";
 import { sanityImageUrl } from "../../../lib/sanity";
 import { resolveHeroImage } from "../../../lib/hero-images";
 
@@ -241,12 +242,7 @@ for (const r of archiveItems) {
                               </span>
                             )}
                             {r.location && <span>{r.location}</span>}
-                            {r.hasToR && (
-                              <span class="text-primary-600">ToR</span>
-                            )}
-                            {r.hasReport && (
-                              <span class="text-primary-600">Report</span>
-                            )}
+                            <span class="font-medium text-gray-600">{archiveProjectDocumentAvailability(r, "en")}</span>
                           </div>
                         </div>
                         <div class="text-right flex-shrink-0">
