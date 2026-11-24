@@ -1,0 +1,26 @@
+---
+import { archiveStatusToneClass, type ArchiveStatusRow } from "../../lib/archive-card-status";
+import { formatUsdAmount, type ProjectPresentationLocale } from "../../lib/project-detail-presentation";
+
+interface Props {
+  status: Record<"project" | "documents" | "finance", ArchiveStatusRow>;
+  budget?: number;
+  locale: ProjectPresentationLocale;
+}
+
+const { status, budget, locale } = Astro.props;
+---
+<dl class="min-w-0 space-y-1 border-t border-gray-100 pt-2 text-xs leading-relaxed md:border-t-0 md:pt-0">
+  {Object.entries(status).map(([kind, row]) => (
+    <div class="flex min-w-0 flex-wrap items-baseline gap-x-1" data-archive-card-status={kind} data-tone={row.tone} data-state={row.state}>
+      <dt class="font-semibold text-gray-900">{row.label}{locale === "fr" ? "\u00a0:" : ":"}</dt>
+      <dd class:list={["min-w-0 break-words", archiveStatusToneClass[row.tone]]}>{row.value}</dd>
+    </div>
+  ))}
+  {typeof budget === "number" && Number.isFinite(budget) && budget !== 0 && (
+    <div class="flex flex-wrap items-baseline gap-x-1">
+      <dt class="font-semibold text-gray-900">{locale === "fr" ? "Budget ou objectif\u00a0:" : "Budget or goal:"}</dt>
+      <dd class="text-gray-700">{formatUsdAmount(budget, locale)}{locale === "en" ? " USD" : ""}</dd>
+    </div>
+  )}
+</dl>
