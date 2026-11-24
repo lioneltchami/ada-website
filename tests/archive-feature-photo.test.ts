@@ -15,10 +15,42 @@ describe("archive feature photos", () => {
     expect(en.caption).toMatch(/^Some of our team members/);
     expect(fr.caption).toMatch(/^Des membres de notre équipe/);
     expect(en.alt).not.toBe(fr.alt);
-    for (const other of ["city-cleanup-may-2022", "school-visit-may-2022", "city-cleanup-may-2025", "city-cleanup-may-2023-test", "__proto__"]) {
+    for (const other of ["city-cleanup-may-2022", "school-visit-may-2022-test", "city-cleanup-may-2025", "city-cleanup-may-2023-test", "__proto__"]) {
       expect(getArchiveFeaturePhoto(other, "en")).toBeUndefined();
       expect(getArchiveFeaturePhoto(other, "fr")).toBeUndefined();
     }
+  });
+
+  it("uses only the exact approved 2021 widows outreach feature, with a neutral caption", () => {
+    const slug = "first-widow-home-visits-2021";
+    const record = { slug: { current: slug }, year: 2021,
+      photo: { asset: { _ref: "image-unapproved-legacy-cover" } } };
+    const en = getEligibleArchiveFeaturePhoto(record, "en", 240)!;
+    const fr = getEligibleArchiveFeaturePhoto(record, "fr")!;
+    expect(en.src).toBe("/images/projects/widows-outreach-2021.jpg");
+    expect(en.src).toBe(fr.src);
+    expect([en.width, en.height]).toEqual([800, 1066]);
+    expect(en.caption).toBe("Members of our team, seen from behind.");
+    expect(fr.caption).toBe("Des membres de notre équipe, vus de dos.");
+    expect(en.alt).not.toBe(fr.alt);
+    expect(createHash("sha256").update(readFileSync("public" + en.src)).digest("hex"))
+      .toBe("21044786d6941b33494f9bae54e68c30098b47aa29d4ee0ec3568d2c3d473806");
+    expect(getArchiveFeaturePhoto(`${slug}-test`, "en")).toBeUndefined();
+  });
+
+  it("uses only the reviewed classroom crop for the May 2022 school visit", () => {
+    const record = { slug: { current: "school-visit-may-2022" }, year: 2022,
+      photo: { asset: { _ref: "image-not-approved-wide-original" } } };
+    const en = getEligibleArchiveFeaturePhoto(record, "en", 240)!;
+    const fr = getEligibleArchiveFeaturePhoto(record, "fr")!;
+    expect(en.src).toBe("/images/projects/school-visit-may-2022.png");
+    expect([en.width, en.height]).toEqual([136, 142]);
+    expect(en.src).toBe(fr.src);
+    expect(en.caption).toContain("May 2022");
+    expect(fr.caption).toContain("mai 2022");
+    expect(en.alt).not.toBe(fr.alt);
+    expect(createHash("sha256").update(readFileSync("public" + en.src)).digest("hex"))
+      .toBe("1bfa976b2f3473117b11f4de52157974b629ff19539abb24f3d0a6f44fded116");
   });
 
   it("uses the exact reviewed web assets for five non-identifying 2022 photo selections", () => {
@@ -51,7 +83,6 @@ describe("archive feature photos", () => {
     expect(getEligibleArchiveFeaturePhoto(buea, "fr")?.caption).toContain("Affiche");
     expect(getEligibleArchiveFeaturePhoto(buea, "en", 240)?.src).toContain("?w=240");
     expect(getEligibleArchiveFeaturePhoto(record(buea.slug.current, 2026, reused), "en")).toBeUndefined();
-    expect(getEligibleArchiveFeaturePhoto(record("first-widow-home-visits-2021", 2021, reused), "en")).toBeUndefined();
     expect(getEligibleArchiveFeaturePhoto(record("education-orphans", 2026, reused), "en")).toBeUndefined();
     expect(getEligibleArchiveFeaturePhoto(record("girls-dignity-menstrual-health-bamenda-jun-2026", 2026, reused), "en")).toBeUndefined();
   });

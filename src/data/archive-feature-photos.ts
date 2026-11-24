@@ -10,7 +10,15 @@ type ArchiveFeaturePhoto = {
 // Explicit release allowlist. The May JPEG is byte-identical to the image in
 // its published report. The five 2022 WebPs are uncropped web encodes of the
 // non-identifying supplies/equipment scenes on page 1 of their published reports.
+// The May 2022 classroom portrait preserves the exact approved report crop.
 const approvedPhotos: Record<string, ArchiveFeaturePhoto> = {
+  "first-widow-home-visits-2021": {
+    src: "/images/projects/widows-outreach-2021.jpg",
+    width: 800,
+    height: 1066,
+    alt: { en: "Three people in matching shirts seen from behind on an outdoor path.", fr: "Trois personnes portant des polos assortis, vues de dos sur un chemin." },
+    caption: { en: "Members of our team, seen from behind.", fr: "Des membres de notre équipe, vus de dos." },
+  },
   "city-cleanup-may-2023": {
     src: "/images/projects/buea-labour-day-cleanup-2023.jpg",
     width: 800,
@@ -37,6 +45,13 @@ const approvedPhotos: Record<string, ArchiveFeaturePhoto> = {
     height: 495,
     alt: { en: "Buckets hold bottles of oil and bags of food.", fr: "Des seaux contiennent des bouteilles d’huile et des sachets de denrées." },
     caption: { en: "Some of the supplies our team prepared for the March widows’ home visits.", fr: "Une partie des articles préparés par notre équipe pour les visites de mars au domicile des veuves." },
+  },
+  "school-visit-may-2022": {
+    src: "/images/projects/school-visit-may-2022.png",
+    width: 136,
+    height: 142,
+    alt: { en: "A classroom instructor speaking, seen in profile.", fr: "Une intervenante s’exprime en classe, vue de profil." },
+    caption: { en: "An instructor during our May 2022 school visit in Buea.", fr: "Une intervenante lors de notre visite scolaire de mai 2022 à Buea." },
   },
   "idp-girls-baking-training-jul-2022": {
     src: "/images/projects/idp-girls-baking-training-jul-2022.webp",

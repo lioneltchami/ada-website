@@ -558,10 +558,6 @@ export async function loadProjectArchiveEntries(): Promise<
           return { ...record, photo: project.mainImage };
         }
         return record;
-      })
-      .sort((a, b) => {
-        if (b.year !== a.year) return b.year - a.year;
-        return String(a.title).localeCompare(String(b.title));
       });
   } catch (e) {
     console.error("[project-archive] Auto archive fallback failed:", e);
@@ -571,10 +567,77 @@ export async function loadProjectArchiveEntries(): Promise<
     records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
   }
 
-  return applyReviewed2024And2025Summaries(applyReviewedProjectContent(applyReleasedProjectContent(records
+  const reviewed = applyReviewed2024And2025Summaries(applyReviewedProjectContent(applyReleasedProjectContent(records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
     .map(applyOwnerFinancialReview))))
     .map(withCanonicalProjectDocuments);
+  return sortArchiveEntriesChronologically(reviewed);
+}
+
+type ArchiveChronologyEntry = Pick<ProjectArchiveEntry, "slug" | "year" | "startDate" | "endDate">;
+
+// Sources establish these periods without confirming a day: the 2021 archive
+// account, the released Baking report, the reviewed 2023 Mountain Race account
+// (after Youth Day), and the reviewed 2024–25 project summaries. A receipt or
+// preparation with a recorded date does not establish the event's month.
+const reportedArchiveMonths = new Map<string, string>([
+  ["first-widow-home-visits-2021", "2021-11"],
+  ["idp-girls-baking-training-jul-2022", "2022-07"],
+  ["mountain-race-outreach-feb-2023", "2023-02"],
+  ["girls-programme-2024", "2024-10"],
+  ["womens-day-widows-outreach-2025", "2025-03"],
+  ["christmas-orphanage-outreach-2025", "2025-12"],
+]);
+
+function chronologyDate(value?: string): { month: string; day?: string } | undefined {
+  if (!value) return undefined;
+  const match = /^(\d{4}-(?:0[1-9]|1[0-2]))(?:-(0[1-9]|[12]\d|3[01]))?$/.exec(value);
+  if (!match) return undefined;
+  const [, month, day] = match;
+  if (day) {
+    const date = new Date(value + "T00:00:00Z");
+    if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== value) return undefined;
+  }
+  return { month, day };
+}
+
+function archiveChronologyDate(record: ArchiveChronologyEntry) {
+  return chronologyDate(record.startDate)
+    ?? chronologyDate(record.endDate)
+    ?? chronologyDate(reportedArchiveMonths.get(record.slug.current));
+}
+
+/** Localized month of the effective date, without implying an unrecorded day. */
+export function formatArchiveCardMonth(record: ArchiveChronologyEntry, locale: "en" | "fr"): string | undefined {
+  const date = archiveChronologyDate(record);
+  if (!date) return undefined;
+  return new Intl.DateTimeFormat(locale, { month: "long", timeZone: "UTC" })
+    .format(new Date(date.month + "-01T00:00:00Z"));
+}
+
+/** Newest year and activities first. Month-only entries precede dated entries
+ * within their known months, without implying a day. Fully undated records
+ * follow known periods; the slug is a locale-independent tie breaker.
+ */
+export function sortArchiveEntriesChronologically<T extends ArchiveChronologyEntry>(records: readonly T[]): T[] {
+  return records
+    .map((record) => ({ record, date: archiveChronologyDate(record) }))
+    .sort(({ record: a, date: aDate }, { record: b, date: bDate }) => {
+      if (a.year !== b.year) return b.year - a.year;
+      if (aDate && bDate) {
+        const byMonth = bDate.month.localeCompare(aDate.month);
+        if (byMonth) return byMonth;
+        if (aDate.day !== bDate.day) {
+          if (!aDate.day) return -1;
+          if (!bDate.day) return 1;
+          return bDate.day.localeCompare(aDate.day);
+        }
+      } else if (Boolean(aDate) !== Boolean(bDate)) {
+        return aDate ? -1 : 1;
+      }
+      return a.slug.current.localeCompare(b.slug.current, "en");
+    })
+    .map(({ record }) => record);
 }
 
 export function demographicLabel(

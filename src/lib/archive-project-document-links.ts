@@ -1,3 +1,4 @@
+import releases from "../../config/project-document-releases.json";
 import type { ProjectArchiveEntry } from "./project-archive";
 import type { ProjectPresentationLocale } from "./project-detail-presentation";
 
@@ -39,4 +40,20 @@ export function archiveProjectDocumentAvailability(record: DocumentRecord, local
   if (tor) return "ToR available · Report not posted here";
   if (report) return "Report available · ToR not posted here";
   return "Documents not posted";
+}
+
+/** Publication of an account is independent of reconciliation of its figures. */
+export function archivePublishedFinancialAccount(
+  record: DocumentRecord & Pick<ProjectArchiveEntry, "year">,
+  locale: ProjectPresentationLocale,
+): string | undefined {
+  const slug = record.slug.current;
+  const { financial, report } = archiveProjectDocumentLinks(record);
+  const isPublished = (record.year === 2021 && slug === "first-widow-home-visits-2021"
+    && financial === `/docs/projects/${slug}/financial.pdf`)
+    || (record.year === 2022
+      && report === `/docs/projects/${slug}/report.pdf`
+      && releases.projects.some((project) => project.slug === slug && project.status === "released"));
+  if (!isPublished) return undefined;
+  return locale === "fr" ? "Compte financier publié" : "Financial account published";
 }

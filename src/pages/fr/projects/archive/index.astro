@@ -1,14 +1,16 @@
 ---
 import PageLayout from "../../../../layouts/PageLayout.astro";
+import { archiveProjectDisplayTitle } from "../../../../lib/archive-project-display-title";
 import { getEligibleArchiveFeaturePhoto } from "../../../../lib/archive-eligible-feature-photo";
 import PageHero from "../../../../components/layout/PageHero.astro";
 import Section from "../../../../components/layout/Section.astro";
 import {
   countProjectsUnderFinancialReview,
   countOwnerMarkedCompletions,
+  formatArchiveCardMonth,
   loadProjectArchiveEntries,
 } from "../../../../lib/project-archive";
-import { archiveProjectDocumentAvailability } from "../../../../lib/archive-project-document-links";
+import { archiveProjectDocumentAvailability, archivePublishedFinancialAccount } from "../../../../lib/archive-project-document-links";
 import { resolveHeroImage } from "../../../../lib/hero-images";
 
 const records = await loadProjectArchiveEntries();
@@ -19,6 +21,8 @@ const heroImage = await resolveHeroImage([
 
 const archiveItems = records.map((r) => ({
   ...r,
+  archiveMonth: formatArchiveCardMonth(r, "fr"),
+  publishedFinancialAccount: archivePublishedFinancialAccount(r, "fr"),
   featurePhoto: getEligibleArchiveFeaturePhoto(r, "fr", 240),
 }));
 
@@ -128,7 +132,7 @@ for (const r of archiveItems) {
           Budgets et objectifs indiqués (USD)
         </p>
         <p class="mt-1 text-xs text-gray-500">
-          Somme des budgets/objectifs affichés en USD; ce n’est pas un total de dépenses vérifié. {financeReviewCount} dossiers sont exclus pendant la vérification de leurs données financières.
+          Somme des budgets/objectifs affichés en USD; ce n’est pas un total de dépenses vérifié. Pour {financeReviewCount} dossiers, le budget ou objectif en USD est exclu de ce total. Un compte financier peut néanmoins être disponible.
         </p>
       </div>
       <div>
@@ -236,10 +240,11 @@ for (const r of archiveItems) {
                         <div class="flex-1 min-w-0">
                           <div class="flex items-center gap-2 mb-1">
                             <h3 class="text-sm font-semibold text-gray-900 group-hover:text-primary-700 transition-colors truncate">
-                              {r.titleFr || r.title}
+                              {archiveProjectDisplayTitle(r, "fr")}
                             </h3>
                           </div>
                           <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                            <span data-archive-month={r.archiveMonth ?? ""} class="font-medium text-gray-700">{r.archiveMonth ?? "Mois non précisé"}</span>
                             <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-md font-medium">
                               {demoLabels[r.demographic]}
                             </span>
@@ -258,7 +263,9 @@ for (const r of archiveItems) {
                               ${r.budget.toLocaleString()}
                             </p>
                           )}
-                          {r.financialReviewNote && !r.budget && (
+                          {r.publishedFinancialAccount ? (
+                            <p class="mt-2 text-xs text-primary-800">{r.publishedFinancialAccount}</p>
+                          ) : r.financialReviewNote && !r.budget && (
                             <p class="mt-2 text-xs text-amber-800">{r.financialReviewTitleFr || "Chiffres financiers en cours de vérification"}</p>
                           )}
                           <p
