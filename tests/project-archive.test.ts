@@ -346,10 +346,8 @@ describe("owner-recalled finance display overrides", () => {
       new URL("../src/pages/fr/projects/archive/index.astro", import.meta.url),
       "utf8",
     );
-    expect(enIndex).toContain("{financeReviewCount} project records are excluded");
-    expect(frIndex).toContain("{financeReviewCount} dossiers sont exclus");
-    expect(enIndex).not.toContain("Two project records are excluded");
-    expect(frIndex).not.toContain("Deux dossiers sont exclus");
+    expect(enIndex).toContain("For {financeReviewCount} project records, the USD budget or goal is withheld");
+    expect(frIndex).toContain("Pour {financeReviewCount} dossiers, le budget ou objectif en USD est exclu");
   });
 
   it("does not change unrelated archive budgets", () => {

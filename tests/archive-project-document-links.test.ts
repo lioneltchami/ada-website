@@ -1,5 +1,6 @@
+import releases from "../config/project-document-releases.json";
 import { describe, expect, it } from "vitest";
-import { archiveProjectDocumentAvailability as availability, archiveProjectDocumentLinks as links } from "../src/lib/archive-project-document-links";
+import { archiveProjectDocumentAvailability as availability, archivePublishedFinancialAccount as publishedFinance, archiveProjectDocumentLinks as links } from "../src/lib/archive-project-document-links";
 
 const slug = { current: "city-cleanup-may-2023" };
 const torUrl = "/docs/projects/city-cleanup-may-2023/tor.pdf";
@@ -29,5 +30,35 @@ describe("public archive document availability", () => {
     const onlyFinancial = { slug, financialReportUrl:"/docs/projects/city-cleanup-may-2023/financial.pdf" };
     expect(links(onlyFinancial).financial).toBe(onlyFinancial.financialReportUrl);
     expect(availability(onlyFinancial,"en")).toBe("Documents not posted");
+  });
+});
+
+describe("published financial accounts on the 2021 and 2022 archive", () => {
+  const marker = { en: "Financial account published", fr: "Compte financier publié" };
+
+  it("requires the canonical 2021 financial PDF, not the ToR or general report", () => {
+    const slug = { current: "first-widow-home-visits-2021" };
+    const base = `/docs/projects/${slug.current}`;
+    const record = { slug, year: 2021, torUrl: base + "/tor.pdf", reportUrl: base + "/report.pdf" };
+    expect(publishedFinance(record, "en")).toBeUndefined();
+    expect(publishedFinance({ ...record, financialReportUrl: base + "/financial.pdf" }, "en")).toBe(marker.en);
+    expect(publishedFinance({ ...record, financialReportUrl: base + "/financial.pdf" }, "fr")).toBe(marker.fr);
+    expect(publishedFinance({ ...record, financialReportUrl: base + "/report.pdf" }, "en")).toBeUndefined();
+  });
+
+  it("uses combined reports for all six released 2022 records, without promoting other projects", () => {
+    const projects = releases.projects.filter(project => project.status === "released");
+    expect(projects).toHaveLength(6);
+    for (const project of projects) {
+      const slug = { current: project.slug };
+      const reportUrl = `/docs/projects/${slug.current}/report.pdf`;
+      const record = { slug, year: 2022, reportUrl };
+      expect(publishedFinance(record, "en")).toBe(marker.en);
+      expect(publishedFinance(record, "fr")).toBe(marker.fr);
+      expect(publishedFinance({ ...record, reportUrl: undefined }, "en")).toBeUndefined();
+      expect(publishedFinance({ ...record, year: 2023 }, "en")).toBeUndefined();
+    }
+    expect(publishedFinance({ slug, reportUrl, year: 2023 }, "en")).toBeUndefined();
+    expect(publishedFinance({ slug, reportUrl, year: 2022 }, "en")).toBeUndefined();
   });
 });

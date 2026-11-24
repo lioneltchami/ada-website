@@ -74,9 +74,10 @@ describe("project archive filters", () => {
     );
     expect(french).toContain("Budgets et objectifs indiqués (USD)");
     expect(french).toContain("ce n’est pas un total de dépenses vérifié");
-    expect(french).toContain("{financeReviewCount} dossiers sont exclus pendant la vérification");
-    expect(french).not.toContain("Deux dossiers sont exclus pendant la vérification");
-    expect(english).toContain("{financeReviewCount} project records are excluded");
+    expect(french).toContain("Pour {financeReviewCount} dossiers, le budget ou objectif en USD est exclu de ce total. Un compte financier peut néanmoins être disponible.");
+    expect(english).toContain("For {financeReviewCount} project records, the USD budget or goal is withheld from this total. A financial account may still be available.");
+    expect(french).not.toMatch(/Pour (?:deux|\d+) dossiers, le budget/i);
+    expect(english).not.toMatch(/For (?:two|\d+) project records, the USD budget/i);
     expect(french).toContain("Entrées d’archives");
   });
 

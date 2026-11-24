@@ -1,11 +1,12 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
+import { archiveProjectDisplayTitle } from "../../lib/archive-project-display-title";
 import { getEligibleArchiveFeaturePhoto } from "../../lib/archive-eligible-feature-photo";
 import type { ProjectArchiveEntry } from "../../lib/project-archive";
 import { hasReleased2023ProjectDocumentSet, reviewedProjectRecords } from "../../lib/reviewed-project-records";
 import { hasReleasedProjectDocumentSet } from "../../data/organization";
 import { archiveEditorial, archiveResolvedFinance } from "../../data/archive-detail-editorial";
-import { archiveProjectDocumentLinks } from "../../lib/archive-project-document-links";
+import { archiveProjectDocumentLinks, archivePublishedFinancialAccount } from "../../lib/archive-project-document-links";
 import { formatUsdAmount, getArchiveRecordStatusText, getProjectReportLabel } from "../../lib/project-detail-presentation";
 
 interface Props { record: ProjectArchiveEntry; locale: "en" | "fr" }
@@ -14,7 +15,7 @@ const fr = locale === "fr";
 const root = fr ? "/fr" : "";
 const archive = root + "/projects/archive/";
 const slug = record.slug.current;
-const title = (fr && record.titleFr) || record.title;
+const title = archiveProjectDisplayTitle(record, locale);
 const location = (fr && record.locationFr) || record.location;
 const editorial = archiveEditorial[slug]?.[locale];
 const financialLabels = editorial?.financialLabels;
@@ -41,7 +42,8 @@ const demo = (fr
   ? { widows:"Veuves", orphans:"Orphelins", "young-women":"Jeunes femmes", "pregnant-women":"Femmes enceintes", idps:"PDI", community:"Communauté" }
   : { widows:"Widows", orphans:"Orphans", "young-women":"Young women", "pregnant-women":"Pregnant women", idps:"IDPs", community:"Community" })[record.demographic];
 const financialNote = fr ? record.financialReviewNoteFr : record.financialReviewNote;
-const financialTitle = (fr ? record.financialReviewTitleFr : record.financialReviewTitle) || (fr ? "Chiffres financiers en cours de vérification" : "Financial figures under review");
+const publishedFinancialAccount = archivePublishedFinancialAccount(record, locale);
+const financialTitle = publishedFinancialAccount || (fr ? record.financialReviewTitleFr : record.financialReviewTitle) || (fr ? "Chiffres financiers en cours de vérification" : "Financial figures under review");
 const documentNote = fr ? record.documentReviewNoteFr : record.documentReviewNote;
 const englishDocuments = hasReleased2023ProjectDocumentSet(slug);
 const hasPublishedPair = hasReleasedProjectDocumentSet(slug);
@@ -150,10 +152,10 @@ const formatXaf = (amount: number) => new Intl.NumberFormat(fr ? "fr-FR" : "en-U
           </dl>
           <p class="mt-2 text-xs leading-relaxed text-slate-600">{financialBasis}</p>
         </section>
-      ) : financialNote && (
-        <section class="rounded-xl border border-amber-200 bg-amber-50 p-5 text-amber-950">
+      ) : (financialNote || publishedFinancialAccount) && (
+        <section class:list={["rounded-xl border p-5", publishedFinancialAccount ? "border-slate-200 bg-white text-slate-900" : "border-amber-200 bg-amber-50 text-amber-950"]}>
           <h2 class="font-heading text-base font-bold">{financialTitle}</h2>
-          <p class="mt-2 break-words text-sm leading-relaxed">{financialNote}</p>
+          {financialNote && <p class="mt-2 break-words text-sm leading-relaxed">{financialNote}</p>}
         </section>
       )}
       <a href={root + "/donate"} aria-label={(fr ? "Soutenir le travail général d’ADA : " : "Support ADA’s general work: ") + title} class="inline-flex min-h-11 items-center rounded-md bg-secondary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary-600">{fr ? "Soutenir le travail d’ADA" : "Support our work"}</a>
