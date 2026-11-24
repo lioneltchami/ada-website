@@ -1,3 +1,5 @@
+import { archiveEditorialRecent } from "./archive-editorial-2025-2026";
+import { archiveEditorialEarly } from "./archive-editorial-2021-2024";
 type ArchiveEditorial = {
   lead: string;
   sections: { title: string; text: string }[];
@@ -24,6 +26,8 @@ function projectStory(
 }
 
 export const archiveEditorial: Record<string, Record<"en" | "fr", ArchiveEditorial>> = {
+  ...archiveEditorialEarly,
+  ...archiveEditorialRecent,
   "city-cleanup-may-2023": {
     en: {
       lead: "On Labour Day, our team and volunteers cleared litter from shared spaces in Buea. It was a practical way to care for our neighbors and give back through our time and effort.",

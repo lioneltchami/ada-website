@@ -1,6 +1,6 @@
 ---
 import PageLayout from "../../../../layouts/PageLayout.astro";
-import { getArchiveFeaturePhoto } from "../../../../data/archive-feature-photos";
+import { getEligibleArchiveFeaturePhoto } from "../../../../lib/archive-eligible-feature-photo";
 import PageHero from "../../../../components/layout/PageHero.astro";
 import Section from "../../../../components/layout/Section.astro";
 import {
@@ -9,7 +9,6 @@ import {
   loadProjectArchiveEntries,
 } from "../../../../lib/project-archive";
 import { archiveProjectDocumentAvailability } from "../../../../lib/archive-project-document-links";
-import { sanityImageUrl } from "../../../../lib/sanity";
 import { resolveHeroImage } from "../../../../lib/hero-images";
 
 const records = await loadProjectArchiveEntries();
@@ -20,9 +19,7 @@ const heroImage = await resolveHeroImage([
 
 const archiveItems = records.map((r) => ({
   ...r,
-  featurePhoto: getArchiveFeaturePhoto(r.slug.current, "fr"),
-  thumbUrl: r.photo?.asset?._ref ? sanityImageUrl(r.photo.asset._ref, 240) : "",
-  thumbAlt: r.photo?.alt || r.titleFr || r.title,
+  featurePhoto: getEligibleArchiveFeaturePhoto(r, "fr", 240),
 }));
 
 const demographics = [
@@ -231,13 +228,6 @@ for (const r of archiveItems) {
                           class="h-auto w-14 flex-shrink-0 rounded-md sm:w-16"
                           loading="lazy"
                           decoding="async"
-                        />
-                      ) : r.thumbUrl ? (
-                        <img
-                          src={r.thumbUrl}
-                          alt={r.thumbAlt}
-                          class="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                          loading="lazy"
                         />
                       ) : (
                         <div class="w-16 h-16 rounded-lg bg-primary-50 flex-shrink-0" />
