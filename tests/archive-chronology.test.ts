@@ -21,14 +21,23 @@ describe("archive chronology", () => {
     expect(result.find((item) => item.slug.current === "idp-girls-baking-training-jul-2022")?.startDate).toBeFalsy();
   });
 
-  it("respects reported February ordering without assigning the Mountain Race a day", () => {
-    const records = reviewed2023.projects.filter((item) => item.slug.includes("feb-2023") || item.slug.includes("mar-2023"))
-      .map((item) => ({ ...item, slug: { current: item.slug }, startDate: item.startDate ?? undefined, endDate: item.endDate ?? undefined })).reverse();
-    const result = sortArchiveEntriesChronologically(records);
-    expect(result.map((item) => item.slug.current)).toEqual([
-      "womens-day-home-visits-mar-2023", "mountain-race-outreach-feb-2023", "youth-day-snacks-feb-2023",
+  it("orders all seven 2023 activities from newest to oldest using the corrected project dates", () => {
+    const records = reviewed2023.projects
+      .map((item) => ({ ...item, slug: { current: item.slug }, startDate: item.startDate ?? undefined, endDate: item.endDate ?? undefined }));
+    const result = sortArchiveEntriesChronologically([...records].reverse());
+    expect(result.map((item) => [item.slug.current, item.startDate])).toEqual([
+      ["christmas-giving-dec-2023", "2023-12-16"],
+      ["girls-day-oct-2023", "2023-10-21"],
+      ["back-to-school-drive-2023", "2023-08-26"],
+      ["city-cleanup-may-2023", "2023-04-06"],
+      ["womens-day-home-visits-mar-2023", "2023-03-11"],
+      ["mountain-race-outreach-feb-2023", "2023-02-25"],
+      ["youth-day-snacks-feb-2023", "2023-02-04"],
     ]);
-    expect(result[1].startDate).toBeUndefined();
+    expect(result.every((item) => item.startDate === item.endDate)).toBe(true);
+    const labourDay = result[3];
+    expect(formatArchiveCardMonth(labourDay, "en")).toBe("April");
+    expect(formatArchiveCardMonth(labourDay, "fr")).toBe("avril");
   });
 
   it("displays localized months using source timing rather than implied months in slugs", () => {

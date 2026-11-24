@@ -21,13 +21,13 @@ describe('confirmed 2023 project summaries and PDF publication', () => {
   const rows=applyReviewedProjectContent([other,stale]);
   expect(rows.find(r=>r.slug.current===other.slug.current)).toEqual(other);
   const row=rows.find(r=>r.slug.current===stale.slug.current)!;
-  expect(row.location).toBe('Lycée de Buea, Buea');expect(row.budget).toBeUndefined();expect(row.beneficiaries).toBeUndefined();expect(row.startDate).toBeUndefined();
+  expect(row.location).toBe('Lycée de Buea, Buea');expect(row.budget).toBeUndefined();expect(row.beneficiaries).toBeUndefined();expect(row.startDate).toBe('2023-08-26');
   expect(row.photos).toEqual([]);expect(row.outcomes).toEqual([]);expect(row.reportUrl).toBeUndefined();
   expect(row.financialReviewNote).toContain('240,000');expect(row.financialReviewNote).toContain('230,000');expect(row.financialReviewNote).toContain('not an account balance');
  });
- it('keeps February activities separate and does not copy the race date into the outreach date',()=>{
+ it('keeps the two February activities separate, with the outreach on race day',()=>{
   const feb=reviewedProjectRecords.filter(p=>p.slug.endsWith('feb-2023'));expect(feb).toHaveLength(2);
-  expect(feb[0].startDate).toBe('2023-02-11');expect(feb[1].startDate).toBeNull();
+  expect(feb[0].startDate).toBe('2023-02-04');expect(feb[1].startDate).toBe('2023-02-25');
   for(const p of feb){expect(p.financialNote).toContain('50,000');expect(p.financialNote).toContain('leaving no project balance');expect(p.financialNote).not.toContain('5,000');}
  });
  it('corrects March gathering and reconciles May using item sums without double-counting transfers',()=>{
