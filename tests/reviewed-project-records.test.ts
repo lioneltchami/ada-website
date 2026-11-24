@@ -7,7 +7,7 @@ import { countProjectsUnderFinancialReview, groupProjectsByYear } from '../src/l
 import { hasStaticProjectDocuments } from '../src/data/organization';
 import { impactMetricsFor, measurableIndicatorsFor } from '../src/data/impact';
 
-describe('confirmed 2023 project summaries before PDF publication', () => {
+describe('confirmed 2023 project summaries and PDF publication', () => {
  it('adds all seven activities offline and is idempotent, without misdating them to 2022', () => {
   const once=applyReviewedProjectContent([]);
   expect(once).toHaveLength(7);expect(once.every(r=>r.year===2023)).toBe(true);
@@ -23,12 +23,12 @@ describe('confirmed 2023 project summaries before PDF publication', () => {
   const row=rows.find(r=>r.slug.current===stale.slug.current)!;
   expect(row.location).toBe('Lycée de Buea, Buea');expect(row.budget).toBeUndefined();expect(row.beneficiaries).toBeUndefined();expect(row.startDate).toBeUndefined();
   expect(row.photos).toEqual([]);expect(row.outcomes).toEqual([]);expect(row.reportUrl).toBeUndefined();
-  expect(row.financialReviewNote).toContain('240,000');expect(row.financialReviewNote).toContain('230,000');expect(row.financialReviewNote).toContain('not a confirmed account balance');
+  expect(row.financialReviewNote).toContain('240,000');expect(row.financialReviewNote).toContain('230,000');expect(row.financialReviewNote).toContain('not an account balance');
  });
  it('keeps February activities separate and does not copy the race date into the outreach date',()=>{
   const feb=reviewedProjectRecords.filter(p=>p.slug.endsWith('feb-2023'));expect(feb).toHaveLength(2);
   expect(feb[0].startDate).toBe('2023-02-11');expect(feb[1].startDate).toBeNull();
-  for(const p of feb){expect(p.financialNote).toContain('50,000');expect(p.financialNote).toContain('approximately 5,000');}
+  for(const p of feb){expect(p.financialNote).toContain('50,000');expect(p.financialNote).toContain('leaving no project balance');expect(p.financialNote).not.toContain('5,000');}
  });
  it('corrects March gathering and reconciles May using item sums without double-counting transfers',()=>{
   const march=reviewedProjectRecords.find(p=>p.slug==='womens-day-home-visits-mar-2023')!;
@@ -42,11 +42,11 @@ describe('confirmed 2023 project summaries before PDF publication', () => {
   const mapped=applyReviewedProjectContent([]);
   expect(mapped.find(p=>p.slug.current===may.slug)?.financialReviewTitle).toBe("Financial record");
   expect(mapped.find(p=>p.slug.current===may.slug)?.financialReviewTitleFr).toBe("Relevé financier");
-  for(const p of mapped.filter(p=>p.slug.current!==may.slug)){expect(p.financialReviewTitle).toBeUndefined();expect(p.financialReviewTitleFr).toBeUndefined();}
+  for(const p of mapped){expect(p.financialReviewTitle).toBe('Financial record');expect(p.financialReviewTitleFr).toBe('Relevé financier');}
  });
- it('excludes the confirmed May financial summary from the under-review count while leaving the documents pending',()=>{
+ it('excludes the released financial summaries from the under-review count',()=>{
   const rows=applyReviewedProjectContent([]);
-  expect(countProjectsUnderFinancialReview(rows)).toBe(6);
+  expect(countProjectsUnderFinancialReview(rows)).toBe(0);
   const may=rows.find(r=>r.slug.current==='city-cleanup-may-2023')!;
   expect(may.financialReviewTitle).toBe('Financial record');
   expect(may.financialReviewTitleFr).toBe('Relevé financier');
@@ -54,19 +54,20 @@ describe('confirmed 2023 project summaries before PDF publication', () => {
   expect(may.reportUrl).toBeUndefined(); // static URLs attach in the archive loader
   expect(may.documentReviewNote).toBeUndefined();
  });
- it('releases only the May cleanup PDF pair and withholds all six other projects',()=>{
+ it('releases exactly the two reviewed PDFs for each of seven projects',()=>{
   const releasedSlug='city-cleanup-may-2023';
   for(const p of reviewedProjectRecords) {
-   expect(isProjectDocumentReviewPending(p.slug)).toBe(p.slug!==releasedSlug);
-   expect(hasStaticProjectDocuments(p.slug)).toBe(p.slug===releasedSlug);
+   expect(isProjectDocumentReviewPending(p.slug)).toBe(false);
+   expect(hasStaticProjectDocuments(p.slug)).toBe(true);
+   expect(fs.readdirSync(`public/docs/projects/${p.slug}`).sort()).toEqual(['report.pdf','tor.pdf']);
   }
   const resources=groupProjectsByYear([]).find(g=>g.year===2023);
-  expect(resources?.projectCount).toBe(1);
+  expect(resources?.projectCount).toBe(7);
   expect(JSON.stringify(resources)).toContain(releasedSlug);
   const redirects=fs.readFileSync('public/_redirects','utf8');
   for(const slug of ['back-to-school-drive-2023',releasedSlug,'womens-day-home-visits-mar-2023'])for(const kind of ['tor','report','financial']){
    for(const ext of ['md','pdf']) {
-    const isRelease=slug===releasedSlug&&kind!=='financial'&&ext==='pdf';
+    const isRelease=kind!=='financial'&&ext==='pdf';
     expect(fs.existsSync(`public/docs/projects/${slug}/${kind}.${ext}`)).toBe(isRelease);
     expect(redirects.includes(`/docs/projects/${slug}/${kind}.${ext} /projects/archive/${slug}/ 302`)).toBe(!isRelease);
    }
@@ -89,6 +90,6 @@ describe('confirmed 2023 project summaries before PDF publication', () => {
   const ledger=fs.readFileSync('public/docs/ada-project-history.md','utf8');
   const part=ledger.split('### 2023')[1].split('### 2022')[0];
   expect(part).not.toMatch(/940,000|960,000|345,000|REC\d|100%|Bamenda/);
-  expect(part).toContain('corrected documents under review');
+  expect(part).toContain('project documents available');
  });
 });

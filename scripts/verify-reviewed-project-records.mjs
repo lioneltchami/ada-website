@@ -4,7 +4,15 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const allowedReleases = new Set(['city-cleanup-may-2023']);
+const allowedReleases = new Set([
+ 'youth-day-snacks-feb-2023',
+ 'mountain-race-outreach-feb-2023',
+ 'womens-day-home-visits-mar-2023',
+ 'city-cleanup-may-2023',
+ 'back-to-school-drive-2023',
+ 'girls-day-oct-2023',
+ 'christmas-giving-dec-2023',
+]);
 const approvedDocumentKinds = ['report', 'tor'];
 
 export async function verifyReviewedProjectRecords(root, checkDist = false) {
@@ -69,7 +77,7 @@ export async function verifyReviewedProjectRecords(root, checkDist = false) {
   }
  }
  assert.equal(released.size,allowedReleases.size,'Every allowlisted release must appear exactly once');
- console.log(`Reviewed2023 guard passed: seven factual summaries; ${released.size} exact two-document release; six projects remain private${checkDist?'; 14 bilingual routes checked':''}.`);
+ console.log(`Reviewed2023 guard passed: seven factual summaries; ${released.size} exact two-document releases${checkDist?'; 14 bilingual routes checked':''}.`);
  return released;
 }
 if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.url))await verifyReviewedProjectRecords(process.cwd(),process.argv.includes('--dist'));

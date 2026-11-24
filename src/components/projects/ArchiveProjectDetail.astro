@@ -1,0 +1,163 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import PhotoLightbox from "../islands/PhotoLightbox";
+import { sanityImageUrl } from "../../lib/sanity";
+import type { ProjectArchiveEntry } from "../../lib/project-archive";
+import { hasReleased2023ProjectDocumentSet, reviewedProjectRecords } from "../../lib/reviewed-project-records";
+import { hasReleasedProjectDocumentSet } from "../../data/organization";
+import { archiveEditorial, archiveResolvedFinance } from "../../data/archive-detail-editorial";
+import { formatUsdAmount, getArchiveRecordStatusText, getProjectReportLabel } from "../../lib/project-detail-presentation";
+
+interface Props { record: ProjectArchiveEntry; locale: "en" | "fr" }
+const { record, locale } = Astro.props;
+const fr = locale === "fr";
+const root = fr ? "/fr" : "";
+const archive = root + "/projects/archive/";
+const slug = record.slug.current;
+const title = (fr && record.titleFr) || record.title;
+const location = (fr && record.locationFr) || record.location;
+const description = (fr && record.descriptionFr) || record.description;
+const outcomes = (fr && record.outcomesFr) || record.outcomes;
+const editorial = archiveEditorial[slug]?.[locale];
+const photo = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._ref, 960) : "";
+const gallery = (record.photos ?? []).flatMap(p => p?.asset?._ref ? [{url:sanityImageUrl(p.asset._ref, 800), caption:(fr && p.captionFr) || p.caption || ""}] : []);
+const auto = Boolean(record.autoArchived);
+const status = getArchiveRecordStatusText(record.status, auto, locale);
+const demo = (fr
+  ? { widows:"Veuves", orphans:"Orphelins", "young-women":"Jeunes femmes", "pregnant-women":"Femmes enceintes", idps:"PDI", community:"Communauté" }
+  : { widows:"Widows", orphans:"Orphans", "young-women":"Young women", "pregnant-women":"Pregnant women", idps:"IDPs", community:"Community" })[record.demographic];
+const financialNote = fr ? record.financialReviewNoteFr : record.financialReviewNote;
+const financialTitle = (fr ? record.financialReviewTitleFr : record.financialReviewTitle) || (fr ? "Chiffres financiers en cours de vérification" : "Financial figures under review");
+const documentNote = fr ? record.documentReviewNoteFr : record.documentReviewNote;
+const englishDocuments = hasReleased2023ProjectDocumentSet(slug);
+const hasPublishedPair = hasReleasedProjectDocumentSet(slug);
+const documents = [
+  { href:record.torUrl, label:fr ? "Termes de référence" : "Terms of Reference", english:englishDocuments },
+  { href:record.reportUrl, label:hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, ""), english:englishDocuments },
+  { href:record.financialReportUrl, label:fr ? "Rapport financier" : "Financial Report", english:false },
+].filter(d => d.href);
+const finance = englishDocuments && record.torUrl && record.reportUrl ? archiveResolvedFinance[slug] : undefined;
+const showDay = (record.year === 2022 && hasPublishedPair) || reviewedProjectRecords.some(project => project.slug === slug);
+const prettyDate = (value: string) => {
+  const exact = showDay && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  const label = new Intl.DateTimeFormat(fr ? "fr-FR" : "en-GB", { month:exact ? "long" : "short", year:"numeric", ...(exact ? {day:"numeric"} : {}), timeZone:"UTC" }).format(new Date(value));
+  return fr && exact ? label.replace(/^1 /, "1er ") : label;
+};
+const dateLabel = [record.startDate, record.endDate].filter((d): d is string => Boolean(d && !Number.isNaN(Date.parse(d)))).map(prettyDate);
+const period = [...new Set(dateLabel)].join(" – ") || String(record.year);
+const expenses = finance ? finance.itemSubtotal + finance.fees : 0;
+const formatXaf = (amount: number) => new Intl.NumberFormat(fr ? "fr-FR" : "en-US").format(amount) + " FCFA";
+const caption = fr && record.photo?.altFr || record.photo?.alt || title;
+---
+
+<PageLayout title={title} description={(editorial?.lead || description)?.slice(0,160)}>
+  <section class="bg-primary-900 text-white">
+    <div class="mx-auto max-w-6xl px-5 py-11 sm:px-8 sm:py-14">
+      <nav aria-label={fr ? "Fil d’Ariane" : "Breadcrumb"} class="mb-6">
+        <ol class="flex flex-wrap items-center gap-2 text-sm text-white/80">
+          <li><a href={root || "/"} class="hover:text-white">{fr ? "Accueil" : "Home"}</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href={archive} class="hover:text-white">{fr ? "Archives des projets" : "Project Archive"}</a></li>
+        </ol>
+      </nav>
+      <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-white/75">{fr ? "Projets réalisés et archives" : "Project archive"}</p>
+      <h1 class="break-words text-3xl font-heading font-bold leading-tight sm:text-4xl">{title}</h1>
+      <ul aria-label={fr ? "En bref" : "At a glance"} class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/85">
+        <li class="rounded-full border border-white/25 bg-white/10 px-3 py-1">{status}</li>
+        <li>{period}</li>
+        {location && <li>{location}</li>}
+      </ul>
+    </div>
+  </section>
+
+  <div class="mx-auto grid max-w-6xl grid-cols-1 items-start gap-8 px-5 py-9 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,21rem)] lg:gap-12">
+    <article aria-label={fr ? "Compte rendu du projet" : "Project story"} class="min-w-0">
+      {photo && <figure class="mb-7 overflow-hidden rounded-xl"><img src={photo} alt={caption} class="h-auto w-full" loading="lazy" /></figure>}
+      {editorial ? (
+        <>
+          <p class="max-w-[68ch] text-lg leading-relaxed text-slate-800">{editorial.lead}</p>
+          <div class="mt-7 space-y-6">
+            {editorial.sections.map(({title:heading,text}) => (
+              <section>
+                <h2 class="font-heading text-lg font-bold text-primary-900">{heading}</h2>
+                <p class="mt-2 max-w-[68ch] leading-relaxed text-slate-700">{text}</p>
+              </section>
+            ))}
+          </div>
+        </>
+      ) : description && (
+        <section>
+          <h2 class="font-heading text-xl font-bold text-primary-900">{fr ? "À propos du projet" : "About the project"}</h2>
+          <div class="mt-3 space-y-4">{description.split("\n").filter(p => p.trim()).map(p => <p class="max-w-[68ch] leading-relaxed text-slate-700">{p}</p>)}</div>
+        </section>
+      )}
+      {outcomes && outcomes.length > 0 && (
+        <section class="mt-8">
+          <h2 class="font-heading text-lg font-bold text-primary-900">{fr ? "Principaux résultats" : "Key outcomes"}</h2>
+          <ul class="mt-3 list-disc space-y-2 pl-5 text-slate-700">{outcomes.map(outcome => <li>{outcome}</li>)}</ul>
+        </section>
+      )}
+      {gallery.length > 0 && (
+        <section class="mt-8">
+          <h2 class="mb-4 font-heading text-lg font-bold text-primary-900">{fr ? "Photos du projet" : "Project photos"}</h2>
+          <PhotoLightbox client:visible photos={gallery} locale={locale} projectTitle={title} />
+        </section>
+      )}
+        {documents.length > 0 && <a href="#archive-project-documents" class="mt-5 inline-flex min-h-11 items-center font-medium text-primary-800 underline underline-offset-4 lg:hidden">{fr ? "Aller aux documents du projet" : "Jump to project documents"}</a>}
+    </article>
+
+    <aside aria-label={fr ? "Dossier du projet" : "Project record"} class="min-w-0 space-y-4">
+      <section class="rounded-xl border border-slate-200 bg-white p-5">
+        <h2 class="font-heading text-base font-bold text-primary-900">{fr ? "Détails du projet" : "Project details"}</h2>
+        {auto && <p class="mt-3 text-sm leading-relaxed text-slate-700">{fr ? "Cette archive a été générée automatiquement après la date de fin indiquée. Elle ne confirme ni l’achèvement du projet ni ses résultats." : "This entry was archived automatically after its listed end date. It does not confirm completion or outcomes."}</p>}
+        <dl class="mt-4 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2.5 text-sm">
+          <dt class="text-slate-600">{fr ? "Statut" : "Status"}</dt><dd class="text-right font-medium text-slate-900">{status}</dd>
+          <dt class="text-slate-600">{fr ? "Public" : "Community served"}</dt><dd class="text-right font-medium text-slate-900">{demo}</dd>
+          <dt class="text-slate-600">{fr ? "Date" : "Date"}</dt><dd class="text-right font-medium text-slate-900">{period}</dd>
+          {location && <><dt class="text-slate-600">{fr ? "Lieu" : "Location"}</dt><dd class="break-words text-right font-medium text-slate-900">{location}</dd></>}
+          {record.beneficiaries != null && <><dt class="text-slate-600">{fr ? "Bénéficiaires" : "Beneficiaries"}</dt><dd class="text-right font-medium text-slate-900">{record.beneficiaries}</dd></>}
+          {record.budget != null && <><dt class="text-slate-600">{fr ? "Budget (USD)" : "Budget (USD)"}</dt><dd class="text-right font-medium text-slate-900">{formatUsdAmount(Number(record.budget),locale)}</dd></>}
+        </dl>
+      </section>
+
+      {(documents.length > 0 || documentNote) && (
+        <section id="archive-project-documents" class="scroll-mt-24 rounded-xl border border-primary-200 bg-primary-50 p-5">
+          <h2 class="font-heading text-base font-bold text-primary-900">{fr ? "Documents du projet" : "Project documents"}</h2>
+          {documentNote && <p class="mt-3 break-words text-sm leading-relaxed text-slate-700">{documentNote}</p>}
+          {documents.length > 0 && <ul class="mt-3 space-y-2">
+            {documents.map(({href,label,english}) => (
+              <li><a href={href} target="_blank" rel="noopener" class="flex min-h-11 items-center justify-between gap-2 rounded-lg border border-primary-200 bg-white px-3 py-2 text-sm font-medium text-primary-900 transition hover:bg-primary-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">
+                <span>{label} <span class="text-xs text-slate-600">({fr && english ? "PDF en anglais" : "PDF"})</span></span>
+                <span aria-hidden="true" class="shrink-0 text-base">↗</span>
+              </a></li>
+            ))}
+          </ul>}
+        </section>
+      )}
+
+      {finance && editorial ? (
+        <section class="rounded-xl border border-slate-200 bg-white p-5">
+          <h2 class="font-heading text-base font-bold text-primary-900">{financialTitle}</h2>
+          <dl class="mt-3 divide-y divide-slate-200 text-sm">
+            {[finance.received,expenses,finance.received-expenses].map((amount,i) => (
+              <div class="flex items-baseline justify-between gap-2 py-2.5">
+                <dt class="text-slate-700">{editorial.financialLabels[i]}</dt>
+                <dd class="shrink-0 font-semibold tabular-nums text-slate-900">{formatXaf(amount)}</dd>
+              </div>
+            ))}
+          </dl>
+          <p class="mt-2 text-xs leading-relaxed text-slate-600">{editorial.financialBasis}</p>
+        </section>
+      ) : financialNote && (
+        <section class="rounded-xl border border-amber-200 bg-amber-50 p-5 text-amber-950">
+          <h2 class="font-heading text-base font-bold">{financialTitle}</h2>
+          <p class="mt-2 break-words text-sm leading-relaxed">{financialNote}</p>
+        </section>
+      )}
+      <a href={root + "/donate"} aria-label={(fr ? "Soutenir le travail général d’ADA : " : "Support ADA’s general work: ") + title} class="inline-flex min-h-11 items-center rounded-md bg-secondary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary-600">{fr ? "Soutenir le travail d’ADA" : "Support our work"}</a>
+    </aside>
+  </div>
+  <div class="mx-auto max-w-6xl border-t border-slate-200 px-5 py-6 sm:px-8">
+    <a href={archive} class="inline-flex min-h-11 items-center font-medium text-primary-800 hover:underline">{fr ? "← Retour aux archives" : "← Back to Project Archive"}</a>
+  </div>
+</PageLayout>

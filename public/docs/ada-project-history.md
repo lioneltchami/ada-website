@@ -2,7 +2,7 @@
 
 This ledger focuses on the archived projects and their budget records from 2021 through 2025. It pairs the narrative completion reports with the financial reports so the story of each project stays tied to the numbers.
 
-Compiled on November 9, 2026 from the project archive under `public/docs/projects/`.
+Compiled on November 23, 2026 from the project archive under `public/docs/projects/`.
 
 Archived projects included: 24. Sum of reported approved amounts: 5,640,000 CFA. Sum of reported actual/spent amounts: 4,521,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
@@ -131,8 +131,8 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Reference: `N/A` | Location: Lycée de Buea, Buea | Period: 2023; exact activity date not established | Status: completed
 - Beneficiaries: Not established
 - What we did: In 2023, we provided school supplies at Lycée de Buea, including exercise books and school bags. This activity took place in Buea. The exact date and number of recipients have not been established.
-- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.
-- Finance note: The budget was 240,000 FCFA. We reported sending and using 230,000 FCFA for school supplies. The 10,000 FCFA difference between the budget and the amount sent is not a confirmed account balance. Item-level costs remain under review; no tuition, uniform, enrollment or exam-result claim is made.
+- Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
+- Finance note: The stated budget was 240,000 FCFA. Our account reports that we sent and used 230,000 FCFA for school supplies. The 10,000 FCFA difference between the budget and the amount sent is not an account balance. Individual supply costs and separate operating costs are not established.
 - Source files: [`back-to-school-drive-2023`](/projects/archive/back-to-school-drive-2023/)
 
 #### Christmas giving at House of Peace
@@ -140,8 +140,8 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Reference: `N/A` | Location: House of Peace, Buea | Period: 23 December 2023 | Status: completed
 - Beneficiaries: Approximately 21 children, reported
 - What we did: On 23 December 2023, we visited House of Peace in Buea for Christmas giving. Our account recalls approximately 21 children receiving support.
-- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.
-- Finance note: The reported total is 260,000 FCFA: 240,000 FCFA for goods and 20,000 FCFA for operating costs. The operating-cost split and individual item prices have not been established. These are reported amounts, not independently verified expenditure.
+- Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
+- Finance note: Our account reports a total of 260,000 FCFA: 240,000 FCFA for food and project supplies and 20,000 FCFA for operating costs. Individual supply prices and the operating-cost split are not established. These figures are reported, not independently audited.
 - Source files: [`christmas-giving-dec-2023`](/projects/archive/christmas-giving-dec-2023/)
 
 #### Community cleanup in Buea
@@ -149,8 +149,8 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Reference: `N/A` | Location: Buea | Period: 1 May 2023 | Status: completed
 - Beneficiaries: Not established
 - What we did: On 1 May 2023, our team took part in a community cleanup in Buea. The activity brought volunteers together to clean shared areas. The available account does not establish an exact participant count or a measured public-health outcome.
-- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.
-- Finance note: Funding of 100,000 FCFA is confirmed. The itemized sheet totals 94,400 FCFA plus 1,500 FCFA in fees, or 95,900 FCFA. An earlier account described 95,000 FCFA spent and 5,000 FCFA for other needs. These accounts have not yet been reconciled; no final expenditure or remaining balance is asserted here.
+- Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
+- Finance note: Funding of 100,000 FCFA is confirmed. Using the sum of the recorded items, expenses total 94,400 FCFA plus 1,500 FCFA in fees, or 95,900 FCFA. The 4,100 FCFA difference is a historical project figure, not the current account balance. The item sum takes precedence over the incorrectly calculated total in the sheet. These figures are based on the project record, not an independent audit.
 - Source files: [`city-cleanup-may-2023`](/projects/archive/city-cleanup-may-2023/)
 
 #### International Day of the Girl program
@@ -158,8 +158,8 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Reference: `N/A` | Location: Buea | Period: 11 October 2023 | Status: completed
 - Beneficiaries: Not established
 - What we did: On 11 October 2023, we held a program for young girls in Buea for International Day of the Girl and provided sanitary pads and other supplies. The venue and participant count have not been established.
-- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.
-- Finance note: The reported total is 150,000 FCFA: 145,000 FCFA for supplies and 5,000 FCFA in withdrawal fees. Detailed item prices remain under review. These are reported amounts, not independently verified expenditure.
+- Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
+- Finance note: We sent 150,000 FCFA: 145,000 FCFA for supplies and 5,000 FCFA in withdrawal fees. Individual supply costs and any separate transport amount are not established. The reported use equals the amount sent; these figures were not independently audited.
 - Source files: [`girls-day-oct-2023`](/projects/archive/girls-day-oct-2023/)
 
 #### Mountain Race preparation outreach
@@ -167,8 +167,8 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Reference: `N/A` | Location: Buea | Period: February 2023; exact outreach day not established | Status: completed
 - Beneficiaries: Not established
 - What we did: Later in February 2023, we provided support during preparations for the Mountain Race. The exact day of our outreach has not been established; the race date is not evidence of our activity date.
-- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.
-- Finance note: We sent 50,000 FCFA for this separate February activity. Our account reports that the full amount was used, including approximately 5,000 FCFA in withdrawal fees, with no project balance remaining. Item prices have not been established. These are reported figures, not independently verified expenditure.
+- Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
+- Finance note: We sent 50,000 FCFA for this separate February outreach. Our account reports that the full amount went to refreshments, supplies to keep people cool, and a withdrawal fee, leaving no project balance. The costs are not established separately. These figures are reported, not independently audited.
 - Source files: [`mountain-race-outreach-feb-2023`](/projects/archive/mountain-race-outreach-feb-2023/)
 
 #### Widows’ gathering in Buea
@@ -176,8 +176,8 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Reference: `N/A` | Location: Buea | Period: 11 March 2023 | Status: completed
 - Beneficiaries: Not established
 - What we did: On Saturday, 11 March 2023, we gathered with widows at a church in Buea to offer support and encouragement. Transport support was provided where possible. This was a gathering rather than a series of home visits. The church name and attendance have not been established.
-- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.
-- Finance note: The project budget was 250,000 FCFA. Our account reports 245,000 FCFA spent and 5,000 FCFA remaining in the nonprofit account at the time. Detailed category prices remain under review. These historical reported amounts are not independently verified expenditure or today’s account balance.
+- Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
+- Finance note: The project budget was 250,000 FCFA. Our account reports 245,000 FCFA spent and a balance of 5,000 FCFA in the nonprofit account after the project. Individual category costs are not established. These historical figures are not independently audited and do not describe the current account balance.
 - Source files: [`womens-day-home-visits-mar-2023`](/projects/archive/womens-day-home-visits-mar-2023/)
 
 #### Youth Day snacks for children
@@ -185,8 +185,8 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Reference: `N/A` | Location: Buea | Period: 11 February 2023 | Status: completed
 - Beneficiaries: Not established
 - What we did: On 11 February 2023, we provided snacks for children to mark Youth Day. This was a separate activity from our outreach during preparations for the Mountain Race later that month.
-- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.
-- Finance note: We sent 50,000 FCFA for this activity. Our account reports that the full amount was used, including approximately 5,000 FCFA in withdrawal fees, with no project balance remaining. Item prices have not been established. These are reported figures, not independently verified expenditure.
+- Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
+- Finance note: We sent 50,000 FCFA for Youth Day snacks. Our account reports that the full amount went to the snacks and a withdrawal fee, leaving no project balance. The snack cost and fee are not established separately. These figures are reported, not independently audited.
 - Source files: [`youth-day-snacks-feb-2023`](/projects/archive/youth-day-snacks-feb-2023/)
 
 
