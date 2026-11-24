@@ -30,7 +30,7 @@ export const archiveEditorial: Record<string, Record<"en" | "fr", ArchiveEditori
   ...archiveEditorialRecent,
   "city-cleanup-may-2023": {
     en: {
-      lead: "On Labour Day, our team and volunteers cleared litter from shared spaces in Buea. It was a practical way to care for our neighbors and give back through our time and effort.",
+      lead: "On 6 April 2023, our team and volunteers cleared litter from shared spaces in Buea as part of our Labour Day cleanup. It was a practical way to care for our neighbors and give back through our time and effort.",
       sections: [
         { title: "Why we did it", text: "Taking care of shared spaces is part of taking care of the people who use them. For our team, serving Buea this way was a practical expression of our Christian faith. Participation did not depend on joining prayer or worship." },
         { title: "How we did the work", text: "We used buckets, a rake and a spade to gather litter, with masks and gloves for protection. The project record also lists transport, caps, T-shirts and lettering for the buckets." },
@@ -40,7 +40,7 @@ export const archiveEditorial: Record<string, Record<"en" | "fr", ArchiveEditori
       financialBasis: "Recorded expenses include 1,500 FCFA in fees. The balance is for this project at the time, not the current balance of our account. The figures are from our project record, not an independent audit.",
     },
     fr: {
-      lead: "À l’occasion de la fête du Travail, notre équipe et des bénévoles ont ramassé des déchets dans des espaces communs à Buea. C’était une façon concrète de prendre soin de nos voisins en donnant de notre temps et de notre énergie.",
+      lead: "Le 6 avril 2023, notre équipe et des bénévoles ont ramassé des déchets dans des espaces communs à Buea dans le cadre de notre opération de nettoyage liée à la fête du Travail. C’était une façon concrète de prendre soin de nos voisins en donnant de notre temps et de notre énergie.",
       sections: [
         { title: "Pourquoi nous avons agi", text: "Prendre soin des espaces communs, c’est aussi prendre soin des personnes qui les utilisent. Pour notre équipe, servir Buea de cette manière était une expression concrète de notre foi chrétienne. Il n’était pas nécessaire de prendre part à la prière ou à la louange pour participer au nettoyage." },
         { title: "Comment nous avons procédé", text: "Nous avons ramassé les déchets à l’aide de seaux, d’un râteau et d’une bêche, avec des masques et des gants pour nous protéger. Le relevé du projet mentionne aussi le transport, les casquettes, les tee-shirts et le marquage des seaux." },
@@ -53,31 +53,31 @@ export const archiveEditorial: Record<string, Record<"en" | "fr", ArchiveEditori
   // 2023: released completion reports; funding and accounting stay in the existing records.
   "youth-day-snacks-feb-2023": {
     en: projectStory(
-      "On Youth Day, our team brought snacks to children taking part in the march in Buea.",
-      "We wanted to encourage the children and offer them something practical while they were taking part in Youth Day.",
-      "Instead of organizing a separate gathering, we went to the marching area and shared snacks there. This was a separate activity from the support we offered later in February during preparations for the Mountain Race.",
+      "On 4 February 2023, our team brought snacks to children taking part in the march in Buea as part of our Youth Day outreach.",
+      "We wanted to encourage the children and offer them something practical while they were taking part in the march.",
+      "Instead of organizing a separate gathering, we went to the marching area and shared snacks there. This was a separate activity from the support we offered later in February, on the day of the Mountain Race.",
       "We shared snacks with children at the march. Our records do not give a headcount, the exact distribution site, or the kinds and quantities of snacks.",
     ),
     fr: projectStory(
-      "À l’occasion de la Fête de la jeunesse, notre équipe a apporté des collations aux enfants qui défilaient à Buea.",
-      "Nous voulions encourager les enfants et leur apporter un soutien concret pendant leur participation à la Fête de la jeunesse.",
-      "Plutôt que d’organiser une rencontre à part, nous sommes allés dans la zone du défilé pour y distribuer les collations. Cette action était distincte de celle menée plus tard en février pendant les préparatifs de la course de la montagne.",
+      "Le 4 février 2023, dans le cadre de notre action pour la Fête de la jeunesse, notre équipe a apporté des collations aux enfants qui défilaient à Buea.",
+      "Nous voulions encourager les enfants et leur apporter un soutien concret pendant le défilé.",
+      "Plutôt que d’organiser une rencontre à part, nous sommes allés dans la zone du défilé pour y distribuer les collations. Cette action était distincte de celle menée plus tard en février, le jour de la course de la montagne.",
       "Nous avons distribué des collations aux enfants présents au défilé. Nos relevés ne précisent ni leur nombre, ni le lieu exact de distribution, ni les types et quantités de collations.",
       "fr",
     ),
   },
   "mountain-race-outreach-feb-2023": {
     en: projectStory(
-      "Later in February, our team went to the field where people were preparing for the Mount Cameroon Race of Hope in Buea.",
+      "On 25 February 2023, our team went to the field in Buea where people were getting ready for that day’s Mount Cameroon Race of Hope.",
       "We wanted to bring refreshments and offer simple ways to get some shade or keep cool during the preparations.",
       "We shared bananas, other food and drinking water in sachets. We also brought caps, umbrellas and handheld fans. This visit came after our separate Youth Day activity.",
-      "Our project account records the visit and the kinds of supplies we brought. It does not give the exact day of the outreach, the field’s name, or the number of people reached.",
+      "Our project account records the visit and the kinds of supplies we brought. It does not give the field’s name or the number of people reached.",
     ),
     fr: projectStory(
-      "Plus tard en février, notre équipe s’est rendue sur le terrain où se déroulaient les préparatifs de la Course de l’espoir du mont Cameroun, à Buea.",
+      "Le 25 février 2023, notre équipe s’est rendue sur le terrain à Buea où les participants se préparaient à la Course de l’espoir du mont Cameroun, qui se déroulait ce jour-là.",
       "Nous voulions offrir des rafraîchissements et des moyens simples de trouver un peu d’ombre ou de se protéger de la chaleur pendant les préparatifs.",
       "Nous avons distribué des bananes, d’autres aliments et de l’eau potable en sachets. Nous avons aussi apporté des casquettes, des parapluies et des éventails. Cette visite a eu lieu après notre action distincte pour la Fête de la jeunesse.",
-      "Le compte rendu décrit la visite et la nature des fournitures apportées. Il ne précise ni le jour de l’action, ni le nom du terrain, ni le nombre de personnes touchées.",
+      "Le compte rendu décrit la visite et la nature des fournitures apportées. Il ne précise ni le nom du terrain ni le nombre de personnes touchées.",
       "fr",
     ),
   },
@@ -98,28 +98,28 @@ export const archiveEditorial: Record<string, Record<"en" | "fr", ArchiveEditori
   },
   "back-to-school-drive-2023": {
     en: projectStory(
-      "We brought school supplies to students at Lycée de Buea as they prepared for the new school year.",
+      "On 26 August 2023, we brought school supplies to students at Lycée de Buea as they prepared for the new school year.",
       "Families can face several costs at once at the start of the school year. We wanted students to have the basic materials they needed when they returned to class.",
       "Our team provided exercise books, school bags, pens and other learning materials. This outreach covered supplies, not school fees.",
-      "The record establishes the school and the kinds of supplies provided. It does not give the exact date, a student count, or a list of what each student received. The record does not show measured learning outcomes.",
+      "The record establishes the school and the kinds of supplies provided. It does not give a student count or a list of what each student received. The record does not show measured learning outcomes.",
     ),
     fr: projectStory(
-      "Nous avons apporté des fournitures aux élèves du Lycée de Buea alors qu’ils se préparaient pour la nouvelle année scolaire.",
+      "Le 26 août 2023, nous avons apporté des fournitures aux élèves du Lycée de Buea alors qu’ils se préparaient pour la nouvelle année scolaire.",
       "À la rentrée, les familles peuvent avoir plusieurs dépenses à assumer en même temps. Nous voulions que les élèves disposent du matériel de base dès leur retour en classe.",
       "Notre équipe a distribué des cahiers, des cartables, des stylos et d’autres fournitures scolaires. Cette action concernait les fournitures, pas les frais de scolarité.",
-      "Le compte rendu indique l’établissement et les types de fournitures remis. Il ne précise ni la date exacte, ni le nombre d’élèves, ni ce que chacun a reçu. Le compte rendu ne présente pas de résultats d’apprentissage mesurés.",
+      "Le compte rendu indique l’établissement et les types de fournitures remis. Il ne précise ni le nombre d’élèves ni ce que chacun a reçu. Le compte rendu ne présente pas de résultats d’apprentissage mesurés.",
       "fr",
     ),
   },
   "girls-day-oct-2023": {
     en: projectStory(
-      "On 11 October, our team provided sanitary pads and other personal care supplies to girls in Buea.",
+      "On 21 October 2023, our team provided sanitary pads and other personal care supplies to girls in Buea.",
       "For International Day of the Girl, we wanted to help girls meet everyday hygiene needs with dignity and respect for their privacy.",
       "We focused on practical supplies girls could use, including sanitary pads. Receiving support did not depend on joining prayer or worship.",
       "Our report records the types of supplies provided. It does not establish the exact venue, how many girls received support, or the quantity of each item.",
     ),
     fr: projectStory(
-      "Le 11 octobre, notre équipe a remis des serviettes hygiéniques et d’autres produits de soin personnel à des filles à Buea.",
+      "Le 21 octobre 2023, notre équipe a remis des serviettes hygiéniques et d’autres produits de soin personnel à des filles à Buea.",
       "Pour la Journée internationale de la fille, nous voulions aider les filles à répondre à leurs besoins d’hygiène au quotidien, dans le respect de leur dignité et de leur vie privée.",
       "Nous avons privilégié des fournitures utiles au quotidien, dont des serviettes hygiéniques. Il n’était pas nécessaire de prendre part à la prière ou à la louange pour recevoir cette aide.",
       "Le rapport indique les types de fournitures remis. Il ne précise ni le lieu exact, ni le nombre de filles ayant reçu de l’aide, ni les quantités par article.",
@@ -128,15 +128,15 @@ export const archiveEditorial: Record<string, Record<"en" | "fr", ArchiveEditori
   },
   "christmas-giving-dec-2023": {
     en: projectStory(
-      "Two days before Christmas, our team visited House of Peace Orphanage in Buea with food for the children’s home.",
+      "On 16 December 2023, our team visited House of Peace Orphanage in Buea with food for the children’s home.",
       "We wanted to share the joy of Christmas in a practical way and stand alongside the adults who care for the children throughout the year.",
-      "On 23 December, we took foodstuffs to the orphanage, including bags of rice and cooking oil for day-to-day needs.",
+      "We took foodstuffs to the orphanage, including bags of rice and cooking oil for day-to-day needs.",
       "Our team estimates the visit reached about 21 children. We do not have a separate caregiver count or a list of what each child received.",
     ),
     fr: projectStory(
-      "Deux jours avant Noël, notre équipe a apporté des denrées à l’orphelinat House of Peace, à Buea.",
+      "Le 16 décembre 2023, notre équipe a apporté des denrées à l’orphelinat House of Peace, à Buea.",
       "Nous voulions partager la joie de Noël de façon concrète et soutenir les adultes qui prennent soin des enfants tout au long de l’année.",
-      "Le 23 décembre, nous avons apporté à l’orphelinat des denrées pour ses besoins quotidiens, dont des sacs de riz et de l’huile de cuisson.",
+      "Nous avons apporté à l’orphelinat des denrées pour ses besoins quotidiens, dont des sacs de riz et de l’huile de cuisson.",
       "Notre équipe estime que la visite a permis d’aider environ 21 enfants. Nous ne disposons pas d’un décompte distinct des adultes ni d’une liste de ce que chaque enfant a reçu.",
       "fr",
     ),

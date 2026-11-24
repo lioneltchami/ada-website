@@ -577,13 +577,12 @@ export async function loadProjectArchiveEntries(): Promise<
 type ArchiveChronologyEntry = Pick<ProjectArchiveEntry, "slug" | "year" | "startDate" | "endDate">;
 
 // Sources establish these periods without confirming a day: the 2021 archive
-// account, the released Baking report, the reviewed 2023 Mountain Race account
-// (after Youth Day), and the reviewed 2024–25 project summaries. A receipt or
+// account, the released Baking report, and the reviewed 2024–25 project summaries.
+// A receipt or
 // preparation with a recorded date does not establish the event's month.
 const reportedArchiveMonths = new Map<string, string>([
   ["first-widow-home-visits-2021", "2021-11"],
   ["idp-girls-baking-training-jul-2022", "2022-07"],
-  ["mountain-race-outreach-feb-2023", "2023-02"],
   ["girls-programme-2024", "2024-10"],
   ["womens-day-widows-outreach-2025", "2025-03"],
   ["christmas-orphanage-outreach-2025", "2025-12"],
