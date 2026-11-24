@@ -14,9 +14,11 @@ describe("project archive detail", () => {
     expect(shared).toContain('id="archive-project-documents"');
     expect(shared).toContain('href="#archive-project-documents"');
     expect(shared).toContain('fr && english ? "PDF en anglais"');
-    expect(shared).toContain('englishDocuments && record.torUrl && record.reportUrl');
+    expect(shared).toContain('englishDocuments && documentLinks.tor && documentLinks.report');
     expect(shared).toContain('gallery.length > 0');
-    expect(shared).toContain('documents.length > 0 || documentNote');
+    expect(shared).toContain('hasPublicDocuments && <a href=');
+    expect(shared).toContain('Not posted on this site');
+    expect(shared).toContain('Non publié sur ce site');
     expect(shared).toContain('This entry was archived automatically');
   });
 

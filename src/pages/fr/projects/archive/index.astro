@@ -1,5 +1,6 @@
 ---
 import PageLayout from "../../../../layouts/PageLayout.astro";
+import { getArchiveFeaturePhoto } from "../../../../data/archive-feature-photos";
 import PageHero from "../../../../components/layout/PageHero.astro";
 import Section from "../../../../components/layout/Section.astro";
 import {
@@ -7,6 +8,7 @@ import {
   countOwnerMarkedCompletions,
   loadProjectArchiveEntries,
 } from "../../../../lib/project-archive";
+import { archiveProjectDocumentAvailability } from "../../../../lib/archive-project-document-links";
 import { sanityImageUrl } from "../../../../lib/sanity";
 import { resolveHeroImage } from "../../../../lib/hero-images";
 
@@ -18,6 +20,7 @@ const heroImage = await resolveHeroImage([
 
 const archiveItems = records.map((r) => ({
   ...r,
+  featurePhoto: getArchiveFeaturePhoto(r.slug.current, "fr"),
   thumbUrl: r.photo?.asset?._ref ? sanityImageUrl(r.photo.asset._ref, 240) : "",
   thumbAlt: r.photo?.alt || r.titleFr || r.title,
 }));
@@ -219,7 +222,17 @@ for (const r of archiveItems) {
                     data-demo={r.demographic}
                   >
                     <div class="flex items-start gap-3">
-                      {r.thumbUrl ? (
+                      {r.featurePhoto ? (
+                        <img
+                          src={r.featurePhoto.src}
+                          alt={r.featurePhoto.alt}
+                          width={r.featurePhoto.width}
+                          height={r.featurePhoto.height}
+                          class="h-auto w-14 flex-shrink-0 rounded-md sm:w-16"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : r.thumbUrl ? (
                         <img
                           src={r.thumbUrl}
                           alt={r.thumbAlt}
@@ -246,12 +259,7 @@ for (const r of archiveItems) {
                               </span>
                             )}
                             {r.location && <span>{r.location}</span>}
-                            {r.hasToR && (
-                              <span class="text-primary-600">TdR</span>
-                            )}
-                            {r.hasReport && (
-                              <span class="text-primary-600">Rapport</span>
-                            )}
+                            <span class="font-medium text-gray-600">{archiveProjectDocumentAvailability(r, "fr")}</span>
                           </div>
                         </div>
                         <div class="text-right flex-shrink-0">
