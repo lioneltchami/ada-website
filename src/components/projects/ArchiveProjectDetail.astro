@@ -1,8 +1,6 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
-import { getArchiveFeaturePhoto } from "../../data/archive-feature-photos";
-import PhotoLightbox from "../islands/PhotoLightbox";
-import { sanityImageUrl } from "../../lib/sanity";
+import { getEligibleArchiveFeaturePhoto } from "../../lib/archive-eligible-feature-photo";
 import type { ProjectArchiveEntry } from "../../lib/project-archive";
 import { hasReleased2023ProjectDocumentSet, reviewedProjectRecords } from "../../lib/reviewed-project-records";
 import { hasReleasedProjectDocumentSet } from "../../data/organization";
@@ -16,16 +14,27 @@ const fr = locale === "fr";
 const root = fr ? "/fr" : "";
 const archive = root + "/projects/archive/";
 const slug = record.slug.current;
-const featurePhoto = getArchiveFeaturePhoto(slug, locale);
 const title = (fr && record.titleFr) || record.title;
 const location = (fr && record.locationFr) || record.location;
-const description = (fr && record.descriptionFr) || record.description;
-const outcomes = (fr && record.outcomesFr) || record.outcomes;
 const editorial = archiveEditorial[slug]?.[locale];
 const financialLabels = editorial?.financialLabels;
 const financialBasis = editorial?.financialBasis;
-const photo = record.photo?.asset?._ref ? sanityImageUrl(record.photo.asset._ref, 960) : "";
-const gallery = (record.photos ?? []).flatMap(p => p?.asset?._ref ? [{url:sanityImageUrl(p.asset._ref, 800), caption:(fr && p.captionFr) || p.caption || ""}] : []);
+// Missing source material can limit the story, never the shared structure.
+const lead = editorial?.lead ?? (fr
+  ? `Ce projet figure dans nos archives pour l’année ${record.year}.`
+  : `This project is listed in our ${record.year} archive.`);
+const sections = editorial?.sections ?? (fr
+  ? [
+      { title: "Pourquoi nous avons agi", text: "Le dossier public ne précise pas les raisons de cette initiative." },
+      { title: "Comment nous avons procédé", text: "Le dossier public ne précise pas les étapes de sa mise en œuvre." },
+      { title: "Ce que nous pouvons rapporter", text: "Les détails disponibles figurent dans la fiche du projet. Nous ne disposons pas d’un bilan détaillé à publier ici." },
+    ]
+  : [
+      { title: "Why we did it", text: "The public record does not specify why this initiative was chosen." },
+      { title: "How we did the work", text: "The public record does not describe the steps taken." },
+      { title: "What we can report", text: "The available record details are shown alongside this account. We do not have detailed results to share here." },
+    ]);
+const featurePhoto = getEligibleArchiveFeaturePhoto(record, locale);
 const auto = Boolean(record.autoArchived);
 const status = getArchiveRecordStatusText(record.status, auto, locale);
 const demo = (fr
@@ -56,10 +65,9 @@ const dateLabel = [record.startDate, record.endDate].filter((d): d is string => 
 const period = [...new Set(dateLabel)].join(" – ") || String(record.year);
 const expenses = finance ? finance.itemSubtotal + finance.fees : 0;
 const formatXaf = (amount: number) => new Intl.NumberFormat(fr ? "fr-FR" : "en-US").format(amount) + " FCFA";
-const caption = fr && record.photo?.altFr || record.photo?.alt || title;
 ---
 
-<PageLayout hideFloatingDonate title={title} description={(editorial?.lead || description)?.slice(0,160)}>
+<PageLayout hideFloatingDonate title={title} description={lead.slice(0,160)}>
   <section class="bg-primary-900 text-white">
     <div class="mx-auto max-w-6xl px-5 py-11 sm:px-8 sm:py-14">
       <nav aria-label={fr ? "Fil d’Ariane" : "Breadcrumb"} class="mb-6">
@@ -80,46 +88,24 @@ const caption = fr && record.photo?.altFr || record.photo?.alt || title;
   </section>
 
   <div class="mx-auto grid max-w-6xl grid-cols-1 items-start gap-8 px-5 py-9 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,21rem)] lg:gap-12">
-    <article aria-label={fr ? "Compte rendu du projet" : "Project story"} class="min-w-0">
-      {photo && !featurePhoto && <figure class="mb-7 overflow-hidden rounded-xl"><img src={photo} alt={caption} class="h-auto w-full" loading="lazy" /></figure>}
-      {editorial ? (
-        <p class="max-w-[68ch] text-lg leading-relaxed text-slate-800">{editorial.lead}</p>
-      ) : description && (
-        <section>
-          <h2 class="font-heading text-xl font-bold text-primary-900">{fr ? "À propos du projet" : "About the project"}</h2>
-          <div class="mt-3 space-y-4">{description.split("\n").filter(p => p.trim()).map(p => <p class="max-w-[68ch] leading-relaxed text-slate-700">{p}</p>)}</div>
-        </section>
-      )}
+    <article data-archive-story={slug} aria-label={fr ? "Compte rendu du projet" : "Project story"} class="min-w-0">
+      <p data-archive-lead class="max-w-[68ch] text-lg leading-relaxed text-slate-800">{lead}</p>
       {hasPublicDocuments && <a href="#archive-project-documents" class="mt-3 inline-flex min-h-11 items-center font-medium text-primary-800 underline underline-offset-4 lg:hidden">{fr ? "Aller aux documents du projet" : "Jump to project documents"}</a>}
       {featurePhoto && (
-        <figure class:list={["mt-6 w-full", featurePhoto.width < featurePhoto.height ? "max-w-72" : "max-w-xl"]}>
+        <figure data-archive-feature class:list={["mt-6 w-full", featurePhoto.width < featurePhoto.height ? "max-w-72" : "max-w-xl"]}>
           <img src={featurePhoto.src} alt={featurePhoto.alt} width={featurePhoto.width} height={featurePhoto.height} class="block h-auto w-full rounded-xl" loading="lazy" decoding="async" />
           <figcaption class="mt-2 text-sm leading-relaxed text-slate-600">{featurePhoto.caption}</figcaption>
         </figure>
       )}
-      {editorial && (
-        <div class="mt-7 space-y-6">
-          {editorial.sections.map(({title:heading,text}) => (
-            <section>
-              <h2 class="font-heading text-lg font-bold text-primary-900">{heading}</h2>
-              <p class="mt-2 max-w-[68ch] leading-relaxed text-slate-700">{text}</p>
-            </section>
-          ))}
-        </div>
-      )}
-      {outcomes && outcomes.length > 0 && (
-        <section class="mt-8">
-          <h2 class="font-heading text-lg font-bold text-primary-900">{fr ? "Principaux résultats" : "Key outcomes"}</h2>
-          <ul class="mt-3 list-disc space-y-2 pl-5 text-slate-700">{outcomes.map(outcome => <li>{outcome}</li>)}</ul>
-        </section>
-      )}
-      {gallery.length > 0 && (
-        <section class="mt-8">
-          <h2 class="mb-4 font-heading text-lg font-bold text-primary-900">{fr ? "Photos du projet" : "Project photos"}</h2>
-          <PhotoLightbox client:visible photos={gallery} locale={locale} projectTitle={title} />
-        </section>
-      )}
-      </article>
+      <div class="mt-7 space-y-6">
+        {sections.map(({title:heading,text}) => (
+          <section data-archive-story-section>
+            <h2 class="font-heading text-lg font-bold text-primary-900">{heading}</h2>
+            <p class="mt-2 max-w-[68ch] leading-relaxed text-slate-700">{text}</p>
+          </section>
+        ))}
+      </div>
+    </article>
 
     <aside aria-label={fr ? "Dossier du projet" : "Project record"} class="min-w-0 space-y-4">
       <section class="rounded-xl border border-slate-200 bg-white p-5">

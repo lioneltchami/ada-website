@@ -15,7 +15,10 @@ describe("project archive detail", () => {
     expect(shared).toContain('href="#archive-project-documents"');
     expect(shared).toContain('fr && english ? "PDF en anglais"');
     expect(shared).toContain('englishDocuments && documentLinks.tor && documentLinks.report');
-    expect(shared).toContain('gallery.length > 0');
+    expect(shared).not.toMatch(/PhotoLightbox|record\.photos|About the project|Key outcomes/);
+    expect(shared).toContain('data-archive-lead');
+    expect(shared).toContain('data-archive-story-section');
+    expect(shared).toContain('const sections = editorial?.sections ??');
     expect(shared).toContain('hasPublicDocuments && <a href=');
     expect(shared).toContain('Not posted on this site');
     expect(shared).toContain('Non publié sur ce site');
@@ -25,8 +28,8 @@ describe("project archive detail", () => {
   it("puts shortcut directly after the intro and suppresses only the overlapping archive detail CTA", () => {
     const shared = read("src/components/projects/ArchiveProjectDetail.astro");
     const mobileJump = shared.indexOf('href="#archive-project-documents"');
-    expect(mobileJump).toBeGreaterThan(shared.indexOf("{editorial.lead}"));
-    expect(mobileJump).toBeLessThan(shared.indexOf("editorial.sections.map"));
+    expect(mobileJump).toBeGreaterThan(shared.indexOf("{lead}"));
+    expect(mobileJump).toBeLessThan(shared.indexOf("sections.map"));
     expect(shared).toContain("<PageLayout hideFloatingDonate ");
     expect(shared).toContain('href={root + "/donate"}');
     expect(read("src/layouts/PageLayout.astro")).toContain("props.hideFloatingDonate");

@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { getArchiveFeaturePhoto } from "../src/data/archive-feature-photos";
+import { getEligibleArchiveFeaturePhoto } from "../src/lib/archive-eligible-feature-photo";
 
 describe("archive feature photos", () => {
   const slug = "city-cleanup-may-2023";
@@ -39,15 +40,33 @@ describe("archive feature photos", () => {
     }
   });
 
+  it("preserves the exact 2026 flyers, in both locales, but not reused or unknown covers", () => {
+    const reused = "image-c61680ea417e75d3fcb13f4a245138209cac4eef-800x600-jpg";
+    const flyer = "image-48868a7cd8281aea2efd8ae6c3adba6384f9fa04-1024x1024-jpg";
+    const record = (slug: string, year: number, ref: string) => ({
+      slug: { current: slug }, year, photo: { asset: { _ref: ref } },
+    });
+    const buea = record("back-to-school-buea-aug-2026", 2026, flyer);
+    expect(getEligibleArchiveFeaturePhoto(buea, "en", 240)?.caption).toContain("Event flyer");
+    expect(getEligibleArchiveFeaturePhoto(buea, "fr")?.caption).toContain("Affiche");
+    expect(getEligibleArchiveFeaturePhoto(buea, "en", 240)?.src).toContain("?w=240");
+    expect(getEligibleArchiveFeaturePhoto(record(buea.slug.current, 2026, reused), "en")).toBeUndefined();
+    expect(getEligibleArchiveFeaturePhoto(record("first-widow-home-visits-2021", 2021, reused), "en")).toBeUndefined();
+    expect(getEligibleArchiveFeaturePhoto(record("education-orphans", 2026, reused), "en")).toBeUndefined();
+    expect(getEligibleArchiveFeaturePhoto(record("girls-dignity-menstrual-health-bamenda-jun-2026", 2026, reused), "en")).toBeUndefined();
+  });
+
   it("renders after the lead and mobile document shortcut, before narrative headings", () => {
     const detail = readFileSync("src/components/projects/ArchiveProjectDetail.astro", "utf8");
     expect(detail.indexOf('href="#archive-project-documents"')).toBeLessThan(detail.indexOf("{featurePhoto && ("));
-    expect(detail.indexOf("{featurePhoto && (")).toBeLessThan(detail.indexOf("editorial.sections.map"));
+    expect(detail.indexOf("{featurePhoto && (")).toBeLessThan(detail.indexOf("sections.map"));
     expect(detail).toContain("<figcaption");
-    expect(detail).toContain("photo && !featurePhoto");
+    expect(detail).toContain("data-archive-feature");
+    expect(detail.match(/<figure\b/g)).toHaveLength(1);
+    expect(detail).toContain("getEligibleArchiveFeaturePhoto(record, locale)");
     for (const [prefix, locale] of [["", "en"], ["fr/", "fr"]]) {
       const archive = readFileSync(`src/pages/${prefix}projects/archive/index.astro`, "utf8");
-      expect(archive).toContain(`getArchiveFeaturePhoto(r.slug.current, "${locale}")`);
+      expect(archive).toContain(`getEligibleArchiveFeaturePhoto(r, "${locale}", 240)`);
       expect(archive).toContain("src={r.featurePhoto.src}");
     }
   });
