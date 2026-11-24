@@ -6,6 +6,9 @@ ROOT = Path(__file__).resolve().parents[1]
 def records():
     return json.loads((ROOT / 'config/project-records-2023.json').read_text())['projects']
 
+def document_basis(project):
+    return "reported; project documents available" if project["documentStatus"] == "released" else "reported; document review pending"
+
 def reconcile_ledger(projects):
     from build_project_ledger import ProjectRecord
     selected=records()
@@ -19,7 +22,7 @@ def reconcile_ledger(projects):
             beneficiaries='Not established' if p['slug']!='christmas-giving-dec-2023' else 'Approximately 21 children, reported',
             status='completed', approved_budget_cfa=None,actual_cfa=None,variance_cfa=None,utilization_pct=None,
             what_we_did=p['description'],outcomes='',finance_note=p['financialNote'],
-            report_path=f"/projects/archive/{p['slug']}/",financial_path='',line_items=[],finance_basis='reported; document review pending'))
+            report_path=f"/projects/archive/{p['slug']}/",financial_path='',line_items=[],finance_basis=document_basis(p)))
     return result
 
 def reconcile_budget(rows):
@@ -28,5 +31,5 @@ def reconcile_budget(rows):
     old_references={'ADA/2023/001','ADA/2023/003','ADA/2023/004'}
     result=[r for r in rows if not (r.year==2023 and r.reference in old_references)]
     result.extend(BudgetRow(year=2023,project=p['title'],reference='',archive_approved=None,archive_actual=None,
-        public_target=None,adjustment_needed=None,status='reported; document review pending',note=p['financialNote']) for p in records())
+        public_target=None,adjustment_needed=None,status=document_basis(p),note=p['financialNote']) for p in records())
     return result

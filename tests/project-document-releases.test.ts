@@ -22,7 +22,8 @@ describe('approved 2022 document release', () => {
   expect(hasStaticProjectDocuments('school-visit-may-2022')).toBe(true);
  });
  it('retains legacy three-document behavior outside activated releases', () => {
-  expect(projectDocumentPaths('back-to-school-drive-2023').financial).toContain('/financial.pdf');
+  expect(projectDocumentPaths('back-to-school-sep-2024').financial).toContain('/financial.pdf');
+  expect(projectDocumentPaths('back-to-school-drive-2023').financial).toBeUndefined();
  });
  it('keeps the new May school slug distinct from the withdrawn cleanup', () => {
   expect(manifest.projects.map(p=>p.slug)).toContain('school-visit-may-2022');

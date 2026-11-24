@@ -13,11 +13,17 @@
       "locationFr": "Buea",
       "description": "On 11 February 2023, we provided snacks for children to mark Youth Day. This was a separate activity from our outreach during preparations for the Mountain Race later that month.",
       "descriptionFr": "Le 11 février 2023, nous avons offert des collations aux enfants à l’occasion de la Fête de la jeunesse. Cette activité était distincte de notre action menée pendant les préparatifs de la course de la montagne plus tard dans le mois.",
-      "financialNote": "We sent 50,000 FCFA for this activity. Our account reports that the full amount was used, including approximately 5,000 FCFA in withdrawal fees, with no project balance remaining. Item prices have not been established. These are reported figures, not independently verified expenditure.",
-      "financialNoteFr": "Nous avons envoyé 50 000 FCFA pour cette activité. Selon notre compte rendu, la totalité a été utilisée, dont environ 5 000 FCFA de frais de retrait, sans solde restant pour le projet. Les prix par article ne sont pas établis. Ces chiffres sont déclarés, sans vérification indépendante des dépenses.",
+      "financialNote": "We sent 50,000 FCFA for Youth Day snacks. Our account reports that the full amount went to the snacks and a withdrawal fee, leaving no project balance. The snack cost and fee are not established separately. These figures are reported, not independently audited.",
+      "financialNoteFr": "Nous avons envoyé 50 000 FCFA pour les collations de la Fête de la jeunesse. Selon notre compte rendu, la totalité a servi aux collations et aux frais de retrait, sans solde restant pour le projet. Le coût des collations et le montant des frais ne sont pas établis séparément. Ces chiffres sont déclarés, sans audit indépendant.",
       "year": 2023,
-      "documentStatus": "review-pending",
-      "legacyDocumentSet": false
+      "documentStatus": "released",
+      "legacyDocumentSet": false,
+      "documents": {
+        "tor": "a85d20adc8618ab5c8f5c9fb8d967c5f1a9406203073b7c7716d69987e3adfdf",
+        "report": "5cc888227977843f32464e29e5ca81444172d12b3cc71409b7fc26c736aecc77"
+      },
+      "financialNoteTitle": "Financial record",
+      "financialNoteTitleFr": "Relevé financier"
     },
     {
       "slug": "mountain-race-outreach-feb-2023",
@@ -31,11 +37,17 @@
       "locationFr": "Buea",
       "description": "Later in February 2023, we provided support during preparations for the Mountain Race. The exact day of our outreach has not been established; the race date is not evidence of our activity date.",
       "descriptionFr": "Plus tard en février 2023, nous avons apporté un soutien pendant les préparatifs de la course de la montagne. Le jour exact de notre action n’est pas établi ; la date de la course ne permet pas de dater notre activité.",
-      "financialNote": "We sent 50,000 FCFA for this separate February activity. Our account reports that the full amount was used, including approximately 5,000 FCFA in withdrawal fees, with no project balance remaining. Item prices have not been established. These are reported figures, not independently verified expenditure.",
-      "financialNoteFr": "Nous avons envoyé 50 000 FCFA pour cette activité distincte de février. Selon notre compte rendu, la totalité a été utilisée, dont environ 5 000 FCFA de frais de retrait, sans solde restant pour le projet. Les prix par article ne sont pas établis. Ces chiffres sont déclarés, sans vérification indépendante des dépenses.",
+      "financialNote": "We sent 50,000 FCFA for this separate February outreach. Our account reports that the full amount went to refreshments, supplies to keep people cool, and a withdrawal fee, leaving no project balance. The costs are not established separately. These figures are reported, not independently audited.",
+      "financialNoteFr": "Nous avons envoyé 50 000 FCFA pour cette action distincte de février. Selon notre compte rendu, la totalité a servi aux rafraîchissements, aux fournitures pour aider les participants à se protéger de la chaleur et aux frais de retrait, sans solde restant pour le projet. Les coûts ne sont pas établis séparément. Ces chiffres sont déclarés, sans audit indépendant.",
       "year": 2023,
-      "documentStatus": "review-pending",
-      "legacyDocumentSet": false
+      "documentStatus": "released",
+      "legacyDocumentSet": false,
+      "documents": {
+        "tor": "0f732e80a958e8163a7c76a7b2ab29d85ca216affacdf22f4273e4468d5bc302",
+        "report": "da0211f2d23462ea83625214a3c2763dd13fcc6e8aae244037e8b84075c64590"
+      },
+      "financialNoteTitle": "Financial record",
+      "financialNoteTitleFr": "Relevé financier"
     },
     {
       "slug": "womens-day-home-visits-mar-2023",
@@ -49,11 +61,17 @@
       "locationFr": "Buea",
       "description": "On Saturday, 11 March 2023, we gathered with widows at a church in Buea to offer support and encouragement. Transport support was provided where possible. This was a gathering rather than a series of home visits. The church name and attendance have not been established.",
       "descriptionFr": "Le samedi 11 mars 2023, nous avons retrouvé des veuves dans une église de Buea pour leur apporter soutien et encouragement. Une aide au transport a été proposée dans la mesure du possible. Il s’agissait d’une rencontre collective. Le nom de l’église et le nombre de participantes ne sont pas établis.",
-      "financialNote": "The project budget was 250,000 FCFA. Our account reports 245,000 FCFA spent and 5,000 FCFA remaining in the nonprofit account at the time. Detailed category prices remain under review. These historical reported amounts are not independently verified expenditure or today’s account balance.",
-      "financialNoteFr": "Le budget du projet était de 250 000 FCFA. Notre compte rendu fait état de 245 000 FCFA dépensés et de 5 000 FCFA restants dans le compte de l’association à l’époque. Les prix détaillés par catégorie restent à vérifier. Ces montants historiques déclarés ne constituent ni des dépenses vérifiées indépendamment ni le solde actuel du compte.",
+      "financialNote": "The project budget was 250,000 FCFA. Our account reports 245,000 FCFA spent and a balance of 5,000 FCFA in the nonprofit account after the project. Individual category costs are not established. These historical figures are not independently audited and do not describe the current account balance.",
+      "financialNoteFr": "Le budget du projet était de 250 000 FCFA. Notre compte rendu indique 245 000 FCFA de dépenses et un solde de 5 000 FCFA dans le compte de l’association après le projet. Les coûts par catégorie ne sont pas établis. Ces chiffres historiques n’ont pas fait l’objet d’un audit indépendant et ne décrivent pas le solde actuel du compte.",
       "year": 2023,
-      "documentStatus": "review-pending",
-      "legacyDocumentSet": true
+      "documentStatus": "released",
+      "legacyDocumentSet": true,
+      "documents": {
+        "tor": "b866bbb2e35bc5b47878de106b7c187292fc144c5673988b7d4f87881ae14dbe",
+        "report": "b64eed96c4642fa0a7d94250fa2e0edc7bd252f43cc77cb7853b875e5653b5db"
+      },
+      "financialNoteTitle": "Financial record",
+      "financialNoteTitleFr": "Relevé financier"
     },
     {
       "slug": "city-cleanup-may-2023",
@@ -91,11 +109,17 @@
       "locationFr": "Lycée de Buea, Buea",
       "description": "In 2023, we provided school supplies at Lycée de Buea, including exercise books and school bags. This activity took place in Buea. The exact date and number of recipients have not been established.",
       "descriptionFr": "En 2023, nous avons fourni du matériel scolaire au Lycée de Buea, notamment des cahiers et des cartables. Cette activité a eu lieu à Buea. La date exacte et le nombre de bénéficiaires ne sont pas établis.",
-      "financialNote": "The budget was 240,000 FCFA. We reported sending and using 230,000 FCFA for school supplies. The 10,000 FCFA difference between the budget and the amount sent is not a confirmed account balance. Item-level costs remain under review; no tuition, uniform, enrollment or exam-result claim is made.",
-      "financialNoteFr": "Le budget était de 240 000 FCFA. Nous avons déclaré avoir envoyé et utilisé 230 000 FCFA pour les fournitures scolaires. L’écart de 10 000 FCFA entre le budget et le montant envoyé ne constitue pas un solde de compte confirmé. Les coûts par article restent à vérifier ; aucun financement de scolarité ou d’uniformes ni résultat d’inscription ou d’examen n’est affirmé.",
+      "financialNote": "The stated budget was 240,000 FCFA. Our account reports that we sent and used 230,000 FCFA for school supplies. The 10,000 FCFA difference between the budget and the amount sent is not an account balance. Individual supply costs and separate operating costs are not established.",
+      "financialNoteFr": "Le budget annoncé était de 240 000 FCFA. Selon notre compte rendu, nous avons envoyé et utilisé 230 000 FCFA pour les fournitures scolaires. L’écart de 10 000 FCFA entre le budget et le montant envoyé ne constitue pas un solde de compte. Les coûts par article et les frais de fonctionnement distincts ne sont pas établis.",
       "year": 2023,
-      "documentStatus": "review-pending",
-      "legacyDocumentSet": true
+      "documentStatus": "released",
+      "legacyDocumentSet": true,
+      "documents": {
+        "tor": "21f2a4c281417f4624a28df930d1805a52df946a06f251186739a2861fac5fea",
+        "report": "2fbcfcb832eec86012ee49afbc38f6f3a607cb6a5f827a646b0f71eccbd18426"
+      },
+      "financialNoteTitle": "Financial record",
+      "financialNoteTitleFr": "Relevé financier"
     },
     {
       "slug": "girls-day-oct-2023",
@@ -109,11 +133,17 @@
       "locationFr": "Buea",
       "description": "On 11 October 2023, we held a program for young girls in Buea for International Day of the Girl and provided sanitary pads and other supplies. The venue and participant count have not been established.",
       "descriptionFr": "Le 11 octobre 2023, nous avons organisé un programme pour les jeunes filles à Buea à l’occasion de la Journée internationale de la fille et distribué des serviettes hygiéniques et d’autres fournitures. Le lieu précis et le nombre de participantes ne sont pas établis.",
-      "financialNote": "The reported total is 150,000 FCFA: 145,000 FCFA for supplies and 5,000 FCFA in withdrawal fees. Detailed item prices remain under review. These are reported amounts, not independently verified expenditure.",
-      "financialNoteFr": "Le total déclaré est de 150 000 FCFA : 145 000 FCFA pour les fournitures et 5 000 FCFA de frais de retrait. Les prix détaillés par article restent à vérifier. Il s’agit de montants déclarés, sans vérification indépendante des dépenses.",
+      "financialNote": "We sent 150,000 FCFA: 145,000 FCFA for supplies and 5,000 FCFA in withdrawal fees. Individual supply costs and any separate transport amount are not established. The reported use equals the amount sent; these figures were not independently audited.",
+      "financialNoteFr": "Nous avons envoyé 150 000 FCFA : 145 000 FCFA pour les fournitures et 5 000 FCFA de frais de retrait. Les coûts par article et d’éventuels frais de transport distincts ne sont pas établis. Les dépenses déclarées correspondent au montant envoyé ; ces chiffres n’ont pas fait l’objet d’un audit indépendant.",
       "year": 2023,
-      "documentStatus": "review-pending",
-      "legacyDocumentSet": false
+      "documentStatus": "released",
+      "legacyDocumentSet": false,
+      "documents": {
+        "tor": "02e98a0296ae13dc13f840bbeb00381825056782040a8f26f3536f0f6f42ba6e",
+        "report": "8973c99154ad64ee6bf9ba0619c4d84e75dad40a848915d4f788f232df37c1b8"
+      },
+      "financialNoteTitle": "Financial record",
+      "financialNoteTitleFr": "Relevé financier"
     },
     {
       "slug": "christmas-giving-dec-2023",
@@ -127,11 +157,17 @@
       "locationFr": "House of Peace, Buea",
       "description": "On 23 December 2023, we visited House of Peace in Buea for Christmas giving. Our account recalls approximately 21 children receiving support.",
       "descriptionFr": "Le 23 décembre 2023, nous avons rendu visite à House of Peace à Buea pour des dons de Noël. Selon notre compte rendu, environ 21 enfants ont reçu un soutien.",
-      "financialNote": "The reported total is 260,000 FCFA: 240,000 FCFA for goods and 20,000 FCFA for operating costs. The operating-cost split and individual item prices have not been established. These are reported amounts, not independently verified expenditure.",
-      "financialNoteFr": "Le total déclaré est de 260 000 FCFA : 240 000 FCFA pour les biens distribués et 20 000 FCFA de frais de fonctionnement. La ventilation de ces frais et les prix par article ne sont pas établis. Il s’agit de montants déclarés, sans vérification indépendante des dépenses.",
+      "financialNote": "Our account reports a total of 260,000 FCFA: 240,000 FCFA for food and project supplies and 20,000 FCFA for operating costs. Individual supply prices and the operating-cost split are not established. These figures are reported, not independently audited.",
+      "financialNoteFr": "Selon notre compte rendu, le total s’élève à 260 000 FCFA : 240 000 FCFA pour les denrées et les fournitures du projet et 20 000 FCFA de frais de fonctionnement. Les prix par article et la ventilation des frais de fonctionnement ne sont pas établis. Ces chiffres sont déclarés, sans audit indépendant.",
       "year": 2023,
-      "documentStatus": "review-pending",
-      "legacyDocumentSet": false
+      "documentStatus": "released",
+      "legacyDocumentSet": false,
+      "documents": {
+        "tor": "bb546034b36f1abb2679f0c8a7f0c400f8d415c3661fbf89ad3e00e72ec587df",
+        "report": "e0696742beaeea61ad554b1ceef91070017b8293d44c6bbaaa7c6012d715c0b2"
+      },
+      "financialNoteTitle": "Financial record",
+      "financialNoteTitleFr": "Relevé financier"
     }
   ]
 }

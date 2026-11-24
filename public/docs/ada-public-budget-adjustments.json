@@ -183,8 +183,8 @@
     "archive_actual": null,
     "public_target": null,
     "adjustment_needed": null,
-    "status": "reported; document review pending",
-    "note": "We sent 50,000 FCFA for this activity. Our account reports that the full amount was used, including approximately 5,000 FCFA in withdrawal fees, with no project balance remaining. Item prices have not been established. These are reported figures, not independently verified expenditure."
+    "status": "reported; project documents available",
+    "note": "We sent 50,000 FCFA for Youth Day snacks. Our account reports that the full amount went to the snacks and a withdrawal fee, leaving no project balance. The snack cost and fee are not established separately. These figures are reported, not independently audited."
   },
   {
     "year": 2023,
@@ -194,8 +194,8 @@
     "archive_actual": null,
     "public_target": null,
     "adjustment_needed": null,
-    "status": "reported; document review pending",
-    "note": "We sent 50,000 FCFA for this separate February activity. Our account reports that the full amount was used, including approximately 5,000 FCFA in withdrawal fees, with no project balance remaining. Item prices have not been established. These are reported figures, not independently verified expenditure."
+    "status": "reported; project documents available",
+    "note": "We sent 50,000 FCFA for this separate February outreach. Our account reports that the full amount went to refreshments, supplies to keep people cool, and a withdrawal fee, leaving no project balance. The costs are not established separately. These figures are reported, not independently audited."
   },
   {
     "year": 2023,
@@ -205,8 +205,8 @@
     "archive_actual": null,
     "public_target": null,
     "adjustment_needed": null,
-    "status": "reported; document review pending",
-    "note": "The project budget was 250,000 FCFA. Our account reports 245,000 FCFA spent and 5,000 FCFA remaining in the nonprofit account at the time. Detailed category prices remain under review. These historical reported amounts are not independently verified expenditure or today\u2019s account balance."
+    "status": "reported; project documents available",
+    "note": "The project budget was 250,000 FCFA. Our account reports 245,000 FCFA spent and a balance of 5,000 FCFA in the nonprofit account after the project. Individual category costs are not established. These historical figures are not independently audited and do not describe the current account balance."
   },
   {
     "year": 2023,
@@ -216,8 +216,8 @@
     "archive_actual": null,
     "public_target": null,
     "adjustment_needed": null,
-    "status": "reported; document review pending",
-    "note": "Funding of 100,000 FCFA is confirmed. The itemized sheet totals 94,400 FCFA plus 1,500 FCFA in fees, or 95,900 FCFA. An earlier account described 95,000 FCFA spent and 5,000 FCFA for other needs. These accounts have not yet been reconciled; no final expenditure or remaining balance is asserted here."
+    "status": "reported; project documents available",
+    "note": "Funding of 100,000 FCFA is confirmed. Using the sum of the recorded items, expenses total 94,400 FCFA plus 1,500 FCFA in fees, or 95,900 FCFA. The 4,100 FCFA difference is a historical project figure, not the current account balance. The item sum takes precedence over the incorrectly calculated total in the sheet. These figures are based on the project record, not an independent audit."
   },
   {
     "year": 2023,
@@ -227,8 +227,8 @@
     "archive_actual": null,
     "public_target": null,
     "adjustment_needed": null,
-    "status": "reported; document review pending",
-    "note": "The budget was 240,000 FCFA. We reported sending and using 230,000 FCFA for school supplies. The 10,000 FCFA difference between the budget and the amount sent is not a confirmed account balance. Item-level costs remain under review; no tuition, uniform, enrollment or exam-result claim is made."
+    "status": "reported; project documents available",
+    "note": "The stated budget was 240,000 FCFA. Our account reports that we sent and used 230,000 FCFA for school supplies. The 10,000 FCFA difference between the budget and the amount sent is not an account balance. Individual supply costs and separate operating costs are not established."
   },
   {
     "year": 2023,
@@ -238,8 +238,8 @@
     "archive_actual": null,
     "public_target": null,
     "adjustment_needed": null,
-    "status": "reported; document review pending",
-    "note": "The reported total is 150,000 FCFA: 145,000 FCFA for supplies and 5,000 FCFA in withdrawal fees. Detailed item prices remain under review. These are reported amounts, not independently verified expenditure."
+    "status": "reported; project documents available",
+    "note": "We sent 150,000 FCFA: 145,000 FCFA for supplies and 5,000 FCFA in withdrawal fees. Individual supply costs and any separate transport amount are not established. The reported use equals the amount sent; these figures were not independently audited."
   },
   {
     "year": 2023,
@@ -249,7 +249,7 @@
     "archive_actual": null,
     "public_target": null,
     "adjustment_needed": null,
-    "status": "reported; document review pending",
-    "note": "The reported total is 260,000 FCFA: 240,000 FCFA for goods and 20,000 FCFA for operating costs. The operating-cost split and individual item prices have not been established. These are reported amounts, not independently verified expenditure."
+    "status": "reported; project documents available",
+    "note": "Our account reports a total of 260,000 FCFA: 240,000 FCFA for food and project supplies and 20,000 FCFA for operating costs. Individual supply prices and the operating-cost split are not established. These figures are reported, not independently audited."
   }
 ]

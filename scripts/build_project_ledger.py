@@ -721,6 +721,8 @@ def build_markdown(projects: list[ProjectRecord]) -> str:
                 lines.append(f"- Outcomes: {project.outcomes}")
             if project.finance_basis == "evidence-qualified":
                 lines.append("- Financial status: Detailed evidence-qualified account; see the finance note and category schedule. Legacy approved/actual summary fields are left blank rather than conflating reported, planned and reconstructed amounts.")
+            elif project.finance_basis == "reported; project documents available":
+                lines.append("- Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.")
             elif project.finance_basis == "reported; document review pending":
                 lines.append("- Financial status: Reported summary; corrected documents under review. Proposed category prices are excluded. Funding and budget figures are not treated as audited expenditure.")
             elif project.slug in FINANCE_REVIEW_NOTES:
