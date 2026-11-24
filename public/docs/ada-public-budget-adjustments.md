@@ -8,8 +8,6 @@ Aggregate financial totals are omitted because the source rows do not consistent
 
 | Year | Project | Reference | Archive Approved | Archive Actual | Public Target | Adjustment Needed | Status | Note |
 |---|---|---|---:|---:|---:|---:|---|---|
-| 2024 | Back-to-School Drive — Bamenda 2024 | ADA/2024/003 | 720,000 CFA | 710,000 CFA | 400,000 CFA | 310,000 CFA | adjusted | Capped from 710,000 CFA to 400,000 CFA |
-| 2024 | Back-to-School Supply Distribution 2024 | ADA/2024/004 | 960,000 CFA | — | 400,000 CFA | 560,000 CFA | adjusted | Capped from 960,000 CFA to 400,000 CFA |
 | 2025 | Campus Environmental Cleanup | ADA/2025/005 | 180,000 CFA | 170,000 CFA | 170,000 CFA | 0 CFA | ok | Within public cap |
 | 2024 | Christmas Giving 2024 | ADA/2024/006 | — | 11,800 CFA | 11,800 CFA | 0 CFA | ok | Within public cap |
 | 2025 | City Cleanup — Labour Day 2025 | ADA/2025/003 | — | 290,000 CFA | 290,000 CFA | 0 CFA | ok | Within public cap |

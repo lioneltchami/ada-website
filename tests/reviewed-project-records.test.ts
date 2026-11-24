@@ -79,10 +79,12 @@ describe('confirmed 2023 project summaries and PDF publication', () => {
    expect(JSON.stringify(measurableIndicatorsFor(locale))).not.toMatch(/100%|retention|rétention/);
   }
  });
- it('replaces three legacy financial rows with seven qualified summaries, preserving all non-2023 rows',()=>{
+ it('replaces three legacy financial rows with seven qualified summaries, preserving non-superseded non-2023 rows',()=>{
   const current=JSON.parse(fs.readFileSync('public/docs/ada-public-budget-adjustments.json','utf8'));
   const before=JSON.parse(execFileSync('git',['show','HEAD:public/docs/ada-public-budget-adjustments.json'],{encoding:'utf8'}));
-  expect(current.filter((r:any)=>r.year!==2023)).toEqual(before.filter((r:any)=>r.year!==2023));
+  const retiredSchoolRows = new Set(['ADA/2024/003', 'ADA/2024/004']);
+  expect(current.every((r:any)=>!retiredSchoolRows.has(r.reference))).toBe(true);
+  expect(current.filter((r:any)=>r.year!==2023)).toEqual(before.filter((r:any)=>r.year!==2023&&!retiredSchoolRows.has(r.reference)));
   const reviewed=current.filter((r:any)=>r.year===2023);expect(reviewed).toHaveLength(7);
   expect(reviewed.every((r:any)=>r.archive_actual===null&&r.archive_approved===null&&r.public_target===null)).toBe(true);
  });

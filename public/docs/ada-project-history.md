@@ -4,7 +4,7 @@ This ledger focuses on the archived projects and their budget records from 2021 
 
 Compiled on November 23, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 24. Sum of reported approved amounts: 5,640,000 CFA. Sum of reported actual/spent amounts: 4,521,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
+Archived projects included: 21. Sum of reported approved amounts: 3,960,000 CFA. Sum of reported actual/spent amounts: 3,811,800 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
 Figures for 1 projects remain under reconciliation and are excluded from numeric summaries and line-item totals. Other legacy figures below are transcribed from source documents and have not been independently verified.
 
@@ -16,8 +16,8 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 | Year | Projects | Records with figures | Sum of reported approved amounts | Sum of reported actual/spent amounts |
 |---|---:|---:|---:|---:|
-| 2025 | 6 | 5 | 2,460,000 CFA | 2,350,000 CFA |
-| 2024 | 4 | 4 | 3,180,000 CFA | 2,171,800 CFA |
+| 2025 | 5 | 5 | 2,460,000 CFA | 2,350,000 CFA |
+| 2024 | 2 | 2 | 1,500,000 CFA | 1,461,800 CFA |
 | 2023 | 7 | 0 | — | — |
 | 2022 | 6 | 0 | — | — |
 | 2021 | 1 | 0 | — | — |
@@ -44,16 +44,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Financial summary: Reported approved —; reported actual/spent 290,000 CFA; difference 10,000 CFA; utilization —.
 - Finance note: 10,000 CFA under budget.
 - Source files: [`report.md`](public/docs/projects/city-cleanup-may-2025/report.md), [`financial.md`](public/docs/projects/city-cleanup-may-2025/financial.md)
-
-#### Hospital Visit — Prenatal Care Kits
-
-- Reference: `ADA/2025/004` | Location: Sub-Divisional Hospital (CMA) Muea-Buea, South-West Region, Cameroon | Period: July 26 – August 5, 2025 | Status: COMPLETED
-- Beneficiaries: 25 new mothers
-- What we did: The Apoti Development Association (ADA) successfully completed its first hospital-based maternal care program at the Sub-Divisional Hospital (CMA) Muea-Buea in the South-West Region of Cameroon. Over a 10-day period (July 26 – August 5, 2025), a team of 5 ADA volunteers conducted multiple visits to the hospital, distributing 25 branded maternal care kits to new mothers identified by hospital nursing staff as the most vulnerable.
-- Outcomes: The Apoti Development Association (ADA) successfully completed its first hospital-based maternal care program at the Sub-Divisional Hospital (CMA) Muea-Buea in the South-West Region of Cameroon. Over a 10-day period (July 26 – August 5, 2025), a team of 5 ADA volunteers conducted multiple visits to the hospital, distributing 25 branded maternal care kits to new mothers identified by hospital nursing staff as the most vulnerable.
-- Financial summary: Reported approved —; reported actual/spent —; difference —; utilization —.
-- Finance note: **Communication/coordination:** 10,000 CFA saved — hospital staff were highly cooperative, reducing coordination costs **Contingency:** 20,000 CFA unspent — no significant unexpected expenses arose
-- Source files: [`report.md`](public/docs/projects/hospital-prenatal-care-jul-2025/report.md), [`financial.md`](public/docs/projects/hospital-prenatal-care-jul-2025/financial.md)
 
 #### Interim Progress Report: IDP Children Education Fund
 
@@ -85,26 +75,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 ### 2024
 
-#### Back-to-School Drive — Bamenda 2024
-
-- Reference: `ADA/2024/003` | Location: Bamenda, North-West Region, Cameroon | Period: September 1–30, 2024 | Status: Completed
-- Beneficiaries: 15 children (ages 3–12)
-- What we did: ADA successfully conducted its second annual back-to-school drive in Bamenda, North-West Region, serving 15 young children aged 3–12 affected by the Anglophone crisis. Each child received a matching navy blue school backpack branded with their school's logo, a full set of textbooks, exercise books, and stationery, along with a school fees contribution.
-- Outcomes: ADA successfully conducted its second annual back-to-school drive in Bamenda, North-West Region, serving 15 young children aged 3–12 affected by the Anglophone crisis. Each child received a matching navy blue school backpack branded with their school's logo, a full set of textbooks, exercise books, and stationery, along with a school fees contribution.
-- Financial summary: Reported approved 720,000 CFA; reported actual/spent 710,000 CFA; difference 10,000 CFA; utilization 98.6%.
-- Finance note: 10,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/back-to-school-bamenda-sep-2024/report.md), [`financial.md`](public/docs/projects/back-to-school-bamenda-sep-2024/financial.md)
-
-#### Back-to-School Supply Distribution 2024
-
-- Reference: `ADA/2024/004` | Location: Buea, South-West Region, Cameroon | Period: September 1–30, 2024 | Status: completed
-- Beneficiaries: 25 vulnerable children
-- What we did: ADA successfully completed its third annual Back-to-School initiative in Buea, distributing complete school kits to 25 vulnerable children. The 2024 edition represented a larger scale than previous years, with a formalized identification process through community leaders and a church community hall serving as the distribution venue.
-- Outcomes: ADA successfully completed its third annual Back-to-School initiative in Buea, distributing complete school kits to 25 vulnerable children. The 2024 edition represented a larger scale than previous years, with a formalized identification process through community leaders and a church community hall serving as the distribution venue.
-- Financial summary: Reported approved 960,000 CFA; reported actual/spent —; difference 15,000 CFA; utilization 98.4%.
-- Finance note: 15,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/back-to-school-sep-2024/report.md), [`financial.md`](public/docs/projects/back-to-school-sep-2024/financial.md)
-
 #### Christmas Giving 2024
 
 - Reference: `ADA/2024/006` | Location: Children's Home/Orphanage, Buea, South-West Region, Cameroon | Period: December 18, 2024 | Status: completed
@@ -130,7 +100,9 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 - Reference: `N/A` | Location: Lycée de Buea, Buea | Period: 2023; exact activity date not established | Status: completed
 - Beneficiaries: Not established
-- What we did: In 2023, we provided school supplies at Lycée de Buea, including exercise books and school bags. This activity took place in Buea. The exact date and number of recipients have not been established.
+- What we did: At the start of the school year, families face several costs at once. For our 2023 outreach, we wanted students at Lycée de Buea to have basic learning materials when they returned to class.
+
+We provided exercise books, school bags, pens and other school supplies. Our account covers materials, not school fees, and does not establish the exact date or number of students reached.
 - Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
 - Finance note: The stated budget was 240,000 FCFA. Our account reports that we sent and used 230,000 FCFA for school supplies. The 10,000 FCFA difference between the budget and the amount sent is not an account balance. Individual supply costs and separate operating costs are not established.
 - Source files: [`back-to-school-drive-2023`](/projects/archive/back-to-school-drive-2023/)
@@ -139,7 +111,9 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 - Reference: `N/A` | Location: House of Peace, Buea | Period: 23 December 2023 | Status: completed
 - Beneficiaries: Approximately 21 children, reported
-- What we did: On 23 December 2023, we visited House of Peace in Buea for Christmas giving. Our account recalls approximately 21 children receiving support.
+- What we did: We wanted to give practical support at Christmas to the children living at House of Peace Orphanage in Buea and to the adults who care for them.
+
+Our team visited on 23 December 2023 and delivered foodstuffs, including bags of rice and cooking oil. We estimate that about 21 children received support. The account does not give a separate caregiver count or a list of what each child received.
 - Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
 - Finance note: Our account reports a total of 260,000 FCFA: 240,000 FCFA for food and project supplies and 20,000 FCFA for operating costs. Individual supply prices and the operating-cost split are not established. These figures are reported, not independently audited.
 - Source files: [`christmas-giving-dec-2023`](/projects/archive/christmas-giving-dec-2023/)
@@ -157,7 +131,9 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 - Reference: `N/A` | Location: Buea | Period: 11 October 2023 | Status: completed
 - Beneficiaries: Not established
-- What we did: On 11 October 2023, we held a program for young girls in Buea for International Day of the Girl and provided sanitary pads and other supplies. The venue and participant count have not been established.
+- What we did: For International Day of the Girl, we wanted to help girls in Buea meet personal care needs with dignity and respect for their privacy.
+
+On 11 October 2023, our team distributed sanitary pads and other personal care supplies. The available account records the type of support, but not the precise venue, the number of girls reached or quantities for each item.
 - Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
 - Finance note: We sent 150,000 FCFA: 145,000 FCFA for supplies and 5,000 FCFA in withdrawal fees. Individual supply costs and any separate transport amount are not established. The reported use equals the amount sent; these figures were not independently audited.
 - Source files: [`girls-day-oct-2023`](/projects/archive/girls-day-oct-2023/)
@@ -166,7 +142,9 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 - Reference: `N/A` | Location: Buea | Period: February 2023; exact outreach day not established | Status: completed
 - Beneficiaries: Not established
-- What we did: Later in February 2023, we provided support during preparations for the Mountain Race. The exact day of our outreach has not been established; the race date is not evidence of our activity date.
+- What we did: Later in February 2023, after Youth Day, we went out to support people preparing for the Mount Cameroon Race of Hope in Buea. We wanted to offer refreshments and help people keep cool.
+
+Our team visited the preparation field and shared bananas, other food and water in sachets. We also brought caps, umbrellas and handheld fans. The exact day of our visit and the number of people reached are not established.
 - Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
 - Finance note: We sent 50,000 FCFA for this separate February outreach. Our account reports that the full amount went to refreshments, supplies to keep people cool, and a withdrawal fee, leaving no project balance. The costs are not established separately. These figures are reported, not independently audited.
 - Source files: [`mountain-race-outreach-feb-2023`](/projects/archive/mountain-race-outreach-feb-2023/)
@@ -175,7 +153,9 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 - Reference: `N/A` | Location: Buea | Period: 11 March 2023 | Status: completed
 - Beneficiaries: Not established
-- What we did: On Saturday, 11 March 2023, we gathered with widows at a church in Buea to offer support and encouragement. Transport support was provided where possible. This was a gathering rather than a series of home visits. The church name and attendance have not been established.
+- What we did: Around International Women’s Day, we wanted to offer practical household support and encouragement to widows in Buea, including women caring for their households.
+
+On Saturday, 11 March 2023, we invited interested women to gather at a church instead of visiting homes. We tried to help where travel costs were a barrier. Our account does not establish the church name or how many women attended.
 - Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
 - Finance note: The project budget was 250,000 FCFA. Our account reports 245,000 FCFA spent and a balance of 5,000 FCFA in the nonprofit account after the project. Individual category costs are not established. These historical figures are not independently audited and do not describe the current account balance.
 - Source files: [`womens-day-home-visits-mar-2023`](/projects/archive/womens-day-home-visits-mar-2023/)
@@ -184,7 +164,9 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 - Reference: `N/A` | Location: Buea | Period: 11 February 2023 | Status: completed
 - Beneficiaries: Not established
-- What we did: On 11 February 2023, we provided snacks for children to mark Youth Day. This was a separate activity from our outreach during preparations for the Mountain Race later that month.
+- What we did: On Youth Day, 11 February 2023, we wanted to encourage children taking part in the march in Buea and offer them something practical while they were there.
+
+Our team went to the marching area and distributed snacks there. This was separate from our outreach during preparations for the Mountain Race later in February. The record does not give a headcount or name the exact site.
 - Financial status: Reported account; project documents available. Only supported figures are shown. Funding and budget figures are not treated as audited expenditure.
 - Finance note: We sent 50,000 FCFA for Youth Day snacks. Our account reports that the full amount went to the snacks and a withdrawal fee, leaving no project balance. The snack cost and fee are not established separately. These figures are reported, not independently audited.
 - Source files: [`youth-day-snacks-feb-2023`](/projects/archive/youth-day-snacks-feb-2023/)

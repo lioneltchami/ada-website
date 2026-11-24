@@ -1,3 +1,4 @@
+import { applyReviewed2024And2025Summaries } from './reviewed-project-summaries-2024-25';
 import { applyReviewedProjectContent, listReleased2023ProjectDocuments } from './reviewed-project-records';
 import { applyReleasedProjectContent, applyReleasedDocumentLibrary } from "./released-project-documents";
 import { createClient } from "@sanity/client";
@@ -229,12 +230,6 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     demographic: "community",
   },
   {
-    slug: "hospital-prenatal-care-jul-2025",
-    title: "Hospital Visit — Prenatal Care Kits",
-    year: 2025,
-    demographic: "pregnant-women",
-  },
-  {
     slug: "city-cleanup-may-2025",
     title: "City Cleanup — Labour Day 2025",
     year: 2025,
@@ -259,22 +254,10 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     demographic: "orphans",
   },
   {
-    slug: "back-to-school-sep-2024",
-    title: "Back-to-School 2024",
-    year: 2024,
-    demographic: "orphans",
-  },
-  {
     slug: "emergency-food-relief-bamenda-crisis",
     title: "Emergency Food Relief - Bamenda Crisis",
     year: 2024,
     demographic: "idps",
-  },
-  {
-    slug: "back-to-school-bamenda-sep-2024",
-    title: "Back-to-School Bamenda 2024",
-    year: 2024,
-    demographic: "orphans",
   },
   {
     slug: "city-cleanup-may-2023",
@@ -588,9 +571,9 @@ export async function loadProjectArchiveEntries(): Promise<
     records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
   }
 
-  return applyReviewedProjectContent(applyReleasedProjectContent(records
+  return applyReviewed2024And2025Summaries(applyReviewedProjectContent(applyReleasedProjectContent(records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
-    .map(applyOwnerFinancialReview)))
+    .map(applyOwnerFinancialReview))))
     .map(withCanonicalProjectDocuments);
 }
 

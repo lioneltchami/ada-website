@@ -1,27 +1,5 @@
 [
   {
-    "year": 2024,
-    "project": "Back-to-School Drive \u2014 Bamenda 2024",
-    "reference": "ADA/2024/003",
-    "archive_approved": 720000,
-    "archive_actual": 710000,
-    "public_target": 400000,
-    "adjustment_needed": 310000,
-    "status": "adjusted",
-    "note": "Capped from 710,000 CFA to 400,000 CFA"
-  },
-  {
-    "year": 2024,
-    "project": "Back-to-School Supply Distribution 2024",
-    "reference": "ADA/2024/004",
-    "archive_approved": 960000,
-    "archive_actual": null,
-    "public_target": 400000,
-    "adjustment_needed": 560000,
-    "status": "adjusted",
-    "note": "Capped from 960,000 CFA to 400,000 CFA"
-  },
-  {
     "year": 2025,
     "project": "Campus Environmental Cleanup",
     "reference": "ADA/2025/005",

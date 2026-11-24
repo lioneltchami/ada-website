@@ -1,3 +1,4 @@
+import { isSupersededBamendaSchoolPhoto } from "./reviewed-project-summaries-2024-25";
 import { createClient, type SanityClient } from "@sanity/client";
 import {
 	type ContentLocale,
@@ -376,7 +377,7 @@ export async function getGalleryImages(
 		{ category },
 	);
 	return (rows as any[])
-		.filter((img) => !isWithdrawnGalleryImage(img))
+		.filter((img) => !isWithdrawnGalleryImage(img) && !isSupersededBamendaSchoolPhoto(img))
 		.map((img) => ({
 			...img,
 			title: pickLocalized(img, "title", locale),

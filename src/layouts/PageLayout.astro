@@ -17,6 +17,7 @@ interface Props {
   modifiedTime?: string;
   noIndex?: boolean;
   noBreadcrumbJsonLd?: boolean;
+  hideFloatingDonate?: boolean;
   jsonLdExtra?: Record<string, unknown>[];
 }
 
@@ -44,7 +45,8 @@ const showFloatingDonate = !(
   pathname === "/fr/sponsor/inquiry" ||
   pathname.startsWith("/auth") ||
   pathname.startsWith("/fr/auth") ||
-  pathname.startsWith("/dashboard")
+  pathname.startsWith("/dashboard") ||
+  props.hideFloatingDonate
 );
 const showChatbot = ["/", "/get-involved"].includes(pathname);
 

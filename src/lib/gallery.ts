@@ -1,3 +1,4 @@
+import { isSupersededBamendaSchoolPhoto } from "./reviewed-project-summaries-2024-25";
 import { getSanityClient, sanityImageUrl } from "./sanity";
 import { type ContentLocale, pickLocalized } from "./sanity-locale";
 import { isWithdrawnGalleryImage } from "./withdrawn-project-content";
@@ -56,7 +57,7 @@ export async function loadGalleryMosaic(
 		);
 
 		return rows
-			.filter((row) => row.photo?.asset?._ref && !isWithdrawnGalleryImage(row))
+			.filter((row) => row.photo?.asset?._ref && !isWithdrawnGalleryImage(row) && !isSupersededBamendaSchoolPhoto(row))
 			.map((row) => {
 				const title = pickLocalized(row, "title", locale);
 				const alt = pickLocalized(

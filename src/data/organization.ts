@@ -23,10 +23,8 @@ export const annualReportPdfs = [
 
 /** Archive slugs under public/docs/projects/ (TOR, financial, report PDFs). */
 export const documentArchiveProjects = [
-  "back-to-school-bamenda-sep-2024",
   "back-to-school-drive-2023",
   "back-to-school-sep-2022",
-  "back-to-school-sep-2024",
   "campus-cleanup-aug-2025",
   "christmas-giving-dec-2022",
   "christmas-giving-dec-2024",
@@ -34,7 +32,6 @@ export const documentArchiveProjects = [
   "city-cleanup-may-2025",
   "emergency-food-relief-bamenda-crisis",
   "first-widow-home-visits-2021",
-  "hospital-prenatal-care-jul-2025",
   "idp-children-education-fund",
   "idp-girls-baking-training-jul-2022",
   "prenatal-care-support-program",
