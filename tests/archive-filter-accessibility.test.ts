@@ -84,16 +84,16 @@ describe("project archive filters", () => {
   it("uses neutral archive wording and excludes auto-archived entries from completed totals", () => {
     for (const page of [english, french]) {
       expect(page).toContain("countOwnerMarkedCompletions(archiveItems)");
-      expect(page).toContain("r.autoArchived");
+      expect(page).toContain("getArchiveCardStatus(r,");
       expect(page).toContain("filter-result-count");
       expect(page).toContain("visibleCount");
       expect(page).not.toMatch(
         /delivered since 2022|depuis 2022|all projects.*delivered/i,
       );
     }
-    expect(english).toContain("Archived by end date");
+    expect(english).toContain("<ArchiveCardStatuses");
     expect(english).toContain("archive entries shown");
-    expect(french).toContain("Archivé selon la date de fin");
+    expect(french).toContain("<ArchiveCardStatuses");
     expect(french).toContain("entrées d’archives affichées");
     expect(english).not.toContain("projects shown");
     expect(french).not.toContain("projets affichés");
