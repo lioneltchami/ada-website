@@ -1,4 +1,5 @@
 import releases from "../config/project-document-releases.json";
+import review2023 from "../config/project-records-2023.json";
 import { describe, expect, it } from "vitest";
 import { archiveProjectDocumentAvailability as availability, archivePublishedFinancialAccount as publishedFinance, archiveProjectDocumentLinks as links } from "../src/lib/archive-project-document-links";
 
@@ -33,7 +34,7 @@ describe("public archive document availability", () => {
   });
 });
 
-describe("published financial accounts on the 2021 and 2022 archive", () => {
+describe("published financial accounts on the archive", () => {
   const marker = { en: "Financial account published", fr: "Compte financier publié" };
 
   it("requires the canonical 2021 financial PDF, not the ToR or general report", () => {
@@ -58,7 +59,27 @@ describe("published financial accounts on the 2021 and 2022 archive", () => {
       expect(publishedFinance({ ...record, reportUrl: undefined }, "en")).toBeUndefined();
       expect(publishedFinance({ ...record, year: 2023 }, "en")).toBeUndefined();
     }
-    expect(publishedFinance({ slug, reportUrl, year: 2023 }, "en")).toBeUndefined();
     expect(publishedFinance({ slug, reportUrl, year: 2022 }, "en")).toBeUndefined();
+  });
+
+  it("uses the canonical combined report for each of the seven released 2023 projects", () => {
+    const projects = review2023.projects.filter(project => project.documentStatus === "released");
+    expect(projects).toHaveLength(7);
+    for (const project of projects) {
+      const slug = { current: project.slug };
+      const base = `/docs/projects/${slug.current}`;
+      const record = { slug, year: 2023, reportUrl: base + "/report.pdf" };
+      expect(publishedFinance(record, "en")).toBe(marker.en);
+      expect(publishedFinance(record, "fr")).toBe(marker.fr);
+      expect(publishedFinance({ ...record, reportUrl: undefined, torUrl: base + "/tor.pdf" }, "en")).toBeUndefined();
+      expect(publishedFinance({ ...record, reportUrl: cid }, "fr")).toBeUndefined();
+      expect(publishedFinance({ ...record, reportUrl: "/docs/projects/another-project/report.pdf" }, "en")).toBeUndefined();
+      expect(publishedFinance({ ...record, year: 2024 }, "en")).toBeUndefined();
+    }
+  });
+
+  it("does not promote an unrelated 2023 record even when it has a report", () => {
+    const slug = { current: "unreviewed-2023-project" };
+    expect(publishedFinance({ slug, year: 2023, reportUrl: `/docs/projects/${slug.current}/report.pdf` }, "en")).toBeUndefined();
   });
 });

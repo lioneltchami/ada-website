@@ -1,6 +1,7 @@
 import releases from "../../config/project-document-releases.json";
 import type { ProjectArchiveEntry } from "./project-archive";
 import type { ProjectPresentationLocale } from "./project-detail-presentation";
+import { hasReleased2023ProjectDocumentSet } from "./reviewed-project-records";
 
 type DocumentRecord = Pick<ProjectArchiveEntry, "slug" | "torUrl" | "reportUrl" | "financialReportUrl">;
 type Kind = "tor" | "report" | "financial";
@@ -53,7 +54,10 @@ export function archivePublishedFinancialAccount(
     && financial === `/docs/projects/${slug}/financial.pdf`)
     || (record.year === 2022
       && report === `/docs/projects/${slug}/report.pdf`
-      && releases.projects.some((project) => project.slug === slug && project.status === "released"));
+      && releases.projects.some((project) => project.slug === slug && project.status === "released"))
+    || (record.year === 2023
+      && report === `/docs/projects/${slug}/report.pdf`
+      && hasReleased2023ProjectDocumentSet(slug));
   if (!isPublished) return undefined;
   return locale === "fr" ? "Compte financier publié" : "Financial account published";
 }
