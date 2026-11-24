@@ -20,6 +20,16 @@ describe("project archive detail", () => {
     expect(shared).toContain('This entry was archived automatically');
   });
 
+  it("puts shortcut directly after the intro and suppresses only the overlapping archive detail CTA", () => {
+    const shared = read("src/components/projects/ArchiveProjectDetail.astro");
+    const mobileJump = shared.indexOf('href="#archive-project-documents"');
+    expect(mobileJump).toBeGreaterThan(shared.indexOf("{editorial.lead}"));
+    expect(mobileJump).toBeLessThan(shared.indexOf("editorial.sections.map"));
+    expect(shared).toContain("<PageLayout hideFloatingDonate ");
+    expect(shared).toContain('href={root + "/donate"}');
+    expect(read("src/layouts/PageLayout.astro")).toContain("props.hideFloatingDonate");
+  });
+
   it("matches the released May record without assigning another project its financial row values", () => {
     const slug = "city-cleanup-may-2023";
     const other = "girls-day-oct-2023";
