@@ -1,5 +1,6 @@
 ---
 import PageLayout from "../../../../layouts/PageLayout.astro";
+import { getArchiveFeaturePhoto } from "../../../../data/archive-feature-photos";
 import PageHero from "../../../../components/layout/PageHero.astro";
 import Section from "../../../../components/layout/Section.astro";
 import {
@@ -19,6 +20,7 @@ const heroImage = await resolveHeroImage([
 
 const archiveItems = records.map((r) => ({
   ...r,
+  featurePhoto: getArchiveFeaturePhoto(r.slug.current, "fr"),
   thumbUrl: r.photo?.asset?._ref ? sanityImageUrl(r.photo.asset._ref, 240) : "",
   thumbAlt: r.photo?.alt || r.titleFr || r.title,
 }));
@@ -220,7 +222,17 @@ for (const r of archiveItems) {
                     data-demo={r.demographic}
                   >
                     <div class="flex items-start gap-3">
-                      {r.thumbUrl ? (
+                      {r.featurePhoto ? (
+                        <img
+                          src={r.featurePhoto.src}
+                          alt={r.featurePhoto.alt}
+                          width={r.featurePhoto.width}
+                          height={r.featurePhoto.height}
+                          class="h-auto w-14 flex-shrink-0 rounded-md sm:w-16"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : r.thumbUrl ? (
                         <img
                           src={r.thumbUrl}
                           alt={r.thumbAlt}
