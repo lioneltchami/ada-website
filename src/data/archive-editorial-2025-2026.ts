@@ -102,17 +102,6 @@ export const archiveEditorialRecent = {
     "Le dépliant indiquait une période prévue à la fin du mois d’août et présentait la fourniture de matériel scolaire comme le principal objectif.",
     "Le dépliant présente le projet, pas sa réalisation. La date effective, les articles distribués et le nombre d’élèves accompagnés ne sont pas confirmés ici.",
   ]),
-  "education-orphans": story([
-    "This archive entry describes our education support program for children who have lost one or both parents, in Douala.",
-    "The program was intended to help children stay in school when families or caregivers needed support with school costs and materials.",
-    "The program description lists school supplies, uniforms, help with fees and mentoring as forms of support.",
-    "The archive lists the program as complete. No project report is linked here to confirm what each child received or to assess education outcomes.",
-  ], [
-    "Cette entrée d’archives présente notre programme de soutien scolaire à Douala pour les enfants qui ont perdu un parent ou leurs deux parents.",
-    "Le programme visait à aider les enfants à poursuivre leur scolarité lorsque les personnes qui s’occupaient d’eux avaient besoin d’un appui pour couvrir les frais ou acheter le matériel scolaire.",
-    "La description du programme mentionne des fournitures scolaires, des uniformes, une aide pour les frais et du mentorat.",
-    "Les archives indiquent que le programme est achevé. Aucun rapport de projet n’est accessible ici pour confirmer ce que chaque enfant a reçu ou évaluer les résultats scolaires.",
-  ]),
   "girls-dignity-menstrual-health-bamenda-jun-2026": story([
     "The archive lists a menstrual health and dignity outreach planned for girls in Bamenda in June 2026.",
     "We wanted to make menstrual supplies easier to access and give girls a place to ask questions about hygiene and self-care.",

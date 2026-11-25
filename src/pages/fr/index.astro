@@ -31,10 +31,6 @@ try {
         (p: SanityProject) =>
           p.slug?.current === "widow-support" && p.mainImage?.asset?._ref,
       ) ||
-      projects.find(
-        (p: SanityProject) =>
-          p.slug?.current === "education-orphans" && p.mainImage?.asset?._ref,
-      ) ||
       projects.find((p: SanityProject) => p.mainImage?.asset?._ref);
     if (preferred?.mainImage?.asset?._ref)
       heroImageUrl = sanityImageUrl(preferred.mainImage.asset._ref, 1200);
@@ -68,17 +64,7 @@ interface Testimonial {
   photoAlt?: string;
 }
 
-const fallbackTestimonials: Testimonial[] = [
-  {
-    name: "Marie F.",
-    quote:
-      "ADA a payé mes frais de scolarité quand ma grand-mère ne pouvait pas. Ils m'ont donné des livres, un uniforme et un mentor. Je veux devenir infirmière.",
-    location: "Douala",
-    program: "Éducation des Orphelins",
-  },
-];
-
-let testimonials: Testimonial[] = fallbackTestimonials;
+let testimonials: Testimonial[] = [];
 try {
   const data = await getTestimonials("fr");
   if (data?.length) {
@@ -134,11 +120,6 @@ const programPillars = [
     title: "Relief pour les veuves",
     text: "Aide alimentaire, soutien financier et suivi des familles qui reconstruisent leur stabilité.",
     href: "/fr/projects/widow-support",
-  },
-  {
-    title: "Éducation des orphelins",
-    text: "Frais scolaires, fournitures, uniformes et mentorat pour maintenir les enfants à l'école.",
-    href: "/fr/projects/education-orphans",
   },
   {
     title: "Pâtisserie pour les jeunes filles",

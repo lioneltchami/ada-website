@@ -21,6 +21,8 @@ const WITHDRAWN_PROJECT_IDENTIFIERS = /ADA[/_-]2023[/_-]002|I3ROLIaQjmV1gZbnPYij
 const WITHDRAWN_GALLERY_IDENTIFIERS = /ADA[/_-]2023[/_-]002|I3ROLIaQjmV1gZbnPYijko|project-women-empowerment|young-women-skills-training-program|Young Women Skills Training Program|Programme de Formation des Jeunes Femmes|Young Women Empowerment|Autonomisation des Jeunes Femmes|ADA[/_-]2024[/_-]002|clean[\s-]*water[\s-]*well|first[\s-]*water[\s-]*well|borehole[\s-]*drilling[\s-]*and[\s-]*solar[\s-]*pump|(?:well|borehole|puits|forage).{0,60}Nkwen[\s-]*Mbatu|Nkwen[\s-]*Mbatu.{0,60}(?:well|borehole|puits|forage)|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,50}(?:vocational[\s-]*)?training.{0,40}cohort|widow.{0,30}support.{0,20}cohort[\s-]*[123]|(?:vocational[\s-]*)?training.{0,30}widow.{0,30}cohort|veuve.{0,45}(?:formation|cohorte).{0,30}(?:cohorte|[123])|cohorte.{0,25}veuve|widow.{0,35}(?:vocational|tailoring|hairdressing).{0,25}training|(?:vocational|tailoring|hairdressing).{0,25}training.{0,35}widow|veuve.{0,35}(?:formation|couture|coiffure)|(?:formation|couture|coiffure).{0,35}veuve/i;
 
 // Match this particular historical record and its source reference, not the standing Relief Fund.
+// Temporarily on hold pending confirmation; keep other education outreach public.
+const WITHHELD_DOUALA_EDUCATION = /(?:\bproject-education-orphans\b|\beducation-orphans\b|\bEducation for Orphans\b|Éducation des Orphelins)/i;
 const WITHDRAWN_BAMENDA_RELIEF = /(?:\bADA[/_-]2024[/_-]001\b|emergency-food-relief-bamenda-crisis|emergency food relief[\s:–—-]*bamenda crisis|aide alimentaire d[’']urgence[\s:–—-]*crise (?:à|de) bamenda)/i;
 
 // The aliases refer to the 2025 archive only. Avoid matching broad names such as
@@ -48,7 +50,7 @@ export function isWithdrawnProjectRecord(project: {
 	const identity = [project._id, project.title, project.titleFr]
 		.filter((value): value is string => typeof value === "string")
 		.join(" ");
-	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) || (
+	return WITHHELD_DOUALA_EDUCATION.test(identity) || WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) || (
 		project.year === 2025 && [project.title, project.titleFr].some(title => Boolean(title &&
 			/^(?:Campus Environmental Cleanup|IDP Children Education Fund|Youth Mentorship Seminar|Hospital outreach for mothers in Muea)$/i.test(title.trim())))
 	);
@@ -74,7 +76,7 @@ export function isWithdrawnGalleryImage(image: {
 	reportUrl?: string;
 	photo?: { alt?: string; altFr?: string };
 }): boolean {
-	if (isWithdrawnProjectSlug(image.projectSlug)) return true;
+	if (isWithdrawnProjectSlug(image.projectSlug) && image.projectSlug !== "education-orphans") return true;
 	const identifiers = [
 		image._id,
 		image.projectId,
@@ -89,6 +91,8 @@ export function isWithdrawnGalleryImage(image: {
 		image.projectTitleFr,
 		image.reportUrl,
 	].filter((value): value is string => typeof value === "string");
+	const captions = [image.title, image.titleFr, image.alt, image.altFr, image.photo?.alt, image.photo?.altFr, image.reportUrl];
+	if (captions.some((value) => value && WITHHELD_DOUALA_EDUCATION.test(value))) return true;
 	return identifiers.some((value) => WITHDRAWN_BAMENDA_RELIEF.test(value) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(value) || WITHDRAWN_GALLERY_IDENTIFIERS.test(value));
 }
 
@@ -109,7 +113,7 @@ export function isSafeProgramFaq(faq: {
 		faq.responseFr || "",
 	].join(" ");
 	const withdrawnAggregate = /(?:200\s*\+|plus de 200)\s*(?:lives|people|widows|vies|personnes|veuves)|(?:lives|people|widows|vies|personnes|veuves)\s*(?:impacted|supported|served|impactées|accompagnées|soutenues).{0,30}(?:200\s*\+|plus de 200)/i;
-	return !WITHDRAWN_WATER_CLAIM.test(text) && !UNSUPPORTED_PROGRAM_COUNT.test(text) && !WITHDRAWN_WIDOW_TRAINING.test(text) && !WITHDRAWN_PROJECT_IDENTIFIERS.test(text) && !WITHDRAWN_BAMENDA_RELIEF.test(text) && !WITHDRAWN_2025_ARCHIVE_ALIASES.test(text) && !withdrawnAggregate.test(text) && !REJECTED_TRAINING_OUTCOMES.test(text);
+	return !WITHDRAWN_WATER_CLAIM.test(text) && !UNSUPPORTED_PROGRAM_COUNT.test(text) && !WITHDRAWN_WIDOW_TRAINING.test(text) && !WITHDRAWN_PROJECT_IDENTIFIERS.test(text) && !WITHHELD_DOUALA_EDUCATION.test(text) && !WITHDRAWN_BAMENDA_RELIEF.test(text) && !WITHDRAWN_2025_ARCHIVE_ALIASES.test(text) && !withdrawnAggregate.test(text) && !REJECTED_TRAINING_OUTCOMES.test(text);
 }
 
 export function isWithdrawnImpactMetric(metric: {
@@ -125,6 +129,7 @@ export function isWithdrawnImpactMetric(metric: {
 	const metricText = `${identity} ${metric.value ?? ""}${metric.suffix || ""}`;
 	return /^(?:metric-lives|metric-widows|metric-document-count)$/i.test(metric._id || "") ||
 		WITHDRAWN_RECORD_ID_PATTERN.test(metricText) ||
+		WITHHELD_DOUALA_EDUCATION.test(identity) ||
 		WITHDRAWN_BAMENDA_RELIEF.test(identity) ||
 		WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) ||
 		WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) ||
@@ -173,7 +178,7 @@ export function isWithdrawnAboutEntry(entry: {
 	]
 		.filter((value): value is string => typeof value === "string")
 		.join(" ");
-	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) ||
+	return WITHHELD_DOUALA_EDUCATION.test(identity) || WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) ||
 		REJECTED_TRAINING_OUTCOMES.test(identity) ||
 		/(?:200\s*\+\s*(?:lives|vies)\s*(?:impacted|impactées)|(?:200\s*(?:volunteers|bénévoles)))/i.test(identity);
 }
@@ -202,7 +207,7 @@ export function isWithdrawnProgramEntry(entry: {
 	const identity = [entry.title, entry.titleFr]
 		.filter((value): value is string => typeof value === "string")
 		.join(" ");
-	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || /Young Women Skills Training Program|Programme de Formation des Jeunes Femmes|Young Women Empowerment|Autonomisation des Jeunes Femmes|ADA[/_-]2023[/_-]002|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,60}(?:vocational[\s-]*)?training|widow.{0,35}support.{0,20}cohort[\s-]*[123]|veuve.{0,50}(?:formation|cohorte)|cohorte.{0,25}veuve/i.test(identity);
+	return WITHHELD_DOUALA_EDUCATION.test(identity) || WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || /Young Women Skills Training Program|Programme de Formation des Jeunes Femmes|Young Women Empowerment|Autonomisation des Jeunes Femmes|ADA[/_-]2023[/_-]002|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,60}(?:vocational[\s-]*)?training|widow.{0,35}support.{0,20}cohort[\s-]*[123]|veuve.{0,50}(?:formation|cohorte)|cohorte.{0,25}veuve/i.test(identity);
 }
 
 export function isWithdrawnTestimonial(testimonial: {
@@ -211,5 +216,10 @@ export function isWithdrawnTestimonial(testimonial: {
 	quote?: string;
 	quoteFr?: string;
 }): boolean {
-	return isWithdrawnAboutEntry(testimonial) || isWithdrawnWidowTrainingTestimonial(testimonial);
+	return isWithdrawnAboutEntry({
+		title: testimonial.program,
+		titleFr: testimonial.programFr,
+		description: testimonial.quote,
+		descriptionFr: testimonial.quoteFr,
+	}) || isWithdrawnWidowTrainingTestimonial(testimonial);
 }

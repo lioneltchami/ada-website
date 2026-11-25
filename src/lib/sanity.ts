@@ -402,7 +402,7 @@ export async function getGalleryImages(
 
 export async function getTestimonials(locale: ContentLocale = "en") {
 	const rows = await getSanityClient().fetch(
-		`*[_type == "testimonial" && isFeatured == true && _id != "testimonial-3"]{
+		`*[_type == "testimonial" && isFeatured == true && !(_id in ["testimonial-2", "testimonial-3"])]{
       name,
       quote,
       quoteFr,

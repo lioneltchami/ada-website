@@ -28,10 +28,6 @@ try {
         (p: SanityProject) =>
           p.slug?.current === "widow-support" && p.mainImage?.asset?._ref,
       ) ||
-      projects.find(
-        (p: SanityProject) =>
-          p.slug?.current === "education-orphans" && p.mainImage?.asset?._ref,
-      ) ||
       projects.find((p: SanityProject) => p.mainImage?.asset?._ref);
     if (preferred?.mainImage?.asset?._ref)
       heroImageUrl = sanityImageUrl(preferred.mainImage.asset._ref, 1200);
@@ -106,17 +102,7 @@ interface Testimonial {
   photoAlt?: string;
 }
 
-const fallbackTestimonials: Testimonial[] = [
-  {
-    name: "Marie F.",
-    quote:
-      "ADA paid my school fees when my grandmother could not afford them. They gave me books, a uniform, and a mentor who checks on me every week. I want to become a nurse to help others.",
-    location: "Douala",
-    program: "Education for Orphans",
-  },
-];
-
-let testimonials: Testimonial[] = fallbackTestimonials;
+let testimonials: Testimonial[] = [];
 try {
   const data = await getTestimonials();
   if (data?.length) {
@@ -141,11 +127,6 @@ const programPillars = [
     title: "Widow Relief",
     text: "Food support, cash assistance, and follow-up for widows rebuilding household stability.",
     href: "/projects/widow-support",
-  },
-  {
-    title: "Orphan Education",
-    text: "School fees, supplies, uniforms, and mentoring so vulnerable children can stay enrolled.",
-    href: "/projects/education-orphans",
   },
   {
     title: "Girls’ Baking Skills",

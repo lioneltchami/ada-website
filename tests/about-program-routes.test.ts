@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { getAboutProgramHref } from "../src/lib/about-program-routes";
 
-const available = new Set(["education-orphans"]);
+const available = new Set(["education-drive"]);
 
 describe("About page program routes", () => {
   it("does not claim education began in 2023 after the released 2022 school visits", () => {
@@ -14,8 +14,8 @@ describe("About page program routes", () => {
     expect(french).toContain("Fournitures scolaires à Buea");
   });
   it("keeps a verified English project route and falls back for an unknown slug", () => {
-    expect(getAboutProgramHref("education-orphans", available, "en")).toBe(
-      "/projects/education-orphans",
+    expect(getAboutProgramHref("education-drive", available, "en")).toBe(
+      "/projects/education-drive",
     );
     expect(getAboutProgramHref("missing-project", available, "en")).toBe(
       "/projects",
@@ -24,8 +24,8 @@ describe("About page program routes", () => {
   });
 
   it("keeps a verified French project route and localizes the general fallback", () => {
-    expect(getAboutProgramHref("education-orphans", available, "fr")).toBe(
-      "/fr/projects/education-orphans",
+    expect(getAboutProgramHref("education-drive", available, "fr")).toBe(
+      "/fr/projects/education-drive",
     );
     expect(getAboutProgramHref("missing-project", available, "fr")).toBe(
       "/fr/projects",
@@ -36,7 +36,7 @@ describe("About page program routes", () => {
   });
 
   it("never assigns the widow program to a CMS entry with no destination", () => {
-    const known = new Set(["widow-support", "education-orphans"]);
+    const known = new Set(["widow-support", "education-drive"]);
     for (const locale of ["en", "fr"] as const) {
       expect(getAboutProgramHref(undefined, known, locale)).toBe(
         locale === "fr" ? "/fr/projects" : "/projects",
@@ -93,6 +93,7 @@ describe("About page program routes", () => {
       "clean-water-well-nkwen-mbatu",
       "widow-vocational-training-cohort-1",
       "women-empowerment",
+      "education-orphans",
       "young-women-skills-training-program",
     ]);
 
