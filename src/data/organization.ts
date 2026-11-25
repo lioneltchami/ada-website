@@ -1,6 +1,6 @@
 import withheldProjectDocuments from "../../config/withheld-project-documents.json";
 import { isWithdrawnProjectSlug } from "../lib/withdrawn-project-content";
-import { hasReleased2024ProjectDocumentSet } from '../lib/reviewed-project-summaries-2024-25';
+import { hasReleased2024ProjectDocumentSet, hasReleased2025ProjectDocumentSet } from '../lib/reviewed-project-summaries-2024-25';
 import { hasReleased2023ProjectDocumentSet, isProjectDocumentReviewPending } from '../lib/reviewed-project-records';
 import documentReleases from "../../config/project-document-releases.json";
 import type { Locale } from "../i18n";
@@ -49,7 +49,7 @@ export function archiveProjectTitle(slug: string): string {
 }
 
 export function hasReleasedProjectDocumentSet(slug: string): boolean {
-  return hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
+  return hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || hasReleased2025ProjectDocumentSet(slug) || documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
 }
 
 export function projectDocumentPaths(slug: string) {
@@ -62,7 +62,9 @@ export function projectDocumentPaths(slug: string) {
 }
 
 export function hasStaticProjectDocuments(slug: string): boolean {
-  if (isWithdrawnProjectSlug(slug) || withheldProjectDocuments.includes(slug) || isProjectDocumentReviewPending(slug)) return false;
+  if (isWithdrawnProjectSlug(slug) || isProjectDocumentReviewPending(slug)) return false;
+  // Keep legacy sources outside the ledger even after the reviewed replacement PDFs go live.
+  if (withheldProjectDocuments.includes(slug)) return hasReleased2025ProjectDocumentSet(slug);
   return hasReleasedProjectDocumentSet(slug) || (documentArchiveProjects as readonly string[]).includes(slug);
 }
 

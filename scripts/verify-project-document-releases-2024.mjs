@@ -16,7 +16,7 @@ export async function verify2024DocumentReleases(root, checkDist = false) {
   const approved = await load('project-document-releases-2024.json');
   const data = await load('project-records-2024-25.json');
   assert.deepEqual(Object.keys(approved).sort(), Object.keys(approvedRecords).sort());
-  assert.deepEqual(data.projects.filter(p => p.documentStatus === 'released').map(p => p.slug).sort(), Object.keys(approved).sort());
+  assert.deepEqual(data.projects.filter(p => p.year === 2024 && p.documentStatus === 'released').map(p => p.slug).sort(), Object.keys(approved).sort());
   const redirects = (await fs.readFile(path.join(root, 'public/_redirects'), 'utf8')).split(/\r?\n/);
   const baseDirs = checkDist ? ['public', 'dist/client'] : ['public'];
   for (const [slug, docs] of Object.entries(approved)) {

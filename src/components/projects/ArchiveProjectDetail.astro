@@ -8,7 +8,7 @@ import { hasReleased2023ProjectDocumentSet, reviewedProjectRecords } from "../..
 import { hasReleased2024ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
 import { hasReleasedProjectDocumentSet } from "../../data/organization";
 import { archiveEditorial, archiveResolvedFinance } from "../../data/archive-detail-editorial";
-import { archiveProjectDocumentLinks, archivePublishedFinancialAccount, archivePublishedBudgetFcfa, formatArchiveFcfa } from "../../lib/archive-project-document-links";
+import { archiveProjectDocumentLinks, archivePublishedFinancialAccount, archivePublishedBudgetFcfa, archivePublished2025ReportContents, released2025ReportLabel, formatArchiveFcfa } from "../../lib/archive-project-document-links";
 import { formatUsdAmount, getArchiveRecordStatusText, getProjectReportLabel } from "../../lib/project-detail-presentation";
 
 interface Props { record: ProjectArchiveEntry; locale: "en" | "fr" }
@@ -48,13 +48,15 @@ const publishedFinancialAccount = archivePublishedFinancialAccount(record, local
 const financialTitle = publishedFinancialAccount || (fr ? record.financialReviewTitleFr : record.financialReviewTitle) || (fr ? "Chiffres financiers en cours de vérification" : "Financial figures under review");
 const documentNote = fr ? record.documentReviewNoteFr : record.documentReviewNote;
 const released2024 = hasReleased2024ProjectDocumentSet(slug);
-const englishDocuments = hasReleased2023ProjectDocumentSet(slug) || released2024;
+const published2025Contents = archivePublished2025ReportContents(record);
+const published2025ReportLabel = published2025Contents ? released2025ReportLabel(slug, locale, "&") : undefined;
+const englishDocuments = hasReleased2023ProjectDocumentSet(slug) || released2024 || Boolean(published2025Contents);
 const publishedBudgetFcfa = archivePublishedBudgetFcfa(record);
 const hasPublishedPair = hasReleasedProjectDocumentSet(slug);
 const documentLinks = archiveProjectDocumentLinks(record);
 const documents = [
   { href:documentLinks.tor, label:fr ? "Termes de référence" : "Terms of Reference", english:englishDocuments },
-  { href:documentLinks.report, label:released2024 ? (fr ? "Rapport de projet et budget" : "Project report & budget") : hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, ""), english:englishDocuments },
+  { href:documentLinks.report, label:published2025ReportLabel ?? (released2024 ? (fr ? "Rapport de projet et budget" : "Project report & budget") : hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, "")), english:englishDocuments },
   ...(documentLinks.financial ? [{ href:documentLinks.financial, label:fr ? "Rapport financier" : "Financial Report", english:false }] : []),
 ];
 const hasPublicDocuments = Boolean(documentLinks.tor || documentLinks.report || documentLinks.financial);
@@ -150,6 +152,11 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
           <h2 class="font-heading text-base font-bold text-primary-900">{fr ? "Budget publié dans le rapport" : "Budget published in report"}</h2>
           <p class="mt-3 font-semibold tabular-nums text-slate-900">{formatXaf(publishedBudgetFcfa)}</p>
           <p class="mt-2 break-words text-sm leading-relaxed text-slate-700">{financialNote || (fr ? "Ce budget ne représente pas des dépenses vérifiées." : "This budget does not represent verified spending.")}</p>
+        </section>
+      ) : published2025Contents ? (
+        <section class="rounded-xl border border-slate-200 bg-white p-5" data-archive-published-report-contents={published2025Contents}>
+          <h2 class="font-heading text-base font-bold text-primary-900">{(fr ? record.financialReviewTitleFr : record.financialReviewTitle) || (published2025Contents === "cost-list" ? (fr ? "Liste détaillée des coûts publiée" : "Itemized cost list published") : (fr ? "Détail du budget publié" : "Budget details published"))}</h2>
+          <p class="mt-2 break-words text-sm leading-relaxed text-slate-700">{financialNote || (fr ? "Les montants figurant dans le rapport ne constituent pas un relevé des paiements." : "The amounts in the report do not constitute a record of payments.")}</p>
         </section>
       ) : finance && financialLabels && financialBasis ? (
         <section class="rounded-xl border border-slate-200 bg-white p-5">

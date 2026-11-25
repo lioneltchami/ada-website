@@ -66,7 +66,12 @@
       "title": "Back-to-school outreach in Bamenda",
       "titleFr": "Action de rentrée scolaire à Bamenda",
       "description": "On August 30, 2025, we held our first Back to School Outreach in Bamenda to help pupils prepare for the new school year.",
-      "descriptionFr": "Le 30 août 2025, nous avons organisé notre première action de rentrée scolaire à Bamenda pour aider les élèves à préparer la nouvelle année scolaire."
+      "descriptionFr": "Le 30 août 2025, nous avons organisé notre première action de rentrée scolaire à Bamenda pour aider les élèves à préparer la nouvelle année scolaire.",
+      "documentStatus": "released",
+      "financialNoteTitle": "Budget details published",
+      "financialNoteTitleFr": "Détail du budget publié",
+      "financialNote": "The itemized budget totals 151,000 FCFA using the written line amounts. The report explains a transport quantity and rate discrepancy; the worksheet does not establish actual payments.",
+      "financialNoteFr": "Le budget détaillé totalise 151 000 FCFA d’après les montants inscrits. Le rapport explique un écart dans la ligne de transport ; la fiche ne permet pas d’établir les paiements effectués."
     },
     {
       "slug": "back-to-school-buea-2025",
@@ -77,7 +82,12 @@
       "titleFr": "Action de rentrée scolaire à Buea",
       "description": "On August 30, 2025, we held a Back to School Outreach in Buea to help pupils prepare for the new school year. This was separate from the outreach in Bamenda.",
       "descriptionFr": "Le 30 août 2025, nous avons mené une action de rentrée scolaire à Buea pour aider les élèves à préparer la nouvelle année. Cette action était distincte de celle menée à Bamenda.",
-      "date": "2025-08-30"
+      "date": "2025-08-30",
+      "documentStatus": "released",
+      "financialNoteTitle": "Budget details published",
+      "financialNoteTitleFr": "Détail du budget publié",
+      "financialNote": "The itemized supplies budget totals 102,600 FCFA using the individual entries, compared with 102,000 FCFA shown on the worksheet. The report explains the reading; this is not a record of payments or delivery.",
+      "financialNoteFr": "Le budget détaillé des fournitures totalise 102 600 FCFA d’après les postes individuels, contre 102 000 FCFA inscrits sur la fiche. Le rapport explique cette lecture ; il ne s’agit pas d’un relevé des paiements ni de la distribution."
     },
     {
       "slug": "womens-day-widows-outreach-2025",
@@ -87,7 +97,12 @@
       "titleFr": "Action de soutien aux veuves pour la Journée des femmes",
       "description": "On March 15, 2025, we held a Women’s Day outreach for widows. We planned practical household support, including food and fabric.",
       "descriptionFr": "Le 15 mars 2025, nous avons mené une action de soutien aux veuves à l’occasion de la Journée internationale des femmes. Nous avions prévu une aide pour les besoins quotidiens, notamment des denrées alimentaires et du tissu.",
-      "date": "2025-03-15"
+      "date": "2025-03-15",
+      "documentStatus": "released",
+      "financialNoteTitle": "Budget details published",
+      "financialNoteTitleFr": "Détail du budget publié",
+      "financialNote": "The listed quantities and prices calculate to 240,000 FCFA; the worksheet shows 229,500 FCFA. The report preserves both figures and notes the unclear rice unit. These are budget figures, not spending.",
+      "financialNoteFr": "Les quantités et les prix inscrits donnent 240 000 FCFA au calcul, tandis que la fiche indique 229 500 FCFA. Le rapport conserve les deux chiffres et précise que l’unité du riz est incertaine. Il s’agit de chiffres budgétaires, non de dépenses."
     },
     {
       "slug": "prenatal-care-support-program",
@@ -99,7 +114,12 @@
       "confirmedBudgetFcfa": 150000,
       "description": "On March 29, 2025, we reached about 15 nursing mothers at the hospital in Muea, Buea, with buckets, diapers and other supplies for mothers and babies. Our budget was 150,000 FCFA.",
       "descriptionFr": "Le 29 mars 2025, nous avons aidé environ 15 mères qui allaitent à l’hôpital de Muea, à Buea, en remettant des seaux, des couches et d’autres articles pour les mères et leurs bébés. Notre budget était de 150 000 FCFA.",
-      "date": "2025-03-29"
+      "date": "2025-03-29",
+      "documentStatus": "released",
+      "financialNoteTitle": "Budget details published",
+      "financialNoteTitleFr": "Détail du budget publié",
+      "financialNote": "The report itemizes an allocation of the 150,000 FCFA budget. The category amounts are allocations, not purchase prices or verified spending.",
+      "financialNoteFr": "Le rapport détaille une répartition du budget de 150 000 FCFA. Les montants par poste correspondent à une répartition, non à des prix d’achat ni à des dépenses vérifiées."
     },
     {
       "slug": "christmas-orphanage-outreach-2025",
@@ -110,7 +130,12 @@
       "titleFr": "Dons de Noël à Buea",
       "description": "On Saturday, December 20, 2025, our team visited an orphanage in Buea as part of our year-end outreach to support children.",
       "descriptionFr": "Le samedi 20 décembre 2025, notre équipe a rendu visite à un orphelinat à Buea dans le cadre de nos actions de fin d’année en faveur des enfants.",
-      "date": "2025-12-20"
+      "date": "2025-12-20",
+      "documentStatus": "released",
+      "financialNoteTitle": "Itemized cost list published",
+      "financialNoteTitleFr": "Liste détaillée des coûts publiée",
+      "financialNote": "The written lines in the itemized working list add to 119,500 FCFA. The report preserves the listed amounts and explains the unclear units. The list is not a record of purchases or payments.",
+      "financialNoteFr": "Les postes inscrits sur la liste de travail totalisent 119 500 FCFA. Le rapport conserve les montants inscrits et explique les incertitudes relatives aux unités. La liste ne constitue pas un relevé des achats ni des paiements."
     },
     {
       "slug": "city-cleanup-may-2025",
@@ -122,7 +147,12 @@
       "titleFr": "Nettoyage d’établissements scolaires pour la fête du Travail",
       "description": "On May 3, 2025, we held our Labour Day School Cleanup at Lycée de Buea and Buea Technical Training College. We purchased cutlasses, brooms, buckets, rakes and other tools. Our budget was about 50,000 FCFA.",
       "descriptionFr": "Le 3 mai 2025, nous avons organisé notre action de nettoyage pour la fête du Travail au Lycée de Buea et au Buea Technical Training College. Nous avons acheté des machettes, des balais, des seaux, des râteaux et d’autres outils. Notre budget était d’environ 50 000 FCFA.",
-      "approximateBudgetFcfa": 50000
+      "approximateBudgetFcfa": 50000,
+      "documentStatus": "released",
+      "financialNoteTitle": "Budget details published",
+      "financialNoteTitleFr": "Détail du budget publié",
+      "financialNote": "The overall budget was about 50,000 FCFA. The report shows category allocations totaling 50,000 FCFA, not purchase prices or verified spending.",
+      "financialNoteFr": "Le budget global était d’environ 50 000 FCFA. Le rapport détaille une répartition par poste totalisant 50 000 FCFA, non des prix d’achat ni des dépenses vérifiées."
     }
   ]
 }

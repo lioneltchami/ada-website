@@ -45,11 +45,12 @@ describe('source-backed 2024–25 archive summaries', () => {
         expect(entry[staleField], summary.slug + ': ' + staleField).toBeUndefined();
       }
       expect(hasStaticProjectDocuments(summary.slug)).toBe('documentStatus' in summary && summary.documentStatus === 'released');
-      if ('documentStatus' in summary && summary.documentStatus === 'released') {
+      if (summary.year === 2024 && 'documentStatus' in summary && summary.documentStatus === 'released') {
         expect(entry.approvedBudgetFcfa).toBe(summary.approvedBudgetFcfa);
         expect(entry.financialReviewTitle).toBe('Itemized budget published');
       } else {
         expect(entry.approvedBudgetFcfa).toBeUndefined();
+        if (summary.year === 2025) expect(summary.documentStatus).toBe('released');
       }
     }
   });

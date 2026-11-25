@@ -27,8 +27,8 @@ const reviewedWorksheetFigures = {
 const reconciled = JSON.parse(await fs.readFile('config/project-records-2024-25.json', 'utf8')).projects.filter(p => p.year === 2025);
 assert.deepEqual(reconciled.map(p => p.slug).sort(), Object.keys(confirmed).sort(), 'exactly six distinct reviewed 2025 records');
 for (const p of reconciled) {
-  assert.notEqual(p.documentStatus, 'released', '2025 review assets must stay private');
-  assert.equal(p.approvedBudgetFcfa, undefined, 'do not publish private budgets as approved');
+  assert.equal(p.documentStatus, 'released', 'All six approved public pairs must be available');
+  assert.equal(p.approvedBudgetFcfa, undefined, 'do not present older worksheet figures as a uniformly approved budget');
   assert.equal(p.date, confirmed[p.slug], p.slug);
 }
 const retired = {
@@ -41,9 +41,13 @@ const retired = {
 const redirects = (await read('/_redirects')).split(/\r?\n/);
 for (const [slug, target] of Object.entries({...retired, 'prenatal-care-support-program':'prenatal-care-support-program', 'city-cleanup-may-2025':'city-cleanup-may-2025'})) {
   for (const kind of ['tor','report','financial']) for (const suffix of ['md','pdf']) {
-    const source = `/docs/projects/${slug}/${kind}.${suffix}`;
-    await absent(source);
-    assert.ok(redirects.includes(`${source} ${base}${target ? target + '/' : ''} 302`), source);
+    const source = '/docs/projects/' + slug + '/' + kind + '.' + suffix;
+    if (target === slug && suffix === 'pdf' && (kind === 'tor' || kind === 'report')) {
+      assert.ok(!redirects.some(line => line.startsWith(source + ' ')), 'Canonical PDF must not redirect: ' + source);
+    } else {
+      await absent(source);
+      assert.ok(redirects.includes(source + ' ' + base + (target ? target + '/' : '') + ' 302'), source);
+    }
   }
 }
 for (const [prefix, locale] of [['','en-GB'],['/fr','fr-FR']]) {
@@ -73,7 +77,19 @@ for (const [prefix, locale] of [['','en-GB'],['/fr','fr-FR']]) {
       const normalize = value => value.replace(/[\u00a0\u202f]/g,' ');
       assert.ok(normalize(body).includes(prefix ? 'env. 50 000 FCFA' : 'approx. 50,000 FCFA'), slug + ' local amount must be marked approximate');
     }
-    assert.ok(!detail.includes(href) && !resources.includes(href), slug + ' unpublished downloads');
+    assert.ok(body.includes('data-state="both"'), slug + ' ToR and report availability');
+    const expectedStatus = slug === 'christmas-orphanage-outreach-2025' ? 'cost-list-published' : 'budget-details-published';
+    assert.ok(body.includes('data-state="' + expectedStatus + '"'), slug + ' published basis status');
+    for (const html of [detail, resources]) {
+      for (const kind of ['tor', 'report']) {
+        const url = href + kind + '.pdf';
+        const anchors = [...html.matchAll(/<a\b[^>]*>/g)].map(m => m[0]).filter(a => a.includes('href="' + url + '"'));
+        assert.ok(anchors.length > 0, slug + ' missing approved ' + kind);
+        if (prefix) assert.ok(anchors.some(a => a.includes('hreflang="en"')), slug + ' English-language marker ' + kind);
+      }
+      assert.ok(!html.includes(href + 'financial.pdf'), slug + ' no legacy standalone finance link');
+      assert.doesNotMatch(html, /PRIVATE REVIEW COPY|NOT FOR PUBLICATION/, slug + ' no private release marker');
+    }
     assert.doesNotMatch(body, /Budget or goal|Budget ou objectif|Compte financier\s*:\s*Publié|Financial account\s*:\s*Published/i, slug);
     const date = confirmed[slug];
     const label = new Intl.DateTimeFormat(locale,{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
@@ -82,11 +98,11 @@ for (const [prefix, locale] of [['','en-GB'],['/fr','fr-FR']]) {
 }
 
 const rows = JSON.parse(await read('/docs/ada-public-budget-adjustments.json'));
-assert.equal(rows.filter(p => Number(p.year)===2025).length, 0, 'old 2025 financial rows must not surface before approval');
+assert.equal(rows.filter(p => Number(p.year)===2025).length, 0, 'old 2025 financial rows must not be restored or used as actuals');
 for (const doc of ['ada-project-history.md','ada-public-budget-adjustments.csv','ada-public-budget-adjustments.md','ada-project-budgets.xlsx','ada-public-budget-adjustments.xlsx']) {
   const text = doc.endsWith('.xlsx')
     ? execFileSync('python3',['-c','import sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); print(" ".join(z.read(n).decode("utf8","ignore") for n in z.namelist() if n.endswith(".xml")))',paths('/docs/'+doc)],{encoding:'utf8'})
     : await read('/docs/' + doc);
   assert.doesNotMatch(text,/campus-cleanup-aug-2025|idp-children-education-fund|youth-mentorship-seminar-oct-2025|Campus Environmental Cleanup|Interim Progress Report: IDP Children Education Fund|Youth Mentorship Seminar|ADA\/2025\/(?:005|007)/i, doc);
 }
-console.log('2025 archive verified: six pending records in canonical bilingual chronological order; old aliases and downloads redirected, six qualified figures only; no private PDFs.');
+console.log('2025 archive verified: six released records in bilingual chronological order; exact dates, qualified figures, document pairs, and old redirects checked.');

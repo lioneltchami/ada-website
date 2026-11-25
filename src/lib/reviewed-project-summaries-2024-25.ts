@@ -4,16 +4,26 @@ import type { ProjectArchiveDocument, ProjectArchiveEntry, ProjectDemographic } 
 type ReviewedProject = (typeof review.projects)[number];
 type ReleasedProject = Extract<ReviewedProject, { documentStatus: string }>;
 
-function isReleased2024Project(project: ReviewedProject): project is ReleasedProject {
-  return project.year === 2024 && project.documentStatus === 'released';
+type ReleaseYear = 2024 | 2025;
+
+function isReleasedProject(project: ReviewedProject, year: ReleaseYear): project is ReleasedProject {
+  return project.year === year && project.documentStatus === 'released';
+}
+
+function hasReleasedProjectDocuments(slug: string, year: ReleaseYear): boolean {
+  return review.projects.some(project => project.slug === slug && isReleasedProject(project, year));
 }
 
 export function hasReleased2024ProjectDocumentSet(slug: string): boolean {
-  return review.projects.some(project => project.slug === slug && isReleased2024Project(project));
+  return hasReleasedProjectDocuments(slug, 2024);
 }
 
-export function listReleased2024ProjectDocuments(): ProjectArchiveDocument[] {
-  return review.projects.filter(isReleased2024Project).map(project => ({
+export function hasReleased2025ProjectDocumentSet(slug: string): boolean {
+  return hasReleasedProjectDocuments(slug, 2025);
+}
+
+function listReleasedProjectDocuments(year: ReleaseYear): ProjectArchiveDocument[] {
+  return review.projects.filter(project => isReleasedProject(project, year)).map(project => ({
     slug: project.slug,
     year: project.year,
     demographic: project.demographic as ProjectDemographic,
@@ -22,12 +32,20 @@ export function listReleased2024ProjectDocuments(): ProjectArchiveDocument[] {
   }));
 }
 
+export function listReleased2024ProjectDocuments(): ProjectArchiveDocument[] {
+  return listReleasedProjectDocuments(2024);
+}
+
+export function listReleased2025ProjectDocuments(): ProjectArchiveDocument[] {
+  return listReleasedProjectDocuments(2025);
+}
+
 /** Replace the record completely so figures, outcome claims, file links and photos cannot leak in from older CMS entries. */
 export function applyReviewed2024And2025Summaries(entries: ProjectArchiveEntry[]): ProjectArchiveEntry[] {
   const superseded = new Set(Object.keys(review.redirects));
   const bySlug = new Map(entries.filter(entry => !superseded.has(entry.slug.current)).map(entry => [entry.slug.current, entry]));
   for (const project of review.projects) {
-    const released = isReleased2024Project(project);
+    const released = isReleasedProject(project, 2024) || isReleasedProject(project, 2025);
     bySlug.set(project.slug, {
       slug: { current: project.slug },
       year: project.year,
@@ -40,7 +58,11 @@ export function applyReviewed2024And2025Summaries(entries: ProjectArchiveEntry[]
       location: project.location,
       startDate: project.date,
       endDate: project.date,
-      approvedBudgetFcfa: released ? project.approvedBudgetFcfa : undefined,
+      // Do not put 2025 worksheets, working-list amounts or approximate
+      // budgets through the 2024 published-budget amount and roll-up.
+      approvedBudgetFcfa: isReleasedProject(project, 2024) && 'approvedBudgetFcfa' in project
+        ? project.approvedBudgetFcfa
+        : undefined,
       financialReviewTitle: released ? project.financialNoteTitle : undefined,
       financialReviewTitleFr: released ? project.financialNoteTitleFr : undefined,
       financialReviewNote: released ? project.financialNote : 'No financial figures are published for this project while the records are reviewed.',
