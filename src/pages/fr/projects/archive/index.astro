@@ -5,7 +5,6 @@ import { getEligibleArchiveFeaturePhoto } from "../../../../lib/archive-eligible
 import PageHero from "../../../../components/layout/PageHero.astro";
 import Section from "../../../../components/layout/Section.astro";
 import {
-  countProjectsUnderFinancialReview,
   countOwnerMarkedCompletions,
   formatArchiveCardMonth,
   loadProjectArchiveEntries,
@@ -52,13 +51,6 @@ const totalBeneficiaries = archiveItems.reduce(
   (sum, r) => sum + (r.beneficiaries || 0),
   0,
 );
-const totalBudget = archiveItems.reduce((sum, r) => sum + (r.budget || 0), 0);
-const financeReviewCount = countProjectsUnderFinancialReview(archiveItems);
-const usdFormatter = new Intl.NumberFormat('fr-FR', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 0,
-});
 const completedCount = countOwnerMarkedCompletions(archiveItems);
 const years = [...new Set(archiveItems.map((r) => r.year))].sort(
   (a, b) => b - a,
@@ -95,45 +87,33 @@ for (const r of archiveItems) {
 
   <Section background="white" padding="sm">
     <div
-      class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 border-y border-gray-200 py-6"
+      class="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-5 border-y border-gray-200 py-6"
     >
       <div>
         <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          {totalBeneficiaries.toLocaleString()}
+          {archiveItems.length.toLocaleString("fr")}
         </p>
         <p class="text-xs text-gray-500 uppercase tracking-wider">
-          Nombres de bénéficiaires déclarés
+          Dossiers d’actions
+        </p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">
+          {completedCount.toLocaleString("fr")} sur {archiveItems.length.toLocaleString("fr")}
+        </p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">
+          Dossiers marqués comme terminés
+        </p>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">
+          {totalBeneficiaries.toLocaleString("fr")}
+        </p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">
+          Participants déclarés pour l’ensemble des actions
         </p>
         <p class="mt-1 text-xs text-gray-500">
-          Somme par dossier; une même personne peut figurer dans plusieurs
-          projets.
-        </p>
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          {archiveItems.length}
-        </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">
-          Entrées d’archives
-        </p>
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          {usdFormatter.format(totalBudget)}
-        </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">
-          Budgets et objectifs indiqués (USD)
-        </p>
-        <p class="mt-1 text-xs text-gray-500">
-          Somme des budgets/objectifs affichés en USD; ce n’est pas un total de dépenses vérifié. Pour {financeReviewCount} dossiers, le budget ou objectif en USD est exclu de ce total. Un compte financier peut néanmoins être disponible.
-        </p>
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          {completedCount}/{archiveItems.length}
-        </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">
-          Marqués comme terminés
+          Une même personne peut être comptée plusieurs fois si elle a participé à plusieurs actions.
         </p>
       </div>
     </div>

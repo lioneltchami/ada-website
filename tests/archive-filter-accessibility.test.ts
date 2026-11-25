@@ -38,47 +38,34 @@ describe("project archive filters", () => {
   it("renders accented French copy as UTF-8 text rather than visible escape sequences", () => {
     const markup = french.split("---").slice(2).join("---");
     expect(markup).toContain("Archives des dossiers de projets");
-    expect(markup).toContain("bénéficiaires déclarés");
+    expect(markup).toContain("Participants déclarés");
     expect(markup).not.toMatch(/\\u00e9/);
   });
 
-  it("labels archive aggregates without implying unique reach or verified expenditure", () => {
-    for (const [locale, page] of [
-      ["en", english],
-      ["fr", french],
+  it("keeps the archive summary data-driven without implying unique reach or aggregating money", () => {
+    for (const [locale, page, separator] of [
+      ["en", english, "of"],
+      ["fr", french, "sur"],
     ] as const) {
-      expect(page).toContain("totalBeneficiaries.toLocaleString()");
-      expect(page).toContain("archiveItems.length");
-      if (locale === "fr") {
-        expect(page).toContain("new Intl.NumberFormat('fr-FR'");
-        expect(page).toContain("currency: 'USD'");
-        expect(page).toContain("usdFormatter.format(totalBudget)");
-      } else {
-        expect(page).toContain("totalBudget.toLocaleString()");
-      }
-      expect(page).toContain("completedCount}/{archiveItems.length");
-      expect(page).toContain("sum + (r.beneficiaries || 0)");
-      expect(page).toContain("sum + (r.budget || 0)");
-      expect(page).not.toMatch(
-        /Projects Delivered|Projets réalisés|Total Invested|Total Investi/,
+      expect(page).toContain(`{totalBeneficiaries.toLocaleString("${locale}")}`);
+      expect(page).toContain(`{archiveItems.length.toLocaleString("${locale}")}`);
+      expect(page).toContain(
+        `{completedCount.toLocaleString("${locale}")} ${separator} {archiveItems.length.toLocaleString("${locale}")}`,
       );
+      expect(page).toContain("sum + (r.beneficiaries || 0)");
+      expect(page).not.toMatch(/totalBudget|sum \+ \(r\.budget/);
+      expect(page).toContain("budget={r.budget} localFinance={r.localFinance}");
+      expect(page).toContain("archiveExchangeRateSource");
+      expect(page).toContain("archiveExchangePegSource");
     }
-    expect(english).toContain("Reported beneficiary counts");
-    expect(english).toContain("a person may appear in multiple projects");
-    expect(english).toContain("Listed budget/goal fields (USD)");
-    expect(english).toContain("not a verified expenditure total");
-    expect(english).toContain("Archive records");
-    expect(french).toContain("Nombres de bénéficiaires déclarés");
-    expect(french).toMatch(
-      /une même personne peut figurer dans plusieurs\s+projets/,
-    );
-    expect(french).toContain("Budgets et objectifs indiqués (USD)");
-    expect(french).toContain("ce n’est pas un total de dépenses vérifié");
-    expect(french).toContain("Pour {financeReviewCount} dossiers, le budget ou objectif en USD est exclu de ce total. Un compte financier peut néanmoins être disponible.");
-    expect(english).toContain("For {financeReviewCount} project records, the USD budget or goal is withheld from this total. A financial account may still be available.");
-    expect(french).not.toMatch(/Pour (?:deux|\d+) dossiers, le budget/i);
-    expect(english).not.toMatch(/For (?:two|\d+) project records, the USD budget/i);
-    expect(french).toContain("Entrées d’archives");
+    expect(english).toContain("Outreach records");
+    expect(english).toContain("Marked complete");
+    expect(english).toContain("Reported participants across outreaches");
+    expect(english).toContain("may be counted more than once");
+    expect(french).toContain("Dossiers d’actions");
+    expect(french).toContain("Dossiers marqués comme terminés");
+    expect(french).toContain("Participants déclarés pour l’ensemble des actions");
+    expect(french).toContain("peut être comptée plusieurs fois");
   });
 
   it("uses neutral archive wording and excludes auto-archived entries from completed totals", () => {
