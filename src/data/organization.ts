@@ -1,3 +1,4 @@
+import { isWithdrawnProjectSlug } from "../lib/withdrawn-project-content";
 import { hasReleased2024ProjectDocumentSet } from '../lib/reviewed-project-summaries-2024-25';
 import { hasReleased2023ProjectDocumentSet, isProjectDocumentReviewPending } from '../lib/reviewed-project-records';
 import documentReleases from "../../config/project-document-releases.json";
@@ -30,7 +31,6 @@ export const documentArchiveProjects = [
   "christmas-giving-dec-2022",
   "city-cleanup-may-2023",
   "city-cleanup-may-2025",
-  "emergency-food-relief-bamenda-crisis",
   "first-widow-home-visits-2021",
   "idp-children-education-fund",
   "idp-girls-baking-training-jul-2022",
@@ -66,7 +66,7 @@ export function projectDocumentPaths(slug: string) {
 }
 
 export function hasStaticProjectDocuments(slug: string): boolean {
-  if (isProjectDocumentReviewPending(slug)) return false;
+  if (isWithdrawnProjectSlug(slug) || isProjectDocumentReviewPending(slug)) return false;
   return hasReleasedProjectDocumentSet(slug) || (documentArchiveProjects as readonly string[]).includes(slug);
 }
 

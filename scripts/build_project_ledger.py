@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
 import math
 import re
 import zipfile
@@ -14,6 +15,7 @@ from xml.sax.saxutils import escape as xml_escape
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = ROOT / "public" / "docs" / "projects"
+WITHDRAWN_RECORD_SLUGS = set(json.loads((ROOT / "config/withdrawn-project-records.json").read_text(encoding="utf-8")))
 MARKDOWN_OUT = ROOT / "public" / "docs" / "ada-project-history.md"
 XLSX_OUT = ROOT / "public" / "docs" / "ada-project-budgets.xlsx"
 
@@ -425,6 +427,8 @@ class ProjectRecord:
 
 
 def parse_project(slug_dir: Path) -> ProjectRecord | None:
+    if slug_dir.name in WITHDRAWN_RECORD_SLUGS:
+        return None
     report_path = slug_dir / "report.md"
     financial_path = slug_dir / "financial.md"
     if not report_path.exists() or not financial_path.exists():

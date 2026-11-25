@@ -11,7 +11,7 @@ import {
   loadProjectArchiveEntries,
 } from "../../../../lib/project-archive";
 import ArchiveCardStatuses from "../../../../components/projects/ArchiveCardStatuses.astro";
-import { archivePublishedBudgetFcfa } from "../../../../lib/archive-project-document-links";
+import { archiveExchangePegSource, archiveExchangeRateSource, formatArchiveCardFinances } from "../../../../lib/archive-card-finances";
 import { getArchiveCardStatus } from "../../../../lib/archive-card-status";
 import { resolveHeroImage } from "../../../../lib/hero-images";
 
@@ -25,7 +25,7 @@ const archiveItems = records.map((r) => ({
   ...r,
   archiveMonth: formatArchiveCardMonth(r, "fr"),
   cardStatus: getArchiveCardStatus(r, "fr"),
-  publishedBudgetFcfa: archivePublishedBudgetFcfa(r),
+  localFinance: formatArchiveCardFinances(r, "fr"),
   featurePhoto: getEligibleArchiveFeaturePhoto(r, "fr", 240),
 }));
 
@@ -137,6 +137,7 @@ for (const r of archiveItems) {
         </p>
       </div>
     </div>
+    <p class="mt-4 text-center text-xs text-gray-500">Les équivalents approximatifs en USD utilisent le <a class="underline" href={archiveExchangeRateSource}>taux mensuel moyen de la Réserve fédérale américaine</a> du mois du projet et la <a class="underline" href={archiveExchangePegSource}>parité fixe de la BEAC avec l’euro</a>. Il ne s’agit pas de paiements en USD.</p>
   </Section>
 
   <Section background="gray" padding="lg">
@@ -249,7 +250,7 @@ for (const r of archiveItems) {
                             {r.location && <span>{r.location}</span>}
                           </div>
                         </div>
-                        <ArchiveCardStatuses status={r.cardStatus} budget={r.budget} publishedBudgetFcfa={r.publishedBudgetFcfa} locale="fr" />
+                        <ArchiveCardStatuses status={r.cardStatus} budget={r.budget} localFinance={r.localFinance} locale="fr" />
                       </div>
                     </div>
                   </a>

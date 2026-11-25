@@ -392,8 +392,8 @@ const heroImage = await resolveHeroImage([
     </div>
   </Section>
 
-  <!-- Measurable Results -->
-  <Section background="white" padding="lg">
+  <!-- Show measured results only when there are source-backed indicators. -->
+  {measurableIndicators.length > 0 && <Section background="white" padding="lg">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-2xl font-heading font-bold text-gray-900">
         {labels.transparency.measurableResults}
@@ -448,7 +448,7 @@ const heroImage = await resolveHeroImage([
         }
       </div>
     </div>
-  </Section>
+  </Section>}
 
   <!-- Theory of Change -->
   <Section background="gray" padding="lg">
