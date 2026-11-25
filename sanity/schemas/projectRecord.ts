@@ -1,3 +1,4 @@
+import { archiveOutreachCategoryField } from "./archiveOutreachCategory";
 import { defineType, defineField } from "sanity";
 
 export default defineType({
@@ -27,6 +28,7 @@ export default defineType({
       description:
         "Optional link back to the public fundraising/current project this archive record came from.",
     }),
+    archiveOutreachCategoryField(),
     defineField({
       name: "demographic",
       title: "Target Demographic",

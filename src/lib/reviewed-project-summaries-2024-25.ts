@@ -1,3 +1,4 @@
+import { isArchiveOutreachCategory } from "./archive-outreach-categories";
 import review from '../../config/project-records-2024-25.json';
 import type { ProjectArchiveDocument, ProjectArchiveEntry, ProjectDemographic } from './project-archive';
 
@@ -46,7 +47,9 @@ export function applyReviewed2024And2025Summaries(entries: ProjectArchiveEntry[]
   const bySlug = new Map(entries.filter(entry => !superseded.has(entry.slug.current)).map(entry => [entry.slug.current, entry]));
   for (const project of review.projects) {
     const released = isReleasedProject(project, 2024) || isReleasedProject(project, 2025);
+    const selectedCategory = bySlug.get(project.slug)?.outreachCategory;
     bySlug.set(project.slug, {
+      ...(isArchiveOutreachCategory(selectedCategory) ? { outreachCategory: selectedCategory } : {}),
       slug: { current: project.slug },
       year: project.year,
       demographic: project.demographic as ProjectDemographic,

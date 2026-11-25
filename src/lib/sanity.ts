@@ -1,3 +1,4 @@
+import type { ArchiveOutreachCategory } from "./archive-outreach-categories";
 import { isSupersededBamendaSchoolPhoto } from "./reviewed-project-summaries-2024-25";
 import { createClient, type SanityClient } from "@sanity/client";
 import {
@@ -69,6 +70,7 @@ export interface SanityProject {
 	titleFr?: string;
 	slug: { current: string };
 	status: "active" | "completed" | "paused";
+	outreachCategory?: ArchiveOutreachCategory;
 	demographic?:
 		| "widows"
 		| "orphans"

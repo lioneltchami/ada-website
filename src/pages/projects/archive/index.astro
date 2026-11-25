@@ -12,6 +12,7 @@ import {
 import ArchiveCardStatuses from "../../../components/projects/ArchiveCardStatuses.astro";
 import { archiveExchangePegSource, archiveExchangeRateSource, formatArchiveCardFinances } from "../../../lib/archive-card-finances";
 import { getArchiveCardStatus } from "../../../lib/archive-card-status";
+import { getArchiveOutreachCategory, getArchiveOutreachFilters } from "../../../lib/archive-outreach-categories";
 import { resolveHeroImage } from "../../../lib/hero-images";
 
 const records = await loadProjectArchiveEntries();
@@ -22,23 +23,15 @@ const heroImage = await resolveHeroImage([
 
 const archiveItems = records.map((r) => ({
   ...r,
+  archiveCategory: getArchiveOutreachCategory(r.slug.current, r.outreachCategory),
   archiveMonth: formatArchiveCardMonth(r, "en"),
   cardStatus: getArchiveCardStatus(r, "en"),
   localFinance: formatArchiveCardFinances(r, "en"),
   featurePhoto: getEligibleArchiveFeaturePhoto(r, "en", 240),
 }));
 
-const demographics = [
-  "all",
-  "widows",
-  "orphans",
-  "young-women",
-  "pregnant-women",
-  "idps",
-  "community",
-];
-const demoLabels: Record<string, string> = {
-  all: "All",
+const outreachFilters = getArchiveOutreachFilters(archiveItems, "en");
+const audienceLabels: Record<string, string> = {
   widows: "Widows",
   orphans: "Orphans",
   "young-women": "Young Women",
@@ -72,7 +65,7 @@ for (const r of archiveItems) {
 >
   <PageHero
     title="Archive of Project Records"
-    subtitle="Browse archive entries by demographic or explore the timeline."
+    subtitle="Browse archive entries by outreach category or explore the timeline."
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -123,36 +116,31 @@ for (const r of archiveItems) {
     <p class="mt-4 text-center text-xs text-gray-500">Approximate USD equivalents alongside FCFA amounts use the <a class="underline" href={archiveExchangeRateSource}>U.S. Federal Reserve monthly average</a> for the project month and the <a class="underline" href={archiveExchangePegSource}>BEAC euro peg</a>. They are not amounts paid in USD.</p>
   </Section>
 
-  <!-- Demographic Tabs -->
+  <!-- Outreach category filters -->
   <Section background="gray" padding="lg">
     <div class="max-w-5xl mx-auto">
-      <!-- Tabs -->
       <div
         class="flex flex-wrap gap-2 mb-8 justify-center"
-        id="demo-tabs"
+        id="archive-category-filters"
         role="group"
-        aria-label="Filter by demographic"
+        aria-label="Filter archive by outreach category"
       >
         {
-          demographics.map((d) => (
+          outreachFilters.map(({ id, label, count }) => (
             <button
               type="button"
-              aria-pressed={d === "all" ? "true" : "false"}
-              data-demo={d}
+              aria-pressed={id === "all" ? "true" : "false"}
+              data-archive-category={id}
               class:list={[
                 "px-4 py-2 text-sm font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2",
-                d === "all"
+                id === "all"
                   ? "bg-primary-600 text-white"
                   : "bg-white text-gray-700 border border-gray-200 hover:border-primary-300 hover:text-primary-700",
               ]}
             >
-              {demoLabels[d]}
+              {label}
               <span class="ml-1 text-xs opacity-70">
-                (
-                {d === "all"
-                  ? archiveItems.length
-                  : archiveItems.filter((r) => r.demographic === d).length}
-                )
+                ({count})
               </span>
             </button>
           ))
@@ -172,7 +160,7 @@ for (const r of archiveItems) {
         class="hidden text-center text-sm text-gray-600"
         aria-live="polite"
       >
-        No projects match this group.
+        No projects match this category.
       </p>
 
       <!-- Timeline -->
@@ -200,7 +188,7 @@ for (const r of archiveItems) {
                   <a
                     href={r.href || `/projects/archive/${r.slug.current}`}
                     class="group archive-item block p-3 sm:p-4 bg-white rounded-md border border-gray-100 hover:border-primary-200 transition-all duration-200"
-                    data-demo={r.demographic}
+                    data-archive-category={r.archiveCategory ?? ""}
                   >
                     <div class="flex items-start gap-3">
                       {r.featurePhoto ? (
@@ -226,7 +214,7 @@ for (const r of archiveItems) {
                           <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
                             <span data-archive-month={r.archiveMonth ?? ""} class="font-medium text-gray-700">{r.archiveMonth ?? "Month not recorded"}</span>
                             <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-md font-medium">
-                              {demoLabels[r.demographic]}
+                              {audienceLabels[r.demographic]}
                             </span>
                             {r.beneficiaries && (
                               <span>
@@ -251,18 +239,18 @@ for (const r of archiveItems) {
 </PageLayout>
 
 <script>
-  const tabs = document.querySelectorAll("#demo-tabs button");
+  const buttons = document.querySelectorAll("#archive-category-filters button");
   const items = document.querySelectorAll(".archive-item");
   const yearGroups = document.querySelectorAll("[data-year-group]");
   const resultCount = document.getElementById("filter-result-count");
   const noResults = document.getElementById("filter-no-results");
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const demo = tab.getAttribute("data-demo");
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const category = button.getAttribute("data-archive-category");
 
-      // Update tab styles
-      tabs.forEach((t) => {
+      // Update filter styles
+      buttons.forEach((t) => {
         t.classList.remove("bg-primary-600", "text-white");
         t.classList.add(
           "bg-white",
@@ -272,20 +260,20 @@ for (const r of archiveItems) {
         );
         t.setAttribute("aria-pressed", "false");
       });
-      tab.classList.remove(
+      button.classList.remove(
         "bg-white",
         "text-gray-700",
         "border",
         "border-gray-200",
       );
-      tab.classList.add("bg-primary-600", "text-white");
-      tab.setAttribute("aria-pressed", "true");
+      button.classList.add("bg-primary-600", "text-white");
+      button.setAttribute("aria-pressed", "true");
 
       // Filter items
       let visibleCount = 0;
       items.forEach((item) => {
         const el = item as HTMLElement;
-        if (demo === "all" || el.dataset.demo === demo) {
+        if (category === "all" || el.dataset.archiveCategory === category) {
           el.style.display = "";
           visibleCount += 1;
         } else {

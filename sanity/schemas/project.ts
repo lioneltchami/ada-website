@@ -1,3 +1,4 @@
+import { archiveOutreachCategoryField } from "./archiveOutreachCategory";
 import { defineField, defineType } from "sanity";
 
 export default defineType({
@@ -31,6 +32,7 @@ export default defineType({
 			options: { list: ["active", "completed", "paused"] },
 			validation: (r) => r.required(),
 		}),
+		archiveOutreachCategoryField(),
 		defineField({
 			name: "demographic",
 			title: "Archive Demographic",
@@ -46,7 +48,7 @@ export default defineType({
 				],
 			},
 			description:
-				"Used when this project appears in the project archive after its end date.",
+				"Optional audience label. Choose the outreach category separately for archive filtering.",
 		}),
 		defineField({
 			name: "location",
