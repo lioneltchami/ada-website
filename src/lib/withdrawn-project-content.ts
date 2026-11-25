@@ -216,5 +216,10 @@ export function isWithdrawnTestimonial(testimonial: {
 	quote?: string;
 	quoteFr?: string;
 }): boolean {
-	return isWithdrawnAboutEntry(testimonial) || isWithdrawnWidowTrainingTestimonial(testimonial);
+	return isWithdrawnAboutEntry({
+		title: testimonial.program,
+		titleFr: testimonial.programFr,
+		description: testimonial.quote,
+		descriptionFr: testimonial.quoteFr,
+	}) || isWithdrawnWidowTrainingTestimonial(testimonial);
 }
