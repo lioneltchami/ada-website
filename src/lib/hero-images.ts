@@ -13,7 +13,7 @@ export type HeroImage = {
 export async function resolveHeroImage(
 	preferredSlugs: string[] = [
 		"widow-support",
-		"education-orphans",
+
 	],
 ): Promise<HeroImage | null> {
 	try {

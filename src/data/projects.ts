@@ -88,18 +88,6 @@ export const projects: Project[] = [
     autoArchiveAfterEndDate: true,
   },
   {
-    slug: "education-orphans",
-    title: "Education for Orphans",
-    location: "Douala",
-    status: "completed",
-    demographic: "orphans",
-    description:
-      "Comprehensive education support for orphaned children including school supplies, uniforms, tuition fees, and mentorship programs. We believe every child deserves access to quality education regardless of their circumstances.",
-    beneficiaries: 20,
-    goal: 2500,
-    raised: 2500,
-  },
-  {
     slug: "emergency-relief",
     title: "Emergency Relief Fund",
     location: "Multiple Regions",

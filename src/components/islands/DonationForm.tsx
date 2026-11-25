@@ -14,14 +14,12 @@ type FormLocale = "en" | "fr";
 const FALLBACK_PROJECT_NAMES: Record<FormLocale, Record<string, string>> = {
   en: {
     "widow-support": "Widow Support Program",
-    "education-orphans": "Education for Orphans",
     "emergency-relief": "Emergency Relief Fund",
     "education-drive": "Annual Education Drive",
     "christmas-giving": "Christmas Giving Campaign",
   },
   fr: {
     "widow-support": "Programme de soutien aux veuves",
-    "education-orphans": "Éducation des orphelins",
     "emergency-relief": "Fonds d'urgence",
     "education-drive": "Campagne scolaire annuelle",
     "christmas-giving": "Campagne de Noël",
