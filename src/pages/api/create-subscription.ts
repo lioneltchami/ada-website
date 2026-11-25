@@ -8,6 +8,7 @@ import {
 } from "../../lib/api-requests";
 import { subscriptionIdempotencyKey } from "../../lib/checkout-idempotency";
 import { RATE_LIMITS, rejectIfRateLimited } from "../../lib/rate-limit";
+import { isChristmasAnnouncementSlug } from "../../lib/christmas-announcements";
 import { isWithdrawnProjectSlug } from "../../lib/withdrawn-project-content";
 import { getStripe } from "../../lib/stripe";
 
@@ -31,7 +32,8 @@ const SubscriptionSchema = z.object({
     .nullable()
     .optional()
     .transform((value) => value || undefined)
-    .refine((value) => !isWithdrawnProjectSlug(value), "Project is withdrawn"),
+    .refine((value) => !isWithdrawnProjectSlug(value), "Project is withdrawn")
+    .refine((value) => !isChristmasAnnouncementSlug(value), "Project is an announcement only"),
 });
 
 export const POST: APIRoute = async ({ request, url }) => {

@@ -10,6 +10,7 @@ import {
   hasStaticProjectDocuments,
   projectDocumentPaths,
 } from "../data/organization";
+import { christmasAnnouncements } from "./christmas-announcements";
 import { getProjectLifecycleState } from "./project-lifecycle";
 import { getProjects, type SanityProject } from "./sanity";
 import { isWithdrawnProjectRecord, isWithdrawnProjectSlug } from "./withdrawn-project-content";
@@ -417,8 +418,8 @@ export function toAutoArchiveEntry(
     status: "completed",
     description: project.description,
     descriptionFr: project.descriptionFr || project.description,
-    beneficiaries: project.beneficiaries,
-    budget: project.goalAmount,
+    beneficiaries: project.announcementOnly ? undefined : project.beneficiaries,
+    budget: project.announcementOnly ? undefined : project.goalAmount,
     location: project.location,
     startDate: project.startDate,
     endDate: project.endDate,
@@ -509,8 +510,20 @@ export async function loadProjectArchiveEntries(): Promise<
     console.error("[project-archive] Project record fetch failed:", e);
   }
 
+  if (!records.length) {
+    records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
+  }
+
   try {
-    const currentProjects = await getProjects();
+    const cmsProjects = await getProjects().catch((error) => {
+      console.error("[project-archive] Source projects unavailable:", error);
+      return [] as SanityProject[];
+    });
+    const cmsSlugs = new Set(cmsProjects.map((project) => project.slug.current));
+    const currentProjects = [
+      ...cmsProjects,
+      ...christmasAnnouncements.filter((project) => !cmsSlugs.has(project.slug.current)),
+    ];
     const bySlug = new Map(
       currentProjects.map((project) => [project.slug.current, project]),
     );
@@ -548,9 +561,6 @@ export async function loadProjectArchiveEntries(): Promise<
     console.error("[project-archive] Auto archive fallback failed:", e);
   }
 
-  if (!records.length) {
-    records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
-  }
 
   // A directly linked record can inherit a valid category even if the current
   // project list was unavailable during this build.

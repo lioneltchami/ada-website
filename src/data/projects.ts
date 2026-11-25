@@ -1,5 +1,7 @@
 import { listReleased2026ProjectDocuments, reviewed2026Release } from "../lib/reviewed-project-summaries-2026";
 
+import { christmasAnnouncements } from "../lib/christmas-announcements";
+
 export type EditorialProjectStatus = "active" | "completed" | "paused";
 
 export interface Project {
@@ -25,11 +27,18 @@ export interface Project {
   endDate?: string;
   archiveAfterDate?: string;
   autoArchiveAfterEndDate?: boolean;
+  announcementOnly?: boolean;
   /** Local flyer / hero image under public/ */
   imagePath?: string;
 }
 
 export const projects: Project[] = [
+  ...christmasAnnouncements.map((p): Project => ({
+    ...p,
+    slug: p.slug.current,
+    goal: p.goalAmount,
+    raised: p.raisedAmount,
+  })),
   ...listReleased2026ProjectDocuments().map(({ slug, demographic }): Project => {
     const release = reviewed2026Release(slug)!;
     return {

@@ -3,6 +3,7 @@ export type EditorialProjectStatus = "active" | "completed" | "paused";
 
 export interface ProjectLifecycleFields {
 	status: EditorialProjectStatus;
+	announcementOnly?: boolean | null;
 	slug?: string | { current?: string | null } | null;
 	startDate?: string | null;
 	endDate?: string | null;
@@ -109,7 +110,7 @@ export function getProjectLifecycleState(
 		hasEnded,
 		hasStarted,
 		isUpcoming: shouldBeUpcoming,
-		isFundable: isProjectFundable(status) && !fundingClosed,
+		isFundable: isProjectFundable(status) && !fundingClosed && project.announcementOnly !== true,
 		isAutoCompleted: shouldAutoComplete,
 		archiveHref: archiveSlug
 			? `${localePrefix}/projects/archive/${archiveSlug}`

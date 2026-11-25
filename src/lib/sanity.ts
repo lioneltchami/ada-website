@@ -91,6 +91,7 @@ export interface SanityProject {
 	endDate?: string;
 	archiveAfterDate?: string;
 	autoArchiveAfterEndDate?: boolean;
+	announcementOnly?: boolean;
 	archiveRecord?: {
 		slug?: { current: string };
 		photo?: { asset?: { _ref?: string }; alt?: string; altFr?: string };
