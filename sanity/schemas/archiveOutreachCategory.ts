@@ -4,7 +4,7 @@ import {
   getArchiveOutreachCategory,
   getArchiveOutreachCategoryLabel,
   isArchiveOutreachCategory,
-} from "../../src/lib/archive-outreach-categories";
+} from "../outreach-categories";
 
 export function archiveOutreachCategoryField() {
   return defineField({
