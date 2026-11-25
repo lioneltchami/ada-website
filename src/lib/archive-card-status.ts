@@ -4,6 +4,7 @@ import {
   archivePublishedFinancialAccount,
   archivePublishedBudgetFcfa,
   archivePublished2025ReportContents,
+  archivePublished2026Finance,
 } from "./archive-project-document-links";
 import type { ProjectArchiveEntry } from "./project-archive";
 import {
@@ -31,6 +32,7 @@ export function getArchiveCardStatus(record: ArchiveStatusInput, locale: Project
   const fr = locale === "fr";
   const { tor, report, financial } = archiveProjectDocumentLinks(record);
   const publishedReportContents = archivePublished2025ReportContents(record);
+  const published2026 = archivePublished2026Finance(record);
   const accountLabel = fr ? "Compte financier" : "Financial account";
 
   // Publication of an account says nothing about audit or reconciliation. The
@@ -38,6 +40,11 @@ export function getArchiveCardStatus(record: ArchiveStatusInput, locale: Project
   let finance: ArchiveStatusRow;
   if (archivePublishedFinancialAccount(record, locale)) {
     finance = { label: accountLabel, value: fr ? "Publié" : "Published", state: "published", tone: "positive" };
+  } else if (published2026) {
+    const girls = published2026.slug === "girls-dignity-menstrual-health-bamenda-jun-2026";
+    finance = girls
+      ? { label: accountLabel, value: fr ? "Publié" : "Published", state: "published", tone: "positive" }
+      : { label: fr ? "Budget" : "Budget", value: fr ? "Publié dans le rapport" : "Published in report", state: "budget-published", tone: "positive" };
   } else if (archivePublishedBudgetFcfa(record) !== undefined) {
     finance = { label: "Budget", value: fr ? "Publié dans le rapport" : "Published in report", state: "budget-published", tone: "positive" };
   } else if (publishedReportContents) {

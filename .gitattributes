@@ -1,0 +1,2 @@
+# Keep released document bytes untouched and show PDFs as binary in reviews.
+public/docs/**/*.pdf binary

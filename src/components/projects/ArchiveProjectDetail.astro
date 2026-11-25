@@ -8,7 +8,7 @@ import { hasReleased2023ProjectDocumentSet, reviewedProjectRecords } from "../..
 import { hasReleased2024ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
 import { hasReleasedProjectDocumentSet } from "../../data/organization";
 import { archiveEditorial, archiveResolvedFinance } from "../../data/archive-detail-editorial";
-import { archiveProjectDocumentLinks, archivePublishedFinancialAccount, archivePublishedBudgetFcfa, archivePublished2025ReportContents, released2025ReportLabel, formatArchiveFcfa } from "../../lib/archive-project-document-links";
+import { archiveProjectDocumentLinks, archivePublishedFinancialAccount, archivePublishedBudgetFcfa, archivePublished2025ReportContents, archivePublished2026Finance, released2026ReportLabel, released2025ReportLabel, formatArchiveFcfa } from "../../lib/archive-project-document-links";
 import { formatUsdAmount, getArchiveRecordStatusText, getProjectReportLabel } from "../../lib/project-detail-presentation";
 
 interface Props { record: ProjectArchiveEntry; locale: "en" | "fr" }
@@ -50,13 +50,15 @@ const documentNote = fr ? record.documentReviewNoteFr : record.documentReviewNot
 const released2024 = hasReleased2024ProjectDocumentSet(slug);
 const published2025Contents = archivePublished2025ReportContents(record);
 const published2025ReportLabel = published2025Contents ? released2025ReportLabel(slug, locale, "&") : undefined;
-const englishDocuments = hasReleased2023ProjectDocumentSet(slug) || released2024 || Boolean(published2025Contents);
+const published2026 = archivePublished2026Finance(record);
+const published2026ReportLabel = published2026 ? released2026ReportLabel(slug, locale, "&") : undefined;
+const englishDocuments = hasReleased2023ProjectDocumentSet(slug) || released2024 || Boolean(published2025Contents || published2026);
 const publishedBudgetFcfa = archivePublishedBudgetFcfa(record);
 const hasPublishedPair = hasReleasedProjectDocumentSet(slug);
 const documentLinks = archiveProjectDocumentLinks(record);
 const documents = [
   { href:documentLinks.tor, label:fr ? "Termes de référence" : "Terms of Reference", english:englishDocuments },
-  { href:documentLinks.report, label:published2025ReportLabel ?? (released2024 ? (fr ? "Rapport de projet et budget" : "Project report & budget") : hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, "")), english:englishDocuments },
+  { href:documentLinks.report, label:published2026ReportLabel ?? published2025ReportLabel ?? (released2024 ? (fr ? "Rapport de projet et budget" : "Project report & budget") : hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, "")), english:englishDocuments },
   ...(documentLinks.financial ? [{ href:documentLinks.financial, label:fr ? "Rapport financier" : "Financial Report", english:false }] : []),
 ];
 const hasPublicDocuments = Boolean(documentLinks.tor || documentLinks.report || documentLinks.financial);
@@ -65,7 +67,8 @@ const reviewed2025 = record.year === 2025 && reviewed2024And2025.projects.some(p
 const showDay = (record.year === 2022 && hasPublishedPair)
   || released2024
   || reviewedProjectRecords.some(project => project.slug === slug)
-  || reviewed2025;
+  || reviewed2025
+  || Boolean(published2026);
 const prettyDate = (value: string) => {
   const exact = showDay && /^\d{4}-\d{2}-\d{2}$/.test(value);
   const label = new Intl.DateTimeFormat(fr ? "fr-FR" : "en-GB", { month:exact || reviewed2025 ? "long" : "short", year:"numeric", ...(exact ? {day:"numeric"} : {}), timeZone:"UTC" }).format(new Date(value));
@@ -126,7 +129,7 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
           <dt class="text-slate-600">{fr ? "Public" : "Community served"}</dt><dd class="text-right font-medium text-slate-900">{demo}</dd>
           <dt class="text-slate-600">{fr ? "Date" : "Date"}</dt><dd class="text-right font-medium text-slate-900">{period}</dd>
           {location && <><dt class="text-slate-600">{fr ? "Lieu" : "Location"}</dt><dd class="break-words text-right font-medium text-slate-900">{location}</dd></>}
-          {record.beneficiaries != null && <><dt class="text-slate-600">{fr ? "Bénéficiaires" : "Beneficiaries"}</dt><dd class="text-right font-medium text-slate-900">{record.beneficiaries}</dd></>}
+          {record.beneficiaries != null && <><dt class="text-slate-600">{fr ? "Bénéficiaires" : "Beneficiaries"}</dt><dd class="text-right font-medium text-slate-900">{record.beneficiariesApproximate && (fr ? "env. " : "approx. ")}{record.beneficiaries}</dd></>}
           {record.budget != null && <><dt class="text-slate-600">{fr ? "Budget (USD)" : "Budget (USD)"}</dt><dd class="text-right font-medium text-slate-900">{formatUsdAmount(Number(record.budget),locale)}</dd></>}
         </dl>
       </section>
@@ -147,7 +150,13 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
           </ul>
       </section>
 
-      {publishedBudgetFcfa !== undefined ? (
+      {published2026 ? (
+        <section class="rounded-xl border border-slate-200 bg-white p-5" data-archive-published-budget-fcfa={published2026.budgetFcfa}>
+          <h2 class="font-heading text-base font-bold text-primary-900">{financialTitle}</h2>
+          <p class="mt-3 font-semibold tabular-nums text-slate-900">{published2026.budgetApproximate && (fr ? "env. " : "approx. ")}{formatXaf(published2026.budgetFcfa)}</p>
+          <p class="mt-2 break-words text-sm leading-relaxed text-slate-700">{financialNote}</p>
+        </section>
+      ) : publishedBudgetFcfa !== undefined ? (
         <section class="rounded-xl border border-slate-200 bg-white p-5" data-archive-published-budget-fcfa={publishedBudgetFcfa}>
           <h2 class="font-heading text-base font-bold text-primary-900">{fr ? "Budget publié dans le rapport" : "Budget published in report"}</h2>
           <p class="mt-3 font-semibold tabular-nums text-slate-900">{formatXaf(publishedBudgetFcfa)}</p>

@@ -1,5 +1,6 @@
 import { isArchiveOutreachCategory, type ArchiveOutreachCategory } from "./archive-outreach-categories";
 import { applyReviewed2024And2025Summaries, listReleased2024ProjectDocuments, listReleased2025ProjectDocuments } from './reviewed-project-summaries-2024-25';
+import { applyReviewed2026Summaries, listReleased2026ProjectDocuments } from "./reviewed-project-summaries-2026";
 import { applyReviewedProjectContent, listReleased2023ProjectDocuments } from './reviewed-project-records';
 import { applyReleasedProjectContent, applyReleasedDocumentLibrary } from "./released-project-documents";
 import { createClient } from "@sanity/client";
@@ -52,6 +53,7 @@ export interface ProjectArchiveEntry {
   description?: string;
   descriptionFr?: string;
   beneficiaries?: number;
+  beneficiariesApproximate?: boolean;
   budget?: number;
   /** Reviewed local-currency plan only. Never include in USD/spend calculations. */
   approvedBudgetFcfa?: number;
@@ -320,7 +322,7 @@ async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
 export function groupProjectsByYear(
   records: ProjectArchiveDocument[],
 ): YearDocumentGroup[] {
-  const released = [...listReleased2023ProjectDocuments(), ...listReleased2024ProjectDocuments(), ...listReleased2025ProjectDocuments()];
+  const released = [...listReleased2023ProjectDocuments(), ...listReleased2024ProjectDocuments(), ...listReleased2025ProjectDocuments(), ...listReleased2026ProjectDocuments()];
   const releasedSlugs = new Set(released.map((p) => p.slug));
   const filtered = applyReleasedDocumentLibrary([...records.filter((r) => !releasedSlugs.has(r.slug)), ...released]
     .filter((r) => hasStaticProjectDocuments(r.slug))
@@ -558,9 +560,9 @@ export async function loadProjectArchiveEntries(): Promise<
       : record,
   );
 
-  const reviewed = applyReviewed2024And2025Summaries(applyReviewedProjectContent(applyReleasedProjectContent(records
+  const reviewed = applyReviewed2026Summaries(applyReviewed2024And2025Summaries(applyReviewedProjectContent(applyReleasedProjectContent(records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
-    .map(applyOwnerFinancialReview))))
+    .map(applyOwnerFinancialReview)))))
     .map(withCanonicalProjectDocuments);
   return sortArchiveEntriesChronologically(reviewed);
 }

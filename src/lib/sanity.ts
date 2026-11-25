@@ -1,3 +1,4 @@
+import { reviewed2026Release } from "./reviewed-project-summaries-2026";
 import type { ArchiveOutreachCategory } from "./archive-outreach-categories";
 import { isSupersededBamendaSchoolPhoto } from "./reviewed-project-summaries-2024-25";
 import { createClient, type SanityClient } from "@sanity/client";
@@ -218,6 +219,31 @@ function localizeProject(
 	project: SanityProject,
 	locale: ContentLocale,
 ): SanityProject {
+  // The reviewed archival record wins over stale campaign data in cached CMS responses.
+  const release = reviewed2026Release(project.slug?.current);
+  if (release) {
+    const fr = locale === "fr";
+    return {
+      ...project,
+      title: fr ? release.titleFr : release.title,
+      titleFr: release.titleFr,
+      location: fr ? release.locationFr : release.location,
+      locationFr: release.locationFr,
+      description: fr ? release.descriptionFr : release.description,
+      descriptionFr: release.descriptionFr,
+      startDate: release.date,
+      endDate: release.date,
+      archiveAfterDate: undefined,
+      status: "completed",
+      demographic: release.demographic as SanityProject["demographic"],
+      outreachCategory: release.outreachCategory as ArchiveOutreachCategory,
+      beneficiaries: release.beneficiaries,
+      goalAmount: 0,
+      raisedAmount: 0,
+      mainImage: undefined,
+      archiveRecord: { slug: { current: release.slug } },
+    };
+  }
 	return {
 		...project,
 		title: pickLocalized(project as Record<string, unknown>, "title", locale),

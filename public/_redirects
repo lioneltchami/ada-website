@@ -135,3 +135,23 @@
 /fr/projects/education-orphans/ /fr/projects/archive/ 302
 /fr/projects/archive/education-orphans /fr/projects/archive/ 302
 /fr/projects/archive/education-orphans/ /fr/projects/archive/ 302
+
+# The completed Girls Dignity report replaces the former planning brief.
+/docs/diligence/ada-bamenda-girls-dignity-outreach.pdf /docs/projects/girls-dignity-menstrual-health-bamenda-jun-2026/report.pdf 302
+/docs/diligence/ada-bamenda-girls-dignity-outreach.md /docs/projects/girls-dignity-menstrual-health-bamenda-jun-2026/report.pdf 302
+
+# Preserve links to the three 2026 campaign pages; the completed archive is canonical.
+/projects/back-to-school-buea-aug-2026 /projects/archive/back-to-school-buea-aug-2026/ 301
+/projects/back-to-school-buea-aug-2026/ /projects/archive/back-to-school-buea-aug-2026/ 301
+/fr/projects/back-to-school-buea-aug-2026 /fr/projects/archive/back-to-school-buea-aug-2026/ 301
+/fr/projects/back-to-school-buea-aug-2026/ /fr/projects/archive/back-to-school-buea-aug-2026/ 301
+/projects/back-to-school-bamenda-aug-2026 /projects/archive/back-to-school-bamenda-aug-2026/ 301
+/projects/back-to-school-bamenda-aug-2026/ /projects/archive/back-to-school-bamenda-aug-2026/ 301
+/fr/projects/back-to-school-bamenda-aug-2026 /fr/projects/archive/back-to-school-bamenda-aug-2026/ 301
+/fr/projects/back-to-school-bamenda-aug-2026/ /fr/projects/archive/back-to-school-bamenda-aug-2026/ 301
+/projects/girls-dignity-menstrual-health-bamenda-jun-2026 /projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/ 301
+/projects/girls-dignity-menstrual-health-bamenda-jun-2026/ /projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/ 301
+/fr/projects/girls-dignity-menstrual-health-bamenda-jun-2026 /fr/projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/ 301
+/fr/projects/girls-dignity-menstrual-health-bamenda-jun-2026/ /fr/projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/ 301
+/images/projects/back-to-school-buea-aug-2026.png /projects/archive/back-to-school-buea-aug-2026/ 302
+/images/projects/back-to-school-bamenda-aug-2026.png /projects/archive/back-to-school-bamenda-aug-2026/ 302

@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { marked } from "marked";
+import { verify2026DocumentReleases } from "./verify-project-document-releases-2026.mjs";
 import { verify2025DocumentReleases } from "./verify-project-document-releases-2025.mjs";
 import { verify2024DocumentReleases } from "./verify-project-document-releases-2024.mjs";
 import { verifyReviewedProjectRecords } from "./verify-reviewed-project-records.mjs";
@@ -329,7 +330,7 @@ marked.setOptions({
 });
 
 const reviewed2023Releases = await verifyReviewedProjectRecords(ROOT);
-const protectedSlugs = new Set([...await verifyDocumentReleases(ROOT), ...reviewed2023Releases, ...await verify2024DocumentReleases(ROOT), ...await verify2025DocumentReleases(ROOT)]);
+const protectedSlugs = new Set([...await verifyDocumentReleases(ROOT), ...reviewed2023Releases, ...await verify2024DocumentReleases(ROOT), ...await verify2025DocumentReleases(ROOT), ...await verify2026DocumentReleases(ROOT)]);
 
 const browser = await chromium.launch({
   headless: true,

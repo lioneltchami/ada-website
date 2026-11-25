@@ -18,6 +18,9 @@ export function normalizeFallbackProjects(
     );
     return {
       ...p,
+      title: options.locale === "fr" ? (p.titleFr || p.title) : p.title,
+      location: options.locale === "fr" ? (p.locationFr || p.location) : p.location,
+      description: options.locale === "fr" ? (p.descriptionFr || p.description) : p.description,
       status: lifecycle.status,
       originalStatus: p.status,
       archiveHref: lifecycle.archiveHref,

@@ -165,12 +165,6 @@ const projectFrBySlug: Record<
     descriptionFr:
       "Aide alimentaire et financière pour les veuves et les familles.",
   },
-  "education-orphans": {
-    titleFr: "Éducation des Orphelins",
-    locationFr: "Douala",
-    descriptionFr:
-      "Soutien scolaire complet pour les enfants orphelins : fournitures, uniformes, frais de scolarité et mentorat. Chaque enfant mérite une éducation de qualité, quelles que soient ses circonstances.",
-  },
   "emergency-relief": {
     titleFr: "Fonds de Secours d'Urgence",
     locationFr: "Plusieurs régions",
@@ -188,24 +182,6 @@ const projectFrBySlug: Record<
     locationFr: "Bamenda et villages environnants",
     descriptionFr:
       "Campagne de fêtes apportant colis alimentaires, vêtements et cadeaux aux familles dans le besoin.",
-  },
-  "back-to-school-buea-aug-2026": {
-    titleFr: "Rentrée Scolaire — Buea",
-    locationFr: "Buea, région du Sud-Ouest",
-    descriptionFr:
-      "Campagne annuelle de rentrée scolaire à Buea. Équiper les enfants défavorisés en fournitures scolaires pour apprendre, grandir et réussir. Fenêtre prévue : 15–18 août 2026.",
-  },
-  "back-to-school-bamenda-aug-2026": {
-    titleFr: "Rentrée Scolaire — Bamenda",
-    locationFr: "Mile 4 Nkwen, Bamenda, région du Nord-Ouest",
-    descriptionFr:
-      "Campagne de rentrée scolaire à Mile 4 Nkwen, Bamenda. Fournitures scolaires pour les enfants défavorisés. Fenêtre prévue : 28–31 août 2026.",
-  },
-  "girls-dignity-menstrual-health-bamenda-jun-2026": {
-    titleFr: "Dignité et Santé Menstruelle des Filles",
-    locationFr: "Bamenda",
-    descriptionFr:
-      "Sensibilisation du 27 juin pour 25 filles à Bamenda : kits de dignité menstruelle, seaux, savon, sous-vêtements, et session d'éducation sur l'hygiène menstruelle.",
   },
 };
 

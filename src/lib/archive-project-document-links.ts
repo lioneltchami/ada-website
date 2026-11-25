@@ -1,3 +1,4 @@
+import { reviewed2026Release } from "./reviewed-project-summaries-2026";
 import releases from "../../config/project-document-releases.json";
 import type { ProjectArchiveEntry } from "./project-archive";
 import type { ProjectPresentationLocale } from "./project-detail-presentation";
@@ -99,6 +100,24 @@ export function released2025ReportLabel(slug: string, locale: ProjectPresentatio
   if (locale === "fr") return contents === "cost-list"
     ? "Rapport de projet et liste détaillée des coûts" : "Rapport de projet et détails budgétaires";
   return `Project report ${conjunction} ${contents === "cost-list" ? "itemized cost list" : "budget details"}`;
+}
+
+/** The exact public pair must be present; a CMS attachment alone does not qualify. */
+export function archivePublished2026Finance(record: DocumentRecord & Pick<ProjectArchiveEntry, "year">) {
+  const slug = record.slug.current;
+  const { tor, report } = archiveProjectDocumentLinks(record);
+  if (record.year === 2026 && tor === `/docs/projects/${slug}/tor.pdf` && report === `/docs/projects/${slug}/report.pdf`) {
+    return reviewed2026Release(slug);
+  }
+  return undefined;
+}
+
+export function released2026ReportLabel(slug: string, locale: ProjectPresentationLocale, conjunction = "and"): string | undefined {
+  if (!reviewed2026Release(slug)) return undefined;
+  const hasFinancialAccount = slug === "girls-dignity-menstrual-health-bamenda-jun-2026";
+  return locale === "fr"
+    ? hasFinancialAccount ? "Rapport de projet et compte financier" : "Rapport de projet et budget"
+    : `Project report ${conjunction} ${hasFinancialAccount ? "financial account" : "budget"}`;
 }
 
 export function formatArchiveFcfa(amount: number, locale: ProjectPresentationLocale): string {

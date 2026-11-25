@@ -1,11 +1,16 @@
+import { listReleased2026ProjectDocuments, reviewed2026Release } from "../lib/reviewed-project-summaries-2026";
+
 export type EditorialProjectStatus = "active" | "completed" | "paused";
 
 export interface Project {
   slug: string;
   title: string;
+  titleFr?: string;
   location: string;
+  locationFr?: string;
   status: EditorialProjectStatus;
   description: string;
+  descriptionFr?: string;
   beneficiaries: number;
   goal: number;
   raised: number;
@@ -25,40 +30,25 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  {
-    slug: "back-to-school-buea-aug-2026",
-    title: "Back to School Outreach — Buea",
-    location: "Buea, South West Region",
-    status: "active",
-    demographic: "orphans",
-    description:
-      "Annual Back to School Reach Out in Buea (South West). Community campaign to equip underprivileged children with school supplies so they can learn, grow, and succeed. Flyer timing: anticipated in August 2026 — scheduled outreach window 15–18 August.",
-    beneficiaries: 40,
-    goal: 2500,
-    raised: 0,
-    startDate: "2026-08-15",
-    endDate: "2026-08-18",
-    archiveAfterDate: "2026-08-18",
-    autoArchiveAfterEndDate: true,
-    imagePath: "/images/projects/back-to-school-buea-aug-2026.png",
-  },
-  {
-    slug: "back-to-school-bamenda-aug-2026",
-    title: "Back to School Outreach — Bamenda",
-    location: "Mile 4 Nkwen, Bamenda, North West Region",
-    status: "active",
-    demographic: "orphans",
-    description:
-      "Back to School Outreach in Mile 4 Nkwen, Bamenda (North West). Community campaign putting smiles on faces through education supplies for underprivileged children. Flyer timing: anticipated by the end of August 2026 — scheduled outreach window 28–31 August.",
-    beneficiaries: 40,
-    goal: 2500,
-    raised: 0,
-    startDate: "2026-08-28",
-    endDate: "2026-08-31",
-    archiveAfterDate: "2026-08-31",
-    autoArchiveAfterEndDate: true,
-    imagePath: "/images/projects/back-to-school-bamenda-aug-2026.png",
-  },
+  ...listReleased2026ProjectDocuments().map(({ slug, demographic }): Project => {
+    const release = reviewed2026Release(slug)!;
+    return {
+      slug,
+      title: release.title,
+      titleFr: release.titleFr,
+      location: release.location,
+      locationFr: release.locationFr,
+      status: "completed",
+      demographic,
+      description: release.description,
+      descriptionFr: release.descriptionFr,
+      beneficiaries: release.beneficiaries,
+      goal: 0,
+      raised: 0,
+      startDate: release.date,
+      endDate: release.date,
+    };
+  }),
   {
     slug: "widow-support",
     title: "Widow Support Program",
@@ -70,22 +60,6 @@ export const projects: Project[] = [
     beneficiaries: 15,
     goal: 3000,
     raised: 2400,
-  },
-  {
-    slug: "girls-dignity-menstrual-health-bamenda-jun-2026",
-    title: "Girls Dignity & Menstrual Health Outreach",
-    location: "Bamenda",
-    status: "active",
-    demographic: "young-women",
-    description:
-      "A June 27 outreach for 25 girls in Bamenda providing menstrual dignity kits, buckets, soap, underwear, and a short health education session on menstrual hygiene and self-care.",
-    beneficiaries: 25,
-    goal: 1000,
-    raised: 0,
-    startDate: "2026-06-27",
-    endDate: "2026-06-27",
-    archiveAfterDate: "2026-06-27",
-    autoArchiveAfterEndDate: true,
   },
   {
     slug: "emergency-relief",

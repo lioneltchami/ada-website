@@ -1,4 +1,4 @@
-import { archivePublishedBudgetFcfa, formatArchiveFcfa } from "./archive-project-document-links";
+import { archivePublished2026Finance, archivePublishedBudgetFcfa, formatArchiveFcfa } from "./archive-project-document-links";
 import type { ProjectPresentationLocale } from "./project-detail-presentation";
 
 type Basis = "budget" | "cash-in-kind-budget" | "written-budget" | "funds-sent" | "reported-funds" | "worksheet-budget" | "calculated-worksheet-budget" | "working-cost-list";
@@ -76,6 +76,17 @@ const labels: Record<Basis, Record<ProjectPresentationLocale, string>> = {
 };
 
 export function formatArchiveCardFinances(record: Parameters<typeof archivePublishedBudgetFcfa>[0], locale: ProjectPresentationLocale) {
+  const released = archivePublished2026Finance(record);
+  if (released) {
+    const fr = locale === "fr";
+    const label = released.budgetApproximate
+      ? fr ? "Budget prévisionnel des fournitures" : "Proposed supplies budget"
+      : released.outreachCategory === "education"
+        ? fr ? "Budget d’aide aux frais de scolarité" : "School-fee support budget"
+        : fr ? "Budget de travail révisé" : "Revised working budget";
+    const prefix = released.budgetApproximate ? (fr ? "env. " : "approx. ") : "";
+    return { year: 2026 as const, month: released.date.slice(0, 7), fcfa: released.budgetFcfa, basis: "budget" as const, label, text: prefix + formatArchiveFcfa(released.budgetFcfa, locale) };
+  }
   const published = archivePublishedBudgetFcfa(record);
   const known = historical[record.slug.current];
   const publishedMonth = released2024Months[record.slug.current];
