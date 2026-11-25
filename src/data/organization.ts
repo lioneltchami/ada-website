@@ -2,6 +2,7 @@ import withheldProjectDocuments from "../../config/withheld-project-documents.js
 import { isWithdrawnProjectSlug } from "../lib/withdrawn-project-content";
 import { hasReleased2024ProjectDocumentSet, hasReleased2025ProjectDocumentSet } from '../lib/reviewed-project-summaries-2024-25';
 import { hasReleased2023ProjectDocumentSet, isProjectDocumentReviewPending } from '../lib/reviewed-project-records';
+import { reviewed2026Release } from "../lib/reviewed-project-summaries-2026";
 import documentReleases from "../../config/project-document-releases.json";
 import type { Locale } from "../i18n";
 import {
@@ -49,7 +50,7 @@ export function archiveProjectTitle(slug: string): string {
 }
 
 export function hasReleasedProjectDocumentSet(slug: string): boolean {
-  return hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || hasReleased2025ProjectDocumentSet(slug) || documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
+  return hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || hasReleased2025ProjectDocumentSet(slug) || Boolean(reviewed2026Release(slug)) || documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
 }
 
 export function projectDocumentPaths(slug: string) {

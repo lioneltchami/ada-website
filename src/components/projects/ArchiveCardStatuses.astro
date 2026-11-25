@@ -20,7 +20,7 @@ const { status, budget, localFinance, locale } = Astro.props;
     </div>
   ))}
   {localFinance !== undefined && (
-    <div class="flex flex-wrap items-baseline gap-x-1" data-archive-local-finance-basis={localFinance.basis} data-archive-local-finance-fcfa={localFinance.fcfa} data-archive-published-budget-fcfa={localFinance.year === 2024 ? localFinance.fcfa : undefined}>
+    <div class="flex flex-wrap items-baseline gap-x-1" data-archive-local-finance-basis={localFinance.basis} data-archive-local-finance-fcfa={localFinance.fcfa} data-archive-published-budget-fcfa={(localFinance.year === 2024 || localFinance.year === 2026) ? localFinance.fcfa : undefined}>
       <dt class="font-semibold text-gray-900">{localFinance.label}{locale === "fr" ? "\u00a0:" : ":"}</dt>
       <dd class="text-gray-700">{localFinance.text}</dd>
     </div>

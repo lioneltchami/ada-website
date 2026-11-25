@@ -1,5 +1,6 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
+import { reviewed2026Release } from "../../../lib/reviewed-project-summaries-2026";
 import Section from "../../../components/layout/Section.astro";
 import { getProjects, type SanityProject } from "../../../lib/sanity";
 import { resolveProjectCardImage } from "../../../lib/project-images";
@@ -52,7 +53,7 @@ export async function getStaticPaths() {
     projectData = normalizeFallbackProjects({ locale: "fr" });
   }
 
-  return projectData.map((project) => {
+  return projectData.filter(({ slug }) => !reviewed2026Release(slug)).map((project) => {
     const autoArchived =
       project.autoArchived ??
       (project.originalStatus === "active" &&

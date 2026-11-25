@@ -1,7 +1,8 @@
 ---
 import { hasReleased2023ProjectDocumentSet } from "../../lib/reviewed-project-records";
 import { hasReleased2024ProjectDocumentSet, hasReleased2025ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
-import { released2025ReportLabel } from "../../lib/archive-project-document-links";
+import { reviewed2026Release } from "../../lib/reviewed-project-summaries-2026";
+import { released2026ReportLabel, released2025ReportLabel } from "../../lib/archive-project-document-links";
 import { hasReleasedProjectDocumentSet, projectDocumentPaths } from "../../data/organization";
 import Section from "../layout/Section.astro";
 import type { Locale } from "../../i18n";
@@ -46,7 +47,7 @@ interface Props {
 
 const { locale, labels, dueDiligenceDocs, yearGroups, totalProjects } =
   Astro.props;
-const englishProjectPdfs = (slug: string) => hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || hasReleased2025ProjectDocumentSet(slug);
+const englishProjectPdfs = (slug: string) => hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || hasReleased2025ProjectDocumentSet(slug) || Boolean(reviewed2026Release(slug));
 const latestYear = yearGroups[0]?.year;
 const diligenceSections = groupDiligenceDocs(dueDiligenceDocs);
 
@@ -222,7 +223,7 @@ const projectDocsIntro =
                               rel="noopener"
                               class="text-primary-700 hover:underline"
                             >
-                              {released2025ReportLabel(project.slug, locale) ?? (hasReleased2024ProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et budget" : "Project report and budget") : hasReleasedProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et compte financier" : "Project report and financial account") : labels.completionReport)}{locale === "fr" && englishProjectPdfs(project.slug) && " (anglais)"}
+                              {released2026ReportLabel(project.slug, locale) ?? released2025ReportLabel(project.slug, locale) ?? (hasReleased2024ProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et budget" : "Project report and budget") : hasReleasedProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et compte financier" : "Project report and financial account") : labels.completionReport)}{locale === "fr" && englishProjectPdfs(project.slug) && " (anglais)"}
                             </a>
                           </p>
                         </li>

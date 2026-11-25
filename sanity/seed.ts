@@ -28,44 +28,8 @@ async function seed() {
   });
   console.log("\u2713 Site Settings");
 
-  // Projects
+  // Seed only ongoing campaigns. Reviewed archives and withheld projects are not seed data.
   const projects = [
-    {
-      _id: "project-back-to-school-buea-aug-2026",
-      slug: "back-to-school-buea-aug-2026",
-      title: "Back to School Outreach — Buea",
-      status: "active",
-      demographic: "orphans",
-      location: "Buea, South West Region",
-      description:
-        "Annual Back to School Reach Out in Buea (South West). Community campaign to equip underprivileged children with school supplies so they can learn, grow, and succeed. Flyer timing: anticipated in August 2026 — scheduled outreach window 15–18 August.",
-      beneficiaries: 40,
-      goalAmount: 2500,
-      raisedAmount: 0,
-      startDate: "2026-08-15",
-      endDate: "2026-08-18",
-      archiveAfterDate: "2026-08-18",
-      autoArchiveAfterEndDate: true,
-      sortOrder: 0,
-    },
-    {
-      _id: "project-back-to-school-bamenda-aug-2026",
-      slug: "back-to-school-bamenda-aug-2026",
-      title: "Back to School Outreach — Bamenda",
-      status: "active",
-      demographic: "orphans",
-      location: "Mile 4 Nkwen, Bamenda, North West Region",
-      description:
-        "Back to School Outreach in Mile 4 Nkwen, Bamenda (North West). Community campaign putting smiles on faces through education supplies for underprivileged children. Flyer timing: anticipated by the end of August 2026 — scheduled outreach window 28–31 August.",
-      beneficiaries: 40,
-      goalAmount: 2500,
-      raisedAmount: 0,
-      startDate: "2026-08-28",
-      endDate: "2026-08-31",
-      archiveAfterDate: "2026-08-31",
-      autoArchiveAfterEndDate: true,
-      sortOrder: 1,
-    },
     {
       _id: "project-widow-support",
       slug: "widow-support",
@@ -78,36 +42,6 @@ async function seed() {
       goalAmount: 8000,
       raisedAmount: 6500,
       sortOrder: 2,
-    },
-    {
-      _id: "project-girls-dignity-menstrual-health-bamenda-jun-2026",
-      slug: "girls-dignity-menstrual-health-bamenda-jun-2026",
-      title: "Girls Dignity & Menstrual Health Outreach",
-      status: "active",
-      location: "Bamenda",
-      description:
-        "A June 27 outreach for 25 girls in Bamenda providing menstrual dignity kits, buckets, soap, underwear, and a short health education session on menstrual hygiene and self-care.",
-      beneficiaries: 25,
-      goalAmount: 1000,
-      raisedAmount: 0,
-      startDate: "2026-06-27",
-      endDate: "2026-06-27",
-      archiveAfterDate: "2026-06-27",
-      autoArchiveAfterEndDate: true,
-      sortOrder: 3,
-    },
-    {
-      _id: "project-education-orphans",
-      slug: "education-orphans",
-      title: "Education for Orphans",
-      status: "completed",
-      location: "Douala",
-      description:
-        "Comprehensive education support for orphaned children including school supplies, uniforms, tuition fees, and mentorship programs. We believe every child deserves access to quality education regardless of their circumstances.",
-      beneficiaries: 20,
-      goalAmount: 7000,
-      raisedAmount: 7000,
-      sortOrder: 4,
     },
     {
       _id: "project-emergency-relief",
@@ -151,7 +85,7 @@ async function seed() {
   ];
 
   for (const p of projects) {
-    await client.createOrReplace({
+    await client.createIfNotExists({
       ...p,
       _type: "project",
       slug: { _type: "slug", current: p.slug },

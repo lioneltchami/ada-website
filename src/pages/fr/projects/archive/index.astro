@@ -215,10 +215,10 @@ for (const r of archiveItems) {
                             </span>
                             {r.beneficiaries && (
                               <span>
-                                {r.beneficiaries.toLocaleString()} bénéficiaires
+                                {r.beneficiariesApproximate && "env. "}{r.beneficiaries.toLocaleString("fr")} bénéficiaires
                               </span>
                             )}
-                            {r.location && <span>{r.location}</span>}
+                            {(r.locationFr || r.location) && <span>{r.locationFr || r.location}</span>}
                           </div>
                         </div>
                         <ArchiveCardStatuses status={r.cardStatus} budget={r.budget} localFinance={r.localFinance} locale="fr" />
