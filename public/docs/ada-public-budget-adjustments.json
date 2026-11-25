@@ -11,17 +11,6 @@
     "note": "Within public cap"
   },
   {
-    "year": 2024,
-    "project": "Christmas Giving 2024",
-    "reference": "ADA/2024/006",
-    "archive_approved": null,
-    "archive_actual": 11800,
-    "public_target": 11800,
-    "adjustment_needed": 0,
-    "status": "ok",
-    "note": "Within public cap"
-  },
-  {
     "year": 2025,
     "project": "City Cleanup \u2014 Labour Day 2025",
     "reference": "ADA/2025/003",
@@ -177,7 +166,7 @@
   },
   {
     "year": 2023,
-    "project": "Widows\u2019 gathering in Buea",
+    "project": "Widows\u2019 Outreach in Buea",
     "reference": "",
     "archive_approved": null,
     "archive_actual": null,
@@ -229,5 +218,38 @@
     "adjustment_needed": null,
     "status": "reported; project documents available",
     "note": "Our account reports a total of 260,000 FCFA: 240,000 FCFA for food and project supplies and 20,000 FCFA for operating costs. Individual supply prices and the operating-cost split are not established. These figures are reported, not independently audited."
+  },
+  {
+    "year": 2024,
+    "project": "Back-to-school outreach in Buea",
+    "reference": "",
+    "archive_approved": 82750,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "itemized budget published; not actual expenditure",
+    "note": "The two school-supply planning sheets total 82,750 FCFA. See the itemized budget in the project report; it is not a record of payments or distribution."
+  },
+  {
+    "year": 2024,
+    "project": "International Day of the Girl Outreach",
+    "reference": "",
+    "archive_approved": 250700,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "itemized budget published; not actual expenditure",
+    "note": "The budget totals 250,700 FCFA, including the guest honorarium. See the itemized budget in the project report; it does not establish actual payments or attendance."
+  },
+  {
+    "year": 2024,
+    "project": "Christmas Giving 2024",
+    "reference": "",
+    "archive_approved": 260000,
+    "archive_actual": null,
+    "public_target": null,
+    "adjustment_needed": null,
+    "status": "itemized budget published; not actual expenditure",
+    "note": "We budgeted 260,000 FCFA, matching the 2023 budget. See the itemized budget in the project report; these amounts do not establish actual payments."
   }
 ]

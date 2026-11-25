@@ -1,4 +1,4 @@
-import { applyReviewed2024And2025Summaries } from './reviewed-project-summaries-2024-25';
+import { applyReviewed2024And2025Summaries, listReleased2024ProjectDocuments } from './reviewed-project-summaries-2024-25';
 import { applyReviewedProjectContent, listReleased2023ProjectDocuments } from './reviewed-project-records';
 import { applyReleasedProjectContent, applyReleasedDocumentLibrary } from "./released-project-documents";
 import { createClient } from "@sanity/client";
@@ -49,6 +49,8 @@ export interface ProjectArchiveEntry {
   descriptionFr?: string;
   beneficiaries?: number;
   budget?: number;
+  /** Reviewed local-currency plan only. Never include in USD/spend calculations. */
+  approvedBudgetFcfa?: number;
   location?: string;
   locationFr?: string;
   startDate?: string;
@@ -350,9 +352,9 @@ async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
 export function groupProjectsByYear(
   records: ProjectArchiveDocument[],
 ): YearDocumentGroup[] {
-  const released2023 = listReleased2023ProjectDocuments();
-  const released2023Slugs = new Set(released2023.map((p) => p.slug));
-  const filtered = applyReleasedDocumentLibrary([...records.filter((r) => !released2023Slugs.has(r.slug)), ...released2023]
+  const released = [...listReleased2023ProjectDocuments(), ...listReleased2024ProjectDocuments()];
+  const releasedSlugs = new Set(released.map((p) => p.slug));
+  const filtered = applyReleasedDocumentLibrary([...records.filter((r) => !releasedSlugs.has(r.slug)), ...released]
     .filter((r) => hasStaticProjectDocuments(r.slug))
     .map(applyOwnerFinancialReviewToDocument));
   const byYear = new Map<

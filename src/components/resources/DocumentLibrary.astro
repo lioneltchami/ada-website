@@ -1,5 +1,6 @@
 ---
 import { hasReleased2023ProjectDocumentSet } from "../../lib/reviewed-project-records";
+import { hasReleased2024ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
 import { hasReleasedProjectDocumentSet, projectDocumentPaths } from "../../data/organization";
 import Section from "../layout/Section.astro";
 import type { Locale } from "../../i18n";
@@ -44,6 +45,7 @@ interface Props {
 
 const { locale, labels, dueDiligenceDocs, yearGroups, totalProjects } =
   Astro.props;
+const englishProjectPdfs = (slug: string) => hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug);
 const latestYear = yearGroups[0]?.year;
 const diligenceSections = groupDiligenceDocs(dueDiligenceDocs);
 
@@ -191,11 +193,12 @@ const projectDocsIntro =
                           <p class="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs">
                             <a
                               href={projectDocumentPaths(project.slug).tor}
+                              hreflang={englishProjectPdfs(project.slug) ? "en" : undefined}
                               target="_blank"
                               rel="noopener"
                               class="text-primary-700 hover:underline"
                             >
-                              {labels.tor}{locale === "fr" && hasReleased2023ProjectDocumentSet(project.slug) && " (anglais)"}
+                              {labels.tor}{locale === "fr" && englishProjectPdfs(project.slug) && " (anglais)"}
                             </a>
                             <span class="text-gray-300" aria-hidden="true">
                               ·
@@ -213,11 +216,12 @@ const projectDocsIntro =
                             </>}
                             <a
                               href={projectDocumentPaths(project.slug).report}
+                              hreflang={englishProjectPdfs(project.slug) ? "en" : undefined}
                               target="_blank"
                               rel="noopener"
                               class="text-primary-700 hover:underline"
                             >
-                              {hasReleasedProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et compte financier" : "Project report and financial account") : labels.completionReport}{locale === "fr" && hasReleased2023ProjectDocumentSet(project.slug) && " (anglais)"}
+                              {hasReleased2024ProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et budget" : "Project report and budget") : hasReleasedProjectDocumentSet(project.slug) ? (locale === "fr" ? "Rapport de projet et compte financier" : "Project report and financial account") : labels.completionReport}{locale === "fr" && englishProjectPdfs(project.slug) && " (anglais)"}
                             </a>
                           </p>
                         </li>

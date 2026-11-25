@@ -947,6 +947,8 @@ def main() -> None:
     projects = reconcile_ledger(projects)
     from reconcile_2023_records import reconcile_ledger as reconcile_2023_ledger
     projects = reconcile_2023_ledger(projects)
+    from reconcile_2024_records import reconcile_ledger as reconcile_2024_ledger
+    projects = reconcile_2024_ledger(projects)
     projects.sort(key=lambda p: (p.year, p.title))
 
     MARKDOWN_OUT.write_text(build_markdown(projects), encoding="utf-8")

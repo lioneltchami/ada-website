@@ -84,7 +84,12 @@ describe('confirmed 2023 project summaries and PDF publication', () => {
   const before=JSON.parse(execFileSync('git',['show','HEAD:public/docs/ada-public-budget-adjustments.json'],{encoding:'utf8'}));
   const retiredSchoolRows = new Set(['ADA/2024/003', 'ADA/2024/004']);
   expect(current.every((r:any)=>!retiredSchoolRows.has(r.reference))).toBe(true);
-  expect(current.filter((r:any)=>r.year!==2023)).toEqual(before.filter((r:any)=>r.year!==2023&&!retiredSchoolRows.has(r.reference)));
+  const released2024 = new Set(['Back-to-school outreach in Buea', 'International Day of the Girl Outreach', 'Christmas Giving 2024']);
+  const changed2024 = (row:any) => Number(row.year) === 2024 && (released2024.has(row.project) || row.reference === 'ADA/2024/006');
+  expect(current.filter((r:any)=>r.year!==2023&&!changed2024(r))).toEqual(before.filter((r:any)=>r.year!==2023&&!changed2024(r)&&!retiredSchoolRows.has(r.reference)));
+  const budgets2024 = current.filter((r:any)=>changed2024(r));
+  expect(budgets2024.map((r:any)=>r.archive_approved).sort((a:number,b:number)=>a-b)).toEqual([82750,250700,260000]);
+  expect(budgets2024.every((r:any)=>r.archive_actual===null&&r.public_target===null&&r.adjustment_needed===null)).toBe(true);
   const reviewed=current.filter((r:any)=>r.year===2023);expect(reviewed).toHaveLength(7);
   expect(reviewed.every((r:any)=>r.archive_actual===null&&r.archive_approved===null&&r.public_target===null)).toBe(true);
  });

@@ -2,6 +2,7 @@ import releases from "../../config/project-document-releases.json";
 import type { ProjectArchiveEntry } from "./project-archive";
 import type { ProjectPresentationLocale } from "./project-detail-presentation";
 import { hasReleased2023ProjectDocumentSet } from "./reviewed-project-records";
+import { hasReleased2024ProjectDocumentSet } from "./reviewed-project-summaries-2024-25";
 
 type DocumentRecord = Pick<ProjectArchiveEntry, "slug" | "torUrl" | "reportUrl" | "financialReportUrl">;
 type Kind = "tor" | "report" | "financial";
@@ -60,4 +61,22 @@ export function archivePublishedFinancialAccount(
       && hasReleased2023ProjectDocumentSet(slug));
   if (!isPublished) return undefined;
   return locale === "fr" ? "Compte financier publié" : "Financial account published";
+}
+
+/** These reports publish an itemized budget, not a verified expenditure account. */
+export function archivePublishedBudgetFcfa(
+  record: DocumentRecord & Pick<ProjectArchiveEntry, "year" | "approvedBudgetFcfa">,
+): number | undefined {
+  const slug = record.slug.current;
+  const { tor, report } = archiveProjectDocumentLinks(record);
+  const amount = record.approvedBudgetFcfa;
+  if (record.year !== 2024 || !hasReleased2024ProjectDocumentSet(slug)
+    || tor !== `/docs/projects/${slug}/tor.pdf`
+    || report !== `/docs/projects/${slug}/report.pdf`
+    || typeof amount !== "number" || !Number.isSafeInteger(amount) || amount <= 0) return undefined;
+  return amount;
+}
+
+export function formatArchiveFcfa(amount: number, locale: ProjectPresentationLocale): string {
+  return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US").format(amount) + " FCFA";
 }

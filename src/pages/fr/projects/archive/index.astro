@@ -11,6 +11,7 @@ import {
   loadProjectArchiveEntries,
 } from "../../../../lib/project-archive";
 import ArchiveCardStatuses from "../../../../components/projects/ArchiveCardStatuses.astro";
+import { archivePublishedBudgetFcfa } from "../../../../lib/archive-project-document-links";
 import { getArchiveCardStatus } from "../../../../lib/archive-card-status";
 import { resolveHeroImage } from "../../../../lib/hero-images";
 
@@ -24,6 +25,7 @@ const archiveItems = records.map((r) => ({
   ...r,
   archiveMonth: formatArchiveCardMonth(r, "fr"),
   cardStatus: getArchiveCardStatus(r, "fr"),
+  publishedBudgetFcfa: archivePublishedBudgetFcfa(r),
   featurePhoto: getEligibleArchiveFeaturePhoto(r, "fr", 240),
 }));
 
@@ -247,7 +249,7 @@ for (const r of archiveItems) {
                             {r.location && <span>{r.location}</span>}
                           </div>
                         </div>
-                        <ArchiveCardStatuses status={r.cardStatus} budget={r.budget} locale="fr" />
+                        <ArchiveCardStatuses status={r.cardStatus} budget={r.budget} publishedBudgetFcfa={r.publishedBudgetFcfa} locale="fr" />
                       </div>
                     </div>
                   </a>

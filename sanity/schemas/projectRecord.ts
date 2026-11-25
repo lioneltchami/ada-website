@@ -80,6 +80,13 @@ export default defineType({
       type: "number",
     }),
     defineField({ name: "budget", title: "Budget (USD)", type: "number" }),
+    defineField({
+      name: "budgetFcfa",
+      title: "Itemized budget (FCFA)",
+      type: "number",
+      description: "Use for a planned budget in the project report. Not actual spending and not USD.",
+      validation: (r) => r.integer().min(0),
+    }),
     defineField({ name: "location", title: "Location", type: "string" }),
     defineField({ name: "startDate", title: "Start Date", type: "date" }),
     defineField({ name: "endDate", title: "End Date", type: "date" }),
