@@ -8,6 +8,7 @@ export function normalizeFallbackProjects(
     const lifecycle = getProjectLifecycleState(
       {
         status: p.status,
+        announcementOnly: p.announcementOnly,
         slug: p.slug,
         startDate: p.startDate,
         endDate: p.endDate,
@@ -31,6 +32,7 @@ export function normalizeFallbackProjects(
       isUpcoming: lifecycle.isUpcoming,
       startDate: p.startDate,
       endDate: p.endDate,
+      hasAnnouncementImage: Boolean(p.imagePath),
       imageUrl: p.imagePath || "/project-placeholder.svg",
       imageAlt: p.title,
     };

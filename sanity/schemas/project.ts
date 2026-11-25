@@ -34,6 +34,13 @@ export default defineType({
 		}),
 		archiveOutreachCategoryField(),
 		defineField({
+			name: "announcementOnly",
+			title: "Announcement only",
+			type: "boolean",
+			initialValue: false,
+			description: "Show the schedule and description without fundraising or participant totals.",
+		}),
+		defineField({
 			name: "demographic",
 			title: "Archive Demographic",
 			type: "string",
