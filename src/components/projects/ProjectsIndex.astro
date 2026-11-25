@@ -6,7 +6,6 @@ import { getProjects, type SanityProject } from "../../lib/sanity";
 import { resolveProjectCardImage } from "../../lib/project-images";
 import {
   getProjectLifecycleState,
-  isProjectFundable,
   projectStatusLabel,
   type ProjectStatus,
 } from "../../lib/project-lifecycle";
@@ -47,6 +46,7 @@ try {
           archiveReady: lifecycle.archiveReady,
           isAutoArchived: lifecycle.isAutoCompleted,
           hasEnded: lifecycle.hasEnded,
+          isFundable: lifecycle.isFundable,
           isUpcoming: lifecycle.isUpcoming,
           startDate: p.startDate,
           endDate: p.endDate,
@@ -377,7 +377,7 @@ function formatSchedule(start?: string, end?: string): string {
               >
                 {copy.details}
               </a>
-              {isProjectFundable(project.status) ? (
+              {project.isFundable ? (
                 <a
                   href={localePath(`/donate?project=${project.slug}`, locale)}
                   class="flex-1 text-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"

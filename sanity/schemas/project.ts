@@ -93,28 +93,32 @@ export default defineType({
 			type: "number",
 			validation: (r) => r.required().min(0),
 		}),
-		defineField({ name: "startDate", title: "Start Date", type: "date" }),
+		defineField({
+			name: "startDate",
+			title: "Start Date",
+			type: "date",
+			description: "For a one-day project, set this date. The site can archive it automatically seven days later.",
+		}),
 		defineField({
 			name: "endDate",
 			title: "End Date",
 			type: "date",
 			description:
-				"When this date passes, the website can treat an active project as completed.",
+				"For a multi-day project, the site can archive it automatically seven days after this date.",
 		}),
 		defineField({
 			name: "archiveAfterDate",
-			title: "Archive After Date",
+			title: "Legacy Archive After Date",
 			type: "date",
-			description:
-				"Optional override for when the website should move this project out of active fundraising.",
+			hidden: true,
 		}),
 		defineField({
 			name: "autoArchiveAfterEndDate",
-			title: "Auto-complete after end/archive date",
+			title: "Automatically archive after one week",
 			type: "boolean",
 			initialValue: true,
 			description:
-				"Turn off only when a project should remain active after its date passes.",
+				"On by default. Turn off only to keep the project out of automatic archiving.",
 		}),
 		defineField({
 			name: "archiveRecord",

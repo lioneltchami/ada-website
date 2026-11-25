@@ -5,7 +5,6 @@ import {
 import { resolveProjectCardImage } from "./project-images";
 import {
 	getProjectLifecycleState,
-	isProjectFundable,
 	type ProjectStatus,
 } from "./project-lifecycle";
 import { getProjects, type SanityProject } from "./sanity";
@@ -69,7 +68,7 @@ export async function loadSpotlightProjects(
 	limit = 4,
 ): Promise<SpotlightProject[]> {
 	const fallbacks = normalizeFallbackProjects({ locale })
-		.filter((p) => isProjectFundable(p.status))
+		.filter((p) => p.isFundable)
 		.map((p) =>
 			toSpotlight({
 				slug: p.slug,
@@ -95,7 +94,7 @@ export async function loadSpotlightProjects(
 				sanityProjects
 					.map((p: SanityProject) => {
 						const lifecycle = getProjectLifecycleState(p, { locale });
-						if (!isProjectFundable(lifecycle.status)) return null;
+						if (!lifecycle.isFundable) return null;
 						const image = resolveProjectCardImage(p, 800);
 						return toSpotlight({
 							slug: p.slug.current,
@@ -113,7 +112,7 @@ export async function loadSpotlightProjects(
 						});
 					})
 					.filter(Boolean) as SpotlightProject[],
-				fallbacks,
+				fallbacks.filter((fallback) => !sanityProjects.some((project) => project.slug.current === fallback.slug)),
 			);
 		}
 	} catch {

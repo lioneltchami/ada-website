@@ -29,8 +29,8 @@ describe("automatically archived project localization", () => {
       endDate: "2026-12-20",
       autoArchiveAfterEndDate: true,
     } satisfies Parameters<typeof toAutoArchiveEntry>[0];
-    const before = getProjectLifecycleState(project, { today: "2026-12-19" });
-    const after = getProjectLifecycleState(project, { today: "2026-12-21" });
+    const before = getProjectLifecycleState(project, { today: "2026-12-26" });
+    const after = getProjectLifecycleState(project, { today: "2026-12-27" });
     expect(before.status).toBe("active");
     expect(after.isAutoCompleted).toBe(true);
     const archived = toAutoArchiveEntry(project, after);
@@ -61,7 +61,7 @@ describe("automatically archived project localization", () => {
     } as Parameters<typeof toAutoArchiveEntry>[0];
 
     const lifecycle = getProjectLifecycleState(project, {
-      today: "2025-01-01",
+      today: "2025-01-07",
     });
     expect(lifecycle.isAutoCompleted).toBe(true);
     expect(toAutoArchiveEntry(project, lifecycle)).toMatchObject({
@@ -91,7 +91,7 @@ describe("automatically archived project localization", () => {
     } as Parameters<typeof toAutoArchiveEntry>[0];
 
     const lifecycle = getProjectLifecycleState(project, {
-      today: "2025-01-01",
+      today: "2025-01-07",
     });
     expect(toAutoArchiveEntry(project, lifecycle)).toMatchObject({
       titleFr: "Example project",

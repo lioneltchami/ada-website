@@ -9,7 +9,6 @@ import {
 } from "../../../lib/sanity";
 import {
   getProjectLifecycleState,
-  isProjectFundable,
 } from "../../../lib/project-lifecycle";
 import {
   mergeProjectLists,
@@ -66,7 +65,7 @@ const otherWaysToGive = [
 
 let projectOptions: { slug: string; title: string }[] =
   normalizeFallbackProjects({ locale: "fr" })
-    .filter((p) => isProjectFundable(p.status))
+    .filter((p) => p.isFundable)
     .map((p) => ({ slug: p.slug, title: p.title }));
 
 try {
@@ -75,15 +74,13 @@ try {
     projectOptions = mergeProjectLists(
       projects
         .filter((p: SanityProject) =>
-          isProjectFundable(
-            getProjectLifecycleState(p, { locale: "fr" }).status,
-          ),
+          getProjectLifecycleState(p, { locale: "fr" }).isFundable,
         )
         .map((p: SanityProject) => ({
           slug: p.slug.current,
           title: p.title,
         })),
-      projectOptions,
+      projectOptions.filter((fallback) => !projects.some((project) => project.slug.current === fallback.slug)),
     );
   }
 } catch {}

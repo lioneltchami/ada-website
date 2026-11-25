@@ -6,7 +6,6 @@ import DonationForm from "../components/islands/DonationForm";
 import { getProjects, type SanityProject } from "../lib/sanity";
 import {
   getProjectLifecycleState,
-  isProjectFundable,
 } from "../lib/project-lifecycle";
 import {
   mergeProjectLists,
@@ -17,7 +16,7 @@ import { resolveHeroImage } from "../lib/hero-images";
 
 let projectOptions: { slug: string; title: string }[] =
   normalizeFallbackProjects()
-    .filter((p) => isProjectFundable(p.status))
+    .filter((p) => p.isFundable)
     .map((p) => ({ slug: p.slug, title: p.title }));
 try {
   const projects = await getProjects();
@@ -25,13 +24,13 @@ try {
     projectOptions = mergeProjectLists(
       projects
         .filter((p: SanityProject) =>
-          isProjectFundable(getProjectLifecycleState(p).status),
+          getProjectLifecycleState(p).isFundable,
         )
         .map((p: SanityProject) => ({
           slug: p.slug.current,
           title: p.title,
         })),
-      projectOptions,
+      projectOptions.filter((fallback) => !projects.some((project) => project.slug.current === fallback.slug)),
     );
   }
 } catch {}

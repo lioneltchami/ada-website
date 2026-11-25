@@ -394,9 +394,9 @@ export async function loadProjectDocumentLibrary(): Promise<{
 
 function deriveArchiveYear(project: SanityProject): number {
   const sourceDate =
-    project.archiveAfterDate ||
-    project.endDate ||
     project.startDate ||
+    project.endDate ||
+    project.archiveAfterDate ||
     new Date().toISOString();
   return Number(sourceDate.slice(0, 4));
 }
