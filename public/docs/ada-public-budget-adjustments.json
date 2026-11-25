@@ -1,27 +1,5 @@
 [
   {
-    "year": 2025,
-    "project": "Campus Environmental Cleanup",
-    "reference": "ADA/2025/005",
-    "archive_approved": 180000,
-    "archive_actual": 170000,
-    "public_target": 170000,
-    "adjustment_needed": 0,
-    "status": "ok",
-    "note": "Within public cap"
-  },
-  {
-    "year": 2025,
-    "project": "City Cleanup \u2014 Labour Day 2025",
-    "reference": "ADA/2025/003",
-    "archive_approved": null,
-    "archive_actual": 290000,
-    "public_target": 290000,
-    "adjustment_needed": 0,
-    "status": "ok",
-    "note": "Within public cap"
-  },
-  {
     "year": 2021,
     "project": "First Widow Home Visits",
     "reference": "ADA/2021/001",
@@ -31,39 +9,6 @@
     "adjustment_needed": null,
     "status": "under review",
     "note": "Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance."
-  },
-  {
-    "year": 2025,
-    "project": "Interim Progress Report: IDP Children Education Fund",
-    "reference": "",
-    "archive_approved": 720000,
-    "archive_actual": 675000,
-    "public_target": 400000,
-    "adjustment_needed": 275000,
-    "status": "adjusted",
-    "note": "Capped from 675,000 CFA to 400,000 CFA"
-  },
-  {
-    "year": 2025,
-    "project": "Interim Progress Report: Prenatal Care Support Program",
-    "reference": "ADA/2025/001",
-    "archive_approved": 1080000,
-    "archive_actual": 750000,
-    "public_target": 400000,
-    "adjustment_needed": 350000,
-    "status": "adjusted",
-    "note": "Capped from 750,000 CFA to 400,000 CFA"
-  },
-  {
-    "year": 2025,
-    "project": "Youth Mentorship Seminar",
-    "reference": "ADA/2025/007",
-    "archive_approved": 480000,
-    "archive_actual": 465000,
-    "public_target": 400000,
-    "adjustment_needed": 65000,
-    "status": "adjusted",
-    "note": "Capped from 465,000 CFA to 400,000 CFA"
   },
   {
     "year": 2022,

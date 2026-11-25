@@ -3,6 +3,7 @@ import {
   archiveProjectDocumentLinks,
   archivePublishedFinancialAccount,
   archivePublishedBudgetFcfa,
+  archivePublished2025ReportContents,
 } from "./archive-project-document-links";
 import type { ProjectArchiveEntry } from "./project-archive";
 import {
@@ -29,6 +30,7 @@ type ArchiveCardStatus = Record<"project" | "documents" | "finance", ArchiveStat
 export function getArchiveCardStatus(record: ArchiveStatusInput, locale: ProjectPresentationLocale): ArchiveCardStatus {
   const fr = locale === "fr";
   const { tor, report, financial } = archiveProjectDocumentLinks(record);
+  const publishedReportContents = archivePublished2025ReportContents(record);
   const accountLabel = fr ? "Compte financier" : "Financial account";
 
   // Publication of an account says nothing about audit or reconciliation. The
@@ -38,6 +40,10 @@ export function getArchiveCardStatus(record: ArchiveStatusInput, locale: Project
     finance = { label: accountLabel, value: fr ? "Publié" : "Published", state: "published", tone: "positive" };
   } else if (archivePublishedBudgetFcfa(record) !== undefined) {
     finance = { label: "Budget", value: fr ? "Publié dans le rapport" : "Published in report", state: "budget-published", tone: "positive" };
+  } else if (publishedReportContents) {
+    finance = publishedReportContents === "cost-list"
+      ? { label: fr ? "Liste détaillée des coûts" : "Itemized cost list", value: fr ? "Publiée dans le rapport" : "Published in report", state: "cost-list-published", tone: "positive" }
+      : { label: fr ? "Détails budgétaires" : "Budget details", value: fr ? "Publiés dans le rapport" : "Published in report", state: "budget-details-published", tone: "positive" };
   } else if (financial) {
     finance = { label: accountLabel, value: fr ? "PDF disponible" : "PDF available", state: "standalone-pdf", tone: "neutral" };
   } else if (record.financialReviewNote?.trim() || record.financialReviewNoteFr?.trim()) {

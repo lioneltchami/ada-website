@@ -76,11 +76,12 @@ describe('evidence-qualified historical finance',()=>{
  });
  it('accounts for all public budget statuses without treating qualified accounts as cap adjustments',()=>{
   const rows=JSON.parse(read('ada-public-budget-adjustments.json'));
-  expect(rows).toHaveLength(22);
+  expect(rows).toHaveLength(17);
+  expect(rows.some((r:any)=>r.year===2025)).toBe(false);
   expect(rows.some((r:any)=>r.year===2024 && r.status==='adjusted')).toBe(false);
   expect(rows.filter((r:any)=>r.status==='under review').map((r:any)=>r.project)).toEqual(['First Widow Home Visits']);
-  expect(rows.filter((r:any)=>r.status==='ok')).toHaveLength(2);
-  expect(rows.filter((r:any)=>r.status==='adjusted')).toHaveLength(3);
+  expect(rows.filter((r:any)=>r.status==='ok')).toHaveLength(0);
+  expect(rows.filter((r:any)=>r.status==='adjusted')).toHaveLength(0);
   const publishedReported=rows.filter((r:any)=>r.status==='reported; project documents available');
   expect(publishedReported).toHaveLength(7);
   expect(publishedReported.every((r:any)=>r.year===2023 && r.archive_approved===null && r.archive_actual===null && r.public_target===null && r.adjustment_needed===null)).toBe(true);

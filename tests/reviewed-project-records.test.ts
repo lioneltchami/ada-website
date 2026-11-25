@@ -86,9 +86,14 @@ describe('confirmed 2023 project summaries and PDF publication', () => {
   const retiredBamendaFoodRelief = (row:any) => Number(row.year) === 2024 &&
    (row.reference === 'ADA/2024/001' || row.project === 'Emergency Food Relief - Bamenda Crisis');
   expect(current.every((r:any)=>!retiredSchoolRows.has(r.reference)&&!retiredBamendaFoodRelief(r))).toBe(true);
+  const obsolete2025 = (r:any) => Number(r.year) === 2025 && (
+    new Set(['ADA/2025/001','ADA/2025/003','ADA/2025/005','ADA/2025/006','ADA/2025/007']).has(r.reference) ||
+    new Set(['Campus Environmental Cleanup','City Cleanup — Labour Day 2025','IDP Children Education Fund','Prenatal Care Support Program','Youth Mentorship Seminar']).has(String(r.project).replace(/^Interim Progress Report: /, ''))
+  );
+  expect(current.some((r:any)=>obsolete2025(r))).toBe(false);
   const released2024 = new Set(['Back-to-school outreach in Buea', 'International Day of the Girl Outreach', 'Christmas Giving 2024']);
   const changed2024 = (row:any) => Number(row.year) === 2024 && (released2024.has(row.project) || row.reference === 'ADA/2024/006');
-  expect(current.filter((r:any)=>r.year!==2023&&!changed2024(r))).toEqual(before.filter((r:any)=>r.year!==2023&&!changed2024(r)&&!retiredSchoolRows.has(r.reference)&&!retiredBamendaFoodRelief(r)));
+  expect(current.filter((r:any)=>r.year!==2023&&!changed2024(r))).toEqual(before.filter((r:any)=>r.year!==2023&&!changed2024(r)&&!retiredSchoolRows.has(r.reference)&&!retiredBamendaFoodRelief(r)&&!obsolete2025(r)));
   const budgets2024 = current.filter((r:any)=>changed2024(r));
   expect(budgets2024.map((r:any)=>r.archive_approved).sort((a:number,b:number)=>a-b)).toEqual([82750,250700,260000]);
   expect(budgets2024.every((r:any)=>r.archive_actual===null&&r.public_target===null&&r.adjustment_needed===null)).toBe(true);

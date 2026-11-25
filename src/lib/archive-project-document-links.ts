@@ -2,7 +2,7 @@ import releases from "../../config/project-document-releases.json";
 import type { ProjectArchiveEntry } from "./project-archive";
 import type { ProjectPresentationLocale } from "./project-detail-presentation";
 import { hasReleased2023ProjectDocumentSet } from "./reviewed-project-records";
-import { hasReleased2024ProjectDocumentSet } from "./reviewed-project-summaries-2024-25";
+import { hasReleased2024ProjectDocumentSet, hasReleased2025ProjectDocumentSet } from "./reviewed-project-summaries-2024-25";
 
 type DocumentRecord = Pick<ProjectArchiveEntry, "slug" | "torUrl" | "reportUrl" | "financialReportUrl">;
 type Kind = "tor" | "report" | "financial";
@@ -75,6 +75,30 @@ export function archivePublishedBudgetFcfa(
     || report !== `/docs/projects/${slug}/report.pdf`
     || typeof amount !== "number" || !Number.isSafeInteger(amount) || amount <= 0) return undefined;
   return amount;
+}
+
+export function released2025ReportContents(slug: string): "budget-details" | "cost-list" | undefined {
+  if (!hasReleased2025ProjectDocumentSet(slug)) return undefined;
+  return slug === "christmas-orphanage-outreach-2025" ? "cost-list" : "budget-details";
+}
+
+/** Require both approved canonical files; a draft or a CMS link cannot make the budget public. */
+export function archivePublished2025ReportContents(
+  record: DocumentRecord & Pick<ProjectArchiveEntry, "year">,
+) {
+  const slug = record.slug.current;
+  const { tor, report } = archiveProjectDocumentLinks(record);
+  if (record.year !== 2025 || tor !== `/docs/projects/${slug}/tor.pdf`
+    || report !== `/docs/projects/${slug}/report.pdf`) return undefined;
+  return released2025ReportContents(slug);
+}
+
+export function released2025ReportLabel(slug: string, locale: ProjectPresentationLocale, conjunction = "and"): string | undefined {
+  const contents = released2025ReportContents(slug);
+  if (!contents) return undefined;
+  if (locale === "fr") return contents === "cost-list"
+    ? "Rapport de projet et liste détaillée des coûts" : "Rapport de projet et détails budgétaires";
+  return `Project report ${conjunction} ${contents === "cost-list" ? "itemized cost list" : "budget details"}`;
 }
 
 export function formatArchiveFcfa(amount: number, locale: ProjectPresentationLocale): string {

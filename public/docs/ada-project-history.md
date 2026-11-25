@@ -4,7 +4,7 @@ This ledger focuses on the archived projects and their budget records from 2021 
 
 Compiled on November 25, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 22. Sum of reported approved amounts: 3,053,450 CFA. Sum of reported actual/spent amounts: 2,350,000 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
+Archived projects included: 17. Sum of reported approved amounts: 593,450 CFA. Sum of reported actual/spent amounts: 0 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
 Figures for 1 projects remain under reconciliation and are excluded from numeric summaries and line-item totals. Other legacy figures below are transcribed from source documents and have not been independently verified.
 
@@ -16,62 +16,12 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 | Year | Projects | Records with figures | Sum of reported approved amounts | Sum of reported actual/spent amounts |
 |---|---:|---:|---:|---:|
-| 2025 | 5 | 5 | 2,460,000 CFA | 2,350,000 CFA |
 | 2024 | 3 | 3 | 593,450 CFA | — |
 | 2023 | 7 | 0 | — | — |
 | 2022 | 6 | 0 | — | — |
 | 2021 | 1 | 0 | — | — |
 
 ## Project Ledger
-
-### 2025
-
-#### Campus Environmental Cleanup
-
-- Reference: `ADA/2025/005` | Location: Buea, South-West Region, Cameroon (Student Campus) | Period: August 4, 2025 | Status: COMPLETED
-- What we did: On August 4, 2025, the Apoti Development Association (ADA) conducted a single-day environmental cleanup at a student campus in Buea, South-West Region, Cameroon. A team of 8 ADA volunteers, wearing ADA uniforms and red rubber gloves, cleaned the campus grounds, collected waste, and promoted environmental responsibility among the student population.
-- Outcomes: **Campus cleaned:** Grounds cleared of waste and debris **Sustained impact:** ADA-branded bins left on campus for ongoing use **Awareness raised:** Students exposed to environmental responsibility messaging
-- Financial summary: Reported approved 180,000 CFA; reported actual/spent 170,000 CFA; difference 10,000 CFA; utilization 94.4%.
-- Finance note: **Equipment reuse:** Cleaning supplies and some protective gear carried over from the May 2025 city cleanup, reducing new purchases **Efficient logistics:** Campus location required less transport coordination than city-wide cleanups
-- Source files: [`report.md`](public/docs/projects/campus-cleanup-aug-2025/report.md), [`financial.md`](public/docs/projects/campus-cleanup-aug-2025/financial.md)
-
-#### City Cleanup — Labour Day 2025
-
-- Reference: `ADA/2025/003` | Location: Buea, South-West Region, Cameroon | Period: May 1, 2025 | Status: COMPLETED
-- Beneficiaries: ~300 community members (indirect)
-- What we did: On May 1, 2025, the Apoti Development Association (ADA) successfully conducted its third annual Labour Day community cleanup in the commercial district of Buea. A team of 15 volunteers — the largest to date — cleaned streets, collected waste, and deployed branded trash bins across the area.
-- Outcomes: On May 1, 2025, the Apoti Development Association (ADA) successfully conducted its third annual Labour Day community cleanup in the commercial district of Buea. A team of 15 volunteers — the largest to date — cleaned streets, collected waste, and deployed branded trash bins across the area.
-- Financial summary: Reported approved —; reported actual/spent 290,000 CFA; difference 10,000 CFA; utilization —.
-- Finance note: 10,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/city-cleanup-may-2025/report.md), [`financial.md`](public/docs/projects/city-cleanup-may-2025/financial.md)
-
-#### Interim Progress Report: IDP Children Education Fund
-
-- Reference: `N/A` | Location: N/A | Period: Amount (CFA) | Status: completed
-- What we did: The IDP Children Education Fund has successfully enrolled and maintained 15 internally displaced children in local schools in Bamenda since September 2025. All children remain actively attending school, and psychosocial support sessions have been delivered as planned.
-- Outcomes: The IDP Children Education Fund has successfully enrolled and maintained 15 internally displaced children in local schools in Bamenda since September 2025. All children remain actively attending school, and psychosocial support sessions have been delivered as planned.
-- Financial summary: Reported approved 720,000 CFA; reported actual/spent 675,000 CFA; difference 45,000 CFA; utilization 93.8%.
-- Finance note: 45,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/idp-children-education-fund/report.md), [`financial.md`](public/docs/projects/idp-children-education-fund/financial.md)
-
-#### Interim Progress Report: Prenatal Care Support Program
-
-- Reference: `ADA/2025/001` | Location: Bamenda, North-West Region, Cameroon | Period: N/A | Status: completed
-- What we did: The Prenatal Care Support Program has made strong progress since its launch in January 2025. All 25 target beneficiaries have been enrolled, 15 safe deliveries have been completed with zero maternal complications, and partnerships with 2 local clinics are functioning effectively.
-- Outcomes: The Prenatal Care Support Program has made strong progress since its launch in January 2025. All 25 target beneficiaries have been enrolled, 15 safe deliveries have been completed with zero maternal complications, and partnerships with 2 local clinics are functioning effectively.
-- Financial summary: Reported approved 1,080,000 CFA; reported actual/spent 750,000 CFA; difference 330,000 CFA; utilization 69%.
-- Finance note: 330,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/prenatal-care-support-program/report.md), [`financial.md`](public/docs/projects/prenatal-care-support-program/financial.md)
-
-#### Youth Mentorship Seminar
-
-- Reference: `ADA/2025/007` | Location: Full Gospel Mission Church, Buea, South-West Region, Cameroon | Period: October 26–27, 2025 | Status: COMPLETED
-- What we did: ADA successfully delivered its first dedicated youth mentorship seminar for boys and male adolescents on October 26–27, 2025, at Full Gospel Mission Church in Buea. The two-day program engaged 30 young males aged 8–20 in faith-based mentorship, Bible study, and life skills training.
-- Outcomes: ADA successfully delivered its first dedicated youth mentorship seminar for boys and male adolescents on October 26–27, 2025, at Full Gospel Mission Church in Buea. The two-day program engaged 30 young males aged 8–20 in faith-based mentorship, Bible study, and life skills training.
-- Financial summary: Reported approved 480,000 CFA; reported actual/spent 465,000 CFA; difference 15,000 CFA; utilization 96.9%.
-- Finance note: 15,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/youth-mentorship-seminar-oct-2025/report.md), [`financial.md`](public/docs/projects/youth-mentorship-seminar-oct-2025/financial.md)
-
 
 ### 2024
 

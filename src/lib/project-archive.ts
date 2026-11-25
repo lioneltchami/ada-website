@@ -1,4 +1,4 @@
-import { applyReviewed2024And2025Summaries, listReleased2024ProjectDocuments } from './reviewed-project-summaries-2024-25';
+import { applyReviewed2024And2025Summaries, listReleased2024ProjectDocuments, listReleased2025ProjectDocuments } from './reviewed-project-summaries-2024-25';
 import { applyReviewedProjectContent, listReleased2023ProjectDocuments } from './reviewed-project-records';
 import { applyReleasedProjectContent, applyReleasedDocumentLibrary } from "./released-project-documents";
 import { createClient } from "@sanity/client";
@@ -220,36 +220,6 @@ export function isWithdrawnProject(slug: string): boolean {
 /** Fallback when Sanity is unavailable at build time */
 const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
   {
-    slug: "youth-mentorship-seminar-oct-2025",
-    title: "Youth Mentorship Seminar",
-    year: 2025,
-    demographic: "orphans",
-  },
-  {
-    slug: "campus-cleanup-aug-2025",
-    title: "Campus Environmental Cleanup",
-    year: 2025,
-    demographic: "community",
-  },
-  {
-    slug: "city-cleanup-may-2025",
-    title: "City Cleanup — Labour Day 2025",
-    year: 2025,
-    demographic: "community",
-  },
-  {
-    slug: "idp-children-education-fund",
-    title: "IDP Children Education Fund",
-    year: 2025,
-    demographic: "idps",
-  },
-  {
-    slug: "prenatal-care-support-program",
-    title: "Prenatal Care Support Program",
-    year: 2025,
-    demographic: "pregnant-women",
-  },
-  {
     slug: "christmas-giving-dec-2024",
     title: "Christmas Giving 2024",
     year: 2024,
@@ -346,7 +316,7 @@ async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
 export function groupProjectsByYear(
   records: ProjectArchiveDocument[],
 ): YearDocumentGroup[] {
-  const released = [...listReleased2023ProjectDocuments(), ...listReleased2024ProjectDocuments()];
+  const released = [...listReleased2023ProjectDocuments(), ...listReleased2024ProjectDocuments(), ...listReleased2025ProjectDocuments()];
   const releasedSlugs = new Set(released.map((p) => p.slug));
   const filtered = applyReleasedDocumentLibrary([...records.filter((r) => !releasedSlugs.has(r.slug)), ...released]
     .filter((r) => hasStaticProjectDocuments(r.slug))

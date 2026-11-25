@@ -9,7 +9,7 @@ const notFound = { code: 'ENOENT' };
 for (const locale of ['', 'fr/']) {
   const archive = (await fs.readFile(built + '/' + locale + 'projects/archive/index.html', 'utf8'));
   const resources = (await fs.readFile(built + '/' + locale + 'resources/index.html', 'utf8'));
-  for (const { slug, date, documentStatus, approvedBudgetFcfa } of config.projects) {
+  for (const { slug, year, date, documentStatus, approvedBudgetFcfa } of config.projects) {
     const route = locale + 'projects/archive/' + slug;
     assert.ok(archive.includes('/' + route), 'Reviewed summary missing from archive: ' + route);
     const detail = await fs.readFile(built + '/' + route + '/index.html', 'utf8');
@@ -24,16 +24,20 @@ for (const locale of ['', 'fr/']) {
         day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
       }).format(new Date(date + 'T00:00:00Z'));
       assert.ok(detail.includes(words), 'Released detail lacks exact localized date: ' + route);
-      const localBudget = new Intl.NumberFormat(locale ? 'fr-FR' : 'en-US').format(approvedBudgetFcfa);
-      const normalize = value => value.replace(/[\u00a0\u202f]/g, ' ');
-      assert.ok(normalize(detail).includes(normalize(localBudget)), 'Released detail lacks correct budget: ' + route);
+      if (year === 2024) {
+        const localBudget = new Intl.NumberFormat(locale ? 'fr-FR' : 'en-US').format(approvedBudgetFcfa);
+        const normalize = value => value.replace(/[\u00a0\u202f]/g, ' ');
+        assert.ok(normalize(detail).includes(normalize(localBudget)), 'Released detail lacks correct budget: ' + route);
+      }
       for (const html of [detail, resources]) {
         assert.ok(!html.includes(assets + 'financial.pdf'), 'Budget lives in the project report: ' + route);
       }
-      assert.ok(!/Financial account published|Compte financier publié|Budget under review|Budget en cours de vérification/i.test(detail),
-        'Released budget is not a verified spending account or under review: ' + route);
-      assert.ok(!/(?:\$1,000|1[\s\u00a0\u202f]000\s*\$|11[,.\s\u00a0\u202f]800|590[,.\s\u00a0\u202f]000|600[,.\s\u00a0\u202f]000)/.test(detail),
-        'Superseded figure exposed in released detail: ' + route);
+      if (year === 2024) {
+        assert.ok(!/Financial account published|Compte financier publié|Budget under review|Budget en cours de vérification/i.test(detail),
+          'Released budget is not a verified spending account or under review: ' + route);
+        assert.ok(!/(?:\$1,000|1[\s\u00a0\u202f]000\s*\$|11[,.\s\u00a0\u202f]800|590[,.\s\u00a0\u202f]000|600[,.\s\u00a0\u202f]000)/.test(detail),
+          'Superseded figure exposed in released detail: ' + route);
+      }
     } else {
       assert.ok(!detail.includes(assets), 'Pending detail exposes downloads: ' + route);
       assert.ok(!resources.includes(assets), 'Pending downloads listed in resources: ' + route);
