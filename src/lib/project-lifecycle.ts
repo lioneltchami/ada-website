@@ -17,6 +17,7 @@ export interface ProjectLifecycleState {
 	status: ProjectStatus;
 	isAutoCompleted: boolean;
 	isUpcoming: boolean;
+	isFundable: boolean;
 	hasStarted: boolean;
 	hasEnded: boolean;
 	archiveHref: string;
@@ -27,41 +28,73 @@ export function currentIsoDate(now = new Date()): string {
 	return now.toISOString().slice(0, 10);
 }
 
-function isDateBeforeToday(
-	date: string | null | undefined,
-	today: string,
-): boolean {
-	return Boolean(date && date < today);
+const ARCHIVE_DELAY_DAYS = 7;
+
+function validIsoDate(value: string | null | undefined): string | undefined {
+	if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return undefined;
+	const date = new Date(`${value}T00:00:00.000Z`);
+	return Number.isFinite(date.getTime()) && currentIsoDate(date) === value
+		? value
+		: undefined;
 }
 
-function isDateAfterToday(
-	date: string | null | undefined,
-	today: string,
-): boolean {
-	return Boolean(date && date > today);
+function addCalendarDays(date: string, days: number): string | undefined {
+	const next = new Date(`${date}T00:00:00.000Z`);
+	next.setUTCDate(next.getUTCDate() + days);
+	return validIsoDate(currentIsoDate(next));
+}
+
+/** First UTC calendar date eligible for automatic archiving. */
+export function getAutomaticArchiveDate(
+	project: Pick<ProjectLifecycleFields, "startDate" | "endDate" | "archiveAfterDate">,
+): string | undefined {
+	const start = validIsoDate(project.startDate);
+	const end = validIsoDate(project.endDate);
+	if (start && end && end < start) return undefined;
+	const lastScheduledDate = end ?? start;
+	if (lastScheduledDate) return addCalendarDays(lastScheduledDate, ARCHIVE_DELAY_DAYS);
+
+	// Legacy records without a schedule may still use their explicit date.
+	// Preserve their old "after" semantics, but don't fall back on malformed schedules.
+	if (!project.startDate && !project.endDate) {
+		const legacyDate = validIsoDate(project.archiveAfterDate);
+		if (legacyDate) return addCalendarDays(legacyDate, 1);
+	}
+	return undefined;
 }
 
 export function getProjectLifecycleState(
 	project: ProjectLifecycleFields,
 	options: { today?: string; locale?: "en" | "fr" } = {},
 ): ProjectLifecycleState {
-	const today = options.today || currentIsoDate();
+	const today = validIsoDate(options.today ?? currentIsoDate());
 	const localePrefix = options.locale === "fr" ? "/fr" : "";
-	const completionDate = project.archiveAfterDate || project.endDate;
-	const hasEnded = isDateBeforeToday(project.endDate, today);
-	const hasStarted = !isDateAfterToday(project.startDate, today);
+	const archiveDate = getAutomaticArchiveDate(project);
+	const start = validIsoDate(project.startDate);
+	const end = validIsoDate(project.endDate);
+	const lastScheduledDate = end ?? start;
+	const startsLater = Boolean(start && today && start > today);
+	const hasEnded = Boolean(lastScheduledDate && today && lastScheduledDate < today);
+	const hasStarted = !startsLater;
 	const shouldAutoComplete =
 		project.status === "active" &&
 		project.autoArchiveAfterEndDate !== false &&
-		isDateBeforeToday(completionDate, today);
+		Boolean(archiveDate && today && archiveDate <= today);
 	const shouldBeUpcoming =
-		!shouldAutoComplete &&
-		project.status === "active" &&
-		isDateAfterToday(project.startDate, today);
+		!shouldAutoComplete && project.status === "active" && startsLater;
 
 	let status: ProjectStatus = project.status;
 	if (shouldAutoComplete) status = "completed";
 	else if (shouldBeUpcoming) status = "upcoming";
+
+	// The archive grace period is not a fundraising extension. Honor an earlier
+	// legacy cutoff, but never use it to keep gifts open past the scheduled date.
+	const legacyCutoff = validIsoDate(project.archiveAfterDate);
+	const fundingCutoff = legacyCutoff && (!lastScheduledDate || legacyCutoff < lastScheduledDate)
+		? legacyCutoff
+		: lastScheduledDate;
+	const fundingClosed = project.autoArchiveAfterEndDate !== false
+		&& Boolean(fundingCutoff && today && fundingCutoff < today);
 
 	const baseSlug =
 		typeof project.slug === "string"
@@ -76,6 +109,7 @@ export function getProjectLifecycleState(
 		hasEnded,
 		hasStarted,
 		isUpcoming: shouldBeUpcoming,
+		isFundable: isProjectFundable(status) && !fundingClosed,
 		isAutoCompleted: shouldAutoComplete,
 		archiveHref: archiveSlug
 			? `${localePrefix}/projects/archive/${archiveSlug}`

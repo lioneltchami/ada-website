@@ -13,59 +13,42 @@ describe("project lifecycle", () => {
     );
   });
 
-  it("auto-completes active projects only after the end date passes", () => {
+  it.each([
+    ["2026-05-20", "active", false, false, true],
+    ["2026-05-21", "active", false, true, false],
+    ["2026-05-26", "active", false, true, false],
+    ["2026-05-27", "completed", true, true, false],
+    ["2026-05-28", "completed", true, true, false],
+  ])("applies the seven-day archive delay without extending fundraising on %s", (today, status, isAutoCompleted, hasEnded, isFundable) => {
     expect(
-      getProjectLifecycleState(
-        { status: "active", endDate: "2026-05-26" },
-        { today: "2026-05-27" },
-      ),
-    ).toMatchObject({
-      status: "completed",
-      isAutoCompleted: true,
-      hasEnded: true,
-    });
-
-    expect(
-      getProjectLifecycleState(
-        { status: "active", endDate: "2026-05-27" },
-        { today: "2026-05-27" },
-      ).status,
-    ).toBe("active");
-
-    expect(
-      getProjectLifecycleState(
-        { status: "active", endDate: "2026-05-28" },
-        { today: "2026-05-27" },
-      ).status,
-    ).toBe("active");
+      getProjectLifecycleState({ status: "active", endDate: "2026-05-20" }, { today }),
+    ).toMatchObject({ status, isAutoCompleted, hasEnded, isFundable });
   });
 
-  it("uses archiveAfterDate as the completion trigger when present", () => {
-    expect(
-      getProjectLifecycleState(
-        {
-          status: "active",
-          endDate: "2026-05-20",
-          archiveAfterDate: "2026-05-30",
-        },
-        { today: "2026-05-27" },
-      ),
-    ).toMatchObject({
-      status: "active",
-      hasEnded: true,
-      isAutoCompleted: false,
-    });
+  it("ignores both early and late archive overrides on dated projects", () => {
+    for (const archiveAfterDate of ["2026-05-20", "2026-06-15"]) {
+      const project = { status: "active", endDate: "2026-05-20", archiveAfterDate } as const;
+      expect(getProjectLifecycleState(project, { today: "2026-05-26" }).status).toBe("active");
+      expect(getProjectLifecycleState(project, { today: "2026-05-27" }).isAutoCompleted).toBe(true);
+    }
+  });
 
-    expect(
-      getProjectLifecycleState(
-        {
-          status: "active",
-          endDate: "2026-05-20",
-          archiveAfterDate: "2026-05-26",
-        },
-        { today: "2026-05-27" },
-      ).status,
-    ).toBe("completed");
+  it("uses startDate as the anchor when no endDate is set, including across years", () => {
+    const project = {
+      status: "active",
+      startDate: "2026-12-29",
+      archiveAfterDate: "2026-12-31",
+    } as const;
+    expect(getProjectLifecycleState(project, { today: "2026-12-28" }).status).toBe("upcoming");
+    expect(getProjectLifecycleState(project, { today: "2027-01-04" }).status).toBe("active");
+    expect(getProjectLifecycleState(project, { today: "2027-01-05" }).isAutoCompleted).toBe(true);
+  });
+
+  it("retains the legacy override for projects with neither start nor end dates", () => {
+    const project = { status: "active", archiveAfterDate: "2026-05-20" } as const;
+    expect(getProjectLifecycleState(project, { today: "2026-05-20" }).status).toBe("active");
+    expect(getProjectLifecycleState(project, { today: "2026-05-21" }).isAutoCompleted).toBe(true);
+    expect(getProjectLifecycleState({ status: "active" }, { today: "2026-05-21" }).isAutoCompleted).toBe(false);
   });
 
   it("respects manual lifecycle overrides", () => {
@@ -155,18 +138,16 @@ describe("project lifecycle", () => {
     });
   });
 
-  it("auto-archives after the 3-day outreach window ends", () => {
-    expect(
-      getProjectLifecycleState(
-        {
-          status: "active",
-          startDate: "2026-08-15",
-          endDate: "2026-08-18",
-          archiveAfterDate: "2026-08-18",
-        },
-        { today: "2026-08-19" },
-      ),
-    ).toMatchObject({
+  it("uses the end rather than the start for a multi-day outreach", () => {
+    const project = {
+      status: "active",
+      startDate: "2026-08-15",
+      endDate: "2026-08-18",
+      archiveAfterDate: "2026-08-18",
+    } as const;
+    expect(getProjectLifecycleState(project, { today: "2026-08-22" }).status).toBe("active");
+    expect(getProjectLifecycleState(project, { today: "2026-08-24" }).isAutoCompleted).toBe(false);
+    expect(getProjectLifecycleState(project, { today: "2026-08-25" })).toMatchObject({
       status: "completed",
       isAutoCompleted: true,
       hasEnded: true,

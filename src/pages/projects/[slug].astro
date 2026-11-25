@@ -5,7 +5,6 @@ import { getProjects, type SanityProject } from "../../lib/sanity";
 import { resolveProjectCardImage } from "../../lib/project-images";
 import {
   getProjectLifecycleState,
-  isProjectFundable,
 } from "../../lib/project-lifecycle";
 import {
   mergeProjectLists,
@@ -35,6 +34,7 @@ export async function getStaticPaths() {
             archiveHref: lifecycle.archiveHref,
             archiveReady: lifecycle.archiveReady,
             hasEnded: lifecycle.hasEnded,
+          isFundable: lifecycle.isFundable,
             description: p.description,
             beneficiaries: p.beneficiaries,
             goal: p.goalAmount,
@@ -73,12 +73,12 @@ const costPerBeneficiary =
     : 0;
 const isCompleted = project.status === "completed";
 const isAutoArchived = Boolean(project.autoArchived);
-const isFundable = isProjectFundable(project.status);
+const isFundable = project.isFundable;
 const fundraisingNote = isFundable
   ? "Secure checkout · Receipt emailed"
   : isAutoArchived
     ? "This project was archived after its end date; dedicated donations are closed."
-    : isCompleted
+    : project.status !== "paused"
       ? "Fundraising is closed for this project."
       : null;
 const formatUsd = (amount: number) => formatUsdAmount(amount, "en");
@@ -305,7 +305,7 @@ const paragraphs = project.description
             </p>
             <p class="mt-1 text-xs text-gray-500">
               {
-                isCompleted
+                !isFundable && project.status !== "paused"
                   ? "Fundraising closed for this project."
                   : project.status === "paused"
                     ? getPausedProjectMessage("en")

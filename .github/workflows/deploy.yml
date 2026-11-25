@@ -7,7 +7,7 @@ on:
       - completed
     branches: [main]
   schedule:
-    # Weekly trigger; the job itself skips alternate weeks to behave biweekly.
+    # Weekly refresh for date-driven archive updates (Sunday at 23:15 UTC).
     - cron: "15 23 * * 0"
   repository_dispatch:
     types: [sanity-content-update]
@@ -25,15 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         if: github.event_name != 'workflow_run'
-
-      - name: Biweekly schedule gate
-        if: github.event_name == 'schedule'
-        run: |
-          week=$(date -u +%V)
-          if [ $((10#$week % 2)) -ne 0 ]; then
-            echo "Skipping this weekly refresh; biweekly archive deploy runs on even ISO weeks."
-            exit 0
-          fi
 
       - name: Sync source branch for workflow_run
         if: github.event_name == 'workflow_run'

@@ -24,6 +24,7 @@ export function normalizeFallbackProjects(
       archiveReady: lifecycle.archiveReady,
       isAutoArchived: lifecycle.isAutoCompleted,
       hasEnded: lifecycle.hasEnded,
+      isFundable: lifecycle.isFundable,
       isUpcoming: lifecycle.isUpcoming,
       startDate: p.startDate,
       endDate: p.endDate,
