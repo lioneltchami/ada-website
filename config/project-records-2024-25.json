@@ -108,9 +108,9 @@
       "location": "Buea",
       "title": "Christmas Giving in Buea",
       "titleFr": "Dons de Noël à Buea",
-      "description": "Our team visited an orphanage in Buea on the weekend of December 20–21, 2025. The visit was part of our year-end outreach to support children.",
-      "descriptionFr": "Notre équipe a rendu visite à un orphelinat à Buea le week-end des 20 et 21 décembre 2025. Cette visite faisait partie de nos actions de fin d’année en faveur des enfants.",
-      "date": "2025-12"
+      "description": "On Saturday, December 20, 2025, our team visited an orphanage in Buea as part of our year-end outreach to support children.",
+      "descriptionFr": "Le samedi 20 décembre 2025, notre équipe a rendu visite à un orphelinat à Buea dans le cadre de nos actions de fin d’année en faveur des enfants.",
+      "date": "2025-12-20"
     },
     {
       "slug": "city-cleanup-may-2025",
@@ -120,8 +120,9 @@
       "date": "2025-05-03",
       "title": "Labour Day School Cleanup",
       "titleFr": "Nettoyage d’établissements scolaires pour la fête du Travail",
-      "description": "On May 3, 2025, we held our Labour Day School Cleanup at Lycée de Buea and Buea Technical Training College.",
-      "descriptionFr": "Le 3 mai 2025, nous avons organisé notre action de nettoyage pour la fête du Travail au Lycée de Buea et au Buea Technical Training College."
+      "description": "On May 3, 2025, we held our Labour Day School Cleanup at Lycée de Buea and Buea Technical Training College. We purchased cutlasses, brooms, buckets, rakes and other tools. Our budget was about 50,000 FCFA.",
+      "descriptionFr": "Le 3 mai 2025, nous avons organisé notre action de nettoyage pour la fête du Travail au Lycée de Buea et au Buea Technical Training College. Nous avons acheté des machettes, des balais, des seaux, des râteaux et d’autres outils. Notre budget était d’environ 50 000 FCFA.",
+      "approximateBudgetFcfa": 50000
     }
   ]
 }

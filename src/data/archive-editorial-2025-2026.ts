@@ -61,24 +61,24 @@ export const archiveEditorialRecent = {
   "city-cleanup-may-2025": story([
     "On May 3, 2025, we held our Labour Day School Cleanup at Lycée de Buea and Buea Technical Training College.",
     "We wanted to give back to the schools and care for the spaces their students and staff use every day.",
-    "Our team focused the cleanup on the two school sites.",
-    "We can confirm the date and both schools. We do not have a confirmed volunteer count or measures of waste collected.",
+    "We bought cutlasses, brooms, buckets, rakes and other tools for the cleanup at the two schools.",
+    "We budgeted about 50,000 FCFA for the cleanup. We do not have a verified total for what we spent.",
   ], [
     "Le 3 mai 2025, nous avons organisé notre nettoyage pour la fête du Travail au Lycée de Buea et au Buea Technical Training College.",
     "Nous voulions apporter notre aide aux établissements et prendre soin des espaces que leurs élèves et leur personnel utilisent au quotidien.",
-    "Notre équipe a concentré le nettoyage sur les deux sites scolaires.",
-    "Nous pouvons confirmer la date et les deux établissements. Le nombre de bénévoles et la quantité de déchets ramassés n’ont pas été confirmés.",
+    "Nous avons acheté des machettes, des balais, des seaux, des râteaux et d’autres outils pour le nettoyage des deux établissements.",
+    "Nous avons prévu un budget d’environ 50 000 FCFA pour le nettoyage. Le total des dépenses n’a pas été vérifié.",
   ]),
   "christmas-orphanage-outreach-2025": story([
-    "On the weekend of December 20–21, 2025, our team visited an orphanage in Buea.",
+    "On Saturday, December 20, 2025, our team visited an orphanage in Buea.",
     "We wanted to spend time with the children during the holidays and offer practical support.",
     "Our team prepared supplies for the visit. The planning list shows what we considered bringing, not a confirmed record of what was handed out.",
-    "We can confirm the visit took place in Buea before Christmas. We do not have a confirmed day, institution name or number of children reached.",
+    "We can confirm the date and city of the visit. We do not have a confirmed name for the orphanage or count of the children reached.",
   ], [
-    "Le week-end des 20 et 21 décembre 2025, notre équipe a rendu visite à un orphelinat à Buea.",
+    "Le samedi 20 décembre 2025, notre équipe a rendu visite à un orphelinat à Buea.",
     "Nous voulions passer du temps avec les enfants pendant les fêtes et apporter une aide concrète.",
     "Notre équipe a préparé les fournitures pour la visite. La liste de préparation indique ce que nous envisagions d’apporter, pas les articles effectivement remis.",
-    "Nous pouvons confirmer que la visite a eu lieu à Buea avant Noël. Le jour précis, le nom de l’établissement et le nombre d’enfants accompagnés n’ont pas été confirmés.",
+    "Nous pouvons confirmer la date et la ville de la visite. Le nom de l’orphelinat et le nombre d’enfants accompagnés n’ont pas été confirmés.",
   ]),
   "back-to-school-buea-aug-2026": story([
     "We announced a back-to-school outreach in Buea for August 2026.",

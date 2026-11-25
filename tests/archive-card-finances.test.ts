@@ -51,6 +51,7 @@ describe("2025 worksheet figures", () => {
     for (const [slug, fcfa, usd, basis] of [
       ["womens-day-widows-outreach-2025", 240000, 396, "calculated-worksheet-budget"],
       ["prenatal-care-support-program", 150000, 247, "budget"],
+      ["city-cleanup-may-2025", 50000, 86, "budget"],
       ["back-to-school-buea-2025", 102600, 182, "worksheet-budget"],
       ["back-to-school-bamenda-aug-2025", 151000, 268, "worksheet-budget"],
       ["christmas-orphanage-outreach-2025", 119500, 213, "working-cost-list"],
@@ -61,6 +62,6 @@ describe("2025 worksheet figures", () => {
   });
   it("does not reuse unsupported or prior-year amounts for prenatal and cleanup", () => {
     expect(formatArchiveCardFinances(entry("prenatal-care-support-program", 2025, 1_050_000), "en")?.fcfa).toBe(150_000);
-    expect(formatArchiveCardFinances(entry("city-cleanup-may-2025", 2025, 300_000), "fr")).toBeUndefined();
+    expect(formatArchiveCardFinances(entry("city-cleanup-may-2025", 2025, 300_000), "fr")?.text).toBe("env. 50\u202f000 FCFA (env. 86 USD)");
   });
 });

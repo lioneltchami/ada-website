@@ -9,7 +9,7 @@ const read = (p) => fs.readFile(paths(p), 'utf8');
 const absent = async (p) => assert.rejects(fs.stat(paths(p)), { code: 'ENOENT' }, p);
 const base = '/projects/archive/';
 const confirmed = {
-  'christmas-orphanage-outreach-2025': null,
+  'christmas-orphanage-outreach-2025': '2025-12-20',
   'back-to-school-bamenda-aug-2025': '2025-08-30',
   'back-to-school-buea-2025': '2025-08-30',
   'city-cleanup-may-2025': '2025-05-03',
@@ -19,6 +19,7 @@ const confirmed = {
 const reviewedWorksheetFigures = {
   'womens-day-widows-outreach-2025': [240000,396,'calculated-worksheet-budget'],
   'prenatal-care-support-program': [150000,247,'budget'],
+  'city-cleanup-may-2025': [50000,86,'budget'],
   'back-to-school-buea-2025': [102600,182,'worksheet-budget'],
   'back-to-school-bamenda-aug-2025': [151000,268,'worksheet-budget'],
   'christmas-orphanage-outreach-2025': [119500,213,'working-cost-list'],
@@ -28,8 +29,7 @@ assert.deepEqual(reconciled.map(p => p.slug).sort(), Object.keys(confirmed).sort
 for (const p of reconciled) {
   assert.notEqual(p.documentStatus, 'released', '2025 review assets must stay private');
   assert.equal(p.approvedBudgetFcfa, undefined, 'do not publish private budgets as approved');
-  if (confirmed[p.slug]) assert.equal(p.date, confirmed[p.slug], p.slug);
-  else assert.ok(!p.date || p.date === '2025-12', 'Do not manufacture a day for the December visit');
+  assert.equal(p.date, confirmed[p.slug], p.slug);
 }
 const retired = {
   'hospital-prenatal-care-jul-2025': 'prenatal-care-support-program',
@@ -66,26 +66,18 @@ for (const [prefix, locale] of [['','en-GB'],['/fr','fr-FR']]) {
     const detail = await read(prefix + base + slug + '/index.html');
     const href = '/docs/projects/' + slug + '/';
     assert.ok(!body.includes('data-archive-published-budget-fcfa='), slug + ' worksheet amounts are not approved budgets');
-    const worksheet = reviewedWorksheetFigures[slug];
-    if (worksheet) {
-      const [amount, usd, basis] = worksheet;
-      assert.ok(body.includes('data-archive-local-finance-fcfa="' + amount + '"') && body.includes('data-archive-local-finance-basis="' + basis + '"'), slug + ' missing qualified worksheet amount');
-      assert.ok(body.includes((prefix ? 'env. ' : 'approx. ') + usd + ' USD'), slug + ' missing historical USD estimate');
-    } else {
-      assert.ok(!body.includes('data-archive-local-finance-fcfa='), slug + ' financial figure not established');
+    const [amount, usd, basis] = reviewedWorksheetFigures[slug];
+    assert.ok(body.includes('data-archive-local-finance-fcfa="' + amount + '"') && body.includes('data-archive-local-finance-basis="' + basis + '"'), slug + ' missing qualified figure');
+    assert.ok(body.includes((prefix ? 'env. ' : 'approx. ') + usd + ' USD'), slug + ' missing historical USD estimate');
+    if (slug === 'city-cleanup-may-2025') {
+      const normalize = value => value.replace(/[\u00a0\u202f]/g,' ');
+      assert.ok(normalize(body).includes(prefix ? 'env. 50 000 FCFA' : 'approx. 50,000 FCFA'), slug + ' local amount must be marked approximate');
     }
     assert.ok(!detail.includes(href) && !resources.includes(href), slug + ' unpublished downloads');
     assert.doesNotMatch(body, /Budget or goal|Budget ou objectif|Compte financier\s*:\s*Publié|Financial account\s*:\s*Published/i, slug);
     const date = confirmed[slug];
-    if (date) {
-      const label = new Intl.DateTimeFormat(locale,{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
-      assert.ok(detail.includes(label), slug + ' missing exact localized event day: ' + label);
-    } else {
-      assert.match(detail, /Dec(?:ember)? 2025|déc(?:\.|embre)? 2025/i, slug);
-      // Only forbid a fabricated single event day in the page heading summary, not the words "before 25 December."
-      const hero = detail.split('<h1')[1]?.split('</section>')[0] ?? '';
-      assert.doesNotMatch(hero, /\b\d{1,2} (?:December|décembre) 2025\b/i, slug);
-    }
+    const label = new Intl.DateTimeFormat(locale,{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
+    assert.ok(detail.includes(label), slug + ' missing exact localized event day: ' + label);
   }
 }
 
@@ -97,4 +89,4 @@ for (const doc of ['ada-project-history.md','ada-public-budget-adjustments.csv',
     : await read('/docs/' + doc);
   assert.doesNotMatch(text,/campus-cleanup-aug-2025|idp-children-education-fund|youth-mentorship-seminar-oct-2025|Campus Environmental Cleanup|Interim Progress Report: IDP Children Education Fund|Youth Mentorship Seminar|ADA\/2025\/(?:005|007)/i, doc);
 }
-console.log('2025 archive verified: six pending records in canonical bilingual chronological order; old aliases and downloads redirected, five qualified figures only; no private PDFs.');
+console.log('2025 archive verified: six pending records in canonical bilingual chronological order; old aliases and downloads redirected, six qualified figures only; no private PDFs.');

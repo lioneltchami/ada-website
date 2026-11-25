@@ -35,7 +35,7 @@ describe('source-backed 2024–25 archive summaries', () => {
     expect(bySlug.get(hospitalSlug)).toMatchObject({ year: 2025, location: 'Muea, Buea', startDate: '2025-03-29', endDate: '2025-03-29' });
     expect(bySlug.get('city-cleanup-may-2025')).toMatchObject({ year: 2025, startDate: '2025-05-03', endDate: '2025-05-03' });
     expect(bySlug.get('womens-day-widows-outreach-2025')).toMatchObject({ year: 2025, startDate: '2025-03-15', endDate: '2025-03-15' });
-    expect(bySlug.get('christmas-orphanage-outreach-2025')?.startDate ?? '2025-12').toBe('2025-12');
+    expect(bySlug.get('christmas-orphanage-outreach-2025')).toMatchObject({ year: 2025, startDate: '2025-12-20', endDate: '2025-12-20' });
     expect(bySlug.get('unrelated-legacy-record')).toBe(unknown);
     for (const summary of review.projects) {
       const entry = bySlug.get(summary.slug)!;
