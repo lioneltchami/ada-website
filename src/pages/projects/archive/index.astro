@@ -5,7 +5,6 @@ import { getEligibleArchiveFeaturePhoto } from "../../../lib/archive-eligible-fe
 import PageHero from "../../../components/layout/PageHero.astro";
 import Section from "../../../components/layout/Section.astro";
 import {
-  countProjectsUnderFinancialReview,
   countOwnerMarkedCompletions,
   formatArchiveCardMonth,
   loadProjectArchiveEntries,
@@ -53,8 +52,6 @@ const totalBeneficiaries = archiveItems.reduce(
   (sum, r) => sum + (r.beneficiaries || 0),
   0,
 );
-const totalBudget = archiveItems.reduce((sum, r) => sum + (r.budget || 0), 0);
-const financeReviewCount = countProjectsUnderFinancialReview(archiveItems);
 const completedCount = countOwnerMarkedCompletions(archiveItems);
 const years = [...new Set(archiveItems.map((r) => r.year))].sort(
   (a, b) => b - a,
@@ -93,44 +90,33 @@ for (const r of archiveItems) {
   <!-- Stats Bar -->
   <Section background="white" padding="sm">
     <div
-      class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 border-y border-gray-200 py-6"
+      class="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-5 border-y border-gray-200 py-6"
     >
       <div>
         <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          {totalBeneficiaries.toLocaleString()}
+          {archiveItems.length.toLocaleString("en")}
         </p>
         <p class="text-xs text-gray-500 uppercase tracking-wider">
-          Reported beneficiary counts
+          Outreach records
+        </p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">
+          {completedCount.toLocaleString("en")} of {archiveItems.length.toLocaleString("en")}
+        </p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">
+          Marked complete
+        </p>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <p class="text-2xl font-bold text-primary-700 tabular-nums">
+          {totalBeneficiaries.toLocaleString("en")}
+        </p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">
+          Reported participants across outreaches
         </p>
         <p class="mt-1 text-xs text-gray-500">
-          Sum of per-record counts; a person may appear in multiple projects.
-        </p>
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          {archiveItems.length}
-        </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">
-          Archive records
-        </p>
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          ${totalBudget.toLocaleString()}
-        </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">
-          Listed budget/goal fields (USD)
-        </p>
-        <p class="mt-1 text-xs text-gray-500">
-          Sum of displayed USD budget/goal fields; not a verified expenditure total. For {financeReviewCount} project records, the USD budget or goal is withheld from this total. A financial account may still be available.
-        </p>
-      </div>
-      <div>
-        <p class="text-2xl font-bold text-primary-700 tabular-nums">
-          {completedCount}/{archiveItems.length}
-        </p>
-        <p class="text-xs text-gray-500 uppercase tracking-wider">
-          Marked completed
+          People who took part in more than one outreach may be counted more than once.
         </p>
       </div>
     </div>
