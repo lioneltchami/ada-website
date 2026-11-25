@@ -2,7 +2,8 @@
   "redirects": {
     "back-to-school-bamenda-sep-2024": "back-to-school-bamenda-aug-2025",
     "back-to-school-sep-2024": "back-to-school-buea-2024",
-    "hospital-prenatal-care-jul-2025": "hospital-outreach-mothers-muea-2025"
+    "hospital-prenatal-care-jul-2025": "prenatal-care-support-program",
+    "hospital-outreach-mothers-muea-2025": "prenatal-care-support-program"
   },
   "projects": [
     {
@@ -61,11 +62,11 @@
       "year": 2025,
       "demographic": "community",
       "location": "Bamenda",
-      "date": "2025-08-29",
+      "date": "2025-08-30",
       "title": "Back-to-school outreach in Bamenda",
       "titleFr": "Action de rentrée scolaire à Bamenda",
-      "description": "On August 29, 2025, our team held a back-to-school outreach in Bamenda to help pupils prepare for the new school year. This was the first year ADA held its back-to-school outreach in Bamenda.",
-      "descriptionFr": "Le 29 août 2025, notre équipe a mené une action de rentrée scolaire à Bamenda pour aider les élèves à préparer la nouvelle année scolaire. C’était la première année où ADA organisait cette action à Bamenda."
+      "description": "On August 30, 2025, we held our first Back to School Outreach in Bamenda to help pupils prepare for the new school year.",
+      "descriptionFr": "Le 30 août 2025, nous avons organisé notre première action de rentrée scolaire à Bamenda pour aider les élèves à préparer la nouvelle année scolaire."
     },
     {
       "slug": "back-to-school-buea-2025",
@@ -74,8 +75,9 @@
       "location": "Buea",
       "title": "Back-to-school outreach in Buea",
       "titleFr": "Action de rentrée scolaire à Buea",
-      "description": "Our 2025 back-to-school outreach in Buea was a separate project from the one in Bamenda. It focused on helping pupils prepare for the new school year with essential school supplies.",
-      "descriptionFr": "Notre action de rentrée scolaire à Buea en 2025 était distincte de celle menée à Bamenda. Elle visait à aider les élèves à préparer la nouvelle année scolaire avec des fournitures essentielles."
+      "description": "On August 30, 2025, we held a Back to School Outreach in Buea to help pupils prepare for the new school year. This was separate from the outreach in Bamenda.",
+      "descriptionFr": "Le 30 août 2025, nous avons mené une action de rentrée scolaire à Buea pour aider les élèves à préparer la nouvelle année. Cette action était distincte de celle menée à Bamenda.",
+      "date": "2025-08-30"
     },
     {
       "slug": "womens-day-widows-outreach-2025",
@@ -83,28 +85,43 @@
       "demographic": "widows",
       "title": "Women’s Day outreach for widows",
       "titleFr": "Action de soutien aux veuves pour la Journée des femmes",
-      "description": "Around International Women’s Day in 2025, our team ran an outreach for widows. The plan focused on practical household support, including food and fabric.",
-      "descriptionFr": "À l’occasion de la Journée internationale des femmes en 2025, notre équipe a mené une action de soutien aux veuves. Le projet prévoyait une aide pratique aux ménages, notamment des denrées alimentaires et du tissu."
+      "description": "On March 15, 2025, we held a Women’s Day outreach for widows. We planned practical household support, including food and fabric.",
+      "descriptionFr": "Le 15 mars 2025, nous avons mené une action de soutien aux veuves à l’occasion de la Journée internationale des femmes. Nous avions prévu une aide pour les besoins quotidiens, notamment des denrées alimentaires et du tissu.",
+      "date": "2025-03-15"
     },
     {
-      "slug": "hospital-outreach-mothers-muea-2025",
+      "slug": "prenatal-care-support-program",
       "year": 2025,
       "demographic": "community",
       "location": "Muea, Buea",
-      "title": "Hospital outreach for mothers in Muea",
-      "titleFr": "Action de soutien aux mères à l’hôpital de Muea",
-      "description": "In 2025, our team organized an outreach for mothers at the hospital in Muea, Buea. The project plan included diapers, buckets and hygiene supplies. Our team recalls reaching about 15 mothers.",
-      "descriptionFr": "En 2025, notre équipe a organisé une action de soutien aux mères à l’hôpital de Muea, à Buea. Le projet prévoyait des couches, des seaux et des produits d’hygiène. D’après les souvenirs de notre équipe, environ 15 mères ont bénéficié de cette action."
+      "title": "Prenatal Care Outreach",
+      "titleFr": "Action de soutien prénatal",
+      "confirmedBudgetFcfa": 150000,
+      "description": "On March 29, 2025, we reached about 15 nursing mothers at the hospital in Muea, Buea, with buckets, diapers and other supplies for mothers and babies. Our budget was 150,000 FCFA.",
+      "descriptionFr": "Le 29 mars 2025, nous avons aidé environ 15 mères qui allaitent à l’hôpital de Muea, à Buea, en remettant des seaux, des couches et d’autres articles pour les mères et leurs bébés. Notre budget était de 150 000 FCFA.",
+      "date": "2025-03-29"
     },
     {
       "slug": "christmas-orphanage-outreach-2025",
       "year": 2025,
       "demographic": "orphans",
       "location": "Buea",
-      "title": "Christmas orphanage visit in Buea",
-      "titleFr": "Visite de Noël dans un orphelinat à Buea",
-      "description": "Our team visited an orphanage in Buea before Christmas in December 2025. The visit was part of our year-end outreach to support children.",
-      "descriptionFr": "Notre équipe a rendu visite à un orphelinat à Buea avant Noël, en décembre 2025. Cette visite faisait partie de nos actions de fin d’année en faveur des enfants."
+      "title": "Christmas Giving in Buea",
+      "titleFr": "Dons de Noël à Buea",
+      "description": "Our team visited an orphanage in Buea on the weekend of December 20–21, 2025. The visit was part of our year-end outreach to support children.",
+      "descriptionFr": "Notre équipe a rendu visite à un orphelinat à Buea le week-end des 20 et 21 décembre 2025. Cette visite faisait partie de nos actions de fin d’année en faveur des enfants.",
+      "date": "2025-12"
+    },
+    {
+      "slug": "city-cleanup-may-2025",
+      "year": 2025,
+      "demographic": "community",
+      "location": "Buea",
+      "date": "2025-05-03",
+      "title": "Labour Day School Cleanup",
+      "titleFr": "Nettoyage d’établissements scolaires pour la fête du Travail",
+      "description": "On May 3, 2025, we held our Labour Day School Cleanup at Lycée de Buea and Buea Technical Training College.",
+      "descriptionFr": "Le 3 mai 2025, nous avons organisé notre action de nettoyage pour la fête du Travail au Lycée de Buea et au Buea Technical Training College."
     }
   ]
 }

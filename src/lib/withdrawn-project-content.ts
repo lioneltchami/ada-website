@@ -23,12 +23,17 @@ const WITHDRAWN_GALLERY_IDENTIFIERS = /ADA[/_-]2023[/_-]002|I3ROLIaQjmV1gZbnPYij
 // Match this particular historical record and its source reference, not the standing Relief Fund.
 const WITHDRAWN_BAMENDA_RELIEF = /(?:\bADA[/_-]2024[/_-]001\b|emergency-food-relief-bamenda-crisis|emergency food relief[\s:–—-]*bamenda crisis|aide alimentaire d[’']urgence[\s:–—-]*crise (?:à|de) bamenda)/i;
 
+// The aliases refer to the 2025 archive only. Avoid matching broad names such as
+// Youth Mentorship or maternal support, which can describe separate programs.
+const WITHDRAWN_2025_ARCHIVE_ALIASES = /(?:\bADA[/_-]2025[/_-]00[567]\b|campus-cleanup-aug-2025|idp-children-education-fund|youth-mentorship-seminar-oct-2025|hospital-outreach-mothers-muea-2025|hospital-prenatal-care-jul-2025)/i;
+
 export function isWithdrawnProjectSlug(slug: unknown): boolean {
 	return typeof slug === "string" && WITHDRAWN_PROJECT_SLUGS.has(slug);
 }
 
 export function isWithdrawnProjectRecord(project: {
 	_id?: string;
+	year?: number;
 	title?: string;
 	titleFr?: string;
 	slug?: { current?: string } | string;
@@ -43,7 +48,10 @@ export function isWithdrawnProjectRecord(project: {
 	const identity = [project._id, project.title, project.titleFr]
 		.filter((value): value is string => typeof value === "string")
 		.join(" ");
-	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_PROJECT_IDENTIFIERS.test(identity);
+	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) || (
+		project.year === 2025 && [project.title, project.titleFr].some(title => Boolean(title &&
+			/^(?:Campus Environmental Cleanup|IDP Children Education Fund|Youth Mentorship Seminar|Hospital outreach for mothers in Muea)$/i.test(title.trim())))
+	);
 }
 
 export function withoutWithdrawnProjects<
@@ -81,7 +89,7 @@ export function isWithdrawnGalleryImage(image: {
 		image.projectTitleFr,
 		image.reportUrl,
 	].filter((value): value is string => typeof value === "string");
-	return identifiers.some((value) => WITHDRAWN_BAMENDA_RELIEF.test(value) || WITHDRAWN_GALLERY_IDENTIFIERS.test(value));
+	return identifiers.some((value) => WITHDRAWN_BAMENDA_RELIEF.test(value) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(value) || WITHDRAWN_GALLERY_IDENTIFIERS.test(value));
 }
 
 export function containsWithdrawnProjectClaim(value: unknown): boolean {
@@ -101,7 +109,7 @@ export function isSafeProgramFaq(faq: {
 		faq.responseFr || "",
 	].join(" ");
 	const withdrawnAggregate = /(?:200\s*\+|plus de 200)\s*(?:lives|people|widows|vies|personnes|veuves)|(?:lives|people|widows|vies|personnes|veuves)\s*(?:impacted|supported|served|impactées|accompagnées|soutenues).{0,30}(?:200\s*\+|plus de 200)/i;
-	return !WITHDRAWN_WATER_CLAIM.test(text) && !UNSUPPORTED_PROGRAM_COUNT.test(text) && !WITHDRAWN_WIDOW_TRAINING.test(text) && !WITHDRAWN_PROJECT_IDENTIFIERS.test(text) && !WITHDRAWN_BAMENDA_RELIEF.test(text) && !withdrawnAggregate.test(text) && !REJECTED_TRAINING_OUTCOMES.test(text);
+	return !WITHDRAWN_WATER_CLAIM.test(text) && !UNSUPPORTED_PROGRAM_COUNT.test(text) && !WITHDRAWN_WIDOW_TRAINING.test(text) && !WITHDRAWN_PROJECT_IDENTIFIERS.test(text) && !WITHDRAWN_BAMENDA_RELIEF.test(text) && !WITHDRAWN_2025_ARCHIVE_ALIASES.test(text) && !withdrawnAggregate.test(text) && !REJECTED_TRAINING_OUTCOMES.test(text);
 }
 
 export function isWithdrawnImpactMetric(metric: {
@@ -118,6 +126,7 @@ export function isWithdrawnImpactMetric(metric: {
 	return /^(?:metric-lives|metric-widows|metric-document-count)$/i.test(metric._id || "") ||
 		WITHDRAWN_RECORD_ID_PATTERN.test(metricText) ||
 		WITHDRAWN_BAMENDA_RELIEF.test(identity) ||
+		WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) ||
 		WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) ||
 		REJECTED_TRAINING_OUTCOMES.test(identity) ||
 		/\b(?:lives impacted|vies impactées|documented project records|dossiers de projets documentés|widows supported|widow independence|widow graduates|widow training|veuves soutenues|indépendance des veuves|diplômées veuves)\b/i.test(identity) ||
@@ -164,7 +173,7 @@ export function isWithdrawnAboutEntry(entry: {
 	]
 		.filter((value): value is string => typeof value === "string")
 		.join(" ");
-	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) ||
+	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || WITHDRAWN_PROJECT_IDENTIFIERS.test(identity) ||
 		REJECTED_TRAINING_OUTCOMES.test(identity) ||
 		/(?:200\s*\+\s*(?:lives|vies)\s*(?:impacted|impactées)|(?:200\s*(?:volunteers|bénévoles)))/i.test(identity);
 }
@@ -193,7 +202,7 @@ export function isWithdrawnProgramEntry(entry: {
 	const identity = [entry.title, entry.titleFr]
 		.filter((value): value is string => typeof value === "string")
 		.join(" ");
-	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || /Young Women Skills Training Program|Programme de Formation des Jeunes Femmes|Young Women Empowerment|Autonomisation des Jeunes Femmes|ADA[/_-]2023[/_-]002|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,60}(?:vocational[\s-]*)?training|widow.{0,35}support.{0,20}cohort[\s-]*[123]|veuve.{0,50}(?:formation|cohorte)|cohorte.{0,25}veuve/i.test(identity);
+	return WITHDRAWN_BAMENDA_RELIEF.test(identity) || WITHDRAWN_2025_ARCHIVE_ALIASES.test(identity) || /Young Women Skills Training Program|Programme de Formation des Jeunes Femmes|Young Women Empowerment|Autonomisation des Jeunes Femmes|ADA[/_-]2023[/_-]002|ADA[/_-]2024[/_-]005|young[\s-]*women.{0,40}(?:empowerment[\s-]*)?conference|conference.{0,40}young[\s-]*women|jeunes femmes.{0,40}conférence|conférence.{0,40}jeunes femmes|ADA[/_-]2022[/_-]002|widow.{0,60}(?:vocational[\s-]*)?training|widow.{0,35}support.{0,20}cohort[\s-]*[123]|veuve.{0,50}(?:formation|cohorte)|cohorte.{0,25}veuve/i.test(identity);
 }
 
 export function isWithdrawnTestimonial(testimonial: {

@@ -1,4 +1,5 @@
 ---
+import reviewed2024And2025 from "../../../config/project-records-2024-25.json";
 import PageLayout from "../../layouts/PageLayout.astro";
 import { archiveProjectDisplayTitle } from "../../lib/archive-project-display-title";
 import { getEligibleArchiveFeaturePhoto } from "../../lib/archive-eligible-feature-photo";
@@ -58,13 +59,14 @@ const documents = [
 ];
 const hasPublicDocuments = Boolean(documentLinks.tor || documentLinks.report || documentLinks.financial);
 const finance = englishDocuments && documentLinks.tor && documentLinks.report ? archiveResolvedFinance[slug] : undefined;
+const reviewed2025 = record.year === 2025 && reviewed2024And2025.projects.some(project => project.year === 2025 && project.slug === slug);
 const showDay = (record.year === 2022 && hasPublishedPair)
   || released2024
   || reviewedProjectRecords.some(project => project.slug === slug)
-  || slug === "back-to-school-bamenda-aug-2025";
+  || reviewed2025;
 const prettyDate = (value: string) => {
   const exact = showDay && /^\d{4}-\d{2}-\d{2}$/.test(value);
-  const label = new Intl.DateTimeFormat(fr ? "fr-FR" : "en-GB", { month:exact ? "long" : "short", year:"numeric", ...(exact ? {day:"numeric"} : {}), timeZone:"UTC" }).format(new Date(value));
+  const label = new Intl.DateTimeFormat(fr ? "fr-FR" : "en-GB", { month:exact || reviewed2025 ? "long" : "short", year:"numeric", ...(exact ? {day:"numeric"} : {}), timeZone:"UTC" }).format(new Date(value));
   return fr && exact ? label.replace(/^1 /, "1er ") : label;
 };
 const dateLabel = [record.startDate, record.endDate].filter((d): d is string => Boolean(d && !Number.isNaN(Date.parse(d)))).map(prettyDate);

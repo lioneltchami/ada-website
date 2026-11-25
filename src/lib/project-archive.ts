@@ -220,36 +220,6 @@ export function isWithdrawnProject(slug: string): boolean {
 /** Fallback when Sanity is unavailable at build time */
 const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
   {
-    slug: "youth-mentorship-seminar-oct-2025",
-    title: "Youth Mentorship Seminar",
-    year: 2025,
-    demographic: "orphans",
-  },
-  {
-    slug: "campus-cleanup-aug-2025",
-    title: "Campus Environmental Cleanup",
-    year: 2025,
-    demographic: "community",
-  },
-  {
-    slug: "city-cleanup-may-2025",
-    title: "City Cleanup — Labour Day 2025",
-    year: 2025,
-    demographic: "community",
-  },
-  {
-    slug: "idp-children-education-fund",
-    title: "IDP Children Education Fund",
-    year: 2025,
-    demographic: "idps",
-  },
-  {
-    slug: "prenatal-care-support-program",
-    title: "Prenatal Care Support Program",
-    year: 2025,
-    demographic: "pregnant-women",
-  },
-  {
     slug: "christmas-giving-dec-2024",
     title: "Christmas Giving 2024",
     year: 2024,

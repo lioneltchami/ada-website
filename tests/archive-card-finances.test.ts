@@ -45,3 +45,22 @@ describe("source-backed archive card finances", () => {
     expect(formatArchiveCardFinances({ ...entry("girls-programme-2024", 2024, 250_700), reportUrl: undefined }, "en")).toBeUndefined();
   });
 });
+
+describe("2025 worksheet figures", () => {
+  it("shows FCFA and approximate historical USD without presenting worksheets as spending", () => {
+    for (const [slug, fcfa, usd, basis] of [
+      ["womens-day-widows-outreach-2025", 240000, 396, "calculated-worksheet-budget"],
+      ["prenatal-care-support-program", 150000, 247, "budget"],
+      ["back-to-school-buea-2025", 102600, 182, "worksheet-budget"],
+      ["back-to-school-bamenda-aug-2025", 151000, 268, "worksheet-budget"],
+      ["christmas-orphanage-outreach-2025", 119500, 213, "working-cost-list"],
+    ] as const) {
+      expect(formatArchiveCardFinances(entry(slug, 2025), "en")).toMatchObject({ fcfa, usd, basis });
+      expect(formatArchiveCardFinances(entry(slug, 2025), "fr")?.text).toContain(`env. ${usd} USD`);
+    }
+  });
+  it("does not reuse unsupported or prior-year amounts for prenatal and cleanup", () => {
+    expect(formatArchiveCardFinances(entry("prenatal-care-support-program", 2025, 1_050_000), "en")?.fcfa).toBe(150_000);
+    expect(formatArchiveCardFinances(entry("city-cleanup-may-2025", 2025, 300_000), "fr")).toBeUndefined();
+  });
+});

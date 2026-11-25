@@ -1,8 +1,8 @@
 import { archivePublishedBudgetFcfa, formatArchiveFcfa } from "./archive-project-document-links";
 import type { ProjectPresentationLocale } from "./project-detail-presentation";
 
-type Basis = "budget" | "cash-in-kind-budget" | "written-budget" | "funds-sent" | "reported-funds";
-type Year = 2021 | 2022 | 2023 | 2024;
+type Basis = "budget" | "cash-in-kind-budget" | "written-budget" | "funds-sent" | "reported-funds" | "worksheet-budget" | "calculated-worksheet-budget" | "working-cost-list";
+type Year = 2021 | 2022 | 2023 | 2024 | 2025;
 type Figure = { year: Year; month: string; fcfa: number; basis: Basis; approximateFcfa?: boolean };
 
 // From the published project report and its financial basis, not the old USD goals,
@@ -23,6 +23,12 @@ const historical: Readonly<Record<string, Figure | undefined>> = {
   "back-to-school-drive-2023": { year: 2023, month: "2023-08", fcfa: 240000, basis: "budget" },
   "girls-day-oct-2023": { year: 2023, month: "2023-10", fcfa: 150000, basis: "funds-sent" },
   "christmas-giving-dec-2023": { year: 2023, month: "2023-12", fcfa: 260000, basis: "budget" },
+  // Original 2025 worksheets; no actual expenditures are established by these records.
+  "womens-day-widows-outreach-2025": { year: 2025, month: "2025-03", fcfa: 240000, basis: "calculated-worksheet-budget" },
+  "prenatal-care-support-program": { year: 2025, month: "2025-03", fcfa: 150000, basis: "budget" },
+  "back-to-school-buea-2025": { year: 2025, month: "2025-08", fcfa: 102600, basis: "worksheet-budget" },
+  "back-to-school-bamenda-aug-2025": { year: 2025, month: "2025-08", fcfa: 151000, basis: "worksheet-budget" },
+  "christmas-orphanage-outreach-2025": { year: 2025, month: "2025-12", fcfa: 119500, basis: "working-cost-list" },
 };
 
 // BEAC peg and Federal Reserve G.5 source for historical monthly USD estimates.
@@ -46,6 +52,9 @@ const usdPerEuroMonth: Readonly<Record<string, number | undefined>> = {
   "2024-08": 1.1020,
   "2024-10": 1.0895,
   "2024-12": 1.0472,
+  "2025-03": 1.0813,
+  "2025-08": 1.1647,
+  "2025-12": 1.1710,
 };
 const released2024Months: Readonly<Record<string, string | undefined>> = {
   "back-to-school-buea-2024": "2024-08",
@@ -59,6 +68,9 @@ const labels: Record<Basis, Record<ProjectPresentationLocale, string>> = {
   "written-budget": { en: "Written budget", fr: "Budget écrit" },
   "funds-sent": { en: "Funds sent", fr: "Fonds envoyés" },
   "reported-funds": { en: "Reported funding", fr: "Fonds déclarés" },
+  "worksheet-budget": { en: "Budget from worksheet", fr: "Budget d’après la fiche" },
+  "calculated-worksheet-budget": { en: "Budget calculated from worksheet", fr: "Budget calculé d’après la fiche" },
+  "working-cost-list": { en: "Working cost list", fr: "Liste de coûts de travail" },
 };
 
 export function formatArchiveCardFinances(record: Parameters<typeof archivePublishedBudgetFcfa>[0], locale: ProjectPresentationLocale) {

@@ -16,6 +16,7 @@ from xml.sax.saxutils import escape as xml_escape
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = ROOT / "public" / "docs" / "projects"
 WITHDRAWN_RECORD_SLUGS = set(json.loads((ROOT / "config/withdrawn-project-records.json").read_text(encoding="utf-8")))
+WITHHELD_DOCUMENT_SLUGS = set(json.loads((ROOT / "config/withheld-project-documents.json").read_text(encoding="utf-8")))
 MARKDOWN_OUT = ROOT / "public" / "docs" / "ada-project-history.md"
 XLSX_OUT = ROOT / "public" / "docs" / "ada-project-budgets.xlsx"
 
@@ -427,7 +428,7 @@ class ProjectRecord:
 
 
 def parse_project(slug_dir: Path) -> ProjectRecord | None:
-    if slug_dir.name in WITHDRAWN_RECORD_SLUGS:
+    if slug_dir.name in WITHDRAWN_RECORD_SLUGS or slug_dir.name in WITHHELD_DOCUMENT_SLUGS:
         return None
     report_path = slug_dir / "report.md"
     financial_path = slug_dir / "financial.md"

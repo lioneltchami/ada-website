@@ -1,3 +1,4 @@
+import withheldProjectDocuments from "../../config/withheld-project-documents.json";
 import { isWithdrawnProjectSlug } from "../lib/withdrawn-project-content";
 import { hasReleased2024ProjectDocumentSet } from '../lib/reviewed-project-summaries-2024-25';
 import { hasReleased2023ProjectDocumentSet, isProjectDocumentReviewPending } from '../lib/reviewed-project-records';
@@ -27,18 +28,13 @@ export const annualReportPdfs = [
 export const documentArchiveProjects = [
   "back-to-school-drive-2023",
   "back-to-school-sep-2022",
-  "campus-cleanup-aug-2025",
   "christmas-giving-dec-2022",
   "city-cleanup-may-2023",
-  "city-cleanup-may-2025",
   "first-widow-home-visits-2021",
-  "idp-children-education-fund",
   "idp-girls-baking-training-jul-2022",
-  "prenatal-care-support-program",
   "school-supply-distribution-feb-2022",
   "widow-support-food-cash-mar-2022",
   "womens-day-home-visits-mar-2023",
-  "youth-mentorship-seminar-oct-2025",
 ] as const;
 
 export function archiveProjectTitle(slug: string): string {
@@ -66,7 +62,7 @@ export function projectDocumentPaths(slug: string) {
 }
 
 export function hasStaticProjectDocuments(slug: string): boolean {
-  if (isWithdrawnProjectSlug(slug) || isProjectDocumentReviewPending(slug)) return false;
+  if (isWithdrawnProjectSlug(slug) || withheldProjectDocuments.includes(slug) || isProjectDocumentReviewPending(slug)) return false;
   return hasReleasedProjectDocumentSet(slug) || (documentArchiveProjects as readonly string[]).includes(slug);
 }
 
