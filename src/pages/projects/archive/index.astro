@@ -11,7 +11,7 @@ import {
   loadProjectArchiveEntries,
 } from "../../../lib/project-archive";
 import ArchiveCardStatuses from "../../../components/projects/ArchiveCardStatuses.astro";
-import { archivePublishedBudgetFcfa } from "../../../lib/archive-project-document-links";
+import { archiveExchangePegSource, archiveExchangeRateSource, formatArchiveCardFinances } from "../../../lib/archive-card-finances";
 import { getArchiveCardStatus } from "../../../lib/archive-card-status";
 import { resolveHeroImage } from "../../../lib/hero-images";
 
@@ -25,7 +25,7 @@ const archiveItems = records.map((r) => ({
   ...r,
   archiveMonth: formatArchiveCardMonth(r, "en"),
   cardStatus: getArchiveCardStatus(r, "en"),
-  publishedBudgetFcfa: archivePublishedBudgetFcfa(r),
+  localFinance: formatArchiveCardFinances(r, "en"),
   featurePhoto: getEligibleArchiveFeaturePhoto(r, "en", 240),
 }));
 
@@ -134,6 +134,7 @@ for (const r of archiveItems) {
         </p>
       </div>
     </div>
+    <p class="mt-4 text-center text-xs text-gray-500">Approximate USD equivalents alongside FCFA amounts use the <a class="underline" href={archiveExchangeRateSource}>U.S. Federal Reserve monthly average</a> for the project month and the <a class="underline" href={archiveExchangePegSource}>BEAC euro peg</a>. They are not amounts paid in USD.</p>
   </Section>
 
   <!-- Demographic Tabs -->
@@ -249,7 +250,7 @@ for (const r of archiveItems) {
                             {r.location && <span>{r.location}</span>}
                           </div>
                         </div>
-                        <ArchiveCardStatuses status={r.cardStatus} budget={r.budget} publishedBudgetFcfa={r.publishedBudgetFcfa} locale="en" />
+                        <ArchiveCardStatuses status={r.cardStatus} budget={r.budget} localFinance={r.localFinance} locale="en" />
                       </div>
                     </div>
                   </a>

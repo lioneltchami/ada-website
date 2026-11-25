@@ -256,12 +256,6 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
     demographic: "orphans",
   },
   {
-    slug: "emergency-food-relief-bamenda-crisis",
-    title: "Emergency Food Relief - Bamenda Crisis",
-    year: 2024,
-    demographic: "idps",
-  },
-  {
     slug: "city-cleanup-may-2023",
     title: "City Cleanup — Labour Day",
     year: 2023,
@@ -346,7 +340,7 @@ async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
       demographic
     } | order(year desc, title asc)`,
   );
-  return rows.filter((r) => r.slug && r.year && r.demographic);
+  return rows.filter((r) => r.slug && r.year && r.demographic && !isWithdrawnProjectRecord(r));
 }
 
 export function groupProjectsByYear(

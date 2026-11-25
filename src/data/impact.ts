@@ -32,11 +32,6 @@ export const IMPACT_FACTS = {
 	programAllocationPct: 80,
 	programOperationsPct: 15,
 	administrationPct: 5,
-	emergencyFoodFamilies: 50,
-	emergencyFoodPeople: 150,
-	indicators: {
-		emergencyFoodFamilies: { actual: 50, target: 100 },
-	},
 } as const;
 
 export function homepageStatsFallback(
@@ -76,33 +71,9 @@ export function sanityImpactMetricSeed() {
 	];
 }
 
-export function measurableIndicatorsFor(locale: Locale): MeasurableIndicator[] {
-	const i = IMPACT_FACTS.indicators;
-	if (locale === "fr") {
-		return [
-			{
-				indicator: "Familles recevant une aide alimentaire d'urgence",
-				baseline: "3 (2022)",
-				target: `${i.emergencyFoodFamilies.target}/an`,
-				actual: `${i.emergencyFoodFamilies.actual} familles en 2024`,
-				status: "on-track",
-				actualValue: i.emergencyFoodFamilies.actual,
-				targetValue: i.emergencyFoodFamilies.target,
-			},
-		];
-	}
-
-	return [
-		{
-			indicator: "Families receiving emergency food support",
-			baseline: "3 (2022)",
-			target: `${i.emergencyFoodFamilies.target}/year`,
-			actual: `${i.emergencyFoodFamilies.actual} families in 2024`,
-			status: "on-track",
-			actualValue: i.emergencyFoodFamilies.actual,
-			targetValue: i.emergencyFoodFamilies.target,
-		},
-	];
+/** No tracked outcome indicators currently have a publishable source. */
+export function measurableIndicatorsFor(_locale: Locale): MeasurableIndicator[] {
+	return [];
 }
 
 export function impactMetricsFor(locale: Locale): ImpactMetric[] {
@@ -110,17 +81,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 	const prefix = locale === "fr" ? "/fr" : "";
 	if (locale === "fr") {
 		return [
-			{
-				label: "Portée de l'aide alimentaire d'urgence",
-				value: `${f.emergencyFoodFamilies} familles / ${f.emergencyFoodPeople}+ personnes`,
-				period: "Projet 2024",
-				measurement: "Field records",
-				cadence: "Clôture de projet",
-				source: "Rapport d'aide alimentaire d'urgence",
-				sourceUrl:
-					"/docs/projects/emergency-food-relief-bamenda-crisis/report.pdf",
-				note: "Compte les ménages atteints pendant le cycle de secours de trois mois.",
-			},
 			{
 				label: "Objectif d'allocation aux programmes",
 				value: `${f.programAllocationPct}%`,
@@ -135,17 +95,6 @@ export function impactMetricsFor(locale: Locale): ImpactMetric[] {
 	}
 
 	return [
-		{
-			label: "Emergency food relief reach",
-			value: `${f.emergencyFoodFamilies} families / ${f.emergencyFoodPeople}+ people`,
-			period: "2024 project",
-			measurement: "Field records",
-			cadence: "Project close-out",
-			source: "Emergency food relief report",
-			sourceUrl:
-				"/docs/projects/emergency-food-relief-bamenda-crisis/report.pdf",
-			note: "Counts households reached during the three-month relief cycle.",
-		},
 		{
 			label: "Program delivery allocation target",
 			value: `${f.programAllocationPct}%`,

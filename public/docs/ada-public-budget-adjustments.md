@@ -10,7 +10,6 @@ Aggregate financial totals are omitted because the source rows do not consistent
 |---|---|---|---:|---:|---:|---:|---|---|
 | 2025 | Campus Environmental Cleanup | ADA/2025/005 | 180,000 CFA | 170,000 CFA | 170,000 CFA | 0 CFA | ok | Within public cap |
 | 2025 | City Cleanup — Labour Day 2025 | ADA/2025/003 | — | 290,000 CFA | 290,000 CFA | 0 CFA | ok | Within public cap |
-| 2024 | Emergency Food Relief - Bamenda Crisis | — | 1,500,000 CFA | 1,450,000 CFA | 400,000 CFA | 1,050,000 CFA | adjusted | Capped from 1,450,000 CFA to 400,000 CFA |
 | 2021 | First Widow Home Visits | ADA/2021/001 | — | — | — | — | under review | Owner recalls about 110,000 CFA spent, including withdrawal costs; no reconciled budget or actual is available. The approximate difference is not a verified balance. |
 | 2025 | Interim Progress Report: IDP Children Education Fund | — | 720,000 CFA | 675,000 CFA | 400,000 CFA | 275,000 CFA | adjusted | Capped from 675,000 CFA to 400,000 CFA |
 | 2025 | Interim Progress Report: Prenatal Care Support Program | ADA/2025/001 | 1,080,000 CFA | 750,000 CFA | 400,000 CFA | 350,000 CFA | adjusted | Capped from 750,000 CFA to 400,000 CFA |

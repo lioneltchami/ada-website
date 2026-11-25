@@ -104,16 +104,6 @@ const outcomeProofs = [
       "Primary and secondary supply plans and the published project report.",
     next: "Fund the next term earlier so families and schools can plan with confidence.",
   },
-  {
-    project: "Emergency food relief",
-    cost: "$2,417 documented relief budget",
-    served: "50 displaced families; 150+ people",
-    outcome:
-      "Families received planned food packages across a three-month emergency support cycle.",
-    evidence:
-      "Distribution records, receipts, field notes, and project close-out report.",
-    next: "Pre-position sponsor-backed emergency response funds before the next crisis window.",
-  },
 ];
 
 const trustProofs = [
@@ -318,15 +308,14 @@ const diligenceItems = [
   <Section background="white" padding="lg">
     <div class="max-w-4xl">
       <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
-        Impact shown as outcomes
+        Project reporting in practice
       </h2>
       <p class="mt-3 text-sm text-gray-600 leading-relaxed">
-        Sponsors should see what changed, not only what ADA did. These examples
-        show activity, people served, outcomes, evidence, and the next
-        milestone.
+        The example below shows what we can report about an outreach, what
+        records support it, and what we could not confirm.
       </p>
     </div>
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="mt-8 max-w-3xl">
       {
         outcomeProofs.map((proof) => (
           <article class="rounded-md border border-gray-200 bg-white p-5">
@@ -334,7 +323,7 @@ const diligenceItems = [
             <dl class="mt-4 space-y-3 text-sm">
               <div>
                 <dt class="font-semibold text-gray-900">
-                  {proof.costLabel || "Documented cost (USD)"}
+                  {proof.costLabel}
                 </dt>
                 <dd class="mt-1 text-gray-600 leading-relaxed">{proof.cost}</dd>
               </div>

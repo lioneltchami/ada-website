@@ -132,4 +132,4 @@ for (const relative of ["transparency/index.html", "fr/transparency/index.html"]
 	assert.doesNotMatch(html, /\$6,800|\$6 800|2024 Annual Report \(PDF\)|Rapport Annuel 2024 \(PDF\)/);
 }
 
-console.log("Withdrawn 2023 young-women training, well, conference, and widow-training records verified absent from generated routes, documents, aggregates, and resource links; retained relief and girls baking reports verified present.");
+console.log("Withdrawn 2023 young-women training, well, conference, and widow-training records verified absent from generated routes, documents, aggregates, and resource links; retained girls baking, widows outreach, and first home visits reports verified present.");

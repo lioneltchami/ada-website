@@ -67,16 +67,4 @@ export const archiveEditorialEarly: Record<string, Record<"en" | "fr", Story>> =
       "Le compte rendu précédent mentionne des vivres et des cadeaux. Le budget de 2024 reprend celui de l’année précédente : riz, huile de cuisson, autres denrées, vêtements, chaussures, jouets et frais de fonctionnement.",
       "Nous avons prévu un budget de 260 000 FCFA. Le rapport détaille ce budget ; il ne s’agit pas d’un relevé des paiements. Nous n’avons confirmé ni le nom du foyer ni le nombre de participants."),
   },
-  "emergency-food-relief-bamenda-crisis": {
-    en: story("en",
-      "This archive entry concerns a food relief project for families affected by displacement. We are still checking the location and timing in the older record.",
-      "The project was intended to help families meet immediate food needs after displacement.",
-      "The older report describes a plan to distribute food packages through local partners. The records we have reviewed do not confirm where or when the distributions took place.",
-      "An older project report is available, but we have not corroborated the delivery, the number of families reached or the amount spent."),
-    fr: story("fr",
-      "Cette fiche d’archives concerne un projet d’aide alimentaire destiné à des familles touchées par des déplacements. Nous vérifions encore le lieu et la période indiqués dans l’ancien dossier.",
-      "Le projet visait à répondre aux besoins alimentaires immédiats des familles après leur déplacement.",
-      "L’ancien rapport décrit une distribution de colis alimentaires prévue avec des partenaires locaux. Les documents examinés ne confirment ni le lieu ni la période des distributions.",
-      "Un ancien rapport est disponible, mais nous n’avons pas pu corroborer la distribution, le nombre de familles touchées ni le montant dépensé."),
-  },
 };

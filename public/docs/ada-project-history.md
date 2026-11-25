@@ -4,7 +4,7 @@ This ledger focuses on the archived projects and their budget records from 2021 
 
 Compiled on November 25, 2026 from the project archive under `public/docs/projects/`.
 
-Archived projects included: 23. Sum of reported approved amounts: 4,553,450 CFA. Sum of reported actual/spent amounts: 3,800,000 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
+Archived projects included: 22. Sum of reported approved amounts: 3,053,450 CFA. Sum of reported actual/spent amounts: 2,350,000 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
 Figures for 1 projects remain under reconciliation and are excluded from numeric summaries and line-item totals. Other legacy figures below are transcribed from source documents and have not been independently verified.
 
@@ -17,7 +17,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 | Year | Projects | Records with figures | Sum of reported approved amounts | Sum of reported actual/spent amounts |
 |---|---:|---:|---:|---:|
 | 2025 | 5 | 5 | 2,460,000 CFA | 2,350,000 CFA |
-| 2024 | 4 | 4 | 2,093,450 CFA | 1,450,000 CFA |
+| 2024 | 3 | 3 | 593,450 CFA | — |
 | 2023 | 7 | 0 | — | — |
 | 2022 | 6 | 0 | — | — |
 | 2021 | 1 | 0 | — | — |
@@ -98,15 +98,6 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Financial summary: Reported approved 250,700 CFA; reported actual/spent —; difference —; utilization —.
 - Finance note: The budget totals 250,700 FCFA, including the guest honorarium. See the itemized budget in the project report; it does not establish actual payments or attendance.
 - Source files: [`report.pdf`](/docs/projects/girls-programme-2024/report.pdf)
-
-#### Project Report: Emergency Food Relief - Bamenda Crisis
-
-- Reference: `N/A` | Location: N/A | Period: N/A | Status: completed
-- What we did: The Emergency Food Relief project successfully provided 3 months of sustained food support to 50 internally displaced families (150+ individuals) in Bamenda. Working in coordination with 3 local church partners, ADA delivered monthly food packages from January to March 2024, completing all planned distributions on schedule and under budget.
-- Outcomes: The Emergency Food Relief project successfully provided 3 months of sustained food support to 50 internally displaced families (150+ individuals) in Bamenda. Working in coordination with 3 local church partners, ADA delivered monthly food packages from January to March 2024, completing all planned distributions on schedule and under budget.
-- Financial summary: Reported approved 1,500,000 CFA; reported actual/spent 1,450,000 CFA; difference 50,000 CFA; utilization 96.7%.
-- Finance note: 50,000 CFA under budget.
-- Source files: [`report.md`](public/docs/projects/emergency-food-relief-bamenda-crisis/report.md), [`financial.md`](public/docs/projects/emergency-food-relief-bamenda-crisis/financial.md)
 
 
 ### 2023
