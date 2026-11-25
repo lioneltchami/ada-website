@@ -23,7 +23,7 @@ describe("project archive filters", () => {
       expect(page).not.toContain('role="tablist"');
       expect(page).not.toContain('role="tab"');
       expect(page).toContain('type="button"');
-      expect(page).toContain('aria-pressed={d === "all" ? "true" : "false"}');
+      expect(page).toMatch(/aria-pressed=\{[^?]+=== "all" \? "true" : "false"\}/);
       expect(page).toContain('role="status"');
       expect(page).toContain('aria-live="polite"');
       expect(page).toContain('aria-atomic="true"');
@@ -34,6 +34,17 @@ describe("project archive filters", () => {
       );
     },
   );
+
+  it.each([
+    ["en", english],
+    ["fr", french],
+  ])("uses the same reviewed model for category controls and cards in %s", (locale, page) => {
+    expect(page).toMatch(new RegExp(`getArchiveOutreachFilters\\(archiveItems, ["']${locale}["']\\)`));
+    expect(page).toContain("getArchiveOutreachCategory(r.slug.current, r.outreachCategory)");
+    expect(page).toContain('id="archive-category-filters"');
+    expect(page.match(/data-archive-category=\{/g)).toHaveLength(2);
+    expect(page).not.toContain("archiveItems.filter((r) => r.demographic ===");
+  });
 
   it("renders accented French copy as UTF-8 text rather than visible escape sequences", () => {
     const markup = french.split("---").slice(2).join("---");

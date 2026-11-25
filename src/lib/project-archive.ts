@@ -1,3 +1,4 @@
+import { isArchiveOutreachCategory, type ArchiveOutreachCategory } from "./archive-outreach-categories";
 import { applyReviewed2024And2025Summaries, listReleased2024ProjectDocuments, listReleased2025ProjectDocuments } from './reviewed-project-summaries-2024-25';
 import { applyReviewedProjectContent, listReleased2023ProjectDocuments } from './reviewed-project-records';
 import { applyReleasedProjectContent, applyReleasedDocumentLibrary } from "./released-project-documents";
@@ -43,6 +44,9 @@ export interface ProjectArchiveEntry {
   title: string;
   titleFr?: string;
   demographic: ProjectDemographic;
+  outreachCategory?: ArchiveOutreachCategory;
+  /** Category inherited from a linked current project, when present. */
+  sourceOutreachCategory?: ArchiveOutreachCategory;
   year: number;
   status: "completed" | "ongoing" | "planned";
   description?: string;
@@ -406,6 +410,7 @@ export function toAutoArchiveEntry(
     title: project.title,
     titleFr: project.titleFr || project.title,
     demographic: project.demographic || "community",
+    outreachCategory: project.outreachCategory,
     year: deriveArchiveYear(project),
     status: "completed",
     description: project.description,
@@ -476,6 +481,8 @@ export async function loadProjectArchiveEntries(): Promise<
         titleFr,
         slug,
         demographic,
+        outreachCategory,
+        "sourceOutreachCategory": sourceProject->outreachCategory,
         year,
         status,
         description,
@@ -512,14 +519,24 @@ export async function loadProjectArchiveEntries(): Promise<
       }))
       .filter(({ lifecycle }) => lifecycle.status === "completed")
       .map(({ project, lifecycle }) => toAutoArchiveEntry(project, lifecycle));
+    const byArchiveSlug = new Map(currentProjects.flatMap((project) =>
+      project.archiveRecord?.slug?.current ? [[project.archiveRecord.slug.current, project] as const] : [],
+    ));
     const seen = new Set(records.map((record) => record.slug.current));
     records = [
       ...records,
       ...autoArchived.filter((record) => !seen.has(record.slug.current)),
     ]
       .map((record) => {
+        const slug = record.slug.current;
+        const project = bySlug.get(slug);
+        const linkedCategory = byArchiveSlug.get(slug)?.outreachCategory ?? project?.outreachCategory;
+        const inheritedCategory = isArchiveOutreachCategory(record.sourceOutreachCategory)
+          ? record.sourceOutreachCategory : linkedCategory;
+        if (!isArchiveOutreachCategory(record.outreachCategory) && isArchiveOutreachCategory(inheritedCategory)) {
+          record = { ...record, outreachCategory: inheritedCategory };
+        }
         if (record.photo?.asset?._ref) return record;
-        const project = bySlug.get(record.slug.current);
         if (project?.mainImage?.asset?._ref) {
           return { ...record, photo: project.mainImage };
         }
@@ -532,6 +549,14 @@ export async function loadProjectArchiveEntries(): Promise<
   if (!records.length) {
     records = FALLBACK_RECORDS.map(toFallbackArchiveEntry);
   }
+
+  // A directly linked record can inherit a valid category even if the current
+  // project list was unavailable during this build.
+  records = records.map((record) =>
+    !isArchiveOutreachCategory(record.outreachCategory) && isArchiveOutreachCategory(record.sourceOutreachCategory)
+      ? { ...record, outreachCategory: record.sourceOutreachCategory }
+      : record,
+  );
 
   const reviewed = applyReviewed2024And2025Summaries(applyReviewedProjectContent(applyReleasedProjectContent(records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))

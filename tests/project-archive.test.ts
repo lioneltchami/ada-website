@@ -8,9 +8,39 @@ import {
   toFallbackArchiveEntry,
   toAutoArchiveEntry,
 } from "../src/lib/project-archive";
+import { getArchiveOutreachFilters } from "../src/lib/archive-outreach-categories";
 import { getProjectLifecycleState } from "../src/lib/project-lifecycle";
 
 describe("automatically archived project localization", () => {
+  it("uses the category chosen on a new active project when its archive date arrives", () => {
+    const project = {
+      _id: "future-december-project",
+      slug: { current: "future-december-project" },
+      title: "December outreach",
+      status: "active",
+      demographic: "community",
+      outreachCategory: "christmas",
+      location: "Buea",
+      description: "End-of-year outreach",
+      beneficiaries: 0,
+      goalAmount: 0,
+      raisedAmount: 0,
+      sortOrder: 0,
+      endDate: "2026-12-20",
+      autoArchiveAfterEndDate: true,
+    } satisfies Parameters<typeof toAutoArchiveEntry>[0];
+    const before = getProjectLifecycleState(project, { today: "2026-12-19" });
+    const after = getProjectLifecycleState(project, { today: "2026-12-21" });
+    expect(before.status).toBe("active");
+    expect(after.isAutoCompleted).toBe(true);
+    const archived = toAutoArchiveEntry(project, after);
+    expect(archived).toMatchObject({ outreachCategory: "christmas", demographic: "community", autoArchived: true });
+    for (const locale of ["en", "fr"] as const) {
+      expect(getArchiveOutreachFilters([archived], locale).map(({ id, count }) => [id, count]))
+        .toEqual([["all", 1], ["christmas", 1]]);
+    }
+  });
+
   it("preserves published French titles and descriptions", () => {
     const project = {
       _id: "project-education-orphans",

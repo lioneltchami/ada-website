@@ -13,6 +13,7 @@ import ArchiveCardStatuses from "../../../../components/projects/ArchiveCardStat
 import { archiveExchangePegSource, archiveExchangeRateSource, formatArchiveCardFinances } from "../../../../lib/archive-card-finances";
 import { getArchiveCardStatus } from "../../../../lib/archive-card-status";
 import { resolveHeroImage } from "../../../../lib/hero-images";
+import { getArchiveOutreachCategory, getArchiveOutreachFilters } from "../../../../lib/archive-outreach-categories";
 
 const records = await loadProjectArchiveEntries();
 const heroImage = await resolveHeroImage([
@@ -26,19 +27,11 @@ const archiveItems = records.map((r) => ({
   cardStatus: getArchiveCardStatus(r, "fr"),
   localFinance: formatArchiveCardFinances(r, "fr"),
   featurePhoto: getEligibleArchiveFeaturePhoto(r, "fr", 240),
+  archiveCategory: getArchiveOutreachCategory(r.slug.current, r.outreachCategory),
 }));
 
-const demographics = [
-  "all",
-  "widows",
-  "orphans",
-  "young-women",
-  "pregnant-women",
-  "idps",
-  "community",
-];
-const demoLabels: Record<string, string> = {
-  all: "Tous",
+const outreachFilters = getArchiveOutreachFilters(archiveItems, "fr");
+const audienceLabels: Record<string, string> = {
   widows: "Veuves",
   orphans: "Orphelins",
   "young-women": "Jeunes Femmes",
@@ -70,7 +63,7 @@ for (const r of archiveItems) {
 >
   <PageHero
     title="Archives des dossiers de projets"
-    subtitle="Parcourez les entrées d’archives par groupe ou explorez la chronologie."
+    subtitle="Parcourez les actions par catégorie ou explorez la chronologie."
     compact
     imageUrl={heroImage?.imageUrl}
     imageAlt={heroImage?.imageAlt}
@@ -124,29 +117,27 @@ for (const r of archiveItems) {
     <div class="max-w-5xl mx-auto">
       <div
         class="flex flex-wrap gap-2 mb-8 justify-center"
-        id="demo-tabs"
+        id="archive-category-filters"
         role="group"
-        aria-label="Filtrer par groupe"
+        aria-label="Filtrer les archives par catégorie d’action"
       >
         {
-          demographics.map((d) => (
+          outreachFilters.map(({ id, label, count }) => (
             <button
               type="button"
-              aria-pressed={d === "all" ? "true" : "false"}
-              data-demo={d}
+              aria-pressed={id === "all" ? "true" : "false"}
+              data-archive-category={id}
               class:list={[
                 "px-4 py-2 text-sm font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2",
-                d === "all"
+                id === "all"
                   ? "bg-primary-600 text-white"
                   : "bg-white text-gray-700 border border-gray-200 hover:border-primary-300 hover:text-primary-700",
               ]}
             >
-              {demoLabels[d]}
+              {label}
               <span class="ml-1 text-xs opacity-70">
                 (
-                {d === "all"
-                  ? archiveItems.length
-                  : archiveItems.filter((r) => r.demographic === d).length}
+                {count}
                 )
               </span>
             </button>
@@ -167,7 +158,7 @@ for (const r of archiveItems) {
         class="hidden text-center text-sm text-gray-600"
         aria-live="polite"
       >
-        Aucun projet ne correspond à ce groupe.
+        Aucun projet ne correspond à cette catégorie.
       </p>
 
       <div class="relative">
@@ -194,7 +185,7 @@ for (const r of archiveItems) {
                   <a
                     href={r.href || `/fr/projects/archive/${r.slug.current}`}
                     class="group archive-item block p-3 sm:p-4 bg-white rounded-md border border-gray-100 hover:border-primary-200 transition-all duration-200"
-                    data-demo={r.demographic}
+                    data-archive-category={r.archiveCategory}
                   >
                     <div class="flex items-start gap-3">
                       {r.featurePhoto ? (
@@ -220,7 +211,7 @@ for (const r of archiveItems) {
                           <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
                             <span data-archive-month={r.archiveMonth ?? ""} class="font-medium text-gray-700">{r.archiveMonth ?? "Mois non précisé"}</span>
                             <span class="px-2 py-0.5 bg-primary-50 text-primary-700 rounded-md font-medium">
-                              {demoLabels[r.demographic]}
+                              {audienceLabels[r.demographic]}
                             </span>
                             {r.beneficiaries && (
                               <span>
@@ -245,17 +236,17 @@ for (const r of archiveItems) {
 </PageLayout>
 
 <script>
-  const tabs = document.querySelectorAll("#demo-tabs button");
+  const buttons = document.querySelectorAll("#archive-category-filters button");
   const items = document.querySelectorAll(".archive-item");
   const yearGroups = document.querySelectorAll("[data-year-group]");
   const resultCount = document.getElementById("filter-result-count");
   const noResults = document.getElementById("filter-no-results");
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const demo = tab.getAttribute("data-demo");
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const category = button.getAttribute("data-archive-category");
 
-      tabs.forEach((t) => {
+      buttons.forEach((t) => {
         t.classList.remove("bg-primary-600", "text-white");
         t.classList.add(
           "bg-white",
@@ -265,19 +256,19 @@ for (const r of archiveItems) {
         );
         t.setAttribute("aria-pressed", "false");
       });
-      tab.classList.remove(
+      button.classList.remove(
         "bg-white",
         "text-gray-700",
         "border",
         "border-gray-200",
       );
-      tab.classList.add("bg-primary-600", "text-white");
-      tab.setAttribute("aria-pressed", "true");
+      button.classList.add("bg-primary-600", "text-white");
+      button.setAttribute("aria-pressed", "true");
 
       let visibleCount = 0;
       items.forEach((item) => {
         const el = item as HTMLElement;
-        const isVisible = demo === "all" || el.dataset.demo === demo;
+        const isVisible = category === "all" || el.dataset.archiveCategory === category;
         el.style.display = isVisible ? "" : "none";
         if (isVisible) visibleCount += 1;
       });
