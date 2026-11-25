@@ -64,7 +64,6 @@ describe("About page program routes", () => {
     expect(
       getAboutProgramHref(
         "women-empowerment",
-      "education-orphans",
         known,
         "en",
         "Community Clean-Up",
@@ -73,7 +72,6 @@ describe("About page program routes", () => {
     expect(
       getAboutProgramHref(
         "women-empowerment",
-      "education-orphans",
         known,
         "fr",
         "Nettoyage Communautaire",
