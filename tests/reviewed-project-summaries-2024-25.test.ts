@@ -30,7 +30,7 @@ describe('source-backed 2024–25 archive summaries', () => {
     expect(bySlug.get(buea2025)).toMatchObject({ year: 2025, location: 'Buea' });
     expect(bySlug.get(buea2025)?.startDate).toBeUndefined();
     expect(bySlug.get(buea2024)).toMatchObject({ year: 2024, location: 'Buea' });
-    expect(bySlug.get(buea2024)?.startDate).toBeUndefined();
+    expect(bySlug.get(buea2024)).toMatchObject({ startDate: '2024-08-31', endDate: '2024-08-31', approvedBudgetFcfa: 82_750 });
     expect(bySlug.get(hospitalSlug)?.description).toContain('about 15 mothers');
     expect(bySlug.get(hospitalSlug)?.descriptionFr).toContain('environ 15 mères');
     expect(bySlug.get('unrelated-legacy-record')).toBe(unknown);
@@ -41,7 +41,13 @@ describe('source-backed 2024–25 archive summaries', () => {
       for (const staleField of ['budget', 'beneficiaries', 'photo', 'photos', 'outcomes', 'torUrl', 'reportUrl', 'financialReportUrl'] as const) {
         expect(entry[staleField], summary.slug + ': ' + staleField).toBeUndefined();
       }
-      expect(hasStaticProjectDocuments(summary.slug)).toBe(false);
+      expect(hasStaticProjectDocuments(summary.slug)).toBe('documentStatus' in summary && summary.documentStatus === 'released');
+      if ('documentStatus' in summary && summary.documentStatus === 'released') {
+        expect(entry.approvedBudgetFcfa).toBe(summary.approvedBudgetFcfa);
+        expect(entry.financialReviewTitle).toBe('Itemized budget published');
+      } else {
+        expect(entry.approvedBudgetFcfa).toBeUndefined();
+      }
     }
   });
 

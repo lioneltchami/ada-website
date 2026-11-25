@@ -54,19 +54,20 @@ describe("archive chronology", () => {
   it("uses confirmed months for historically dated summaries without promoting prep dates", () => {
     const records = [
       { slug: { current: "first-widow-home-visits-2021" }, year: 2021 },
-      { slug: { current: "girls-programme-2024" }, year: 2024 },
+      { slug: { current: "girls-programme-2024" }, year: 2024, startDate: "2024-10-18" },
       { slug: { current: "womens-day-widows-outreach-2025" }, year: 2025 },
       { slug: { current: "christmas-orphanage-outreach-2025" }, year: 2025 },
-      { slug: { current: "back-to-school-buea-2024" }, year: 2024 },
+      { slug: { current: "back-to-school-buea-2024" }, year: 2024, startDate: "2024-08-31" },
+      { slug: { current: "christmas-giving-dec-2024" }, year: 2024, startDate: "2024-12-21" },
       { slug: { current: "back-to-school-buea-2025" }, year: 2025 },
     ];
     expect(records.map((record) => formatArchiveCardMonth(record, "en")))
-      .toEqual(["November", "October", "March", "December", undefined, undefined]);
+      .toEqual(["November", "October", "March", "December", "August", "December", undefined]);
     expect(records.map((record) => formatArchiveCardMonth(record, "fr")))
-      .toEqual(["novembre", "octobre", "mars", "décembre", undefined, undefined]);
+      .toEqual(["novembre", "octobre", "mars", "décembre", "août", "décembre", undefined]);
     expect(sortArchiveEntriesChronologically(records).map((record) => record.slug.current)).toEqual([
       "christmas-orphanage-outreach-2025", "womens-day-widows-outreach-2025",
-      "back-to-school-buea-2025", "girls-programme-2024",
+      "back-to-school-buea-2025", "christmas-giving-dec-2024", "girls-programme-2024",
       "back-to-school-buea-2024", "first-widow-home-visits-2021",
     ]);
   });

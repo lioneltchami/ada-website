@@ -1,3 +1,4 @@
+import { hasReleased2024ProjectDocumentSet } from '../lib/reviewed-project-summaries-2024-25';
 import { hasReleased2023ProjectDocumentSet, isProjectDocumentReviewPending } from '../lib/reviewed-project-records';
 import documentReleases from "../../config/project-document-releases.json";
 import type { Locale } from "../i18n";
@@ -27,7 +28,6 @@ export const documentArchiveProjects = [
   "back-to-school-sep-2022",
   "campus-cleanup-aug-2025",
   "christmas-giving-dec-2022",
-  "christmas-giving-dec-2024",
   "city-cleanup-may-2023",
   "city-cleanup-may-2025",
   "emergency-food-relief-bamenda-crisis",
@@ -53,7 +53,7 @@ export function archiveProjectTitle(slug: string): string {
 }
 
 export function hasReleasedProjectDocumentSet(slug: string): boolean {
-  return hasReleased2023ProjectDocumentSet(slug) || documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
+  return hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || documentReleases.projects.some((project) => project.slug === slug && project.status === "released");
 }
 
 export function projectDocumentPaths(slug: string) {

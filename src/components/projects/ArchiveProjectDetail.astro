@@ -4,9 +4,10 @@ import { archiveProjectDisplayTitle } from "../../lib/archive-project-display-ti
 import { getEligibleArchiveFeaturePhoto } from "../../lib/archive-eligible-feature-photo";
 import type { ProjectArchiveEntry } from "../../lib/project-archive";
 import { hasReleased2023ProjectDocumentSet, reviewedProjectRecords } from "../../lib/reviewed-project-records";
+import { hasReleased2024ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
 import { hasReleasedProjectDocumentSet } from "../../data/organization";
 import { archiveEditorial, archiveResolvedFinance } from "../../data/archive-detail-editorial";
-import { archiveProjectDocumentLinks, archivePublishedFinancialAccount } from "../../lib/archive-project-document-links";
+import { archiveProjectDocumentLinks, archivePublishedFinancialAccount, archivePublishedBudgetFcfa, formatArchiveFcfa } from "../../lib/archive-project-document-links";
 import { formatUsdAmount, getArchiveRecordStatusText, getProjectReportLabel } from "../../lib/project-detail-presentation";
 
 interface Props { record: ProjectArchiveEntry; locale: "en" | "fr" }
@@ -45,17 +46,20 @@ const financialNote = fr ? record.financialReviewNoteFr : record.financialReview
 const publishedFinancialAccount = archivePublishedFinancialAccount(record, locale);
 const financialTitle = publishedFinancialAccount || (fr ? record.financialReviewTitleFr : record.financialReviewTitle) || (fr ? "Chiffres financiers en cours de vérification" : "Financial figures under review");
 const documentNote = fr ? record.documentReviewNoteFr : record.documentReviewNote;
-const englishDocuments = hasReleased2023ProjectDocumentSet(slug);
+const released2024 = hasReleased2024ProjectDocumentSet(slug);
+const englishDocuments = hasReleased2023ProjectDocumentSet(slug) || released2024;
+const publishedBudgetFcfa = archivePublishedBudgetFcfa(record);
 const hasPublishedPair = hasReleasedProjectDocumentSet(slug);
 const documentLinks = archiveProjectDocumentLinks(record);
 const documents = [
   { href:documentLinks.tor, label:fr ? "Termes de référence" : "Terms of Reference", english:englishDocuments },
-  { href:documentLinks.report, label:hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, ""), english:englishDocuments },
+  { href:documentLinks.report, label:released2024 ? (fr ? "Rapport de projet et budget" : "Project report & budget") : hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, ""), english:englishDocuments },
   ...(documentLinks.financial ? [{ href:documentLinks.financial, label:fr ? "Rapport financier" : "Financial Report", english:false }] : []),
 ];
 const hasPublicDocuments = Boolean(documentLinks.tor || documentLinks.report || documentLinks.financial);
 const finance = englishDocuments && documentLinks.tor && documentLinks.report ? archiveResolvedFinance[slug] : undefined;
 const showDay = (record.year === 2022 && hasPublishedPair)
+  || released2024
   || reviewedProjectRecords.some(project => project.slug === slug)
   || slug === "back-to-school-bamenda-aug-2025";
 const prettyDate = (value: string) => {
@@ -66,7 +70,7 @@ const prettyDate = (value: string) => {
 const dateLabel = [record.startDate, record.endDate].filter((d): d is string => Boolean(d && !Number.isNaN(Date.parse(d)))).map(prettyDate);
 const period = [...new Set(dateLabel)].join(" – ") || String(record.year);
 const expenses = finance ? finance.itemSubtotal + finance.fees : 0;
-const formatXaf = (amount: number) => new Intl.NumberFormat(fr ? "fr-FR" : "en-US").format(amount) + " FCFA";
+const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
 ---
 
 <PageLayout hideFloatingDonate title={title} description={lead.slice(0,160)}>
@@ -128,7 +132,7 @@ const formatXaf = (amount: number) => new Intl.NumberFormat(fr ? "fr-FR" : "en-U
           {documentNote && <p class="mt-3 break-words text-sm leading-relaxed text-slate-700">{documentNote}</p>}
           <ul class="mt-3 space-y-2">
             {documents.map(({href,label,english}) => (
-              <li>{href ? <a href={href} target="_blank" rel="noopener" class="flex min-h-11 items-center justify-between gap-2 rounded-lg border border-primary-200 bg-white px-3 py-2 text-sm font-medium text-primary-900 transition hover:bg-primary-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">
+              <li>{href ? <a href={href} hreflang={english ? "en" : undefined} target="_blank" rel="noopener" class="flex min-h-11 items-center justify-between gap-2 rounded-lg border border-primary-200 bg-white px-3 py-2 text-sm font-medium text-primary-900 transition hover:bg-primary-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">
                 <span>{label} <span class="text-xs text-slate-600">({fr && english ? "PDF en anglais" : "PDF"})</span></span>
                 <span aria-hidden="true" class="shrink-0 text-base">↗</span>
               </a> : <div class="rounded-lg border border-primary-100 bg-white/60 px-3 py-2 text-sm text-slate-700">
@@ -139,7 +143,13 @@ const formatXaf = (amount: number) => new Intl.NumberFormat(fr ? "fr-FR" : "en-U
           </ul>
       </section>
 
-      {finance && financialLabels && financialBasis ? (
+      {publishedBudgetFcfa !== undefined ? (
+        <section class="rounded-xl border border-slate-200 bg-white p-5" data-archive-published-budget-fcfa={publishedBudgetFcfa}>
+          <h2 class="font-heading text-base font-bold text-primary-900">{fr ? "Budget publié dans le rapport" : "Budget published in report"}</h2>
+          <p class="mt-3 font-semibold tabular-nums text-slate-900">{formatXaf(publishedBudgetFcfa)}</p>
+          <p class="mt-2 break-words text-sm leading-relaxed text-slate-700">{financialNote || (fr ? "Ce budget ne représente pas des dépenses vérifiées." : "This budget does not represent verified spending.")}</p>
+        </section>
+      ) : finance && financialLabels && financialBasis ? (
         <section class="rounded-xl border border-slate-200 bg-white p-5">
           <h2 class="font-heading text-base font-bold text-primary-900">{financialTitle}</h2>
           <dl class="mt-3 divide-y divide-slate-200 text-sm">

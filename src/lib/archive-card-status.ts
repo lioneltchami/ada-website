@@ -2,6 +2,7 @@ import {
   archiveProjectDocumentAvailability,
   archiveProjectDocumentLinks,
   archivePublishedFinancialAccount,
+  archivePublishedBudgetFcfa,
 } from "./archive-project-document-links";
 import type { ProjectArchiveEntry } from "./project-archive";
 import {
@@ -20,7 +21,7 @@ export const archiveStatusToneClass: Record<ArchiveStatusTone, string> = {
 
 type ArchiveStatusInput = Pick<ProjectArchiveEntry,
   "slug" | "year" | "status" | "autoArchived" | "torUrl" | "reportUrl" | "financialReportUrl"
-  | "financialReviewNote" | "financialReviewNoteFr"
+  | "financialReviewNote" | "financialReviewNoteFr" | "approvedBudgetFcfa"
 >;
 
 type ArchiveCardStatus = Record<"project" | "documents" | "finance", ArchiveStatusRow>;
@@ -35,6 +36,8 @@ export function getArchiveCardStatus(record: ArchiveStatusInput, locale: Project
   let finance: ArchiveStatusRow;
   if (archivePublishedFinancialAccount(record, locale)) {
     finance = { label: accountLabel, value: fr ? "Publié" : "Published", state: "published", tone: "positive" };
+  } else if (archivePublishedBudgetFcfa(record) !== undefined) {
+    finance = { label: "Budget", value: fr ? "Publié dans le rapport" : "Published in report", state: "budget-published", tone: "positive" };
   } else if (financial) {
     finance = { label: accountLabel, value: fr ? "PDF disponible" : "PDF available", state: "standalone-pdf", tone: "neutral" };
   } else if (record.financialReviewNote?.trim() || record.financialReviewNoteFr?.trim()) {
