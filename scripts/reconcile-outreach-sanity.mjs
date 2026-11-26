@@ -210,8 +210,9 @@ writeJson(backup, 'before.json', {
     return { _id: d._id, _rev: d._rev, create, keys, fields: old(d, keys) };
   }),
 });
-const uploads = Array.from(new Map(actionable.flatMap((x) =>
-  Object.values(x.docs).filter((a) => !byHash.has(a.sha1)).map((a) => [a.sha1, a]))).map(([, a]) => a);
+const uploadEntries = actionable.flatMap((x) =>
+  Object.values(x.docs).filter((a) => !byHash.has(a.sha1)).map((a) => [a.sha1, a]));
+const uploads = [...new Map(uploadEntries).values()];
 for (let i = 0; i < uploads.length; i += 4) {
   const settled = await Promise.allSettled(uploads.slice(i, i + 4).map(async (item) => {
     const asset = await client.assets.upload('file', item.buf, {
