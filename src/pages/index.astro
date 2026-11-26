@@ -12,7 +12,6 @@ import {
   getProjects,
   type SanityImpactMetric,
   type SanityProject,
-  sanityImageUrl,
 } from "../lib/sanity";
 import { REGISTRATION_NUMBER } from "../data/organization";
 import { homepageStatsFallback } from "../data/impact";
@@ -20,21 +19,9 @@ import { loadSpotlightProjects } from "../lib/spotlight-projects";
 import { listUpcomingAnnouncements } from "../lib/upcoming-announcements";
 import { loadGalleryMosaic } from "../lib/gallery";
 
-let heroImageUrl = "";
 let homepageProjects: SanityProject[] = [];
 try {
   homepageProjects = await getProjects();
-  const projects = homepageProjects;
-  if (projects?.length) {
-    const preferred =
-      projects.find(
-        (p: SanityProject) =>
-          p.slug?.current === "widow-support" && p.mainImage?.asset?._ref,
-      ) ||
-      projects.find((p: SanityProject) => p.mainImage?.asset?._ref);
-    if (preferred?.mainImage?.asset?._ref)
-      heroImageUrl = sanityImageUrl(preferred.mainImage.asset._ref, 1200);
-  }
 } catch {}
 
 let stats = homepageStatsFallback("en");
@@ -99,8 +86,6 @@ interface Testimonial {
   quote: string;
   location: string;
   program: string;
-  photoUrl?: string;
-  photoAlt?: string;
 }
 
 let testimonials: Testimonial[] = [];
@@ -112,10 +97,6 @@ try {
       quote: t.quote,
       location: t.location || "",
       program: t.program || "",
-      photoUrl: t.photo?.asset?._ref
-        ? sanityImageUrl(t.photo.asset._ref, 200)
-        : undefined,
-      photoAlt: t.photo?.alt || t.name,
     }));
   }
 } catch {}
@@ -233,26 +214,8 @@ const actionPaths = [
   title="Apoti Development Association | Hope, Dignity, Empowerment"
   description="Supporting vulnerable communities through faith-based programmes that bring hope, uphold dignity and create opportunities for widows, orphans and young women."
 >
-  <!-- Hallmark · genre: editorial · macrostructure: Photographic · design-system: design.md · designed-as-app -->
-  <!-- Hero — left-biased photographic -->
-  <section class="relative overflow-hidden min-h-[70vh] flex items-end text-white">
-    {
-      heroImageUrl ? (
-        <img
-          src={heroImageUrl}
-          alt="Beneficiaries of ADA programs in Cameroon"
-          class="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
-        />
-      ) : (
-        <div class="absolute inset-0 bg-primary-900" />
-      )
-    }
-    <div
-      class="absolute inset-0 bg-gradient-to-r from-primary-950/95 via-primary-900/70 to-primary-900/25"
-    >
-    </div>
-    <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+  <section class="bg-gradient-to-r from-primary-950 to-primary-900 text-white">
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       <div class="max-w-2xl">
         <p
           class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-200 mb-4"
@@ -584,18 +547,9 @@ const actionPaths = [
             “{testimonials[0].quote}”
           </blockquote>
           <figcaption class="mt-6 flex items-center gap-3">
-            {testimonials[0].photoUrl ? (
-              <img
-                src={testimonials[0].photoUrl}
-                alt={testimonials[0].photoAlt || testimonials[0].name}
-                class="w-12 h-12 rounded-md object-cover border border-gray-200"
-                loading="lazy"
-              />
-            ) : (
-              <div class="w-12 h-12 rounded-md bg-primary-100 text-primary-700 flex items-center justify-center text-sm font-heading font-bold border border-primary-200">
-                {testimonials[0].name.charAt(0)}
-              </div>
-            )}
+            <div class="w-12 h-12 rounded-md bg-primary-100 text-primary-700 flex items-center justify-center text-sm font-heading font-bold border border-primary-200">
+              {testimonials[0].name.charAt(0)}
+            </div>
             <div>
               <p class="font-heading text-sm font-semibold text-gray-900">
                 {testimonials[0].name}
@@ -620,18 +574,9 @@ const actionPaths = [
                 “{t.quote}”
               </blockquote>
               <figcaption class="mt-4 flex items-center gap-3">
-                {t.photoUrl ? (
-                  <img
-                    src={t.photoUrl}
-                    alt={t.photoAlt || t.name}
-                    class="w-10 h-10 rounded-md object-cover border border-gray-200"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="w-10 h-10 rounded-md bg-primary-100 text-primary-700 flex items-center justify-center text-xs font-heading font-bold border border-primary-200">
-                    {t.name.charAt(0)}
-                  </div>
-                )}
+                <div class="w-10 h-10 rounded-md bg-primary-100 text-primary-700 flex items-center justify-center text-xs font-heading font-bold border border-primary-200">
+                  {t.name.charAt(0)}
+                </div>
                 <div>
                   <p class="font-heading text-sm font-semibold text-gray-900">
                     {t.name}
