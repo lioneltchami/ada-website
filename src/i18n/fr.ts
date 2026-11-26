@@ -108,19 +108,19 @@ export default {
 	resources: {
 		title: "Bibliothèque de Ressources",
 		subtitle:
-			"Téléchargez nos rapports annuels, documents de projet et états financiers.",
+			"Retrouvez les termes de référence, les rapports de projet, les bilans annuels et les documents financiers.",
 		annualReports: "Rapports Annuels",
 		projectDocs: "Documents de projet par année",
 		projectDocsIntro:
-			"{count} projets avec TDR, rapports financiers et rapports de fin.",
+			"{count} projets. Ouvrez une année pour consulter les termes de référence et les rapports de projet. Le bilan, lorsqu’il est disponible, figure à côté de l’année.",
 		projectDocsIntroOne:
-			"{count} projet avec TDR, rapport financier et rapport de fin.",
+			"{count} projet. Ouvrez son année pour consulter les termes de référence et le rapport de projet. Le bilan, lorsqu’il est disponible, figure à côté de l’année.",
 		projectsInYear: "{count} projets",
 		projectInYear: "{count} projet",
 		annualReportForYear: "Rapport annuel {year} (PDF)",
 		financials: "Financier",
-		tor: "TDR",
-		completionReport: "Rapport",
+		tor: "Termes de référence",
+		completionReport: "Rapport de projet",
 		download: "Télécharger",
 		openLink: "Consulter",
 		funderDocs: "Dossier de Diligence Raisonnable",

@@ -104,19 +104,19 @@ export default {
   resources: {
     title: "Resource Library",
     subtitle:
-      "Download our annual reports, project documents, and financial statements.",
+      "Find Terms of Reference, Project Reports, and Year in Review PDFs, plus our financial records.",
     annualReports: "Annual Reports",
     projectDocs: "Project documents by year",
     projectDocsIntro:
-      "{count} projects with TOR, financial, and completion reports.",
+      "{count} projects. Open a year to find Terms of Reference and Project Reports. The Year in Review is linked beside its year when available.",
     projectDocsIntroOne:
-      "{count} project with TOR, financial, and completion reports.",
+      "{count} project. Open its year to find the Terms of Reference and Project Report. The Year in Review is linked beside its year when available.",
     projectsInYear: "{count} projects",
     projectInYear: "{count} project",
     annualReportForYear: "{year} annual report (PDF)",
     financials: "Financial",
-    tor: "TOR",
-    completionReport: "Report",
+    tor: "Terms of Reference",
+    completionReport: "Project Report",
     download: "Download",
     openLink: "Open",
     funderDocs: "Due Diligence Package",
