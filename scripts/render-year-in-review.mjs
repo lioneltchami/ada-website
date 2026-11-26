@@ -1,5 +1,5 @@
 import { readFile, mkdir } from "node:fs/promises";
-import { resolve, join } from "node:path";
+import { resolve, join, relative, sep } from "node:path";
 import { chromium } from "playwright";
 import { fileURLToPath } from "node:url";
 
@@ -10,7 +10,8 @@ if ((draft && process.argv.length !== 5) || (!draft && process.argv.length !== 2
 }
 const input = draft ? resolve(process.argv[3]) : join(root, "content/year-in-review.json");
 const output = draft ? resolve(process.argv[4]) : join(root, "public/docs/year-in-review");
-if (draft && (output === root || output.startsWith(root))) throw new Error("Draft output must be outside the repository.");
+const fromRepo = relative(root, output);
+if (draft && fromRepo !== ".." && !fromRepo.startsWith(".." + sep)) throw new Error("Draft output must be outside the repository.");
 const data = JSON.parse(await readFile(input, "utf8"));
 const logo = "data:image/png;base64," + (await readFile(join(root, "public/brand/ada-symbol.png"))).toString("base64");
 const esc = (str) => String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
