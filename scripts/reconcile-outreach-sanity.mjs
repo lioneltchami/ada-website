@@ -39,9 +39,23 @@ const isEditableId = (id) => !id.startsWith('drafts.') && !id.startsWith('versio
 const scope = (entry) =>
   isEditableId(entry._id) && ['project', 'projectRecord'].includes(entry._type) &&
   Object.hasOwn(naming.outreaches, entry.slug?.current);
-const readDocs = () => client.fetch('*[_type in ["project", "projectRecord"] && slug.current in $slugs]', {
-  slugs: Object.keys(naming.outreaches),
-});
+const creationId = (slug) => `ada-project-record-${slug}`;
+async function readDocs() {
+  const bySlug = await client.fetch('*[_type in ["project", "projectRecord"] && slug.current in $slugs]', {
+    slugs: Object.keys(naming.outreaches),
+  });
+  // A paired draft can have a different slug, no slug, or partially edited data.
+  // Also inspect planned creation IDs for occupied IDs or differently slugged drafts.
+  const pairTargets = [...new Set([
+    ...bySlug.filter(scope).map((d) => d._id),
+    ...[...missingAllowed].map(creationId),
+  ])];
+  const canCreateAt = [...missingAllowed].map(creationId);
+  const byId = await client.fetch('*[_id in $ids]', {
+    ids: [...canCreateAt, ...pairTargets.map((id) => `drafts.${id}`)],
+  });
+  return [...new Map([...bySlug, ...byId].map((d) => [d._id, d])).values()];
+}
 const writeJson = (dir, name, value) =>
   writeFileSync(path.join(dir, name), JSON.stringify(value, null, 2) + '\n', { mode: 0o600, flag: 'wx' });
 const old = (d, keys) => Object.fromEntries(keys.filter((k) => Object.hasOwn(d, k)).map((k) => [k, d[k]]));
@@ -58,7 +72,7 @@ async function rollback(dir) {
   for (const [i, b] of before.changes.entries()) {
     const d = current.get(b._id);
     const a = after.changes[i];
-    if (!d || !scope(d) || b._id !== a._id || d._rev !== a._rev) {
+    if (!d || !scope(d) || b._id !== a._id || d._rev !== a._rev || current.has(`drafts.${d._id}`)) {
       throw Error(`Rollback halted: ${b._id} was edited since the migration or is out of scope.`);
     }
     if (b.create) {
@@ -159,8 +173,8 @@ for (const slug of Object.keys(naming.outreaches)) {
       issues.push(`No published CMS match and no approved creation source for ${slug}`);
       continue;
     }
-    const d = { _id: `ada-project-record-${slug}`, _type: 'projectRecord' };
-    if (raw.some((r) => r.slug.current === slug)) {
+    const d = { _id: creationId(slug), _type: 'projectRecord' };
+    if (raw.some((r) => r.slug?.current === slug || r._id === d._id || r._id === `drafts.${d._id}`)) {
       issues.push(`Refusing to create a public copy alongside an existing unpublished record: ${slug}`);
       continue;
     }
