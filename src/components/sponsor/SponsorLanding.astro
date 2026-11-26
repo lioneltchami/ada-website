@@ -1,0 +1,184 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import PageHero from "../layout/PageHero.astro";
+import Section from "../layout/Section.astro";
+import FaqSection from "../seo/FaqSection.astro";
+import { REGISTRATION_NUMBER } from "../../data/organization";
+import { localePath, type Locale } from "../../i18n";
+import { resolveHeroImage } from "../../lib/hero-images";
+import { SPONSOR_FAQS_EN, SPONSOR_FAQS_FR, buildFaqPage } from "../../lib/structured-data";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const fr = locale === "fr";
+const local = (path: string) => localePath(path, locale);
+const inquiryHref = local("/sponsor/inquiry");
+const diligenceHref = local("/resources#due-diligence");
+const reportHref = local("/projects/archive/back-to-school-buea-2024");
+const hero = await resolveHeroImage(["widow-support"]);
+const faqs = fr ? SPONSOR_FAQS_FR : SPONSOR_FAQS_EN;
+const faqSchema = buildFaqPage(faqs, new URL(local("/sponsor"), Astro.site).toString());
+
+const copy = fr ? {
+  metaTitle: "Parrainer un programme",
+  title: "Soutenez un projet communautaire au Cameroun",
+  intro: "Échangez avec ADA sur le projet que vous souhaitez soutenir, son budget et les documents dont vous avez besoin. La demande n’engage à aucun paiement.",
+  inquire: "Discuter d’un parrainage",
+  review: "Consulter les documents",
+  options: "Options de parrainage",
+  optionsIntro: "Ces montants sont indicatifs, en dollars américains (USD). Vous pouvez aussi proposer un montant différent ou une aide en nature.",
+  discussOption: "Demander cette option",
+  groupTitle: "Soutenir un projet ou agir ensemble",
+  group: "Une entreprise, une école, une Église ou un groupe de la diaspora peut aussi proposer une collecte collective. Si vous souhaitez offrir du matériel, du transport ou des compétences, convenons d’abord de ce qui sera utile sur place.",
+  caseTitle: "Un projet dans les archives",
+  caseName: "Rentrée scolaire à Buea, le 31 août 2024",
+  caseText: "Les deux fiches de préparation prévoyaient des cartables, des livres et des fournitures pour un budget total de 82 750 FCFA. Ce montant n’est pas une dépense vérifiée, et le nombre d’élèves bénéficiaires n’a pas été confirmé.",
+  caseLink: "Voir le dossier et le rapport",
+  diligence: "Documents à consulter avant de décider",
+  diligenceIntro: "ADA est enregistrée au Cameroun. Les documents publics comprennent le certificat d’enregistrement, l’aperçu de la gouvernance et les politiques de protection et de gestion financière.",
+  registration: "Certificat d’enregistrement (PDF)",
+  transparency: "Modèle d’allocation des fonds",
+  reports: "Voir les dossiers de projets",
+  followTitle: "Ce que nous convenons ensemble",
+  follow: "Avant le versement, nous convenons du projet, de l’utilisation des fonds et des documents ou mises à jour à fournir. Les rapports, ainsi que le rythme des mises à jour, dépendent de l’accord. Nous ne publions un nom ou un logo qu’avec autorisation.",
+  donateTitle: "Vous souhaitez plutôt faire un don ?",
+  donateText: "Vous pouvez faire un don ponctuel ou mensuel par carte, en USD. Un reçu de paiement peut servir à vos dossiers ; ce n’est pas un reçu fiscal officiel.",
+  donate: "Faire un don",
+  faq: "Questions sur le parrainage",
+} : {
+  metaTitle: "Sponsor a Program",
+  title: "Support a community project in Cameroon",
+  intro: "Talk with ADA about the project you want to support, its budget, and the records you need. An inquiry doesn’t commit you to a payment.",
+  inquire: "Discuss a sponsorship",
+  review: "Review public documents",
+  options: "Sponsorship options",
+  optionsIntro: "These amounts are suggestions in US dollars (USD). You can propose a different amount or offer in-kind support.",
+  discussOption: "Ask about this option",
+  groupTitle: "Give as a group or offer in-kind help",
+  group: "A company, school, church, or diaspora group can propose a fundraising campaign. If you’d like to offer supplies, transport, or skills, let’s first agree on what would help the local team.",
+  caseTitle: "A project from the archive",
+  caseName: "Back-to-school outreach in Buea, August 31, 2024",
+  caseText: "Two planning sheets listed school bags, books, and stationery with a total budget of 82,750 FCFA. This was a planned budget, not verified spending, and the number of pupils reached wasn’t confirmed.",
+  caseLink: "See the project record and report",
+  diligence: "Documents to review before you decide",
+  diligenceIntro: "ADA is registered in Cameroon. Public documents include the registration certificate, governance overview, and safeguarding and financial management policies.",
+  registration: "Registration certificate (PDF)",
+  transparency: "Fund allocation model",
+  reports: "Browse project records",
+  followTitle: "What we agree on before funds move",
+  follow: "We agree on the project, use of funds, and the records or updates you need before payment. Reporting and timing depend on that agreement. We only publish a name or logo with permission.",
+  donateTitle: "Looking to make a general donation?",
+  donateText: "Make a one-time or monthly card donation in USD. A payment receipt is for your records, not an official charitable tax receipt.",
+  donate: "Make a donation",
+  faq: "Sponsorship questions",
+};
+
+const tiers = [
+  {
+    key: "$500-$1,000",
+    name: fr ? "Parrainage communautaire" : "Community sponsor",
+    amount: fr ? "500 à 1 000 USD" : "USD 500–1,000",
+    scope: fr ? "Un besoin précis, comme des fournitures scolaires ou une aide alimentaire." : "A specific need, such as school supplies or food support.",
+  },
+  {
+    key: "$2,500-$5,000",
+    name: fr ? "Parrainage de projet" : "Project sponsor",
+    amount: fr ? "2 500 à 5 000 USD" : "USD 2,500–5,000",
+    scope: fr ? "Un projet défini, avec un budget, un calendrier et un point à la clôture." : "A defined project with a budget, timeline, and close-out update.",
+  },
+  {
+    key: "$10,000+",
+    name: fr ? "Parrainage de programme" : "Program sponsor",
+    amount: fr ? "10 000 USD ou plus" : "USD 10,000 or more",
+    scope: fr ? "Un cycle complet de programme, avec des attentes convenues par écrit." : "A full program cycle, with reporting expectations agreed in writing.",
+  },
+  {
+    key: "Custom / discuss first",
+    name: fr ? "Partenariat sur mesure" : "Custom partnership",
+    amount: fr ? "Montant à convenir" : "Amount to discuss",
+    scope: fr ? "Une initiative convenue ensemble, un soutien récurrent ou une aide en nature." : "A shared initiative, ongoing support, or in-kind help.",
+  },
+];
+
+const focus = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-700";
+const primary = `inline-flex min-h-11 w-fit items-center justify-center rounded-md bg-primary-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-900 ${focus}`;
+const linkClass = `inline-flex min-h-11 items-center rounded-sm text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-950 ${focus}`;
+---
+
+<PageLayout title={copy.metaTitle} description={copy.intro} jsonLdExtra={[faqSchema]} hideFloatingDonate>
+  <PageHero title={copy.title} subtitle={copy.intro} compact imageUrl={hero?.imageUrl} imageDecorative>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a
+        href={inquiryHref}
+        id="start-sponsorship"
+        class="inline-flex min-h-11 w-fit items-center justify-center rounded-md bg-[#faf8f4] px-5 py-2.5 text-sm font-semibold text-primary-900 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+      >{copy.inquire}</a>
+      <a
+        href={diligenceHref}
+        class="inline-flex min-h-11 items-center rounded-md border border-white/60 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+      >{copy.review}</a>
+    </div>
+  </PageHero>
+
+  <Section id="tiers" background="white" padding="md">
+    <h2 class="font-heading text-2xl font-bold text-gray-900 md:text-3xl">{copy.options}</h2>
+    <p class="mt-3 max-w-2xl text-sm leading-relaxed text-gray-700">{copy.optionsIntro}</p>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {tiers.map((tier) => (
+        <article class="flex flex-col rounded-lg border border-gray-200 bg-white p-5">
+          <h3 class="font-heading text-lg font-bold text-gray-900">{tier.name}</h3>
+          <p class="mt-2 font-heading text-xl font-semibold text-primary-800">{tier.amount}</p>
+          <p class="mb-3 mt-2 text-sm leading-relaxed text-gray-700">{tier.scope}</p>
+          <a class={`mt-auto w-fit ${linkClass}`} href={`${inquiryHref}?budgetRange=${encodeURIComponent(tier.key)}`} aria-label={`${copy.discussOption}: ${tier.name}`}>{copy.discussOption}</a>
+        </article>
+      ))}
+    </div>
+    <div class="mt-7 max-w-2xl">
+      <h3 class="font-heading text-lg font-semibold text-gray-900">{copy.groupTitle}</h3>
+      <p class="mt-2 text-sm leading-relaxed text-gray-700">{copy.group}</p>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="md">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <article class="rounded-lg border border-gray-200 bg-[#faf8f4] p-5 sm:p-6">
+        <h2 class="font-heading text-xl font-bold text-gray-900">{copy.caseTitle}</h2>
+        <h3 class="mt-3 font-heading text-base font-semibold text-gray-900">{copy.caseName}</h3>
+        <p class="mt-2 max-w-prose text-sm leading-relaxed text-gray-700">{copy.caseText}</p>
+        <a href={reportHref} class={`mt-2 ${linkClass}`}>{copy.caseLink}</a>
+      </article>
+      <div class="rounded-lg border border-gray-200 bg-[#faf8f4] p-5 sm:p-6">
+        <h2 class="font-heading text-xl font-bold text-gray-900">{copy.diligence}</h2>
+        <p class="mt-3 text-sm font-semibold text-gray-900">{REGISTRATION_NUMBER}</p>
+        <p class="mt-2 max-w-prose text-sm leading-relaxed text-gray-700">{copy.diligenceIntro}</p>
+        <ul class="mt-2 flex flex-wrap gap-x-5">
+          <li><a class={linkClass} href={diligenceHref}>{copy.review}</a></li>
+          <li><a class={linkClass} href="/docs/diligence/ada-registration-certificate.pdf">{copy.registration}</a></li>
+          <li><a class={linkClass} href={local("/transparency")}>{copy.transparency}</a></li>
+          <li><a class={linkClass} href={local("/projects/archive")}>{copy.reports}</a></li>
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="white" padding="md">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div>
+        <h2 class="font-heading text-xl font-bold text-gray-900">{copy.followTitle}</h2>
+        <p class="mt-3 max-w-prose text-sm leading-relaxed text-gray-700">{copy.follow}</p>
+        <a class={`mt-5 ${primary}`} href={inquiryHref}>{copy.inquire}</a>
+      </div>
+      <div class="rounded-lg border border-gray-200 bg-white p-5 sm:p-6">
+        <h2 class="font-heading text-xl font-bold text-gray-900">{copy.donateTitle}</h2>
+        <p class="mt-3 max-w-prose text-sm leading-relaxed text-gray-700">{copy.donateText}</p>
+        <a class={`mt-2 ${linkClass}`} href={local("/donate")}>{copy.donate}</a>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="gray" padding="sm">
+    <FaqSection title={copy.faq} faqs={faqs} openFirst={false} />
+  </Section>
+</PageLayout>
