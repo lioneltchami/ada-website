@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { sponsorInquiryOrigin } from "../src/lib/sponsor-inquiry-options";
 import { POST } from "../src/pages/api/sponsor-inquiry";
 import { resetRateLimitStoreForTests } from "../src/lib/rate-limit";
 
@@ -58,6 +59,13 @@ describe("sponsor inquiry safety and shared options", () => {
     const response = await post(JSON.stringify({ ...valid, reportingNeeds }));
     expect(response?.status).toBe(200);
     expect(notify).toHaveBeenCalledTimes(1);
+  });
+
+  it("matches only the known www production route when configured for the apex", () => {
+    expect(sponsorInquiryOrigin("https://www.apotidev.org", "https://apotidev.org")).toBe("https://www.apotidev.org");
+    expect(sponsorInquiryOrigin("https://www.apotidev.org.example.invalid", "https://apotidev.org")).toBe("https://apotidev.org");
+    expect(sponsorInquiryOrigin("https://apotidev.org", "https://apotidev.org")).toBe("https://apotidev.org");
+    expect(sponsorInquiryOrigin("https://www.apotidev.org", "https://preview.example.invalid")).toBe("https://preview.example.invalid");
   });
 
   it("does not send or echo fallback form data", async () => {

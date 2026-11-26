@@ -8,7 +8,7 @@ import {
 } from "../../lib/api-requests";
 import { sendSponsorInquiryNotification } from "../../lib/email";
 import { RATE_LIMITS, rejectIfRateLimited } from "../../lib/rate-limit";
-import { NO_REPORTING_NEEDS, reportingNeedsAreCompatible } from "../../lib/sponsor-inquiry-options";
+import { NO_REPORTING_NEEDS, reportingNeedsAreCompatible, sponsorInquiryOrigin } from "../../lib/sponsor-inquiry-options";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
 
@@ -126,7 +126,7 @@ const Schema = z
   });
 
 export const POST: APIRoute = async ({ request, url }) => {
-  const originError = rejectInvalidOrigin(request, url.href, PRIMARY_ORIGIN);
+  const originError = rejectInvalidOrigin(request, url.href, sponsorInquiryOrigin(url.origin, PRIMARY_ORIGIN));
   if (originError) return originError;
 
   // The native POST fallback never sends email or echoes entered form data.
