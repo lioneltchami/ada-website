@@ -11,7 +11,6 @@ export function buildCspDirectives(): string[] {
   return getCspPolicy({
     PUBLIC_SUPABASE_URL: getEnv("PUBLIC_SUPABASE_URL"),
     PUBLIC_UMAMI_URL: getEnv("PUBLIC_UMAMI_URL"),
-    PUBLIC_POSTHOG_KEY: getEnv("PUBLIC_POSTHOG_KEY"),
   }).directives;
 }
 

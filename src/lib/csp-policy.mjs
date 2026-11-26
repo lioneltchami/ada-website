@@ -59,13 +59,6 @@ export function getCspPolicy(env = {}) {
     if (!connectSources.includes(umamiOrigin)) connectSources.push(umamiOrigin);
   }
 
-  if (env.PUBLIC_POSTHOG_KEY) {
-    for (const host of ["https://*.posthog.com", "https://*.i.posthog.com"]) {
-      if (!scriptSources.includes(host)) scriptSources.push(host);
-      if (!connectSources.includes(host)) connectSources.push(host);
-    }
-  }
-
   const directives = [
     "default-src 'self'",
     `script-src ${scriptSources.join(" ")}`,
@@ -76,9 +69,7 @@ export function getCspPolicy(env = {}) {
     `media-src ${mediaSources.join(" ")}`,
     `connect-src ${connectSources.join(" ")}`,
     `frame-src ${frameSources.join(" ")}`,
-    env.PUBLIC_POSTHOG_KEY
-      ? "worker-src 'self' blob: data:"
-      : "worker-src 'self'",
+    "worker-src 'self'",
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
