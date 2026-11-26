@@ -6,14 +6,16 @@ import {
   projectStatusLabel,
   type ProjectStatus,
 } from "../../lib/project-lifecycle";
+import type { UpcomingAnnouncement } from "../../lib/upcoming-announcements";
 import type { SpotlightProject } from "../../lib/spotlight-projects";
 
 interface Props {
   locale?: Locale;
   projects: SpotlightProject[];
+  announcements: UpcomingAnnouncement[];
 }
 
-const { locale = "en", projects } = Astro.props;
+const { locale = "en", projects, announcements } = Astro.props;
 const isFr = locale === "fr";
 const hasProjects = projects.length > 0;
 
@@ -21,10 +23,11 @@ const copy = isFr
   ? {
       eyebrow: "En ce moment",
       title: "Ce que nous faisons maintenant",
-      body: "Campagnes actives et à venir — dates, lieux, et comment soutenir. Quand une campagne se termine, elle quitte cette section automatiquement.",
+      body: "Découvrez les prochaines actions d’ADA et les campagnes que vous pouvez soutenir.",
+      campaignBody: "Découvrez les campagnes que vous pouvez soutenir.",
+      upcoming: "Actions à venir",
+      campaigns: "Campagnes à soutenir",
       scheduled: "Prévu",
-      raised: "collectés",
-      of: "sur",
       details: "Voir le projet",
       donate: "Donner",
       all: "Tous les projets",
@@ -33,10 +36,11 @@ const copy = isFr
   : {
       eyebrow: "Right now",
       title: "What we are working on",
-      body: "Active and upcoming campaigns — with dates, locations, and a clear way to help. When a campaign ends, it leaves this section automatically.",
+      body: "See what’s coming up and which campaigns you can support.",
+      campaignBody: "See which campaigns you can support.",
+      upcoming: "Upcoming outreaches",
+      campaigns: "Campaigns you can support",
       scheduled: "Scheduled",
-      raised: "raised",
-      of: "of",
       details: "View project",
       donate: "Donate",
       all: "All projects",
@@ -65,7 +69,7 @@ function formatSchedule(start?: string, end?: string): string {
 ---
 
 {
-  hasProjects && (
+  (hasProjects || announcements.length > 0) && (
 <Section background="white" padding="lg">
   <div
     class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10"
@@ -82,7 +86,7 @@ function formatSchedule(start?: string, end?: string): string {
         {copy.title}
       </h2>
       <p class="mt-4 text-gray-600 leading-relaxed">
-        {copy.body}
+        {announcements.length > 0 ? copy.body : copy.campaignBody}
       </p>
     </div>
     <a
@@ -93,6 +97,25 @@ function formatSchedule(start?: string, end?: string): string {
     </a>
   </div>
 
+  {announcements.length > 0 && (
+    <section
+      class:list={["rounded-md border border-primary-200 bg-primary-50 p-5 sm:p-6", hasProjects && "mb-10"]}
+      aria-labelledby="home-upcoming-outreaches"
+    >
+      <h3 id="home-upcoming-outreaches" class="font-heading text-lg font-bold text-primary-900">{copy.upcoming}</h3>
+      <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+        {announcements.map(({ slug, title, date }) => (
+          <li>
+            <time datetime={date} class="block text-sm text-primary-800">{formatSchedule(date)}</time>
+            <a class="mt-1 inline-block text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-950" href={localePath(`/projects/${slug}/`, locale)}>{title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {hasProjects && announcements.length > 0 && <h3 class="mb-4 font-heading text-lg font-bold text-gray-900">{copy.campaigns}</h3>}
+  {hasProjects && (
   <div
     class:list={[
       "grid gap-6",
@@ -149,22 +172,6 @@ function formatSchedule(start?: string, end?: string): string {
             <p class="mt-3 text-sm text-gray-600 leading-relaxed line-clamp-3">
               {project.description}
             </p>
-            <div class="mt-5">
-              <div class="flex justify-between text-sm mb-1">
-                <span class="text-gray-600">
-                  ${project.raised.toLocaleString()} {copy.raised}
-                </span>
-                <span class="text-gray-500">
-                  {copy.of} ${project.goal.toLocaleString()}
-                </span>
-              </div>
-              <div class="w-full h-2 bg-gray-100 rounded-md overflow-hidden">
-                <div
-                  class="h-full bg-primary-500 rounded-md"
-                  style={`width: ${Math.min(100, (project.raised / Math.max(project.goal, 1)) * 100)}%`}
-                />
-              </div>
-            </div>
             <div class="mt-5 flex gap-2">
               <a
                 href={localePath(`/projects/${project.slug}`, locale)}
@@ -186,6 +193,7 @@ function formatSchedule(start?: string, end?: string): string {
       ))
     }
   </div>
+  )}
 </Section>
   )
 }

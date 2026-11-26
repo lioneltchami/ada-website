@@ -17,7 +17,7 @@ export default {
 		headline:
 			"Aucune Veuve Ne Devrait Choisir Entre Nourrir Ses Enfants et Payer L'École",
 		subtitle:
-			"Depuis 2021, ADA soutient des initiatives communautaires au Cameroun par des actions concrètes, l'éducation et des partenariats locaux. 80 centimes de chaque dollar sont affectés aux programmes.",
+			"Depuis 2021, ADA soutient des initiatives communautaires au Cameroun par des actions concrètes, l'éducation et des partenariats locaux.",
 		cta: "Faire un Don",
 		ctaSecondary: "Nos Projets",
 		socialProof:
@@ -53,8 +53,8 @@ export default {
 		role: "Fondateur, Apoti Development Association",
 	},
 	cta: {
-		heading: "Financer les kits scolaires à Buea et Bamenda",
-		body: "Votre don achète sacs, livres et frais pour que les enfants orphelins et déplacés commencent l'année scolaire dans la dignité.",
+		heading: "Soutenir nos actions au Cameroun",
+		body: "Un don à notre fonds général aide nos équipes locales à répondre aux besoins les plus urgents de nos programmes.",
 		donate: "Faire un Don",
 		volunteer: "Devenir Bénévole",
 	},

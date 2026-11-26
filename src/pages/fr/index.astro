@@ -17,14 +17,17 @@ import {
 import { REGISTRATION_NUMBER } from "../../data/organization";
 import { homepageStatsFallback } from "../../data/impact";
 import { loadSpotlightProjects } from "../../lib/spotlight-projects";
+import { listUpcomingAnnouncements } from "../../lib/upcoming-announcements";
 import { loadGalleryMosaic } from "../../lib/gallery";
 import { t } from "../../i18n";
 
 const i18n = t("fr");
 
 let heroImageUrl = "";
+let homepageProjects: SanityProject[] = [];
 try {
-  const projects = await getProjects("fr");
+  homepageProjects = await getProjects("fr");
+  const projects = homepageProjects;
   if (projects?.length) {
     const preferred =
       projects.find(
@@ -113,11 +116,12 @@ try {
 } catch {}
 
 const spotlightProjects = await loadSpotlightProjects("fr", 4);
+const announcements = listUpcomingAnnouncements(homepageProjects, { locale: "fr" });
 const mosaicPhotos = await loadGalleryMosaic(8, "fr");
 
 const programPillars = [
   {
-    title: "Relief pour les veuves",
+    title: "Soutien aux veuves",
     text: "Aide alimentaire, soutien financier et suivi des familles qui reconstruisent leur stabilité.",
     href: "/fr/projects/widow-support",
   },
@@ -284,13 +288,12 @@ const actionPaths = [
               .map((stat) => `${stat.value} ${stat.label}`)
               .join(" · ")
           }
-          {" · "}80% aux programmes
         </p>
       </div>
     </div>
   </section>
 
-  <CurrentWork locale="fr" projects={spotlightProjects} />
+  <CurrentWork locale="fr" projects={spotlightProjects} announcements={announcements} />
   <PhotoMosaic locale="fr" photos={mosaicPhotos} />
   <WorkVideo locale="fr" />
 
@@ -550,6 +553,7 @@ const actionPaths = [
 
   <StoryReviewNotice locale="fr" variant="featured" />
 
+  {testimonials.length > 0 && (
   <Section background="white" padding="lg">
     <p
       class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
@@ -632,6 +636,7 @@ const actionPaths = [
       )
     }
   </Section>
+  )}
 
   <Section background="gray" padding="lg">
     <div class="max-w-3xl">

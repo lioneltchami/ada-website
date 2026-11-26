@@ -116,7 +116,7 @@ if (faqPaths.has(pathname)) {
       </a>
     )
   }
-  <Footer />
+  <Footer reserveChatSpace={showChatbot} />
   <script is:inline src="/scripts/footer-donate.js"></script>
   {showChatbot && <Chatbot client:idle faqs={faqData} locale={locale} />}
 </BaseLayout>

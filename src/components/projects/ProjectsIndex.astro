@@ -9,10 +9,8 @@ import {
   projectStatusLabel,
   type ProjectStatus,
 } from "../../lib/project-lifecycle";
-import {
-  mergeProjectLists,
-  normalizeFallbackProjects,
-} from "../../lib/project-fallbacks";
+import { mergeProjectLists, normalizeFallbackProjects } from "../../lib/project-fallbacks";
+import { localizeProjectsIndexFallback, selectProjectsIndexImage } from "../../lib/projects-index-presentation";
 import type { Locale } from "../../i18n";
 import { localePath } from "../../i18n";
 import { resolveHeroImage } from "../../lib/hero-images";
@@ -21,492 +19,219 @@ interface Props {
   locale?: Locale;
 }
 
+type ProjectCard = {
+  slug: string;
+  title: string;
+  location: string;
+  status: ProjectStatus;
+  archiveHref: string;
+  archiveReady: boolean;
+  isAutoArchived: boolean;
+  hasEnded: boolean;
+  isFundable: boolean;
+  startDate?: string | null;
+  endDate?: string | null;
+  description: string;
+  imageUrl: string;
+  imageAlt: string;
+};
+
 const { locale = "en" } = Astro.props;
 const isFr = locale === "fr";
-const heroImage = await resolveHeroImage([
-  "widow-support",
+const link = (path: string) => localePath(path, locale);
+const archiveHref = link("/projects/archive");
+const heroImage = await resolveHeroImage(["widow-support"]);
 
-]);
-
-let projectData;
-try {
-  const sanityProjects = await getProjects(locale);
-  if (sanityProjects?.length) {
-    projectData = mergeProjectLists(
-      sanityProjects.map((p: SanityProject) => {
-        const lifecycle = getProjectLifecycleState(p, { locale });
-        const image = resolveProjectCardImage(p, 600);
-        return {
-          slug: p.slug.current,
-          title: p.title,
-          location: p.location,
-          status: lifecycle.status as ProjectStatus,
-          originalStatus: p.status,
-          archiveHref: lifecycle.archiveHref,
-          archiveReady: lifecycle.archiveReady,
-          isAutoArchived: lifecycle.isAutoCompleted,
-          hasEnded: lifecycle.hasEnded,
-          isFundable: lifecycle.isFundable,
-          announcementOnly: p.announcementOnly,
-          hasAnnouncementImage: Boolean(p.mainImage?.asset?._ref),
-          isUpcoming: lifecycle.isUpcoming,
-          startDate: p.startDate,
-          endDate: p.endDate,
-          description: p.description,
-          beneficiaries: p.beneficiaries,
-          goal: p.goalAmount,
-          raised: p.raisedAmount,
-          imageUrl: image.imageUrl,
-          imageAlt: image.imageAlt,
-        };
-      }),
-      normalizeFallbackProjects({ locale }),
-    );
-  } else {
-    projectData = normalizeFallbackProjects({ locale });
-  }
-} catch {
-  projectData = normalizeFallbackProjects({ locale });
+function fromSanity(p: SanityProject): ProjectCard {
+  const lifecycle = getProjectLifecycleState(p, { locale });
+  const image = resolveProjectCardImage(p, 600);
+  return {
+    ...p,
+    ...image,
+    slug: p.slug.current,
+    status: lifecycle.status,
+    archiveHref: lifecycle.archiveHref,
+    archiveReady: lifecycle.archiveReady,
+    isAutoArchived: lifecycle.isAutoCompleted,
+    hasEnded: lifecycle.hasEnded,
+    isFundable: lifecycle.isFundable,
+  };
 }
 
-const projects = projectData;
-const upcomingProjects = projects.filter((p) => p.status === "upcoming");
-const activeProjects = projects.filter(
-  (p) => p.status === "active" || p.status === "paused",
-);
-const completedProjects = projects.filter((p) => p.status === "completed");
+const fallback: ProjectCard[] = normalizeFallbackProjects({ locale }).map((p) => localizeProjectsIndexFallback(p, locale));
+// Campaign amounts in Sanity and the fallback seeds are manually entered,
+// not confirmed Stripe receipts. Do not render totals or progress from either.
+let projects: ProjectCard[] = fallback;
+try {
+  const rows = await getProjects(locale);
+  if (rows?.length) projects = mergeProjectLists(rows.map(fromSanity), fallback);
+} catch {
+  // Keep the approved listing and archive routes available without claiming funds.
+}
 
-const activeCount = projects.filter((p) => p.status === "active").length;
-const upcomingCount = upcomingProjects.length;
-const totalBeneficiaries = projects.reduce(
-  (sum, p) => sum + p.beneficiaries,
-  0,
-);
-const totalRaised = projects.reduce((sum, p) => sum + p.raised, 0);
-const uniqueLocations = new Set(projects.map((p) => p.location)).size;
+const upcoming = projects.filter((p) => p.status === "upcoming");
+const current = projects.filter((p) => p.status === "active");
+const paused = projects.filter((p) => p.status === "paused");
+const records = projects.filter((p) => p.status === "completed");
+const activeCount = current.filter((p) => !p.hasEnded).length;
 
 const copy = isFr
   ? {
-      metaTitle: "Nos Projets",
-      metaDescription:
-        "Découvrez les programmes d'ADA soutenant les veuves, orphelins et jeunes femmes au Cameroun, ainsi que les dossiers de projets disponibles.",
-      heroTitle: "Nos Projets",
-      heroSubtitle:
-        "Découvrez les programmes actifs d’ADA au Cameroun et parcourez les dossiers de projets disponibles.",
-      heroBadge: "Programmes & Campagnes",
-      upcomingEyebrow: "Campagne à venir",
-      upcomingTitle: "Campagne communautaire",
-      upcomingBody:
-        "Consultez les dates et les informations indiquées sur chaque dossier de projet.",
-      upcomingDonate: "Soutenir",
-      upcomingDetails: "Détails",
-      scheduled: "Prévu",
-      activeTitle: "Programmes en cours",
-      activeSr: "Programmes actuels",
-      raised: "collectés",
-      of: "sur",
-      details: "Détails",
-      donate: "Donner",
-      completedEyebrow: "Terminés ou archivés",
-      completedTitle: "Dossiers de projets",
-      completedBody:
-        "Certains dossiers sont marqués comme terminés par ADA. D’autres sont archivés après leur date de fin prévue; la date seule ne confirme ni la réalisation ni l’existence d’un rapport final.",
+      title: "Nos projets",
+      intro: "Découvrez les actions à venir, les programmes en cours et les dossiers de projets d’ADA au Cameroun.",
+      archive: "Voir les archives de projets",
+      archiveHint: "Parcourez les dossiers par catégorie d’action et consultez les documents disponibles.",
+      upcoming: "Actions à venir",
+      current: "Programmes en cours",
+      paused: "Programmes en pause",
+      records: "Dossiers de projets",
+      recordsNote: "Un dossier peut être archivé après la date prévue. Une date passée ne confirme ni la réalisation du projet ni la publication d’un rapport.",
+      closed: "Date prévue passée",
+      archivedByDate: "Archivé selon la date de fin",
       archiveReady: "Dossier d’archive disponible",
-      autoArchived: "Archivé selon la date de fin",
-      completed: "Marqué comme terminé",
-      viewArchive: "Voir le dossier d’archive",
-      viewDetails: "Voir les détails de clôture",
-      archiveCta: "Voir toutes les archives de projets →",
-      archiveHint:
-        "Parcourez les dossiers de projets par démographie et consultez les documents disponibles.",
-      statActive: "Programmes actifs",
-      statUpcoming: "À venir",
-      statCommunities: "Lieux indiqués",
-      statBeneficiaries: "Bénéficiaires indiqués",
-      statRaised: "Montants déclarés collectés",
-      statsNote:
-        "Ces chiffres résument les dossiers affichés ; une même personne peut être comptée dans plusieurs projets.",
+      details: "Voir le projet",
+      viewRecord: "Voir le dossier",
+      donate: "Donner",
+      stats: "Aperçu des projets",
+      statUpcoming: "Actions à venir",
+      statActive: "Programmes en cours",
     }
   : {
-      metaTitle: "Our Projects",
-      metaDescription:
-        "Explore ADA's programs supporting widows, orphans, and young women across Cameroon, along with available project records.",
-      heroTitle: "Our Projects",
-      heroSubtitle:
-        "Explore ADA's active programs in Cameroon and browse available project records.",
-      heroBadge: "Programs & Campaigns",
-      upcomingEyebrow: "Upcoming campaign",
-      upcomingTitle: "Community campaign",
-      upcomingBody:
-        "Check each project record for its listed dates and available information.",
-      upcomingDonate: "Support this campaign",
-      upcomingDetails: "Details",
-      scheduled: "Scheduled",
-      activeTitle: "Current programs",
-      activeSr: "Current Projects",
-      raised: "raised",
-      of: "of",
-      details: "Details",
-      donate: "Donate",
-      completedEyebrow: "Completed or archived",
-      completedTitle: "Project records",
-      completedBody:
-        "Some records are marked completed by ADA. Others move here after their planned end date; a date alone does not confirm delivery or a final report.",
+      title: "Our Projects",
+      intro: "See ADA’s upcoming outreaches, current programs, and project records in Cameroon.",
+      archive: "View the project archive",
+      archiveHint: "Browse records by outreach category and see the available documents.",
+      upcoming: "Upcoming outreaches",
+      current: "Current programs",
+      paused: "Paused programs",
+      records: "Project records",
+      recordsNote: "Records may be archived after their scheduled date. A past date does not confirm that the project took place or that a report is available.",
+      closed: "Scheduled date passed",
+      archivedByDate: "Archived by end date",
       archiveReady: "Archive record available",
-      autoArchived: "Archived by end date",
-      completed: "Marked completed",
-      viewArchive: "View archive record",
-      viewDetails: "View completion details",
-      archiveCta: "View full project archive →",
-      archiveHint:
-        "Browse project records by demographic and review available documents.",
-      statActive: "Active Programs",
-      statUpcoming: "Upcoming",
-      statCommunities: "Listed locations",
-      statBeneficiaries: "Beneficiaries listed",
-      statRaised: "Reported funds raised",
-      statsNote:
-        "These figures summarize the listed records; the same person may be counted in more than one project.",
+      details: "View project",
+      viewRecord: "View record",
+      donate: "Donate",
+      stats: "Projects at a glance",
+      statUpcoming: "Upcoming outreaches",
+      statActive: "Current programs",
     };
 
-function statusBadgeClass(status: ProjectStatus): string {
-  if (status === "upcoming") return "bg-primary-100 text-primary-800";
-  if (status === "active") return "bg-green-100 text-green-700";
-  if (status === "completed") return "bg-gray-100 text-gray-600";
-  return "bg-yellow-100 text-yellow-700";
+const timeFormatter = new Intl.DateTimeFormat(isFr ? "fr-FR" : "en-US", {
+  dateStyle: "full",
+  timeZone: "UTC",
+});
+function projectDate(value?: string | null) {
+  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return undefined;
+  const date = new Date(`${value}T00:00:00Z`);
+  if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== value) return undefined;
+  return { value, label: timeFormatter.format(date) };
 }
+const focus = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-700";
+const secondaryLink = `inline-flex min-h-11 items-center rounded-md border border-primary-300 px-4 py-2 text-sm font-semibold text-primary-800 hover:bg-primary-50 ${focus}`;
+const primaryLink = `inline-flex min-h-11 items-center rounded-md bg-primary-700 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-900 ${focus}`;
 
-function formatSchedule(start?: string, end?: string): string {
-  if (!start) return "";
-  const opts: Intl.DateTimeFormatOptions = {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  };
-  const loc = isFr ? "fr-FR" : "en-US";
-  const startLabel = new Date(`${start}T12:00:00`).toLocaleDateString(
-    loc,
-    opts,
-  );
-  if (!end || end === start) return startLabel;
-  const endLabel = new Date(`${end}T12:00:00`).toLocaleDateString(loc, opts);
-  return `${startLabel} – ${endLabel}`;
-}
+const groups = [
+  { id: "upcoming-outreaches", title: copy.upcoming, items: upcoming, background: "white" as const },
+  { id: "current-programs", title: copy.current, items: current, background: "gray" as const },
+  { id: "project-records", title: copy.records, items: records, background: "white" as const },
+  { id: "paused-programs", title: copy.paused, items: paused, background: "gray" as const },
+];
 ---
 
-<PageLayout title={copy.metaTitle} description={copy.metaDescription}>
+<PageLayout title={copy.title} description={copy.intro}>
   <PageHero
-    title={copy.heroTitle}
-    subtitle={copy.heroSubtitle}
+    title={copy.title}
+    subtitle={copy.intro}
     imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
-  />
+    imageDecorative
+    compact
+  >
+    <a
+      href={archiveHref}
+      class="mt-6 inline-flex min-h-11 items-center gap-2 rounded-md bg-[#faf8f4] px-4 py-2 text-sm font-semibold text-primary-900 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+    >
+      {copy.archive} <span aria-hidden="true">→</span>
+    </a>
+  </PageHero>
+
+  <div class="border-b border-primary-100 bg-[#faf8f4]">
+    <dl aria-label={copy.stats} class="mx-auto grid max-w-7xl grid-cols-2 gap-3 px-4 py-5 sm:px-6 md:flex md:gap-10 lg:px-8">
+      <div class="flex items-baseline gap-2.5">
+        <dt class="order-2 text-sm font-medium text-gray-700">{copy.statUpcoming}</dt>
+        <dd class="order-1 font-heading text-2xl font-semibold tabular-nums text-primary-800">{upcoming.length}</dd>
+      </div>
+      <div class="flex items-baseline gap-2.5">
+        <dt class="order-2 text-sm font-medium text-gray-700">{copy.statActive}</dt>
+        <dd class="order-1 font-heading text-2xl font-semibold tabular-nums text-primary-800">{activeCount}</dd>
+      </div>
+    </dl>
+  </div>
 
   {
-    upcomingProjects.length > 0 && (
-      <Section background="white" padding="lg">
-        <div class="max-w-3xl mb-10">
-          <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
-            {copy.upcomingEyebrow}
-          </p>
-          <h2 class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900 tracking-tight">
-            {copy.upcomingTitle}
-          </h2>
-          <p class="mt-3 text-sm text-gray-600 leading-relaxed">
-            {copy.upcomingBody}
-          </p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {upcomingProjects.map((project) => (
-            <article class="group relative overflow-hidden rounded-md border border-gray-200 bg-[#faf8f4]">
-              <a
-                href={localePath(`/projects/${project.slug}`, locale)}
-                class="block"
-              >
-                {(!project.announcementOnly || project.hasAnnouncementImage) && (
-                  <div class="aspect-[16/10] overflow-hidden bg-gray-100">
-                    <img
-                      src={project.imageUrl}
-                      alt={project.imageAlt}
-                      class="w-full h-full object-cover object-top"
-                      loading="eager"
-                    />
+    groups.map(({ id, title, items, background }) => items.length ? (
+      <Section id={id} background={background} padding="md">
+        <h2 class="font-heading text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">{title}</h2>
+        {id === "project-records" && (
+          <p class="mt-3 max-w-prose text-sm leading-relaxed text-gray-700">{copy.recordsNote}</p>
+        )}
+        <div class="mt-6 grid gap-5 md:grid-cols-2">
+          {items.map((project) => {
+            const archived = project.status === "completed";
+            const href = archived && project.archiveHref ? project.archiveHref : link(`/projects/${project.slug}`);
+            const badge = project.isAutoArchived ? copy.archivedByDate
+              : archived && project.archiveReady ? copy.archiveReady
+              : project.hasEnded && project.status === "active" ? copy.closed
+              : projectStatusLabel(project.status, locale);
+            const image = selectProjectsIndexImage(project, locale);
+            const start = projectDate(project.startDate) ?? projectDate(project.endDate);
+            const end = projectDate(project.endDate);
+            return (
+              <article class="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-[#faf8f4]">
+                {image && (
+                  <div class="h-44 overflow-hidden bg-[#efece4] md:h-48">
+                    <img src={image.src} alt={image.alt} class="h-full w-full object-cover object-center" loading="lazy" />
                   </div>
                 )}
-                <div class="p-6 pb-20">
-                  <div class="flex flex-wrap items-center gap-2 mb-3">
-                    <span
-                      class:list={[
-                        "font-heading px-2 py-0.5 text-xs font-semibold rounded-md",
-                        statusBadgeClass(project.status),
-                      ]}
-                    >
-                      {projectStatusLabel(project.status, locale)}
-                    </span>
-                    <span class="text-xs text-gray-500">
-                      {project.location}
-                    </span>
-                  </div>
-                  <h3 class="text-xl font-heading font-bold text-gray-900">
-                    {project.title}
-                  </h3>
-                  {(project.startDate || project.endDate) && (
-                    <p class="mt-2 text-xs font-medium text-primary-800">
-                      {copy.scheduled}:{" "}
-                      {formatSchedule(project.startDate, project.endDate)}
+                <div class="flex flex-1 flex-col p-5 sm:p-6">
+                  <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-700">
+                    <span class:list={[
+                      "inline-flex rounded-md px-2 py-1 text-xs font-semibold",
+                      project.status === "paused" ? "bg-amber-100 text-amber-900" :
+                        archived ? "bg-gray-100 text-gray-700" : "bg-primary-100 text-primary-900",
+                    ]}>{badge}</span>
+                    {project.location && <span>{project.location}</span>}
+                  </p>
+                  <h3 class="mt-3 font-heading text-xl font-bold text-gray-900">{project.title}</h3>
+                  {start && (
+                    <p class="mt-2 text-sm font-medium text-primary-800">
+                      <time datetime={start.value}>{start.label}</time>
+                      {end && end.value !== start.value && <><span aria-hidden="true"> – </span><span class="sr-only">{isFr ? " au " : " to "}</span><time datetime={end.value}>{end.label}</time></>}
                     </p>
                   )}
-                  <p class="mt-3 text-sm text-gray-600 leading-relaxed line-clamp-3">
-                    {project.description}
-                  </p>
-                  {!project.announcementOnly && (
-                    <div class="mt-5">
-                      <div class="flex justify-between text-sm mb-1">
-                        <span class="text-gray-600">
-                          ${project.raised.toLocaleString()} {copy.raised}
-                        </span>
-                        <span class="text-gray-500">
-                          {copy.of} ${project.goal.toLocaleString()}
-                        </span>
-                      </div>
-                      <div class="w-full h-2 bg-primary-50 rounded-md overflow-hidden border border-primary-100">
-                        <div
-                          class="h-full bg-primary-500 rounded-md"
-                          style={`width: ${Math.min(100, (project.raised / Math.max(project.goal, 1)) * 100)}%`}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </a>
-              <div class="absolute bottom-0 left-0 right-0 p-6 pt-0 flex gap-2">
-                <a
-                  href={localePath(`/projects/${project.slug}`, locale)}
-                  class="flex-1 text-center px-3 py-2.5 text-sm font-medium text-primary-800 border border-primary-200 rounded-lg bg-white/90 hover:bg-primary-50 transition-colors"
-                  aria-label={`${copy.upcomingDetails}: ${project.title}`}
-                >
-                  {copy.upcomingDetails}
-                </a>
-                {project.isFundable && (
-                  <a
-                    href={localePath(`/donate?project=${project.slug}`, locale)}
-                    class="flex-1 text-center px-3 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-lg hover:bg-secondary-600 transition-colors"
-                    aria-label={`${copy.upcomingDonate}: ${project.title}`}
-                  >
-                    {copy.upcomingDonate}
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
-      </Section>
-    )
-  }
-
-  <Section background={upcomingProjects.length ? "gray" : "white"} padding="lg">
-    {
-      upcomingProjects.length > 0 && (
-        <h2 class="text-2xl font-heading font-bold text-gray-900 mb-8 max-w-5xl mx-auto">
-          {copy.activeTitle}
-        </h2>
-      )
-    }
-    {upcomingProjects.length === 0 && <h2 class="sr-only">{copy.activeSr}</h2>}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {
-        activeProjects.map((project) => (
-          <article
-            class="relative bg-[#faf8f4] rounded-md overflow-hidden border border-gray-200"
-            data-status={project.status}
-          >
-            <a
-              href={localePath(`/projects/${project.slug}`, locale)}
-              class="block"
-            >
-              {(!project.announcementOnly || project.hasAnnouncementImage) && (
-                <div class="h-48 overflow-hidden bg-gray-100">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.imageAlt}
-                    class="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              )}
-              <div class="p-6 pb-20">
-                <div class="flex items-center gap-2 mb-3">
-                  <span
-                    class:list={[
-                      "font-heading px-2 py-0.5 text-xs font-medium rounded-md",
-                      statusBadgeClass(project.status),
-                    ]}
-                  >
-                    {project.announcementOnly && project.hasEnded
-                      ? (isFr ? "Date prévue passée" : "Scheduled date passed")
-                      : projectStatusLabel(project.status, locale)}
-                  </span>
-                  <span class="text-xs text-gray-500">{project.location}</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900">
-                  {project.title}
-                </h3>
-                <p class="mt-2 text-sm text-gray-600 line-clamp-2">
-                  {project.description}
-                </p>
-                {!project.announcementOnly && (
-                  <div class="mt-4">
-                    <div class="flex justify-between text-sm mb-1">
-                      <span class="text-gray-600">
-                        ${project.raised.toLocaleString()} {copy.raised}
-                      </span>
-                      <span class="text-gray-500">
-                        {copy.of} ${project.goal.toLocaleString()}
-                      </span>
-                    </div>
-                    <div
-                      class="w-full h-2 bg-gray-200 rounded-md overflow-hidden"
-                      role="progressbar"
-                      aria-valuenow={Math.round(
-                        (project.raised / Math.max(project.goal, 1)) * 100,
-                      )}
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-label={`${project.title} fundraising progress`}
-                    >
-                      <div
-                        class="h-full bg-primary-500 rounded-md"
-                        style={`width: ${Math.min(100, (project.raised / Math.max(project.goal, 1)) * 100)}%`}
-                      />
-                    </div>
+                  <p class="mt-3 max-w-prose text-sm leading-relaxed text-gray-700">{project.description}</p>
+                  <div class="mt-auto flex flex-wrap gap-2 pt-5">
+                    <a href={href} class={secondaryLink} aria-label={`${archived ? copy.viewRecord : copy.details}: ${project.title}`}>
+                      {archived ? copy.viewRecord : copy.details}
+                    </a>
+                    {project.isFundable && (
+                      <a href={link(`/donate?project=${encodeURIComponent(project.slug)}`)} class={primaryLink} aria-label={`${copy.donate}: ${project.title}`}>
+                        {copy.donate}
+                      </a>
+                    )}
                   </div>
-                )}
-              </div>
-            </a>
-            <div class="absolute bottom-0 left-0 right-0 p-6 pt-0 flex gap-2">
-              <a
-                href={localePath(`/projects/${project.slug}`, locale)}
-                class="flex-1 text-center px-3 py-2 text-sm font-medium text-primary-700 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors"
-                aria-label={`${copy.details}: ${project.title}`}
-              >
-                {copy.details}
-              </a>
-              {project.isFundable ? (
-                <a
-                  href={localePath(`/donate?project=${project.slug}`, locale)}
-                  class="flex-1 text-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
-                  aria-label={`${copy.donate}: ${project.title}`}
-                >
-                  {copy.donate}
-                </a>
-              ) : project.announcementOnly ? null : (
-                <span class="flex-1 text-center px-3 py-2 text-sm font-medium text-gray-400 border border-gray-100 rounded-lg">
-                  {projectStatusLabel(project.status, locale)}
-                </span>
-              )}
-            </div>
-          </article>
-        ))
-      }
-    </div>
-  </Section>
-
-  {
-    completedProjects.length > 0 && (
-      <Section background="gray" padding="lg">
-        <div class="max-w-3xl mb-8">
-          <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
-            {copy.completedEyebrow}
-          </p>
-          <h2 class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900 tracking-tight">
-            {copy.completedTitle}
-          </h2>
-          <p class="mt-3 text-sm text-gray-600">{copy.completedBody}</p>
-        </div>
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {completedProjects.map((project) => (
-            <article class="bg-[#faf8f4] rounded-md overflow-hidden border border-gray-200">
-              <a
-                href={
-                  project.archiveHref ||
-                  localePath(`/projects/${project.slug}`, locale)
-                }
-                class="block"
-              >
-                {(!project.announcementOnly || project.hasAnnouncementImage) && (
-                  <div class="h-40 overflow-hidden bg-gray-100">
-                    <img
-                      src={project.imageUrl}
-                      alt={project.imageAlt}
-                      class="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                )}
-                <div class="p-5">
-                  <span class="font-heading inline-flex px-2 py-0.5 text-xs font-medium rounded-md bg-gray-100 text-gray-600">
-                    {project.isAutoArchived
-                      ? copy.autoArchived
-                      : project.archiveReady
-                        ? copy.archiveReady
-                        : copy.completed}
-                  </span>
-                  <h3 class="mt-3 text-lg font-semibold text-gray-900">
-                    {project.title}
-                  </h3>
-                  <p class="mt-2 text-sm text-gray-600 line-clamp-2">
-                    {project.description}
-                  </p>
-                  <span class="mt-4 inline-flex text-sm font-semibold text-primary-700">
-                    {project.archiveReady ? copy.viewArchive : copy.viewDetails}{" "}
-                    →
-                  </span>
                 </div>
-              </a>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
+        {id === "project-records" && (
+          <div class="mt-6">
+            <a href={archiveHref} class={secondaryLink}>{copy.archive} <span class="ml-2" aria-hidden="true">→</span></a>
+            <p class="mt-2 text-sm text-gray-700">{copy.archiveHint}</p>
+          </div>
+        )}
       </Section>
-    )
+    ) : null)
   }
-
-  <Section background="gray" padding="sm">
-    <div class="max-w-3xl">
-      <a
-        href={localePath("/projects/archive", locale)}
-        class="font-heading inline-flex items-center gap-2 text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
-      >
-        {copy.archiveCta}
-      </a>
-      <p class="mt-2 text-xs text-gray-500">{copy.archiveHint}</p>
-    </div>
-  </Section>
-
-  <Section background="dark" padding="md" class="!bg-[#121a14] !bg-none">
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
-      <div>
-        <p class="font-heading text-3xl font-bold">{upcomingCount}</p>
-        <p class="mt-1 text-sm text-white/70">{copy.statUpcoming}</p>
-      </div>
-      <div>
-        <p class="font-heading text-3xl font-bold">{activeCount}</p>
-        <p class="mt-1 text-sm text-white/70">{copy.statActive}</p>
-      </div>
-      <div>
-        <p class="font-heading text-3xl font-bold">{uniqueLocations}</p>
-        <p class="mt-1 text-sm text-white/70">{copy.statCommunities}</p>
-      </div>
-      <div>
-        <p class="text-3xl font-bold">{totalBeneficiaries}+</p>
-        <p class="mt-1 text-sm text-white/70">{copy.statBeneficiaries}</p>
-      </div>
-      <div>
-        <p class="text-3xl font-bold">${Math.round(totalRaised / 1000)}K+</p>
-        <p class="mt-1 text-sm text-white/70">{copy.statRaised}</p>
-      </div>
-    </div>
-    <p class="mt-6 max-w-3xl text-xs leading-relaxed text-white/60">
-      {copy.statsNote}
-    </p>
-  </Section>
 </PageLayout>

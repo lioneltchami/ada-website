@@ -27,7 +27,7 @@ const pad = {
 };
 ---
 
-<section id={id} class:list={[bg[background], pad[padding], className]}>
+<section id={id} data-section-tone={background} class:list={[bg[background], pad[padding], className]}>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <slot />
   </div>

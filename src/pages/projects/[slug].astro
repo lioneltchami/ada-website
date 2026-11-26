@@ -4,6 +4,7 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import { reviewed2026Release } from "../../lib/reviewed-project-summaries-2026";
 import Section from "../../components/layout/Section.astro";
 import { getProjects, type SanityProject } from "../../lib/sanity";
+import { selectProjectsIndexImage } from "../../lib/projects-index-presentation";
 import { resolveProjectCardImage } from "../../lib/project-images";
 import {
   getProjectLifecycleState,
@@ -13,7 +14,6 @@ import {
   normalizeFallbackArchiveProjects,
 } from "../../lib/project-fallbacks";
 import {
-  formatUsdAmount,
   getPausedProjectMessage,
   getProjectStatusText,
 } from "../../lib/project-detail-presentation";
@@ -41,9 +41,6 @@ export async function getStaticPaths() {
             hasAnnouncementImage: Boolean(p.mainImage?.asset?._ref),
             startDate: p.startDate,
             description: p.description,
-            beneficiaries: p.beneficiaries,
-            goal: p.goalAmount,
-            raised: p.raisedAmount,
             imageUrl: image.imageUrl,
             imageAlt: image.imageAlt,
           };
@@ -71,11 +68,7 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const progress = Math.min(100, (project.raised / project.goal) * 100);
-const costPerBeneficiary =
-  project.beneficiaries > 0
-    ? Math.round(project.raised / project.beneficiaries)
-    : 0;
+const detailImage = selectProjectsIndexImage(project, "en");
 const isCompleted = project.status === "completed";
 const isAutoArchived = Boolean(project.autoArchived);
 const isFundable = project.isFundable;
@@ -86,7 +79,6 @@ const fundraisingNote = isFundable
     : project.status !== "paused"
       ? "Fundraising is closed for this project."
       : null;
-const formatUsd = (amount: number) => formatUsdAmount(amount, "en");
 const statusBadgeClass =
   project.status === "upcoming"
     ? "bg-primary-400/20 text-primary-100 border border-primary-400/30"
@@ -160,9 +152,6 @@ const paragraphs = project.description
           {statusBadgeLabel}
         </span>
         <span class="text-sm text-white/70">{project.location}</span>
-        <span class="text-sm text-white/70"
-          >{project.beneficiaries} beneficiaries</span
-        >
       </div>
       <h1
         class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold leading-tight"
@@ -172,56 +161,18 @@ const paragraphs = project.description
       <p class="mt-4 text-lg text-white/80 max-w-2xl">
         Serving vulnerable communities in {project.location}, Cameroon
       </p>
-      <div class="mt-8 overflow-hidden rounded-md border border-white/15 bg-white/10 max-w-3xl">
-        <img
-          src={project.imageUrl}
-          alt={project.imageAlt}
-          class="w-full h-[260px] md:h-[340px] object-cover"
-          loading="eager"
-        />
-      </div>
+      {detailImage && (
+        <div class="mt-8 overflow-hidden rounded-md border border-white/15 bg-white/10 max-w-3xl">
+          <img
+            src={detailImage.src}
+            alt={detailImage.alt}
+            class="w-full h-[260px] md:h-[340px] object-cover"
+            loading="eager"
+          />
+        </div>
+      )}
     </div>
   </section>
-
-  <!-- Quick Stats Bar -->
-  <div class="bg-white border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div>
-          <p class="font-heading text-xl font-bold text-primary-700">
-            {project.beneficiaries}
-          </p>
-          <p class="text-xs text-gray-500">People Helped</p>
-        </div>
-        <div>
-          <p class="font-heading text-xl font-bold text-primary-700">
-            {formatUsd(project.raised)}
-          </p>
-          <p class="text-xs text-gray-500">
-            {isCompleted && !isAutoArchived
-              ? "Final raised (USD)"
-              : "Raised so far (USD)"}
-          </p>
-        </div>
-        <div>
-          <p class="font-heading text-xl font-bold text-primary-700">
-            {Math.round(progress)}%
-          </p>
-          <p class="text-xs text-gray-500">
-            {isCompleted && !isAutoArchived
-              ? "Final funding"
-              : "Funding progress"}
-          </p>
-        </div>
-        <div>
-          <p class="font-heading text-xl font-bold text-primary-700">
-            {formatUsd(costPerBeneficiary)}
-          </p>
-          <p class="text-xs text-gray-500">Raised per beneficiary (USD, derived)</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <Section background="white" padding="lg">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -241,33 +192,6 @@ const paragraphs = project.description
           </div>
         </div>
 
-        <!-- Impact Metrics -->
-        <div class="mt-10">
-          <h3 class="text-lg font-heading font-semibold text-gray-900">
-            Impact at a Glance
-          </h3>
-          <dl class="mt-4 divide-y divide-gray-200 border-t border-gray-200">
-            <div class="flex items-baseline justify-between gap-4 py-4">
-              <dt class="text-sm text-gray-600">Direct Beneficiaries</dt>
-              <dd class="font-heading text-2xl font-bold text-primary-700">
-                {project.beneficiaries}
-              </dd>
-            </div>
-            <div class="flex items-baseline justify-between gap-4 py-4">
-              <dt class="text-sm text-gray-600">Location</dt>
-              <dd class="font-heading text-2xl font-bold text-primary-700">
-                {project.location}
-              </dd>
-            </div>
-            <div class="flex items-baseline justify-between gap-4 py-4">
-              <dt class="text-sm text-gray-600">Amount raised per beneficiary (derived, USD)</dt>
-              <dd class="font-heading text-2xl font-bold text-primary-700">
-                {formatUsd(costPerBeneficiary)}
-              </dd>
-            </div>
-          </dl>
-        </div>
-
       </div>
 
       <!-- Sidebar -->
@@ -283,46 +207,11 @@ const paragraphs = project.description
                 ? "Fundraising paused"
               : isCompleted
                 ? "Project Completed"
-                : "Fundraising Progress (USD)"}
+                : "Support this project"}
           </h3>
-          <div class="mt-4">
-            <div class="flex justify-between text-sm mb-2">
-              <span class="font-bold text-gray-900"
-                >{formatUsd(project.raised)}</span
-              >
-              <span class="text-gray-500"
-                >of {formatUsd(project.goal)}</span
-              >
-            </div>
-            <div
-              class="w-full h-4 bg-gray-200 rounded-md overflow-hidden"
-              role="progressbar"
-              aria-valuenow={Math.round(progress)}
-              aria-valuemin="0"
-              aria-valuemax="100"
-              aria-label="Fundraising progress"
-            >
-              <div
-                class="h-full bg-primary-600 rounded-md transition-all"
-                style={`width: ${progress}%`}
-              >
-              </div>
-            </div>
-            <p class="mt-2 text-sm text-gray-600">
-              {Math.round(progress)}% funded
-            </p>
-            <p class="mt-1 text-xs text-gray-500">
-              {
-                !isFundable && project.status !== "paused"
-                  ? "Fundraising closed for this project."
-                  : project.status === "paused"
-                    ? getPausedProjectMessage("en")
-                    : project.status === "upcoming"
-                      ? `Outreach window opens soon · ${formatUsd(project.goal - project.raised)} goal`
-                      : `${formatUsd(project.goal - project.raised)} still needed`
-              }
-            </p>
-          </div>
+          {project.status === "paused" && (
+            <p class="mt-3 text-sm text-gray-600">{getPausedProjectMessage("en")}</p>
+          )}
 
           <a
             href={isFundable
@@ -338,7 +227,7 @@ const paragraphs = project.description
             {
               isFundable
                 ? "Support This Project"
-                : "View Project Archive"
+                : "Browse project archive"
             }
           </a>
 
@@ -368,22 +257,6 @@ const paragraphs = project.description
               <dd class="text-xs font-medium text-gray-900">
                 {project.location}
               </dd>
-            </div>
-            <div class="flex justify-between">
-              <dt class="text-xs text-gray-500">Beneficiaries</dt>
-              <dd class="text-xs font-medium text-gray-900">
-                {project.beneficiaries} people
-              </dd>
-            </div>
-            <div class="flex justify-between">
-              <dt class="text-xs text-gray-500">Raised per beneficiary (USD, derived)</dt>
-              <dd class="text-xs font-medium text-gray-900">
-                {formatUsd(costPerBeneficiary)}
-              </dd>
-            </div>
-            <div class="flex justify-between">
-              <dt class="text-xs text-gray-500">Admin overhead</dt>
-              <dd class="text-xs font-medium text-gray-900">5%</dd>
             </div>
           </dl>
         </div>
