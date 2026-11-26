@@ -1,4 +1,4 @@
-import type { StoryReleaseSlug } from "./story-release-copy";
+import type { StoryReleaseLocale, StoryReleaseSlug } from "./story-release-copy";
 
 export const STORY_RELEASE_HERO_IMAGE =
 	"https://cdn.sanity.io/images/rj2m21gk/production/02bd09413bd429a7cb9677a9368392642774671e-800x600.jpg";
@@ -35,3 +35,31 @@ export const STORY_CATEGORY_BY_SLUG: Record<StoryReleaseSlug, StoryCategory> = {
 	"founder-letter-2026": "perspective",
 	"transparency-report-2024": "finance",
 };
+
+interface StoryPhoto {
+	src: string;
+	width: number;
+	height: number;
+	alt: Record<StoryReleaseLocale, string>;
+	caption: Record<StoryReleaseLocale, string>;
+}
+
+// Only use explicitly reviewed photos of this exact story or outreach. A general
+// resemblance (such as a different education outreach) is not enough.
+const STORY_PHOTOS: Partial<Record<StoryReleaseSlug, StoryPhoto>> = {
+	"salon-update": {
+		src: ESTHER_PORTRAIT_IMAGE,
+		width: 400,
+		height: 600,
+		alt: { en: "Portrait of Esther", fr: "Portrait d’Esther" },
+		caption: { en: "Esther", fr: "Esther" },
+	},
+};
+
+export function getStoryPhoto(slug: StoryReleaseSlug, locale: StoryReleaseLocale) {
+	const category = STORY_CATEGORY_BY_SLUG[slug];
+	if (category !== "story" && category !== "update") return;
+	const photo = STORY_PHOTOS[slug];
+	if (!photo) return;
+	return { src: photo.src, width: photo.width, height: photo.height, alt: photo.alt[locale], caption: photo.caption[locale] };
+}

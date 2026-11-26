@@ -1,5 +1,6 @@
 ---
 import reviewed2024And2025 from "../../../config/project-records-2024-25.json";
+import ArchiveSupportingPhoto from "./ArchiveSupportingPhoto.astro";
 import HeroBackdrop from "../layout/HeroBackdrop.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
 import { outreachTitleLocation } from "../../lib/outreach-display-title";
@@ -9,6 +10,7 @@ import type { ProjectArchiveEntry } from "../../lib/project-archive";
 import { hasReleased2023ProjectDocumentSet, reviewedProjectRecords } from "../../lib/reviewed-project-records";
 import { hasReleased2024ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
 import { hasReleasedProjectDocumentSet } from "../../data/organization";
+import { getArchiveSupportingPhotos } from "../../data/archive-supporting-photos";
 import { archiveEditorial, archiveResolvedFinance } from "../../data/archive-detail-editorial";
 import { archiveProjectDocumentLinks, archivePublishedFinancialAccount, archivePublishedBudgetFcfa, archivePublished2025ReportContents, archivePublished2026Finance, released2026ReportLabel, released2025ReportLabel, formatArchiveFcfa } from "../../lib/archive-project-document-links";
 import { formatUsdAmount, getArchiveRecordStatusText, getProjectReportLabel } from "../../lib/project-detail-presentation";
@@ -40,6 +42,10 @@ const sections = editorial?.sections ?? (fr
       { title: "What we can report", text: "The available record details are shown alongside this account. We do not have detailed results to share here." },
     ]);
 const featurePhoto = getEligibleArchiveFeaturePhoto(record, locale);
+const supportingPhotos = getArchiveSupportingPhotos(slug, locale)
+  .filter(photo => photo.src !== featurePhoto?.src)
+  .slice(0, 2);
+const processHeading = fr ? "Comment nous avons procédé" : "How we did the work";
 const auto = Boolean(record.autoArchived);
 const status = getArchiveRecordStatusText(record.status, auto, locale);
 const demo = (fr
@@ -115,12 +121,24 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
         </figure>
       )}
       <div class="mt-7 space-y-6">
-        {sections.map(({title:heading,text}) => (
-          <section data-archive-story-section>
-            <h2 class="font-heading text-lg font-bold text-primary-900">{heading}</h2>
-            <p class="mt-2 max-w-[68ch] leading-relaxed text-slate-700">{text}</p>
-          </section>
-        ))}
+        {sections.map(({title:heading,text}) => {
+          const media = heading === processHeading ? supportingPhotos : [];
+          return (
+            <section data-archive-story-section>
+              <h2 class="font-heading text-lg font-bold text-primary-900">{heading}</h2>
+              <div class:list={[media.length ? "mt-2 grid items-start gap-4 sm:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] sm:gap-5" : "mt-2"]}>
+                <p class="max-w-[68ch] leading-relaxed text-slate-700">{text}</p>
+                {media.length > 0 && (
+                  <div data-archive-supporting-photos class="grid min-w-0 gap-4">
+                    {media.map(photo => (
+                      <ArchiveSupportingPhoto photo={photo} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </article>
 

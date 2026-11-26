@@ -9,7 +9,7 @@ import { storyFilterAnnouncement } from "../../lib/story-filters";
 import {
 	STORY_CATEGORY_BY_SLUG,
 	STORY_CATEGORY_LABELS,
-	ESTHER_PORTRAIT_IMAGE,
+	getStoryPhoto,
 } from "../../lib/story-release-index";
 
 interface Props {
@@ -72,7 +72,7 @@ const countForFilter = (id: string) => items.filter(({ slug }) =>
 		{items.filter(({ slug }) => STORY_CATEGORY_BY_SLUG[slug] === group).map(({ slug, post }) => {
 			const copy = post[locale];
 			const category = STORY_CATEGORY_BY_SLUG[slug];
-			const estherAlt = locale === "fr" ? "Portrait d’Esther" : "Portrait of Esther";
+			const photo = getStoryPhoto(slug, locale);
 			const badge = post.type === "review"
 				? strings.review
 				: post.type === "overview"
@@ -81,9 +81,9 @@ const countForFilter = (id: string) => items.filter(({ slug }) =>
 			return (
 				<a href={localePath(`/stories/${slug}`, locale)} data-story-card data-story-category={category} data-story-review={post.type === "review" ? "true" : "false"} class="group block rounded-xl border border-gray-200 bg-gray-50 p-5 transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">
 					<article class="flex h-full flex-col">
-						{slug === "salon-update" && (
+						{photo && (
 							<div class="mb-4 flex h-56 items-center justify-center overflow-hidden rounded-lg bg-gray-100">
-								<img src={ESTHER_PORTRAIT_IMAGE} alt={estherAlt} width="400" height="600" class="h-full w-auto max-w-full object-contain" loading="lazy" decoding="async" />
+								<img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} class="h-full w-auto max-w-full object-contain" loading="lazy" decoding="async" />
 							</div>
 						)}
 						<span class:list={["mb-3 w-fit rounded-full px-2.5 py-1 text-xs font-semibold", post.type === "review" ? "bg-amber-100 text-amber-900" : "bg-primary-50 text-primary-800"]}>{badge}</span>

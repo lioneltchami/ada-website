@@ -2,6 +2,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
 import CurrentWork from "../components/home/CurrentWork.astro";
+import OutreachPhoto from "../components/media/OutreachPhoto.astro";
 import HomeHero from "../components/home/HomeHero.astro";
 import PhotoMosaic from "../components/home/PhotoMosaic.astro";
 import WorkVideo from "../components/home/WorkVideo.astro";
@@ -383,7 +384,7 @@ const actionPaths = [
 
   <!-- Leadership -->
   <Section background="gray" padding="lg">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+    <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,1fr)]">
       <div>
         <p
           class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
@@ -459,6 +460,7 @@ const actionPaths = [
           >
         </div>
       </div>
+      <OutreachPhoto record="city-cleanup-may-2025" locale="en" class="max-w-md" />
     </div>
   </Section>
 

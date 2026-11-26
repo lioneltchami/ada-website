@@ -20,9 +20,9 @@ const sources = {
     fr: "Articles de notre action de Noël, décembre 2022",
   },
   sponsor: {
-    slug: "school-supply-distribution-feb-2022",
-    en: "Supplies from a school visit in Buea, February 2022",
-    fr: "Articles distribués lors d’une visite scolaire à Buea, février 2022",
+    slug: "prenatal-care-support-program",
+    en: "Supplies for mothers and babies in Muea, July 2025",
+    fr: "Articles pour les mères et les bébés à Muea, juillet 2025",
   },
   volunteer: {
     slug: "idp-girls-baking-training-jul-2022",
@@ -30,9 +30,9 @@ const sources = {
     fr: "Préparation de la pâte lors de notre atelier de pâtisserie, juillet 2022",
   },
   gallery: {
-    slug: "city-cleanup-may-2023",
-    en: "From the archive: our cleanup team in Buea, May 2023",
-    fr: "Dans les archives : notre équipe de nettoyage à Buea, mai 2023",
+    slug: "back-to-school-buea-2024",
+    en: "From the archive: school supplies in Buea, August 2024",
+    fr: "Dans nos archives : fournitures scolaires à Buea, août 2024",
   },
   team: {
     slug: "first-widow-home-visits-2021",

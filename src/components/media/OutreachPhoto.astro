@@ -1,0 +1,35 @@
+---
+import { getArchiveFeaturePhoto } from "../../data/archive-feature-photos";
+import { localePath, type Locale } from "../../i18n";
+
+interface Props {
+  record: string;
+  locale: Locale;
+  class?: string;
+  size?: "wide" | "natural";
+}
+
+const { record, locale, class: className, size = "wide" } = Astro.props;
+const photo = getArchiveFeaturePhoto(record, locale);
+const href = localePath(`/projects/archive/${record}/`, locale);
+---
+
+{photo && (
+  <figure data-outreach-photo={record} class:list={["min-w-0", className]}>
+    <img
+      src={photo.src}
+      alt={photo.alt}
+      width={photo.width}
+      height={photo.height}
+      loading="lazy"
+      decoding="async"
+      class:list={[
+        "block w-full rounded-md border border-gray-200",
+        size === "wide" ? "aspect-video object-cover" : "h-auto",
+      ]}
+    />
+    <figcaption class="mt-2 text-sm leading-snug text-primary-800">
+      <a class="underline underline-offset-2 hover:text-primary-950" href={href}>{photo.caption}</a>
+    </figcaption>
+  </figure>
+)}
