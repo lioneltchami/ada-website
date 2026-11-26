@@ -12,7 +12,7 @@ interface Props {
   imageDecorative?: boolean;
   imageLayout?: "background" | "side";
   preserveFraming?: boolean;
-  photo?: { src: string; alt: string; credit: { text: string; href: string } };
+  photo?: { src: string; alt: string; credit: { text: string; href: string; linkLabel?: string } };
 }
 
 const {
@@ -54,8 +54,9 @@ const {
       <slot />
       {photo && (
         <p class="mt-4 text-sm leading-relaxed text-white/90">
+          {photo.credit.linkLabel && <span class="mr-2">{photo.credit.text}</span>}
           <a href={photo.credit.href} class="underline decoration-white/50 underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4">
-            {photo.credit.text}
+            {photo.credit.linkLabel ?? photo.credit.text}
           </a>
         </p>
       )}
