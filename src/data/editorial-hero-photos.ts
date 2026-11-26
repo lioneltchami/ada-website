@@ -56,8 +56,9 @@ const sources = {
   },
   resources: {
     slug: "school-supply-distribution-feb-2022",
-    en: "From our project records: a school visit in Buea, February 2022",
-    fr: "Dans nos dossiers : une visite scolaire à Buea, février 2022",
+    en: "Photo from our February 2022 school visit in Buea.",
+    fr: "Photo de notre visite scolaire de février 2022 à Buea.",
+    linkLabel: { en: "View outreach record", fr: "Voir la fiche de l’action" },
   },
   transparency: {
     slug: "back-to-school-sep-2022",
@@ -79,6 +80,7 @@ export function getEditorialHeroPhoto(page: keyof typeof sources, locale: Locale
     ...photo,
     credit: {
       text: source[locale],
+      linkLabel: "linkLabel" in source ? source.linkLabel[locale] : undefined,
       href: localePath(`/projects/archive/${source.slug}/`, locale),
     },
   };
