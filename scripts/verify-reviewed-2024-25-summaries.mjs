@@ -23,7 +23,7 @@ for (const locale of ['', 'fr/']) {
       const words = new Intl.DateTimeFormat(locale ? 'fr-FR' : 'en-GB', {
         day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
       }).format(new Date(date + 'T00:00:00Z'));
-      assert.ok(detail.includes(words), 'Released detail lacks exact localized date: ' + route);
+      assert.ok(detail.replace(/\b1(?:er|ᵉʳ)(?= )/g, "1").includes(words.replace(/\b1(?:er|ᵉʳ)(?= )/g, "1")), 'Released detail lacks exact localized date: ' + route);
       if (year === 2024) {
         const localBudget = new Intl.NumberFormat(locale ? 'fr-FR' : 'en-US').format(approvedBudgetFcfa);
         const normalize = value => value.replace(/[\u00a0\u202f]/g, ' ');

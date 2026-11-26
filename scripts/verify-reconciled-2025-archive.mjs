@@ -12,13 +12,13 @@ const confirmed = {
   'christmas-orphanage-outreach-2025': '2025-12-20',
   'back-to-school-bamenda-aug-2025': '2025-08-30',
   'back-to-school-buea-2025': '2025-08-30',
-  'city-cleanup-may-2025': '2025-05-03',
-  'prenatal-care-support-program': '2025-03-29',
+  'prenatal-care-support-program': '2025-07-26',
+  'city-cleanup-may-2025': '2025-05-01',
   'womens-day-widows-outreach-2025': '2025-03-15',
 };
 const reviewedWorksheetFigures = {
   'womens-day-widows-outreach-2025': [240000,396,'calculated-worksheet-budget'],
-  'prenatal-care-support-program': [150000,247,'budget'],
+  'prenatal-care-support-program': [150000,267,'budget'],
   'city-cleanup-may-2025': [50000,86,'budget'],
   'back-to-school-buea-2025': [102600,182,'worksheet-budget'],
   'back-to-school-bamenda-aug-2025': [151000,268,'worksheet-budget'],
@@ -93,7 +93,7 @@ for (const [prefix, locale] of [['','en-GB'],['/fr','fr-FR']]) {
     assert.doesNotMatch(body, /Budget or goal|Budget ou objectif|Compte financier\s*:\s*Publié|Financial account\s*:\s*Published/i, slug);
     const date = confirmed[slug];
     const label = new Intl.DateTimeFormat(locale,{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T00:00:00Z'));
-    assert.ok(detail.includes(label), slug + ' missing exact localized event day: ' + label);
+    assert.ok(detail.replace(/\b1(?:er|ᵉʳ)(?= )/g, "1").includes(label.replace(/\b1(?:er|ᵉʳ)(?= )/g, "1")), slug + ' missing exact localized event day: ' + label);
   }
 }
 

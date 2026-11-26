@@ -8,8 +8,8 @@ const dates = {
   'back-to-school-bamenda-aug-2025': '2025-08-30',
   'back-to-school-buea-2025': '2025-08-30',
   'christmas-orphanage-outreach-2025': '2025-12-20',
-  'city-cleanup-may-2025': '2025-05-03',
-  'prenatal-care-support-program': '2025-03-29',
+  'city-cleanup-may-2025': '2025-05-01',
+  'prenatal-care-support-program': '2025-07-26',
   'womens-day-widows-outreach-2025': '2025-03-15',
 };
 const kinds = ['report', 'tor'];
