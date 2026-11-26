@@ -53,7 +53,7 @@ try {
         <footer>apotidev.org <span>${review.year} · ${fr ? "Français" : "English"}</span></footer>
       </article>`;
     }).join("");
-    await page.setContent(`<!doctype html><html lang="en"><meta charset="utf-8"><title>ADA ${review.year} Year in Review</title><style>
+    await page.setContent(`<!doctype html><html lang="en"><meta charset="utf-8"><title>ADA ${review.year} Year in Review${draft ? " - Working draft" : ""}</title><style>
       @page { size: A4; margin: 15mm 17mm; }
       * {box-sizing:border-box} body {margin:0;color:#1b3023;font:11pt Arial,sans-serif; print-color-adjust: exact;}
       article {position:relative; min-height:245mm; display:flex; flex-direction:column; break-inside:avoid;}

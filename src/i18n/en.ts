@@ -119,14 +119,14 @@ export default {
     completionReport: "Project Report",
     download: "Download",
     openLink: "Open",
-    funderDocs: "Due Diligence Package",
+    funderDocs: "Partner documents",
     funderDocsDesc:
-      "Registration, policies, and governance documents for institutional partners.",
+      "Find our registration, governance and safeguarding documents, plus examples and tools for planning a sponsorship.",
     diligenceGroups: {
       legal: "Legal & registration",
       policies: "Policies",
-      sponsor: "Sponsor kits",
-      budgets: "Budgets & finance",
+      sponsor: "Example project report",
+      budgets: "Planning template",
     },
     demographics: {
       widows: "Widows",
