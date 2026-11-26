@@ -11,8 +11,11 @@ function emulate(path: string, options: { optedOut?: boolean; host?: string } = 
   const listeners = new Map<string, (event: unknown) => void>();
   const win = {};
   class Element {
-    constructor(private href: string) {}
-    closest() { return { href: this.href }; }
+    constructor(private href: string, private category?: string, private active = false) {}
+    closest(selector: string) {
+      if (selector.startsWith("#archive-")) return this.category ? { dataset: { archiveCategory: this.category }, getAttribute: () => String(this.active) } : null;
+      return this.href ? { href: this.href } : null;
+    }
   }
   const location = new URL(path, "https://" + (options.host ?? "apotidev.org"));
   runInNewContext(script, {
@@ -25,7 +28,9 @@ function emulate(path: string, options: { optedOut?: boolean; host?: string } = 
     },
     fetch: async (url: URL, options: RequestInit) => { calls.push({ url, options }); },
   });
-  return { calls, click: (href: string, isTrusted = true) => listeners.get("click")?.({ isTrusted, target: new Element(href) }) };
+  return { calls,
+    filter: (category: string, active = false) => listeners.get("click")?.({ isTrusted: true, target: new Element("", category, active) }),
+    click: (href: string, isTrusted = true) => listeners.get("click")?.({ isTrusted, target: new Element(href) }) };
 }
 
 describe("limited public GoatCounter metrics", () => {
@@ -53,8 +58,30 @@ describe("limited public GoatCounter metrics", () => {
     }
   });
 
+  it("counts only fixed public event labels, never a URL, sponsor form input or arbitrary category", () => {
+    const { calls, click, filter } = emulate("/fr/projects/archive/");
+    click("https://apotidev.org/docs/year-in-review/ADA-2025-Year-in-Review.pdf?email=not-sent");
+    click("https://apotidev.org/fr/resources/#due-diligence");
+    click("https://apotidev.org/docs/diligence/ada-registration-certificate.pdf");
+    click("https://apotidev.org/fr/sponsor/inquiry/?prefill=not-sent");
+    click("https://www.instagram.com/apotidev/?query=not-sent");
+    click("https://www.linkedin.com/company/somebody-else");
+    click("https://facebook.com/apotidev/extra");
+    filter("education");
+    filter("widows", true);
+    filter("private-search");
+    expect(calls.map(x => x.url.searchParams.get("p"))).toEqual([
+      "/fr/projects/archive/", "year-in-review-click", "sponsor-materials-click", "sponsor-materials-click",
+      "sponsorship-inquiry-click", "social-instagram-click", "archive-filter-education",
+    ]);
+    expect(calls.every(x => !x.url.search.includes("not-sent"))).toBe(true);
+    const outside = emulate("/resources/");
+    outside.filter("education");
+    expect(outside.calls).toHaveLength(1);
+  });
+
   it("does not measure sensitive routes, previews or Global Privacy Control visitors", () => {
-    for (const path of ["/donate", "/fr/donate/merci", "/auth/login", "/fr/dashboard", "/api", "/account", "/preview/test", "/studio"]) expect(emulate(path).calls).toEqual([]);
+    for (const path of ["/donate", "/fr/donate/merci", "/auth/login", "/fr/dashboard", "/api", "/account", "/sponsor/inquiry/", "/fr/sponsor/inquiry/", "/preview/test", "/studio"]) expect(emulate(path).calls).toEqual([]);
     expect(emulate("/", { optedOut: true }).calls).toEqual([]);
     expect(emulate("/", { host: "ada-preview.workers.dev" }).calls).toEqual([]);
   });

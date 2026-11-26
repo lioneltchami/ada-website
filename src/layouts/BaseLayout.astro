@@ -16,6 +16,8 @@ interface Props {
   /** ISO date for article:modified_time */
   modifiedTime?: string;
   noIndex?: boolean;
+  /** Only for explicitly published story copy; no effect on indexing. */
+  allowPublicStoryAnalytics?: boolean;
   noBreadcrumbJsonLd?: boolean;
   /** Extra JSON-LD graphs (BlogPosting, FAQPage, etc.) */
   jsonLdExtra?: Record<string, unknown>[];
@@ -30,6 +32,7 @@ const {
   publishedTime,
   modifiedTime,
   noIndex = false,
+  allowPublicStoryAnalytics = false,
   noBreadcrumbJsonLd = false,
   jsonLdExtra = [],
 } = Astro.props;
@@ -39,7 +42,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const alternateLocale = locale === "fr" ? "en" : "fr";
 const alternateUrl = new URL(switchLocalePath(Astro.url.pathname), Astro.site);
 const emitLocaleAlternates = !noIndex;
-const goatCounterEndpoint = noIndex ? null : getGoatCounterEndpoint(import.meta.env.PUBLIC_GOATCOUNTER_ENDPOINT);
+const isPublishedStory = allowPublicStoryAnalytics && /^\/(?:fr\/)?stories\/[a-z0-9-]+\/?$/.test(Astro.url.pathname);
+const isInquiryForm = /^\/(?:fr\/)?sponsor\/inquiry\/?$/.test(Astro.url.pathname);
+const goatCounterEndpoint = ((!noIndex || isPublishedStory) && !isInquiryForm)
+  ? getGoatCounterEndpoint(import.meta.env.PUBLIC_GOATCOUNTER_ENDPOINT) : null;
 const webVitalsSampleRate = Number(
   import.meta.env.PUBLIC_WEB_VITALS_SAMPLE_RATE ?? "0.2",
 );
