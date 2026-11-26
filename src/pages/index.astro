@@ -141,8 +141,10 @@ const confidenceProofs = [
     value: "Locally delivered programs in Cameroon",
   },
   {
-    label: "Open documentation",
-    value: "Reports, policies, and project records available",
+    label: "School fees · Bamenda, 2026",
+    value: "We helped cover school fees for about 20 children.",
+    href: "/projects/archive/back-to-school-bamenda-aug-2026/",
+    link: "Read the project record",
   },
   {
     label: "Clear donor status",
@@ -319,6 +321,11 @@ const actionPaths = [
               </dt>
               <dd class="mt-2 text-sm font-semibold text-gray-900 leading-relaxed">
                 {item.value}
+                {item.href && (
+                  <a href={item.href} class="mt-2 block w-fit text-primary-800 underline underline-offset-2 hover:text-primary-950">
+                    {item.link}
+                  </a>
+                )}
               </dd>
             </div>
           ))

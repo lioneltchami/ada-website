@@ -136,8 +136,10 @@ const confidenceProofs = [
     value: "Programmes menés localement au Cameroun",
   },
   {
-    label: "Documentation ouverte",
-    value: "Rapports, politiques et archives de projets disponibles",
+    label: "Frais de scolarité · Bamenda, 2026",
+    value: "Nous avons contribué aux frais de scolarité d’environ 20 enfants.",
+    href: "/fr/projects/archive/back-to-school-bamenda-aug-2026/",
+    link: "Lire le dossier du projet",
   },
   {
     label: "Statut donateur clair",
@@ -312,6 +314,11 @@ const actionPaths = [
               </dt>
               <dd class="mt-2 text-sm font-semibold text-gray-900 leading-relaxed">
                 {item.value}
+                {item.href && (
+                  <a href={item.href} class="mt-2 block w-fit text-primary-800 underline underline-offset-2 hover:text-primary-950">
+                    {item.link}
+                  </a>
+                )}
               </dd>
             </div>
           ))
