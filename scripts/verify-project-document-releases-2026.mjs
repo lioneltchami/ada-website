@@ -73,7 +73,7 @@ export async function verify2026DocumentReleases(root, checkDist = false) {
     }
   }
   console.log('Exact 2026 document releases verified: six reviewed PDFs and two advance plans' + (checkDist ? ' in source and build.' : '.'));
-  return new Set(slugs);
+  return new Set([...slugs, ...christmasPlanSlugs]);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
