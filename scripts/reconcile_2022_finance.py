@@ -1,6 +1,8 @@
 """Evidence-aware 2022 adapter. Staged previews never write public output."""
 import json
 from pathlib import Path
+
+from outreach_naming import outreach_display_title
 ROOT = Path(__file__).resolve().parents[1]
 
 def candidates(include_staged=False):
@@ -25,8 +27,8 @@ def ledger_records(include_staged=False):
         a=r['archive']; url=f"/docs/projects/{f['slug']}/report.pdf"
         # Legacy summary columns cannot distinguish planned/reported/reconstructed. Keep
         # them blank; exact amounts and their bases remain visible in notes/details.
-        items=[dict(year=2022,project=a['title'],reference=f['reference'],section='Detailed schedule (XAF)',table_header='Category / Amount XAF / Basis',detail_type=line['kind'],item=line['category'],amount_cfa=line['amount_xaf'],budget_cfa=None,actual_cfa=None,variance_cfa=None,notes=line['basis']+'; '+f['note'],source=url) for line in f['lines']]
-        result.append(ProjectRecord(slug=f['slug'],title=a['title'],reference=f['reference'],year=2022,period=a['startDate'] or 'July 2022; day not established',location=a['location'],beneficiaries='See qualified reach in project report',status='completed',approved_budget_cfa=None,actual_cfa=None,variance_cfa=None,utilization_pct=None,what_we_did=a['description'],outcomes='',finance_note=f['note'],report_path=url,financial_path=url,line_items=items,finance_basis="evidence-qualified"))
+        items=[dict(year=2022,project=outreach_display_title(f['slug'], a['title']),reference=f['reference'],section='Detailed schedule (XAF)',table_header='Category / Amount XAF / Basis',detail_type=line['kind'],item=line['category'],amount_cfa=line['amount_xaf'],budget_cfa=None,actual_cfa=None,variance_cfa=None,notes=line['basis']+'; '+f['note'],source=url) for line in f['lines']]
+        result.append(ProjectRecord(slug=f['slug'],title=outreach_display_title(f['slug'], a['title']),reference=f['reference'],year=2022,period=a['startDate'] or 'July 2022; day not established',location=a['location'],beneficiaries='See qualified reach in project report',status='completed',approved_budget_cfa=None,actual_cfa=None,variance_cfa=None,utilization_pct=None,what_we_did=a['description'],outcomes='',finance_note=f['note'],report_path=url,financial_path=url,line_items=items,finance_basis="evidence-qualified"))
     return result
 
 def reconcile_ledger(projects, include_staged=False):
@@ -39,7 +41,7 @@ def reconcile_budget(rows, include_staged=False):
     selected=list(candidates(include_staged)); refs={f['reference'] for f,_ in selected}
     # Never apply the old public cap to reconstructed schedules or transfers.
     return [r for r in rows if not(r.year==2022 and r.reference in refs)]+[
-        BudgetRow(year=2022,project=r['archive']['title'],reference=f['reference'],archive_approved=None,archive_actual=None,public_target=None,adjustment_needed=None,status='reported / reconstructed; see basis',note=f['note']) for f,r in selected]
+        BudgetRow(year=2022,project=outreach_display_title(f['slug'], r['archive']['title']),reference=f['reference'],archive_approved=None,archive_actual=None,public_target=None,adjustment_needed=None,status='reported / reconstructed; see basis',note=f['note']) for f,r in selected]
 
 if __name__=='__main__':
     import argparse

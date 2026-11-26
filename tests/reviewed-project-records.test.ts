@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import finance2022 from '../config/project-finance-2022.json';
+import { outreachDisplayTitle } from '../src/lib/outreach-display-title';
 import { applyReviewedProjectContent, reviewedProjectRecords, isProjectDocumentReviewPending } from '../src/lib/reviewed-project-records';
 import { applyReleasedProjectContent } from '../src/lib/released-project-documents';
 import { countProjectsUnderFinancialReview, groupProjectsByYear } from '../src/lib/project-archive';
@@ -91,9 +93,25 @@ describe('confirmed 2023 project summaries and PDF publication', () => {
     new Set(['Campus Environmental Cleanup','City Cleanup — Labour Day 2025','IDP Children Education Fund','Prenatal Care Support Program','Youth Mentorship Seminar']).has(String(r.project).replace(/^Interim Progress Report: /, ''))
   );
   expect(current.some((r:any)=>obsolete2025(r))).toBe(false);
-  const released2024 = new Set(['Back-to-school outreach in Buea', 'International Day of the Girl Outreach', 'Christmas Giving 2024']);
+  const renamed2024 = [
+   ['back-to-school-buea-2024', 'Back-to-school outreach in Buea'],
+   ['girls-programme-2024', 'International Day of the Girl Outreach'],
+   ['christmas-giving-dec-2024', 'Christmas Giving 2024'],
+  ];
+  const released2024 = new Set(renamed2024.flatMap(([slug,title])=>[title,outreachDisplayTitle({slug,title},'en')]));
   const changed2024 = (row:any) => Number(row.year) === 2024 && (released2024.has(row.project) || row.reference === 'ADA/2024/006');
-  expect(current.filter((r:any)=>r.year!==2023&&!changed2024(r))).toEqual(before.filter((r:any)=>r.year!==2023&&!changed2024(r)&&!retiredSchoolRows.has(r.reference)&&!retiredBamendaFoodRelief(r)&&!obsolete2025(r)));
+  // Normalize the documented title-only migration in the previous snapshot.
+  // Keep comparison of every financial cell, status, reference and narrative note.
+  const renamedReferences = new Map([
+   ['ADA/2021/001','first-widow-home-visits-2021'],
+   ...finance2022.map(({reference,slug})=>[reference,slug] as const),
+  ]);
+  const previousComparable = before.filter((r:any)=>r.year!==2023&&!changed2024(r)&&!retiredSchoolRows.has(r.reference)&&!retiredBamendaFoodRelief(r)&&!obsolete2025(r))
+   .map((r:any)=>{
+    const slug=renamedReferences.get(r.reference);
+    return slug ? {...r,project:outreachDisplayTitle({slug,title:r.project},'en')} : r;
+   });
+  expect(current.filter((r:any)=>r.year!==2023&&!changed2024(r))).toEqual(previousComparable);
   const budgets2024 = current.filter((r:any)=>changed2024(r));
   expect(budgets2024.map((r:any)=>r.archive_approved).sort((a:number,b:number)=>a-b)).toEqual([82750,250700,260000]);
   expect(budgets2024.every((r:any)=>r.archive_actual===null&&r.public_target===null&&r.adjustment_needed===null)).toBe(true);

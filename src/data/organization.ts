@@ -5,6 +5,7 @@ import { hasReleased2023ProjectDocumentSet, isProjectDocumentReviewPending } fro
 import { reviewed2026Release } from "../lib/reviewed-project-summaries-2026";
 import documentReleases from "../../config/project-document-releases.json";
 import type { Locale } from "../i18n";
+import { outreachDisplayTitle } from "../lib/outreach-display-title";
 import {
   IMPACT_FACTS,
   impactMetricsFor,
@@ -137,10 +138,14 @@ export function buildBreadcrumbList(pathname: string, site: URL | undefined) {
     "@type": "BreadcrumbList",
     itemListElement: segments.map((segment, index) => {
       const path = `${prefix}/${segments.slice(0, index + 1).join("/")}`;
+      const label = labels[segment] ?? archiveProjectTitle(segment);
+      const name = segments[0] === "projects" && index === segments.length - 1
+        ? outreachDisplayTitle({ slug: segment, title: label }, locale)
+        : label;
       return {
         "@type": "ListItem",
         position: index + 1,
-        name: labels[segment] ?? archiveProjectTitle(segment),
+        name,
         item: new URL(path, site ?? "https://apotidev.org").toString(),
       };
     }),

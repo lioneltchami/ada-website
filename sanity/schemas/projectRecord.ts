@@ -90,6 +90,12 @@ export default defineType({
       validation: (r) => r.integer().min(0),
     }),
     defineField({ name: "location", title: "Location", type: "string" }),
+    defineField({
+      name: "locationFr",
+      title: "Location (French)",
+      type: "string",
+      description: "Leave blank to use the original location name.",
+    }),
     defineField({ name: "startDate", title: "Start Date", type: "date" }),
     defineField({ name: "endDate", title: "End Date", type: "date" }),
     defineField({

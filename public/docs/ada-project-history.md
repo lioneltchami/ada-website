@@ -2,7 +2,7 @@
 
 This ledger focuses on the archived projects and their budget records from 2021 through 2025. It pairs the narrative completion reports with the financial reports so the story of each project stays tied to the numbers.
 
-Compiled on November 25, 2026 from the project archive under `public/docs/projects/`.
+Compiled on November 26, 2026 from the project archive under `public/docs/projects/`.
 
 Archived projects included: 17. Sum of reported approved amounts: 593,450 CFA. Sum of reported actual/spent amounts: 0 CFA. These sums may cover different project sets and are not comparable as a portfolio variance.
 
@@ -25,7 +25,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 ### 2024
 
-#### Back-to-school outreach in Buea
+#### Back to School Outreach · Buea
 
 - Reference: `N/A` | Location: Buea | Period: 2024-08-31 | Status: completed
 - What we did: On August 31, 2024, our team held a Back to School Outreach in Buea to help pupils prepare for the school year. The supply budget covered school bags, books and classroom essentials.
@@ -33,7 +33,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Finance note: The two school-supply planning sheets total 82,750 FCFA. See the itemized budget in the project report; it is not a record of payments or distribution.
 - Source files: [`report.pdf`](/docs/projects/back-to-school-buea-2024/report.pdf)
 
-#### Christmas Giving 2024
+#### Christmas Giving Outreach · Buea
 
 - Reference: `N/A` | Location: Buea | Period: 2024-12-21 | Status: completed
 - What we did: Our December 21, 2024 Christmas Giving outreach in Buea was intended to support children and their caregivers. We have not confirmed the name of the children’s home or how many children took part.
@@ -41,7 +41,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 - Finance note: We budgeted 260,000 FCFA, matching the 2023 budget. See the itemized budget in the project report; these amounts do not establish actual payments.
 - Source files: [`report.pdf`](/docs/projects/christmas-giving-dec-2024/report.pdf)
 
-#### International Day of the Girl Outreach
+#### International Day of the Girl Outreach · Buea
 
 - Reference: `N/A` | Location: Buea | Period: 2024-10-18 | Status: completed
 - What we did: On October 18, 2024, our team held an outreach in Buea marking the International Day of the Girl Child. The plan focused on menstrual hygiene and everyday personal care.
@@ -52,7 +52,7 @@ Active projects are intentionally excluded here so the focus stays on completed 
 
 ### 2023
 
-#### Back-to-school supplies in Buea
+#### Back to School Outreach · Buea
 
 - Reference: `N/A` | Location: Lycée de Buea, Buea | Period: 26 August 2023 | Status: completed
 - Beneficiaries: Not established
@@ -63,7 +63,7 @@ We provided exercise books, school bags, pens and other school supplies. Our acc
 - Finance note: The stated budget was 240,000 FCFA. Our account reports that we sent and used 230,000 FCFA for school supplies. The 10,000 FCFA difference between the budget and the amount sent is not an account balance. Individual supply costs and separate operating costs are not established.
 - Source files: [`back-to-school-drive-2023`](/projects/archive/back-to-school-drive-2023/)
 
-#### Christmas giving at House of Peace
+#### Christmas Giving Outreach · Buea
 
 - Reference: `N/A` | Location: House of Peace, Buea | Period: 16 December 2023 | Status: completed
 - Beneficiaries: Approximately 21 children, reported
@@ -74,7 +74,7 @@ Our team visited on 16 December 2023 and delivered foodstuffs, including bags of
 - Finance note: Our account reports a total of 260,000 FCFA: 240,000 FCFA for food and project supplies and 20,000 FCFA for operating costs. Individual supply prices and the operating-cost split are not established. These figures are reported, not independently audited.
 - Source files: [`christmas-giving-dec-2023`](/projects/archive/christmas-giving-dec-2023/)
 
-#### Community cleanup in Buea
+#### Community Cleanup Outreach · Buea
 
 - Reference: `N/A` | Location: Buea | Period: 6 April 2023 | Status: completed
 - Beneficiaries: Not established
@@ -83,7 +83,7 @@ Our team visited on 16 December 2023 and delivered foodstuffs, including bags of
 - Finance note: Funding of 100,000 FCFA is confirmed. Using the sum of the recorded items, expenses total 94,400 FCFA plus 1,500 FCFA in fees, or 95,900 FCFA. The 4,100 FCFA difference is a historical project figure, not the current account balance. The item sum takes precedence over the incorrectly calculated total in the sheet. These figures are based on the project record, not an independent audit.
 - Source files: [`city-cleanup-may-2023`](/projects/archive/city-cleanup-may-2023/)
 
-#### International Day of the Girl program
+#### International Day of the Girl Outreach · Buea
 
 - Reference: `N/A` | Location: Buea | Period: 21 October 2023 | Status: completed
 - Beneficiaries: Not established
@@ -94,7 +94,7 @@ On 21 October 2023, our team distributed sanitary pads and other personal care s
 - Finance note: We sent 150,000 FCFA: 145,000 FCFA for supplies and 5,000 FCFA in withdrawal fees. Individual supply costs and any separate transport amount are not established. The reported use equals the amount sent; these figures were not independently audited.
 - Source files: [`girls-day-oct-2023`](/projects/archive/girls-day-oct-2023/)
 
-#### Mountain Race preparation outreach
+#### Mountain Race Outreach · Buea
 
 - Reference: `N/A` | Location: Buea | Period: 25 February 2023 | Status: completed
 - Beneficiaries: Not established
@@ -105,7 +105,7 @@ Our team visited the preparation field and shared bananas, other food and water 
 - Finance note: We sent 50,000 FCFA for this separate February outreach. Our account reports that the full amount went to refreshments, supplies to keep people cool, and a withdrawal fee, leaving no project balance. The costs are not established separately. These figures are reported, not independently audited.
 - Source files: [`mountain-race-outreach-feb-2023`](/projects/archive/mountain-race-outreach-feb-2023/)
 
-#### Widows’ Outreach in Buea
+#### Widows Outreach · Buea
 
 - Reference: `N/A` | Location: Buea | Period: 11 March 2023 | Status: completed
 - Beneficiaries: Not established
@@ -116,7 +116,7 @@ On Saturday, 11 March 2023, we invited interested women to gather at a church in
 - Finance note: The project budget was 250,000 FCFA. Our account reports 245,000 FCFA spent and a balance of 5,000 FCFA in the nonprofit account after the project. Individual category costs are not established. These historical figures are not independently audited and do not describe the current account balance.
 - Source files: [`womens-day-home-visits-mar-2023`](/projects/archive/womens-day-home-visits-mar-2023/)
 
-#### Youth Day snacks for children
+#### Youth Day Outreach · Buea
 
 - Reference: `N/A` | Location: Buea | Period: 4 February 2023 | Status: completed
 - Beneficiaries: Not established
@@ -130,7 +130,7 @@ Our team went to the marching area and distributed snacks there. This was separa
 
 ### 2022
 
-#### Back to school in Buea
+#### Back to School Outreach · Buea
 
 - Reference: `ADA/2022/006` | Location: Buea Regional Secondary School (remembered name), Buea | Period: 2022-08-12 | Status: completed
 - Beneficiaries: See qualified reach in project report
@@ -139,7 +139,7 @@ Our team went to the marching area and distributed snacks there. This was separa
 - Finance note: 220,000 XAF sent; 205,000 reported spending including operating costs; 15,000 historical balance remaining in our accounts. Category split organization-confirmed but not receipt-verified. The historical balance is not today’s mobile-money balance.
 - Source files: [`report.pdf`](/docs/projects/back-to-school-sep-2022/report.pdf)
 
-#### Christmas giving in Buea
+#### Christmas Giving Outreach · Buea
 
 - Reference: `ADA/2022/007` | Location: Sima orphanage, Buea | Period: 2022-12-22 | Status: completed
 - Beneficiaries: See qualified reach in project report
@@ -148,7 +148,7 @@ Our team went to the marching area and distributed snacks there. This was separa
 - Finance note: Reported project account 360,000 XAF: goods 330,000, transport 20,000, withdrawal 10,000. Goods categories reconstructed, not verified historical prices. Zero arithmetic difference is not a bank or mobile-money balance.
 - Source files: [`report.pdf`](/docs/projects/christmas-giving-dec-2022/report.pdf)
 
-#### Practical baking skills for displaced girls
+#### Girls’ Baking Training Outreach · Buea
 
 - Reference: `ADA/2022/005` | Location: Full Gospel Mission, Molyko, Buea | Period: July 2022; day not established | Status: completed
 - Beneficiaries: See qualified reach in project report
@@ -157,7 +157,7 @@ Our team went to the marching area and distributed snacks there. This was separa
 - Finance note: 400,000 XAF reported sent. Original planned amounts sum to 342,750, not actual expenditure. Participant support 75,000 (15 × 5,000) confirmed in our account. Flour, salt and sticker quantities/rates conflict; fish pricing unclear and actual trainer payment unconfirmed. Difference 57,250 is funding less plan, not a confirmed balance.
 - Source files: [`report.pdf`](/docs/projects/idp-girls-baking-training-jul-2022/report.pdf)
 
-#### School supplies and encouragement
+#### School Visit Outreach · Buea
 
 - Reference: `ADA/2022/001` | Location: Lycée de Buea, Buea | Period: 2022-02-16 | Status: completed
 - Beneficiaries: See qualified reach in project report
@@ -166,7 +166,7 @@ Our team went to the marching area and distributed snacks there. This was separa
 - Finance note: 215,000 XAF sent, confirmed in our account but not transfer-verified. Withdrawal recalled about 5,000 and transport 10,000–15,000. The detailed schedule uses 15,000 transport and fully allocates funding by construction. Exact total spending and closing balance are not established.
 - Source files: [`report.pdf`](/docs/projects/school-supply-distribution-feb-2022/report.pdf)
 
-#### School visit in Buea
+#### School Visit Outreach · Buea
 
 - Reference: `ADA/2022/004` | Location: Lycée de Buea (remembered name), Buea | Period: 2022-05-11 | Status: completed
 - Beneficiaries: See qualified reach in project report
@@ -175,7 +175,7 @@ Our team went to the marching area and distributed snacks there. This was separa
 - Finance note: Earlier source budget 180,000 XAF. Reconstructed cash categories 165,000 plus in-kind refreshments valued at 15,000. Neither 180,000 nor 165,000 establishes a cash transfer or actual expenditure; 15,000 is not a cash balance. The earlier account attributes the in-kind refreshments to the school; attribution and value are not independently verified.
 - Source files: [`report.pdf`](/docs/projects/school-visit-may-2022/report.pdf)
 
-#### Widows’ home outreach
+#### Widows Outreach · Muea
 
 - Reference: `ADA/2022/003` | Location: Muea, Buea | Period: 2022-03-12 | Status: completed
 - Beneficiaries: See qualified reach in project report
@@ -187,7 +187,7 @@ Our team went to the marching area and distributed snacks there. This was separa
 
 ### 2021
 
-#### First Widow Home Visits
+#### Widows Outreach · Buea
 
 - Reference: `ADA/2021/001` | Location: Buea, South-West Region, Cameroon | Period: November 1–30, 2021 | Status: completed
 - Beneficiaries: 3 elderly widows (as reported in the source; not independently verified)

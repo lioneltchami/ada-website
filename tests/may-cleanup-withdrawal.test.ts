@@ -21,7 +21,7 @@ describe('misdated cleanup withheld from 2022', () => {
     const schoolReleased = releases.projects.some(p => p.slug === 'school-visit-may-2022' && p.status === 'released');
     const mayRows = rows.filter((row:any) => row.reference === 'ADA/2022/004');
     expect(mayRows).toHaveLength(schoolReleased ? 1 : 0);
-    if (schoolReleased) expect(mayRows[0].project).toBe('School visit in Buea');
+    if (schoolReleased) expect(mayRows[0].project).toBe('School Visit Outreach · Buea');
     for (const name of ['ada-project-history.md','ada-public-budget-adjustments.md','ada-public-budget-adjustments.csv']) {
       const text = fs.readFileSync(`public/docs/${name}`, 'utf8');
       expect(text).not.toMatch(/school-visit-mentorship-may-2022|May 2022 Community Cleanup/);

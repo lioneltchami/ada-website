@@ -1,4 +1,7 @@
 import type { Locale } from "../i18n";
+import { outreachDisplayTitle } from "../lib/outreach-display-title";
+
+const girlsDignity = { slug: "girls-dignity-menstrual-health-bamenda-jun-2026", title: "Girls’ Dignity and Menstrual Health Outreach" };
 
 export type DiligenceGroup = "legal" | "policies" | "sponsor" | "budgets";
 
@@ -18,6 +21,7 @@ export type DiligenceDoc = {
 	meta?: string;
 	icon?: string;
 	action?: string;
+	language?: "en" | "fr";
 };
 
 const EN: DiligenceDoc[] = [
@@ -77,7 +81,8 @@ const EN: DiligenceDoc[] = [
 	},
 	{
 		group: "sponsor",
-		title: "Bamenda Girls Dignity Project Report",
+		title: `${outreachDisplayTitle(girlsDignity, "en")} — Project Report`,
+		language: "en",
 		desc: "Example of a completed outreach report, with the activity and financial account for June 28 in Bamenda.",
 		link: "/docs/projects/girls-dignity-menstrual-health-bamenda-jun-2026/report.pdf",
 		external: true,
@@ -143,7 +148,8 @@ const FR: DiligenceDoc[] = [
 	},
 	{
 		group: "sponsor",
-		title: "Rapport du projet Dignité des filles à Bamenda",
+		title: `Rapport de projet : ${outreachDisplayTitle(girlsDignity, "fr")}`,
+		language: "en",
 		desc: "Exemple de rapport de projet terminé, en anglais, avec le bilan de l’action du 28 juin à Bamenda et son compte financier.",
 		link: "/docs/projects/girls-dignity-menstrual-health-bamenda-jun-2026/report.pdf",
 		external: true,

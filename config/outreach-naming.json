@@ -1,0 +1,153 @@
+{
+  "series": {
+    "widows": {
+      "en": "Widows Outreach",
+      "fr": "Action de soutien aux veuves"
+    },
+    "schoolVisit": {
+      "en": "School Visit Outreach",
+      "fr": "Action de visite scolaire"
+    },
+    "backToSchool": {
+      "en": "Back to School Outreach",
+      "fr": "Action de rentrée scolaire"
+    },
+    "christmas": {
+      "en": "Christmas Giving Outreach",
+      "fr": "Action de solidarité de Noël"
+    },
+    "baking": {
+      "en": "Girls’ Baking Training Outreach",
+      "fr": "Action de formation des filles à la pâtisserie"
+    },
+    "youthDay": {
+      "en": "Youth Day Outreach",
+      "fr": "Action pour la Fête de la jeunesse"
+    },
+    "mountainRace": {
+      "en": "Mountain Race Outreach",
+      "fr": "Action pour la Course de l’espoir"
+    },
+    "communityCleanup": {
+      "en": "Community Cleanup Outreach",
+      "fr": "Action de nettoyage communautaire"
+    },
+    "girlsDay": {
+      "en": "International Day of the Girl Outreach",
+      "fr": "Action pour la Journée internationale de la fille"
+    },
+    "schoolCleanup": {
+      "en": "Labour Day School Cleanup Outreach",
+      "fr": "Action de nettoyage des écoles pour la Fête du travail"
+    },
+    "prenatalCare": {
+      "en": "Prenatal Care Outreach",
+      "fr": "Action de soutien aux soins prénatals"
+    },
+    "girlsDignity": {
+      "en": "Girls’ Dignity and Menstrual Health Outreach",
+      "fr": "Action pour la dignité et la santé menstruelle des filles"
+    }
+  },
+  "outreaches": {
+    "first-widow-home-visits-2021": {
+      "series": "widows",
+      "location": "Buea"
+    },
+    "school-supply-distribution-feb-2022": {
+      "series": "schoolVisit",
+      "location": "Buea"
+    },
+    "widow-support-food-cash-mar-2022": {
+      "series": "widows",
+      "location": "Muea"
+    },
+    "school-visit-may-2022": {
+      "series": "schoolVisit",
+      "location": "Buea"
+    },
+    "idp-girls-baking-training-jul-2022": {
+      "series": "baking",
+      "location": "Buea"
+    },
+    "back-to-school-sep-2022": {
+      "series": "backToSchool",
+      "location": "Buea"
+    },
+    "christmas-giving-dec-2022": {
+      "series": "christmas",
+      "location": "Buea"
+    },
+    "youth-day-snacks-feb-2023": {
+      "series": "youthDay",
+      "location": "Buea"
+    },
+    "mountain-race-outreach-feb-2023": {
+      "series": "mountainRace",
+      "location": "Buea"
+    },
+    "womens-day-home-visits-mar-2023": {
+      "series": "widows",
+      "location": "Buea"
+    },
+    "city-cleanup-may-2023": {
+      "series": "communityCleanup",
+      "location": "Buea"
+    },
+    "back-to-school-drive-2023": {
+      "series": "backToSchool",
+      "location": "Buea"
+    },
+    "girls-day-oct-2023": {
+      "series": "girlsDay",
+      "location": "Buea"
+    },
+    "christmas-giving-dec-2023": {
+      "series": "christmas",
+      "location": "Buea"
+    },
+    "back-to-school-buea-2024": {
+      "series": "backToSchool",
+      "location": "Buea"
+    },
+    "girls-programme-2024": {
+      "series": "girlsDay",
+      "location": "Buea"
+    },
+    "christmas-giving-dec-2024": {
+      "series": "christmas",
+      "location": "Buea"
+    },
+    "womens-day-widows-outreach-2025": {
+      "series": "widows"
+    },
+    "prenatal-care-support-program": {
+      "series": "prenatalCare",
+      "location": "Muea"
+    },
+    "city-cleanup-may-2025": {
+      "series": "schoolCleanup",
+      "location": "Buea"
+    },
+    "back-to-school-buea-aug-2026": {
+      "series": "backToSchool",
+      "location": "Buea"
+    },
+    "back-to-school-bamenda-aug-2026": {
+      "series": "backToSchool",
+      "location": "Bamenda"
+    },
+    "girls-dignity-menstrual-health-bamenda-jun-2026": {
+      "series": "girlsDignity",
+      "location": "Bamenda"
+    },
+    "christmas-giving-buea-dec-2026": {
+      "series": "christmas",
+      "location": "Buea"
+    },
+    "christmas-giving-bamenda-dec-2026": {
+      "series": "christmas",
+      "location": "Bamenda"
+    }
+  }
+}

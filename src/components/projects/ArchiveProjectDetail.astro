@@ -2,6 +2,7 @@
 import reviewed2024And2025 from "../../../config/project-records-2024-25.json";
 import HeroBackdrop from "../layout/HeroBackdrop.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
+import { outreachTitleLocation } from "../../lib/outreach-display-title";
 import { archiveProjectDisplayTitle } from "../../lib/archive-project-display-title";
 import { getEligibleArchiveFeaturePhoto } from "../../lib/archive-eligible-feature-photo";
 import type { ProjectArchiveEntry } from "../../lib/project-archive";
@@ -53,14 +54,15 @@ const published2025Contents = archivePublished2025ReportContents(record);
 const published2025ReportLabel = published2025Contents ? released2025ReportLabel(slug, locale, "&") : undefined;
 const published2026 = archivePublished2026Finance(record);
 const published2026ReportLabel = published2026 ? released2026ReportLabel(slug, locale, "&") : undefined;
+const knownEnglishPdfs = slug === "first-widow-home-visits-2021" || hasReleasedProjectDocumentSet(slug);
 const englishDocuments = hasReleased2023ProjectDocumentSet(slug) || released2024 || Boolean(published2025Contents || published2026);
 const publishedBudgetFcfa = archivePublishedBudgetFcfa(record);
 const hasPublishedPair = hasReleasedProjectDocumentSet(slug);
 const documentLinks = archiveProjectDocumentLinks(record);
 const documents = [
-  { href:documentLinks.tor, label:fr ? "Termes de référence" : "Terms of Reference", english:englishDocuments },
-  { href:documentLinks.report, label:published2026ReportLabel ?? published2025ReportLabel ?? (released2024 ? (fr ? "Rapport de projet et budget" : "Project report & budget") : hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, "")), english:englishDocuments },
-  ...(documentLinks.financial ? [{ href:documentLinks.financial, label:fr ? "Rapport financier" : "Financial Report", english:false }] : []),
+  { href:documentLinks.tor, label:fr ? "Termes de référence" : "Terms of Reference", english:knownEnglishPdfs || englishDocuments },
+  { href:documentLinks.report, label:published2026ReportLabel ?? published2025ReportLabel ?? (released2024 ? (fr ? "Rapport de projet et budget" : "Project report & budget") : hasPublishedPair ? (fr ? "Rapport de projet et compte financier" : "Project report & financial account") : getProjectReportLabel(locale).replace(/\s*\(PDF\)$/, "")), english:knownEnglishPdfs || englishDocuments },
+  ...(documentLinks.financial ? [{ href:documentLinks.financial, label:fr ? "Rapport financier" : "Financial Report", english:knownEnglishPdfs }] : []),
 ];
 const hasPublicDocuments = Boolean(documentLinks.tor || documentLinks.report || documentLinks.financial);
 const finance = englishDocuments && documentLinks.tor && documentLinks.report ? archiveResolvedFinance[slug] : undefined;
@@ -93,11 +95,11 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
         </ol>
       </nav>
       <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-white/75">{fr ? "Projets réalisés et archives" : "Project archive"}</p>
-      <h1 class="break-words text-3xl font-heading font-bold leading-tight sm:text-4xl">{title}</h1>
+      <h1 data-outreach-title={slug} class="break-words text-3xl font-heading font-bold leading-tight sm:text-4xl">{title}</h1>
       <ul aria-label={fr ? "En bref" : "At a glance"} class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/85">
         <li class="rounded-full border border-white/25 bg-white/10 px-3 py-1">{status}</li>
         <li>{period}</li>
-        {location && <li>{location}</li>}
+        {location && location !== outreachTitleLocation(slug) && <li>{location}</li>}
       </ul>
     </div>
   </section>

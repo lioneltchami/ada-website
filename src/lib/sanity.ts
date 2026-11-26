@@ -51,6 +51,7 @@ export function getSanityClient(): SanityClient {
 			projectId,
 			dataset,
 			apiVersion: API_VERSION,
+			perspective: "published",
 			token,
 			useCdn,
 		});
@@ -95,6 +96,9 @@ export interface SanityProject {
 	announcementOnly?: boolean;
 	archiveRecord?: {
 		slug?: { current: string };
+		torUrl?: string;
+		reportUrl?: string;
+		financialReportUrl?: string;
 		photo?: { asset?: { _ref?: string }; alt?: string; altFr?: string };
 	};
 	mainImage?: {
@@ -283,7 +287,8 @@ export async function getProjects(
 	const rows = await getSanityClient().fetch(
 		`*[_type == "project"] | order(sortOrder asc) {
     ...,
-    archiveRecord->{ slug, photo { asset { _ref }, alt, altFr } }
+    "archiveRecord": coalesce(archiveRecord->{ slug, photo { asset { _ref }, alt, altFr }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url, "financialReportUrl": financialReport.asset->url },
+      *[_type == "projectRecord" && sourceProject._ref == ^._id && defined(slug.current)] | order(_id asc)[0] { slug, photo { asset { _ref }, alt, altFr }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url, "financialReportUrl": financialReport.asset->url })
   }`,
 	);
 	return withoutWithdrawnProjects(rows as SanityProject[]).map((p) =>
@@ -298,7 +303,8 @@ export async function getProjectBySlug(
 	const row = await getSanityClient().fetch(
 		`*[_type == "project" && slug.current == $slug][0] {
     ...,
-    archiveRecord->{ slug, photo { asset { _ref }, alt, altFr } }
+    "archiveRecord": coalesce(archiveRecord->{ slug, photo { asset { _ref }, alt, altFr }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url, "financialReportUrl": financialReport.asset->url },
+      *[_type == "projectRecord" && sourceProject._ref == ^._id && defined(slug.current)] | order(_id asc)[0] { slug, photo { asset { _ref }, alt, altFr }, "torUrl": termsOfReference.asset->url, "reportUrl": finalReport.asset->url, "financialReportUrl": financialReport.asset->url })
   }`,
 		{ slug },
 	);

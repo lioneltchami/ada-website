@@ -1,4 +1,5 @@
 ---
+import { outreachDisplayTitle, outreachTitleLocation } from "../../lib/outreach-display-title";
 import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
@@ -175,6 +176,7 @@ const groups = [
         )}
         <div class="mt-6 grid gap-5 md:grid-cols-2">
           {items.map((project) => {
+            const displayTitle = outreachDisplayTitle(project, locale);
             const archived = project.status === "completed";
             const href = archived && project.archiveHref ? project.archiveHref : link(`/projects/${project.slug}`);
             const badge = project.isAutoArchived ? copy.archivedByDate
@@ -198,9 +200,9 @@ const groups = [
                       project.status === "paused" ? "bg-amber-100 text-amber-900" :
                         archived ? "bg-gray-100 text-gray-700" : "bg-primary-100 text-primary-900",
                     ]}>{badge}</span>
-                    {project.location && <span>{project.location}</span>}
+                    {project.location && project.location !== outreachTitleLocation(project.slug) && <span>{project.location}</span>}
                   </p>
-                  <h3 class="mt-3 font-heading text-xl font-bold text-gray-900">{project.title}</h3>
+                  <h3 data-outreach-title={project.slug} class="mt-3 font-heading text-xl font-bold text-gray-900">{displayTitle}</h3>
                   {start && (
                     <p class="mt-2 text-sm font-medium text-primary-800">
                       <time datetime={start.value}>{start.label}</time>
@@ -209,11 +211,11 @@ const groups = [
                   )}
                   <p class="mt-3 max-w-prose text-sm leading-relaxed text-gray-700">{project.description}</p>
                   <div class="mt-auto flex flex-wrap gap-2 pt-5">
-                    <a href={href} class={secondaryLink} aria-label={`${archived ? copy.viewRecord : copy.details}: ${project.title}`}>
+                    <a href={href} class={secondaryLink} aria-label={`${archived ? copy.viewRecord : copy.details}: ${displayTitle}`}>
                       {archived ? copy.viewRecord : copy.details}
                     </a>
                     {project.isFundable && (
-                      <a href={link(`/donate?project=${encodeURIComponent(project.slug)}`)} class={primaryLink} aria-label={`${copy.donate}: ${project.title}`}>
+                      <a href={link(`/donate?project=${encodeURIComponent(project.slug)}`)} class={primaryLink} aria-label={`${copy.donate}: ${displayTitle}`}>
                         {copy.donate}
                       </a>
                     )}

@@ -1,4 +1,5 @@
 ---
+import { outreachDisplayTitle, outreachTitleLocation } from "../../lib/outreach-display-title";
 import { christmasPlanTor } from "../../lib/christmas-announcements";
 import PageLayout from "../../layouts/PageLayout.astro";
 import { projectStatusLabel, type ProjectStatus } from "../../lib/project-lifecycle";
@@ -24,13 +25,15 @@ interface Props {
 
 const { locale, project } = Astro.props;
 const fr = locale === "fr";
+const title = outreachDisplayTitle(project, locale);
+const detailLocation = project.location !== outreachTitleLocation(project.slug) ? project.location : "";
 const tor = christmasPlanTor(project.slug, project.startDate);
 const date = project.startDate && /^\d{4}-\d{2}-\d{2}$/.test(project.startDate) && new Intl.DateTimeFormat(fr ? "fr-CM" : "en-CM", {
   dateStyle: "full",
   timeZone: "UTC",
 }).format(new Date(`${project.startDate}T00:00:00Z`));
 ---
-<PageLayout title={project.title} description={project.description.slice(0, 160)} hideFloatingDonate>
+<PageLayout title={title} description={project.description.slice(0, 160)} hideFloatingDonate>
   <section class="bg-primary-900 text-white py-16 md:py-20">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <a class="text-white/90 hover:underline" href={localePath("/projects", locale)}>
@@ -41,9 +44,9 @@ const date = project.startDate && /^\d{4}-\d{2}-\d{2}$/.test(project.startDate) 
           project.hasEnded ? (fr ? "Date prévue passée" : "Scheduled date passed") :
           projectStatusLabel(project.status, locale)}
       </p>
-      <h1 class="mt-2 text-4xl md:text-5xl font-heading font-bold">{project.title}</h1>
+      <h1 data-outreach-title={project.slug} class="mt-2 text-4xl md:text-5xl font-heading font-bold">{title}</h1>
       <p class="mt-3 text-white/90">
-        {project.location}{date && <> · <time datetime={project.startDate}>{date}</time></>}
+        {detailLocation}{date && <>{detailLocation && " · "}<time datetime={project.startDate}>{date}</time></>}
       </p>
     </div>
   </section>

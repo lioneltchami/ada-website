@@ -2,6 +2,8 @@
 import json
 from pathlib import Path
 
+from outreach_naming import outreach_display_title
+
 ROOT = Path(__file__).resolve().parents[1]
 FINANCE_BASIS = "itemized budget published; not actual expenditure"
 
@@ -18,7 +20,7 @@ def reconcile_ledger(projects):
     result = [p for p in projects if p.slug not in slugs]
     for p in selected:
         result.append(ProjectRecord(
-            slug=p["slug"], title=p["title"], reference="", year=p["year"], period=p["date"],
+            slug=p["slug"], title=outreach_display_title(p["slug"], p["title"]), reference="", year=p["year"], period=p["date"],
             location=p["location"], beneficiaries="", status="completed",
             approved_budget_cfa=p["approvedBudgetFcfa"], actual_cfa=None, variance_cfa=None,
             utilization_pct=None, what_we_did=p["description"], outcomes="",
@@ -33,7 +35,7 @@ def reconcile_budget(rows):
     return [
         *rows,
         *(BudgetRow(
-            year=p["year"], project=p["title"], reference="", archive_approved=p["approvedBudgetFcfa"],
+            year=p["year"], project=outreach_display_title(p["slug"], p["title"]), reference="", archive_approved=p["approvedBudgetFcfa"],
             archive_actual=None, public_target=None, adjustment_needed=None,
             status=FINANCE_BASIS, note=p["financialNote"],
         ) for p in records()),

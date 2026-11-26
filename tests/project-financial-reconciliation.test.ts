@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import finance from '../config/project-finance-2022.json';
 import releases from '../config/project-document-releases.json';
+import { outreachDisplayTitle } from '../src/lib/outreach-display-title';
 const docs=path.resolve('public/docs');
 const read=(relative:string)=>fs.readFileSync(path.join(docs,relative),'utf8');
 const plain=(relative:string)=>read(relative).replace(/\s+/g,' ');
@@ -60,9 +61,12 @@ describe('evidence-qualified historical finance',()=>{
   expect(history).toContain('6 evidence-qualified project accounts');
   expect(history).toContain('Blank summary cells do not mean zero spending');
   expect(history).not.toMatch(/Approved 120,000 CFA; Actual\/Spent 85,000 CFA|Approved 300,000 CFA; Actual\/Spent 280,000 CFA/);
+  const sections=history.split(/\n(?=#{3,4} )/);
   for(const p of releases.projects){
-   const start=history.indexOf(`#### ${p.archive.title}`);expect(start).toBeGreaterThanOrEqual(0);
-   const end=history.indexOf('\n#### ',start+1);const section=history.slice(start,end>0?end:undefined);
+   const matches=sections.filter(section=>section.includes(`/docs/projects/${p.slug}/report.pdf`));
+   expect(matches).toHaveLength(1);
+   const [section]=matches;
+   expect(section.startsWith(`#### ${outreachDisplayTitle({slug:p.slug,title:p.archive.title},'en')}\n`)).toBe(true);
    expect(section).toContain('Detailed evidence-qualified account');expect(section).not.toContain('- Outcomes:');
    expect(section).toContain(`/docs/projects/${p.slug}/report.pdf`);
   }
@@ -79,7 +83,7 @@ describe('evidence-qualified historical finance',()=>{
   expect(rows).toHaveLength(17);
   expect(rows.some((r:any)=>r.year===2025)).toBe(false);
   expect(rows.some((r:any)=>r.year===2024 && r.status==='adjusted')).toBe(false);
-  expect(rows.filter((r:any)=>r.status==='under review').map((r:any)=>r.project)).toEqual(['First Widow Home Visits']);
+  expect(rows.filter((r:any)=>r.status==='under review').map((r:any)=>r.project)).toEqual(['Widows Outreach · Buea']);
   expect(rows.filter((r:any)=>r.status==='ok')).toHaveLength(0);
   expect(rows.filter((r:any)=>r.status==='adjusted')).toHaveLength(0);
   const publishedReported=rows.filter((r:any)=>r.status==='reported; project documents available');

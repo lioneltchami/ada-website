@@ -19,3 +19,19 @@ The legacy renderer verifies hashes before launch and skips released folders com
 The final PDFs retain the approved retrospective narrative, privacy-safe photographs and evidence-qualified financial schedules. Only review-only footers and metadata were removed. All 29 page bodies and embedded image pixels were verified unchanged against the approved documents. The manifest records final public file checksums.
 
 Resource listings and archive pages share the same six approved bilingual records. May is the school visit on Wednesday, 11 May 2022. The withdrawn cleanup record remains excluded. Other-year project records are not altered by this release.
+
+## Canonical outreach names in downloads
+
+The title on the public PDF and its title metadata match the series and optional
+location in `config/outreach-naming.json`. Keep the existing public slug and
+PDF route when changing a displayed title. Do not alter approved dates,
+section content, financial qualifications, or publication eligibility in a
+naming-only revision. After comparing the new PDF to the reviewed PDF, update
+only the affected checksums in the matching release manifest. Advance plans
+keep their own manifest and remain terms of reference only.
+
+The three 2021 Widows Outreach PDFs are a legacy exception to the paired
+document structure and keep their separate financial report. The regular
+build verifies and preserves all three. For an explicit, reviewed revision
+of their source markdown, run `node scripts/render_project_documents.mjs --regenerate-2021`,
+review the three resulting PDFs, then update `project-document-releases-2021.json`.

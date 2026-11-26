@@ -9,6 +9,7 @@ export const ESTHER_PORTRAIT_IMAGE =
 export const STORY_CATEGORY_LABELS = {
 	story: { en: "Stories", fr: "Histoires" },
 	update: { en: "Updates", fr: "Actualités" },
+	finance: { en: "Financial notices", fr: "Notes financières" },
 	perspective: { en: "Program perspectives", fr: "Réflexions sur nos programmes" },
 } as const;
 
@@ -16,6 +17,7 @@ export type StoryCategory = keyof typeof STORY_CATEGORY_LABELS;
 
 // Editorial categories for approved public copy; older CMS categories do not establish a verified person or event.
 export const STORY_CATEGORY_BY_SLUG: Record<StoryReleaseSlug, StoryCategory> = {
+	"bamenda-school-fee-outreach-2026": "update",
 	"young-peoples-futures": "perspective",
 	"next-steps-after-training": "perspective",
 	"keeping-learning-within-reach": "perspective",
@@ -28,8 +30,8 @@ export const STORY_CATEGORY_BY_SLUG: Record<StoryReleaseSlug, StoryCategory> = {
 	"why-we-focus-on-widows": "perspective",
 	"christmas-giving-2024": "perspective",
 	"community-cleanup-bamenda-2025": "perspective",
-	"donations-changed-lives-2024": "update",
+	"donations-changed-lives-2024": "finance",
 	"5-ways-to-support-free": "perspective",
 	"founder-letter-2026": "perspective",
-	"transparency-report-2024": "update",
+	"transparency-report-2024": "finance",
 };

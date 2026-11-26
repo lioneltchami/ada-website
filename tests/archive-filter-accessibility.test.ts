@@ -54,15 +54,12 @@ describe("project archive filters", () => {
   });
 
   it("keeps the archive summary data-driven without implying unique reach or aggregating money", () => {
-    for (const [locale, page, separator] of [
-      ["en", english, "of"],
-      ["fr", french, "sur"],
+    for (const [locale, page] of [
+      ["en", english],
+      ["fr", french],
     ] as const) {
       expect(page).toContain(`{totalBeneficiaries.toLocaleString("${locale}")}`);
       expect(page).toContain(`{archiveItems.length.toLocaleString("${locale}")}`);
-      expect(page).toContain(
-        `{completedCount.toLocaleString("${locale}")} ${separator} {archiveItems.length.toLocaleString("${locale}")}`,
-      );
       expect(page).toContain("sum + (r.beneficiaries || 0)");
       expect(page).not.toMatch(/totalBudget|sum \+ \(r\.budget/);
       expect(page).toContain("budget={r.budget} localFinance={r.localFinance}");
@@ -70,18 +67,18 @@ describe("project archive filters", () => {
       expect(page).toContain("archiveExchangePegSource");
     }
     expect(english).toContain("Outreach records");
-    expect(english).toContain("Marked complete");
+    expect(english).not.toContain("Marked complete");
     expect(english).toContain("Reported participants across outreaches");
     expect(english).toContain("may be counted more than once");
     expect(french).toContain("Dossiers d’actions");
-    expect(french).toContain("Dossiers marqués comme terminés");
+    expect(french).not.toContain("Dossiers marqués comme terminés");
     expect(french).toContain("Participants déclarés pour l’ensemble des actions");
     expect(french).toContain("peut être comptée plusieurs fois");
   });
 
-  it("uses neutral archive wording and excludes auto-archived entries from completed totals", () => {
+  it("uses neutral archive wording and keeps per-outreach status without a completion summary", () => {
     for (const page of [english, french]) {
-      expect(page).toContain("countOwnerMarkedCompletions(archiveItems)");
+      expect(page).not.toContain("countOwnerMarkedCompletions(archiveItems)");
       expect(page).toContain("getArchiveCardStatus(r,");
       expect(page).toContain("filter-result-count");
       expect(page).toContain("visibleCount");
@@ -101,10 +98,10 @@ describe("project archive filters", () => {
 
   it("adds project context to repeated project, record and donation links", () => {
     expect(projectsIndex).toContain(
-      'aria-label={`${archived ? copy.viewRecord : copy.details}: ${project.title}`}',
+      'aria-label={`${archived ? copy.viewRecord : copy.details}: ${displayTitle}`}',
     );
     expect(projectsIndex).toContain(
-      'aria-label={`${copy.donate}: ${project.title}`}',
+      'aria-label={`${copy.donate}: ${displayTitle}`}',
     );
     expect(projectsIndex).toContain("{project.isFundable && (");
   });

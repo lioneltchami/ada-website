@@ -144,3 +144,10 @@ Chatbot responses.
 ## Need Help?
 
 Contact the development team or email info@apotidev.org for assistance with the CMS.
+
+## Naming present and archived outreaches
+
+- Keep the permanent slug and document URLs unchanged when correcting a title. Link a future archive record to its source outreach or keep the same slug; do not create a second entry to record the same event.
+- Use the same English and French series labels for recurring outreaches. Store only the series label in the title fields and put the confirmed venue or locality in the location fields. Keep the date separate. Do not add an unconfirmed location or invent a date.
+- For a new event in a maintained series, add its slug, series and confirmed display locality (if known) to `config/outreach-naming.json`. The website combines them as `Outreach Name · Location`. Keep the same name on the Terms of Reference and report. Keep full venue details separate.
+- This convention applies to individual outreach records, not standing campaigns or editorial story headlines.
