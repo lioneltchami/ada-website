@@ -45,7 +45,9 @@ including the EN/FR archive, current outreach cards, and resource pages.
 
 If an upload succeeds before the document transaction fails, the asset may be
 unreferenced; its ID is saved separately in the backup directory. It is not
-automatically deleted, as an editor may have reused it.
+automatically deleted, as an editor may have reused it. If the commit response
+is lost, check Sanity history for the transaction ID in `intent.json` before
+retrying; do not infer success or failure from the missing response.
 
 ## Rollback
 

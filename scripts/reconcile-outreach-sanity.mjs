@@ -237,6 +237,9 @@ for (const x of actionable) {
   if (x.create) tx.create({ ...x.d, ...x.fields });
   else tx.patch(x.d._id, (p) => p.ifRevisionId(x.d._rev).set(x.fields));
 }
+writeJson(backup, 'intent.json', {
+  transactionId, changes: actionable.map((x) => ({ _id: x.d._id, fields: x.fields })),
+});
 const result = await tx.commit({ visibility: 'sync', returnDocuments: true });
 const revisions = new Map(result.map((d) => [d._id, d._rev]));
 writeJson(backup, 'after.json', {
