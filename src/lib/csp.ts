@@ -11,6 +11,7 @@ export function buildCspDirectives(): string[] {
   return getCspPolicy({
     PUBLIC_SUPABASE_URL: getEnv("PUBLIC_SUPABASE_URL"),
     PUBLIC_UMAMI_URL: getEnv("PUBLIC_UMAMI_URL"),
+    PUBLIC_GOATCOUNTER_ENDPOINT: import.meta.env.PUBLIC_GOATCOUNTER_ENDPOINT ?? getEnv("PUBLIC_GOATCOUNTER_ENDPOINT"),
   }).directives;
 }
 

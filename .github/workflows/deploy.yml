@@ -50,6 +50,7 @@ jobs:
           PUBLIC_SUPABASE_URL: https://aepkmjzymtowpxhpbjlw.supabase.co
           PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
           PUBLIC_SITE_URL: https://apotidev.org
+          PUBLIC_GOATCOUNTER_ENDPOINT: ${{ vars.PUBLIC_GOATCOUNTER_ENDPOINT }}
 
       - name: Upload and deploy this Worker version without changing routes
         env:
