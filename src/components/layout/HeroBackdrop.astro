@@ -5,6 +5,7 @@ interface Props {
   imageDecorative?: boolean;
   imageLayout?: "side" | "background";
   preserveFraming?: boolean;
+  textDense?: boolean;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   imageDecorative = true,
   imageLayout = "side",
   preserveFraming = false,
+  textDense = false,
 } = Astro.props;
 ---
 
@@ -42,7 +44,9 @@ const {
       ? imageLayout === "side"
         ? preserveFraming
           ? "bg-gradient-to-r from-primary-900 via-primary-900/90 to-primary-900/25"
-          : "bg-gradient-to-r from-primary-900 via-primary-900/95 to-primary-900/78 lg:to-primary-900/55 xl:to-primary-900/25"
+          : textDense
+            ? "bg-gradient-to-r from-primary-900 via-primary-900/95 to-primary-900/82"
+            : "bg-gradient-to-r from-primary-900 via-primary-900/95 to-primary-900/78 lg:to-primary-900/55 xl:to-primary-900/25"
         : "bg-gradient-to-r from-primary-950/92 via-primary-900/75 to-primary-900/40"
       : "bg-gradient-to-r from-primary-950 to-primary-900",
   ]}
