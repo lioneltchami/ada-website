@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../../components/layout/PageHero.astro";
 import Section from "../../components/layout/Section.astro";
@@ -108,6 +109,7 @@ const governanceSafeguards = [
     title="Notre Équipe"
     subtitle="Des personnes dévouées travaillant ensemble pour servir les communautés vulnérables."
     compact
+    photo={getEditorialHeroPhoto("team", "fr")}
   />
 
   <Section background="white" padding="lg">
