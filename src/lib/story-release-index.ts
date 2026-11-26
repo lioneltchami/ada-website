@@ -9,28 +9,28 @@ export const ESTHER_PORTRAIT_IMAGE =
 export const STORY_CATEGORY_LABELS = {
 	story: { en: "Stories", fr: "Histoires" },
 	update: { en: "Updates", fr: "Actualités" },
-	announcement: { en: "Announcements", fr: "Annonces" },
+	perspective: { en: "Program perspectives", fr: "Réflexions sur nos programmes" },
 } as const;
 
 export type StoryCategory = keyof typeof STORY_CATEGORY_LABELS;
 
-// Verified against the original CMS categories; only the category field is carried over.
+// Editorial categories for approved public copy; older CMS categories do not establish a verified person or event.
 export const STORY_CATEGORY_BY_SLUG: Record<StoryReleaseSlug, StoryCategory> = {
-	"amina-almost-child-bride": "story",
-	"carine-graduate-to-mentor": "story",
-	"david-missed-year-of-school": "story",
-	"fabrice-teenage-mentor": "story",
-	"grace-journey-recipient-to-trainer": "story",
-	"hospital-visits-bringing-hope": "story",
-	"mama-rose-grandchildren": "story",
-	"meet-esther-skills-training": "story",
-	"ndongo-family-emergency-relief": "story",
-	"why-we-focus-on-widows": "story",
-	"back-to-school-2025": "update",
-	"christmas-giving-2024": "update",
-	"community-cleanup-bamenda-2025": "update",
+	"young-peoples-futures": "perspective",
+	"next-steps-after-training": "perspective",
+	"keeping-learning-within-reach": "perspective",
+	"a-place-to-learn": "perspective",
+	"learning-and-sharing-a-craft": "perspective",
+	"hospital-visits-bringing-hope": "perspective",
+	"supporting-caregivers": "perspective",
+	"salon-update": "story",
+	"household-emergency-support": "perspective",
+	"why-we-focus-on-widows": "perspective",
+	"back-to-school-2025": "perspective",
+	"christmas-giving-2024": "perspective",
+	"community-cleanup-bamenda-2025": "perspective",
 	"donations-changed-lives-2024": "update",
-	"5-ways-to-support-free": "announcement",
-	"founder-letter-2026": "announcement",
-	"transparency-report-2024": "announcement",
+	"5-ways-to-support-free": "perspective",
+	"founder-letter-2026": "perspective",
+	"transparency-report-2024": "update",
 };

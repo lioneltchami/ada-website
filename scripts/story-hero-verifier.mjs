@@ -158,7 +158,7 @@ export function assertApprovedEstherPortrait(html, locale, placement) {
 		throw new Error(`${locale} Esther portrait must use the confirmed asset and neutral localized alt text`);
 	}
 	const container = placement === "card"
-		? html.match(/<a\b[^>]*href="\/(?:fr\/)?stories\/meet-esther-skills-training"[^>]*>[\s\S]*?<\/a>/i)?.[0]
+		? html.match(/<a\b[^>]*href="\/(?:fr\/)?stories\/salon-update"[^>]*>[\s\S]*?<\/a>/i)?.[0]
 		: html.match(/<article\b[^>]*>[\s\S]*?<\/article>/i)?.[0];
 	if (!container?.includes(portrait)) throw new Error(`${locale} Esther portrait is outside its approved ${placement}`);
 	return portrait;

@@ -37,7 +37,7 @@ describe('rejected 2023 vocational program removal', () => {
   it('preserves distinct baking, widow relief and confirmed Esther story', () => {
     for (const slug of ['idp-girls-baking-training-jul-2022','widow-support-food-cash-mar-2022','womens-day-home-visits-mar-2023']) expect(isWithdrawnProjectSlug(slug)).toBe(false);
     for (const locale of ['en','fr'] as const) {
-      const story = getStoryReleaseCopy('meet-esther-skills-training', locale)!;
+      const story = getStoryReleaseCopy('salon-update', locale)!;
       expect(story.title).toContain('Esther');
       expect(story.paragraphs.join(' ')).toContain('Hannah');
       expect(isWithdrawnAboutEntry({ title: story.title, description: story.paragraphs.join(' ') })).toBe(false);
