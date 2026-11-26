@@ -1,6 +1,5 @@
 {
   "redirects": {
-    "back-to-school-bamenda-sep-2024": "back-to-school-bamenda-aug-2025",
     "back-to-school-sep-2024": "back-to-school-buea-2024",
     "hospital-prenatal-care-jul-2025": "prenatal-care-support-program",
     "hospital-outreach-mothers-muea-2025": "prenatal-care-support-program"
@@ -58,38 +57,6 @@
       "financialNoteFr": "Nous avons prévu un budget de 260 000 FCFA, identique à celui de 2023. Le rapport de projet présente le détail de ce budget ; ces montants ne constituent pas un relevé des paiements."
     },
     {
-      "slug": "back-to-school-bamenda-aug-2025",
-      "year": 2025,
-      "demographic": "community",
-      "location": "Bamenda",
-      "date": "2025-08-30",
-      "title": "Back-to-school outreach in Bamenda",
-      "titleFr": "Action de rentrée scolaire à Bamenda",
-      "description": "On August 30, 2025, we held our first Back to School Outreach in Bamenda to help pupils prepare for the new school year.",
-      "descriptionFr": "Le 30 août 2025, nous avons organisé notre première action de rentrée scolaire à Bamenda pour aider les élèves à préparer la nouvelle année scolaire.",
-      "documentStatus": "released",
-      "financialNoteTitle": "Budget details published",
-      "financialNoteTitleFr": "Détail du budget publié",
-      "financialNote": "The itemized budget totals 151,000 FCFA using the written line amounts. The report explains a transport quantity and rate discrepancy; the worksheet does not establish actual payments.",
-      "financialNoteFr": "Le budget détaillé totalise 151 000 FCFA d’après les montants inscrits. Le rapport explique un écart dans la ligne de transport ; la fiche ne permet pas d’établir les paiements effectués."
-    },
-    {
-      "slug": "back-to-school-buea-2025",
-      "year": 2025,
-      "demographic": "community",
-      "location": "Buea",
-      "title": "Back-to-school outreach in Buea",
-      "titleFr": "Action de rentrée scolaire à Buea",
-      "description": "On August 30, 2025, we held a Back to School Outreach in Buea to help pupils prepare for the new school year. This was separate from the outreach in Bamenda.",
-      "descriptionFr": "Le 30 août 2025, nous avons mené une action de rentrée scolaire à Buea pour aider les élèves à préparer la nouvelle année. Cette action était distincte de celle menée à Bamenda.",
-      "date": "2025-08-30",
-      "documentStatus": "released",
-      "financialNoteTitle": "Budget details published",
-      "financialNoteTitleFr": "Détail du budget publié",
-      "financialNote": "The itemized supplies budget totals 102,600 FCFA using the individual entries, compared with 102,000 FCFA shown on the worksheet. The report explains the reading; this is not a record of payments or delivery.",
-      "financialNoteFr": "Le budget détaillé des fournitures totalise 102 600 FCFA d’après les postes individuels, contre 102 000 FCFA inscrits sur la fiche. Le rapport explique cette lecture ; il ne s’agit pas d’un relevé des paiements ni de la distribution."
-    },
-    {
       "slug": "womens-day-widows-outreach-2025",
       "year": 2025,
       "demographic": "widows",
@@ -120,22 +87,6 @@
       "financialNoteTitleFr": "Détail du budget publié",
       "financialNote": "The report itemizes an allocation of the 150,000 FCFA budget. The category amounts are allocations, not purchase prices or verified spending.",
       "financialNoteFr": "Le rapport détaille une répartition du budget de 150 000 FCFA. Les montants par poste correspondent à une répartition, non à des prix d’achat ni à des dépenses vérifiées."
-    },
-    {
-      "slug": "christmas-orphanage-outreach-2025",
-      "year": 2025,
-      "demographic": "orphans",
-      "location": "Buea",
-      "title": "Christmas Giving in Buea",
-      "titleFr": "Dons de Noël à Buea",
-      "description": "On Saturday, December 20, 2025, our team visited an orphanage in Buea as part of our year-end outreach to support children.",
-      "descriptionFr": "Le samedi 20 décembre 2025, notre équipe a rendu visite à un orphelinat à Buea dans le cadre de nos actions de fin d’année en faveur des enfants.",
-      "date": "2025-12-20",
-      "documentStatus": "released",
-      "financialNoteTitle": "Itemized cost list published",
-      "financialNoteTitleFr": "Liste détaillée des coûts publiée",
-      "financialNote": "The written lines in the itemized working list add to 119,500 FCFA. The report preserves the listed amounts and explains the unclear units. The list is not a record of purchases or payments.",
-      "financialNoteFr": "Les postes inscrits sur la liste de travail totalisent 119 500 FCFA. Le rapport conserve les montants inscrits et explique les incertitudes relatives aux unités. La liste ne constitue pas un relevé des achats ni des paiements."
     },
     {
       "slug": "city-cleanup-may-2025",

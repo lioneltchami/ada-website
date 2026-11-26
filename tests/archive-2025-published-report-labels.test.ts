@@ -12,9 +12,6 @@ const released = {
   "womens-day-widows-outreach-2025": [240000, "calculated-worksheet-budget"],
   "prenatal-care-support-program": [150000, "budget"],
   "city-cleanup-may-2025": [50000, "budget"],
-  "back-to-school-buea-2025": [102600, "worksheet-budget"],
-  "back-to-school-bamenda-aug-2025": [151000, "worksheet-budget"],
-  "christmas-orphanage-outreach-2025": [119500, "working-cost-list"],
 } as const;
 function fixture(slug: string) {
   const base = `/docs/projects/${slug}`;
@@ -28,11 +25,10 @@ function fixture(slug: string) {
 }
 
 describe("2025 published documents in the project archive", () => {
-  it("distinguishes report budget details, Christmas working costs and financial accounts", () => {
+  it("distinguishes report budget details from financial accounts", () => {
     for (const [slug, [fcfa, basis]] of Object.entries(released)) {
       const record = fixture(slug);
-      const christmas = slug === "christmas-orphanage-outreach-2025";
-      expect(archivePublished2025ReportContents(record)).toBe(christmas ? "cost-list" : "budget-details");
+      expect(archivePublished2025ReportContents(record)).toBe("budget-details");
       expect(archivePublishedBudgetFcfa(record)).toBeUndefined();
       expect(archivePublishedFinancialAccount(record, "en")).toBeUndefined();
       expect(formatArchiveCardFinances(record, "en")).toMatchObject({ fcfa, basis });
@@ -40,15 +36,28 @@ describe("2025 published documents in the project archive", () => {
       const enStatus = getArchiveCardStatus(record, "en");
       expect(enStatus.project.state).toBe("completed");
       expect(enStatus.documents.state).toBe("both");
-      expect(enStatus.finance).toMatchObject({ state: christmas ? "cost-list-published" : "budget-details-published", value: "Published in report" });
-      expect(getArchiveCardStatus(record, "fr").finance.value).toBe(christmas ? "Publiée dans le rapport" : "Publiés dans le rapport");
-      expect(released2025ReportLabel(slug, "en", "&")).toBe(christmas ? "Project report & itemized cost list" : "Project report & budget details");
-      expect(released2025ReportLabel(slug, "fr")).toBe(christmas ? "Rapport de projet et liste détaillée des coûts" : "Rapport de projet et détails budgétaires");
+      expect(enStatus.finance).toMatchObject({ state: "budget-details-published", value: "Published in report" });
+      expect(getArchiveCardStatus(record, "fr").finance.value).toBe("Publiés dans le rapport");
+      expect(released2025ReportLabel(slug, "en", "&")).toBe("Project report & budget details");
+      expect(released2025ReportLabel(slug, "fr")).toBe("Rapport de projet et détails budgétaires");
     }
   });
 
+  it.each([
+    "back-to-school-bamenda-aug-2025",
+    "back-to-school-buea-2025",
+    "christmas-orphanage-outreach-2025",
+  ])("does not release a withdrawn project’s financial figures or report label (%s)", slug => {
+    const record = fixture(slug);
+    expect(archivePublished2025ReportContents(record)).toBeUndefined();
+    expect(released2025ReportLabel(slug, "en")).toBeUndefined();
+    expect(released2025ReportLabel(slug, "fr")).toBeUndefined();
+    expect(formatArchiveCardFinances(record, "en")).toBeUndefined();
+    expect(formatArchiveCardFinances(record, "fr")).toBeUndefined();
+  });
+
   it("does not imply the release when either canonical file is missing or the year or project is wrong", () => {
-    const record = fixture("back-to-school-buea-2025");
+    const record = fixture("prenatal-care-support-program");
     for (const candidate of [
       { ...record, torUrl: undefined },
       { ...record, reportUrl: undefined },

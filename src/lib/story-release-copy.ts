@@ -13,7 +13,6 @@ export const STORY_RELEASE_ORDER = [
 	"transparency-report-2024",
 	"learning-and-sharing-a-craft",
 	"keeping-learning-within-reach",
-	"back-to-school-2025",
 	"household-emergency-support",
 	"community-cleanup-bamenda-2025",
 	"young-peoples-futures",

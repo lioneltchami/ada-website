@@ -56,18 +56,18 @@ describe("archive chronology", () => {
       { slug: { current: "first-widow-home-visits-2021" }, year: 2021 },
       { slug: { current: "girls-programme-2024" }, year: 2024, startDate: "2024-10-18" },
       { slug: { current: "womens-day-widows-outreach-2025" }, year: 2025 },
-      { slug: { current: "christmas-orphanage-outreach-2025" }, year: 2025 },
+      { slug: { current: "prenatal-care-support-program" }, year: 2025, startDate: "2025-07-26" },
       { slug: { current: "back-to-school-buea-2024" }, year: 2024, startDate: "2024-08-31" },
       { slug: { current: "christmas-giving-dec-2024" }, year: 2024, startDate: "2024-12-21" },
-      { slug: { current: "back-to-school-buea-2025" }, year: 2025 },
+      { slug: { current: "city-cleanup-may-2025" }, year: 2025, startDate: "2025-05-01" },
     ];
     expect(records.map((record) => formatArchiveCardMonth(record, "en")))
-      .toEqual(["November", "October", "March", "December", "August", "December", undefined]);
+      .toEqual(["November", "October", "March", "July", "August", "December", "May"]);
     expect(records.map((record) => formatArchiveCardMonth(record, "fr")))
-      .toEqual(["novembre", "octobre", "mars", "décembre", "août", "décembre", undefined]);
+      .toEqual(["novembre", "octobre", "mars", "juillet", "août", "décembre", "mai"]);
     expect(sortArchiveEntriesChronologically(records).map((record) => record.slug.current)).toEqual([
-      "christmas-orphanage-outreach-2025", "womens-day-widows-outreach-2025",
-      "back-to-school-buea-2025", "christmas-giving-dec-2024", "girls-programme-2024",
+      "prenatal-care-support-program", "city-cleanup-may-2025",
+      "womens-day-widows-outreach-2025", "christmas-giving-dec-2024", "girls-programme-2024",
       "back-to-school-buea-2024", "first-widow-home-visits-2021",
     ]);
   });

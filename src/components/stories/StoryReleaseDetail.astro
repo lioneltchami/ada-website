@@ -21,10 +21,6 @@ if (!copy) throw new Error(`No safe Story copy is available for ${slug}`);
 const articleType = STORY_RELEASE_COPY[slug as StoryReleaseSlug].type;
 const isReview = articleType === "review";
 const verifiedRelatedRecords: Record<string, { href: string; en: string; fr: string }[]> = {
-	"back-to-school-2025": [
-		{ href: "/projects/archive/back-to-school-buea-2025/", en: "Buea back-to-school project record", fr: "Dossier du projet de rentrée scolaire à Buea" },
-		{ href: "/projects/archive/back-to-school-bamenda-aug-2025/", en: "Bamenda back-to-school project record", fr: "Dossier du projet de rentrée scolaire à Bamenda" },
-	],
 	"christmas-giving-2024": [
 		{ href: "/projects/archive/christmas-giving-dec-2024/", en: "2024 Christmas Giving project record", fr: "Dossier du projet de Noël 2024" },
 	],

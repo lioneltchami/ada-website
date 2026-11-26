@@ -6,13 +6,15 @@ import {
 } from "../src/lib/story-release-copy";
 
 describe("safe bilingual Story release copy", () => {
-	it("contains the 17 remaining public Story routes once", () => {
+	it("contains the 16 remaining public Story routes once", () => {
 		const slugs = Object.keys(STORY_RELEASE_COPY);
-		expect(slugs).toHaveLength(17);
-		expect(new Set(STORY_RELEASE_ORDER).size).toBe(17);
+		expect(slugs).toHaveLength(16);
+		expect(new Set(STORY_RELEASE_ORDER).size).toBe(16);
 		expect(new Set(slugs)).toEqual(new Set(STORY_RELEASE_ORDER));
 		expect(getStoryReleaseCopy("clean-water-first-well-completed", "en")).toBeNull();
 		expect(getStoryReleaseCopy("clean-water-first-well-completed", "fr")).toBeNull();
+		expect(getStoryReleaseCopy("back-to-school-2025", "en")).toBeNull();
+		expect(getStoryReleaseCopy("back-to-school-2025", "fr")).toBeNull();
 	});
 
 	it("has usable English and French copy without fact placeholders or personal source images", () => {
@@ -40,12 +42,10 @@ describe("safe bilingual Story release copy", () => {
 		}
 	});
 
-	it("uses only owner-supported seasonal windows for Christmas and school preparation", () => {
+	it("uses only owner-supported seasonal windows for Christmas in 2024", () => {
 		expect(getStoryReleaseCopy("christmas-giving-2024", "en")?.paragraphs.join(" ")).toMatch(/Christmas season/);
 		expect(getStoryReleaseCopy("christmas-giving-2024", "fr")?.paragraphs.join(" ")).toMatch(/période de Noël/);
-		expect(getStoryReleaseCopy("back-to-school-2025", "en")?.paragraphs.join(" ")).toMatch(/Around August/);
-		expect(getStoryReleaseCopy("back-to-school-2025", "fr")?.paragraphs.join(" ")).toMatch(/Autour du mois d’août/);
-	});
+			});
 
 	it("keeps Esther’s English story and French translation limited to confirmed salon facts", () => {
 		const esther = getStoryReleaseCopy("salon-update", "en")!;

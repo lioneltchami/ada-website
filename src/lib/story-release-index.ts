@@ -26,7 +26,6 @@ export const STORY_CATEGORY_BY_SLUG: Record<StoryReleaseSlug, StoryCategory> = {
 	"salon-update": "story",
 	"household-emergency-support": "perspective",
 	"why-we-focus-on-widows": "perspective",
-	"back-to-school-2025": "perspective",
 	"christmas-giving-2024": "perspective",
 	"community-cleanup-bamenda-2025": "perspective",
 	"donations-changed-lives-2024": "update",

@@ -52,9 +52,6 @@ describe("2025 worksheet figures", () => {
       ["womens-day-widows-outreach-2025", 240000, 396, "calculated-worksheet-budget"],
       ["prenatal-care-support-program", 150000, 267, "budget"],
       ["city-cleanup-may-2025", 50000, 86, "budget"],
-      ["back-to-school-buea-2025", 102600, 182, "worksheet-budget"],
-      ["back-to-school-bamenda-aug-2025", 151000, 268, "worksheet-budget"],
-      ["christmas-orphanage-outreach-2025", 119500, 213, "working-cost-list"],
     ] as const) {
       expect(formatArchiveCardFinances(entry(slug, 2025), "en")).toMatchObject({ fcfa, usd, basis });
       expect(formatArchiveCardFinances(entry(slug, 2025), "fr")?.text).toContain(`env. ${usd} USD`);

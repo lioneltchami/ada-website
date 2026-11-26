@@ -17,14 +17,11 @@ const seriesBySlug = new Map<string, keyof typeof seriesTitles>([
   ["back-to-school-sep-2022", "backToSchool"],
   ["back-to-school-drive-2023", "backToSchool"],
   ["back-to-school-buea-2024", "backToSchool"],
-  ["back-to-school-bamenda-aug-2025", "backToSchool"],
-  ["back-to-school-buea-2025", "backToSchool"],
   ["back-to-school-bamenda-aug-2026", "backToSchool"],
   ["back-to-school-buea-aug-2026", "backToSchool"],
   ["christmas-giving-dec-2022", "christmasGiving"],
   ["christmas-giving-dec-2023", "christmasGiving"],
   ["christmas-giving-dec-2024", "christmasGiving"],
-  ["christmas-orphanage-outreach-2025", "christmasGiving"],
 ]);
 
 export function archiveProjectDisplayTitle(

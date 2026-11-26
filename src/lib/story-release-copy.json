@@ -57,28 +57,6 @@
     "type": "review",
     "publishedAt": null
   },
-  "back-to-school-2025": {
-    "en": {
-      "title": "Preparing for the School Year",
-      "paragraphs": [
-        "Around August, as families prepare for the school year, practical needs may include learning materials, transport, or other school-related costs. Priorities differ from one household to another.",
-        "Education support is most useful when it responds to a particular need without defining a learner by the assistance received.",
-        "A school year begins with preparation and continues through the work of students, families, and educators. This overview describes the value of that preparation; it does not report a specific activity, count, or result."
-      ],
-      "excerpt": "Around August, as families prepare for the school year, practical needs may include learning materials, transport, or other school-related costs. Priorities differ from one household to another."
-    },
-    "fr": {
-      "title": "Préparer la rentrée scolaire",
-      "paragraphs": [
-        "Autour du mois d’août, lorsque les familles préparent la rentrée, les besoins peuvent concerner le matériel scolaire, le transport ou d’autres dépenses liées aux études. Les priorités varient d’un foyer à l’autre.",
-        "Un soutien à la scolarité est plus utile lorsqu’il répond à un besoin précis sans réduire l’élève à l’aide qu’il reçoit.",
-        "Une année scolaire commence par des préparatifs et se poursuit grâce au travail des élèves, des familles et des équipes éducatives. Cet aperçu présente l’importance de ces préparatifs sans rapporter une activité, un nombre ou un résultat particulier."
-      ],
-      "excerpt": "Autour du mois d’août, lorsque les familles préparent la rentrée, les besoins peuvent concerner le matériel scolaire, le transport ou d’autres dépenses liées aux études. Les priorités varient d’un foyer à l’autre."
-    },
-    "type": "overview",
-    "publishedAt": null
-  },
   "community-cleanup-bamenda-2025": {
     "en": {
       "title": "Caring for Shared Spaces",

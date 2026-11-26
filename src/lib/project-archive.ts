@@ -595,7 +595,6 @@ const reportedArchiveMonths = new Map<string, string>([
   ["idp-girls-baking-training-jul-2022", "2022-07"],
   ["girls-programme-2024", "2024-10"],
   ["womens-day-widows-outreach-2025", "2025-03"],
-  ["christmas-orphanage-outreach-2025", "2025-12"],
 ]);
 
 function chronologyDate(value?: string): { month: string; day?: string } | undefined {

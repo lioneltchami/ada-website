@@ -80,7 +80,7 @@ export function archivePublishedBudgetFcfa(
 
 export function released2025ReportContents(slug: string): "budget-details" | "cost-list" | undefined {
   if (!hasReleased2025ProjectDocumentSet(slug)) return undefined;
-  return slug === "christmas-orphanage-outreach-2025" ? "cost-list" : "budget-details";
+  return "budget-details";
 }
 
 /** Require both approved canonical files; a draft or a CMS link cannot make the budget public. */

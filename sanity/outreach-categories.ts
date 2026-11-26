@@ -37,8 +37,6 @@ const slugsByCategory = {
     "back-to-school-bamenda-aug-2026",
     "back-to-school-buea-aug-2026",
     "education-orphans",
-    "back-to-school-bamenda-aug-2025",
-    "back-to-school-buea-2025",
     "back-to-school-buea-2024",
     "back-to-school-drive-2023",
     "back-to-school-sep-2022",
@@ -58,7 +56,6 @@ const slugsByCategory = {
     "idp-girls-baking-training-jul-2022",
   ],
   christmas: [
-    "christmas-orphanage-outreach-2025",
     "christmas-giving-dec-2024",
     "christmas-giving-dec-2023",
     "christmas-giving-dec-2022",

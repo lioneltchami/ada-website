@@ -9,9 +9,6 @@ const read = (p) => fs.readFile(paths(p), 'utf8');
 const absent = async (p) => assert.rejects(fs.stat(paths(p)), { code: 'ENOENT' }, p);
 const base = '/projects/archive/';
 const confirmed = {
-  'christmas-orphanage-outreach-2025': '2025-12-20',
-  'back-to-school-bamenda-aug-2025': '2025-08-30',
-  'back-to-school-buea-2025': '2025-08-30',
   'prenatal-care-support-program': '2025-07-26',
   'city-cleanup-may-2025': '2025-05-01',
   'womens-day-widows-outreach-2025': '2025-03-15',
@@ -20,18 +17,19 @@ const reviewedWorksheetFigures = {
   'womens-day-widows-outreach-2025': [240000,396,'calculated-worksheet-budget'],
   'prenatal-care-support-program': [150000,267,'budget'],
   'city-cleanup-may-2025': [50000,86,'budget'],
-  'back-to-school-buea-2025': [102600,182,'worksheet-budget'],
-  'back-to-school-bamenda-aug-2025': [151000,268,'worksheet-budget'],
-  'christmas-orphanage-outreach-2025': [119500,213,'working-cost-list'],
 };
 const reconciled = JSON.parse(await fs.readFile('config/project-records-2024-25.json', 'utf8')).projects.filter(p => p.year === 2025);
-assert.deepEqual(reconciled.map(p => p.slug).sort(), Object.keys(confirmed).sort(), 'exactly six distinct reviewed 2025 records');
+assert.deepEqual(reconciled.map(p => p.slug).sort(), Object.keys(confirmed).sort(), 'exactly three distinct reviewed 2025 records');
 for (const p of reconciled) {
-  assert.equal(p.documentStatus, 'released', 'All six approved public pairs must be available');
+  assert.equal(p.documentStatus, 'released', 'All three approved public pairs must be available');
   assert.equal(p.approvedBudgetFcfa, undefined, 'do not present older worksheet figures as a uniformly approved budget');
   assert.equal(p.date, confirmed[p.slug], p.slug);
 }
 const retired = {
+  'back-to-school-bamenda-aug-2025': '',
+  'back-to-school-buea-2025': '',
+  'christmas-orphanage-outreach-2025': '',
+  'back-to-school-bamenda-sep-2024': '',
   'hospital-prenatal-care-jul-2025': 'prenatal-care-support-program',
   'hospital-outreach-mothers-muea-2025': 'prenatal-care-support-program',
   'campus-cleanup-aug-2025': 'city-cleanup-may-2025',
@@ -58,7 +56,7 @@ for (const [prefix, locale] of [['','en-GB'],['/fr','fr-FR']]) {
   const cards = [...group.matchAll(/<a\b([^>]*\bclass="[^"]*\barchive-item\b[^"]*"[^>]*)>([\s\S]*?)<\/a>/g)].map(m => ({
     slug: m[1].match(/href="[^"]*\/projects\/archive\/([^"/]+)/)?.[1], body:m[2],
   }));
-  assert.deepEqual(cards.map(c=>c.slug), Object.keys(confirmed), prefix + ' exact six in chronology');
+  assert.deepEqual(cards.map(c=>c.slug), Object.keys(confirmed), prefix + ' exact three in chronology');
   for (const [slug, target] of Object.entries(retired)) {
     await absent(prefix + base + slug + '/index.html');
     assert.ok(!archive.includes(prefix + base + slug), slug + ' stale archive card');
@@ -78,7 +76,7 @@ for (const [prefix, locale] of [['','en-GB'],['/fr','fr-FR']]) {
       assert.ok(normalize(body).includes(prefix ? 'env. 50 000 FCFA' : 'approx. 50,000 FCFA'), slug + ' local amount must be marked approximate');
     }
     assert.ok(body.includes('data-state="both"'), slug + ' ToR and report availability');
-    const expectedStatus = slug === 'christmas-orphanage-outreach-2025' ? 'cost-list-published' : 'budget-details-published';
+    const expectedStatus = 'budget-details-published';
     assert.ok(body.includes('data-state="' + expectedStatus + '"'), slug + ' published basis status');
     for (const html of [detail, resources]) {
       for (const kind of ['tor', 'report']) {
@@ -103,6 +101,6 @@ for (const doc of ['ada-project-history.md','ada-public-budget-adjustments.csv',
   const text = doc.endsWith('.xlsx')
     ? execFileSync('python3',['-c','import sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); print(" ".join(z.read(n).decode("utf8","ignore") for n in z.namelist() if n.endswith(".xml")))',paths('/docs/'+doc)],{encoding:'utf8'})
     : await read('/docs/' + doc);
-  assert.doesNotMatch(text,/campus-cleanup-aug-2025|idp-children-education-fund|youth-mentorship-seminar-oct-2025|Campus Environmental Cleanup|Interim Progress Report: IDP Children Education Fund|Youth Mentorship Seminar|ADA\/2025\/(?:005|007)/i, doc);
+  assert.doesNotMatch(text,/back-to-school-bamenda-aug-2025|back-to-school-buea-2025|christmas-orphanage-outreach-2025|campus-cleanup-aug-2025|idp-children-education-fund|youth-mentorship-seminar-oct-2025|Campus Environmental Cleanup|Interim Progress Report: IDP Children Education Fund|Youth Mentorship Seminar|ADA\/2025\/(?:005|007)/i, doc);
 }
-console.log('2025 archive verified: six released records in bilingual chronological order; exact dates, qualified figures, document pairs, and old redirects checked.');
+console.log('2025 archive verified: three released records in bilingual chronological order; exact dates, qualified figures, document pairs, and old redirects checked.');
