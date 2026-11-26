@@ -123,14 +123,14 @@ export default {
 		completionReport: "Rapport de projet",
 		download: "Télécharger",
 		openLink: "Consulter",
-		funderDocs: "Dossier de Diligence Raisonnable",
+		funderDocs: "Documents pour les partenaires",
 		funderDocsDesc:
-			"Enregistrement, politiques et documents de gouvernance pour les partenaires institutionnels.",
+			"Consultez nos documents d’enregistrement, de gouvernance et de protection, ainsi que des exemples et des outils pour préparer un partenariat.",
 		diligenceGroups: {
 			legal: "Légal et enregistrement",
 			policies: "Politiques",
-			sponsor: "Kits sponsor",
-			budgets: "Budgets et finances",
+			sponsor: "Exemple de rapport de projet",
+			budgets: "Modèle de planification",
 		},
 		demographics: {
 			widows: "Veuves",
