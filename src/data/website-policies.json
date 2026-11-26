@@ -20,7 +20,7 @@
         {
           "title": "Site operation and storage",
           "paragraphs": [
-            "We use an essential session cookie for donor sign-in. Cloudflare handles requests for site delivery and security and may process technical information such as IP addresses. We sample site performance, such as page loading and layout stability. The performance report includes the page path without its query string, device class and connection type, not donation details or form entries.",
+            "We use essential session cookies for donor sign-in. Cloudflare handles requests for site delivery and security and may process technical information such as IP addresses. We sample site performance, such as page loading and layout stability. The performance report includes the page path without its query string, device class and connection type, not donation details or form entries.",
             "Where enabled, Umami helps us understand page visits and referrals. ADA does not use this website to run advertising or retargeting trackers."
           ]
         },
@@ -34,13 +34,20 @@
         {
           "title": "Retention and your choices",
           "paragraphs": [
-            "We keep information as needed to operate your account, respond to requests, document donations and meet applicable financial and legal obligations. You can ask what we hold about you, request corrections or deletion, or tell us to stop sending updates. Some records may need to be kept for legal or accounting reasons. Other rights may apply depending on where you live."
+            "We keep information as needed to operate your account, respond to requests, document donations and meet applicable financial and legal obligations. You can ask what we hold about you, request corrections or deletion, or tell us to stop sending updates. Some records may need to be kept for legal or accounting reasons. Other rights may apply depending on where you live.",
+            "Depending on where you live, you may also be entitled to receive your information in a portable format, object to or restrict processing, withdraw consent, or complain to the relevant privacy regulator. We respond to personal-information requests within 30 days."
           ]
         },
         {
           "title": "Children and privacy questions",
           "paragraphs": [
             "The donor and contact services on this site are not directed to children. If a child has submitted personal information, or you have a privacy question or request, email us. You do not need to send identity documents in your initial message."
+          ]
+        },
+        {
+          "title": "Changes to this policy",
+          "paragraphs": [
+            "We update the review date when this notice changes. We notify registered users by email of significant changes."
           ]
         }
       ]
@@ -65,7 +72,7 @@
         {
           "title": "Fonctionnement du site et stockage",
           "paragraphs": [
-            "Un témoin de session essentiel permet la connexion au compte de donateur. Cloudflare traite les requêtes pour livrer et protéger le site et peut traiter des données techniques comme les adresses IP. Nous mesurons par échantillonnage le chargement et la stabilité de l’affichage. Le relevé de performance comprend le chemin de la page sans paramètres d’URL, le type d’appareil et de connexion, mais ni les données de don ni les saisies des formulaires.",
+            "Des témoins de session essentiels permettent la connexion au compte de donateur. Cloudflare traite les requêtes pour livrer et protéger le site et peut traiter des données techniques comme les adresses IP. Nous mesurons par échantillonnage le chargement et la stabilité de l’affichage. Le relevé de performance comprend le chemin de la page sans paramètres d’URL, le type d’appareil et de connexion, mais ni les données de don ni les saisies des formulaires.",
             "Lorsqu’il est activé, Umami nous aide à comprendre les visites et leur provenance. ADA n’utilise pas ce site pour diffuser des traceurs publicitaires ou de reciblage."
           ]
         },
@@ -79,13 +86,20 @@
         {
           "title": "Conservation et vos choix",
           "paragraphs": [
-            "Nous conservons les renseignements nécessaires à la gestion de votre compte, au suivi des demandes, à la tenue des dossiers de dons et au respect des obligations financières et légales applicables. Vous pouvez demander à consulter, corriger ou supprimer vos renseignements, ou demander l’arrêt de nos nouvelles. Certains dossiers peuvent devoir être conservés pour des raisons légales ou comptables. D’autres droits peuvent s’appliquer selon votre lieu de résidence."
+            "Nous conservons les renseignements nécessaires à la gestion de votre compte, au suivi des demandes, à la tenue des dossiers de dons et au respect des obligations financières et légales applicables. Vous pouvez demander à consulter, corriger ou supprimer vos renseignements, ou demander l’arrêt de nos nouvelles. Certains dossiers peuvent devoir être conservés pour des raisons légales ou comptables. D’autres droits peuvent s’appliquer selon votre lieu de résidence.",
+            "Selon votre lieu de résidence, vous pouvez aussi avoir le droit de recevoir vos renseignements dans un format portable, de vous opposer à leur traitement ou d’en demander la limitation, de retirer votre consentement ou de porter plainte auprès de l’autorité compétente. Nous répondons aux demandes relatives aux renseignements personnels dans un délai de 30 jours."
           ]
         },
         {
           "title": "Enfants et questions sur la confidentialité",
           "paragraphs": [
             "Les services de don et de contact de ce site ne s’adressent pas aux enfants. Si un enfant a transmis des renseignements personnels ou si vous avez une question ou une demande, écrivez-nous. N’envoyez pas de pièce d’identité dans votre premier message."
+          ]
+        },
+        {
+          "title": "Modifications de cette politique",
+          "paragraphs": [
+            "Nous mettons à jour la date de révision lorsque cet avis change. Nous informons les utilisateurs inscrits par courriel des modifications importantes."
           ]
         }
       ]
@@ -111,8 +125,8 @@
         {
           "title": "Donation errors and monthly giving",
           "paragraphs": [
-            "Donations are generally not refundable. If you believe there has been a duplicate charge, an incorrect amount or unauthorised use of a payment method, email us within 30 days of the transaction so we can review it. This does not limit any rights provided by applicable law.",
-            "To cancel a monthly donation, email us using the address below. Include the email used for the donation, but not your card details. No cancellation fee applies."
+            "Donations are generally not refundable. If you believe there has been a duplicate charge, an incorrect amount or unauthorised use of a payment method, email us within 30 days of the transaction so we can review it. This does not limit any rights provided by applicable law. We review requests in good faith and process eligible refunds within 5–10 business days; your bank may take additional time to post the credit.",
+            "To cancel a monthly donation, email us using the address below. Include the email used for the donation, but not your card details. No cancellation fee applies. Cancellation takes effect at the end of the current billing cycle."
           ]
         },
         {
@@ -124,7 +138,7 @@
         {
           "title": "Site content and external links",
           "paragraphs": [
-            "ADA owns or uses its site content with permission unless stated otherwise. Obtain permission for reuse where necessary. Other websites are governed by their own terms, including services you visit through links on this site."
+            "ADA owns or uses its site content with permission unless stated otherwise. You may share links and quote brief excerpts for noncommercial purposes with attribution. Obtain permission for other reuse where necessary. Other websites are governed by their own terms, including services you visit through links on this site."
           ]
         },
         {
@@ -136,7 +150,13 @@
         {
           "title": "Questions and concerns",
           "paragraphs": [
-            "These terms are governed by the laws of Cameroon, without limiting mandatory rights that apply in your jurisdiction. Contact us to raise any concern, including a donation or account issue."
+            "These terms are governed by the laws of Cameroon, without limiting mandatory rights that apply in your jurisdiction. Contact us to raise any concern, including a donation or account issue. If we cannot resolve a dispute informally, we will seek good-faith mediation where appropriate before pursuing formal proceedings."
+          ]
+        },
+        {
+          "title": "Changes to these terms",
+          "paragraphs": [
+            "We update the review date when these terms change. For significant changes, we notify registered users by email at least 14 days before they take effect."
           ]
         }
       ]
@@ -160,8 +180,8 @@
         {
           "title": "Erreurs de don et dons mensuels",
           "paragraphs": [
-            "En règle générale, les dons ne sont pas remboursables. Si vous pensez qu’un montant est incorrect, qu’un prélèvement a été effectué deux fois ou qu’un moyen de paiement a été utilisé sans autorisation, écrivez-nous dans les 30 jours suivant la transaction pour que nous puissions examiner la situation. Cela ne limite pas les droits prévus par la loi applicable.",
-            "Pour annuler un don mensuel, écrivez-nous à l’adresse ci-dessous. Indiquez l’adresse courriel utilisée pour le don, mais pas les données de votre carte. Il n’y a pas de frais d’annulation."
+            "En règle générale, les dons ne sont pas remboursables. Si vous pensez qu’un montant est incorrect, qu’un prélèvement a été effectué deux fois ou qu’un moyen de paiement a été utilisé sans autorisation, écrivez-nous dans les 30 jours suivant la transaction pour que nous puissions examiner la situation. Cela ne limite pas les droits prévus par la loi applicable. Nous examinons les demandes de bonne foi et traitons les remboursements admissibles dans un délai de 5 à 10 jours ouvrables ; votre banque peut mettre plus de temps à créditer votre compte.",
+            "Pour annuler un don mensuel, écrivez-nous à l’adresse ci-dessous. Indiquez l’adresse courriel utilisée pour le don, mais pas les données de votre carte. Il n’y a pas de frais d’annulation. L’annulation prend effet à la fin du cycle de facturation en cours."
           ]
         },
         {
@@ -173,7 +193,7 @@
         {
           "title": "Contenu du site et liens externes",
           "paragraphs": [
-            "Sauf mention contraire, ADA détient les droits sur le contenu du site ou l’utilise avec autorisation. Demandez l’autorisation de réutilisation lorsque c’est nécessaire. Les autres sites sont régis par leurs propres conditions, y compris les services accessibles par des liens de ce site."
+            "Sauf mention contraire, ADA détient les droits sur le contenu du site ou l’utilise avec autorisation. Vous pouvez partager des liens et citer de courts extraits à des fins non commerciales en mentionnant la source. Demandez l’autorisation pour les autres réutilisations lorsque c’est nécessaire. Les autres sites sont régis par leurs propres conditions, y compris les services accessibles par des liens de ce site."
           ]
         },
         {
@@ -185,7 +205,13 @@
         {
           "title": "Questions et réclamations",
           "paragraphs": [
-            "Ces conditions sont régies par les lois du Cameroun, sans limiter les droits impératifs applicables dans votre territoire. Écrivez-nous pour nous faire part de toute préoccupation, notamment au sujet d’un don ou d’un compte."
+            "Ces conditions sont régies par les lois du Cameroun, sans limiter les droits impératifs applicables dans votre territoire. Écrivez-nous pour nous faire part de toute préoccupation, notamment au sujet d’un don ou d’un compte. Si un différend ne peut être réglé à l’amiable, nous rechercherons de bonne foi une médiation lorsque cela est approprié avant d’engager une procédure officielle."
+          ]
+        },
+        {
+          "title": "Modifications des conditions",
+          "paragraphs": [
+            "Nous mettons à jour la date de révision lorsque ces conditions changent. En cas de modification importante, nous informons les utilisateurs inscrits par courriel au moins 14 jours avant son entrée en vigueur."
           ]
         }
       ]
