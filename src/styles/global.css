@@ -21,7 +21,7 @@
   --color-secondary-200: #fed7aa;
   --color-secondary-300: #fdba74;
   --color-secondary-400: #fb923c;
-  --color-secondary-500: #ea6c0a;
+  --color-secondary-500: #c04d08;
   --color-secondary-600: #c2410c;
   --color-secondary-700: #9a3412;
   --color-secondary-800: #7c2d12;
@@ -85,6 +85,22 @@
 
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-primary-600;
+  }
+}
+
+@layer components {
+  /* Preserve the green closing palette but make the site navigation boundary visible. */
+  #main-content:has(> [data-section-tone="dark"]:last-child) ~ [data-site-footer] {
+    border-top: 1px solid rgb(255 255 255 / 0.18);
+  }
+
+  [data-site-footer] a:focus-visible {
+    outline-color: var(--color-primary-200);
+  }
+
+  /* Keep the fixed chat launcher available without covering the legal row. */
+  [data-site-footer][data-footer-chat-clearance] {
+    padding-bottom: max(5rem, calc(env(safe-area-inset-bottom) + 3.5rem));
   }
 }
 

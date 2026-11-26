@@ -1,7 +1,6 @@
 ---
 import PageLayout from "../../../layouts/PageLayout.astro";
 import Section from "../../../components/layout/Section.astro";
-import NewsletterSignup from "../../../components/islands/NewsletterSignup";
 ---
 <!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
@@ -107,19 +106,6 @@ import NewsletterSignup from "../../../components/islands/NewsletterSignup";
           ))
         }
       </ul>
-    </div>
-  </Section>
-
-  <Section background="white" padding="md">
-    <div class="max-w-lg">
-      <h2 class="text-lg font-semibold text-gray-900">Rester informé</h2>
-      <p class="mt-1 text-sm text-gray-600">
-        Recevez des nouvelles mensuelles avec photos et histoires montrant
-        l'impact de votre don.
-      </p>
-      <div class="mt-4">
-        <NewsletterSignup client:visible />
-      </div>
     </div>
   </Section>
 
