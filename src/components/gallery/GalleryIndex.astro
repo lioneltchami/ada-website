@@ -2,6 +2,10 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
 import Section from "../layout/Section.astro";
+import {
+  getClearedGalleryMedia,
+  type ClearedGalleryMedia,
+} from "../../lib/gallery-media-clearance";
 import { getGalleryImages, sanityImageUrl } from "../../lib/sanity";
 import type { Locale } from "../../i18n";
 import { localePath } from "../../i18n";
@@ -12,169 +16,112 @@ interface Props {
 
 const { locale = "en" } = Astro.props;
 const isFr = locale === "fr";
-
-let galleryData: {
-  _id: string;
-  title: string;
-  category?: string;
-  year?: number;
-  reportUrl?: string;
-  photo?: { asset?: { _ref?: string }; alt?: string };
-  projectTitle?: string;
-  projectSlug?: string;
-}[] = [];
+const byYear = new Map<number, ClearedGalleryMedia[]>();
 
 try {
   const rows = await getGalleryImages(undefined, locale);
-  galleryData = (rows || [])
-    .filter((img: any) => img.photo?.asset?._ref)
-    .map((img: any) => ({
-      _id: img._id,
-      title: img.title,
-      category: img.category,
-      year: img.year,
-      reportUrl: img.reportUrl,
-      photo: img.photo,
-      projectTitle: img.projectTitle,
-      projectSlug: img.projectSlug,
-    }));
-} catch {}
-
-const byYear: Record<number, typeof galleryData> = {};
-for (const img of galleryData) {
-  const year = img.year || 2024;
-  if (!byYear[year]) byYear[year] = [];
-  byYear[year].push(img);
+  const seen = new Set<string>();
+  for (const row of rows) {
+    // A Sanity title, year or project pointer is not independent evidence.
+    const media = getClearedGalleryMedia(row._id, row.photo?.asset?._ref);
+    if (!media || seen.has(media.id)) continue;
+    seen.add(media.id);
+    const items = byYear.get(media.year) ?? [];
+    items.push(media);
+    byYear.set(media.year, items);
+  }
+} catch {
+  // A failed gallery fetch must not expose fallback images without clearance.
 }
-const years = Object.keys(byYear)
-  .map(Number)
-  .sort((a, b) => b - a);
+
+const years = [...byYear.entries()].sort(([a], [b]) => b - a);
+for (const [, items] of years) {
+  items.sort((a, b) => (b.date || "").localeCompare(a.date || "") || a.id.localeCompare(b.id));
+}
+const archiveHref = localePath("/projects/archive/", locale);
+const formatDate = (date: string) => new Intl.DateTimeFormat(
+  isFr ? "fr-CM" : "en-CM", { dateStyle: "long", timeZone: "UTC" },
+).format(new Date(`${date}T00:00:00Z`));
 
 const copy = isFr
   ? {
-      metaTitle: "Galerie",
-      metaDescription:
-        "Photos et moments réels des programmes d'ADA au Cameroun, organisés par année.",
-      heroTitle: "Galerie",
-      heroSubtitle:
-        "Moments d'impact sur le terrain — parcourez par année.",
-      heroBadge: "Notre travail en images",
-      photos: "photos",
-      report: "Rapport disponible",
-      emptyTitle: "Photos bientôt disponibles",
-      emptyBody:
-        "Nous organisons nos archives photos. Revenez bientôt !",
+      title: "Galerie",
+      description: "Retrouvez les photos approuvées des actions d’ADA au Cameroun et les comptes rendus des projets.",
+      subtitle: "Les actions d’ADA au Cameroun en images.",
+      mediaCount: (count: number) => count === 1 ? "1 photo" : `${count} photos`,
+      record: "Consulter le dossier de ce projet",
+      emptyTitle: "Découvrir nos actions sur le terrain",
+      emptyBody: "Aucune photo n’est actuellement publiée dans cette galerie. Les archives présentent les actions menées au Cameroun et les comptes rendus disponibles.",
+      browse: "Consulter les archives des projets",
     }
   : {
-      metaTitle: "Photo Gallery",
-      metaDescription:
-        "Browse photos from ADA's programs organized by year. See the real impact of our work across Cameroon.",
-      heroTitle: "Photo Gallery",
-      heroSubtitle: "Real moments from our programs — browse by year.",
-      heroBadge: "Our Work in Pictures",
-      photos: "photos",
-      report: "Report available",
-      emptyTitle: "Photos Coming Soon",
-      emptyBody: "We're organizing our photo archive. Check back soon!",
+      title: "Photo Gallery",
+      description: "Find approved photos of ADA’s work in Cameroon and browse the project records.",
+      subtitle: "A look at ADA’s work in Cameroon.",
+      mediaCount: (count: number) => count === 1 ? "1 photo" : `${count} photos`,
+      record: "View this project record",
+      emptyTitle: "Explore our work in Cameroon",
+      emptyBody: "There are no photos published in this gallery right now. The project archive shows what our teams have done and includes reports where available.",
+      browse: "Browse the project archive",
     };
-
-const heroPhoto = galleryData.find((g) => g.photo?.asset?._ref);
-const heroImageUrl = heroPhoto?.photo?.asset?._ref
-  ? sanityImageUrl(heroPhoto.photo.asset._ref, 1400)
-  : "";
-const heroImageAlt =
-  heroPhoto?.photo?.alt || heroPhoto?.title || copy.heroTitle;
 ---
 
-<PageLayout title={copy.metaTitle} description={copy.metaDescription}>
-  <PageHero
-    title={copy.heroTitle}
-    subtitle={copy.heroSubtitle}
-    compact
-    imageUrl={heroImageUrl}
-    imageAlt={heroImageAlt}
-  />
+<PageLayout title={copy.title} description={copy.description}>
+  <PageHero title={copy.title} subtitle={copy.subtitle} compact />
 
   <Section background="white" padding="lg">
-    {
-      years.length > 0 ? (
-        <div class="space-y-12">
-          {years.map((year) => {
-            const yearImages = byYear[year];
-            return (
-              <div>
-                <div class="flex items-center gap-4 mb-6">
-                  <h2 class="text-2xl font-heading font-bold text-gray-900">
-                    {year}
-                  </h2>
-                  <span class="px-2.5 py-0.5 text-xs font-medium bg-primary-50 text-primary-700 rounded-md border border-primary-100">
-                    {yearImages.length} {copy.photos}
-                  </span>
-                  <div class="flex-1 h-px bg-gray-200" />
-                </div>
+    {years.length > 0 ? (
+      <div class="space-y-12">
+        {years.map(([year, mediaItems]) => (
+          <section aria-labelledby={`gallery-year-${year}`}>
+            <div class="mb-6 flex flex-wrap items-center gap-3">
+              <h2 id={`gallery-year-${year}`} class="font-heading text-2xl font-bold text-gray-900">
+                {year}
+              </h2>
+              <span class="rounded-md border border-primary-100 bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-800">
+                {copy.mediaCount(mediaItems.length)}
+              </span>
+            </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {yearImages.map((img) => {
-                    const href = img.projectSlug
-                      ? localePath(`/projects/${img.projectSlug}`, locale)
-                      : "";
-                    const Wrapper = href ? "a" : "figure";
-                    const wrapperProps = href ? { href } : {};
-                    return (
-                      <Wrapper
-                        {...wrapperProps}
-                        class="group relative aspect-[4/3] rounded-md overflow-hidden border border-gray-200"
-                      >
-                        {img.photo?.asset?._ref ? (
-                          <img
-                            src={sanityImageUrl(img.photo.asset._ref, 400)}
-                            alt={img.photo?.alt || img.title}
-                            class="w-full h-full object-cover"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div class="w-full h-full bg-primary-100 flex items-center justify-center">
-                            <span class="text-sm text-primary-700">
-                              {img.title}
-                            </span>
-                          </div>
-                        )}
-                        {img.projectTitle && (
-                          <span class="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium bg-black/55 text-white rounded-md">
-                            {img.projectTitle}
-                          </span>
-                        )}
-                        <figcaption class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div class="absolute bottom-0 left-0 right-0 p-3">
-                            <p class="text-white text-sm font-medium">
-                              {img.title}
-                            </p>
-                            <div class="flex items-center gap-2 mt-1">
-                              <span class="text-[10px] text-white/70">
-                                {year}
-                              </span>
-                              {img.reportUrl && (
-                                <span class="text-[10px] text-primary-300">
-                                  {copy.report}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </figcaption>
-                      </Wrapper>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <div class="py-12 max-w-xl">
-          <h2 class="text-xl font-semibold text-gray-900">{copy.emptyTitle}</h2>
-          <p class="mt-2 text-gray-600">{copy.emptyBody}</p>
-        </div>
-      )
-    }
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {mediaItems.map((media) => (
+                <figure class="overflow-hidden rounded-lg border border-gray-200 bg-white">
+                  <div class="aspect-[4/3] bg-[#efece4]">
+                    <img
+                      src={sanityImageUrl(media.assetRef, 480)}
+                      srcset={[320, 480, 720].map(width => `${sanityImageUrl(media.assetRef, width)} ${width}w`).join(", ")}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      alt={isFr ? media.altFr : media.alt}
+                      class="h-full w-full object-contain"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption class="p-4 text-sm leading-relaxed text-gray-700">
+                    <p class="font-semibold text-gray-900">{isFr ? media.captionFr : media.caption}</p>
+                    <p class="mt-1">{media.date ? <time datetime={media.date}>{formatDate(media.date)}</time> : year}</p>
+                    {media.archiveSlug && (
+                      <a
+                        href={localePath(`/projects/archive/${media.archiveSlug}/`, locale)}
+                        class="mt-2 inline-flex min-h-11 items-center rounded-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-950"
+                      >{copy.record}</a>
+                    )}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <div class="max-w-2xl rounded-lg border border-primary-100 bg-white p-6 sm:p-8">
+        <h2 class="font-heading text-xl font-semibold text-gray-900">{copy.emptyTitle}</h2>
+        <p class="mt-2 max-w-prose text-gray-700">{copy.emptyBody}</p>
+        <a
+          href={archiveHref}
+          class="mt-4 inline-flex min-h-11 items-center rounded-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-950"
+        >{copy.browse} <span aria-hidden="true" class="ml-2">→</span></a>
+      </div>
+    )}
   </Section>
 </PageLayout>
