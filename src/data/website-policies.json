@@ -28,7 +28,7 @@
           "title": "Service providers and external links",
           "paragraphs": [
             "Stripe processes payments; Supabase provides donor authentication and data storage; Cloudflare hosts and protects the site; Sanity provides the site’s content system; and Resend delivers emails such as donation receipts and form notifications. Some providers may process information outside the country you are in.",
-            "If you choose to contact us through WhatsApp or follow an external link, the other service handles information under its own privacy notice. We do not sell personal information."
+            "If you choose to contact us through WhatsApp or follow an external link, the other service handles information under its own privacy notice. We do not sell or rent personal information or share it with third parties for their own marketing."
           ]
         },
         {
@@ -80,7 +80,7 @@
           "title": "Prestataires et liens externes",
           "paragraphs": [
             "Stripe traite les paiements ; Supabase assure l’authentification des donateurs et le stockage des données ; Cloudflare héberge et protège le site ; Sanity gère son contenu ; et Resend achemine notamment les reçus et les notifications de formulaire. Certains prestataires peuvent traiter des renseignements en dehors du pays où vous vous trouvez.",
-            "Si vous choisissez de nous joindre par WhatsApp ou de suivre un lien externe, le service concerné traite les renseignements selon son propre avis de confidentialité. Nous ne vendons pas de renseignements personnels."
+            "Si vous choisissez de nous joindre par WhatsApp ou de suivre un lien externe, le service concerné traite les renseignements selon son propre avis de confidentialité. Nous ne vendons ni ne louons les renseignements personnels et ne les communiquons pas à des tiers pour leur propre marketing."
           ]
         },
         {
@@ -199,7 +199,7 @@
         {
           "title": "Disponibilité et responsabilité",
           "paragraphs": [
-            "Le site est fourni en l’état, sans garantie de fonctionnement ininterrompu ni d’absence d’erreur. Dans la mesure permise par la loi applicable, ADA n’est pas responsable des pertes indirectes, accessoires, particulières ou consécutives découlant de l’utilisation du site, et sa responsabilité totale au titre de ces conditions ne dépasse pas le montant de votre dernier don. Ces conditions ne limitent pas les droits auxquels il est impossible de renoncer légalement."
+            "Le site est fourni en l’état, sans garantie de fonctionnement ininterrompu ni d’absence d’erreur. Ces conditions ne limitent pas les droits auxquels il est impossible de renoncer légalement."
           ]
         },
         {
