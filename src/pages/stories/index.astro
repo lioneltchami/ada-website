@@ -1,4 +1,5 @@
 ---
+import SocialFollow from "../../components/stories/SocialFollow.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../../components/layout/PageHero.astro";
 import Section from "../../components/layout/Section.astro";
@@ -13,5 +14,6 @@ const description = "Bilingual program perspectives and practical guidance from 
 	<PageHero title={title} subtitle="Program perspectives and practical guidance." imageUrl={STORY_RELEASE_HERO_IMAGE} imageDecorative imageLayout="side" preserveFraming />
 	<Section background="white" padding="lg">
 		<StoryReleaseIndex locale="en" />
+		<SocialFollow locale="en" />
 	</Section>
 </PageLayout>
