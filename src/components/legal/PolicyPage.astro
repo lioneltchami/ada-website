@@ -16,7 +16,7 @@ const analyticsNotice = fr
   ? "GoatCounter compte les visites sur les pages publiques ainsi que certains clics (bouton de don, contact par WhatsApp, documents, liens vers les réseaux sociaux, ouverture de la demande de parrainage et filtres des archives). Cette mesure ne couvre ni les pages de paiement ou de compte, ni le formulaire de parrainage, ni les données saisies dans les formulaires. Notre intégration ne transmet ni les paramètres d’URL ni les adresses de provenance, et n’utilise pas de témoins. GoatCounter reçoit l’adresse IP et des renseignements de navigateur pour traiter les visites."
   : "GoatCounter counts visits to public pages and selected clicks (Donate, WhatsApp contact, documents, social links, opening a sponsor inquiry and archive filters). It does not measure donation or account pages or the sponsorship inquiry form, or collect anything entered in any form. Our integration does not send URL query parameters or referrer addresses and does not use analytics cookies. GoatCounter receives IP addresses and browser information to process visits.";
 ---
-<PageLayout title={policy.title} description={policy.description}>
+<PageLayout hideFloatingDonate title={policy.title} description={policy.description}>
   <Section background="white" padding="lg">
     <div class="mx-auto max-w-5xl">
       <header class="mb-8 border-b border-primary-200 pb-6 sm:mb-10 sm:pb-8">
