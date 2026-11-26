@@ -14,6 +14,8 @@ interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   noIndex?: boolean;
+  /** Only for explicitly published story copy; no effect on indexing. */
+  allowPublicStoryAnalytics?: boolean;
   noBreadcrumbJsonLd?: boolean;
   hideFloatingDonate?: boolean;
   jsonLdExtra?: Record<string, unknown>[];
