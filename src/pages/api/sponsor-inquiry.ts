@@ -8,6 +8,7 @@ import {
 } from "../../lib/api-requests";
 import { sendSponsorInquiryNotification } from "../../lib/email";
 import { RATE_LIMITS, rejectIfRateLimited } from "../../lib/rate-limit";
+import { NO_REPORTING_NEEDS, reportingNeedsAreCompatible } from "../../lib/sponsor-inquiry-options";
 
 const PRIMARY_ORIGIN = import.meta.env.PUBLIC_SITE_URL;
 
@@ -62,7 +63,7 @@ const ReportingNeed = z.enum([
   "Project reports",
   "Invoice or sponsorship agreement",
   "Board / internal approval support",
-  "None yet",
+  NO_REPORTING_NEEDS,
 ]);
 
 const CallPreference = z.enum([
@@ -101,11 +102,14 @@ const Schema = z
       )
       .transform((value) => value ?? "Not specified"),
     fundingPurpose: z.string().trim().min(10).max(1000),
-    reportingNeeds: z.array(ReportingNeed).max(7).default([]),
+    reportingNeeds: z.array(ReportingNeed).max(ReportingNeed.options.length - 1)
+      .refine(reportingNeedsAreCompatible, "Incompatible or repeated reporting needs")
+      .default([]),
     invoiceOrWire: z.boolean(),
     callPreference: z
       .preprocess(
-        (value) => (value === "" || value === undefined ? undefined : value),
+        (value) => value === "Request a short call" ? "Book a short call"
+          : value === "" || value === undefined ? undefined : value,
         CallPreference.optional(),
       )
       .transform((value) => value ?? "Not specified"),
@@ -124,6 +128,13 @@ const Schema = z
 export const POST: APIRoute = async ({ request, url }) => {
   const originError = rejectInvalidOrigin(request, url.href, PRIMARY_ORIGIN);
   if (originError) return originError;
+
+  // The native POST fallback never sends email or echoes entered form data.
+  if (request.headers.get("content-type")?.split(";", 1)[0].trim().toLowerCase() !== "application/json") {
+    return jsonResponse({ error: "Unsupported submission format" }, 415, {
+      "Cache-Control": "no-store",
+    });
+  }
 
   const rateError = rejectIfRateLimited(
     request,

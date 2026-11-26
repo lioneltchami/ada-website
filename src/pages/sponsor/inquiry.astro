@@ -58,10 +58,10 @@ const reportingNeeds = [
 ];
 
 const callPreferences = [
-  "Email first",
-  "Request a short call",
-  "WhatsApp is best",
-  "Send documents first",
+  { label: "Email first", value: "Email first" },
+  { label: "Request a short call", value: "Book a short call" },
+  { label: "WhatsApp is best", value: "WhatsApp is best" },
+  { label: "Send documents first", value: "Send documents first" },
 ];
 ---
 
@@ -86,7 +86,7 @@ const callPreferences = [
         <p class="mt-4 text-sm text-gray-500">
           Cameroon-registered NGO ({REGISTRATION_NUMBER}) · Receipts for records
           · Project reports available · Recognition or anonymity by preference ·
-          Bilingual English/French reporting
+          Reporting available in English and French
         </p>
       </div>
     </div>
@@ -113,14 +113,6 @@ const callPreferences = [
         </ul>
         <div class="mt-5 flex flex-col gap-2">
           <a
-            href="/docs/diligence/ada-sponsor-readiness-packet.pdf"
-            target="_blank"
-            rel="noopener"
-            class="text-sm font-semibold text-primary-700 hover:underline"
-          >
-            Open sponsor packet
-          </a>
-          <a
             href="/resources#due-diligence"
             class="text-sm font-semibold text-primary-700 hover:underline"
           >
@@ -129,8 +121,16 @@ const callPreferences = [
         </div>
       </aside>
 
+      <p id="sponsor-inquiry-fallback" class="rounded-xl border border-gray-200 bg-white p-5 text-sm leading-relaxed text-gray-700">
+        The inquiry form requires JavaScript. You can also email
+        <a href="mailto:info@apotidev.org" class="font-semibold text-primary-700 underline">info@apotidev.org</a>.
+        Do not include bank or card details or sensitive documents.
+      </p>
       <form
         id="sponsor-inquiry-form"
+        action="/api/sponsor-inquiry"
+        method="post"
+        hidden
         class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm md:p-6"
         novalidate
       >
@@ -351,7 +351,7 @@ const callPreferences = [
                 <option value="">Select if known</option>
                 {
                   callPreferences.map((option) => (
-                    <option value={option}>{option}</option>
+                    <option value={option.value}>{option.label}</option>
                   ))
                 }
               </select>
@@ -383,8 +383,8 @@ const callPreferences = [
             <p class="text-sm font-medium text-gray-700">
               Reporting or due-diligence needs
             </p>
-            <p class="mt-1 text-xs text-gray-500">
-              We match reporting to the sponsorship size and agreement.
+            <p id="reporting-needs-help" class="mt-1 text-xs text-gray-500">
+              Choose “None yet” on its own, or select the records you need.
             </p>
             <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {
@@ -393,6 +393,7 @@ const callPreferences = [
                     <input
                       type="checkbox"
                       name="reportingNeeds"
+                      aria-describedby="reporting-needs-help"
                       value={option}
                       class="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                     />
@@ -438,6 +439,7 @@ const callPreferences = [
         <p class="mt-5 text-xs text-gray-500">
           We use this information only to respond to your sponsorship inquiry.
           Do not send bank details or sensitive documents through this form.
+          <a href="/privacy" class="font-semibold text-primary-700 underline">Read the privacy policy.</a>
         </p>
         <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
           <button
@@ -448,12 +450,10 @@ const callPreferences = [
             Submit sponsor inquiry
           </button>
           <a
-            href="/docs/diligence/ada-sponsor-readiness-packet.pdf"
-            target="_blank"
-            rel="noopener"
+            href="/resources#due-diligence"
             class="inline-flex w-full justify-center px-5 py-3 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors sm:w-auto"
           >
-            Download sponsor packet
+            View due-diligence documents
           </a>
         </div>
       </form>
@@ -462,6 +462,8 @@ const callPreferences = [
 </PageLayout>
 
 <script>
+  import { NO_REPORTING_NEEDS } from "../../lib/sponsor-inquiry-options";
+
   const form = document.getElementById(
     "sponsor-inquiry-form",
   ) as HTMLFormElement | null;
@@ -552,6 +554,14 @@ const callPreferences = [
 
   form?.addEventListener("change", (event) => {
     const field = event.target;
+    if (field instanceof HTMLInputElement && field.name === "reportingNeeds" && field.checked) {
+      const options = form.querySelectorAll<HTMLInputElement>('input[name="reportingNeeds"]');
+      for (const option of options) {
+        if (option !== field && (field.value === NO_REPORTING_NEEDS || option.value === NO_REPORTING_NEEDS)) {
+          option.checked = false;
+        }
+      }
+    }
     if (field instanceof HTMLSelectElement && field.checkValidity()) {
       field.removeAttribute("aria-invalid");
       updateFieldErrorDescription(field, false);
@@ -631,4 +641,9 @@ const callPreferences = [
       }
     }
   });
+
+  if (form) {
+    form.hidden = false;
+    document.getElementById("sponsor-inquiry-fallback")?.setAttribute("hidden", "");
+  }
 </script>
