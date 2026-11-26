@@ -1,0 +1,28 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../layout/Section.astro";
+import copy from "../../data/website-policies.json";
+
+interface Props {
+  locale: "en" | "fr";
+  type: "privacy" | "terms";
+}
+const { locale, type } = Astro.props;
+const policy = copy[type][locale];
+const fr = locale === "fr";
+---
+<PageLayout title={policy.title} description={policy.description}>
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl prose prose-gray">
+      <h1 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">{policy.title}</h1>
+      <p class="text-sm text-gray-500">{fr ? "Dernière révision : 26 novembre 2026" : "Last reviewed: November 26, 2026"}</p>
+      {policy.sections.map(({ title, paragraphs }, i) => (
+        <section aria-labelledby={`policy-${i}`}>
+          <h2 id={`policy-${i}`}>{title}</h2>
+          {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </section>
+      ))}
+      <p>{fr ? "Courriel : " : "Email: "}<a href="mailto:info@apotidev.org">info@apotidev.org</a></p>
+    </div>
+  </Section>
+</PageLayout>

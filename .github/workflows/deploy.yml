@@ -49,9 +49,6 @@ jobs:
           PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.PUBLIC_STRIPE_PUBLISHABLE_KEY }}
           PUBLIC_SUPABASE_URL: https://aepkmjzymtowpxhpbjlw.supabase.co
           PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
-          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
-          PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
-          PUBLIC_POSTHOG_UI_HOST: https://us.posthog.com
           PUBLIC_SITE_URL: https://apotidev.org
 
       - name: Upload and deploy this Worker version without changing routes

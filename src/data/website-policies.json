@@ -1,0 +1,194 @@
+{
+  "privacy": {
+    "en": {
+      "title": "Privacy Policy",
+      "description": "How Apoti Development Association handles personal information on this website.",
+      "sections": [
+        {
+          "title": "About this notice",
+          "paragraphs": [
+            "Apoti Development Association (ADA) is a registered NGO in Cameroon. This notice explains how ADA handles personal information when you use apotidev.org."
+          ]
+        },
+        {
+          "title": "Information you provide",
+          "paragraphs": [
+            "We use the name and email you provide to run your donor account and show your giving history. Supabase handles account authentication. When you donate, we use details such as your name, email, amount, date and designated outreach to process and record your gift and send a receipt. Stripe handles card information. ADA does not store full card numbers.",
+            "When you contact us or send a sponsorship inquiry, we use the contact details, organisation, message and any preferences you provide to respond and follow up. If you sign up for updates, we use your email for that request. To stop receiving updates, contact us using the address below. Please do not send card details or sensitive information through a form."
+          ]
+        },
+        {
+          "title": "Site operation and storage",
+          "paragraphs": [
+            "We use an essential session cookie for donor sign-in. Cloudflare handles requests for site delivery and security and may process technical information such as IP addresses. We sample site performance, such as page loading and layout stability. The performance report includes the page path without its query string, device class and connection type, not donation details or form entries.",
+            "Where enabled, Umami helps us understand page visits and referrals. ADA does not use this website to run advertising or retargeting trackers."
+          ]
+        },
+        {
+          "title": "Service providers and external links",
+          "paragraphs": [
+            "Stripe processes payments; Supabase provides donor authentication and data storage; Cloudflare hosts and protects the site; Sanity provides the site’s content system; and Resend delivers emails such as donation receipts and form notifications. Some providers may process information outside the country you are in.",
+            "If you choose to contact us through WhatsApp or follow an external link, the other service handles information under its own privacy notice. We do not sell personal information."
+          ]
+        },
+        {
+          "title": "Retention and your choices",
+          "paragraphs": [
+            "We keep information as needed to operate your account, respond to requests, document donations and meet applicable financial and legal obligations. You can ask what we hold about you, request corrections or deletion, or tell us to stop sending updates. Some records may need to be kept for legal or accounting reasons. Other rights may apply depending on where you live."
+          ]
+        },
+        {
+          "title": "Children and privacy questions",
+          "paragraphs": [
+            "The donor and contact services on this site are not directed to children. If a child has submitted personal information, or you have a privacy question or request, email us. You do not need to send identity documents in your initial message."
+          ]
+        }
+      ]
+    },
+    "fr": {
+      "title": "Politique de confidentialité",
+      "description": "Comment Apoti Development Association traite les renseignements personnels sur ce site.",
+      "sections": [
+        {
+          "title": "À propos de cet avis",
+          "paragraphs": [
+            "Apoti Development Association (ADA) est une ONG enregistrée au Cameroun. Cet avis explique comment ADA traite les renseignements personnels lorsque vous utilisez apotidev.org."
+          ]
+        },
+        {
+          "title": "Renseignements que vous fournissez",
+          "paragraphs": [
+            "Nous utilisons le nom et l’adresse courriel que vous fournissez pour gérer votre compte de donateur et afficher votre historique de dons. Supabase assure l’authentification. Lorsque vous faites un don, nous utilisons notamment votre nom, votre adresse courriel, la date, le montant et l’action désignée pour traiter et consigner le don et envoyer un reçu. Stripe traite les données de carte. ADA ne conserve pas le numéro complet de votre carte.",
+            "Lorsque vous nous contactez ou envoyez une demande de parrainage, nous utilisons vos coordonnées, le nom de votre organisation, votre message et vos préférences pour vous répondre et assurer le suivi. Si vous vous inscrivez à nos nouvelles, nous utilisons votre adresse courriel à cette fin. Pour ne plus recevoir ces messages, écrivez-nous à l’adresse ci-dessous. N’envoyez pas de données de carte ni de renseignements sensibles dans un formulaire."
+          ]
+        },
+        {
+          "title": "Fonctionnement du site et stockage",
+          "paragraphs": [
+            "Un témoin de session essentiel permet la connexion au compte de donateur. Cloudflare traite les requêtes pour livrer et protéger le site et peut traiter des données techniques comme les adresses IP. Nous mesurons par échantillonnage le chargement et la stabilité de l’affichage. Le relevé de performance comprend le chemin de la page sans paramètres d’URL, le type d’appareil et de connexion, mais ni les données de don ni les saisies des formulaires.",
+            "Lorsqu’il est activé, Umami nous aide à comprendre les visites et leur provenance. ADA n’utilise pas ce site pour diffuser des traceurs publicitaires ou de reciblage."
+          ]
+        },
+        {
+          "title": "Prestataires et liens externes",
+          "paragraphs": [
+            "Stripe traite les paiements ; Supabase assure l’authentification des donateurs et le stockage des données ; Cloudflare héberge et protège le site ; Sanity gère son contenu ; et Resend achemine notamment les reçus et les notifications de formulaire. Certains prestataires peuvent traiter des renseignements en dehors du pays où vous vous trouvez.",
+            "Si vous choisissez de nous joindre par WhatsApp ou de suivre un lien externe, le service concerné traite les renseignements selon son propre avis de confidentialité. Nous ne vendons pas de renseignements personnels."
+          ]
+        },
+        {
+          "title": "Conservation et vos choix",
+          "paragraphs": [
+            "Nous conservons les renseignements nécessaires à la gestion de votre compte, au suivi des demandes, à la tenue des dossiers de dons et au respect des obligations financières et légales applicables. Vous pouvez demander à consulter, corriger ou supprimer vos renseignements, ou demander l’arrêt de nos nouvelles. Certains dossiers peuvent devoir être conservés pour des raisons légales ou comptables. D’autres droits peuvent s’appliquer selon votre lieu de résidence."
+          ]
+        },
+        {
+          "title": "Enfants et questions sur la confidentialité",
+          "paragraphs": [
+            "Les services de don et de contact de ce site ne s’adressent pas aux enfants. Si un enfant a transmis des renseignements personnels ou si vous avez une question ou une demande, écrivez-nous. N’envoyez pas de pièce d’identité dans votre premier message."
+          ]
+        }
+      ]
+    }
+  },
+  "terms": {
+    "en": {
+      "title": "Terms of Service",
+      "description": "Terms for using the Apoti Development Association website.",
+      "sections": [
+        {
+          "title": "About these terms",
+          "paragraphs": [
+            "These terms apply to apotidev.org, operated by Apoti Development Association (ADA), a registered NGO in Cameroon. By using the site, you agree to these terms."
+          ]
+        },
+        {
+          "title": "Donations and receipts",
+          "paragraphs": [
+            "Donations are voluntary. Use an authorised payment method and provide accurate information. After payment is confirmed, ADA emails a receipt for your records. ADA does not issue official charitable tax receipts."
+          ]
+        },
+        {
+          "title": "Donation errors and monthly giving",
+          "paragraphs": [
+            "Donations are generally not refundable. If you believe there has been a duplicate charge, an incorrect amount or unauthorised use of a payment method, email us within 30 days of the transaction so we can review it. This does not limit any rights provided by applicable law.",
+            "To cancel a monthly donation, email us using the address below. Include the email used for the donation, but not your card details. No cancellation fee applies."
+          ]
+        },
+        {
+          "title": "Donor accounts and site use",
+          "paragraphs": [
+            "Keep your account credentials secure and tell us if you suspect unauthorised use. Use the site lawfully. Do not interfere with the site, attempt to access restricted systems, misrepresent your identity or use our forms to send harmful material. Do not collect site content by automated means without ADA’s permission."
+          ]
+        },
+        {
+          "title": "Site content and external links",
+          "paragraphs": [
+            "ADA owns or uses its site content with permission unless stated otherwise. Obtain permission for reuse where necessary. Other websites are governed by their own terms, including services you visit through links on this site."
+          ]
+        },
+        {
+          "title": "Availability and liability",
+          "paragraphs": [
+            "We provide the site as is and do not guarantee that it will be uninterrupted or error-free. To the extent permitted by applicable law, ADA is not liable for indirect, incidental, special or consequential losses arising from use of the site, and ADA’s total liability under these terms does not exceed the amount of your most recent donation. These terms do not limit rights that cannot lawfully be excluded."
+          ]
+        },
+        {
+          "title": "Questions and concerns",
+          "paragraphs": [
+            "These terms are governed by the laws of Cameroon, without limiting mandatory rights that apply in your jurisdiction. Contact us to raise any concern, including a donation or account issue."
+          ]
+        }
+      ]
+    },
+    "fr": {
+      "title": "Conditions d’utilisation",
+      "description": "Conditions d’utilisation du site d’Apoti Development Association.",
+      "sections": [
+        {
+          "title": "À propos de ces conditions",
+          "paragraphs": [
+            "Ces conditions s’appliquent à apotidev.org, exploité par Apoti Development Association (ADA), une ONG enregistrée au Cameroun. En utilisant le site, vous acceptez ces conditions."
+          ]
+        },
+        {
+          "title": "Dons et reçus",
+          "paragraphs": [
+            "Les dons sont volontaires. Utilisez un moyen de paiement autorisé et fournissez des renseignements exacts. Une fois le paiement confirmé, ADA envoie par courriel un reçu pour vos dossiers. ADA ne délivre pas de reçus fiscaux officiels pour dons."
+          ]
+        },
+        {
+          "title": "Erreurs de don et dons mensuels",
+          "paragraphs": [
+            "En règle générale, les dons ne sont pas remboursables. Si vous pensez qu’un montant est incorrect, qu’un prélèvement a été effectué deux fois ou qu’un moyen de paiement a été utilisé sans autorisation, écrivez-nous dans les 30 jours suivant la transaction pour que nous puissions examiner la situation. Cela ne limite pas les droits prévus par la loi applicable.",
+            "Pour annuler un don mensuel, écrivez-nous à l’adresse ci-dessous. Indiquez l’adresse courriel utilisée pour le don, mais pas les données de votre carte. Il n’y a pas de frais d’annulation."
+          ]
+        },
+        {
+          "title": "Comptes de donateurs et utilisation du site",
+          "paragraphs": [
+            "Protégez vos identifiants et signalez-nous toute utilisation non autorisée présumée. Utilisez le site conformément à la loi. Ne perturbez pas son fonctionnement, ne tentez pas d’accéder à des systèmes réservés, ne présentez pas une fausse identité et n’utilisez pas nos formulaires pour transmettre des contenus nuisibles. Ne collectez pas le contenu du site par des moyens automatisés sans l’autorisation d’ADA."
+          ]
+        },
+        {
+          "title": "Contenu du site et liens externes",
+          "paragraphs": [
+            "Sauf mention contraire, ADA détient les droits sur le contenu du site ou l’utilise avec autorisation. Demandez l’autorisation de réutilisation lorsque c’est nécessaire. Les autres sites sont régis par leurs propres conditions, y compris les services accessibles par des liens de ce site."
+          ]
+        },
+        {
+          "title": "Disponibilité et responsabilité",
+          "paragraphs": [
+            "Le site est fourni en l’état, sans garantie de fonctionnement ininterrompu ni d’absence d’erreur. Dans la mesure permise par la loi applicable, ADA n’est pas responsable des pertes indirectes, accessoires, particulières ou consécutives découlant de l’utilisation du site, et sa responsabilité totale au titre de ces conditions ne dépasse pas le montant de votre dernier don. Ces conditions ne limitent pas les droits auxquels il est impossible de renoncer légalement."
+          ]
+        },
+        {
+          "title": "Questions et réclamations",
+          "paragraphs": [
+            "Ces conditions sont régies par les lois du Cameroun, sans limiter les droits impératifs applicables dans votre territoire. Écrivez-nous pour nous faire part de toute préoccupation, notamment au sujet d’un don ou d’un compte."
+          ]
+        }
+      ]
+    }
+  }
+}

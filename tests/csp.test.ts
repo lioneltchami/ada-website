@@ -32,20 +32,18 @@ describe("CSP helpers", () => {
     expect(csp).toContain("https://supabase-ada.77.42.83.187.sslip.io");
   });
 
-  it("allows PostHog hosts when PUBLIC_POSTHOG_KEY is set", async () => {
+  it("does not allow PostHog hosts even if legacy environment is set", async () => {
     vi.stubEnv("PUBLIC_POSTHOG_KEY", "phc_test_key");
     const { buildContentSecurityPolicy } = await import("../src/lib/csp");
     const csp = buildContentSecurityPolicy();
 
-    expect(csp).toContain("https://*.posthog.com");
-    expect(csp).toContain("https://*.i.posthog.com");
-    expect(csp).toContain("worker-src 'self' blob: data:");
+    expect(csp).not.toContain("posthog.com");
+    expect(csp).toContain("worker-src 'self';");
   });
 
   it("shares the exact source allowlist with Astro's per-page CSP", async () => {
     vi.stubEnv("PUBLIC_SUPABASE_URL", "https://example.supabase.co");
     vi.stubEnv("PUBLIC_UMAMI_URL", "https://analytics.example.org");
-    vi.stubEnv("PUBLIC_POSTHOG_KEY", "configured");
     const [{ buildCspDirectives }, { getCspPolicy }] = await Promise.all([
       import("../src/lib/csp"),
       import("../src/lib/csp-policy.mjs"),
@@ -53,7 +51,6 @@ describe("CSP helpers", () => {
     const policy = getCspPolicy({
       PUBLIC_SUPABASE_URL: "https://example.supabase.co",
       PUBLIC_UMAMI_URL: "https://analytics.example.org",
-      PUBLIC_POSTHOG_KEY: "configured",
     });
 
     expect(policy.directives).toEqual(buildCspDirectives());
