@@ -1,0 +1,33 @@
+---
+import { getArchiveFeaturePhoto } from "../../data/archive-feature-photos";
+import { localePath, type Locale } from "../../i18n";
+import HeroBackdrop from "../layout/HeroBackdrop.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const outreach = "city-cleanup-may-2023";
+const photo = getArchiveFeaturePhoto(outreach, locale);
+const caption = locale === "fr"
+  ? "Notre équipe lors du nettoyage communautaire à Buea, mai 2023"
+  : "Our team at the Buea community cleanup, May 2023";
+---
+
+<section class="relative isolate overflow-hidden bg-primary-900 text-white" data-home-hero>
+  <HeroBackdrop imageUrl={photo?.src} imageAlt={photo?.alt} imageDecorative={false} imageLayout="side" />
+  <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <div class="max-w-2xl">
+      <slot />
+      {photo && (
+        <p class="mt-4 text-sm text-white/90">
+          <a
+            href={localePath(`/projects/archive/${outreach}/`, locale)}
+            class="underline decoration-white/50 underline-offset-4 hover:text-white"
+          >{caption}</a>
+        </p>
+      )}
+    </div>
+  </div>
+</section>
