@@ -10,7 +10,8 @@ import { hasReleased2024ProjectDocumentSet } from "../../lib/reviewed-project-su
 import { hasReleasedProjectDocumentSet } from "../../data/organization";
 import { archiveEditorial, archiveResolvedFinance } from "../../data/archive-detail-editorial";
 import { archiveProjectDocumentLinks, archivePublishedFinancialAccount, archivePublishedBudgetFcfa, archivePublished2025ReportContents, archivePublished2026Finance, released2026ReportLabel, released2025ReportLabel, formatArchiveFcfa } from "../../lib/archive-project-document-links";
-import { formatUsdAmount, getArchiveRecordStatusText, getProjectReportLabel } from "../../lib/project-detail-presentation";
+import { formatArchiveCardFinances } from "../../lib/archive-card-finances";
+import { getArchiveRecordStatusText, getProjectReportLabel } from "../../lib/project-detail-presentation";
 
 interface Props { record: ProjectArchiveEntry; locale: "en" | "fr" }
 const { record, locale } = Astro.props;
@@ -46,7 +47,7 @@ const demo = (fr
   : { widows:"Widows", orphans:"Orphans", "young-women":"Young women", "pregnant-women":"Pregnant women", idps:"IDPs", community:"Community" })[record.demographic];
 const financialNote = fr ? record.financialReviewNoteFr : record.financialReviewNote;
 const publishedFinancialAccount = archivePublishedFinancialAccount(record, locale);
-const financialTitle = publishedFinancialAccount || (fr ? record.financialReviewTitleFr : record.financialReviewTitle) || (fr ? "Chiffres financiers en cours de vérification" : "Financial figures under review");
+const reportFinancialTitle = fr ? record.financialReviewTitleFr : record.financialReviewTitle;
 const documentNote = fr ? record.documentReviewNoteFr : record.documentReviewNote;
 const released2024 = hasReleased2024ProjectDocumentSet(slug);
 const published2025Contents = archivePublished2025ReportContents(record);
@@ -78,6 +79,22 @@ const prettyDate = (value: string) => {
 const dateLabel = [record.startDate, record.endDate].filter((d): d is string => Boolean(d && !Number.isNaN(Date.parse(d)))).map(prettyDate);
 const period = [...new Set(dateLabel)].join(" – ") || String(record.year);
 const expenses = finance ? finance.itemSubtotal + finance.fees : 0;
+const knownPublication = Boolean(published2026 || publishedBudgetFcfa !== undefined || published2025Contents || publishedFinancialAccount);
+const figure = knownPublication ? formatArchiveCardFinances(record, locale) : undefined;
+const hasAccountRows = Boolean(finance && financialLabels && financialBasis);
+const isSimpleBudget = publishedBudgetFcfa !== undefined;
+const financialTitle = published2026 || published2025Contents
+  ? reportFinancialTitle || (fr ? "Informations financières publiées" : "Financial information published")
+  : isSimpleBudget
+    ? (fr ? "Budget publié dans le rapport" : "Budget published in report")
+    : publishedFinancialAccount
+      || (fr ? "Informations financières" : "Financial information");
+const financialDescription = knownPublication
+  ? (hasAccountRows ? financialBasis : financialNote)
+    || (isSimpleBudget
+      ? (fr ? "Ce budget ne représente pas des dépenses vérifiées." : "This budget does not represent verified spending.")
+      : (fr ? "Les détails figurent dans les documents du projet. Les montants budgétaires ne représentent pas des dépenses vérifiées." : "See the project documents for the details. Budget figures are not verified spending."))
+  : (fr ? "Aucun montant financier n’est publié pour cette action." : "No financial figures are published for this outreach.");
 const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
 ---
 
@@ -132,7 +149,6 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
           <dt class="text-slate-600">{fr ? "Date" : "Date"}</dt><dd class="text-right font-medium text-slate-900">{period}</dd>
           {location && <><dt class="text-slate-600">{fr ? "Lieu" : "Location"}</dt><dd class="break-words text-right font-medium text-slate-900">{location}</dd></>}
           {record.beneficiaries != null && <><dt class="text-slate-600">{fr ? "Bénéficiaires" : "Beneficiaries"}</dt><dd class="text-right font-medium text-slate-900">{record.beneficiariesApproximate && (fr ? "env. " : "approx. ")}{record.beneficiaries}</dd></>}
-          {record.budget != null && <><dt class="text-slate-600">{fr ? "Budget (USD)" : "Budget (USD)"}</dt><dd class="text-right font-medium text-slate-900">{formatUsdAmount(Number(record.budget),locale)}</dd></>}
         </dl>
       </section>
 
@@ -152,26 +168,19 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
           </ul>
       </section>
 
-      {published2026 ? (
-        <section class="rounded-xl border border-slate-200 bg-white p-5" data-archive-published-budget-fcfa={published2026.budgetFcfa}>
-          <h2 class="font-heading text-base font-bold text-primary-900">{financialTitle}</h2>
-          <p class="mt-3 font-semibold tabular-nums text-slate-900">{published2026.budgetApproximate && (fr ? "env. " : "approx. ")}{formatXaf(published2026.budgetFcfa)}</p>
-          <p class="mt-2 break-words text-sm leading-relaxed text-slate-700">{financialNote}</p>
-        </section>
-      ) : publishedBudgetFcfa !== undefined ? (
-        <section class="rounded-xl border border-slate-200 bg-white p-5" data-archive-published-budget-fcfa={publishedBudgetFcfa}>
-          <h2 class="font-heading text-base font-bold text-primary-900">{fr ? "Budget publié dans le rapport" : "Budget published in report"}</h2>
-          <p class="mt-3 font-semibold tabular-nums text-slate-900">{formatXaf(publishedBudgetFcfa)}</p>
-          <p class="mt-2 break-words text-sm leading-relaxed text-slate-700">{financialNote || (fr ? "Ce budget ne représente pas des dépenses vérifiées." : "This budget does not represent verified spending.")}</p>
-        </section>
-      ) : published2025Contents ? (
-        <section class="rounded-xl border border-slate-200 bg-white p-5" data-archive-published-report-contents={published2025Contents}>
-          <h2 class="font-heading text-base font-bold text-primary-900">{(fr ? record.financialReviewTitleFr : record.financialReviewTitle) || (published2025Contents === "cost-list" ? (fr ? "Liste détaillée des coûts publiée" : "Itemized cost list published") : (fr ? "Détail du budget publié" : "Budget details published"))}</h2>
-          <p class="mt-2 break-words text-sm leading-relaxed text-slate-700">{financialNote || (fr ? "Les montants figurant dans le rapport ne constituent pas un relevé des paiements." : "The amounts in the report do not constitute a record of payments.")}</p>
-        </section>
-      ) : finance && financialLabels && financialBasis ? (
-        <section class="rounded-xl border border-slate-200 bg-white p-5">
-          <h2 class="font-heading text-base font-bold text-primary-900">{financialTitle}</h2>
+      <section class="rounded-xl border border-slate-200 bg-white p-5" aria-labelledby="archive-financial-heading"
+        data-archive-financial-summary={knownPublication ? "published" : "not-published"}
+        data-archive-published-budget-fcfa={published2026?.budgetFcfa ?? publishedBudgetFcfa}
+        data-archive-published-report-contents={published2025Contents}>
+        <h2 id="archive-financial-heading" class="font-heading text-base font-bold text-primary-900">{financialTitle}</h2>
+        {figure && (
+          <div class="mt-3" data-archive-financial-figure={figure.fcfa}>
+            {!isSimpleBudget && <p class="text-xs leading-relaxed text-slate-600">{figure.label}</p>}
+            <p class="font-semibold tabular-nums text-slate-900">{figure.fcfaText}</p>
+          </div>
+        )}
+        <p class="mt-2 break-words text-sm leading-relaxed text-slate-700">{financialDescription}</p>
+        {hasAccountRows && finance && financialLabels && (
           <dl class="mt-3 divide-y divide-slate-200 text-sm">
             {[finance.received,expenses,finance.received-expenses].map((amount,i) => (
               <div class="flex items-baseline justify-between gap-2 py-2.5">
@@ -180,14 +189,8 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
               </div>
             ))}
           </dl>
-          <p class="mt-2 text-xs leading-relaxed text-slate-600">{financialBasis}</p>
-        </section>
-      ) : (financialNote || publishedFinancialAccount) && (
-        <section class:list={["rounded-xl border p-5", publishedFinancialAccount ? "border-slate-200 bg-white text-slate-900" : "border-amber-200 bg-amber-50 text-amber-950"]}>
-          <h2 class="font-heading text-base font-bold">{financialTitle}</h2>
-          {financialNote && <p class="mt-2 break-words text-sm leading-relaxed">{financialNote}</p>}
-        </section>
-      )}
+        )}
+      </section>
       <a href={root + "/donate"} aria-label={(fr ? "Soutenir le travail général d’ADA : " : "Support ADA’s general work: ") + title} class="inline-flex min-h-11 items-center rounded-md bg-secondary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary-600">{fr ? "Soutenir le travail d’ADA" : "Support our work"}</a>
     </aside>
   </div>

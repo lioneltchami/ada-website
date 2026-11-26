@@ -86,7 +86,8 @@ export function formatArchiveCardFinances(record: Parameters<typeof archivePubli
         ? fr ? "Budget d’aide aux frais de scolarité" : "School-fee support budget"
         : fr ? "Budget de travail révisé" : "Revised working budget";
     const prefix = released.budgetApproximate ? (fr ? "env. " : "approx. ") : "";
-    return { year: 2026 as const, month: released.date.slice(0, 7), fcfa: released.budgetFcfa, basis: "budget" as const, label, text: prefix + formatArchiveFcfa(released.budgetFcfa, locale) };
+    const fcfaText = prefix + formatArchiveFcfa(released.budgetFcfa, locale);
+    return { year: 2026 as const, month: released.date.slice(0, 7), fcfa: released.budgetFcfa, basis: "budget" as const, label, fcfaText, text: fcfaText };
   }
   const published = archivePublishedBudgetFcfa(record);
   const known = historical[record.slug.current];
@@ -101,5 +102,6 @@ export function formatArchiveCardFinances(record: Parameters<typeof archivePubli
   const displayUsd = new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US").format(USD);
   const usd = locale === "fr" ? `env. ${displayUsd} USD` : `approx. ${displayUsd} USD`;
   const localApprox = source.approximateFcfa ? (locale === "fr" ? "env. " : "approx. ") : "";
-  return { ...source, usd: USD, label: labels[source.basis][locale], text: `${localApprox}${formatArchiveFcfa(source.fcfa, locale)} (${usd})` };
+  const fcfaText = localApprox + formatArchiveFcfa(source.fcfa, locale);
+  return { ...source, usd: USD, label: labels[source.basis][locale], fcfaText, text: `${fcfaText} (${usd})` };
 }
