@@ -6,7 +6,7 @@ import Section from "../../components/layout/Section.astro";
 
 <PageLayout
   title="Thank You for Your Donation"
-  description="Your donation has been received. Thank you for supporting ADA's mission in Cameroon."
+  description="Thank you for supporting ADA’s mission in Cameroon. Here’s how to keep your receipt and read our project reports."
   noIndex
 >
   <!-- Hero Thank You -->
@@ -37,8 +37,8 @@ import Section from "../../components/layout/Section.astro";
         Thank You!
       </h1>
       <p class="mt-4 text-lg text-gray-600" id="thank-you-message">
-        Your generous donation has been received. Your receipt will be emailed
-        after payment confirmation.
+        Thank you for supporting ADA. We email a payment receipt after your
+        donation is confirmed.
       </p>
       <p class="mt-3 text-sm text-gray-500 max-w-sm">
         Your support makes a real difference in the lives of widows, orphans,
@@ -47,8 +47,7 @@ import Section from "../../components/layout/Section.astro";
       <div
         class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[#faf8f4] rounded-md text-sm text-primary-800 font-medium border border-primary-200"
       >
-        Check your inbox — your receipt is on its
-        way
+        Payment receipt for your records
       </div>
     </div>
   </Section>
@@ -88,15 +87,17 @@ import Section from "../../components/layout/Section.astro";
           [
             {
               title: "Receipt by email",
-              desc: "An official PDF receipt and thank-you note are emailed after Stripe confirms the gift.",
+              desc: "Once your payment is confirmed, we email a PDF receipt for your records. It is not an official charitable tax receipt.",
             },
             {
               title: "Funds reach Cameroon",
               desc: "ADA reconciles the gift with program records and field priorities.",
             },
             {
-              title: "30-day impact update",
-              desc: "Your gift is queued for a follow-up update with field notes, photos, or a report link when available.",
+              title: "See our public reports",
+              desc: "Find reports on completed projects where available, along with our published financial summaries.",
+              href: "/projects/archive",
+              link: "Browse project reports",
             },
           ].map((step) => (
             <li class="py-5">
@@ -106,6 +107,11 @@ import Section from "../../components/layout/Section.astro";
               <p class="mt-1 text-sm text-gray-600 leading-relaxed">
                 {step.desc}
               </p>
+              {step.href && (
+                <a href={step.href} class="mt-2 inline-block text-sm font-semibold text-primary-800 underline underline-offset-4">
+                  {step.link}
+                </a>
+              )}
             </li>
           ))
         }

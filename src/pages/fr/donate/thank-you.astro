@@ -6,7 +6,7 @@ import Section from "../../../components/layout/Section.astro";
 
 <PageLayout
   title="Merci pour votre don"
-  description="Votre don a été reçu. Merci de soutenir la mission d'ADA au Cameroun."
+  description="Merci de soutenir la mission d’ADA au Cameroun. Retrouvez les informations sur votre reçu et nos rapports de projet."
   noIndex
 >
   <Section background="white" padding="lg">
@@ -33,8 +33,8 @@ import Section from "../../../components/layout/Section.astro";
         Merci !
       </h1>
       <p class="mt-4 text-lg text-gray-600">
-        Votre don a bien été reçu. Votre reçu sera envoyé par e-mail après
-        confirmation du paiement.
+        Merci de soutenir ADA. Nous vous envoyons un reçu de paiement par
+        courriel une fois votre don confirmé.
       </p>
       <p class="mt-3 text-sm text-gray-500 max-w-sm">
         Votre soutien aide les veuves, les orphelins et les jeunes femmes au
@@ -43,8 +43,7 @@ import Section from "../../../components/layout/Section.astro";
       <div
         class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[#faf8f4] rounded-md text-sm text-primary-800 font-medium border border-primary-200"
       >
-        Vérifiez votre boîte mail — votre reçu
-        arrive bientôt
+        Reçu de paiement pour vos dossiers
       </div>
     </div>
   </Section>
@@ -84,15 +83,17 @@ import Section from "../../../components/layout/Section.astro";
           [
             {
               title: "Reçu par e-mail",
-              desc: "Un reçu PDF officiel et un message de remerciement sont envoyés après confirmation Stripe.",
+              desc: "Une fois le paiement confirmé, nous vous envoyons un reçu PDF pour vos dossiers. Ce n’est pas un reçu fiscal officiel.",
             },
             {
               title: "Fonds vers le Cameroun",
               desc: "ADA rapproche le don avec ses registres de programme et les priorités terrain.",
             },
             {
-              title: "Suivi à 30 jours",
-              desc: "Votre don est placé dans une file de suivi avec notes terrain, photos ou lien de rapport si disponible.",
+              title: "Consulter nos rapports publics",
+              desc: "Retrouvez nos rapports sur les projets terminés lorsqu’ils sont disponibles, ainsi que nos résumés financiers publics.",
+              href: "/fr/projects/archive",
+              link: "Consulter les rapports de projet",
             },
           ].map((step) => (
             <li class="py-5">
@@ -102,6 +103,11 @@ import Section from "../../../components/layout/Section.astro";
               <p class="mt-1 text-sm text-gray-600 leading-relaxed">
                 {step.desc}
               </p>
+              {step.href && (
+                <a href={step.href} class="mt-2 inline-block text-sm font-semibold text-primary-800 underline underline-offset-4">
+                  {step.link}
+                </a>
+              )}
             </li>
           ))
         }
