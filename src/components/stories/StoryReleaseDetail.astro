@@ -2,6 +2,7 @@
 import PageHero from "../layout/PageHero.astro";
 import Section from "../layout/Section.astro";
 import { localePath } from "../../i18n";
+import { outreachDisplayTitle } from "../../lib/outreach-display-title";
 import {
 	getStoryReleaseCopy,
 	STORY_RELEASE_COPY,
@@ -20,9 +21,12 @@ const copy = getStoryReleaseCopy(slug, locale);
 if (!copy) throw new Error(`No safe Story copy is available for ${slug}`);
 const articleType = STORY_RELEASE_COPY[slug as StoryReleaseSlug].type;
 const isReview = articleType === "review";
-const verifiedRelatedRecords: Record<string, { href: string; en: string; fr: string }[]> = {
+const verifiedRelatedRecords: Record<string, { slug: string; title: string; titleFr: string }[]> = {
+	"bamenda-school-fee-outreach-2026": [
+		{ slug: "back-to-school-bamenda-aug-2026", title: "Back to School Outreach · Bamenda", titleFr: "Action de rentrée scolaire · Bamenda" },
+	],
 	"christmas-giving-2024": [
-		{ href: "/projects/archive/christmas-giving-dec-2024/", en: "2024 Christmas Giving project record", fr: "Dossier du projet de Noël 2024" },
+		{ slug: "christmas-giving-dec-2024", title: "Christmas Giving Outreach (2024)", titleFr: "Action de solidarité de Noël (2024)" },
 	],
 };
 const relatedRecords = verifiedRelatedRecords[slug] || [];
@@ -84,7 +88,7 @@ const copyMeta = locale === "fr"
 			<aside class="mt-8 rounded-lg border border-primary-200 bg-primary-50 p-5" aria-labelledby="story-evidence-heading">
 				<h2 id="story-evidence-heading" class="font-heading text-lg font-bold text-primary-950">{copyMeta.evidence}</h2>
 				<ul class="mt-2 space-y-2">
-					{relatedRecords.map(record => <li><a class="text-primary-800 underline underline-offset-4" href={localePath(record.href, locale)}>{record[locale]}</a></li>)}
+					{relatedRecords.map(record => <li><a class="text-primary-800 underline underline-offset-4" href={localePath(`/projects/archive/${record.slug}/`, locale)}>{outreachDisplayTitle(record, locale)}</a></li>)}
 				</ul>
 			</aside>
 		)}

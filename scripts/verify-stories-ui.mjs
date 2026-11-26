@@ -32,10 +32,10 @@ try {
       await page.goto(`${base}${prefix}/stories/`, { waitUntil: 'networkidle' });
       const controls = page.locator('[data-story-filter-controls]');
       assert.equal(await controls.isVisible(), true);
-      assert.equal(await page.locator('[data-story-filter]').count(), 4);
+      assert.equal(await page.locator('[data-story-filter]').count(), 5);
       assert.equal(await page.locator('[data-story-card]:visible').count(), 17);
-      const filterCounts = { all: 17, story: 1, update: 2, perspective: 14 };
-      for (const filter of ['story', 'update', 'perspective', 'all', 'perspective', 'story', 'all']) {
+      const filterCounts = { all: 17, story: 1, update: 1, finance: 2, perspective: 13 };
+      for (const filter of ['story', 'update', 'finance', 'perspective', 'all', 'perspective', 'story', 'all']) {
         const button = page.locator(`[data-story-filter="${filter}"]`);
         await button.click();
         await button.click();

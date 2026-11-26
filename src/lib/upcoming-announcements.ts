@@ -1,3 +1,4 @@
+import { outreachDisplayTitle } from "./outreach-display-title";
 import { christmasAnnouncements } from "./christmas-announcements";
 import { getProjectLifecycleState } from "./project-lifecycle";
 import type { SanityProject } from "./sanity";
@@ -24,7 +25,7 @@ export function listUpcomingAnnouncements(
           !getProjectLifecycleState(project, options).isUpcoming) return [];
       return [{
         slug: project.slug.current,
-        title: options.locale === "fr" ? (project.titleFr || project.title) : project.title,
+        title: outreachDisplayTitle(project, options.locale ?? "en"),
         date: project.startDate,
       }];
     })

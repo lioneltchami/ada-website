@@ -1,3 +1,4 @@
+import { archiveProjectDocumentLinks } from "./archive-project-document-links";
 import { isWithheldGalleryAsset } from "./gallery-media-clearance";
 import { isArchiveOutreachCategory, type ArchiveOutreachCategory } from "./archive-outreach-categories";
 import { applyReviewed2024And2025Summaries, listReleased2024ProjectDocuments, listReleased2025ProjectDocuments } from './reviewed-project-summaries-2024-25';
@@ -12,6 +13,7 @@ import {
   projectDocumentPaths,
 } from "../data/organization";
 import { christmasAnnouncements, christmasPlanTor } from "./christmas-announcements";
+import { outreachDisplayTitle } from "./outreach-display-title";
 import { getProjectLifecycleState } from "./project-lifecycle";
 import { getProjects, type SanityProject } from "./sanity";
 import { isWithdrawnProjectRecord, isWithdrawnProjectSlug } from "./withdrawn-project-content";
@@ -30,6 +32,9 @@ export interface ProjectArchiveDocument {
   titleFr?: string;
   year: number;
   demographic: ProjectDemographic;
+  torUrl?: string;
+  reportUrl?: string;
+  financialReportUrl?: string;
 }
 
 export interface YearDocumentGroup {
@@ -50,6 +55,7 @@ export interface ProjectArchiveEntry {
   outreachCategory?: ArchiveOutreachCategory;
   /** Category inherited from a linked current project, when present. */
   sourceOutreachCategory?: ArchiveOutreachCategory;
+  sourceSlug?: string;
   year: number;
   status: "completed" | "ongoing" | "planned";
   description?: string;
@@ -289,38 +295,7 @@ const FALLBACK_RECORDS: ProjectArchiveDocument[] = [
   },
 ];
 
-async function fetchProjectRecords(): Promise<ProjectArchiveDocument[]> {
-  const projectId = import.meta.env.SANITY_PROJECT_ID || "rj2m21gk";
-  const dataset = import.meta.env.SANITY_DATASET || "production";
-  const token =
-    import.meta.env.SANITY_TOKEN || import.meta.env.SANITY_API_TOKEN;
-  const client = createClient({
-    projectId,
-    dataset,
-    apiVersion: "2026-03-28",
-    token,
-    useCdn: !token,
-  });
-  const rows = await client.fetch<
-    {
-      slug: string;
-      title: string;
-      titleFr?: string;
-      year: number;
-      demographic: ProjectDemographic;
-    }[]
-  >(
-    `*[_type == "projectRecord"] {
-      "slug": slug.current,
-      title,
-      titleFr,
-      year,
-      demographic
-    } | order(year desc, title asc)`,
-  );
-  return rows.filter((r) => r.slug && r.year && r.demographic && !isWithdrawnProjectRecord(r));
-}
-
+/** Group a historical static inventory; the live Library groups normalized archive entries below. */
 export function groupProjectsByYear(
   records: ProjectArchiveDocument[],
 ): YearDocumentGroup[] {
@@ -329,6 +304,10 @@ export function groupProjectsByYear(
   const filtered = applyReleasedDocumentLibrary([...records.filter((r) => !releasedSlugs.has(r.slug)), ...released]
     .filter((r) => hasStaticProjectDocuments(r.slug))
     .map(applyOwnerFinancialReviewToDocument));
+  return groupDocumentRows(filtered);
+}
+
+function groupDocumentRows(filtered: ProjectArchiveDocument[]): YearDocumentGroup[] {
   const byYear = new Map<
     number,
     Map<ProjectDemographic, ProjectArchiveDocument[]>
@@ -384,16 +363,27 @@ export async function loadProjectDocumentLibrary(): Promise<{
   yearGroups: YearDocumentGroup[];
   totalProjects: number;
 }> {
-  let records: ProjectArchiveDocument[] = [];
-  try {
-    records = await fetchProjectRecords();
-  } catch (e) {
-    console.error("[project-archive] Sanity fetch failed, using fallback:", e);
-  }
-  if (!records.length) records = FALLBACK_RECORDS;
-  const yearGroups = groupProjectsByYear(records);
+  const yearGroups = groupArchiveDocumentLibrary(await loadProjectArchiveEntries());
   const totalProjects = yearGroups.reduce((n, y) => n + y.projectCount, 0);
   return { yearGroups, totalProjects };
+}
+
+/** The Library and archive detail use the same validated public PDF targets. */
+export function groupArchiveDocumentLibrary(records: readonly ProjectArchiveEntry[]): YearDocumentGroup[] {
+  return groupDocumentRows(records.flatMap((record) => {
+    const { tor, report, financial } = archiveProjectDocumentLinks(record);
+    if (!tor || !report) return [];
+    return [{
+      slug: record.slug.current,
+      year: record.year,
+      demographic: record.demographic,
+      title: record.title,
+      titleFr: record.titleFr,
+      torUrl: tor,
+      reportUrl: report,
+      financialReportUrl: financial,
+    }];
+  }));
 }
 
 function deriveArchiveYear(project: SanityProject): number {
@@ -409,8 +399,10 @@ export function toAutoArchiveEntry(
   project: SanityProject,
   lifecycle = getProjectLifecycleState(project),
 ): ProjectArchiveEntry {
+  const photo = project.archiveRecord?.photo ?? project.mainImage;
+  const targetsUnconfirmed = project.announcementOnly || lifecycle.isAutoCompleted;
   return {
-    slug: { current: project.slug.current },
+    slug: { current: project.archiveRecord?.slug?.current || project.slug.current },
     title: project.title,
     titleFr: project.titleFr || project.title,
     demographic: project.demographic || "community",
@@ -419,13 +411,16 @@ export function toAutoArchiveEntry(
     status: "completed",
     description: project.description,
     descriptionFr: project.descriptionFr || project.description,
-    beneficiaries: project.announcementOnly ? undefined : project.beneficiaries,
-    budget: project.announcementOnly ? undefined : project.goalAmount,
+    beneficiaries: targetsUnconfirmed ? undefined : project.beneficiaries,
+    budget: targetsUnconfirmed ? undefined : project.goalAmount,
     location: project.location,
+    locationFr: project.locationFr,
     startDate: project.startDate,
     endDate: project.endDate,
-    photo: isWithheldGalleryAsset(project.mainImage?.asset?._ref) ? null : project.mainImage || null,
-    torUrl: christmasPlanTor(project.slug.current, project.startDate),
+    photo: isWithheldGalleryAsset(photo?.asset?._ref) ? null : photo ?? null,
+    torUrl: project.archiveRecord?.torUrl ?? christmasPlanTor(project.slug.current, project.startDate),
+    reportUrl: project.archiveRecord?.reportUrl,
+    financialReportUrl: project.archiveRecord?.financialReportUrl,
     autoArchived: lifecycle.isAutoCompleted,
   };
 }
@@ -463,6 +458,52 @@ function withCanonicalProjectDocuments(
   };
 }
 
+export function mergeArchiveSources(
+  records: readonly ProjectArchiveEntry[],
+  currentProjects: readonly SanityProject[],
+  today?: string,
+): ProjectArchiveEntry[] {
+  const bySlug = new Map(currentProjects.map((project) => [project.slug.current, project]));
+  const byArchiveSlug = new Map(currentProjects.flatMap((project) =>
+    project.archiveRecord?.slug?.current ? [[project.archiveRecord.slug.current, project] as const] : [],
+  ));
+  const servedRecords = records.filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record));
+  const seen = new Set(servedRecords.map((record) => record.slug.current));
+  const representedSources = new Set(servedRecords.flatMap(({ slug, sourceSlug }) => [
+    slug.current, ...(sourceSlug ? [sourceSlug] : []),
+  ]));
+  const synthetic: ProjectArchiveEntry[] = [];
+  for (const project of currentProjects) {
+    if (representedSources.has(project.slug.current) || isWithdrawnProject(project.slug.current)) continue;
+    const lifecycle = getProjectLifecycleState(project, { today });
+    if (lifecycle.status !== "completed") continue;
+    const entry = toAutoArchiveEntry(project, lifecycle);
+    if (seen.has(entry.slug.current) || isWithdrawnProject(entry.slug.current) || isWithdrawnProjectRecord(entry)) continue;
+    seen.add(entry.slug.current);
+    synthetic.push(entry);
+  }
+  return [...servedRecords, ...synthetic].map((record) => {
+    const slug = record.slug.current;
+    const project = byArchiveSlug.get(slug) ?? bySlug.get(record.sourceSlug ?? slug);
+    if (!project) return record;
+    const inheritedCategory = isArchiveOutreachCategory(record.sourceOutreachCategory)
+      ? record.sourceOutreachCategory : project.outreachCategory;
+    const linked = project.archiveRecord?.slug?.current === slug ? project.archiveRecord : undefined;
+    return {
+      ...record,
+      outreachCategory: isArchiveOutreachCategory(record.outreachCategory)
+        ? record.outreachCategory : inheritedCategory,
+      titleFr: record.titleFr ?? project.titleFr,
+      descriptionFr: record.descriptionFr ?? project.descriptionFr,
+      locationFr: record.locationFr ?? project.locationFr,
+      photo: record.photo?.asset?._ref ? record.photo : project.mainImage ?? record.photo,
+      torUrl: record.torUrl ?? linked?.torUrl ?? christmasPlanTor(project.slug.current, project.startDate),
+      reportUrl: record.reportUrl ?? linked?.reportUrl,
+      financialReportUrl: record.financialReportUrl ?? linked?.financialReportUrl,
+    };
+  });
+}
+
 export async function loadProjectArchiveEntries(): Promise<
   ProjectArchiveEntry[]
 > {
@@ -476,6 +517,7 @@ export async function loadProjectArchiveEntries(): Promise<
       projectId,
       dataset,
       apiVersion: "2026-03-28",
+      perspective: "published",
       token,
       useCdn: !token,
     });
@@ -488,6 +530,7 @@ export async function loadProjectArchiveEntries(): Promise<
         demographic,
         outreachCategory,
         "sourceOutreachCategory": sourceProject->outreachCategory,
+        "sourceSlug": sourceProject->slug.current,
         year,
         status,
         description,
@@ -495,6 +538,7 @@ export async function loadProjectArchiveEntries(): Promise<
         beneficiaries,
         budget,
         location,
+        locationFr,
         startDate,
         endDate,
         outcomes,
@@ -526,39 +570,8 @@ export async function loadProjectArchiveEntries(): Promise<
       ...cmsProjects,
       ...christmasAnnouncements.filter((project) => !cmsSlugs.has(project.slug.current)),
     ];
-    const bySlug = new Map(
-      currentProjects.map((project) => [project.slug.current, project]),
-    );
-    const autoArchived = currentProjects
-      .map((project) => ({
-        project,
-        lifecycle: getProjectLifecycleState(project),
-      }))
-      .filter(({ lifecycle }) => lifecycle.status === "completed")
-      .map(({ project, lifecycle }) => toAutoArchiveEntry(project, lifecycle));
-    const byArchiveSlug = new Map(currentProjects.flatMap((project) =>
-      project.archiveRecord?.slug?.current ? [[project.archiveRecord.slug.current, project] as const] : [],
-    ));
-    const seen = new Set(records.map((record) => record.slug.current));
-    records = [
-      ...records,
-      ...autoArchived.filter((record) => !seen.has(record.slug.current)),
-    ]
-      .map((record) => {
-        const slug = record.slug.current;
-        const project = bySlug.get(slug);
-        const linkedCategory = byArchiveSlug.get(slug)?.outreachCategory ?? project?.outreachCategory;
-        const inheritedCategory = isArchiveOutreachCategory(record.sourceOutreachCategory)
-          ? record.sourceOutreachCategory : linkedCategory;
-        if (!isArchiveOutreachCategory(record.outreachCategory) && isArchiveOutreachCategory(inheritedCategory)) {
-          record = { ...record, outreachCategory: inheritedCategory };
-        }
-        if (record.photo?.asset?._ref) return record;
-        if (project?.mainImage?.asset?._ref) {
-          return { ...record, photo: project.mainImage };
-        }
-        return record;
-      });
+    records = mergeArchiveSources(records, currentProjects);
+
   } catch (e) {
     console.error("[project-archive] Auto archive fallback failed:", e);
   }
@@ -659,6 +672,5 @@ export function projectDisplayTitle(
   project: ProjectArchiveDocument,
   locale: "en" | "fr",
 ): string {
-  if (locale === "fr" && project.titleFr) return project.titleFr;
-  return project.title;
+  return outreachDisplayTitle(project, locale);
 }

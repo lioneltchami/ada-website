@@ -2,16 +2,16 @@
 
 | Field | Details |
 |---|---|
-| **Project Title** | First Widow Home Visits |
+| **Project Title** | Widows Outreach · Buea |
 | **Organization** | Apoti Development Association (ADA) |
 | **Reference Number** | ADA/2021/001 |
 | **Project Location** | Buea, South-West Region, Cameroon |
 | **Implementation Period** | November 1–30, 2021 |
 | **Total Beneficiaries** | 3 elderly widows (as reported in the source; not independently verified) |
-| **Financial status** | Owner-recalled figures are not independently reconciled |
+| **Financial status** | Reported figures are not independently reconciled |
 | **Report Date** | December 15, 2021 |
 
-Retrospective review copy (November 2026): Financial wording was revised from owner recollection. This review does not independently verify other narrative details, participant counts, or the project balance.
+We prepared this copy after the outreach. The narrative details, participant counts, and project balance have not been independently verified.
 
 ## 1. Executive Summary
 
@@ -27,7 +27,7 @@ The South-West Region of Cameroon has experienced significant social disruption 
 
 ### 2.2 Organizational Context
 
-ADA was founded in 2021 by a group of young, faith-driven individuals in Cameroon who felt called to serve the most vulnerable members of their community. At the time of this project, the organization had no formal registration, no office, and no prior experience implementing community projects. The First Widow Home Visits project was conceived as both a direct act of service and a learning exercise — a way to understand the needs of the community firsthand before designing larger interventions.
+ADA was founded in 2021 by a group of young, faith-driven individuals in Cameroon who felt called to serve the most vulnerable members of their community. At the time of this project, the organization had no formal registration, no office, and no prior experience implementing community projects. The Widows Outreach project was conceived as both a direct act of service and a learning exercise — a way to understand the needs of the community firsthand before designing larger interventions.
 
 ### 2.3 Rationale
 
@@ -61,7 +61,7 @@ The project was motivated by:
 
 The volunteer team spent the first week identifying potential beneficiaries through word-of-mouth referrals from local church communities and neighbors. This process proved more challenging than anticipated — many widows live in isolated locations without clear addresses, and community members were sometimes hesitant to share personal information about their neighbors.
 
-The team organized procurement of food items and transportation for reaching the widows' homes. The source of project funds is not independently verified in this review.
+The team organized procurement of food items and transportation for reaching the widows' homes. The source of project funds is not independently verified.
 
 ### 4.2 Visit One: The Widow Living Alone
 
@@ -209,13 +209,13 @@ Based on the findings and lessons from this inaugural project, the team recommen
 
 ## 10. Financial Summary — Under Review
 
-The owner recalls that 120,000 CFA francs was sent for the November 2021 project and estimates that about 110,000 CFA francs was spent in total, including approximately 10,000 CFA francs in withdrawal costs. The owner-recalled sent amount is approximately US$209 using the November 2021 monthly average exchange rate.
+Our team reported that 120,000 CFA francs was sent for the November 2021 project and estimates that about 110,000 CFA francs was spent in total, including approximately 10,000 CFA francs in withdrawal costs. The reported amount sent is approximately US$209 using the November 2021 monthly average exchange rate.
 
 The approximately 10,000 CFA difference is arithmetic only; it is not a verified remaining balance. No independently reconciled budget, exact expenditure, itemized allocation, or returned balance is established by this report. The former itemized USD table and claims about exact variances and supporting receipts have therefore been removed pending reconciliation.
 
 ## 11. Conclusion
 
-The First Widow Home Visits project was, by conventional metrics, a small intervention — three visits and food support. But its significance to the Apoti Development Association cannot be overstated. This project was the moment ADA moved from aspiration to action, from conversation to compassion in practice.
+The Widows Outreach project was, by conventional metrics, a small intervention — three visits and food support. But its significance to the Apoti Development Association cannot be overstated. This project was the moment ADA moved from aspiration to action, from conversation to compassion in practice.
 
 What the team found in those homes — particularly the image of an elderly, bedridden grandmother caring for a grandchild in a paper-walled shelter — became the moral foundation upon which ADA would build all of its subsequent work. It answered the question of whether the need was real, whether young people could make a difference, and whether faith could be translated into tangible service.
 

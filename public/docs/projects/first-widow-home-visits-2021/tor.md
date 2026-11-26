@@ -1,19 +1,19 @@
 # Terms of Reference (ToR)
 
-## First Widow Home Visits Programme
+## Widows Outreach
 
 
 | Field | Details |
 |-------|---------|
 | **Project Reference** | ADA/2021/001 |
-| **Project Title** | First Widow Home Visits |
+| **Project Title** | Widows Outreach · Buea |
 | **Implementing Organization** | Apoti Development Association (ADA) |
 | **Location** | Buea, South-West Region, Cameroon |
 | **Duration** | November 1–30, 2021 (1 month) |
-| **Financial note** | Owner later recalled 120,000 CFA sent (approximately US$209 using the November 2021 monthly average); this is not a verified project budget. |
-| **Date Issued** | October 15, 2021 |
+| **Financial note** | Our team reported 120,000 CFA sent (approximately US$209 using the November 2021 monthly average); this is not a verified project budget. |
+| **Original issue date (historical record)** | October 15, 2021 |
 
-Retrospective review copy (November 2026): This document was updated later to record owner-recalled financial information. Its original issue date is historical metadata; this review does not independently verify the project narrative or establish an approved budget.
+We prepared this copy after the outreach. The original issue date is historical; this document does not independently verify the narrative or establish an approved budget.
 
 
 ## 1. Background & Context
@@ -22,7 +22,7 @@ Widows in Cameroon, particularly in the South-West Region, face severe socio-eco
 
 The ongoing Anglophone crisis, which escalated from 2016 onward, has compounded these vulnerabilities. Displacement, destruction of livelihoods, and the breakdown of community support structures have left many elderly widows completely isolated. Young family members who might have provided care have fled to francophone regions or abroad. Health facilities and social services in the South-West Region operate at reduced capacity, and government social safety nets remain virtually non-existent for this demographic. Elderly widows living alone face food insecurity, untreated illness, and profound emotional distress with no institutional recourse.
 
-It is within this context that the Apoti Development Association (ADA) was founded in 2021 with a mission to serve the most vulnerable. This inaugural project — the First Widow Home Visits — represents ADA's founding intervention: a direct, community-based response to identify and support elderly widows living in extreme poverty in the Buea municipality. The project addresses immediate food needs while establishing a baseline understanding of the living conditions and support requirements of this population.
+It is within this context that the Apoti Development Association (ADA) was founded in 2021 with a mission to serve the most vulnerable. This inaugural project — the Widows Outreach — represents ADA's founding intervention: a direct, community-based response to identify and support elderly widows living in extreme poverty in the Buea municipality. The project addresses immediate food needs while establishing a baseline understanding of the living conditions and support requirements of this population.
 
 ---
 
@@ -133,7 +133,7 @@ The project shall undertake the following activities:
 
 ## 7. Financial Information — Under Review
 
-The original itemized budget table has been withheld because its line-item allocations and USD conversion are not independently supported. The owner later recalled that 120,000 CFA francs was sent for the project. This after-the-fact recollection does not establish the approved budget or validate individual planned allocations. See the separate Financial Review Note for the owner-recalled amounts and reconciliation limits.
+The original itemized budget table has been withheld because its line-item allocations and USD conversion are not independently supported. Our team reported that 120,000 CFA francs was sent for the project. This after-the-fact recollection does not establish the approved budget or validate individual planned allocations. See the separate Financial Report for the reported amounts and reconciliation limits.
 
 ## 8. Implementation Approach
 

@@ -44,7 +44,7 @@ describe('approved 2022 document release', () => {
   expect(rows).toHaveLength(6);
   for(const p of manifest.projects) expect(rows.find(r=>r.slug===p.slug)).toMatchObject({title:p.archive.title,titleFr:p.archive.titleFr,demographic:p.archive.demographic});
   const source=fs.readFileSync('src/components/resources/DocumentLibrary.astro','utf8');
-  expect(source).toContain('projectDocumentPaths(project.slug).financial &&');
+  expect(source).toContain('project.financialReportUrl &&');
   expect(source).not.toContain('/financial.pdf');
  });
  it('preserves remembered school-name qualifiers in both website languages', () => {

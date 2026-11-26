@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { marked } from "marked";
+import { verify2021DocumentReleases } from "./verify-project-document-releases-2021.mjs";
 import { verify2026DocumentReleases } from "./verify-project-document-releases-2026.mjs";
 import { verify2025DocumentReleases } from "./verify-project-document-releases-2025.mjs";
 import { verify2024DocumentReleases } from "./verify-project-document-releases-2024.mjs";
@@ -128,7 +129,7 @@ function coverCard(label, value) {
   `;
 }
 
-function renderHtml(meta, bodyHtml, sourceLabel) {
+function renderHtml(meta, bodyHtml) {
   return `<!doctype html>
   <html>
   <head>
@@ -296,9 +297,8 @@ function renderHtml(meta, bodyHtml, sourceLabel) {
       <div class="brand">Apoti Development Association</div>
       <h1>${escapeHtml(meta.title)}<br><span style="color:rgba(255,255,255,.86);">${escapeHtml(pageTitle(meta.kind))}</span></h1>
       <div class="subtitle">${escapeHtml(subtitleFor(meta.kind, meta))}</div>
-      <div class="summary">${escapeHtml(meta.summary || "Source document prepared for public review and sponsor due diligence.")}</div>
+      <div class="summary">${escapeHtml(meta.summary || "Outreach record prepared for partners.")}</div>
       <div class="chips">
-        <span class="chip">${escapeHtml(sourceLabel)}</span>
         ${meta.budget ? `<span class="chip">${escapeHtml(meta.budget)}</span>` : ""}
         ${meta.beneficiaries ? `<span class="chip">${escapeHtml(meta.beneficiaries)}</span>` : ""}
         <span class="chip">Prepared for public download</span>
@@ -316,9 +316,6 @@ function renderHtml(meta, bodyHtml, sourceLabel) {
         <div class="mono">${escapeHtml(meta.reference)}</div>
       </div>
       <div class="content">${bodyHtml}</div>
-      <div class="footer-note">
-        This PDF was rendered from the markdown source in <span class="mono">public/docs/projects/${escapeHtml(meta.slug || "")}</span> using the same public generation pipeline that updates the downloadable budget sheets.
-      </div>
     </section>
   </body>
   </html>`;
@@ -331,23 +328,27 @@ marked.setOptions({
 
 const reviewed2023Releases = await verifyReviewedProjectRecords(ROOT);
 const withdrawnSlugs = new Set(Object.keys(JSON.parse(await fs.readFile(path.join(ROOT, "config/withdrawn-project-records.json"), "utf8"))));
-const protectedSlugs = new Set([...await verifyDocumentReleases(ROOT), ...reviewed2023Releases, ...await verify2024DocumentReleases(ROOT), ...await verify2025DocumentReleases(ROOT), ...await verify2026DocumentReleases(ROOT)]);
+const regenerate2021 = process.argv.includes("--regenerate-2021");
+const safeguarded2021 = regenerate2021 ? [] : await verify2021DocumentReleases(ROOT);
+const protectedSlugs = new Set([...safeguarded2021, ...await verifyDocumentReleases(ROOT), ...reviewed2023Releases, ...await verify2024DocumentReleases(ROOT), ...await verify2025DocumentReleases(ROOT), ...await verify2026DocumentReleases(ROOT)]);
 
-const browser = await chromium.launch({
-  headless: true,
-  ...(CHROME_PATH ? { executablePath: CHROME_PATH } : {}),
-});
+let browser;
 
 try {
   const projects = await fs.readdir(PROJECTS_DIR, { withFileTypes: true });
   for (const dirent of projects) {
     if (!dirent.isDirectory()) continue;
     const slug = dirent.name;
+    if (regenerate2021 && slug !== "first-widow-home-visits-2021") continue;
     if (withdrawnSlugs.has(slug)) continue;
     if (protectedSlugs.has(slug)) {
       console.log(`Preserved reviewed document set: ${slug}`);
       continue;
     }
+    browser ??= await chromium.launch({
+      headless: true,
+      ...(CHROME_PATH ? { executablePath: CHROME_PATH } : {}),
+    });
     for (const kind of ["tor", "report", "financial"]) {
       const mdPath = path.join(PROJECTS_DIR, slug, `${kind}.md`);
       const pdfPath = path.join(PROJECTS_DIR, slug, `${kind}.pdf`);
@@ -361,7 +362,7 @@ try {
         if (actualSpend) meta.budget = actualSpend;
       }
       const bodyHtml = marked.parse(formatMoney(markdown));
-      const html = renderHtml(meta, bodyHtml, `${kind.toUpperCase()} source markdown`);
+      const html = renderHtml(meta, bodyHtml);
       const page = await browser.newPage({ viewport: { width: 1440, height: 2200 } });
       try {
         await page.setContent(html, { waitUntil: "load" });
@@ -380,5 +381,5 @@ try {
     }
   }
 } finally {
-  await browser.close();
+  await browser?.close();
 }

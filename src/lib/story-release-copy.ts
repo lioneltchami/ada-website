@@ -4,6 +4,7 @@ export type StoryReleaseLocale = "en" | "fr";
 export type StoryReleaseEntry = (typeof storyReleaseCopy)[keyof typeof storyReleaseCopy];
 
 export const STORY_RELEASE_ORDER = [
+	"bamenda-school-fee-outreach-2026",
 	"founder-letter-2026",
 	"5-ways-to-support-free",
 	"salon-update",

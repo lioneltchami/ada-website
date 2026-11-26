@@ -1,10 +1,11 @@
 ---
+import { outreachDisplayTitle } from "../../lib/outreach-display-title";
 import { CHRISTMAS_OUTREACH_DATE, christmasPlanningDocuments } from "../../lib/christmas-announcements";
 import { hasReleased2023ProjectDocumentSet } from "../../lib/reviewed-project-records";
 import { hasReleased2024ProjectDocumentSet, hasReleased2025ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
 import { reviewed2026Release } from "../../lib/reviewed-project-summaries-2026";
 import { released2026ReportLabel, released2025ReportLabel } from "../../lib/archive-project-document-links";
-import { hasReleasedProjectDocumentSet, projectDocumentPaths } from "../../data/organization";
+import { hasReleasedProjectDocumentSet } from "../../data/organization";
 import reviews from "../../../content/year-in-review.json";
 import Section from "../layout/Section.astro";
 import type { Locale } from "../../i18n";
@@ -49,7 +50,7 @@ interface Props {
 
 const { locale, labels, dueDiligenceDocs, yearGroups, totalProjects } =
   Astro.props;
-const englishProjectPdfs = (slug: string) => hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || hasReleased2025ProjectDocumentSet(slug) || Boolean(reviewed2026Release(slug));
+const englishProjectPdfs = (slug: string) => slug === "first-widow-home-visits-2021" || hasReleasedProjectDocumentSet(slug) || hasReleased2023ProjectDocumentSet(slug) || hasReleased2024ProjectDocumentSet(slug) || hasReleased2025ProjectDocumentSet(slug) || Boolean(reviewed2026Release(slug));
 const reviewedYears = new Set(reviews.map(({ year }) => year));
 const projectYears = new Set(yearGroups.map(({ year }) => year));
 const libraryYears: YearDocumentGroup[] = [
@@ -103,6 +104,7 @@ const projectDocsIntro =
               {section.docs.map((doc) => (
                 <a
                   href={doc.link}
+                  hreflang={doc.language}
                   target={doc.external ? "_blank" : "_self"}
                   rel={doc.external ? "noopener" : undefined}
                   class="group flex gap-5 p-6 bg-white rounded-md border border-gray-200 hover:border-primary-300 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
@@ -210,7 +212,7 @@ const projectDocsIntro =
                     {christmasPlanningDocuments.map((project) => (
                       <li>
                         <a href={project.tor} hreflang="en" class="inline-flex min-h-6 items-center text-sm text-primary-800 underline focus-visible:outline-2 focus-visible:outline-offset-2">
-                          {fr ? project.titleFr : project.title} · {fr ? "Termes de référence (PDF en anglais)" : "Terms of Reference (PDF)"}
+                          <span data-outreach-title={project.slug}>{outreachDisplayTitle(project, locale)}</span>{" · "} {fr ? "Termes de référence (PDF en anglais)" : "Terms of Reference (PDF)"}
                         </a>
                       </li>
                     ))}
@@ -236,16 +238,16 @@ const projectDocsIntro =
                     <ul class="mt-2 space-y-2">
                       {demoGroup.projects.map((project) => {
                         const title = projectDisplayTitle(project, locale);
-                        const englishNote = fr && englishProjectPdfs(project.slug) ? " (anglais)" : "";
+                        const englishNote = fr && englishProjectPdfs(project.slug) ? " (PDF en anglais)" : "";
                         const reportLabel = released2026ReportLabel(project.slug, locale) ?? released2025ReportLabel(project.slug, locale) ?? (hasReleased2024ProjectDocumentSet(project.slug) ? (fr ? "Rapport de projet et budget" : "Project report and budget") : hasReleasedProjectDocumentSet(project.slug) ? (fr ? "Rapport de projet et compte financier" : "Project report and financial account") : labels.completionReport);
                         return (
                         <li class="rounded-lg border border-gray-100 bg-white px-3 py-2.5">
-                          <p class="text-sm font-medium text-gray-900">
+                          <p data-outreach-title={project.slug} class="text-sm font-medium text-gray-900">
                             {title}
                           </p>
                           <p class="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs">
                             <a
-                              href={projectDocumentPaths(project.slug).tor}
+                              href={project.torUrl}
                               aria-label={`${labels.tor}${englishNote} : ${title} (${yearGroup.year})`}
                               hreflang={englishProjectPdfs(project.slug) ? "en" : undefined}
                               target="_blank"
@@ -257,20 +259,21 @@ const projectDocsIntro =
                             <span class="text-gray-300" aria-hidden="true">
                               ·
                             </span>
-                            {projectDocumentPaths(project.slug).financial && <>
+                            {project.financialReportUrl && <>
                               <a
-                                href={projectDocumentPaths(project.slug).financial}
-                                aria-label={`${labels.financials} : ${title} (${yearGroup.year})`}
+                                href={project.financialReportUrl}
+                                aria-label={`${labels.financials}${englishNote} : ${title} (${yearGroup.year})`}
+                                hreflang={englishProjectPdfs(project.slug) ? "en" : undefined}
                                 target="_blank"
                                 rel="noopener"
                                 class="inline-flex min-h-6 items-center text-primary-700 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
                               >
-                                {labels.financials}
+                                {labels.financials}{englishNote}
                               </a>
                               <span class="text-gray-300" aria-hidden="true">·</span>
                             </>}
                             <a
-                              href={projectDocumentPaths(project.slug).report}
+                              href={project.reportUrl}
                               aria-label={`${reportLabel}${englishNote} : ${title} (${yearGroup.year})`}
                               hreflang={englishProjectPdfs(project.slug) ? "en" : undefined}
                               target="_blank"

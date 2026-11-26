@@ -6,10 +6,10 @@ import {
 } from "../src/lib/story-release-copy";
 
 describe("safe bilingual Story release copy", () => {
-	it("contains the 16 remaining public Story routes once", () => {
+	it("contains the 17 public Story routes once", () => {
 		const slugs = Object.keys(STORY_RELEASE_COPY);
-		expect(slugs).toHaveLength(16);
-		expect(new Set(STORY_RELEASE_ORDER).size).toBe(16);
+		expect(slugs).toHaveLength(17);
+		expect(new Set(STORY_RELEASE_ORDER).size).toBe(17);
 		expect(new Set(slugs)).toEqual(new Set(STORY_RELEASE_ORDER));
 		expect(getStoryReleaseCopy("clean-water-first-well-completed", "en")).toBeNull();
 		expect(getStoryReleaseCopy("clean-water-first-well-completed", "fr")).toBeNull();
@@ -40,6 +40,13 @@ describe("safe bilingual Story release copy", () => {
 				expect(text).not.toMatch(/\$\s?\d|\d[,.]?\d*\s?CFA/i);
 			}
 		}
+	});
+
+	it("reports the verified Bamenda fee support without unsupported individual outcomes", () => {
+		const post = STORY_RELEASE_COPY["bamenda-school-fee-outreach-2026"];
+		expect(post.type).toBe("update");
+		expect(post.en.paragraphs.join(" ")).toMatch(/November 21, 2026.*around 20 children.*school fees.*parents and the school principal/);
+		expect(post.fr.paragraphs.join(" ")).toMatch(/21 novembre 2026.*une vingtaine d’enfants.*frais de scolarité.*accord des parents/);
 	});
 
 	it("uses only owner-supported seasonal windows for Christmas in 2024", () => {

@@ -1,18 +1,36 @@
 {
+  "bamenda-school-fee-outreach-2026": {
+    "en": {
+      "title": "School Fee Support in Bamenda",
+      "paragraphs": [
+        "On November 21, 2026, our team helped around 20 children in Bamenda with school fees. We worked with the agreement of parents and the school principal. This outreach focused on fees rather than school supplies."
+      ],
+      "excerpt": "In November 2026, we helped around 20 children in Bamenda with school fees."
+    },
+    "fr": {
+      "title": "Aide aux frais de scolarité à Bamenda",
+      "paragraphs": [
+        "Le 21 novembre 2026, notre équipe a aidé une vingtaine d’enfants à Bamenda à régler leurs frais de scolarité. Nous avons agi avec l’accord des parents et de la direction de l’établissement. Cette action portait sur les frais de scolarité plutôt que sur les fournitures scolaires."
+      ],
+      "excerpt": "En novembre 2026, nous avons aidé une vingtaine d’enfants à Bamenda à régler leurs frais de scolarité."
+    },
+    "type": "update",
+    "publishedAt": null
+  },
   "transparency-report-2024": {
     "en": {
       "title": "2024 Financial Summary — Under Review",
       "paragraphs": [
         "The financial figures for this summary are under review while the reporting period, currency, and accounting basis are reconciled. No totals are shown here."
       ],
-      "excerpt": "The financial figures for this summary are under review while the reporting period, currency, and accounting basis are reconciled. No totals are shown here."
+      "excerpt": "The 2024 financial summary does not show totals while we verify the reporting period, currency, and accounting basis."
     },
     "fr": {
       "title": "Synthèse financière 2024 — En cours de vérification",
       "paragraphs": [
         "Les chiffres financiers de cette synthèse sont en cours de vérification afin de confirmer la période, la devise et la base comptable. Aucun total n’est présenté ici."
       ],
-      "excerpt": "Les chiffres financiers de cette synthèse sont en cours de vérification afin de confirmer la période, la devise et la base comptable. Aucun total n’est présenté ici."
+      "excerpt": "La synthèse financière de 2024 ne présente pas de totaux pendant la vérification de la période, de la devise et de la base comptable."
     },
     "type": "review",
     "publishedAt": null
@@ -45,14 +63,14 @@
       "paragraphs": [
         "The financial figures for this summary are under review while the reporting period, currency, and accounting basis are reconciled. No totals are shown here."
       ],
-      "excerpt": "The financial figures for this summary are under review while the reporting period, currency, and accounting basis are reconciled. No totals are shown here."
+      "excerpt": "We have not published a total for donations in the 2024 donations summary while we check the underlying figures."
     },
     "fr": {
       "title": "Synthèse des dons de 2024 — En cours de vérification",
       "paragraphs": [
         "Les chiffres financiers de cette synthèse sont en cours de vérification afin de confirmer la période, la devise et la base comptable. Aucun total n’est présenté ici."
       ],
-      "excerpt": "Les chiffres financiers de cette synthèse sont en cours de vérification afin de confirmer la période, la devise et la base comptable. Aucun total n’est présenté ici."
+      "excerpt": "Nous n’avons pas publié le total des dons dans la synthèse des dons de 2024 pendant la vérification des chiffres."
     },
     "type": "review",
     "publishedAt": null

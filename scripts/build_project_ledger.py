@@ -12,6 +12,8 @@ from pathlib import Path
 from typing import Iterable
 from xml.sax.saxutils import escape as xml_escape
 
+from outreach_naming import outreach_display_title
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = ROOT / "public" / "docs" / "projects"
@@ -456,6 +458,7 @@ def parse_project(slug_dir: Path) -> ProjectRecord | None:
     )
     if slug_dir.name in PROJECT_IDENTITY_OVERRIDES:
         title, reference = PROJECT_IDENTITY_OVERRIDES[slug_dir.name]
+    title = outreach_display_title(slug_dir.name, title)
 
     year_match = re.search(r"ADA/(\d{4})/", report_text)
     year = int(year_match.group(1)) if year_match else int(slug_dir.name.rsplit("-", 1)[-1]) if re.search(r"-\d{4}$", slug_dir.name) else 0

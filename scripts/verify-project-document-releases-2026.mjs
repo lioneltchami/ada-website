@@ -17,6 +17,8 @@ const legacyBrief = '/docs/diligence/ada-bamenda-girls-dignity-outreach';
 
 export async function verify2026DocumentReleases(root, checkDist = false) {
   const manifest = JSON.parse(await fs.readFile(path.join(root, 'config/project-document-releases-2026.json'), 'utf8'));
+  const planManifest = JSON.parse(await fs.readFile(path.join(root, 'config/project-planning-document-releases-2026.json'), 'utf8'));
+  assert.deepEqual(Object.keys(planManifest).sort(), [...christmasPlanSlugs].sort());
   assert.deepEqual(Object.keys(manifest).sort(), slugs);
   const { projects } = JSON.parse(await fs.readFile(path.join(root, 'config/project-records-2026.json'), 'utf8'));
   assert.deepEqual(projects.map(p => p.slug).sort(), slugs, 'All three canonical 2026 records must occur once');
@@ -42,6 +44,7 @@ export async function verify2026DocumentReleases(root, checkDist = false) {
       assert.deepEqual(await fs.readdir(dir), ['tor.pdf'], 'Only the advance plan is public: ' + slug);
       const plan = await fs.readFile(path.join(dir, 'tor.pdf'));
       assert.equal(plan.subarray(0, 5).toString(), '%PDF-', slug);
+      assert.equal(createHash('sha256').update(plan).digest('hex'), planManifest[slug], 'Exact advance-plan PDF checksum: ' + slug);
       if (parent !== 'public') assert.deepEqual(plan, await fs.readFile(path.join(root, 'public/docs/projects', slug, 'tor.pdf')));
     }
     for (const ext of ['pdf', 'md']) {
