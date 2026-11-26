@@ -115,7 +115,7 @@ describe("safe Story categories and hero presentation", () => {
 		const notice = readFileSync(resolve("src/lib/story-review-notice.ts"), "utf8");
 		expect(index).not.toMatch(/Most articles below discuss general themes|thèmes généraux.*témoignages individuels vérifiés/i);
 		expect(detail).not.toMatch(/This page discusses a general theme|Cette page présente un thème général|not a verified individual case study/i);
-		expect(detail).toContain('STORY_RELEASE_COPY[slug as StoryReleaseSlug].type === "review"');
+		expect(detail).toContain('articleType === "review"');
 		expect(notice).toMatch(/2024 financial summary and 2024 donations summary remain under review/);
 		expect(notice).toMatch(/synthèse financière 2024 et la synthèse des dons 2024/);
 	});
