@@ -32,17 +32,17 @@ assert.equal((frIndex.match(/data-story-filter=/g) || []).length, 4);
 assert.match(enIndex, />All<span/);
 assert.match(enIndex, />Stories<span/);
 assert.match(enIndex, />Updates<span/);
-assert.match(enIndex, />Announcements<span/);
+assert.match(enIndex, />Program perspectives<span/);
 assert.match(frIndex, />Tous<span/);
 assert.match(frIndex, />Histoires<span/);
 assert.match(frIndex, />Actualités<span/);
-assert.match(frIndex, />Annonces<span/);
-assert.equal((enIndex.match(/data-story-category="story"/g) || []).length, 10);
-assert.equal((frIndex.match(/data-story-category="story"/g) || []).length, 10);
-assert.equal((enIndex.match(/data-story-category="update"/g) || []).length, 4);
-assert.equal((frIndex.match(/data-story-category="update"/g) || []).length, 4);
-assert.equal((enIndex.match(/data-story-category="announcement"/g) || []).length, 3);
-assert.equal((frIndex.match(/data-story-category="announcement"/g) || []).length, 3);
+assert.match(frIndex, />Réflexions sur nos programmes<span/);
+assert.equal((enIndex.match(/data-story-category="story"/g) || []).length, 1);
+assert.equal((frIndex.match(/data-story-category="story"/g) || []).length, 1);
+assert.equal((enIndex.match(/data-story-category="update"/g) || []).length, 2);
+assert.equal((frIndex.match(/data-story-category="update"/g) || []).length, 2);
+assert.equal((enIndex.match(/data-story-category="perspective"/g) || []).length, 14);
+assert.equal((frIndex.match(/data-story-category="perspective"/g) || []).length, 14);
 assert.match(enIndex, /aria-live="polite"/);
 assert.match(frIndex, /aria-live="polite"/);
 assertApprovedStoryHero(enIndex, "English");
@@ -53,6 +53,18 @@ const enPages = (await htmlFiles(storyRoot)).filter((file) => file !== path.join
 const frPages = (await htmlFiles(path.join(client, "fr/stories"))).filter((file) => file !== path.join(client, "fr/stories/index.html"));
 assert.equal(enPages.length, 17, `Expected 17 English routes, found ${enPages.length}`);
 assert.equal(frPages.length, 17, `Expected 17 French routes, found ${frPages.length}`);
+
+const retiredCaseRoutes = [
+	"amina-almost-child-bride", "carine-graduate-to-mentor", "david-missed-year-of-school",
+	"fabrice-teenage-mentor", "grace-journey-recipient-to-trainer", "mama-rose-grandchildren",
+	"ndongo-family-emergency-relief", "meet-esther-skills-training",
+];
+for (const slug of retiredCaseRoutes) {
+	assert.ok(![...enPages, ...frPages].some(file => path.basename(path.dirname(file)) === slug),
+		"A retired case-story URL must not retain a public route.");
+	assert.ok(!`${enIndex}${frIndex}`.includes(slug), "A retired case-story URL must not be linked.");
+}
+
 assert.doesNotMatch(`${enIndex}${frIndex}`, /clean-water-first-well-completed|water access and everyday life|accès à l’eau au quotidien/i);
 
 for (const slug of ["donations-changed-lives-2024", "transparency-report-2024"]) {
@@ -76,7 +88,7 @@ for (const [files, lang, locale] of [[enPages, "en", "English"], [frPages, "fr",
 			`${locale} Story should remain noindex pending owner fact review: ${file}`);
 		assert.doesNotMatch(html, /BlogPosting|BreadcrumbList|article:published_time|og:type" content="article"|\[[A-Z][A-Z0-9 _/-]*\]/,
 			`${locale} page contains original CMS metadata, images, or placeholders: ${file}`);
-		const estherPortrait = assertApprovedEstherPortrait(html, lang, slug === "meet-esther-skills-training" ? "article" : null);
+		const estherPortrait = assertApprovedEstherPortrait(html, lang, slug === "salon-update" ? "article" : null);
 		assertNoUnapprovedImageReferences(estherPortrait ? html.replace(estherPortrait, "") : html);
 		assert.doesNotMatch(html, /This page discusses a general theme|Cette page présente un thème général|not a verified individual case study|n’est pas un témoignage individuel vérifié/,
 			`${locale} individual Story repeats a blanket disclaimer: ${file}`);
@@ -95,4 +107,4 @@ assert.doesNotMatch(`${enIndex}${frIndex}${enHome}${frHome}`, /Most articles bel
 assert.match(enHome, /2024 financial summary and 2024 donations summary remain under review/i);
 assert.match(frHome, /synthèse financière 2024 et la synthèse des dons 2024.*restent en cours de vérification/i);
 
-console.log("Story release verified: 17 bilingual safe pages, approved decorative cleanup hero only, restored CMS categories, 2 financial notices, no blanket disclaimers, removed well story, fact placeholders, unapproved personal images, structured data, or detail URLs in the sitemap.");
+console.log("Story release verified: 17 bilingual safe pages, approved decorative cleanup hero only, verified stories, updates and program perspectives, 2 financial notices, no blanket disclaimers, removed well story, fact placeholders, unapproved personal images, structured data, or detail URLs in the sitemap.");

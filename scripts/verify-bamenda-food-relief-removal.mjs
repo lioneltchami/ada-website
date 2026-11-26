@@ -23,7 +23,7 @@ for (const prefix of ["", "/fr"]) {
     assert.ok(redirects.includes(`${oldPath}${slash} ${prefix}${archive}/ 301`), "Missing same-language retreat URL: " + oldPath + slash);
   }
   await access(relative(prefix + "/projects/emergency-relief/index.html"));
-  await access(relative(prefix + "/stories/ndongo-family-emergency-relief/index.html"));
+  await access(relative(prefix + "/stories/household-emergency-support/index.html"));
   for (const page of ["sponsor", "impact-scorecard", "transparency"]) {
     const pageFile = prefix + "/" + page + "/index.html";
     const text = visibleSpaces(await readFile(relative(pageFile), "utf8"));

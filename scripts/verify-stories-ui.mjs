@@ -34,8 +34,8 @@ try {
       assert.equal(await controls.isVisible(), true);
       assert.equal(await page.locator('[data-story-filter]').count(), 4);
       assert.equal(await page.locator('[data-story-card]:visible').count(), 17);
-      const filterCounts = { all: 17, story: 10, update: 4, announcement: 3 };
-      for (const filter of ['story', 'update', 'announcement', 'all', 'announcement', 'story', 'all']) {
+      const filterCounts = { all: 17, story: 1, update: 2, perspective: 14 };
+      for (const filter of ['story', 'update', 'perspective', 'all', 'perspective', 'story', 'all']) {
         const button = page.locator(`[data-story-filter="${filter}"]`);
         await button.click();
         await button.click();
@@ -49,7 +49,7 @@ try {
       }
       await page.locator('[data-story-filter="story"]').focus();
       await page.keyboard.press('Enter');
-      assert.equal(await page.locator('[data-story-card]:visible').count(), 10);
+      assert.equal(await page.locator('[data-story-card]:visible').count(), 1);
       await page.locator('[data-story-filter="all"]').focus();
       await page.keyboard.press('Space');
       assert.equal(await page.locator('[data-story-card]:visible').count(), 17);
@@ -63,9 +63,16 @@ try {
       assert.equal(await portrait.count(), 1);
       assert.equal(await portrait.evaluate(el => el.complete && el.naturalWidth > 0), true, 'portrait loaded');
       if ([1440, 390].includes(width)) await page.screenshot({ path: path.join(out, `${locale}-stories-${width}.png`), fullPage: false });
-      await page.locator(`[data-story-card][href="${prefix}/stories/meet-esther-skills-training"]`).click();
-      await page.waitForURL(`**${prefix}/stories/meet-esther-skills-training`);
-      const back = page.locator(`main nav a[href="${prefix}/stories"]`);
+      await page.locator('[data-story-filter="story"]').click();
+      assert.equal(new URL(page.url()).searchParams.get("category"), "story");
+      await page.reload();
+      assert.equal(await page.locator('[data-story-card]:visible').count(), 1);
+      assert.match(await page.locator('#language-navigation a[hreflang]').getAttribute('href'), /\?category=story$/);
+      await page.locator('[data-story-card][href*="/stories/salon-update"]').click();
+      await page.waitForURL(url => url.pathname.replace(/\/$/, "") === `${prefix}/stories/salon-update`);
+      assert.equal(new URL(page.url()).searchParams.get("category"), "story");
+      assert.match(await page.locator('#language-navigation a[hreflang]').getAttribute('href'), /salon-update\/?\?category=story$/);
+      const back = page.locator("[data-story-return]");
       assert.equal(await back.count(), 1);
       const backBox = await back.boundingBox();
       const titleBox = await page.locator('h1').boundingBox();
@@ -79,12 +86,13 @@ try {
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
       if ([1440, 390].includes(width)) await page.screenshot({ path: path.join(out, `${locale}-esther-${width}.png`), fullPage: false });
       await back.click();
-      await page.waitForURL(`**${prefix}/stories`);
-      assert.equal(await page.locator('[data-story-card]:visible').count(), 17);
+      await page.waitForURL(url => url.pathname.replace(/\/$/, "") === `${prefix}/stories`);
+      assert.equal(new URL(page.url()).searchParams.get("category"), "story");
+      assert.equal(await page.locator('[data-story-card]:visible').count(), 1);
       await page.goBack();
-      assert.match(page.url(), /meet-esther-skills-training/);
+      assert.match(page.url(), /salon-update/);
       await page.goForward();
-      assert.equal(await page.locator('[data-story-card]:visible').count(), 17);
+      assert.equal(await page.locator('[data-story-card]:visible').count(), 1);
       for (const slug of ['transparency-report-2024', 'donations-changed-lives-2024']) {
         await page.goto(`${base}${prefix}/stories/${slug}/`);
         assert.equal(await page.locator('main [role="status"]').count(), 1);

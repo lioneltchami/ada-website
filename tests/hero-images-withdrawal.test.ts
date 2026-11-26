@@ -1,57 +1,71 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { fetch, getProjects } = vi.hoisted(() => ({
-  fetch: vi.fn(),
-  getProjects: vi.fn(),
-}));
-vi.mock("../src/lib/sanity", () => ({
-  getProjects,
-  getSanityClient: () => ({ fetch }),
-  sanityImageUrl: (ref: string) => `https://example.test/${ref}`,
-}));
+const { fetch } = vi.hoisted(() => ({ fetch: vi.fn() }));
+vi.mock("@sanity/client", () => ({ createClient: () => ({ fetch }) }));
 import { resolveHeroImage, resolveGalleryStrip } from "../src/lib/hero-images";
+import { loadGalleryMosaic } from "../src/lib/gallery";
+import { resolveProjectCardImage } from "../src/lib/project-images";
+import { getGalleryImages, getProjects } from "../src/lib/sanity";
 
-const withdrawn = {
-  _id: "old-gallery",
-  title: "Community event",
-  projectId: "project-women-empowerment",
-  photo: { asset: { _ref: "withdrawn-image" }, alt: "Generic event caption" },
-};
-const retained = {
-  _id: "baking-gallery",
-  title: "Girls baking workshop",
-  projectId: "idp-girls-baking-training-jul-2022",
-  photo: { asset: { _ref: "retained-image" }, alt: "Baking supplies" },
-};
+const heldRef = "image-ec7c3db9f63fc5cd6fce17378dc687550042b82d-800x1421-jpg";
+const eligibleRef = "image-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-900x600-jpg";
+const photo = (ref: string) => ({ asset: { _ref: ref }, alt: "Caption" });
+
+const projects = [
+  { slug: { current: "widow-support" }, title: "Widow Support", mainImage: photo(heldRef),
+    archiveRecord: { slug: { current: "widow-support-record" }, photo: photo(heldRef) } },
+  { slug: { current: "school-support" }, title: "School Support", mainImage: photo(eligibleRef) },
+];
 
 beforeEach(() => {
   vi.clearAllMocks();
-  getProjects.mockResolvedValue([]);
-  // Return the reference only when the query actually projects it. This models
-  // a deleted CMS project whose dereferenced slug/title are no longer available.
-  fetch.mockImplementation(async (query: string) => [withdrawn, retained].map(row => {
-    const projected = { ...row } as Record<string, unknown>;
-    if (!query.includes('"projectId": project._ref')) delete projected.projectId;
-    return projected;
-  }));
+  fetch.mockImplementation(async (query: string) =>
+    query.includes('"galleryImage"')
+      ? [
+          { _id: "held", title: "Retitled", photo: photo(heldRef) },
+          { _id: "unreviewed", title: "Unreviewed upload", photo: photo(eligibleRef) },
+        ]
+      : projects);
 });
 
-describe("withdrawn training imagery in hero/gallery fallbacks", () => {
-  it("rejects a dangling withdrawn reference in the hero fallback", async () => {
-    expect(await resolveHeroImage()).toEqual({
-      imageUrl: "https://example.test/retained-image",
-      imageAlt: "Baking supplies",
+describe("held images cannot leak into public surfaces", () => {
+  it("drops held project and linked archive media but not the project or its archive link", async () => {
+    const rows = await getProjects("fr");
+    expect(rows[0]).toMatchObject({
+      mainImage: undefined,
+      archiveRecord: { slug: { current: "widow-support-record" }, photo: undefined },
+    });
+    expect(rows[1].mainImage).toEqual(photo(eligibleRef));
+  });
+
+  it("skips a held preferred hero while keeping an unrelated eligible project image", async () => {
+    expect(await resolveHeroImage(["widow-support"])).toMatchObject({
+      imageUrl: expect.stringContaining("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
     });
   });
-  it("rejects a dangling withdrawn reference before applying the gallery limit", async () => {
-    expect(await resolveGalleryStrip(1)).toEqual([{
-      title: "Girls baking workshop",
-      imageUrl: "https://example.test/retained-image",
-      imageAlt: "Baking supplies",
-    }]);
+
+  it("falls back to an illustration or reviewed cover rather than a held photo", () => {
+    expect(resolveProjectCardImage(projects[0])).toMatchObject({
+      imageUrl: "/project-placeholder.svg",
+      imageSource: "placeholder",
+    });
+    expect(resolveProjectCardImage({
+      ...projects[0],
+      archiveRecord: { photo: photo(eligibleRef) },
+    })).toMatchObject({ imageSource: "archive" });
   });
-  it("returns no image when only rejected project references remain", async () => {
-    fetch.mockResolvedValue([withdrawn]);
+
+  it("filters unverified gallery rows on every shared gallery surface", async () => {
+    fetch.mockImplementation(async (query: string) =>
+      query.includes('"galleryImage"')
+        ? [
+            { _id: "held", title: "Retitled", photo: photo(heldRef) },
+            { _id: "unreviewed", title: "Unreviewed upload", photo: photo(eligibleRef) },
+          ]
+        : projects.slice(0, 1));
+    expect(await getGalleryImages(undefined, "fr")).toEqual([]);
+    expect(await getGalleryImages("education")).toEqual([]);
+    expect(await loadGalleryMosaic(8, "fr")).toEqual([]);
     expect(await resolveHeroImage()).toBeNull();
     expect(await resolveGalleryStrip()).toEqual([]);
   });

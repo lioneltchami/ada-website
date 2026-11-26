@@ -48,8 +48,8 @@ describe("safe bilingual Story release copy", () => {
 	});
 
 	it("keeps Esther’s English story and French translation limited to confirmed salon facts", () => {
-		const esther = getStoryReleaseCopy("meet-esther-skills-training", "en")!;
-		const estherFr = getStoryReleaseCopy("meet-esther-skills-training", "fr")!;
+		const esther = getStoryReleaseCopy("salon-update", "en")!;
+		const estherFr = getStoryReleaseCopy("salon-update", "fr")!;
 		expect(esther.title).toBe("Esther Joins Hannah’s Hair Salon");
 		expect(esther.paragraphs).toEqual([
 			"Esther joined Hannah’s hair salon. Hannah is a member of the ADA team. We’re glad to share this brief update about Esther.",

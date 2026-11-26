@@ -166,7 +166,7 @@ export const DONATION_FAQS_FR: FaqItem[] = [
 export const SPONSOR_FAQS_EN: FaqItem[] = [
   {
     question: "Is sponsorship tax-deductible?",
-    answer: `ADA is registered in Cameroon (${REGISTRATION_NUMBER}). Contributions are not represented as tax-deductible in Canada, the United States, the United Kingdom, or the European Union unless a qualified registered partner is confirmed in writing. ADA can issue a receipt, invoice, or sponsorship confirmation for your records, but does not provide tax advice.`,
+    answer: `ADA is registered in Cameroon (${REGISTRATION_NUMBER}). ADA does not represent direct contributions as tax-deductible in Canada, the United States, the United Kingdom, or the European Union. ADA can provide payment documentation for your records, not an official charitable tax receipt.`,
   },
   {
     question: "How does ADA use sponsor funds?",
@@ -176,7 +176,7 @@ export const SPONSOR_FAQS_EN: FaqItem[] = [
   {
     question: "What do sponsors receive?",
     answer:
-      "Sponsor updates are quarterly and annual and include milestones and briefings. Any separate project or final report depends on the sponsorship agreement. Recognition is by preference and approval.",
+      "We agree with you on the records, reporting schedule, and any recognition before payment. A project report or final update depends on the sponsorship agreement.",
   },
   {
     question: "How do I start a sponsorship?",
@@ -186,14 +186,14 @@ export const SPONSOR_FAQS_EN: FaqItem[] = [
   {
     question: "Where can I find registration and diligence documents?",
     answer:
-      "ADA publishes a corporate sponsor one-pager, registration certificate, transparency materials, and project documentation on the site under Resources, Transparency, and Partners pages.",
+      "See the due diligence section on Resources for the registration certificate, governance overview, and safeguarding and financial management policies. Project reports are in the project archive when available.",
   },
 ];
 
 export const SPONSOR_FAQS_FR: FaqItem[] = [
   {
     question: "Le parrainage est-il déductible d'impôt ?",
-    answer: `ADA est enregistrée au Cameroun (${REGISTRATION_NUMBER}). Les contributions ne sont pas présentées comme déductibles d'impôt au Canada, aux États-Unis, au Royaume-Uni ou dans l'UE sauf si un partenaire enregistré qualifié est confirmé par écrit. ADA peut fournir un reçu, une facture ou une confirmation de parrainage pour vos dossiers, mais ne donne pas de conseil fiscal.`,
+    answer: `ADA est enregistrée au Cameroun (${REGISTRATION_NUMBER}). ADA ne présente pas les contributions directes comme déductibles d’impôt au Canada, aux États-Unis, au Royaume-Uni ou dans l’Union européenne. ADA peut fournir un justificatif de paiement pour vos dossiers, mais pas de reçu fiscal officiel.`,
   },
   {
     question: "Comment ADA utilise-t-elle les fonds des sponsors ?",
@@ -203,7 +203,7 @@ export const SPONSOR_FAQS_FR: FaqItem[] = [
   {
     question: "Que reçoivent les sponsors ?",
     answer:
-      "Les mises à jour des sponsors sont trimestrielles et annuelles et incluent des jalons et des points d'information. Tout rapport de projet ou rapport final distinct dépend de l'accord de parrainage. La reconnaissance se fait selon la préférence et avec approbation.",
+      "Avant le versement, nous convenons avec vous des documents à fournir, du rythme des mises à jour et de toute mention publique. Un rapport de projet ou un bilan final dépend de l’accord de parrainage.",
   },
   {
     question: "Comment démarrer un parrainage ?",
@@ -213,6 +213,6 @@ export const SPONSOR_FAQS_FR: FaqItem[] = [
   {
     question: "Où trouver les documents d'enregistrement et de diligence ?",
     answer:
-      "ADA publie une fiche sponsor, le certificat d'enregistrement, des documents de transparence et les dossiers de projets sur les pages Ressources, Transparence et Partenaires.",
+      "La rubrique de diligence de la page Ressources contient le certificat d’enregistrement, l’aperçu de la gouvernance et les politiques de protection et de gestion financière. Les rapports disponibles se trouvent dans les archives de projets.",
   },
 ];

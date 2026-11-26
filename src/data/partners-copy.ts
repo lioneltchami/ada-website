@@ -148,7 +148,7 @@ const en: PartnersCopy = {
   },
   sponsorBanner: {
     title: "Looking for a simple sponsorship path?",
-    body: "Use the sponsor page for clear levels, payment options, reporting expectations, and the sponsor readiness packet.",
+    body: "Explore sponsorship options, discuss reporting needs, and review the public due diligence documents.",
     cta: "Sponsor a Program",
   },
   priorities: {
@@ -556,7 +556,7 @@ const fr: PartnersCopy = {
   },
   sponsorBanner: {
     title: "Vous cherchez un chemin de parrainage simple ?",
-    body: "La page de parrainage présente les niveaux, les options de paiement, les attentes de rapport et le dossier de préparation.",
+    body: "Découvrez les options de parrainage, échangez sur les rapports et consultez les documents publics.",
     cta: "Sponsoriser un Programme",
   },
   priorities: {

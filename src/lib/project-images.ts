@@ -1,3 +1,4 @@
+import { isWithheldGalleryAsset } from "./gallery-media-clearance";
 import type { SanityProject } from "./sanity";
 import { sanityImageUrl } from "./sanity";
 
@@ -14,7 +15,7 @@ export function resolveProjectCardImage(
 	>,
 	width = 600,
 ): ProjectCardImage {
-	if (project.mainImage?.asset?._ref) {
+	if (project.mainImage?.asset?._ref && !isWithheldGalleryAsset(project.mainImage.asset._ref)) {
 		return {
 			imageUrl: sanityImageUrl(project.mainImage.asset._ref, width),
 			imageAlt: project.mainImage.alt || project.title,
@@ -22,7 +23,7 @@ export function resolveProjectCardImage(
 		};
 	}
 
-	if (project.archiveRecord?.photo?.asset?._ref) {
+	if (project.archiveRecord?.photo?.asset?._ref && !isWithheldGalleryAsset(project.archiveRecord.photo.asset._ref)) {
 		return {
 			imageUrl: sanityImageUrl(project.archiveRecord.photo.asset._ref, width),
 			imageAlt: project.archiveRecord.photo.alt || project.title,

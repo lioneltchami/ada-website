@@ -9,27 +9,19 @@ import {
 import { STORY_RELEASE_COPY } from "../src/lib/story-release-copy";
 
 describe("safe Story categories and hero presentation", () => {
-	it("matches the verified CMS categories for all approved safe-copy records", () => {
+	it("separates one verified story, two updates and fourteen perspectives", () => {
 		expect(new Set(Object.keys(STORY_CATEGORY_BY_SLUG))).toEqual(
 			new Set(Object.keys(STORY_RELEASE_COPY)),
 		);
-		expect(Object.values(STORY_CATEGORY_BY_SLUG).filter((category) => category === "story")).toHaveLength(10);
-		expect(Object.values(STORY_CATEGORY_BY_SLUG).filter((category) => category === "update")).toHaveLength(4);
-		expect(Object.values(STORY_CATEGORY_BY_SLUG).filter((category) => category === "announcement")).toHaveLength(3);
 		const members = (category: string) => Object.keys(STORY_CATEGORY_BY_SLUG)
 			.filter((slug) => STORY_CATEGORY_BY_SLUG[slug as keyof typeof STORY_CATEGORY_BY_SLUG] === category)
 			.sort();
-		expect(members("story")).toEqual([
-			"amina-almost-child-bride", "carine-graduate-to-mentor", "david-missed-year-of-school",
-			"fabrice-teenage-mentor", "grace-journey-recipient-to-trainer", "hospital-visits-bringing-hope",
-			"mama-rose-grandchildren", "meet-esther-skills-training", "ndongo-family-emergency-relief", "why-we-focus-on-widows",
-		].sort());
-		expect(members("update")).toEqual([
-			"back-to-school-2025", "christmas-giving-2024", "community-cleanup-bamenda-2025", "donations-changed-lives-2024",
-		].sort());
-		expect(members("announcement")).toEqual([
-			"5-ways-to-support-free", "founder-letter-2026", "transparency-report-2024",
-		].sort());
+		expect(members("story")).toEqual(["salon-update"]);
+		expect(members("update")).toEqual(["donations-changed-lives-2024", "transparency-report-2024"]);
+		expect(members("perspective")).toHaveLength(14);
+		for (const slug of members("perspective")) {
+			expect(STORY_RELEASE_COPY[slug as keyof typeof STORY_RELEASE_COPY].type).toBe("overview");
+		}
 	});
 
 	it("provides bilingual labels for the verified category controls", () => {
@@ -39,7 +31,7 @@ describe("safe Story categories and hero presentation", () => {
 		}
 		expect(STORY_CATEGORY_LABELS.story.fr).toBe("Histoires");
 		expect(STORY_CATEGORY_LABELS.update.fr).toBe("Actualités");
-		expect(STORY_CATEGORY_LABELS.announcement.fr).toBe("Annonces");
+		expect(STORY_CATEGORY_LABELS.perspective.fr).toBe("Réflexions sur nos programmes");
 	});
 
 	it("uses only the approved cleanup photograph as a decorative split Stories hero", () => {
@@ -69,7 +61,7 @@ describe("safe Story categories and hero presentation", () => {
 		const esther = `<img src="${APPROVED_ESTHER_PORTRAIT.replaceAll("&", "&amp;")}" alt="Portrait of Esther">`;
 		// Astro production HTML emits alt="" as the minimized empty alt attribute `alt`.
 		const renderedTag = `<img src="${APPROVED_STORY_HERO.replaceAll("&", "&amp;")}" alt aria-hidden="true" class="absolute object-cover inset-y-0 right-0 h-full w-full object-center lg:left-auto lg:w-auto lg:object-contain" loading="eager">`;
-		const validIndex = (addition = "") => `${addition}<section class="relative overflow-hidden text-white py-20 md:py-28">${renderedTag}</section><a href="/stories/meet-esther-skills-training">${esther}</a>`;
+		const validIndex = (addition = "") => `${addition}<section class="relative overflow-hidden text-white py-20 md:py-28">${renderedTag}</section><a href="/stories/salon-update">${esther}</a>`;
 		const good = validIndex();
 		assertApprovedStoryHero(good, "test");
 		assertApprovedEstherPortrait(`<article>${esther}</article>`, "en", "article");
@@ -123,7 +115,7 @@ describe("safe Story categories and hero presentation", () => {
 		const notice = readFileSync(resolve("src/lib/story-review-notice.ts"), "utf8");
 		expect(index).not.toMatch(/Most articles below discuss general themes|thèmes généraux.*témoignages individuels vérifiés/i);
 		expect(detail).not.toMatch(/This page discusses a general theme|Cette page présente un thème général|not a verified individual case study/i);
-		expect(detail).toContain('STORY_RELEASE_COPY[slug as StoryReleaseSlug].type === "review"');
+		expect(detail).toContain('articleType === "review"');
 		expect(notice).toMatch(/2024 financial summary and 2024 donations summary remain under review/);
 		expect(notice).toMatch(/synthèse financière 2024 et la synthèse des dons 2024/);
 	});
