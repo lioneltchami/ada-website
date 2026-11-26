@@ -9,12 +9,11 @@ export interface GalleryMosaicPhoto {
 	alt: string;
 	imageUrl: string;
 	href?: string;
-	projectTitle?: string;
 }
 
-/** Return locale-independent paths; the rendering component applies its locale prefix. */
-export function galleryMosaicHref(projectSlug?: string): string {
-	return projectSlug ? `/projects/${projectSlug}` : "/gallery";
+/** A gallery image's campaign reference is not evidence of where it was taken. */
+export function galleryMosaicHref(): string {
+	return "/gallery";
 }
 
 /** Recent field photos for homepage mosaic / trust strips. */
@@ -65,21 +64,12 @@ export async function loadGalleryMosaic(
 					"alt",
 					locale,
 				);
-				const projectTitle = pickLocalized(
-					{
-						projectTitle: row.projectTitle,
-						projectTitleFr: row.projectTitleFr,
-					},
-					"projectTitle",
-					locale,
-				);
 				return {
 					id: row._id,
 					title,
 					alt: alt || title,
 					imageUrl: sanityImageUrl(row.photo!.asset!._ref!, 640),
-					href: galleryMosaicHref(row.projectSlug),
-					projectTitle: projectTitle || undefined,
+					href: galleryMosaicHref(),
 				};
 			})
 			.slice(0, limit);

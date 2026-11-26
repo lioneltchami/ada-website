@@ -17,11 +17,14 @@ import {
 import { REGISTRATION_NUMBER } from "../data/organization";
 import { homepageStatsFallback } from "../data/impact";
 import { loadSpotlightProjects } from "../lib/spotlight-projects";
+import { listUpcomingAnnouncements } from "../lib/upcoming-announcements";
 import { loadGalleryMosaic } from "../lib/gallery";
 
 let heroImageUrl = "";
+let homepageProjects: SanityProject[] = [];
 try {
-  const projects = await getProjects();
+  homepageProjects = await getProjects();
+  const projects = homepageProjects;
   if (projects?.length) {
     const preferred =
       projects.find(
@@ -75,9 +78,9 @@ let missionCards = [
       "Vocational training and microfinance for young women seeking independence.",
   },
 ];
-let ctaHeading = "Fund school kits for Buea and Bamenda";
-let ctaBody =
-  "Your gift buys bags, books, and fees so orphaned and displaced children can start the school year with dignity.";
+const ctaHeading = "Support our work in Cameroon";
+const ctaBody =
+  "A gift to our General Fund helps our local teams respond to the most urgent needs across our programs.";
 
 try {
   const page = await getHomePage();
@@ -88,8 +91,6 @@ try {
     missionHeading = page.missionHeading || missionHeading;
     missionBody = page.missionBody || missionBody;
     if (page.missionCards?.length) missionCards = page.missionCards;
-    ctaHeading = page.ctaHeading || ctaHeading;
-    ctaBody = page.ctaBody || ctaBody;
   }
 } catch {}
 
@@ -120,6 +121,7 @@ try {
 } catch {}
 
 const spotlightProjects = await loadSpotlightProjects("en", 4);
+const announcements = listUpcomingAnnouncements(homepageProjects, { locale: "en" });
 const mosaicPhotos = await loadGalleryMosaic(8);
 
 const programPillars = [
@@ -293,13 +295,12 @@ const actionPaths = [
               .map((stat) => `${stat.value} ${stat.label.toLowerCase()}`)
               .join(" · ")
           }
-          {" · "}80% to programs
         </p>
       </div>
     </div>
   </section>
 
-  <CurrentWork locale="en" projects={spotlightProjects} />
+  <CurrentWork locale="en" projects={spotlightProjects} announcements={announcements} />
   <PhotoMosaic locale="en" photos={mosaicPhotos} />
   <WorkVideo locale="en" />
 
@@ -564,6 +565,7 @@ const actionPaths = [
   <StoryReviewNotice locale="en" variant="featured" />
 
   <!-- Testimonials — featured quote + supporting -->
+  {testimonials.length > 0 && (
   <Section background="white" padding="lg">
     <p
       class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
@@ -646,6 +648,7 @@ const actionPaths = [
       )
     }
   </Section>
+  )}
 
   <!-- Action paths — text list -->
   <Section background="gray" padding="lg">
