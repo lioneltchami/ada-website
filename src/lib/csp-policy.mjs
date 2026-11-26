@@ -32,6 +32,13 @@ function originFromUrl(value) {
   }
 }
 
+/** Restrict hosted analytics to one explicitly selected account’s public collector. */
+export function getGoatCounterEndpoint(value) {
+  if (typeof value !== "string") return null;
+  const match = /^https:\/\/[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.goatcounter\.com\/count$/.test(value);
+  return match ? value : null;
+}
+
 /** Shared source allowlists for Astro's build CSP and the Worker response CSP. */
 export function getCspPolicy(env = {}) {
   const scriptSources = [...BASE_SCRIPT_SOURCES];
@@ -58,6 +65,9 @@ export function getCspPolicy(env = {}) {
     if (!scriptSources.includes(umamiOrigin)) scriptSources.push(umamiOrigin);
     if (!connectSources.includes(umamiOrigin)) connectSources.push(umamiOrigin);
   }
+
+  const goatCounterEndpoint = getGoatCounterEndpoint(env.PUBLIC_GOATCOUNTER_ENDPOINT);
+  if (goatCounterEndpoint) connectSources.push(goatCounterEndpoint);
 
   const directives = [
     "default-src 'self'",

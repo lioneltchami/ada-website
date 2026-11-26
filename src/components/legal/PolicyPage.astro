@@ -2,6 +2,7 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../layout/Section.astro";
 import copy from "../../data/website-policies.json";
+import { getGoatCounterEndpoint } from "../../lib/csp-policy.mjs";
 
 interface Props {
   locale: "en" | "fr";
@@ -10,6 +11,10 @@ interface Props {
 const { locale, type } = Astro.props;
 const policy = copy[type][locale];
 const fr = locale === "fr";
+const goatCounterEnabled = type === "privacy" && !!getGoatCounterEndpoint(import.meta.env.PUBLIC_GOATCOUNTER_ENDPOINT);
+const analyticsNotice = fr
+  ? "GoatCounter compte les visites sur les pages publiques ainsi que certains clics (dons, contact par WhatsApp et documents). Cette mesure ne couvre ni les pages de don ou de compte ni les données saisies dans les formulaires. Notre intégration ne transmet ni les paramètres d’URL ni les adresses de provenance, et n’utilise pas de témoins. GoatCounter reçoit l’adresse IP et des renseignements de navigateur pour traiter les visites."
+  : "GoatCounter counts visits to public pages and selected clicks (Donate, WhatsApp contact and outreach documents). It does not measure donation or account pages or collect anything entered in forms. Our integration does not send URL query parameters or referrer addresses and does not use analytics cookies. GoatCounter receives IP addresses and browser information to process visits.";
 ---
 <PageLayout title={policy.title} description={policy.description}>
   <Section background="white" padding="lg">
@@ -20,6 +25,9 @@ const fr = locale === "fr";
         <section aria-labelledby={`policy-${i}`}>
           <h2 id={`policy-${i}`}>{title}</h2>
           {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {goatCounterEnabled && i === 2 && (
+            <p>{analyticsNotice} <a href="https://www.goatcounter.com/help/privacy">{fr ? "Confidentialité de GoatCounter" : "GoatCounter privacy information"}</a>.</p>
+          )}
         </section>
       ))}
       <p>{fr ? "Courriel : " : "Email: "}<a href="mailto:info@apotidev.org">info@apotidev.org</a></p>
