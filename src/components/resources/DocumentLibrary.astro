@@ -1,4 +1,5 @@
 ---
+import { CHRISTMAS_OUTREACH_DATE, christmasPlanningDocuments } from "../../lib/christmas-announcements";
 import { hasReleased2023ProjectDocumentSet } from "../../lib/reviewed-project-records";
 import { hasReleased2024ProjectDocumentSet, hasReleased2025ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
 import { reviewed2026Release } from "../../lib/reviewed-project-summaries-2026";
@@ -199,6 +200,22 @@ const projectDocsIntro =
                     String(yearGroup.year),
                   )}
                 </a>
+              )}
+
+              {String(yearGroup.year) === CHRISTMAS_OUTREACH_DATE.slice(0, 4) && (
+                <div class="mt-4 rounded-lg border border-gray-200 p-3">
+                  <h3 class="font-semibold text-gray-900">{fr ? "Plans des actions de Noël" : "Christmas Outreach Plans"}</h3>
+                  <p class="mt-1 text-sm text-gray-600">{fr ? "Termes de référence uniquement. Ces documents ne sont pas des rapports d’activité." : "Terms of Reference only. These are not completion reports."}</p>
+                  <ul class="mt-2 space-y-1">
+                    {christmasPlanningDocuments.map((project) => (
+                      <li>
+                        <a href={project.tor} hreflang="en" class="inline-flex min-h-6 items-center text-sm text-primary-800 underline focus-visible:outline-2 focus-visible:outline-offset-2">
+                          {fr ? project.titleFr : project.title} · {fr ? "Termes de référence (PDF en anglais)" : "Terms of Reference (PDF)"}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
 
               <div class="mt-4 space-y-5">

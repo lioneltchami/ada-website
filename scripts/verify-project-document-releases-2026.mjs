@@ -12,6 +12,7 @@ const dates = {
 };
 const slugs = Object.keys(dates);
 const kinds = ['report', 'tor'];
+const christmasPlanSlugs = ['christmas-giving-buea-dec-2026', 'christmas-giving-bamenda-dec-2026'];
 const legacyBrief = '/docs/diligence/ada-bamenda-girls-dignity-outreach';
 
 export async function verify2026DocumentReleases(root, checkDist = false) {
@@ -36,6 +37,13 @@ export async function verify2026DocumentReleases(root, checkDist = false) {
         assert.ok(!redirects.some(line => line.trimStart().startsWith(route + ' ')), 'Canonical PDF must serve directly: ' + route);
       }
     }
+    for (const slug of christmasPlanSlugs) {
+      const dir = path.join(root, parent, 'docs/projects', slug);
+      assert.deepEqual(await fs.readdir(dir), ['tor.pdf'], 'Only the advance plan is public: ' + slug);
+      const plan = await fs.readFile(path.join(dir, 'tor.pdf'));
+      assert.equal(plan.subarray(0, 5).toString(), '%PDF-', slug);
+      if (parent !== 'public') assert.deepEqual(plan, await fs.readFile(path.join(root, 'public/docs/projects', slug, 'tor.pdf')));
+    }
     for (const ext of ['pdf', 'md']) {
       const legacyRoute = legacyBrief + '.' + ext;
       await assert.rejects(fs.access(path.join(root, parent, legacyRoute.slice(1))), {code: 'ENOENT'}, 'Old planning brief must not remain public');
@@ -45,6 +53,12 @@ export async function verify2026DocumentReleases(root, checkDist = false) {
   if (checkDist) {
     for (const prefix of ['', 'fr/']) {
       const built = path.join(root, 'dist/client', prefix);
+      for (const slug of christmasPlanSlugs) {
+        const detail = await fs.readFile(path.join(built, 'projects', slug, 'index.html'), 'utf8');
+        const resources = await fs.readFile(path.join(built, 'resources/index.html'), 'utf8');
+        for (const html of [detail, resources]) assert.ok(html.includes('href="/docs/projects/' + slug + '/tor.pdf"'),
+          'Christmas planning document missing: ' + prefix + slug);
+      }
       for (const slug of slugs) {
         const detail = await fs.readFile(path.join(built, 'projects/archive', slug, 'index.html'), 'utf8');
         const resources = await fs.readFile(path.join(built, 'resources/index.html'), 'utf8');
@@ -58,7 +72,7 @@ export async function verify2026DocumentReleases(root, checkDist = false) {
       }
     }
   }
-  console.log('Exact 2026 document releases verified: six reviewed PDFs' + (checkDist ? ' in source and build.' : '.'));
+  console.log('Exact 2026 document releases verified: six reviewed PDFs and two advance plans' + (checkDist ? ' in source and build.' : '.'));
   return new Set(slugs);
 }
 

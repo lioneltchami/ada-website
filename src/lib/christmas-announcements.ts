@@ -23,3 +23,17 @@ export const christmasAnnouncements: SanityProject[] = announcements.map(
 export function isChristmasAnnouncementSlug(slug?: string | null): boolean {
   return christmasAnnouncements.some((project) => project.slug.current === slug);
 }
+
+
+/** Publication of these plans does not release reports, finances or fundraising. */
+export const christmasPlanningDocuments = christmasAnnouncements.map((project) => ({
+  slug: project.slug.current,
+  title: project.title,
+  titleFr: project.titleFr || project.title,
+  tor: `/docs/projects/${project.slug.current}/tor.pdf`,
+}));
+
+export function christmasPlanTor(slug?: string, startDate?: string): string | undefined {
+  if (startDate !== CHRISTMAS_OUTREACH_DATE) return undefined;
+  return christmasPlanningDocuments.find((project) => project.slug === slug)?.tor;
+}

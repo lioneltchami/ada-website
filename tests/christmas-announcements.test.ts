@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { christmasAnnouncements } from "../src/lib/christmas-announcements";
+import { christmasAnnouncements, christmasPlanTor } from "../src/lib/christmas-announcements";
 import { getProjectLifecycleState } from "../src/lib/project-lifecycle";
 import { toAutoArchiveEntry } from "../src/lib/project-archive";
 import { normalizeFallbackProjects } from "../src/lib/project-fallbacks";
 
 describe("2026 Christmas Giving outreach announcements", () => {
   it.each(christmasAnnouncements)("lists $location on December 20 and archives it seven days later", (project) => {
+    expect(christmasPlanTor(project.slug.current, "2026-12-21")).toBeUndefined();
+    expect(christmasPlanTor("another-outreach", project.startDate)).toBeUndefined();
     expect(project.startDate).toBe("2026-12-20");
     expect(new Date(project.startDate!).getUTCDay()).toBe(0);
     for (const today of ["2026-12-19", "2026-12-20", "2026-12-26"]) {
@@ -24,6 +26,8 @@ describe("2026 Christmas Giving outreach announcements", () => {
       });
       expect(toAutoArchiveEntry(project, lifecycle)).toMatchObject({
         autoArchived: true,
+        torUrl: `/docs/projects/${project.slug.current}/tor.pdf`,
+        reportUrl: undefined,
         outreachCategory: "christmas",
         budget: undefined,
         beneficiaries: undefined,
