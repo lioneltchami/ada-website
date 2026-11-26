@@ -16,21 +16,52 @@ const analyticsNotice = fr
   ? "GoatCounter compte les visites sur les pages publiques ainsi que certains clics (bouton de don, contact par WhatsApp, documents, liens vers les réseaux sociaux, ouverture de la demande de parrainage et filtres des archives). Cette mesure ne couvre ni les pages de paiement ou de compte, ni le formulaire de parrainage, ni les données saisies dans les formulaires. Notre intégration ne transmet ni les paramètres d’URL ni les adresses de provenance, et n’utilise pas de témoins. GoatCounter reçoit l’adresse IP et des renseignements de navigateur pour traiter les visites."
   : "GoatCounter counts visits to public pages and selected clicks (Donate, WhatsApp contact, documents, social links, opening a sponsor inquiry and archive filters). It does not measure donation or account pages or the sponsorship inquiry form, or collect anything entered in any form. Our integration does not send URL query parameters or referrer addresses and does not use analytics cookies. GoatCounter receives IP addresses and browser information to process visits.";
 ---
-<PageLayout title={policy.title} description={policy.description}>
+<PageLayout hideFloatingDonate title={policy.title} description={policy.description}>
   <Section background="white" padding="lg">
-    <div class="max-w-3xl prose prose-gray">
-      <h1 class="text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">{policy.title}</h1>
-      <p class="text-sm text-gray-500">{fr ? "Dernière révision : 26 novembre 2026" : "Last reviewed: November 26, 2026"}</p>
-      {policy.sections.map(({ title, paragraphs }, i) => (
-        <section aria-labelledby={`policy-${i}`}>
-          <h2 id={`policy-${i}`}>{title}</h2>
-          {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-          {goatCounterEnabled && i === 2 && (
-            <p>{analyticsNotice} <a href="https://www.goatcounter.com/help/privacy">{fr ? "Confidentialité de GoatCounter" : "GoatCounter privacy information"}</a>.</p>
-          )}
-        </section>
-      ))}
-      <p>{fr ? "Courriel : " : "Email: "}<a href="mailto:info@apotidev.org">info@apotidev.org</a></p>
+    <div class="mx-auto max-w-5xl">
+      <header class="mb-8 border-b border-primary-200 pb-6 sm:mb-10 sm:pb-8">
+        <h1 class="font-heading text-3xl font-bold tracking-tight text-primary-950 sm:text-4xl">{policy.title}</h1>
+        <p class="mt-3 text-sm text-slate-600">{fr ? "Dernière révision : 26 novembre 2026" : "Last reviewed: November 26, 2026"}</p>
+      </header>
+      <div class="grid items-start gap-8 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-12">
+        <nav aria-labelledby="policy-contents" class="rounded-xl border border-primary-200 bg-primary-50 p-4 sm:p-5">
+          <h2 id="policy-contents" class="font-heading text-base font-bold text-primary-900">{fr ? "Sur cette page" : "On this page"}</h2>
+          <ul class="mt-2 grid gap-x-6 sm:grid-cols-2 lg:grid-cols-1">
+            {policy.sections.map(({ title }, i) => (
+              <li><a href={`#policy-${i}`} class="policy-link flex min-h-11 items-center py-1.5 text-sm">{title}</a></li>
+            ))}
+            <li><a href="#policy-contact" class="policy-link flex min-h-11 items-center py-1.5 text-sm">Contact</a></li>
+          </ul>
+        </nav>
+        <article data-policy-content class="min-w-0 max-w-[66ch] space-y-8 text-base leading-relaxed text-slate-800">
+          {policy.sections.map(({ title, paragraphs }, i) => (
+            <section aria-labelledby={`policy-${i}`} class="space-y-3 border-b border-primary-200 pb-7">
+              <h2 id={`policy-${i}`} tabindex="-1" class="scroll-mt-28 font-heading text-xl font-bold leading-snug text-primary-900">{title}</h2>
+              {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+              {goatCounterEnabled && i === 2 && (
+                <p>{analyticsNotice} <a class="policy-link" href="https://www.goatcounter.com/help/privacy">{fr ? "Confidentialité de GoatCounter" : "GoatCounter privacy information"}</a>.</p>
+              )}
+            </section>
+          ))}
+          <p id="policy-contact" tabindex="-1" class="scroll-mt-28 rounded-xl border border-primary-200 bg-primary-50 p-4 sm:p-5">{fr ? "Courriel : " : "Email: "}<a class="policy-link break-all" href="mailto:info@apotidev.org">info@apotidev.org</a></p>
+        </article>
+      </div>
     </div>
   </Section>
 </PageLayout>
+
+<style>
+  .policy-link {
+    color: var(--color-primary-900);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+  .policy-link:hover {
+    text-decoration-thickness: 2px;
+  }
+  .policy-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 0.125rem;
+  }
+</style>
