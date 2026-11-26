@@ -25,7 +25,7 @@ const historical: Readonly<Record<string, Figure | undefined>> = {
   "christmas-giving-dec-2023": { year: 2023, month: "2023-12", fcfa: 260000, basis: "budget" },
   // Original 2025 worksheets; no actual expenditures are established by these records.
   "womens-day-widows-outreach-2025": { year: 2025, month: "2025-03", fcfa: 240000, basis: "calculated-worksheet-budget" },
-  "prenatal-care-support-program": { year: 2025, month: "2025-03", fcfa: 150000, basis: "budget" },
+  "prenatal-care-support-program": { year: 2025, month: "2025-07", fcfa: 150000, basis: "budget" },
   "city-cleanup-may-2025": { year: 2025, month: "2025-05", fcfa: 50000, basis: "budget", approximateFcfa: true },
   "back-to-school-buea-2025": { year: 2025, month: "2025-08", fcfa: 102600, basis: "worksheet-budget" },
   "back-to-school-bamenda-aug-2025": { year: 2025, month: "2025-08", fcfa: 151000, basis: "worksheet-budget" },
@@ -55,6 +55,7 @@ const usdPerEuroMonth: Readonly<Record<string, number | undefined>> = {
   "2024-12": 1.0472,
   "2025-03": 1.0813,
   "2025-05": 1.1274,
+  "2025-07": 1.1671,
   "2025-08": 1.1647,
   "2025-12": 1.1710,
 };

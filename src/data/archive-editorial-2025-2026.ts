@@ -48,23 +48,23 @@ export const archiveEditorialRecent = {
     "Nous pouvons confirmer la date. Le lieu, le nombre de participantes et la liste des articles distribués n’ont pas été confirmés.",
   ]),
   "prenatal-care-support-program": story([
-    "On March 29, 2025, we held a hospital outreach for nursing mothers in Muea, Buea.",
+    "On July 26, 2025, we held a hospital outreach for nursing mothers in Muea, Buea.",
     "We wanted to support mothers as they cared for their babies and help with everyday needs.",
     "Our team gave out buckets, diapers and other supplies for mothers and their babies.",
     "We reached about 15 mothers. We budgeted 150,000 FCFA for the outreach. We do not have a verified spending total.",
   ], [
-    "Le 29 mars 2025, nous avons mené une action à l’hôpital de Muea, à Buea, auprès de mères qui allaitent.",
+    "Le 26 juillet 2025, nous avons mené une action à l’hôpital de Muea, à Buea, auprès de mères qui allaitent.",
     "Nous voulions épauler ces mères dans les soins à leurs bébés et leur apporter une aide pour les besoins du quotidien.",
     "Notre équipe a remis des seaux, des couches et d’autres articles destinés aux mères et à leurs bébés.",
     "Environ 15 mères ont reçu cette aide. Le budget de l’action était de 150 000 FCFA. Le total des dépenses n’a pas été vérifié.",
   ]),
   "city-cleanup-may-2025": story([
-    "On May 3, 2025, we held our Labour Day School Cleanup at Lycée de Buea and Buea Technical Training College.",
+    "On May 1, 2025, we held our Labour Day School Cleanup at Lycée de Buea and Buea Technical Training College.",
     "We wanted to give back to the schools and care for the spaces their students and staff use every day.",
     "We bought cutlasses, brooms, buckets, rakes and other tools for the cleanup at the two schools.",
     "We budgeted about 50,000 FCFA for the cleanup. We do not have a verified total for what we spent.",
   ], [
-    "Le 3 mai 2025, nous avons organisé notre nettoyage pour la fête du Travail au Lycée de Buea et au Buea Technical Training College.",
+    "Le 1ᵉʳ mai 2025, nous avons organisé notre nettoyage pour la fête du Travail au Lycée de Buea et au Buea Technical Training College.",
     "Nous voulions apporter notre aide aux établissements et prendre soin des espaces que leurs élèves et leur personnel utilisent au quotidien.",
     "Nous avons acheté des machettes, des balais, des seaux, des râteaux et d’autres outils pour le nettoyage des deux établissements.",
     "Nous avons prévu un budget d’environ 50 000 FCFA pour le nettoyage. Le total des dépenses n’a pas été vérifié.",

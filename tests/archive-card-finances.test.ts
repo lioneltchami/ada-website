@@ -50,7 +50,7 @@ describe("2025 worksheet figures", () => {
   it("shows FCFA and approximate historical USD without presenting worksheets as spending", () => {
     for (const [slug, fcfa, usd, basis] of [
       ["womens-day-widows-outreach-2025", 240000, 396, "calculated-worksheet-budget"],
-      ["prenatal-care-support-program", 150000, 247, "budget"],
+      ["prenatal-care-support-program", 150000, 267, "budget"],
       ["city-cleanup-may-2025", 50000, 86, "budget"],
       ["back-to-school-buea-2025", 102600, 182, "worksheet-budget"],
       ["back-to-school-bamenda-aug-2025", 151000, 268, "worksheet-budget"],

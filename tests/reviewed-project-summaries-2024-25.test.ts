@@ -32,8 +32,8 @@ describe('source-backed 2024–25 archive summaries', () => {
     expect(bySlug.get(buea2025)).toMatchObject({ year: 2025, location: 'Buea', startDate: '2025-08-30', endDate: '2025-08-30' });
     expect(bySlug.get(buea2024)).toMatchObject({ year: 2024, location: 'Buea' });
     expect(bySlug.get(buea2024)).toMatchObject({ startDate: '2024-08-31', endDate: '2024-08-31', approvedBudgetFcfa: 82_750 });
-    expect(bySlug.get(hospitalSlug)).toMatchObject({ year: 2025, location: 'Muea, Buea', startDate: '2025-03-29', endDate: '2025-03-29' });
-    expect(bySlug.get('city-cleanup-may-2025')).toMatchObject({ year: 2025, startDate: '2025-05-03', endDate: '2025-05-03' });
+    expect(bySlug.get(hospitalSlug)).toMatchObject({ year: 2025, location: 'Muea, Buea', startDate: '2025-07-26', endDate: '2025-07-26' });
+    expect(bySlug.get('city-cleanup-may-2025')).toMatchObject({ year: 2025, startDate: '2025-05-01', endDate: '2025-05-01' });
     expect(bySlug.get('womens-day-widows-outreach-2025')).toMatchObject({ year: 2025, startDate: '2025-03-15', endDate: '2025-03-15' });
     expect(bySlug.get('christmas-orphanage-outreach-2025')).toMatchObject({ year: 2025, startDate: '2025-12-20', endDate: '2025-12-20' });
     expect(bySlug.get('unrelated-legacy-record')).toBe(unknown);

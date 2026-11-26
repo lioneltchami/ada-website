@@ -15,7 +15,7 @@ describe("archive feature photos", () => {
     expect(en.caption).toMatch(/^Some of our team members/);
     expect(fr.caption).toMatch(/^Des membres de notre équipe/);
     expect(en.alt).not.toBe(fr.alt);
-    for (const other of ["city-cleanup-may-2022", "school-visit-may-2022-test", "city-cleanup-may-2025", "city-cleanup-may-2023-test", "__proto__"]) {
+    for (const other of ["city-cleanup-may-2022", "school-visit-may-2022-test", "city-cleanup-may-2023-test", "__proto__"]) {
       expect(getArchiveFeaturePhoto(other, "en")).toBeUndefined();
       expect(getArchiveFeaturePhoto(other, "fr")).toBeUndefined();
     }

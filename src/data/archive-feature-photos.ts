@@ -12,6 +12,27 @@ type ArchiveFeaturePhoto = {
 // non-identifying supplies/equipment scenes on page 1 of their published reports.
 // The May 2022 classroom portrait preserves the exact approved report crop.
 const approvedPhotos: Record<string, ArchiveFeaturePhoto> = {
+  "back-to-school-buea-2024": {
+    src: "/images/projects/back-to-school-buea-2024-feature.webp",
+    width: 960,
+    height: 540,
+    alt: { en: "Books, exercise books and stationery laid out on a table.", fr: "Des livres, des cahiers et du matériel scolaire disposés sur une table." },
+    caption: { en: "Some of the school supplies from our 2024 Back to School Outreach in Buea.", fr: "Une partie des fournitures de notre action de rentrée scolaire de 2024 à Buea." },
+  },
+  "city-cleanup-may-2025": {
+    src: "/images/projects/city-cleanup-may-2025-feature.webp",
+    width: 1600,
+    height: 1200,
+    alt: { en: "Volunteers holding cleanup tools beside an ADA waste bin.", fr: "Des bénévoles avec des outils de nettoyage à côté d’une poubelle de l’ADA." },
+    caption: { en: "Some of our volunteers during the Labour Day school cleanup in Buea.", fr: "Des membres de notre équipe lors du nettoyage des établissements scolaires à Buea pour la fête du Travail." },
+  },
+  "prenatal-care-support-program": {
+    src: "/images/projects/prenatal-care-support-program-feature.webp",
+    width: 1600,
+    height: 729,
+    alt: { en: "Buckets holding diapers and other supplies for mothers and babies.", fr: "Des seaux contenant des couches et d’autres articles pour les mères et leurs bébés." },
+    caption: { en: "Some of the supplies prepared for mothers and babies at the hospital in Muea.", fr: "Une partie des articles préparés pour les mères et leurs bébés à l’hôpital de Muea." },
+  },
   "first-widow-home-visits-2021": {
     src: "/images/projects/widows-outreach-2021.jpg",
     width: 800,
