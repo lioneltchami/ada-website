@@ -99,23 +99,14 @@ describe("project archive filters", () => {
     expect(french).not.toContain("depuis 2022");
   });
 
-  it("adds project context to repeated detail and donation links", () => {
-    expect(
-      projectsIndex.match(
-        /aria-label=\{`\$\{copy\.details\}: \$\{project\.title\}`\}/g,
-      ),
-    ).toHaveLength(1);
-    expect(
-      projectsIndex.match(
-        /aria-label=\{`\$\{copy\.donate\}: \$\{project\.title\}`\}/g,
-      ),
-    ).toHaveLength(1);
+  it("adds project context to repeated project, record and donation links", () => {
     expect(projectsIndex).toContain(
-      "aria-label={`${copy.upcomingDetails}: ${project.title}`}",
+      'aria-label={`${archived ? copy.viewRecord : copy.details}: ${project.title}`}',
     );
     expect(projectsIndex).toContain(
-      "aria-label={`${copy.upcomingDonate}: ${project.title}`}",
+      'aria-label={`${copy.donate}: ${project.title}`}',
     );
+    expect(projectsIndex).toContain("{project.isFundable && (");
   });
 
   it("labels date-derived completed projects as archived, not delivered", () => {
@@ -125,13 +116,13 @@ describe("project archive filters", () => {
     expect(projectsIndex).toContain(
       "isAutoArchived: lifecycle.isAutoCompleted",
     );
-    expect(projectsIndex).toContain('autoArchived: "Archived by end date"');
+    expect(projectsIndex).toContain('archivedByDate: "Archived by end date"');
     expect(projectsIndex).toContain(
-      'autoArchived: "Archivé selon la date de fin"',
+      'archivedByDate: "Archivé selon la date de fin"',
     );
-    expect(projectsIndex).toContain('viewArchive: "View archive record"');
-    expect(projectsIndex).toContain('viewArchive: "Voir le dossier d’archive"');
-    expect(projectsIndex).toContain("a date alone does not confirm delivery");
+    expect(projectsIndex).toContain('viewRecord: "View record"');
+    expect(projectsIndex).toContain('viewRecord: "Voir le dossier"');
+    expect(projectsIndex).toContain("does not confirm that the project took place");
     expect(projectsIndex).not.toContain("View archive report");
     expect(projectsIndex).not.toContain("Voir le rapport d'archive");
   });
