@@ -11,8 +11,6 @@ const currentArchive = {
     "back-to-school-bamenda-aug-2026",
     "back-to-school-buea-aug-2026",
     "education-orphans",
-    "back-to-school-bamenda-aug-2025",
-    "back-to-school-buea-2025",
     "back-to-school-buea-2024",
     "back-to-school-drive-2023",
     "back-to-school-sep-2022",
@@ -32,7 +30,6 @@ const currentArchive = {
     "idp-girls-baking-training-jul-2022",
   ],
   christmas: [
-    "christmas-orphanage-outreach-2025",
     "christmas-giving-dec-2024",
     "christmas-giving-dec-2023",
     "christmas-giving-dec-2022",
@@ -51,7 +48,7 @@ const record = (current: string) => ({ slug: { current } });
 describe("public outreach archive categories", () => {
   it("classifies every reviewed archive record by the activity, not the audience", () => {
     const slugs = Object.values(currentArchive).flat();
-    expect(new Set(slugs).size).toBe(27);
+    expect(new Set(slugs).size).toBe(24);
     for (const id of archiveOutreachCategoryIds) {
       for (const slug of currentArchive[id]) {
         expect(getArchiveOutreachCategory(slug), slug).toBe(id);
@@ -64,11 +61,11 @@ describe("public outreach archive categories", () => {
     const english = getArchiveOutreachFilters(entries, "en");
     const french = getArchiveOutreachFilters(entries, "fr");
     expect(english).toEqual([
-      { id: "all", label: "All", count: 27 },
-      { id: "education", label: "Education & School Support", count: 10 },
+      { id: "all", label: "All", count: 24 },
+      { id: "education", label: "Education & School Support", count: 8 },
       { id: "widows", label: "Widows Outreach", count: 4 },
       { id: "girls-young-women", label: "Girls & Young Women", count: 4 },
-      { id: "christmas", label: "Christmas Giving", count: 4 },
+      { id: "christmas", label: "Christmas Giving", count: 3 },
       { id: "community-events", label: "Community Events & Cleanups", count: 4 },
       { id: "maternal-baby", label: "Maternal & Baby Support", count: 1 },
     ]);

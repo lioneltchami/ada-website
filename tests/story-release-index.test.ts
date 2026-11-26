@@ -9,7 +9,7 @@ import {
 import { STORY_RELEASE_COPY } from "../src/lib/story-release-copy";
 
 describe("safe Story categories and hero presentation", () => {
-	it("separates one verified story, two updates and fourteen perspectives", () => {
+	it("separates one verified story, two updates and thirteen perspectives", () => {
 		expect(new Set(Object.keys(STORY_CATEGORY_BY_SLUG))).toEqual(
 			new Set(Object.keys(STORY_RELEASE_COPY)),
 		);
@@ -18,7 +18,7 @@ describe("safe Story categories and hero presentation", () => {
 			.sort();
 		expect(members("story")).toEqual(["salon-update"]);
 		expect(members("update")).toEqual(["donations-changed-lives-2024", "transparency-report-2024"]);
-		expect(members("perspective")).toHaveLength(14);
+		expect(members("perspective")).toHaveLength(13);
 		for (const slug of members("perspective")) {
 			expect(STORY_RELEASE_COPY[slug as keyof typeof STORY_RELEASE_COPY].type).toBe("overview");
 		}

@@ -5,9 +5,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const dates = {
-  'back-to-school-bamenda-aug-2025': '2025-08-30',
-  'back-to-school-buea-2025': '2025-08-30',
-  'christmas-orphanage-outreach-2025': '2025-12-20',
   'city-cleanup-may-2025': '2025-05-01',
   'prenatal-care-support-program': '2025-07-26',
   'womens-day-widows-outreach-2025': '2025-03-15',
@@ -40,7 +37,7 @@ export async function verify2025DocumentReleases(root, checkDist = false) {
       }
     }
   }
-  console.log('Exact 2025 document releases verified: 12 approved PDFs' + (checkDist ? ' in source and build.' : '.'));
+  console.log('Exact 2025 document releases verified: 6 approved PDFs' + (checkDist ? ' in source and build.' : '.'));
   return new Set(Object.keys(manifest));
 }
 

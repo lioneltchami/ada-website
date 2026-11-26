@@ -1,3 +1,4 @@
+import { isWithdrawnProjectRecord, isWithdrawnProjectSlug } from "./withdrawn-project-content";
 import { isArchiveOutreachCategory } from "./archive-outreach-categories";
 import review from '../../config/project-records-2024-25.json';
 import type { ProjectArchiveDocument, ProjectArchiveEntry, ProjectDemographic } from './project-archive';
@@ -8,7 +9,7 @@ type ReleasedProject = Extract<ReviewedProject, { documentStatus: string }>;
 type ReleaseYear = 2024 | 2025;
 
 function isReleasedProject(project: ReviewedProject, year: ReleaseYear): project is ReleasedProject {
-  return project.year === year && project.documentStatus === 'released';
+  return project.year === year && project.documentStatus === 'released' && !isWithdrawnProjectSlug(project.slug);
 }
 
 function hasReleasedProjectDocuments(slug: string, year: ReleaseYear): boolean {
@@ -44,8 +45,9 @@ export function listReleased2025ProjectDocuments(): ProjectArchiveDocument[] {
 /** Replace the record completely so figures, outcome claims, file links and photos cannot leak in from older CMS entries. */
 export function applyReviewed2024And2025Summaries(entries: ProjectArchiveEntry[]): ProjectArchiveEntry[] {
   const superseded = new Set(Object.keys(review.redirects));
-  const bySlug = new Map(entries.filter(entry => !superseded.has(entry.slug.current)).map(entry => [entry.slug.current, entry]));
+  const bySlug = new Map(entries.filter(entry => !superseded.has(entry.slug.current) && !isWithdrawnProjectRecord(entry)).map(entry => [entry.slug.current, entry]));
   for (const project of review.projects) {
+    if (isWithdrawnProjectSlug(project.slug)) continue;
     const released = isReleasedProject(project, 2024) || isReleasedProject(project, 2025);
     const selectedCategory = bySlug.get(project.slug)?.outreachCategory;
     bySlug.set(project.slug, {

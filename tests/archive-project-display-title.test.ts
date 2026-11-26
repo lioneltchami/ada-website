@@ -19,14 +19,11 @@ describe("recurring archive project display names", () => {
     ["back-to-school-sep-2022", "Back to School", "Rentrée scolaire"],
     ["back-to-school-drive-2023", "Back to School", "Rentrée scolaire"],
     ["back-to-school-buea-2024", "Back to School", "Rentrée scolaire"],
-    ["back-to-school-bamenda-aug-2025", "Back to School", "Rentrée scolaire"],
-    ["back-to-school-buea-2025", "Back to School", "Rentrée scolaire"],
     ["back-to-school-bamenda-aug-2026", "Back to School", "Rentrée scolaire"],
     ["back-to-school-buea-aug-2026", "Back to School", "Rentrée scolaire"],
     ["christmas-giving-dec-2022", "Christmas Giving", "Dons de Noël"],
     ["christmas-giving-dec-2023", "Christmas Giving", "Dons de Noël"],
     ["christmas-giving-dec-2024", "Christmas Giving", "Dons de Noël"],
-    ["christmas-orphanage-outreach-2025", "Christmas Giving", "Dons de Noël"],
   ])("normalizes %s in both languages", (slug, en, fr) => {
     expect(titles(slug)).toEqual([en, fr]);
   });
@@ -38,6 +35,14 @@ describe("recurring archive project display names", () => {
     "education-orphans",
     "widow-support-program-cohort-3",
   ])("does not merge the unrelated %s with a named series", (slug) => {
+    expect(titles(slug)).toEqual(["Legacy title", "Ancien titre"]);
+  });
+
+  it.each([
+    "back-to-school-bamenda-aug-2025",
+    "back-to-school-buea-2025",
+    "christmas-orphanage-outreach-2025",
+  ])("does not assign a shared series title to the withdrawn %s", (slug) => {
     expect(titles(slug)).toEqual(["Legacy title", "Ancien titre"]);
   });
 

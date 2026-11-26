@@ -22,20 +22,20 @@ const seed = (slug: string): ProjectArchiveEntry => ({
 });
 
 describe('source-backed 2024–25 archive summaries', () => {
-  it('keeps Bamenda 2025 separate from Buea and replaces, never relabels, old CMS data', () => {
+  it('removes exactly the three unheld outreaches and replaces, never relabels, old CMS data', () => {
     const unknown = seed('unrelated-legacy-record');
-    const entries = applyReviewed2024And2025Summaries([seed(oldSlug), seed(bamendaSlug), seed(hospitalSlug), seed(duplicateHospital), seed(buea2024), unknown]);
+    const entries = applyReviewed2024And2025Summaries([seed(oldSlug), seed(bamendaSlug), seed(buea2025), seed('christmas-orphanage-outreach-2025'), seed(hospitalSlug), seed(duplicateHospital), seed(buea2024), unknown]);
     const bySlug = new Map(entries.map(e => [e.slug.current, e]));
     expect(bySlug.has(oldSlug)).toBe(false);
     expect(bySlug.has(duplicateHospital)).toBe(false);
-    expect(bySlug.get(bamendaSlug)).toMatchObject({ year: 2025, location: 'Bamenda', startDate: '2025-08-30', endDate: '2025-08-30' });
-    expect(bySlug.get(buea2025)).toMatchObject({ year: 2025, location: 'Buea', startDate: '2025-08-30', endDate: '2025-08-30' });
+    expect(bySlug.has(bamendaSlug)).toBe(false);
+    expect(bySlug.has(buea2025)).toBe(false);
     expect(bySlug.get(buea2024)).toMatchObject({ year: 2024, location: 'Buea' });
     expect(bySlug.get(buea2024)).toMatchObject({ startDate: '2024-08-31', endDate: '2024-08-31', approvedBudgetFcfa: 82_750 });
     expect(bySlug.get(hospitalSlug)).toMatchObject({ year: 2025, location: 'Muea, Buea', startDate: '2025-07-26', endDate: '2025-07-26' });
     expect(bySlug.get('city-cleanup-may-2025')).toMatchObject({ year: 2025, startDate: '2025-05-01', endDate: '2025-05-01' });
     expect(bySlug.get('womens-day-widows-outreach-2025')).toMatchObject({ year: 2025, startDate: '2025-03-15', endDate: '2025-03-15' });
-    expect(bySlug.get('christmas-orphanage-outreach-2025')).toMatchObject({ year: 2025, startDate: '2025-12-20', endDate: '2025-12-20' });
+    expect(bySlug.has('christmas-orphanage-outreach-2025')).toBe(false);
     expect(bySlug.get('unrelated-legacy-record')).toBe(unknown);
     for (const summary of review.projects) {
       const entry = bySlug.get(summary.slug)!;
@@ -57,10 +57,16 @@ describe('source-backed 2024–25 archive summaries', () => {
 
   it('retains the public URL paths through locale-matching redirects without serving old files', () => {
     const redirects = readFileSync('public/_redirects', 'utf8');
-    for (const [old, target] of Object.entries(review.redirects)) {
+    for (const [old, target] of Object.entries({
+      ...review.redirects,
+      [oldSlug]: '',
+      [bamendaSlug]: '',
+      [buea2025]: '',
+      'christmas-orphanage-outreach-2025': '',
+    })) {
       for (const prefix of ['', '/fr']) {
         for (const suffix of ['', '/']) {
-          expect(redirects).toContain(prefix + '/projects/archive/' + old + suffix + ' ' + prefix + '/projects/archive/' + target + '/ 301\n');
+          expect(redirects).toContain(prefix + '/projects/archive/' + old + suffix + ' ' + prefix + '/projects/archive/' + (target ? target + '/' : '') + ' 301\n');
         }
       }
       expect(hasStaticProjectDocuments(old)).toBe(false);
@@ -68,7 +74,7 @@ describe('source-backed 2024–25 archive summaries', () => {
         for (const ext of ['pdf', 'md']) {
           const file = '/docs/projects/' + old + '/' + kind + '.' + ext;
           expect(existsSync('public' + file)).toBe(false);
-          expect(redirects).toContain(file + ' /projects/archive/' + target + '/ 302\n');
+          expect(redirects).toContain(file + ' /projects/archive/' + (target ? target + '/' : '') + ' 302\n');
         }
       }
     }

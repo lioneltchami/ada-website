@@ -11,31 +11,9 @@ function story(en: Narrative, fr: Narrative) {
   };
 }
 
-// The six 2025 records below follow the dates and scope confirmed for the archive.
+// The three 2025 records below follow the dates and scope confirmed for the archive.
 // Planning details do not establish purchases, quantities delivered or attendance.
 export const archiveEditorialRecent = {
-  "back-to-school-bamenda-aug-2025": story([
-    "On August 30, 2025, we held our first Back to School Outreach in Bamenda.",
-    "We wanted to help pupils start the new school year with the basic materials they need in class.",
-    "We organized this as a separate outreach from Buea. Our Bamenda plan covered school supplies and transport.",
-    "We can confirm the date and city of the outreach. We do not have a confirmed school name, number of pupils or list of items distributed.",
-  ], [
-    "Le 30 août 2025, nous avons mené notre première action de rentrée scolaire à Bamenda.",
-    "Nous voulions aider les élèves à commencer l’année scolaire avec le matériel de base dont ils ont besoin en classe.",
-    "Cette action était distincte de celle de Buea. Notre plan pour Bamenda prévoyait des fournitures scolaires et le transport.",
-    "Nous pouvons confirmer la date et la ville. Le nom de l’école, le nombre d’élèves et la liste des articles distribués n’ont pas été confirmés.",
-  ]),
-  "back-to-school-buea-2025": story([
-    "On August 30, 2025, we held a Back to School Outreach in Buea, separate from the one in Bamenda.",
-    "We wanted to ease the cost of preparing for the school year and help pupils have the basics they need in class.",
-    "Our team prepared a supply list for Buea, including exercise books, writing supplies and school bags.",
-    "We can confirm the date and city of the outreach. We do not have a confirmed school name, number of pupils or list of items distributed.",
-  ], [
-    "Le 30 août 2025, nous avons mené une action de rentrée scolaire à Buea, distincte de celle de Bamenda.",
-    "Nous voulions alléger les frais de rentrée et aider les élèves à disposer du matériel de base pour la classe.",
-    "Notre équipe a préparé une liste pour Buea qui comprenait des cahiers, du matériel d’écriture et des cartables.",
-    "Nous pouvons confirmer la date et la ville. Le nom de l’école, le nombre d’élèves et la liste des articles distribués n’ont pas été confirmés.",
-  ]),
   "womens-day-widows-outreach-2025": story([
     "On March 15, 2025, we held a Women’s Day outreach for widows.",
     "We wanted to mark the occasion by offering practical help with everyday household needs.",
@@ -68,17 +46,6 @@ export const archiveEditorialRecent = {
     "Nous voulions apporter notre aide aux établissements et prendre soin des espaces que leurs élèves et leur personnel utilisent au quotidien.",
     "Nous avons acheté des machettes, des balais, des seaux, des râteaux et d’autres outils pour le nettoyage des deux établissements.",
     "Nous avons prévu un budget d’environ 50 000 FCFA pour le nettoyage. Le total des dépenses n’a pas été vérifié.",
-  ]),
-  "christmas-orphanage-outreach-2025": story([
-    "On Saturday, December 20, 2025, our team visited an orphanage in Buea.",
-    "We wanted to spend time with the children during the holidays and offer practical support.",
-    "Our team prepared supplies for the visit. The planning list shows what we considered bringing, not a confirmed record of what was handed out.",
-    "We can confirm the date and city of the visit. We do not have a confirmed name for the orphanage or count of the children reached.",
-  ], [
-    "Le samedi 20 décembre 2025, notre équipe a rendu visite à un orphelinat à Buea.",
-    "Nous voulions passer du temps avec les enfants pendant les fêtes et apporter une aide concrète.",
-    "Notre équipe a préparé les fournitures pour la visite. La liste de préparation indique ce que nous envisagions d’apporter, pas les articles effectivement remis.",
-    "Nous pouvons confirmer la date et la ville de la visite. Le nom de l’orphelinat et le nombre d’enfants accompagnés n’ont pas été confirmés.",
   ]),
   "back-to-school-buea-aug-2026": story([
     "On 12 September 2026, our team shared school supplies with children in the Bilaka community of Buea.",

@@ -27,9 +27,6 @@ const historical: Readonly<Record<string, Figure | undefined>> = {
   "womens-day-widows-outreach-2025": { year: 2025, month: "2025-03", fcfa: 240000, basis: "calculated-worksheet-budget" },
   "prenatal-care-support-program": { year: 2025, month: "2025-07", fcfa: 150000, basis: "budget" },
   "city-cleanup-may-2025": { year: 2025, month: "2025-05", fcfa: 50000, basis: "budget", approximateFcfa: true },
-  "back-to-school-buea-2025": { year: 2025, month: "2025-08", fcfa: 102600, basis: "worksheet-budget" },
-  "back-to-school-bamenda-aug-2025": { year: 2025, month: "2025-08", fcfa: 151000, basis: "worksheet-budget" },
-  "christmas-orphanage-outreach-2025": { year: 2025, month: "2025-12", fcfa: 119500, basis: "working-cost-list" },
 };
 
 // BEAC peg and Federal Reserve G.5 source for historical monthly USD estimates.

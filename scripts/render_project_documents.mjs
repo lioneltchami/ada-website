@@ -330,6 +330,7 @@ marked.setOptions({
 });
 
 const reviewed2023Releases = await verifyReviewedProjectRecords(ROOT);
+const withdrawnSlugs = new Set(Object.keys(JSON.parse(await fs.readFile(path.join(ROOT, "config/withdrawn-project-records.json"), "utf8"))));
 const protectedSlugs = new Set([...await verifyDocumentReleases(ROOT), ...reviewed2023Releases, ...await verify2024DocumentReleases(ROOT), ...await verify2025DocumentReleases(ROOT), ...await verify2026DocumentReleases(ROOT)]);
 
 const browser = await chromium.launch({
@@ -342,6 +343,7 @@ try {
   for (const dirent of projects) {
     if (!dirent.isDirectory()) continue;
     const slug = dirent.name;
+    if (withdrawnSlugs.has(slug)) continue;
     if (protectedSlugs.has(slug)) {
       console.log(`Preserved reviewed document set: ${slug}`);
       continue;
