@@ -210,17 +210,19 @@ writeJson(backup, 'before.json', {
     return { _id: d._id, _rev: d._rev, create, keys, fields: old(d, keys) };
   }),
 });
-for (const x of actionable) {
-  for (const item of Object.values(x.docs)) {
-    if (!byHash.has(item.sha1)) {
-      const asset = await client.assets.upload('file', item.buf, {
-        filename: item.path.split('/').slice(-2).join('-'), contentType: 'application/pdf',
-      });
-      if (asset.sha1hash !== item.sha1 || asset.mimeType !== 'application/pdf') throw Error('Uploaded asset checksum/type mismatch.');
-      byHash.set(item.sha1, asset._id);
-      writeJson(backup, `asset-${item.sha1}.json`, { _id: asset._id, sha1: item.sha1 });
-    }
-  }
+const uploads = Array.from(new Map(actionable.flatMap((x) =>
+  Object.values(x.docs).filter((a) => !byHash.has(a.sha1)).map((a) => [a.sha1, a]))).map(([, a]) => a);
+for (let i = 0; i < uploads.length; i += 4) {
+  const settled = await Promise.allSettled(uploads.slice(i, i + 4).map(async (item) => {
+    const asset = await client.assets.upload('file', item.buf, {
+      filename: item.path.split('/').slice(-2).join('-'), contentType: 'application/pdf',
+    });
+    if (asset.sha1hash !== item.sha1 || asset.mimeType !== 'application/pdf') throw Error('Uploaded asset checksum/type mismatch.');
+    byHash.set(item.sha1, asset._id);
+    writeJson(backup, `asset-${item.sha1}.json`, { _id: asset._id, sha1: item.sha1 });
+  }));
+  const errors = settled.filter((x) => x.status === 'rejected').map((x) => x.reason);
+  if (errors.length) throw new AggregateError(errors, 'Asset preparation failed; no documents changed.');
 }
 // Recheck after uploads. Revision guards close the patch race; create() rejects occupied IDs.
 const fresh = await readDocs();
