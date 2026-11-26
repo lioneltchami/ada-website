@@ -9,7 +9,7 @@ import {
 	type StoryReleaseSlug,
 	type StoryReleaseLocale,
 } from "../../lib/story-release-copy";
-import { ESTHER_PORTRAIT_IMAGE } from "../../lib/story-release-index";
+import { getStoryPhoto } from "../../lib/story-release-index";
 
 interface Props {
 	slug: string;
@@ -30,7 +30,7 @@ const verifiedRelatedRecords: Record<string, { slug: string; title: string; titl
 	],
 };
 const relatedRecords = verifiedRelatedRecords[slug] || [];
-const estherAlt = locale === "fr" ? "Portrait d’Esther" : "Portrait of Esther";
+const photo = getStoryPhoto(slug as StoryReleaseSlug, locale);
 const copyMeta = locale === "fr"
 	? {
 		reviewTitle: "Synthèse en cours de vérification",
@@ -76,13 +76,18 @@ const copyMeta = locale === "fr"
 				<a class="mt-3 inline-block font-semibold underline underline-offset-4" href={localePath("/transparency/", locale)}>{copyMeta.transparency}</a>
 			</div>
 		) : null}
-		<article class="space-y-5 text-base leading-8 text-gray-700">
-			{slug === "salon-update" && (
-				<figure class="mb-8 flex justify-start">
-					<img src={ESTHER_PORTRAIT_IMAGE} alt={estherAlt} width="400" height="600" class="max-h-80 w-auto max-w-full rounded-xl object-contain shadow-sm" loading="eager" decoding="async" />
-				</figure>
-			)}
-			{copy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+		<article class="text-base leading-8 text-gray-700">
+			<div class:list={[photo && "grid items-start gap-6 sm:grid-cols-[auto_1fr] sm:gap-8"]}>
+				{photo && (
+					<figure class="w-fit">
+						<img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} class="block h-auto max-h-64 w-auto max-w-full rounded-xl object-contain shadow-sm" loading="lazy" decoding="async" />
+						<figcaption class="mt-2 text-sm leading-relaxed text-gray-600">{photo.caption}</figcaption>
+					</figure>
+				)}
+				<div class="space-y-5">
+					{copy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+				</div>
+			</div>
 		</article>
 		{relatedRecords.length > 0 && (
 			<aside class="mt-8 rounded-lg border border-primary-200 bg-primary-50 p-5" aria-labelledby="story-evidence-heading">

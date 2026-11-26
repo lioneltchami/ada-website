@@ -5,8 +5,9 @@ import {
 	STORY_RELEASE_HERO_IMAGE,
 	STORY_CATEGORY_BY_SLUG,
 	STORY_CATEGORY_LABELS,
+	getStoryPhoto,
 } from "../src/lib/story-release-index";
-import { STORY_RELEASE_COPY } from "../src/lib/story-release-copy";
+import { STORY_RELEASE_COPY, STORY_RELEASE_ORDER } from "../src/lib/story-release-copy";
 
 describe("safe Story categories and hero presentation", () => {
 	it("separates one verified story, one outreach update, two financial notices and thirteen perspectives", () => {
@@ -22,6 +23,18 @@ describe("safe Story categories and hero presentation", () => {
 		expect(members("perspective")).toHaveLength(13);
 		for (const slug of members("perspective")) {
 			expect(STORY_RELEASE_COPY[slug as keyof typeof STORY_RELEASE_COPY].type).toBe("overview");
+		}
+	});
+
+	it("only attaches exact reviewed media to its article, never to finance or unrelated field updates", () => {
+		for (const locale of ["en", "fr"] as const) {
+			const pictured = STORY_RELEASE_ORDER.filter((slug) => getStoryPhoto(slug, locale));
+			expect(pictured).toEqual(["salon-update"]);
+			expect(getStoryPhoto("salon-update", locale)).toMatchObject({
+				alt: locale === "en" ? "Portrait of Esther" : "Portrait d’Esther",
+				caption: "Esther",
+			});
+			expect(getStoryPhoto("bamenda-school-fee-outreach-2026", locale)).toBeUndefined();
 		}
 	});
 

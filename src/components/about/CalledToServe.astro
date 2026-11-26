@@ -1,6 +1,6 @@
 ---
-import { getArchiveFeaturePhoto } from "../../data/archive-feature-photos";
-import { localePath, type Locale } from "../../i18n";
+import { type Locale } from "../../i18n";
+import OutreachPhoto from "../media/OutreachPhoto.astro";
 import Section from "../layout/Section.astro";
 
 interface Props {
@@ -9,55 +9,23 @@ interface Props {
 
 const { locale } = Astro.props;
 const isFr = locale === "fr";
-const record = "idp-girls-baking-training-jul-2022";
-const photo = getArchiveFeaturePhoto(record, locale);
 const title = isFr ? "Appelés à Servir" : "Called to Serve";
 const label = isFr ? "Notre histoire" : "Our story";
-const caption = isFr ? "Notre atelier de pâtisserie, juillet 2022" : "Our baking workshop, July 2022";
-const dateLabel = isFr ? "Juil. 2022" : "July 2022";
 ---
 
 <Section background="gray" padding="lg">
-  <div
-    data-about-story
-    class:list={[
-      "grid max-w-4xl gap-x-3 gap-y-8 md:grid-cols-5 md:gap-x-8",
-      photo ? "grid-cols-[minmax(0,1fr)_5.5rem]" : "grid-cols-1",
-    ]}
-  >
-    <div class="md:col-span-5">
-      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
-        {label}
-      </p>
-      <h2 class="mt-3 font-heading text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
-        {title}
-      </h2>
-    </div>
-    {photo && (
-      <figure data-about-story-photo class="col-start-2 row-start-1 md:col-start-4 md:col-span-2 md:row-start-2">
-        <img
-          src={photo.src}
-          alt={photo.alt}
-          width={photo.width}
-          height={photo.height}
-          class="block h-auto w-full rounded-md border border-gray-200"
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption class="mt-0.5 text-[11px] leading-snug text-primary-800 md:mt-2 md:text-sm">
-          <a
-            class="inline-flex min-h-6 items-center underline underline-offset-2 hover:text-primary-950"
-            aria-label={caption}
-            href={localePath(`/projects/archive/${record}/`, locale)}
-          >
-            <span class="md:hidden">{dateLabel}</span>
-            <span class="hidden md:inline">{caption}</span>
-          </a>
-        </figcaption>
-      </figure>
-    )}
-    <div class="col-start-1 col-end-[-1] row-start-2 space-y-4 leading-relaxed text-gray-600 md:col-end-4">
-      <slot />
+  <div data-about-story class="max-w-5xl">
+    <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+      {label}
+    </p>
+    <h2 class="mt-3 font-heading text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
+      {title}
+    </h2>
+    <div class="mt-5 grid items-start gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-8">
+      <div class="space-y-4 leading-relaxed text-gray-600">
+        <slot />
+      </div>
+      <OutreachPhoto record="city-cleanup-may-2023" locale={locale} class="max-w-sm" />
     </div>
   </div>
 </Section>

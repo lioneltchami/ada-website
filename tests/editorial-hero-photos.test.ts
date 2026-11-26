@@ -18,5 +18,8 @@ it("uses reviewed local archive photos with bilingual credits linking the exact 
     expect(fr?.alt).not.toEqual(en?.alt);
     return en?.src;
   });
-  expect(new Set(src).size).toBe(7);
+  expect(new Set(src).size).toBeGreaterThanOrEqual(8);
+  expect(getEditorialHeroPhoto("gallery", "en")?.credit.href).toBe("/projects/archive/back-to-school-buea-2024/");
+  expect(getEditorialHeroPhoto("sponsor", "en")?.src).not.toEqual(getEditorialHeroPhoto("resources", "en")?.src);
+  expect(getEditorialHeroPhoto("sponsor", "en")?.credit.href).toBe("/projects/archive/prenatal-care-support-program/");
 });

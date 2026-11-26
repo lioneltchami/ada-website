@@ -1,5 +1,6 @@
 ---
 import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
+import OutreachPhoto from "../media/OutreachPhoto.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
 import Section from "../layout/Section.astro";
@@ -144,9 +145,14 @@ const linkClass = `inline-flex min-h-11 items-center rounded-sm text-sm font-sem
     <div class="grid gap-8 lg:grid-cols-2">
       <article class="rounded-lg border border-gray-200 bg-[#faf8f4] p-5 sm:p-6">
         <h2 class="font-heading text-xl font-bold text-gray-900">{copy.caseTitle}</h2>
-        <h3 class="mt-3 font-heading text-base font-semibold text-gray-900">{copy.caseName}</h3>
-        <p class="mt-2 max-w-prose text-sm leading-relaxed text-gray-700">{copy.caseText}</p>
-        <a href={reportHref} class={`mt-2 ${linkClass}`}>{copy.caseLink}</a>
+        <div class="mt-3 grid gap-4 sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:grid-cols-1 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+          <div>
+            <h3 class="font-heading text-base font-semibold text-gray-900">{copy.caseName}</h3>
+            <p class="mt-2 max-w-prose text-sm leading-relaxed text-gray-700">{copy.caseText}</p>
+            <a href={reportHref} class={`mt-2 ${linkClass}`}>{copy.caseLink}</a>
+          </div>
+          <OutreachPhoto record="back-to-school-buea-2024" locale={locale} size="natural" />
+        </div>
       </article>
       <div class="rounded-lg border border-gray-200 bg-[#faf8f4] p-5 sm:p-6">
         <h2 class="font-heading text-xl font-bold text-gray-900">{copy.diligence}</h2>
