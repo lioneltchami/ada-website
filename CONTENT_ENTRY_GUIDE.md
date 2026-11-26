@@ -56,11 +56,12 @@ Your team profiles shown on the Team page.
 - **Sort Order** — Display order
 
 ### Gallery Images (add new)
-Photos shown on the Gallery page.
-- **Caption** — Brief description of the photo
-- **Photo** — The image (recommended: 1200x800px)
-- **Category** — Choose: Food Distribution, Skills Training, Education, Community, Events
-- **Date Taken** — When the photo was taken
+Upload only genuine ADA program photos to the Gallery. A CMS upload alone is not clearance to publish.
+- **Caption and alt text** — In English and French, describe what the photo actually shows. If the photo shows only part of a group, say “some,” not a total.
+- **Photo** — Keep the approved derivative (recommended: 1200x800px where the original permits). Use a copy that does not retain location metadata or unapproved pixels.
+- **Category and date taken** — Enter only verified details. Never reuse placeholder metadata or infer a date from a filename. Leave unknown dates blank.
+- **Project/report link** — Confirm that the exact asset shows the same activity as the linked record. Use the canonical archive entry for a historical project; if there is no verified match, display the cleared photo without a project link. Use a separate report link only if the matching public PDF works.
+- **Publication clearance** — Keep source and permissions private. Ask the web maintainer to review the exact asset for the Gallery and any other intended placement before publishing.
 
 ### Testimonials (add new)
 Stories from beneficiaries shown on the site.
@@ -123,17 +124,17 @@ Chatbot responses.
 | Testimonial photos | 400x400px | JPG/WebP | Square |
 
 **Important:**
-- All photos of people require written consent
-- Children's photos require parent/guardian consent
-- Use real photos only — no stock photos
-- Compress images before uploading (use tinypng.com)
+- Obtain and record applicable written consent for identifiable people; keep records private. Use any existing permission only for the exact person, asset, and allowed use.
+- For back-to-school documentation, show supplies or the team's work rather than identifiable children. Other possible uses involving identifiable children still require a separate safeguarding decision and appropriate permission.
+- Never use stock in the Gallery or as evidence of ADA's work. Where an individual project is authorized to use a temporary stock illustration, label it clearly and retain the license and source so it can be replaced later.
+- Optimize approved copies before upload; do not send private original photos to third-party compression services by default.
 
 ---
 
 ## What to Add First (Priority Order)
 
 1. ⭐ **Team Members** — Add at least 3-5 team profiles with photos
-2. ⭐ **Gallery Photos** — Upload 9-12 real program photos
+2. ⭐ **Gallery Photos** — Verify and clear genuine program photos before upload
 3. ⭐ **Project Images** — Add a main image to each of the 6 projects
 4. **Testimonials** — Add 2-3 beneficiary stories (with consent)
 5. **Update Impact Metrics** — If numbers have changed since last update
