@@ -1,125 +1,59 @@
-import { getProjects, getSanityClient, sanityImageUrl } from "./sanity";
-import { isWithdrawnGalleryImage } from "./withdrawn-project-content";
+import { isWithheldGalleryAsset } from "./gallery-media-clearance";
+import { getGalleryImages, getProjects, sanityImageUrl } from "./sanity";
+import type { ContentLocale } from "./sanity-locale";
 
 export type HeroImage = {
 	imageUrl: string;
 	imageAlt: string;
 };
 
-/**
- * Resolve a field photo for page heroes from project covers or gallery.
- * Prefer named project slugs when provided.
- */
+/** Prefer the requested project's eligible cover, then a cleared gallery photo. */
 export async function resolveHeroImage(
-	preferredSlugs: string[] = [
-		"widow-support",
-
-	],
+	preferredSlugs: string[] = ["widow-support"],
 ): Promise<HeroImage | null> {
 	try {
 		const projects = await getProjects();
-		for (const slug of preferredSlugs) {
-			const match = projects.find(
-				(p) => p.slug?.current === slug && p.mainImage?.asset?._ref,
-			);
-			if (match?.mainImage?.asset?._ref) {
-				return {
-					imageUrl: sanityImageUrl(match.mainImage.asset._ref, 1400),
-					imageAlt: match.mainImage.alt || match.title,
-				};
-			}
-		}
-		const any = projects.find((p) => p.mainImage?.asset?._ref);
-		if (any?.mainImage?.asset?._ref) {
+		const eligible = projects.filter((project) =>
+			project.mainImage?.asset?._ref && !isWithheldGalleryAsset(project.mainImage.asset._ref));
+		const project = preferredSlugs
+			.map((slug) => eligible.find((item) => item.slug?.current === slug))
+			.find(Boolean) ?? eligible[0];
+		if (project?.mainImage?.asset?._ref) {
 			return {
-				imageUrl: sanityImageUrl(any.mainImage.asset._ref, 1400),
-				imageAlt: any.mainImage.alt || any.title,
+				imageUrl: sanityImageUrl(project.mainImage.asset._ref, 1400),
+				imageAlt: project.mainImage.alt || project.title,
 			};
 		}
 	} catch {
-		/* fall through to gallery */
+		/* fall through to cleared gallery photos */
 	}
 
 	try {
-		const galleries = await getSanityClient().fetch<{
-			_id: string;
-			title: string;
-			titleFr?: string;
-			category?: string;
-			projectSlug?: string;
-			projectId?: string;
-			projectTitle?: string;
-			projectTitleFr?: string;
-			reportUrl?: string;
-			photo?: { asset?: { _ref?: string }; alt?: string; altFr?: string };
-		}[]>(
-			`*[_type == "galleryImage" && defined(photo.asset._ref)] | order(year desc)[0...20]{
-        _id,
-        title,
-        titleFr,
-        category,
-        reportUrl,
-        photo { asset { _ref }, alt, altFr },
-        "projectSlug": project->slug.current,
-        "projectId": project._ref,
-        "projectTitle": project->title,
-        "projectTitleFr": project->titleFr
-      }`,
-		);
-		const gallery = galleries.find((image) => !isWithdrawnGalleryImage(image));
-		if (gallery?.photo?.asset?._ref) {
+		const [gallery] = await getGalleryImages();
+		if (gallery) {
 			return {
 				imageUrl: sanityImageUrl(gallery.photo.asset._ref, 1400),
-				imageAlt: gallery.photo.alt || gallery.title,
+				imageAlt: gallery.photo.alt,
 			};
 		}
 	} catch {
-		/* ignore */
+		/* use the layout's neutral visual fallback */
 	}
 
 	return null;
 }
 
-/** Small set of gallery images for card strips (get-involved, etc.). */
 export async function resolveGalleryStrip(
 	limit = 4,
+	locale: ContentLocale = "en",
 ): Promise<{ title: string; imageUrl: string; imageAlt: string }[]> {
 	try {
-		const rows = await getSanityClient().fetch<
-			{
-				_id: string;
-				title: string;
-				titleFr?: string;
-				category?: string;
-				projectSlug?: string;
-				projectId?: string;
-				projectTitle?: string;
-				projectTitleFr?: string;
-				reportUrl?: string;
-				photo?: { asset?: { _ref?: string }; alt?: string; altFr?: string };
-			}[]
-		>(
-			`*[_type == "galleryImage" && defined(photo.asset._ref)] | order(year desc)[0...20]{
-          _id,
-          title,
-          titleFr,
-          category,
-          reportUrl,
-          photo { asset { _ref }, alt, altFr },
-          "projectSlug": project->slug.current,
-          "projectId": project._ref,
-          "projectTitle": project->title,
-          "projectTitleFr": project->titleFr
-      }`,
-		);
-		return rows
-			.filter((r) => r.photo?.asset?._ref && !isWithdrawnGalleryImage(r))
-			.slice(0, limit)
-			.map((r) => ({
-				title: r.title,
-				imageUrl: sanityImageUrl(r.photo!.asset!._ref!, 600),
-				imageAlt: r.photo?.alt || r.title,
-			}));
+		const rows = await getGalleryImages(undefined, locale);
+		return rows.slice(0, limit).map((row) => ({
+			title: row.title,
+			imageUrl: sanityImageUrl(row.photo.asset._ref, 600),
+			imageAlt: row.photo.alt,
+		}));
 	} catch {
 		return [];
 	}

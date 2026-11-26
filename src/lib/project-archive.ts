@@ -1,3 +1,4 @@
+import { isWithheldGalleryAsset } from "./gallery-media-clearance";
 import { isArchiveOutreachCategory, type ArchiveOutreachCategory } from "./archive-outreach-categories";
 import { applyReviewed2024And2025Summaries, listReleased2024ProjectDocuments, listReleased2025ProjectDocuments } from './reviewed-project-summaries-2024-25';
 import { applyReviewed2026Summaries, listReleased2026ProjectDocuments } from "./reviewed-project-summaries-2026";
@@ -423,7 +424,7 @@ export function toAutoArchiveEntry(
     location: project.location,
     startDate: project.startDate,
     endDate: project.endDate,
-    photo: project.mainImage || null,
+    photo: isWithheldGalleryAsset(project.mainImage?.asset?._ref) ? null : project.mainImage || null,
     autoArchived: lifecycle.isAutoCompleted,
   };
 }
@@ -573,7 +574,12 @@ export async function loadProjectArchiveEntries(): Promise<
   const reviewed = applyReviewed2026Summaries(applyReviewed2024And2025Summaries(applyReviewedProjectContent(applyReleasedProjectContent(records
     .filter((record) => !isWithdrawnProject(record.slug.current) && !isWithdrawnProjectRecord(record))
     .map(applyOwnerFinancialReview)))))
-    .map(withCanonicalProjectDocuments);
+    .map(withCanonicalProjectDocuments)
+    .map((entry) => ({
+      ...entry,
+      photo: isWithheldGalleryAsset(entry.photo?.asset?._ref) ? undefined : entry.photo,
+      photos: entry.photos?.filter((photo) => !isWithheldGalleryAsset(photo.asset?._ref)),
+    }));
   return sortArchiveEntriesChronologically(reviewed);
 }
 

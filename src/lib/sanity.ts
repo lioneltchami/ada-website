@@ -1,3 +1,4 @@
+import { getClearedGalleryMedia, isWithheldGalleryAsset } from "./gallery-media-clearance";
 import { reviewed2026Release } from "./reviewed-project-summaries-2026";
 import type { ArchiveOutreachCategory } from "./archive-outreach-categories";
 import { isSupersededBamendaSchoolPhoto } from "./reviewed-project-summaries-2024-25";
@@ -258,7 +259,12 @@ function localizeProject(
 			"description",
 			locale,
 		)),
-		mainImage: project.mainImage
+		archiveRecord: project.archiveRecord && isWithheldGalleryAsset(project.archiveRecord.photo?.asset?._ref)
+			? { ...project.archiveRecord, photo: undefined }
+			: project.archiveRecord,
+		mainImage: isWithheldGalleryAsset(project.mainImage?.asset?._ref)
+			? undefined
+			: project.mainImage
 			? {
 					...project.mainImage,
 					alt: pickLocalized(
@@ -374,7 +380,9 @@ export async function getTeamMembers(locale: ContentLocale = "en") {
 		...m,
 		role: pickLocalized(m as Record<string, unknown>, "role", locale),
 		bio: pickLocalized(m as Record<string, unknown>, "bio", locale),
-		photo: m.photo
+		photo: isWithheldGalleryAsset(m.photo?.asset?._ref)
+			? undefined
+			: m.photo
 			? {
 					...m.photo,
 					alt: pickLocalized(m.photo as Record<string, unknown>, "alt", locale),
@@ -387,9 +395,10 @@ export async function getGalleryImages(
 	category?: string,
 	locale: ContentLocale = "en",
 ) {
-	const filter = category ? ` && category == $category` : "";
+	// The legacy CMS category is deliberately ignored: seeded labels are not evidence.
+	if (category) return [];
 	const rows = await getSanityClient().fetch(
-		`*[_type == "galleryImage"${filter}] | order(year desc, dateTaken desc) {
+		`*[_type == "galleryImage" && defined(photo.asset._ref)] {
       _id,
       title,
       titleFr,
@@ -403,28 +412,30 @@ export async function getGalleryImages(
       "projectSlug": project->slug.current,
       "projectId": project._ref
     }`,
-		{ category },
 	);
-	return (rows as any[])
-		.filter((img) => !isWithdrawnGalleryImage(img) && !isSupersededBamendaSchoolPhoto(img))
-		.map((img) => ({
-			...img,
-			title: pickLocalized(img, "title", locale),
-			projectTitle: pickLocalized(
-				{
-					projectTitle: img.projectTitle,
-					projectTitleFr: img.projectTitleFr,
+	return (rows as Array<{
+		_id: string;
+		photo?: { asset?: { _ref?: string } };
+	} & Parameters<typeof isWithdrawnGalleryImage>[0]>)
+		.flatMap((row) => {
+			if (isWithdrawnGalleryImage(row) || isSupersededBamendaSchoolPhoto(row)) return [];
+			const media = getClearedGalleryMedia(row._id, row.photo?.asset?._ref);
+			if (!media) return [];
+			return [{
+				_id: row._id,
+				title: locale === "fr" ? media.captionFr : media.caption,
+				titleFr: media.captionFr,
+				year: media.year,
+				dateTaken: media.date,
+				archiveSlug: media.archiveSlug,
+				photo: {
+					asset: { _ref: media.assetRef },
+					alt: locale === "fr" ? media.altFr : media.alt,
+					altFr: media.altFr,
 				},
-				"projectTitle",
-				locale,
-			),
-			photo: img.photo
-				? {
-						...img.photo,
-						alt: pickLocalized(img.photo, "alt", locale),
-					}
-				: img.photo,
-		}));
+			}];
+		})
+		.sort((a, b) => b.year - a.year || (b.dateTaken ?? "").localeCompare(a.dateTaken ?? "") || a._id.localeCompare(b._id));
 }
 
 export async function getTestimonials(locale: ContentLocale = "en") {
@@ -452,7 +463,9 @@ export async function getTestimonials(locale: ContentLocale = "en") {
 			locale,
 		),
 		program: pickLocalized(item as Record<string, unknown>, "program", locale),
-		photo: item.photo
+		photo: isWithheldGalleryAsset(item.photo?.asset?._ref)
+			? undefined
+			: item.photo
 			? {
 					...item.photo,
 					alt: pickLocalized(
