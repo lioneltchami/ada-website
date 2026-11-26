@@ -14,7 +14,7 @@ let missionStatement = "Faire briller la lumière de Jésus-Christ en autonomisa
 const defaultMissionStatement = missionStatement;
 let storyParagraphs = [
   "Fondée en 2021, Apoti Development Association est née d'une conviction profonde que la foi doit s'exprimer par l'action. Au cœur du Cameroun, où les veuves, les orphelins et les jeunes femmes font face à des défis quotidiens de pauvreté et de marginalisation, nous avons vu une opportunité de faire une différence tangible.",
-  "Le Pasteur Emmanuel Tchami, témoin des luttes des veuves de sa communauté qui avaient tout perdu — leur mari, leurs revenus, leur dignité — s'est senti appelé à agir. Il a rassemblé un petit groupe de croyants engagés et ensemble, ils ont livré leurs premiers colis alimentaires à trois veuves à Bamenda.",
+  "En novembre 2021, notre équipe a apporté des denrées à des veuves de Buea et a pris le temps de les écouter et de prier avec elles.",
   "Ce qui a commencé comme un simple acte de compassion est devenu une organisation communautaire au service de communautés à travers le Cameroun. Ses programmes sont conçus non seulement pour apporter un soutien immédiat, mais aussi pour renforcer l'autonomie.",
 ];
 const defaultStoryParagraphs = storyParagraphs;
@@ -78,7 +78,10 @@ try {
 
 const wellReference = /clean water|water well|borehole|water access|puits|forage|eau potable/i;
 if (wellReference.test(missionStatement)) missionStatement = defaultMissionStatement;
-storyParagraphs = storyParagraphs.filter((paragraph) => !wellReference.test(paragraph));
+storyParagraphs = storyParagraphs
+  .filter((paragraph) => !wellReference.test(paragraph))
+  // Preserve the reviewed location if legacy CMS copy still names Bamenda.
+  .map((paragraph) => (/premiers colis alimentaires/i.test(paragraph) && /Bamenda/i.test(paragraph)) ? defaultStoryParagraphs[1] : paragraph);
 if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
 programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`) && program.slug !== "women-empowerment" && program.slug !== "young-women-skills-training-program");
 timeline = timeline

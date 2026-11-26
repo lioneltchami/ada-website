@@ -19,7 +19,7 @@ let missionStatement = 'Shine the light of Jesus Christ by empowering widows, or
 const defaultMissionStatement = missionStatement;
 let storyParagraphs = [
   'Founded in 2021, Apoti Development Association was born from a deep conviction that faith must be expressed through action. In the heart of Cameroon, where widows, orphans, and young women face daily challenges of poverty and marginalization, we saw an opportunity to make a tangible difference.',
-  'Pastor Emmanuel Tchami, witnessing the struggles of widows in his community who had lost everything — their husbands, their income, their dignity — felt called to act. He gathered a small group of committed believers and together they delivered their first food packages to three widows in Bamenda.',
+  "In November 2021, our team brought food to widows in Buea and made time to listen and pray with them.",
   'What began as a simple act of compassion has grown into a community-driven organization serving communities across Cameroon. Its programs are designed not just to provide relief, but to build lasting self-sufficiency.',
 ];
 const defaultStoryParagraphs = storyParagraphs;
@@ -83,7 +83,10 @@ try {
 
 const wellReference = /clean water|water well|borehole|water access|puits|forage|eau potable/i;
 if (wellReference.test(missionStatement)) missionStatement = defaultMissionStatement;
-storyParagraphs = storyParagraphs.filter((paragraph) => !wellReference.test(paragraph));
+storyParagraphs = storyParagraphs
+  .filter((paragraph) => !wellReference.test(paragraph))
+  // Preserve the reviewed location if legacy CMS copy still names Bamenda.
+  .map((paragraph) => (/first food packages/i.test(paragraph) && /Bamenda/i.test(paragraph)) ? defaultStoryParagraphs[1] : paragraph);
 if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
 programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`) && program.slug !== "women-empowerment" && program.slug !== "young-women-skills-training-program");
 timeline = timeline

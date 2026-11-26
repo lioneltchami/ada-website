@@ -1,0 +1,31 @@
+---
+import reviews from "../../../content/year-in-review.json";
+import Section from "../layout/Section.astro";
+import type { Locale } from "../../i18n";
+
+const { locale } = Astro.props as { locale: Locale };
+const fr = locale === "fr";
+const years = reviews.map((review) => review.year).sort((a, b) => b - a);
+---
+
+<Section id="year-in-review" background="white" padding="md">
+  <div class="mx-auto max-w-5xl">
+    <h2 class="font-heading text-3xl font-bold text-primary-900">
+      {fr ? "L’année en bref" : "Year in Review"}
+    </h2>
+    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-gray-700">
+      {fr ? "Un bilan bilingue par année, avec les temps forts et les liens vers les dossiers des actions." : "A bilingual review for each year, with documented highlights and links to the outreach records."}
+    </p>
+    <ul class="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      {years.map(year => (
+        <li>
+          <a href={`/docs/year-in-review/ADA-${year}-Year-in-Review.pdf`} data-annual-review={year}
+            class="flex min-h-11 items-center justify-between gap-3 rounded-md border border-primary-200 px-4 py-3 text-sm font-semibold text-primary-900 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-2">
+            <span>{fr ? `Bilan ${year}` : `${year} Year in Review`}</span>
+            <span class="shrink-0 text-xs text-gray-600">PDF · EN/FR</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
