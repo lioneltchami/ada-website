@@ -44,10 +44,11 @@ describe("held images cannot leak into public surfaces", () => {
     });
   });
 
-  it("falls back to an illustration or reviewed cover rather than a held photo", () => {
+  it("falls back to no image or a reviewed cover rather than a held photo", () => {
     expect(resolveProjectCardImage(projects[0])).toMatchObject({
-      imageUrl: "/project-placeholder.svg",
-      imageSource: "placeholder",
+      imageUrl: "",
+      imageAlt: "",
+      imageSource: "none",
     });
     expect(resolveProjectCardImage({
       ...projects[0],

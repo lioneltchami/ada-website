@@ -27,7 +27,7 @@ function isActive(href: string): boolean {
 <!-- Hallmark · genre: editorial · chrome: N6 masthead · design-system: design.md · designed-as-app -->
 <header
   id="site-header"
-  class="sticky top-0 z-40 bg-[#f7f5f0] border-b border-transparent transition-[border-color] duration-200"
+  class="sticky top-0 z-40 data-[menu-open]:z-[60] bg-[#f7f5f0] border-b border-transparent transition-[border-color] duration-200"
 >
   <nav
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
@@ -102,7 +102,7 @@ function isActive(href: string): boolean {
 
         <button
           type="button"
-          class="xl:hidden flex h-11 w-11 items-center justify-center text-gray-700 hover:text-gray-900"
+          class="xl:hidden flex h-11 w-11 items-center justify-center text-gray-700 hover:text-gray-900 rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700"
           aria-expanded="false"
           aria-controls="mobile-menu"
           aria-label={locale === "fr" ? "Ouvrir le menu" : "Open menu"}
@@ -141,20 +141,19 @@ function isActive(href: string): boolean {
       </div>
     </div>
 
-    <!-- Mobile Menu -->
+    <!-- Out-of-flow disclosure panel, anchored to the sticky masthead. -->
     <div
       id="mobile-menu"
-      class="hidden xl:hidden pb-4"
-      aria-label={locale === "fr" ? "Navigation mobile" : "Mobile navigation"}
+      class="hidden xl:hidden absolute inset-x-0 top-full overflow-y-auto overscroll-contain border-y border-gray-200 bg-[#f7f5f0] shadow-lg"
     >
-      <ul class="space-y-0.5 pt-2 border-t border-gray-200 font-heading">
+      <ul class="mx-auto max-w-7xl space-y-0.5 px-4 py-3 sm:px-6 lg:px-8 font-heading">
         {
           navLinks.map((link) => (
             <li>
               <a
                 href={link.href}
                 class:list={[
-                  "flex items-center gap-2 rounded-md px-3 py-2.5 text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700",
+                  "flex min-h-11 items-center gap-2 rounded-md px-3 py-2.5 text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700",
                   isActive(link.href)
                     ? "bg-primary-50 font-semibold text-primary-900 shadow-sm"
                     : "text-gray-700 hover:bg-gray-50 hover:text-primary-700",
@@ -187,3 +186,10 @@ function isActive(href: string): boolean {
 </header>
 
 <script is:inline src="/scripts/header-menu.js"></script>
+
+<style>
+  #mobile-menu {
+    max-height: calc(100vh - 4rem - 1px);
+    max-height: calc(100dvh - 4rem - 1px);
+  }
+</style>

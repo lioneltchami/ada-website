@@ -85,35 +85,66 @@ window.addEventListener(
   { passive: true },
 );
 
+function menuIsOpen() {
+  return btn?.getAttribute("aria-expanded") === "true";
+}
+
 function openMenu() {
   btn?.setAttribute("aria-expanded", "true");
   btn?.setAttribute("aria-label", isFrench ? "Fermer le menu" : "Close menu");
   if (menuLabel)
     menuLabel.textContent = isFrench ? "Fermer le menu" : "Close menu";
+  header?.setAttribute("data-menu-open", "");
   menu?.classList.remove("hidden");
   iconOpen?.classList.add("hidden");
   iconClose?.classList.remove("hidden");
-  menu?.querySelector("a")?.focus();
+  menu?.querySelector("a")?.focus({ preventScroll: true });
 }
 
-function closeMenu() {
+function closeMenu(restoreFocus = false) {
   btn?.setAttribute("aria-expanded", "false");
   btn?.setAttribute("aria-label", isFrench ? "Ouvrir le menu" : "Open menu");
   if (menuLabel)
     menuLabel.textContent = isFrench ? "Ouvrir le menu" : "Open menu";
+  header?.removeAttribute("data-menu-open");
   menu?.classList.add("hidden");
   iconOpen?.classList.remove("hidden");
   iconClose?.classList.add("hidden");
-  btn?.focus();
+  if (restoreFocus) btn?.focus({ preventScroll: true });
 }
 
 btn?.addEventListener("click", () => {
-  const expanded = btn.getAttribute("aria-expanded") === "true";
-  expanded ? closeMenu() : openMenu();
+  menuIsOpen() ? closeMenu(true) : openMenu();
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !menu?.classList.contains("hidden")) {
+  if (event.key === "Escape" && menuIsOpen()) {
+    event.preventDefault();
+    closeMenu(true);
+  }
+});
+
+// This is a navigation disclosure, not a modal. Let focus travel normally
+// and close the panel when the visitor moves to another part of the page.
+function closeFromOutside(event) {
+  if (
+    menuIsOpen() &&
+    !btn?.contains(event.target) &&
+    !menu?.contains(event.target)
+  ) {
     closeMenu();
   }
+}
+
+document.addEventListener("focusin", closeFromOutside);
+document.addEventListener("click", closeFromOutside);
+
+// Match the xl display utilities in Header.astro when crossing to desktop.
+const desktopNavigation = window.matchMedia?.("(min-width: 80rem)");
+desktopNavigation?.addEventListener("change", (event) => {
+  if (event.matches && menuIsOpen()) closeMenu();
+});
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && menuIsOpen()) closeMenu();
 });

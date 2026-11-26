@@ -2,7 +2,6 @@ import {
 	mergeProjectLists,
 	normalizeFallbackProjects,
 } from "./project-fallbacks";
-import { resolveProjectCardImage } from "./project-images";
 import {
 	getProjectLifecycleState,
 	type ProjectStatus,
@@ -19,8 +18,6 @@ export interface SpotlightProject {
 	endDate?: string;
 	goal: number;
 	raised: number;
-	imageUrl: string;
-	imageAlt: string;
 	beneficiaries: number;
 }
 
@@ -34,8 +31,6 @@ function toSpotlight(project: {
 	endDate?: string;
 	goal: number;
 	raised: number;
-	imageUrl: string;
-	imageAlt?: string;
 	beneficiaries: number;
 }): SpotlightProject {
 	return {
@@ -48,8 +43,6 @@ function toSpotlight(project: {
 		endDate: project.endDate,
 		goal: project.goal,
 		raised: project.raised,
-		imageUrl: project.imageUrl,
-		imageAlt: project.imageAlt || project.title,
 		beneficiaries: project.beneficiaries,
 	};
 }
@@ -80,8 +73,6 @@ export async function loadSpotlightProjects(
 				endDate: p.endDate,
 				goal: p.goal,
 				raised: p.raised,
-				imageUrl: p.imageUrl,
-				imageAlt: p.imageAlt,
 				beneficiaries: p.beneficiaries,
 			}),
 		);
@@ -95,7 +86,6 @@ export async function loadSpotlightProjects(
 					.map((p: SanityProject) => {
 						const lifecycle = getProjectLifecycleState(p, { locale });
 						if (!lifecycle.isFundable) return null;
-						const image = resolveProjectCardImage(p, 800);
 						return toSpotlight({
 							slug: p.slug.current,
 							title: p.title,
@@ -106,8 +96,6 @@ export async function loadSpotlightProjects(
 							endDate: p.endDate,
 							goal: p.goalAmount,
 							raised: p.raisedAmount,
-							imageUrl: image.imageUrl,
-							imageAlt: image.imageAlt,
 							beneficiaries: p.beneficiaries,
 						});
 					})

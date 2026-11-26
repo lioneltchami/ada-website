@@ -33,7 +33,7 @@ export function normalizeFallbackProjects(
       startDate: p.startDate,
       endDate: p.endDate,
       hasAnnouncementImage: Boolean(p.imagePath),
-      imageUrl: p.imagePath || "/project-placeholder.svg",
+      imageUrl: p.imagePath || "",
       imageAlt: p.title,
     };
   });

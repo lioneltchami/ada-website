@@ -5,7 +5,7 @@ import { sanityImageUrl } from "./sanity";
 export type ProjectCardImage = {
 	imageUrl: string;
 	imageAlt: string;
-	imageSource: "main" | "archive" | "local" | "placeholder";
+	imageSource: "main" | "archive" | "local" | "none";
 };
 
 export function resolveProjectCardImage(
@@ -32,8 +32,8 @@ export function resolveProjectCardImage(
 	}
 
 	return {
-		imageUrl: "/project-placeholder.svg",
-		imageAlt: `${project.title} project visual`,
-		imageSource: "placeholder",
+		imageUrl: "",
+		imageAlt: "",
+		imageSource: "none",
 	};
 }
