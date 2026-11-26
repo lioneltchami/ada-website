@@ -27,11 +27,11 @@ describe("2026 Christmas Giving outreach announcements", () => {
       expect(toAutoArchiveEntry(project, lifecycle)).toMatchObject({
         autoArchived: true,
         torUrl: `/docs/projects/${project.slug.current}/tor.pdf`,
-        reportUrl: undefined,
         outreachCategory: "christmas",
         budget: undefined,
         beneficiaries: undefined,
       });
+      expect(toAutoArchiveEntry(project, lifecycle).reportUrl).toBeUndefined();
       expect(normalizeFallbackProjects({ locale, today: "2026-12-19" }).find(p => p.slug === project.slug.current))
         .toMatchObject({ status: "upcoming", isFundable: false, announcementOnly: true, title: locale === "fr" ? project.titleFr : project.title });
     }
