@@ -11,7 +11,7 @@ import {
   hasStaticProjectDocuments,
   projectDocumentPaths,
 } from "../data/organization";
-import { christmasAnnouncements } from "./christmas-announcements";
+import { christmasAnnouncements, christmasPlanTor } from "./christmas-announcements";
 import { getProjectLifecycleState } from "./project-lifecycle";
 import { getProjects, type SanityProject } from "./sanity";
 import { isWithdrawnProjectRecord, isWithdrawnProjectSlug } from "./withdrawn-project-content";
@@ -425,6 +425,7 @@ export function toAutoArchiveEntry(
     startDate: project.startDate,
     endDate: project.endDate,
     photo: isWithheldGalleryAsset(project.mainImage?.asset?._ref) ? null : project.mainImage || null,
+    torUrl: christmasPlanTor(project.slug.current, project.startDate),
     autoArchived: lifecycle.isAutoCompleted,
   };
 }

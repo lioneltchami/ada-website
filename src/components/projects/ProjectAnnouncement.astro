@@ -1,4 +1,5 @@
 ---
+import { christmasPlanTor } from "../../lib/christmas-announcements";
 import PageLayout from "../../layouts/PageLayout.astro";
 import { projectStatusLabel, type ProjectStatus } from "../../lib/project-lifecycle";
 import { localePath } from "../../i18n";
@@ -6,6 +7,7 @@ import { localePath } from "../../i18n";
 interface Props {
   locale: "en" | "fr";
   project: {
+    slug?: string;
     title: string;
     location: string;
     description: string;
@@ -22,6 +24,7 @@ interface Props {
 
 const { locale, project } = Astro.props;
 const fr = locale === "fr";
+const tor = christmasPlanTor(project.slug, project.startDate);
 const date = project.startDate && /^\d{4}-\d{2}-\d{2}$/.test(project.startDate) && new Intl.DateTimeFormat(fr ? "fr-CM" : "en-CM", {
   dateStyle: "full",
   timeZone: "UTC",
@@ -52,6 +55,15 @@ const date = project.startDate && /^\d{4}-\d{2}-\d{2}$/.test(project.startDate) 
       {fr ? "À propos de cette action" : "About this outreach"}
     </h2>
     <p class="mt-3 max-w-prose text-gray-700 leading-relaxed">{project.description}</p>
+    {tor && (
+      <div class="mt-7">
+        <h2 class="text-lg font-heading font-bold text-gray-900">{fr ? "Documents de planification" : "Planning documents"}</h2>
+        <a class="inline-flex min-h-11 items-center text-primary-800 underline" href={tor} hreflang="en">
+          {fr ? "Termes de référence (PDF en anglais)" : "Terms of Reference (PDF)"}
+        </a>
+        <p class="text-sm text-gray-600">{fr ? "Document de planification. Ce n’est pas un rapport d’activité." : "Advance plan, not a completion report."}</p>
+      </div>
+    )}
     {project.autoArchived && project.archiveHref && (
       <a class="inline-block mt-6 text-primary-800 underline" href={project.archiveHref}>
         {fr ? "Consulter le dossier d’archive" : "View archive record"}
