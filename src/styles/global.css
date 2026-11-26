@@ -97,11 +97,6 @@
   [data-site-footer] a:focus-visible {
     outline-color: var(--color-primary-200);
   }
-
-  /* Keep the fixed chat launcher available without covering the legal row. */
-  [data-site-footer][data-footer-chat-clearance] {
-    padding-bottom: max(5rem, calc(env(safe-area-inset-bottom) + 3.5rem));
-  }
 }
 
 @layer utilities {

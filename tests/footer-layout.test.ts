@@ -51,12 +51,14 @@ describe("compact shared footer", () => {
     }
   });
 
-  it("separates dark closing content and reserves legal space where the chatbot appears", () => {
+  it("separates dark closing content without extra chat clearance or a shifted Donate shortcut", () => {
     expect(section).toContain("data-section-tone={background}");
     expect(styles).toContain('[data-section-tone="dark"]:last-child');
-    expect(layout).toContain("<Footer reserveChatSpace={showChatbot} />");
-    expect(footer).toContain("data-footer-chat-clearance={reserveChatSpace || undefined}");
-    expect(styles).toContain("[data-site-footer][data-footer-chat-clearance]");
+    expect(layout).toContain("<Footer />");
+    expect(layout).not.toMatch(/Chatbot|getFaqResponses|safe-area-inset-left/);
+    for (const source of [footer, styles]) {
+      expect(source).not.toContain("data-footer-chat-clearance");
+    }
   });
 
   it("keeps the orange CTA tokens accessible against white text in both states", () => {
