@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
 import Section from "../layout/Section.astro";
@@ -51,7 +52,7 @@ const copy = isFr
       mediaCount: (count: number) => count === 1 ? "1 photo" : `${count} photos`,
       record: "Consulter le dossier de ce projet",
       emptyTitle: "Découvrir nos actions sur le terrain",
-      emptyBody: "Aucune photo n’est actuellement publiée dans cette galerie. Les archives présentent les actions menées au Cameroun et les comptes rendus disponibles.",
+      emptyBody: "D’autres photos seront ajoutées ici après vérification. Les archives présentent les actions menées au Cameroun et les comptes rendus disponibles.",
       browse: "Consulter les archives des projets",
     }
   : {
@@ -61,13 +62,13 @@ const copy = isFr
       mediaCount: (count: number) => count === 1 ? "1 photo" : `${count} photos`,
       record: "View this project record",
       emptyTitle: "Explore our work in Cameroon",
-      emptyBody: "There are no photos published in this gallery right now. The project archive shows what our teams have done and includes reports where available.",
+      emptyBody: "More photographs will be added here after review. The project archive shows what our teams have done and includes reports where available.",
       browse: "Browse the project archive",
     };
 ---
 
 <PageLayout title={copy.title} description={copy.description}>
-  <PageHero title={copy.title} subtitle={copy.subtitle} compact />
+  <PageHero title={copy.title} subtitle={copy.subtitle} compact photo={getEditorialHeroPhoto("gallery", locale)} />
 
   <Section background="white" padding="lg">
     {years.length > 0 ? (

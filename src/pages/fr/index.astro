@@ -2,6 +2,7 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
 import CurrentWork from "../../components/home/CurrentWork.astro";
+import HomeHero from "../../components/home/HomeHero.astro";
 import PhotoMosaic from "../../components/home/PhotoMosaic.astro";
 import WorkVideo from "../../components/home/WorkVideo.astro";
 import StoryReviewNotice from "../../components/home/StoryReviewNotice.astro";
@@ -209,53 +210,49 @@ const actionPaths = [
   title="Apoti Development Association | Espoir, dignité, autonomisation"
   description="Nous soutenons les communautés vulnérables grâce à des programmes fondés sur la foi qui apportent l’espoir, préservent la dignité et créent des opportunités pour les veuves, les orphelins et les jeunes femmes."
 >
-  <section class="bg-gradient-to-r from-primary-950 to-primary-900 text-white">
-    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-      <div class="max-w-2xl">
-        <p
-          class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-200 mb-4"
-        >
-          {i18n.hero.badge}
-        </p>
-        <h1
-          class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-heading font-bold leading-[1.1] tracking-tight"
-        >
-          {i18n.hero.headline}
-        </h1>
-        <p class="mt-5 text-base md:text-lg text-white/85 leading-relaxed max-w-xl">
-          {i18n.hero.subtitle}
-        </p>
-        <div class="mt-8 flex flex-wrap items-center gap-3">
-          <a
-            href="/fr/donate"
-            class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
-          >
-            {i18n.hero.cta}
-          </a>
-          <a
-            href="/fr/projects"
-            class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white border border-white/40 rounded-md hover:bg-white/10 transition-colors"
-          >
-            {i18n.hero.ctaSecondary}
-          </a>
-          <a
-            href="/fr/transparency"
-            class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
-          >
-            Transparence
-          </a>
-        </div>
-        <p class="mt-6 text-sm text-white/75">
-          {
-            stats
-              .slice(0, 2)
-              .map((stat) => `${stat.value} ${stat.label}`)
-              .join(" · ")
-          }
-        </p>
-      </div>
+  <HomeHero locale="fr">
+    <p
+      class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-200 mb-4"
+    >
+      {i18n.hero.badge}
+    </p>
+    <h1
+      class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-heading font-bold leading-[1.1] tracking-tight"
+    >
+      {i18n.hero.headline}
+    </h1>
+    <p class="mt-5 text-base md:text-lg text-white/85 leading-relaxed max-w-xl">
+      {i18n.hero.subtitle}
+    </p>
+    <div class="mt-8 flex flex-wrap items-center gap-3">
+      <a
+        href="/fr/donate"
+        class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+      >
+        {i18n.hero.cta}
+      </a>
+      <a
+        href="/fr/projects"
+        class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white border border-white/40 rounded-md hover:bg-white/10 transition-colors"
+      >
+        {i18n.hero.ctaSecondary}
+      </a>
+      <a
+        href="/fr/transparency"
+        class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
+      >
+        Transparence
+      </a>
     </div>
-  </section>
+    <p class="mt-6 text-sm text-white/75">
+      {
+        stats
+          .slice(0, 2)
+          .map((stat) => `${stat.value} ${stat.label}`)
+          .join(" · ")
+      }
+    </p>
+  </HomeHero>
 
   <CurrentWork locale="fr" projects={spotlightProjects} announcements={announcements} />
   <PhotoMosaic locale="fr" photos={mosaicPhotos} />

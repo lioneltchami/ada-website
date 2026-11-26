@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
 import Section from "../layout/Section.astro";
@@ -13,7 +14,6 @@ import {
   REGISTRATION_NUMBER,
 } from "../../data/organization";
 import { transparencyCopyFor } from "../../data/transparency-copy";
-import { resolveHeroImage } from "../../lib/hero-images";
 
 interface Props {
   locale: Locale;
@@ -24,10 +24,6 @@ const labels = t(locale);
 const copy = transparencyCopyFor(locale);
 const measurableIndicators =
   locale === "fr" ? measurableIndicatorsFr : measurableIndicatorsEn;
-const heroImage = await resolveHeroImage([
-
-  "widow-support",
-]);
 ---
 
 <PageLayout title={copy.meta.title} description={copy.meta.description}>
@@ -35,8 +31,7 @@ const heroImage = await resolveHeroImage([
     title={copy.hero.title}
     subtitle={copy.hero.subtitle}
     compact
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
+    photo={getEditorialHeroPhoto("transparency", locale)}
   />
 
   <!-- Registration -->

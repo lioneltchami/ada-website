@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../data/editorial-hero-photos";
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
@@ -8,11 +9,7 @@ import {
   sanityImageUrl,
 } from "../lib/sanity";
 import { REGISTRATION_NUMBER } from "../data/organization";
-import { resolveHeroImage } from "../lib/hero-images";
 
-const heroImage = await resolveHeroImage([
-  "widow-support",
-]);
 
 let teamMembers: {
   name: string;
@@ -113,8 +110,7 @@ const governanceSafeguards = [
     title={heroTitle}
     subtitle={heroSubtitle}
     compact
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
+    photo={getEditorialHeroPhoto("team", "en")}
   />
 
   <Section background="white" padding="lg">

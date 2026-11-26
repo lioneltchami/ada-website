@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../data/editorial-hero-photos";
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
@@ -88,15 +89,13 @@ timeline = timeline
   .filter((item) => !wellReference.test(item.event))
   .map((item) => ({ ...item, event: getAboutTimelineEvent(item.year, item.event, locale) }));
 
-// Fetch a community photo for the story section + page hero
+// Fetch a cleared community photo for the story section, if available.
 let communityPhotoUrl = '';
-let communityPhotoAlt = 'ADA community work in Cameroon';
 try {
   const photos = await getGalleryImages(undefined, "en");
   const photo = photos.find((item) => item.photo?.asset?._ref);
   if (photo?.photo?.asset?._ref) {
     communityPhotoUrl = sanityImageUrl(photo.photo.asset._ref, 1400);
-    communityPhotoAlt = photo.photo.alt || photo.title || communityPhotoAlt;
   }
 } catch {}
 ---
@@ -106,8 +105,7 @@ try {
   <PageHero
     title="About Us"
     subtitle="Faith-based charity empowering vulnerable communities in Cameroon since 2021."
-    imageUrl={communityPhotoUrl}
-    imageAlt={communityPhotoAlt}
+    photo={getEditorialHeroPhoto("about", locale)}
   />
 
   <!-- Mission -->

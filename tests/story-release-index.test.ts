@@ -39,15 +39,17 @@ describe("safe Story categories and hero presentation", () => {
 			"https://cdn.sanity.io/images/rj2m21gk/production/02bd09413bd429a7cb9677a9368392642774671e-800x600.jpg",
 		);
 		const pageHero = readFileSync(resolve("src/components/layout/PageHero.astro"), "utf8");
+		const backdrop = readFileSync(resolve("src/components/layout/HeroBackdrop.astro"), "utf8");
 		const englishIndex = readFileSync(resolve("src/pages/stories/index.astro"), "utf8");
 		const frenchIndex = readFileSync(resolve("src/pages/fr/stories/index.astro"), "utf8");
 		const verifier = readFileSync(resolve("scripts/verify-story-review-mode.mjs"), "utf8");
 		const helper = readFileSync(resolve("scripts/story-hero-verifier.mjs"), "utf8");
-		expect(pageHero).toContain('alt={imageDecorative ? "" : imageAlt || title}');
-		expect(pageHero).toContain('imageLayout === "side"');
-		expect(pageHero).toContain("lg:object-contain");
-		expect(englishIndex).toContain("imageDecorative imageLayout=\"side\"");
-		expect(frenchIndex).toContain("imageDecorative imageLayout=\"side\"");
+		expect(pageHero).toContain('imageAlt={imageAlt || title}');
+		expect(backdrop).toContain('alt={imageDecorative ? "" : imageAlt}');
+		expect(backdrop).toContain('imageLayout === "side"');
+		expect(backdrop).toContain("lg:object-contain");
+		expect(englishIndex).toContain("imageDecorative imageLayout=\"side\" preserveFraming");
+		expect(frenchIndex).toContain("imageDecorative imageLayout=\"side\" preserveFraming");
 		expect(verifier).toContain("assertApprovedStoryHero");
 		expect(helper).toContain("exactly one approved hero image");
 		expect(helper).toContain("02bd09413bd429a7cb9677a9368392642774671e-800x600.jpg");

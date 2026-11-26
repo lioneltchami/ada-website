@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../../../data/editorial-hero-photos";
 import PageLayout from "../../../layouts/PageLayout.astro";
 import { archiveProjectDisplayTitle } from "../../../lib/archive-project-display-title";
 import { getEligibleArchiveFeaturePhoto } from "../../../lib/archive-eligible-feature-photo";
@@ -13,13 +14,8 @@ import ArchiveCardStatuses from "../../../components/projects/ArchiveCardStatuse
 import { archiveExchangePegSource, archiveExchangeRateSource, formatArchiveCardFinances } from "../../../lib/archive-card-finances";
 import { getArchiveCardStatus } from "../../../lib/archive-card-status";
 import { getArchiveOutreachCategory, getArchiveOutreachFilters } from "../../../lib/archive-outreach-categories";
-import { resolveHeroImage } from "../../../lib/hero-images";
 
 const records = await loadProjectArchiveEntries();
-const heroImage = await resolveHeroImage([
-
-  "widow-support",
-]);
 
 const archiveItems = records.map((r) => ({
   ...r,
@@ -67,8 +63,7 @@ for (const r of archiveItems) {
     title="Archive of Project Records"
     subtitle="Browse archive entries by outreach category or explore the timeline."
     compact
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
+    photo={getEditorialHeroPhoto("archive", "en")}
   />
 
   <!-- Back to projects -->

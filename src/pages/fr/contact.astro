@@ -1,9 +1,9 @@
 ---
+import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../../components/layout/PageHero.astro";
 import Section from "../../components/layout/Section.astro";
 import { getSiteSettings } from "../../lib/sanity";
-import { resolveHeroImage } from "../../lib/hero-images";
 
 let contactEmail = "info@apotidev.org";
 let contactPhone = "+237 676 282 346";
@@ -24,9 +24,6 @@ try {
   }
 } catch {}
 
-const heroImage = await resolveHeroImage([
-  "widow-support",
-]);
 ---
 
 <!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
@@ -38,10 +35,7 @@ const heroImage = await resolveHeroImage([
     title="Contactez-nous"
     subtitle="Une question ou envie de vous impliquer ? Écrivez-nous."
     compact
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageUrl
-      ? "Activité de soutien communautaire d’ADA au Cameroun"
-      : undefined}
+    photo={getEditorialHeroPhoto("contact", "fr")}
   />
 
   <Section background="white" padding="lg">

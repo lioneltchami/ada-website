@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../data/editorial-hero-photos";
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
 import Section from "../components/layout/Section.astro";
@@ -12,7 +13,6 @@ import {
   normalizeFallbackProjects,
 } from "../lib/project-fallbacks";
 import { REGISTRATION_NUMBER } from "../data/organization";
-import { resolveHeroImage } from "../lib/hero-images";
 
 let projectOptions: { slug: string; title: string }[] =
   normalizeFallbackProjects()
@@ -57,10 +57,6 @@ const monthlyUses = [
   "$100/month contributes to training, mentoring, and follow-up.",
 ];
 
-const heroImage = await resolveHeroImage([
-
-  "widow-support",
-]);
 ---
 <!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
@@ -72,8 +68,7 @@ const heroImage = await resolveHeroImage([
     title="Monthly Giving"
     subtitle="Steady gifts keep school support, widow relief, and field follow-up moving between campaigns."
     compact
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
+    photo={getEditorialHeroPhoto("monthly", "en")}
   />
 
   <section class="bg-white">

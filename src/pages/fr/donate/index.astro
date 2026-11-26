@@ -1,4 +1,6 @@
 ---
+import HeroBackdrop from "../../../components/layout/HeroBackdrop.astro";
+import { getEditorialHeroPhoto } from "../../../data/editorial-hero-photos";
 import PageLayout from "../../../layouts/PageLayout.astro";
 import Section from "../../../components/layout/Section.astro";
 import DonationForm from "../../../components/islands/DonationForm";
@@ -17,6 +19,8 @@ import {
 import { t } from "../../../i18n";
 import { DONATION_FAQS_FR, buildFaqPage } from "../../../lib/structured-data";
 import FaqSection from "../../../components/seo/FaqSection.astro";
+
+const headerPhoto = getEditorialHeroPhoto("donate", "fr");
 
 const i18n = t("fr");
 
@@ -104,20 +108,28 @@ const faqPageSchema = buildFaqPage(
     <div
       class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-6 lg:gap-x-14 lg:gap-y-5 items-start"
     >
-      <div class="min-w-0 lg:col-start-1 lg:row-start-1">
-        <p
-          class="text-xs font-semibold uppercase tracking-wider text-primary-700"
-        >
-          {i18n.donate.badge}
-        </p>
-        <h1
-          class="mt-3 text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gray-950 leading-tight tracking-tight"
-        >
-          {i18n.donate.title}
-        </h1>
-        <p class="mt-5 text-lg text-gray-600 leading-relaxed max-w-xl">
-          {i18n.donate.subtitle}
-        </p>
+      <div class="relative isolate min-w-0 overflow-hidden rounded-md bg-primary-900 p-5 text-white md:p-6 lg:col-start-1 lg:row-start-1" data-donate-hero>
+        <HeroBackdrop imageUrl={headerPhoto?.src} imageAlt={headerPhoto?.alt} imageDecorative={false} textDense />
+        <div class="relative">
+          <p
+            class="text-xs font-semibold uppercase tracking-wider text-primary-100"
+          >
+            {i18n.donate.badge}
+          </p>
+          <h1
+            class="mt-3 text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white leading-tight tracking-tight"
+          >
+            {i18n.donate.title}
+          </h1>
+          <p class="mt-5 text-lg text-white/90 leading-relaxed max-w-xl">
+            {i18n.donate.subtitle}
+          </p>
+          {headerPhoto && (
+            <a href={headerPhoto.credit.href} class="mt-4 inline-block text-sm text-white/90 underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4">
+              {headerPhoto.credit.text}
+            </a>
+          )}
+        </div>
       </div>
 
       <div

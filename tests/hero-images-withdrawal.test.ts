@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const { fetch } = vi.hoisted(() => ({ fetch: vi.fn() }));
 vi.mock("@sanity/client", () => ({ createClient: () => ({ fetch }) }));
-import { resolveHeroImage, resolveGalleryStrip } from "../src/lib/hero-images";
+import { resolveGalleryStrip } from "../src/lib/hero-images";
 import { loadGalleryMosaic } from "../src/lib/gallery";
 import { resolveProjectCardImage } from "../src/lib/project-images";
 import { getGalleryImages, getProjects } from "../src/lib/sanity";
@@ -38,12 +38,6 @@ describe("held images cannot leak into public surfaces", () => {
     expect(rows[1].mainImage).toEqual(photo(eligibleRef));
   });
 
-  it("skips a held preferred hero while keeping an unrelated eligible project image", async () => {
-    expect(await resolveHeroImage(["widow-support"])).toMatchObject({
-      imageUrl: expect.stringContaining("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-    });
-  });
-
   it("falls back to no image or a reviewed cover rather than a held photo", () => {
     expect(resolveProjectCardImage(projects[0])).toMatchObject({
       imageUrl: "",
@@ -67,7 +61,6 @@ describe("held images cannot leak into public surfaces", () => {
     expect(await getGalleryImages(undefined, "fr")).toEqual([]);
     expect(await getGalleryImages("education")).toEqual([]);
     expect(await loadGalleryMosaic(8, "fr")).toEqual([]);
-    expect(await resolveHeroImage()).toBeNull();
     expect(await resolveGalleryStrip()).toEqual([]);
   });
 });

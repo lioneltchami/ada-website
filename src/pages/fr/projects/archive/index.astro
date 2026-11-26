@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../../../../data/editorial-hero-photos";
 import PageLayout from "../../../../layouts/PageLayout.astro";
 import { archiveProjectDisplayTitle } from "../../../../lib/archive-project-display-title";
 import { getEligibleArchiveFeaturePhoto } from "../../../../lib/archive-eligible-feature-photo";
@@ -12,14 +13,9 @@ import {
 import ArchiveCardStatuses from "../../../../components/projects/ArchiveCardStatuses.astro";
 import { archiveExchangePegSource, archiveExchangeRateSource, formatArchiveCardFinances } from "../../../../lib/archive-card-finances";
 import { getArchiveCardStatus } from "../../../../lib/archive-card-status";
-import { resolveHeroImage } from "../../../../lib/hero-images";
 import { getArchiveOutreachCategory, getArchiveOutreachFilters } from "../../../../lib/archive-outreach-categories";
 
 const records = await loadProjectArchiveEntries();
-const heroImage = await resolveHeroImage([
-
-  "widow-support",
-]);
 
 const archiveItems = records.map((r) => ({
   ...r,
@@ -65,8 +61,7 @@ for (const r of archiveItems) {
     title="Archives des dossiers de projets"
     subtitle="Parcourez les actions par catégorie ou explorez la chronologie."
     compact
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
+    photo={getEditorialHeroPhoto("archive", "fr")}
   />
 
   <!-- Retour aux projets -->
