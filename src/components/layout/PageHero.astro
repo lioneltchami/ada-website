@@ -1,4 +1,6 @@
 ---
+import HeroBackdrop from "./HeroBackdrop.astro";
+
 interface Props {
   title: string;
   subtitle?: string;
@@ -9,16 +11,20 @@ interface Props {
   imageAlt?: string;
   imageDecorative?: boolean;
   imageLayout?: "background" | "side";
+  preserveFraming?: boolean;
+  photo?: { src: string; alt: string; credit: { text: string; href: string } };
 }
 
 const {
   title,
   subtitle,
   compact = false,
-  imageUrl = "",
-  imageAlt = "",
+  photo,
+  imageUrl = photo?.src || "",
+  imageAlt = photo?.alt || "",
   imageDecorative = false,
-  imageLayout = "background",
+  imageLayout = "side",
+  preserveFraming = false,
 } = Astro.props;
 ---
 
@@ -30,33 +36,7 @@ const {
     (!imageUrl || imageLayout === "side") && "bg-primary-900",
   ]}
 >
-  {
-    imageUrl ? (
-      <img
-        src={imageUrl}
-        alt={imageDecorative ? "" : imageAlt || title}
-        aria-hidden={imageDecorative ? "true" : undefined}
-        class:list={[
-          "absolute object-cover",
-          imageLayout === "side"
-	            ? "inset-y-0 right-0 h-full w-full object-center lg:left-auto lg:w-auto lg:object-contain"
-            : "inset-0 h-full w-full",
-        ]}
-        loading="eager"
-      />
-    ) : null
-  }
-  <div
-    class:list={[
-      "absolute inset-0",
-      imageUrl
-        ? imageLayout === "side"
-          ? "bg-gradient-to-r from-primary-900 via-primary-900/90 to-primary-900/25"
-          : "bg-gradient-to-r from-primary-950/92 via-primary-900/75 to-primary-900/40"
-        : "bg-primary-900",
-    ]}
-  >
-  </div>
+  <HeroBackdrop {imageUrl} imageAlt={imageAlt || title} {imageDecorative} {imageLayout} {preserveFraming} />
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
     <div class="max-w-3xl">
       <h1
@@ -72,6 +52,13 @@ const {
         )
       }
       <slot />
+      {photo && (
+        <p class="mt-4 text-sm leading-relaxed text-white/90">
+          <a href={photo.credit.href} class="underline decoration-white/50 underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4">
+            {photo.credit.text}
+          </a>
+        </p>
+      )}
     </div>
   </div>
 </section>

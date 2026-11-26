@@ -1,0 +1,49 @@
+---
+interface Props {
+  imageUrl?: string;
+  imageAlt?: string;
+  imageDecorative?: boolean;
+  imageLayout?: "side" | "background";
+  preserveFraming?: boolean;
+}
+
+const {
+  imageUrl,
+  imageAlt = "",
+  imageDecorative = true,
+  imageLayout = "side",
+  preserveFraming = false,
+} = Astro.props;
+---
+
+{imageUrl && (
+  <img
+    src={imageUrl}
+    alt={imageDecorative ? "" : imageAlt}
+    aria-hidden={imageDecorative ? "true" : undefined}
+    class:list={[
+      "pointer-events-none absolute object-cover",
+      imageLayout === "side"
+        ? preserveFraming
+          ? "inset-y-0 right-0 h-full w-full object-center lg:left-auto lg:w-auto lg:object-contain"
+          : "inset-y-0 right-0 h-full w-full object-center lg:w-[54%]"
+        : "inset-0 h-full w-full",
+    ]}
+    loading="eager"
+    decoding="async"
+  />
+)}
+<div
+  aria-hidden="true"
+  data-hero-fade={imageUrl ? imageLayout : "green"}
+  class:list={[
+    "pointer-events-none absolute inset-0",
+    imageUrl
+      ? imageLayout === "side"
+        ? preserveFraming
+          ? "bg-gradient-to-r from-primary-900 via-primary-900/90 to-primary-900/25"
+          : "bg-gradient-to-r from-primary-900 via-primary-900/95 to-primary-900/78 lg:to-primary-900/55 xl:to-primary-900/25"
+        : "bg-gradient-to-r from-primary-950/92 via-primary-900/75 to-primary-900/40"
+      : "bg-gradient-to-r from-primary-950 to-primary-900",
+  ]}
+></div>

@@ -8,11 +8,7 @@ import {
   sanityImageUrl,
 } from "../../lib/sanity";
 import { REGISTRATION_NUMBER } from "../../data/organization";
-import { resolveHeroImage } from "../../lib/hero-images";
 
-const heroImage = await resolveHeroImage([
-  "widow-support",
-]);
 
 let teamMembers: {
   name: string;
@@ -112,8 +108,6 @@ const governanceSafeguards = [
     title="Notre Équipe"
     subtitle="Des personnes dévouées travaillant ensemble pour servir les communautés vulnérables."
     compact
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
   />
 
   <Section background="white" padding="lg">

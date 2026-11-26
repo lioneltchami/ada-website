@@ -12,7 +12,6 @@ import {
   normalizeFallbackProjects,
 } from "../../lib/project-fallbacks";
 import { REGISTRATION_NUMBER } from "../../data/organization";
-import { resolveHeroImage } from "../../lib/hero-images";
 
 let projectOptions: { slug: string; title: string }[] =
   normalizeFallbackProjects({ locale: "fr" })
@@ -57,10 +56,6 @@ const monthlyUses = [
   "100 $/mois contribuent à la formation, au mentorat et au suivi.",
 ];
 
-const heroImage = await resolveHeroImage([
-
-  "widow-support",
-]);
 ---
 <!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
 
@@ -72,8 +67,6 @@ const heroImage = await resolveHeroImage([
     title="Don Mensuel"
     subtitle="Des dons réguliers maintiennent le soutien scolaire, l'aide aux veuves et le suivi terrain entre les campagnes."
     compact
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
   />
 
   <section class="bg-white">

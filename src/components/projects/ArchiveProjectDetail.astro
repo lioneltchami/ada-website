@@ -1,5 +1,6 @@
 ---
 import reviewed2024And2025 from "../../../config/project-records-2024-25.json";
+import HeroBackdrop from "../layout/HeroBackdrop.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
 import { archiveProjectDisplayTitle } from "../../lib/archive-project-display-title";
 import { getEligibleArchiveFeaturePhoto } from "../../lib/archive-eligible-feature-photo";
@@ -81,8 +82,9 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
 ---
 
 <PageLayout hideFloatingDonate title={title} description={lead.slice(0,160)}>
-  <section class="bg-primary-900 text-white">
-    <div class="mx-auto max-w-6xl px-5 py-11 sm:px-8 sm:py-14">
+  <section class="relative isolate bg-primary-900 text-white">
+    <HeroBackdrop />
+    <div class="relative mx-auto max-w-6xl px-5 py-11 sm:px-8 sm:py-14">
       <nav aria-label={fr ? "Fil d’Ariane" : "Breadcrumb"} class="mb-6">
         <ol class="flex flex-wrap items-center gap-2 text-sm text-white/80">
           <li><a href={root || "/"} class="hover:text-white">{fr ? "Accueil" : "Home"}</a></li>

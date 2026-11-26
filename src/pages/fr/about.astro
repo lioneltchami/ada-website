@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/layout/PageHero.astro';
 import Section from '../../components/layout/Section.astro';
@@ -84,13 +85,11 @@ timeline = timeline
   .map((item) => ({ ...item, event: getAboutTimelineEvent(item.year, item.event, "fr") }));
 
 let communityPhotoUrl = '';
-let communityPhotoAlt = 'Travail communautaire d\'ADA au Cameroun';
 try {
   const photos = await getGalleryImages(undefined, "fr");
   const photo = photos.find((item) => item.photo?.asset?._ref);
   if (photo?.photo?.asset?._ref) {
     communityPhotoUrl = sanityImageUrl(photo.photo.asset._ref, 1400);
-    communityPhotoAlt = photo.photo.alt || photo.title || communityPhotoAlt;
   }
 } catch {}
 ---
@@ -100,8 +99,7 @@ try {
   <PageHero
     title="À Propos de Nous"
     subtitle="Association caritative chrétienne autonomisant les communautés vulnérables du Cameroun depuis 2021."
-    imageUrl={communityPhotoUrl}
-    imageAlt={communityPhotoAlt}
+    photo={getEditorialHeroPhoto("about", "fr")}
   />
 
   <!-- Mission -->

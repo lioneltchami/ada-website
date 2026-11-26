@@ -1,11 +1,11 @@
 ---
+import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
 import Section from "../layout/Section.astro";
 import FaqSection from "../seo/FaqSection.astro";
 import { REGISTRATION_NUMBER } from "../../data/organization";
 import { localePath, type Locale } from "../../i18n";
-import { resolveHeroImage } from "../../lib/hero-images";
 import { SPONSOR_FAQS_EN, SPONSOR_FAQS_FR, buildFaqPage } from "../../lib/structured-data";
 
 interface Props {
@@ -17,7 +17,6 @@ const local = (path: string) => localePath(path, locale);
 const inquiryHref = local("/sponsor/inquiry");
 const diligenceHref = local("/resources#due-diligence");
 const reportHref = local("/projects/archive/back-to-school-buea-2024");
-const hero = await resolveHeroImage(["widow-support"]);
 const faqs = fr ? SPONSOR_FAQS_FR : SPONSOR_FAQS_EN;
 const faqSchema = buildFaqPage(faqs, new URL(local("/sponsor"), Astro.site).toString());
 
@@ -108,7 +107,7 @@ const linkClass = `inline-flex min-h-11 items-center rounded-sm text-sm font-sem
 ---
 
 <PageLayout title={copy.metaTitle} description={copy.intro} jsonLdExtra={[faqSchema]} hideFloatingDonate>
-  <PageHero title={copy.title} subtitle={copy.intro} compact imageUrl={hero?.imageUrl} imageDecorative>
+  <PageHero title={copy.title} subtitle={copy.intro} compact photo={getEditorialHeroPhoto("sponsor", locale)}>
     <div class="mt-6 flex flex-wrap gap-3">
       <a
         href={inquiryHref}

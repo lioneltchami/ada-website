@@ -1,4 +1,5 @@
 ---
+import { getEditorialHeroPhoto } from "../data/editorial-hero-photos";
 import { additionalSocialProfiles } from "../data/social-profiles";
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/layout/PageHero.astro";
@@ -8,10 +9,7 @@ import {
   getSiteSettings,
   type SanityVolunteerRole,
 } from "../lib/sanity";
-import {
-  resolveGalleryStrip,
-  resolveHeroImage,
-} from "../lib/hero-images";
+import { resolveGalleryStrip } from "../lib/hero-images";
 
 let socialFacebook = "https://facebook.com/apotidev";
 let socialInstagram = "https://instagram.com/apotidev";
@@ -129,10 +127,6 @@ const metaTitle = "Get Involved";
 const metaDescription =
   "Join ADA as a volunteer, monthly supporter, or corporate partner. Multiple ways to make a difference.";
 
-const heroImage = await resolveHeroImage([
-  "widow-support",
-
-]);
 const galleryStrip = await resolveGalleryStrip(4);
 const ways = [
   {
@@ -167,8 +161,7 @@ const ways = [
   <PageHero
     title="Get Involved"
     subtitle="There are many ways to support our mission. Find the one that's right for you."
-    imageUrl={heroImage?.imageUrl}
-    imageAlt={heroImage?.imageAlt}
+    photo={getEditorialHeroPhoto("volunteer", "en")}
   />
 
   <!-- Ways to Help -->
