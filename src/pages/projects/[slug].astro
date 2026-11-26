@@ -4,6 +4,7 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import { reviewed2026Release } from "../../lib/reviewed-project-summaries-2026";
 import Section from "../../components/layout/Section.astro";
 import { getProjects, type SanityProject } from "../../lib/sanity";
+import { selectProjectsIndexImage } from "../../lib/projects-index-presentation";
 import { resolveProjectCardImage } from "../../lib/project-images";
 import {
   getProjectLifecycleState,
@@ -67,6 +68,7 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+const detailImage = selectProjectsIndexImage(project, "en");
 const isCompleted = project.status === "completed";
 const isAutoArchived = Boolean(project.autoArchived);
 const isFundable = project.isFundable;
@@ -159,14 +161,16 @@ const paragraphs = project.description
       <p class="mt-4 text-lg text-white/80 max-w-2xl">
         Serving vulnerable communities in {project.location}, Cameroon
       </p>
-      <div class="mt-8 overflow-hidden rounded-md border border-white/15 bg-white/10 max-w-3xl">
-        <img
-          src={project.imageUrl}
-          alt={project.imageAlt}
-          class="w-full h-[260px] md:h-[340px] object-cover"
-          loading="eager"
-        />
-      </div>
+      {detailImage && (
+        <div class="mt-8 overflow-hidden rounded-md border border-white/15 bg-white/10 max-w-3xl">
+          <img
+            src={detailImage.src}
+            alt={detailImage.alt}
+            class="w-full h-[260px] md:h-[340px] object-cover"
+            loading="eager"
+          />
+        </div>
+      )}
     </div>
   </section>
 
