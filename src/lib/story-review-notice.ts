@@ -20,9 +20,9 @@ const COPY = {
 			"This story is temporarily unavailable while ADA reviews its English and French text.",
 		detailBackLink: "Back to Stories & Updates →",
 		featuredLabel: "Stories & updates",
-		featuredTitle: "Explore our program perspectives",
+		featuredTitle: "Stories from our outreaches",
 		featuredMessage:
-			"ADA’s 2024 financial summary and 2024 donations summary remain under review while the reporting period, currency, and accounting basis are checked.",
+			"Read stories about the people we’ve helped, updates from our outreaches, and reflections on our work.",
 		featuredLink: "Stories and updates →",
 		home: "Home",
 		stories: "Stories & Updates",
@@ -47,9 +47,9 @@ const COPY = {
 			"Ce récit est temporairement indisponible pendant qu’ADA vérifie ses versions anglaise et française.",
 		detailBackLink: "Retour aux témoignages et actualités →",
 		featuredLabel: "Témoignages et actualités",
-		featuredTitle: "Découvrir nos perspectives sur les programmes",
+		featuredTitle: "Des nouvelles de nos actions",
 		featuredMessage:
-			"La synthèse financière 2024 et la synthèse des dons 2024 d’ADA restent en cours de vérification de la période, de la devise et de la base comptable.",
+			"Découvrez les témoignages de personnes accompagnées, les nouvelles de nos actions et nos réflexions sur le travail de terrain.",
 		featuredLink: "Témoignages et actualités →",
 		home: "Accueil",
 		stories: "Témoignages & Actualités",

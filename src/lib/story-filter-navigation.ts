@@ -2,12 +2,12 @@ export const STORY_FILTER_PARAM = "category";
 
 export function readStoryFilter(url: URL): string {
   const value = url.searchParams.get(STORY_FILTER_PARAM);
-  return value === "story" || value === "update" || value === "perspective" || value === "finance" ? value : "all";
+  return value === "story" || value === "update" || value === "perspective" ? value : "all";
 }
 
 export function storyNavigationHref(url: URL, filter: string): string {
   const next = new URL(url);
-  if (filter === "story" || filter === "update" || filter === "perspective" || filter === "finance") {
+  if (filter === "story" || filter === "update" || filter === "perspective") {
     next.searchParams.set(STORY_FILTER_PARAM, filter);
   } else {
     next.searchParams.delete(STORY_FILTER_PARAM);

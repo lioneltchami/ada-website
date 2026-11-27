@@ -128,7 +128,7 @@ for (const relative of ["gallery/index.html", "fr/gallery/index.html"]) {
 
 for (const relative of ["transparency/index.html", "fr/transparency/index.html"]) {
 	const html = await readFile(path.join(root, relative), "utf8");
-	assert.match(html, /temporarily unavailable while project records are reviewed|temporairement indisponibles pendant la revue des dossiers de projets/i);
+	assert.match(html, /before publishing ADA’s organization-wide donations and financial totals for 2024|avant de publier les totaux des dons et les chiffres financiers de l’ensemble de l’association pour 2024/i);
 	assert.doesNotMatch(html, /\$6,800|\$6 800|2024 Annual Report \(PDF\)|Rapport Annuel 2024 \(PDF\)/);
 }
 

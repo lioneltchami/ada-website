@@ -8,7 +8,7 @@ const detail = readFileSync("src/components/stories/StoryReleaseDetail.astro", "
 describe("bilingual Story release routes", () => {
 	it("builds the same local Story set for English and French", () => {
 		for (const source of [english, french]) {
-			expect(source).toContain("Object.keys(STORY_RELEASE_COPY)");
+			expect(source).toContain("STORY_RELEASE_ORDER.map");
 			expect(source).toContain("StoryReleaseDetail");
 			expect(source).not.toContain("getBlogPostSlugs");
 		}

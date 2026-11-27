@@ -10,16 +10,16 @@ import {
 import { STORY_RELEASE_COPY, STORY_RELEASE_ORDER } from "../src/lib/story-release-copy";
 
 describe("safe Story categories and hero presentation", () => {
-	it("separates one verified story, one outreach update, two financial notices and thirteen perspectives", () => {
+	it("separates one verified story, one outreach update and thirteen perspectives, without financial notices", () => {
 		expect(new Set(Object.keys(STORY_CATEGORY_BY_SLUG))).toEqual(
-			new Set(Object.keys(STORY_RELEASE_COPY)),
+			new Set(STORY_RELEASE_ORDER),
 		);
 		const members = (category: string) => Object.keys(STORY_CATEGORY_BY_SLUG)
 			.filter((slug) => STORY_CATEGORY_BY_SLUG[slug as keyof typeof STORY_CATEGORY_BY_SLUG] === category)
 			.sort();
 		expect(members("story")).toEqual(["salon-update"]);
 		expect(members("update")).toEqual(["bamenda-school-fee-outreach-2026"]);
-		expect(members("finance")).toEqual(["donations-changed-lives-2024", "transparency-report-2024"]);
+		expect(members("finance")).toEqual([]);
 		expect(members("perspective")).toHaveLength(13);
 		for (const slug of members("perspective")) {
 			expect(STORY_RELEASE_COPY[slug as keyof typeof STORY_RELEASE_COPY].type).toBe("overview");
@@ -125,15 +125,15 @@ describe("safe Story categories and hero presentation", () => {
 		expect(index).toContain("STORY_CATEGORY_LABELS");
 	});
 
-	it("removes blanket disclaimers while retaining the precise financial review notices", () => {
+	it("removes blanket disclaimers and does not promote finance on the homepage", () => {
 		const index = readFileSync(resolve("src/components/stories/StoryReleaseIndex.astro"), "utf8");
 		const detail = readFileSync(resolve("src/components/stories/StoryReleaseDetail.astro"), "utf8");
 		const notice = readFileSync(resolve("src/lib/story-review-notice.ts"), "utf8");
 		expect(index).not.toMatch(/Most articles below discuss general themes|thèmes généraux.*témoignages individuels vérifiés/i);
 		expect(detail).not.toMatch(/This page discusses a general theme|Cette page présente un thème général|not a verified individual case study/i);
 		expect(detail).toContain('articleType === "review"');
-		expect(notice).toMatch(/2024 financial summary and 2024 donations summary remain under review/);
-		expect(notice).toMatch(/synthèse financière 2024 et la synthèse des dons 2024/);
+		expect(notice).not.toMatch(/2024 financial summary|2024 donations summary/);
+		expect(notice).not.toMatch(/synthèse financière 2024|synthèse des dons 2024/);
 	});
 
 	it("puts an accessible return link above each article", () => {

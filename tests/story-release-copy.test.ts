@@ -6,11 +6,11 @@ import {
 } from "../src/lib/story-release-copy";
 
 describe("safe bilingual Story release copy", () => {
-	it("contains the 17 public Story routes once", () => {
+	it("keeps 15 public Story routes and 2 legacy copy records", () => {
 		const slugs = Object.keys(STORY_RELEASE_COPY);
 		expect(slugs).toHaveLength(17);
-		expect(new Set(STORY_RELEASE_ORDER).size).toBe(17);
-		expect(new Set(slugs)).toEqual(new Set(STORY_RELEASE_ORDER));
+		expect(new Set(STORY_RELEASE_ORDER).size).toBe(15);
+		expect(new Set(slugs.filter((slug) => STORY_RELEASE_COPY[slug as keyof typeof STORY_RELEASE_COPY].type !== "review"))).toEqual(new Set(STORY_RELEASE_ORDER));
 		expect(getStoryReleaseCopy("clean-water-first-well-completed", "en")).toBeNull();
 		expect(getStoryReleaseCopy("clean-water-first-well-completed", "fr")).toBeNull();
 		expect(getStoryReleaseCopy("back-to-school-2025", "en")).toBeNull();

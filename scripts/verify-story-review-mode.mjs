@@ -25,26 +25,24 @@ const route = (locale, slug) => path.join(client, locale === "fr" ? "fr/stories"
 const enIndex = await readFile(path.join(client, "stories/index.html"), "utf8");
 const frIndex = await readFile(path.join(client, "fr/stories/index.html"), "utf8");
 assert.doesNotMatch(`${enIndex}${frIndex}`, /Most articles below discuss general themes|not verified individual case studies|ne décrivent pas des témoignages individuels vérifiés|ne sont pas des témoignages individuels vérifiés/i);
-assert.equal((enIndex.match(/class="group block rounded-xl/g) || []).length, 17);
-assert.equal((frIndex.match(/class="group block rounded-xl/g) || []).length, 17);
-assert.equal((enIndex.match(/data-story-filter=/g) || []).length, 5);
-assert.equal((frIndex.match(/data-story-filter=/g) || []).length, 5);
+assert.equal((enIndex.match(/class="group block rounded-xl/g) || []).length, 15);
+assert.equal((frIndex.match(/class="group block rounded-xl/g) || []).length, 15);
+assert.equal((enIndex.match(/data-story-filter=/g) || []).length, 4);
+assert.equal((frIndex.match(/data-story-filter=/g) || []).length, 4);
 assert.match(enIndex, />All<span/);
 assert.match(enIndex, />Stories<span/);
 assert.match(enIndex, />Updates<span/);
-assert.match(enIndex, />Financial notices<span/);
+assert.doesNotMatch(enIndex, /Financial notices|Financial summaries remain under review|data-story-category="finance"/i);
 assert.match(enIndex, />Program perspectives<span/);
 assert.match(frIndex, />Tous<span/);
 assert.match(frIndex, />Histoires<span/);
 assert.match(frIndex, />Actualités<span/);
-assert.match(frIndex, />Notes financières<span/);
+assert.doesNotMatch(frIndex, /Notes financières|Les synthèses financières restent en cours de vérification|data-story-category="finance"/i);
 assert.match(frIndex, />Réflexions sur nos programmes<span/);
 assert.equal((enIndex.match(/data-story-category="story"/g) || []).length, 1);
 assert.equal((frIndex.match(/data-story-category="story"/g) || []).length, 1);
 assert.equal((enIndex.match(/data-story-category="update"/g) || []).length, 1);
 assert.equal((frIndex.match(/data-story-category="update"/g) || []).length, 1);
-assert.equal((enIndex.match(/data-story-category="finance"/g) || []).length, 2);
-assert.equal((frIndex.match(/data-story-category="finance"/g) || []).length, 2);
 for (const locale of ["en", "fr"]) {
 	const update = await readFile(route(locale, "bamenda-school-fee-outreach-2026"), "utf8");
 	assert.match(update, /href="(?:\/fr)?\/projects\/archive\/back-to-school-bamenda-aug-2026\/?"/);
@@ -67,8 +65,8 @@ for (const prefix of ["", "fr/"]) {
 
 const enPages = (await htmlFiles(storyRoot)).filter((file) => file !== path.join(storyRoot, "index.html"));
 const frPages = (await htmlFiles(path.join(client, "fr/stories"))).filter((file) => file !== path.join(client, "fr/stories/index.html"));
-assert.equal(enPages.length, 17, `Expected 17 English routes, found ${enPages.length}`);
-assert.equal(frPages.length, 17, `Expected 17 French routes, found ${frPages.length}`);
+assert.equal(enPages.length, 15, `Expected 15 English routes, found ${enPages.length}`);
+assert.equal(frPages.length, 15, `Expected 15 French routes, found ${frPages.length}`);
 
 const retiredCaseRoutes = [
 	"amina-almost-child-bride", "carine-graduate-to-mentor", "david-missed-year-of-school",
@@ -83,16 +81,17 @@ for (const slug of retiredCaseRoutes) {
 
 assert.doesNotMatch(`${enIndex}${frIndex}`, /clean-water-first-well-completed|water access and everyday life|accès à l’eau au quotidien/i);
 
-for (const slug of ["donations-changed-lives-2024", "transparency-report-2024"]) {
-	const en = await readFile(route("en", slug), "utf8");
-	const fr = await readFile(route("fr", slug), "utf8");
-	assert.match(en, /under review/i);
-	assert.match(en, /role="status"/);
-	assert.match(fr, /role="status"/);
-	assert.match(fr, /en cours de vérification/i);
-	assert.match(en, /No totals are shown here/);
-	assert.match(fr, /Aucun total n’est présenté ici/);
-	assert.doesNotMatch(`${en}${fr}`, /\$\s?\d|\d[,.]?\d*\s?CFA/);
+const redirects = await readFile(path.join(client, "_redirects"), "utf8");
+for (const [locale, prefix] of [["en", ""], ["fr", "/fr"]]) {
+	const transparency = await readFile(path.join(client, prefix.slice(1), "transparency/index.html"), "utf8");
+	assert.equal((transparency.match(/id="annual-financial-summary"/g) || []).length, 1);
+	assert.match(transparency, locale === "en" ? /organization-wide donations and financial totals for 2024/ : /chiffres financiers de l’ensemble de l’association pour 2024/);
+	for (const slug of ["donations-changed-lives-2024", "transparency-report-2024"]) {
+		await assert.rejects(readFile(route(locale, slug), "utf8"), { code: "ENOENT" });
+		for (const suffix of ["", "/"]) {
+			assert.ok(redirects.includes(`${prefix}/stories/${slug}${suffix} ${prefix}/transparency/#annual-financial-summary 301`));
+		}
+	}
 }
 
 for (const [files, lang, locale] of [[enPages, "en", "English"], [frPages, "fr", "French"]]) {
@@ -120,7 +119,7 @@ assert.doesNotMatch(sitemap, /https:\/\/apotidev\.org\/(?:fr\/)?stories\/[^<]+<\
 const enHome = await readFile(path.join(client, "index.html"), "utf8");
 const frHome = await readFile(path.join(client, "fr/index.html"), "utf8");
 assert.doesNotMatch(`${enIndex}${frIndex}${enHome}${frHome}`, /Most articles below discuss general themes|general support themes, not verified individual case reports|thèmes généraux de soutien, et non des témoignages individuels vérifiés|This page discusses a general theme|Cette page présente un thème général|not a verified individual case study|not a verified individual case reports|témoignages individuels vérifiés/i);
-assert.match(enHome, /2024 financial summary and 2024 donations summary remain under review/i);
-assert.match(frHome, /synthèse financière 2024 et la synthèse des dons 2024.*restent en cours de vérification/i);
+assert.match(enHome, /outreaches, and reflections on our work/i);
+assert.match(frHome, /les nouvelles de nos actions et nos réflexions/i);
 
-console.log("Story release verified: 17 bilingual safe pages, approved decorative cleanup hero only, verified stories, updates and program perspectives, 2 financial notices, no blanket disclaimers, removed well story, fact placeholders, unapproved personal images, structured data, or detail URLs in the sitemap.");
+console.log("Story release verified: 15 bilingual safe pages, approved decorative cleanup hero only, verified stories, updates and program perspectives, finance routed to Transparency, no blanket disclaimers, removed well story, fact placeholders, unapproved personal images, structured data, or detail URLs in the sitemap.");
