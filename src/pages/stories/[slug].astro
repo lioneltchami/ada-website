@@ -1,10 +1,10 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import StoryReleaseDetail from "../../components/stories/StoryReleaseDetail.astro";
-import { STORY_RELEASE_COPY } from "../../lib/story-release-copy";
+import { STORY_RELEASE_COPY, STORY_RELEASE_ORDER } from "../../lib/story-release-copy";
 
 export function getStaticPaths() {
-	return Object.keys(STORY_RELEASE_COPY).map((slug) => ({ params: { slug } }));
+	return STORY_RELEASE_ORDER.map((slug) => ({ params: { slug } }));
 }
 
 const { slug = "" } = Astro.params;

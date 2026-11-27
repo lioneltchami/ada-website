@@ -5,14 +5,15 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
 import Section from "../layout/Section.astro";
 import { getProjects, type SanityProject } from "../../lib/sanity";
-import { resolveProjectCardImage } from "../../lib/project-images";
+import { getEligibleArchiveFeaturePhoto } from "../../lib/archive-eligible-feature-photo";
+import { loadProjectArchiveEntries } from "../../lib/project-archive";
 import {
   getProjectLifecycleState,
   projectStatusLabel,
   type ProjectStatus,
 } from "../../lib/project-lifecycle";
 import { mergeProjectLists, normalizeFallbackProjects } from "../../lib/project-fallbacks";
-import { localizeProjectsIndexFallback, selectProjectsIndexImage } from "../../lib/projects-index-presentation";
+import { localizeProjectsIndexFallback } from "../../lib/projects-index-presentation";
 import type { Locale } from "../../i18n";
 import { localePath } from "../../i18n";
 
@@ -33,8 +34,6 @@ type ProjectCard = {
   startDate?: string | null;
   endDate?: string | null;
   description: string;
-  imageUrl: string;
-  imageAlt: string;
 };
 
 const { locale = "en" } = Astro.props;
@@ -44,10 +43,8 @@ const archiveHref = link("/projects/archive");
 
 function fromSanity(p: SanityProject): ProjectCard {
   const lifecycle = getProjectLifecycleState(p, { locale });
-  const image = resolveProjectCardImage(p, 600);
   return {
     ...p,
-    ...image,
     slug: p.slug.current,
     status: lifecycle.status,
     archiveHref: lifecycle.archiveHref,
@@ -74,6 +71,16 @@ const current = projects.filter((p) => p.status === "active");
 const paused = projects.filter((p) => p.status === "paused");
 const records = projects.filter((p) => p.status === "completed");
 const activeCount = current.filter((p) => !p.hasEnded).length;
+
+// Use only the exact, approved feature photo from a completed archive record.
+const archivePhotosByHref = new Map<string, NonNullable<ReturnType<typeof getEligibleArchiveFeaturePhoto>>>();
+if (records.some((project) => project.archiveReady && !project.isAutoArchived)) {
+  for (const record of await loadProjectArchiveEntries()) {
+    if (record.status !== "completed" || record.autoArchived) continue;
+    const photo = getEligibleArchiveFeaturePhoto(record, locale, 240);
+    if (photo) archivePhotosByHref.set(link(`/projects/archive/${record.slug.current}`), photo);
+  }
+}
 
 const copy = isFr
   ? {
@@ -183,17 +190,19 @@ const groups = [
               : archived && project.archiveReady ? copy.archiveReady
               : project.hasEnded && project.status === "active" ? copy.closed
               : projectStatusLabel(project.status, locale);
-            const image = selectProjectsIndexImage(project, locale);
+            const image = id === "project-records" && archived && project.archiveReady && !project.isAutoArchived
+              ? archivePhotosByHref.get(project.archiveHref.replace(/\/$/, ""))
+              : undefined;
             const start = projectDate(project.startDate) ?? projectDate(project.endDate);
             const end = projectDate(project.endDate);
             return (
-              <article class="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-[#faf8f4]">
+              <article class="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-[#faf8f4] sm:flex-row">
                 {image && (
-                  <div class="h-44 overflow-hidden bg-[#efece4] md:h-48">
-                    <img src={image.src} alt={image.alt} class="h-full w-full object-cover object-center" loading="lazy" />
+                  <div class="flex max-h-32 justify-center bg-[#efece4] p-3 sm:w-36 sm:shrink-0 sm:items-start sm:justify-start">
+                    <img data-outreach-thumbnail src={image.src} alt={image.alt} width={image.width} height={image.height} class="h-auto max-h-24 w-auto max-w-full rounded object-contain" loading="lazy" decoding="async" />
                   </div>
                 )}
-                <div class="flex flex-1 flex-col p-5 sm:p-6">
+                <div class="flex min-w-0 flex-1 flex-col p-5 sm:p-6">
                   <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-700">
                     <span class:list={[
                       "inline-flex rounded-md px-2 py-1 text-xs font-semibold",

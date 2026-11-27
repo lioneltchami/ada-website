@@ -305,10 +305,19 @@ const measurableIndicators =
         <p class="mt-5 text-xs text-gray-500">{copy.financial.allocationNote}</p>
       </div>
 
-      <h3 class="mt-10 text-lg font-semibold text-gray-900">
+      <h3 id="annual-financial-summary" class="mt-10 scroll-mt-28 text-lg font-semibold text-gray-900">
         {copy.financial.annualSummary}
       </h3>
-      {copy.financial.rows.length > 0 ? (
+      <div class="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+        <p>{copy.financial.annualSummaryNote}</p>
+        <a
+          href={localePath("/projects/archive/", locale)}
+          class="mt-2 inline-block font-semibold underline underline-offset-2"
+        >
+          {copy.financial.outreachBudgetsLink}
+        </a>
+      </div>
+      {copy.financial.rows.length > 0 && (
       <div class="mt-4 overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
@@ -358,10 +367,6 @@ const measurableIndicators =
           </tfoot>
         </table>
       </div>
-      ) : (
-      <p class="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-        {copy.financial.annualSummaryNote}
-      </p>
       )}
       {copy.financial.rows.length > 0 && <p class="mt-4 text-xs text-gray-500">{copy.financial.footnote}</p>}
       <div class="mt-6">

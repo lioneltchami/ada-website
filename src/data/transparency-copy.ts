@@ -60,6 +60,7 @@ export type TransparencyCopy = {
     allocationNote: string;
     annualSummary: string;
     annualSummaryNote: string;
+    outreachBudgetsLink: string;
     tableHeaders: {
       year: string;
       totalReceived: string;
@@ -307,7 +308,8 @@ const en: TransparencyCopy = {
     allocationNote:
       "Allocation percentages describe ADA's public operating model. Project-restricted gifts are tracked against donor designations when provided.",
     annualSummary: "Annual Financial Summary",
-    annualSummaryNote: "Annual financial figures are temporarily unavailable while project records are reviewed.",
+    annualSummaryNote: "We’re checking the reporting period, currency, and how the figures were calculated before publishing ADA’s organization-wide donations and financial totals for 2024. This review does not cover individual outreach budgets.",
+    outreachBudgetsLink: "Find outreach budgets in the project archive",
     tableHeaders: {
       year: "Year",
       totalReceived: "Total Received",
@@ -655,7 +657,8 @@ const fr: TransparencyCopy = {
     allocationNote:
       "Les pourcentages d'allocation décrivent le modèle opérationnel public d'ADA. Les dons affectés à un projet sont suivis selon les désignations des donateurs lorsqu'elles sont fournies.",
     annualSummary: "Résumé financier annuel",
-    annualSummaryNote: "Les chiffres financiers annuels sont temporairement indisponibles pendant la revue des dossiers de projets.",
+    annualSummaryNote: "Avant de publier les totaux des dons et les chiffres financiers de l’ensemble de l’association pour 2024, nous vérifions la période couverte, la devise et le mode de calcul des montants. Cette vérification ne concerne pas les budgets de chaque action.",
+    outreachBudgetsLink: "Consulter les budgets des actions dans les archives",
     tableHeaders: {
       year: "Année",
       totalReceived: "Total Reçu",

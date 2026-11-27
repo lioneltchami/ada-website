@@ -1,4 +1,4 @@
-import type { StoryReleaseLocale, StoryReleaseSlug } from "./story-release-copy";
+import type { STORY_RELEASE_ORDER, StoryReleaseLocale, StoryReleaseSlug } from "./story-release-copy";
 
 export const STORY_RELEASE_HERO_IMAGE =
 	"https://cdn.sanity.io/images/rj2m21gk/production/02bd09413bd429a7cb9677a9368392642774671e-800x600.jpg";
@@ -9,14 +9,13 @@ export const ESTHER_PORTRAIT_IMAGE =
 export const STORY_CATEGORY_LABELS = {
 	story: { en: "Stories", fr: "Histoires" },
 	update: { en: "Updates", fr: "Actualités" },
-	finance: { en: "Financial notices", fr: "Notes financières" },
 	perspective: { en: "Program perspectives", fr: "Réflexions sur nos programmes" },
 } as const;
 
 export type StoryCategory = keyof typeof STORY_CATEGORY_LABELS;
 
 // Editorial categories for approved public copy; older CMS categories do not establish a verified person or event.
-export const STORY_CATEGORY_BY_SLUG: Record<StoryReleaseSlug, StoryCategory> = {
+export const STORY_CATEGORY_BY_SLUG: Record<(typeof STORY_RELEASE_ORDER)[number], StoryCategory> = {
 	"bamenda-school-fee-outreach-2026": "update",
 	"young-peoples-futures": "perspective",
 	"next-steps-after-training": "perspective",
@@ -30,10 +29,8 @@ export const STORY_CATEGORY_BY_SLUG: Record<StoryReleaseSlug, StoryCategory> = {
 	"why-we-focus-on-widows": "perspective",
 	"christmas-giving-2024": "perspective",
 	"community-cleanup-bamenda-2025": "perspective",
-	"donations-changed-lives-2024": "finance",
 	"5-ways-to-support-free": "perspective",
 	"founder-letter-2026": "perspective",
-	"transparency-report-2024": "finance",
 };
 
 interface StoryPhoto {
@@ -57,7 +54,9 @@ const STORY_PHOTOS: Partial<Record<StoryReleaseSlug, StoryPhoto>> = {
 };
 
 export function getStoryPhoto(slug: StoryReleaseSlug, locale: StoryReleaseLocale) {
-	const category = STORY_CATEGORY_BY_SLUG[slug];
+	const category = Object.hasOwn(STORY_CATEGORY_BY_SLUG, slug)
+		? STORY_CATEGORY_BY_SLUG[slug as keyof typeof STORY_CATEGORY_BY_SLUG]
+		: undefined;
 	if (category !== "story" && category !== "update") return;
 	const photo = STORY_PHOTOS[slug];
 	if (!photo) return;

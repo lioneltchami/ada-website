@@ -5,11 +5,12 @@ const at = (path: string) => new URL(path, "https://apotidev.org");
 
 describe("story filter navigation", () => {
   it("recognizes only declared filters", () => {
-    for (const filter of ["story", "update", "finance", "perspective"]) {
+    for (const filter of ["story", "update", "perspective"]) {
       expect(readStoryFilter(at(`/stories/?category=${filter}`))).toBe(filter);
     }
     expect(readStoryFilter(at("/stories/"))).toBe("all");
     expect(readStoryFilter(at("/stories/?category=spoof"))).toBe("all");
+    expect(readStoryFilter(at("/stories/?category=finance"))).toBe("all");
   });
 
   it("preserves unrelated query arguments and hashes", () => {
