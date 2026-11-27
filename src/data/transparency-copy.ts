@@ -88,27 +88,25 @@ export type TransparencyCopy = {
   };
   measurable: { intro: string };
   theoryOfChange: {
+    title: string;
     intro: string;
     steps: Array<{ step: string; title: string; desc: string }>;
-    sustainabilityLabel: string;
-    sustainability: string;
   };
   sdg: {
+    title: string;
     intro: string;
     goals: Array<{
       number: string;
-      color: string;
       title: string;
       detail: string;
+      href: string;
+      linkLabel: string;
     }>;
-    feministLabel: string;
-    feminist: string;
   };
   environment: {
+    title: string;
     intro: string;
-    items: Array<{ title: string; desc: string }>;
-    commitmentLabel: string;
-    commitment: string;
+    items: Array<{ title: string; desc: string; href: string; linkLabel: string }>;
   };
   accountability: {
     title: string;
@@ -121,7 +119,7 @@ const en: TransparencyCopy = {
   meta: {
     title: "Transparency & Accountability",
     description:
-      "ADA's financial reports, registration details, and accountability measures. ADA's public allocation model targets 80% program delivery.",
+      "Find ADA’s registration, annual publications, financial reporting status, and accountability practices.",
   },
   hero: {
     title: "Transparency & Accountability",
@@ -335,99 +333,66 @@ const en: TransparencyCopy = {
       "We track outcomes, not just outputs. Here are our key indicators with baselines and actuals.",
   },
   theoryOfChange: {
-    intro: "How support is planned and reviewed across ADA's community programs.",
+    title: "How Our Outreach Works",
+    intro: "From identifying a local need to sharing a record of the work.",
     steps: [
-      {
-        step: "1",
-        title: "Identify",
-        desc: "Community leaders refer widows, orphans, and young women in crisis to ADA.",
-      },
-      {
-        step: "2",
-        title: "Stabilize",
-        desc: "Immediate relief: food packages, school fees, emergency medical support.",
-      },
-      {
-        step: "3",
-        title: "Plan support",
-        desc: "Activities are planned around the scope of each project and identified community needs.",
-      },
-      {
-        step: "4",
-        title: "Review",
-        desc: "Project records describe the plans, activities, and documentation available for each initiative.",
-      },
+      { step: "1", title: "Listen", desc: "Identify a need with community members and local partners." },
+      { step: "2", title: "Plan", desc: "Define what support is practical and what the outreach will cover." },
+      { step: "3", title: "Deliver", desc: "Work with local teams to carry out the outreach." },
+      { step: "4", title: "Review", desc: "Record what was done, what it cost when known, and what is still unconfirmed." },
     ],
-    sustainabilityLabel: "Sustainability:",
-    sustainability:
-      "Long-term program planning depends on available resources and the needs identified with communities.",
   },
   sdg: {
-    intro:
-      "ADA's program areas align with several United Nations Sustainable Development Goals.",
+    title: "Sustainable Development Goals Alignment",
+    intro: "These examples show where ADA’s work relates to selected United Nations goals. They do not imply UN endorsement or show that a goal has been achieved.",
     goals: [
       {
         number: "1",
-        color: "#E5243B",
         title: "No Poverty",
-        detail: "Widow support, food aid, startup kits",
+        detail: "Basic household supplies for widows in Buea.",
+        href: "/projects/archive/womens-day-home-visits-mar-2023/",
+        linkLabel: "Read the 2023 Widows Outreach record",
       },
       {
         number: "2",
-        color: "#DDA63A",
         title: "Zero Hunger",
-        detail: "Food distribution, emergency relief",
+        detail: "Food supplies for children during the Christmas outreach in Buea.",
+        href: "/projects/archive/christmas-giving-dec-2023/",
+        linkLabel: "Read the 2023 Christmas Giving record",
       },
       {
         number: "4",
-        color: "#C5192D",
         title: "Quality Education",
-        detail: "Back-to-school, mentorship, skills training",
+        detail: "School-fee support for children in Bamenda.",
+        href: "/projects/archive/back-to-school-bamenda-aug-2026/",
+        linkLabel: "Read the 2026 Bamenda Back to School record",
       },
       {
         number: "5",
-        color: "#FF3A21",
         title: "Gender Equality",
-        detail: "Programs that support women and girls",
-      },
-      {
-        number: "10",
-        color: "#DD1367",
-        title: "Reduced Inequalities",
-        detail: "IDP support, crisis-affected communities",
-      },
-      {
-        number: "13",
-        color: "#3F7E44",
-        title: "Climate Action",
-        detail: "Community cleanups, tree planting, waste management",
+        detail: "Menstrual-health education and hygiene kits for girls in Bamenda.",
+        href: "/projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/",
+        linkLabel: "Read the 2026 Girls’ Dignity outreach record",
       },
     ],
-    feministLabel:
-      "Alignment with Canada's Feminist International Assistance Policy:",
-    feminist:
-      "ADA's programs include support for women and girls, alongside education and community initiatives.",
   },
   environment: {
-    intro:
-      "Every ADA program integrates environmental awareness — because healthy communities need a healthy planet.",
+    title: "Community Cleanups & Environmental Stewardship",
+    intro: "The outreach archive documents how volunteers helped care for shared spaces in Buea.",
     items: [
       {
-        title: "Tree Planting & Reforestation",
-        desc: "Every community clean-up includes tree planting. In 2024, we planted 50 trees across Bamenda — combating deforestation and providing future shade and fruit.",
+        title: "Community Cleanup · Buea, 2023",
+        desc: "Our team and volunteers cleared litter from shared spaces in Buea.",
+        href: "/projects/archive/city-cleanup-may-2023/",
+        linkLabel: "Read the 2023 Community Cleanup record",
       },
       {
-        title: "Waste Management Education",
-        desc: "Our clean-up campaigns teach waste sorting, composting, and plastic reduction. We partner with local recyclers to create income from collected materials.",
-      },
-      {
-        title: "Clean Cooking Solutions",
-        desc: "We help widows transition from charcoal to gas cooking — reducing indoor air pollution and decreasing demand for charcoal-driven deforestation.",
+        title: "Labour Day School Cleanup · Buea, 2025",
+        desc: "Volunteers carried out a cleanup at Lycée de Buea and Buea Technical Training College.",
+        href: "/projects/archive/city-cleanup-may-2025/",
+        linkLabel: "Read the 2025 Labour Day School Cleanup record",
       },
     ],
-    commitmentLabel: "Our commitment:",
-    commitment:
-      "By 2027, every ADA program will include a measurable environmental component. We track trees planted, waste collected, and households transitioned to clean cooking.",
   },
   accountability: {
     title: "Accountability Practices",
@@ -446,7 +411,7 @@ const en: TransparencyCopy = {
       },
       {
         title: "Open books policy",
-        desc: "Financial records available upon request. Annual summaries published publicly.",
+        desc: "Available financial records can be requested. The Annual Financial Summary shows what is currently published.",
       },
       {
         title: "Beneficiary feedback",
@@ -454,7 +419,7 @@ const en: TransparencyCopy = {
       },
       {
         title: "Bilingual reporting",
-        desc: "All reports available in English and French for international partners.",
+        desc: "Year in Review publications include English and French. Individual outreach reports may be available in only one language.",
       },
     ],
   },
@@ -469,7 +434,7 @@ const fr: TransparencyCopy = {
   meta: {
     title: "Transparence et Responsabilité",
     description:
-      "Rapports financiers, détails d'enregistrement et mesures de responsabilité d'ADA. 80% de chaque dollar va directement aux programmes.",
+      "Consultez les informations sur l’enregistrement d’ADA, ses publications annuelles, l’état de ses rapports financiers et ses pratiques de responsabilité.",
   },
   hero: {
     title: "Transparence et Responsabilité",
@@ -684,100 +649,66 @@ const fr: TransparencyCopy = {
       "Nous suivons les résultats, pas seulement les activités. Voici nos indicateurs clés avec les bases de référence et les réalisations.",
   },
   theoryOfChange: {
-    intro: "Comment le soutien est planifié et examiné dans les programmes communautaires d'ADA.",
+    title: "Comment se déroulent nos actions",
+    intro: "Du besoin identifié avec la communauté au compte rendu de l’action.",
     steps: [
-      {
-        step: "1",
-        title: "Identifier",
-        desc: "Les leaders communautaires orientent les veuves, orphelins et jeunes femmes en crise vers ADA.",
-      },
-      {
-        step: "2",
-        title: "Stabiliser",
-        desc: "Aide immédiate : colis alimentaires, frais de scolarité, soutien médical d'urgence.",
-      },
-      {
-        step: "3",
-        title: "Planifier le soutien",
-        desc: "Les activités sont planifiées selon le champ de chaque projet et les besoins identifiés dans les communautés.",
-      },
-      {
-        step: "4",
-        title: "Examiner",
-        desc: "Les dossiers de projet décrivent les plans, les activités et les documents disponibles pour chaque initiative.",
-      },
+      { step: "1", title: "Écouter", desc: "Identifier un besoin avec les membres de la communauté et les partenaires locaux." },
+      { step: "2", title: "Préparer", desc: "Définir l’aide possible et le périmètre de l’action." },
+      { step: "3", title: "Agir", desc: "Mener l’action avec les équipes locales." },
+      { step: "4", title: "Rendre compte", desc: "Consigner les activités, les coûts connus et les éléments qui restent à confirmer." },
     ],
-    sustainabilityLabel: "Durabilité :",
-    sustainability:
-      "La planification à long terme des programmes dépend des ressources disponibles et des besoins identifiés avec les communautés.",
   },
   sdg: {
-    intro:
-      "Les programmes d'ADA contribuent directement à 7 des 17 Objectifs de Développement Durable des Nations Unies.",
+    title: "Lien avec les objectifs de développement durable",
+    intro: "Ces exemples montrent comment le travail d’ADA se rattache à certains objectifs des Nations Unies. Ils ne constituent ni une approbation de l’ONU ni une preuve que ces objectifs ont été atteints.",
     goals: [
       {
         number: "1",
-        color: "#E5243B",
-        title: "Pas de Pauvreté",
-        detail: "Soutien aux veuves, aide alimentaire, kits de démarrage",
+        title: "Pas de pauvreté",
+        detail: "Articles de première nécessité pour des veuves à Buea.",
+        href: "/projects/archive/womens-day-home-visits-mar-2023/",
+        linkLabel: "Lire le dossier de l’action auprès des veuves de 2023",
       },
       {
         number: "2",
-        color: "#DDA63A",
-        title: "Faim Zéro",
-        detail: "Distribution alimentaire, aide d'urgence",
+        title: "Faim zéro",
+        detail: "Denrées alimentaires pour des enfants lors de l’action de Noël à Buea.",
+        href: "/projects/archive/christmas-giving-dec-2023/",
+        linkLabel: "Lire le dossier de l’action de Noël de 2023",
       },
       {
         number: "4",
-        color: "#C5192D",
-        title: "Éducation de Qualité",
-        detail: "Rentrée scolaire, mentorat, formation professionnelle",
+        title: "Éducation de qualité",
+        detail: "Prise en charge de frais de scolarité pour des enfants à Bamenda.",
+        href: "/projects/archive/back-to-school-bamenda-aug-2026/",
+        linkLabel: "Lire le dossier de la rentrée scolaire de 2026 à Bamenda",
       },
       {
         number: "5",
-        color: "#FF3A21",
-        title: "Égalité des Sexes",
-        detail: "Programmes de soutien aux femmes et aux filles",
-      },
-      {
-        number: "10",
-        color: "#DD1367",
-        title: "Inégalités Réduites",
-        detail: "Soutien aux PDI, communautés affectées par la crise",
-      },
-      {
-        number: "13",
-        color: "#3F7E44",
-        title: "Action Climatique",
-        detail:
-          "Nettoyages communautaires, plantation d'arbres, gestion des déchets",
+        title: "Égalité entre les sexes",
+        detail: "Sensibilisation à la santé menstruelle et remise de kits d’hygiène à des filles à Bamenda.",
+        href: "/projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/",
+        linkLabel: "Lire le dossier de l’action de 2026 sur la dignité des filles",
       },
     ],
-    feministLabel:
-      "Alignement avec la Politique d'aide internationale féministe du Canada :",
-    feminist:
-      "Les programmes d'ADA comprennent un soutien aux femmes et aux filles, ainsi que des initiatives éducatives et communautaires.",
   },
   environment: {
-    intro:
-      "Chaque programme ADA intègre la sensibilisation environnementale — car des communautés saines ont besoin d'une planète saine.",
+    title: "Nettoyage communautaire et protection de l’environnement",
+    intro: "Les dossiers d’ADA montrent comment des bénévoles ont contribué à l’entretien d’espaces partagés à Buea.",
     items: [
       {
-        title: "Plantation d'Arbres et Reboisement",
-        desc: "Chaque nettoyage communautaire inclut la plantation d'arbres. En 2024, nous avons planté 50 arbres à Bamenda — luttant contre la déforestation.",
+        title: "Nettoyage communautaire · Buea, 2023",
+        desc: "Notre équipe et les bénévoles ont ramassé les déchets dans des espaces partagés à Buea.",
+        href: "/projects/archive/city-cleanup-may-2023/",
+        linkLabel: "Lire le dossier du nettoyage communautaire de 2023",
       },
       {
-        title: "Éducation à la Gestion des Déchets",
-        desc: "Nos campagnes enseignent le tri des déchets, le compostage et la réduction du plastique. Nous collaborons avec des recycleurs locaux.",
-      },
-      {
-        title: "Solutions de Cuisson Propre",
-        desc: "Nous aidons les veuves à passer du charbon au gaz — réduisant la pollution intérieure et la demande de déforestation liée au charbon.",
+        title: "Nettoyage d’établissements scolaires pour la fête du Travail · Buea, 2025",
+        desc: "Des bénévoles ont mené une opération de nettoyage au lycée de Buea et au Buea Technical Training College.",
+        href: "/projects/archive/city-cleanup-may-2025/",
+        linkLabel: "Lire le dossier du nettoyage scolaire de 2025",
       },
     ],
-    commitmentLabel: "Notre engagement :",
-    commitment:
-      "D'ici 2027, chaque programme ADA inclura une composante environnementale mesurable. Nous suivons les arbres plantés, les déchets collectés et les ménages convertis à la cuisson propre.",
   },
   accountability: {
     title: "Pratiques de Responsabilité",
@@ -796,7 +727,7 @@ const fr: TransparencyCopy = {
       },
       {
         title: "Politique de livres ouverts",
-        desc: "Les registres financiers sont disponibles sur demande. Les résumés annuels sont publiés publiquement.",
+        desc: "Les documents financiers disponibles peuvent être demandés. Le résumé financier annuel indique ce qui est actuellement publié.",
       },
       {
         title: "Retour des bénéficiaires",
@@ -804,7 +735,7 @@ const fr: TransparencyCopy = {
       },
       {
         title: "Rapports bilingues",
-        desc: "Tous les rapports sont disponibles en anglais et en français pour les partenaires internationaux.",
+        desc: "Les bilans de l’année sont publiés en anglais et en français. Certains rapports d’action peuvent n’être disponibles que dans une langue.",
       },
     ],
   },

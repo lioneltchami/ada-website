@@ -1,0 +1,47 @@
+---
+import type { Locale } from "../../i18n";
+import {
+  annualPublicationLabels,
+  historicAnnualReports,
+  publishedYearInReviews,
+} from "../../lib/annual-publications";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const labels = annualPublicationLabels(locale);
+const linkClass = "inline-flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-primary-900 underline underline-offset-4 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-2";
+---
+
+<div class="mt-8">
+  <h3 id="annual-publications" tabindex="-1" class="scroll-mt-28 text-lg font-semibold text-gray-900 focus:outline-2 focus:outline-offset-4 focus:outline-primary-800">
+    {labels.heading}
+  </h3>
+  {publishedYearInReviews.length > 0 && (
+    <>
+      <p class="mt-2 text-sm leading-relaxed text-gray-700">{labels.intro}</p>
+      <ul role="list" class="mt-3 grid gap-2 sm:grid-cols-2">
+        {publishedYearInReviews.map(({ year, href }) => (
+          <li class="rounded-lg border border-primary-200 bg-white">
+            <a data-annual-review={year} href={href} class:list={[linkClass, "w-full"]}>
+              {labels.reviewLink(year)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+  {historicAnnualReports.length > 0 && (
+    <div class="mt-5 border-t border-gray-200 pt-4">
+      <h4 class="text-sm font-semibold text-gray-900">{labels.historicHeading}</h4>
+      <p class="mt-1 text-sm text-gray-700">{labels.historicNote}</p>
+      <ul role="list">
+        {historicAnnualReports.map(({ year, href }) => (
+          <li><a href={href} hreflang="en" class={linkClass}>{labels.historicLink(year)}</a></li>
+        ))}
+      </ul>
+    </div>
+  )}
+</div>
