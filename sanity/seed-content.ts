@@ -1,8 +1,14 @@
 import { createClient } from '@sanity/client';
 
+// Sample data must never be written to a live dataset.
+const dataset = process.env.SANITY_DATASET;
+if (dataset !== 'sandbox' && dataset !== 'development') {
+  throw new Error('Set SANITY_DATASET to sandbox or development before loading sample content.');
+}
+
 const client = createClient({
   projectId: 'rj2m21gk',
-  dataset: 'production',
+  dataset,
   apiVersion: '2026-03-28',
   token: process.env.SANITY_API_TOKEN,
   useCdn: false,
@@ -11,19 +17,7 @@ const client = createClient({
 async function seed() {
   console.log('Seeding realistic placeholder content...');
 
-  // Team Members (realistic Cameroonian names and roles)
-  const teamMembers = [
-    { _id: 'team-1', name: 'Pastor Emmanuel Tchami', role: 'Founder & Executive Director', bio: 'Pastor Emmanuel founded ADA in 2021 with a vision to serve the most vulnerable communities in Cameroon. With over 15 years of pastoral ministry, he leads the organization with compassion and integrity.', isActive: true, sortOrder: 1 },
-    { _id: 'team-2', name: 'Grace Nkembe', role: 'Programs Director', bio: 'Grace oversees all six ADA programs across Cameroon. Her background in social work and community development ensures our programs create lasting impact.', isActive: true, sortOrder: 2 },
-    { _id: 'team-3', name: 'Jean-Pierre Fotso', role: 'Operations Manager', bio: 'Jean-Pierre manages day-to-day operations, logistics, and volunteer coordination. His organizational skills keep our programs running smoothly across multiple communities.', isActive: true, sortOrder: 3 },
-    { _id: 'team-4', name: 'Marie-Claire Ndongo', role: 'Community Outreach Lead', bio: 'Marie-Claire connects directly with widows and families in need. She identifies beneficiaries and ensures support reaches those who need it most.', isActive: true, sortOrder: 4 },
-    { _id: 'team-5', name: 'Samuel Mbah', role: 'Education Program Coordinator', bio: 'Samuel manages our education initiatives, from school supply distribution to mentorship programs for orphaned children in Douala and rural areas.', isActive: true, sortOrder: 5 },
-  ];
-
-  for (const m of teamMembers) {
-    await client.createOrReplace({ ...m, _type: 'teamMember' });
-  }
-  console.log(`✓ ${teamMembers.length} Team Members`);
+  // The production roster is curated; do not create sample team profiles.
 
   // Testimonials (realistic beneficiary stories)
   const testimonials = [
@@ -62,7 +56,7 @@ async function seed() {
 
   console.log('\n✅ Content seeding complete!');
   console.log('\nTotal documents in Sanity: ~40');
-  console.log('\nTo add photos: Go to https://ada-website.sanity.studio/ and upload images to Team Members and Gallery Images');
+  console.log('\nSample data is for development only. Do not use it as evidence of an outreach or publish it.');
 }
 
 seed().catch((err) => { console.error('Seed failed:', err); process.exit(1); });

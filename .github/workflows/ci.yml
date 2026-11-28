@@ -23,6 +23,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm test
       - run: npm run build
+      - name: Check bilingual homepage photo controls
+        run: node scripts/verify-home-outreach-photos.mjs
 
       - name: Verify pages generated
         run: |

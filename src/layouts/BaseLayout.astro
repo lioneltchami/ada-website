@@ -51,6 +51,7 @@ const webVitalsSampleRate = Number(
 );
 const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
 
+const isFrench = locale === "fr";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "NonprofitOrganization",
@@ -58,8 +59,10 @@ const jsonLd = {
   alternateName: "ADA",
   url: Astro.site?.toString() || "https://apotidev.org",
   logo: "https://apotidev.org/brand/ada-primary-lockup.png",
-  description:
-    "Faith-based charity empowering widows, orphans, and young women in Cameroon through food distribution, education, vocational training, and healthcare since 2021.",
+  description: isFrench
+    ? "Association chrétienne à but non lucratif qui apporte un soutien concret aux femmes et aux adolescentes au Cameroun, en particulier aux veuves et aux mères."
+    : "Christian nonprofit providing practical support to women and adolescent girls in Cameroon, especially widows and mothers.",
+  founder: { "@type": "Person", name: "Lionel Tchami Nfada" },
   foundingDate: "2021",
   foundingLocation: { "@type": "Place", name: "Buea, Cameroon" },
   areaServed: { "@type": "Country", name: "Cameroon" },
@@ -86,13 +89,9 @@ const jsonLd = {
   ],
   identifier: REGISTRATION_NUMBER,
   nonprofitStatus: `Registered Non-Profit Association, Cameroon (${REGISTRATION_NUMBER})`,
-  knowsAbout: [
-    "Widow empowerment",
-    "Orphan education",
-    "Women vocational training",
-    "Community development",
-    "Cameroon",
-  ],
+  knowsAbout: isFrench
+    ? ["Soutien aux veuves", "Dignité des adolescentes", "Soutien aux mères", "Cameroun"]
+    : ["Widow support", "Adolescent girls’ dignity", "Support for mothers", "Cameroon"],
   sameAs: [
     "https://facebook.com/apotidev",
     "https://instagram.com/apotidev",

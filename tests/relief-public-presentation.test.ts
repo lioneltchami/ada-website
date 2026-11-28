@@ -14,11 +14,10 @@ describe("public presentation after withdrawal of the 2024 Bamenda relief record
     ]);
   });
 
-  it("removes the retired Sponsor example without removing the published Buea example in either language", () => {
+  it("removes the retired Sponsor example and uses a documented widows’ outreach without a funding claim", () => {
     const sponsor = readFileSync("src/components/sponsor/SponsorLanding.astro", "utf8");
     expect(sponsor).not.toMatch(/Emergency food relief|Aide alimentaire d'urgence|50 displaced families|50 familles déplacées|150\+|2[ ,]417/);
-    expect(sponsor).toContain("82,750 FCFA");
-    expect(sponsor).toContain("82 750 FCFA");
-    expect(sponsor).toContain("/projects/archive/back-to-school-buea-2024");
+    expect(sponsor).not.toMatch(/82[, ]750 FCFA/);
+    expect(sponsor).toContain("/projects/archive/widow-support-food-cash-mar-2022");
   });
 });

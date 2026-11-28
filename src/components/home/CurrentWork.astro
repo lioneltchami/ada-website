@@ -27,6 +27,7 @@ const copy = isFr
       title: "Ce que nous faisons maintenant",
       body: "Découvrez les prochaines actions d’ADA et les campagnes que vous pouvez soutenir.",
       campaignBody: "Découvrez les campagnes que vous pouvez soutenir.",
+      announcementBody: "Découvrez les prochaines actions annoncées par notre équipe.",
       upcoming: "Actions à venir",
       campaigns: "Campagnes à soutenir",
       scheduled: "Prévu",
@@ -41,6 +42,7 @@ const copy = isFr
       title: "What we are working on",
       body: "See what’s coming up and which campaigns you can support.",
       campaignBody: "See which campaigns you can support.",
+      announcementBody: "See the upcoming outreaches our team has announced.",
       upcoming: "Upcoming outreaches",
       campaigns: "Campaigns you can support",
       scheduled: "Scheduled",
@@ -103,7 +105,7 @@ function formatSchedule(start?: string, end?: string): string {
         {copy.title}
       </h2>
       <p class="mt-4 text-gray-600 leading-relaxed">
-        {announcements.length > 0 ? copy.body : copy.campaignBody}
+        {!hasProjects ? copy.announcementBody : announcements.length > 0 ? copy.body : copy.campaignBody}
       </p>
     </div>
     <a

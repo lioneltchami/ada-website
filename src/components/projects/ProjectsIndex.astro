@@ -1,5 +1,6 @@
 ---
 import { outreachDisplayTitle, outreachTitleLocation } from "../../lib/outreach-display-title";
+import { featuredWomenOutreach, featuredWomenReportHref } from "../../data/featured-women-outreach";
 import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
@@ -67,10 +68,12 @@ try {
 }
 
 const upcoming = projects.filter((p) => p.status === "upcoming");
-const current = projects.filter((p) => p.status === "active");
-const paused = projects.filter((p) => p.status === "paused");
+// Broad legacy campaign records remain available through their original URLs and
+// the archive. They are not evidence of an active service or current appeal.
+const legacyCampaigns = new Set(["widow-support", "emergency-relief", "education-drive", "christmas-giving"]);
+const current = projects.filter((p) => p.status === "active" && !legacyCampaigns.has(p.slug));
+const paused = projects.filter((p) => p.status === "paused" && !legacyCampaigns.has(p.slug));
 const records = projects.filter((p) => p.status === "completed");
-const activeCount = current.filter((p) => !p.hasEnded).length;
 
 // Use only the exact, approved feature photo from a completed archive record.
 const archivePhotosByHref = new Map<string, NonNullable<ReturnType<typeof getEligibleArchiveFeaturePhoto>>>();
@@ -85,7 +88,10 @@ if (records.some((project) => project.archiveReady && !project.isAutoArchived)) 
 const copy = isFr
   ? {
       title: "Nos projets",
-      intro: "Découvrez les actions à venir, les programmes en cours et les dossiers de projets d’ADA au Cameroun.",
+      intro: "Animée par sa foi chrétienne, notre équipe apporte un soutien concret aux femmes et aux adolescentes au Cameroun, notamment aux veuves et aux mères.",
+      featured: "Notre travail auprès des femmes et des adolescentes",
+      featuredIntro: "Ces actions réalisées montrent le type de soutien que nous apportons. Elles ne constituent pas une annonce d’inscription ou d’une prochaine session.",
+      history: "Les archives conservent aussi les dossiers de nos actions passées auprès d’un public plus large.",
       archive: "Voir les archives de projets",
       archiveHint: "Parcourez les dossiers par catégorie d’action et consultez les documents disponibles.",
       upcoming: "Actions à venir",
@@ -101,11 +107,14 @@ const copy = isFr
       donate: "Donner",
       stats: "Aperçu des projets",
       statUpcoming: "Actions à venir",
-      statActive: "Programmes en cours",
+      statFeatured: "Domaines présentés",
     }
   : {
       title: "Our Projects",
-      intro: "See ADA’s upcoming outreaches, current programs, and project records in Cameroon.",
+      intro: "Rooted in our Christian faith, our team offers practical support for women and adolescent girls in Cameroon, including widows and mothers.",
+      featured: "Our work with women and adolescent girls",
+      featuredIntro: "These completed outreaches show what our support looks like. They are not announcements of open enrolment or a new session.",
+      history: "The archive also preserves records of earlier outreaches that served the wider community.",
       archive: "View the project archive",
       archiveHint: "Browse records by outreach category and see the available documents.",
       upcoming: "Upcoming outreaches",
@@ -121,7 +130,7 @@ const copy = isFr
       donate: "Donate",
       stats: "Projects at a glance",
       statUpcoming: "Upcoming outreaches",
-      statActive: "Current programs",
+      statFeatured: "Featured areas",
     };
 
 const timeFormatter = new Intl.DateTimeFormat(isFr ? "fr-FR" : "en-US", {
@@ -168,11 +177,29 @@ const groups = [
         <dd class="order-1 font-heading text-2xl font-semibold tabular-nums text-primary-800">{upcoming.length}</dd>
       </div>
       <div class="flex items-baseline gap-2.5">
-        <dt class="order-2 text-sm font-medium text-gray-700">{copy.statActive}</dt>
-        <dd class="order-1 font-heading text-2xl font-semibold tabular-nums text-primary-800">{activeCount}</dd>
+        <dt class="order-2 text-sm font-medium text-gray-700">{copy.statFeatured}</dt>
+        <dd class="order-1 font-heading text-2xl font-semibold tabular-nums text-primary-800">{featuredWomenOutreach.length}</dd>
       </div>
     </dl>
   </div>
+
+  <Section id="women-and-girls" background="white" padding="md">
+    <h2 class="font-heading text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">{copy.featured}</h2>
+    <p class="mt-3 max-w-prose text-sm leading-relaxed text-gray-700">{copy.featuredIntro}</p>
+    <div class="mt-6 grid gap-5 md:grid-cols-3">
+      {featuredWomenOutreach.map((outreach) => (
+        <article class="flex min-w-0 flex-col rounded-lg border border-primary-100 bg-[#faf8f4] p-5 sm:p-6">
+          <p class="text-sm font-semibold text-primary-800">{outreach.context[locale]}</p>
+          <h3 class="mt-2 font-heading text-xl font-bold text-gray-900">{outreach.title[locale]}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-gray-700">{outreach.evidence[locale]}</p>
+          <div class="mt-auto pt-4">
+            <a href={featuredWomenReportHref(outreach.slug)} class={secondaryLink}>{outreach.link[locale]}</a>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="mt-6 max-w-prose text-sm leading-relaxed text-gray-700">{copy.history}</p>
+  </Section>
 
   {
     groups.map(({ id, title, items, background }) => items.length ? (

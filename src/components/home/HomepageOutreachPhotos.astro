@@ -1,0 +1,201 @@
+---
+import Section from "../layout/Section.astro";
+import { getArchiveFeaturePhoto } from "../../data/archive-feature-photos";
+import { getArchiveSupportingPhotos } from "../../data/archive-supporting-photos";
+import { localePath, type Locale } from "../../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "en" } = Astro.props;
+const fr = locale === "fr";
+const copy = fr
+  ? {
+      title: "Nos actions en images",
+      gallery: "Voir la galerie",
+      previous: "Photos précédentes",
+      next: "Photos suivantes",
+    }
+  : {
+      title: "Our outreach in photos",
+      gallery: "Browse the gallery",
+      previous: "Previous photos",
+      next: "Next photos",
+    };
+
+// Use photos already cleared for these exact outreach records. The baking
+// workshop is archival and is not a photograph of the Girls’ Dignity outreach.
+const records = [
+  {
+    slug: "widow-support-food-cash-mar-2022",
+    title: fr ? "Visites aux veuves · Muea, mars 2022" : "Widows’ home visits · Muea, March 2022",
+    photo: getArchiveSupportingPhotos("widow-support-food-cash-mar-2022", locale)[0],
+  },
+  {
+    slug: "prenatal-care-support-program",
+    title: fr ? "Soutien aux mères · Muea, juillet 2025" : "Support for mothers · Muea, July 2025",
+    photo: getArchiveFeaturePhoto("prenatal-care-support-program", locale),
+  },
+  {
+    slug: "idp-girls-baking-training-jul-2022",
+    title: fr ? "Atelier de pâtisserie pour les filles · Buea, juillet 2022" : "Girls’ baking workshop · Buea, July 2022",
+    photo: getArchiveFeaturePhoto("idp-girls-baking-training-jul-2022", locale),
+  },
+];
+---
+
+<Section id="outreach-photos" background="gray" padding="md">
+  <div data-home-outreach-photos>
+    <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
+      <h2 id="outreach-photos-title" class="font-heading text-3xl font-bold text-gray-900 md:text-4xl">{copy.title}</h2>
+      <div data-photo-controls hidden role="group" aria-labelledby="outreach-photos-title">
+        <button type="button" data-photo-previous aria-controls="outreach-photo-list" aria-label={copy.previous} aria-disabled="true">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+        </button>
+        <button type="button" data-photo-next aria-controls="outreach-photo-list" aria-label={copy.next} aria-disabled="false">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+        </button>
+      </div>
+    </div>
+    <ul id="outreach-photo-list" class="outreach-photo-list" data-photo-list tabindex="0" aria-labelledby="outreach-photos-title">
+      {records.map(({ slug, title, photo }) => photo && (
+        <li class="outreach-photo-card">
+          <figure class="h-full overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <img
+              src={photo.src}
+              width={photo.width}
+              height={photo.height}
+              alt={photo.alt}
+              class="aspect-[3/2] w-full bg-primary-50 object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption class="p-4">
+              <a href={localePath(`/projects/archive/${slug}/`, locale)} class="font-semibold text-primary-800 underline decoration-primary-300 underline-offset-4 hover:decoration-current">
+                {title}
+              </a>
+              <p class="mt-2 text-sm leading-relaxed text-gray-700">{photo.caption}</p>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+    <a href={localePath("/gallery/", locale)} class="mt-5 inline-flex min-h-11 items-center gap-2 font-semibold text-primary-800 underline underline-offset-4">
+      {copy.gallery}<span aria-hidden="true">→</span>
+    </a>
+  </div>
+</Section>
+
+<style>
+  .outreach-photo-list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 86%;
+    gap: 1rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x mandatory;
+    padding: 0.25rem 0.25rem 0.75rem;
+    scroll-padding-inline: 0.25rem;
+  }
+
+  .outreach-photo-card {
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  [data-photo-controls]:not([hidden]) {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  [data-photo-controls] button {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid #46604c;
+    border-radius: 50%;
+    color: #25462d;
+    background: white;
+  }
+
+  [data-photo-controls] button[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  [data-photo-controls] button[aria-disabled="false"]:hover {
+    background: #e1ebe0;
+    cursor: pointer;
+  }
+
+  .outreach-photo-list:focus-visible,
+  [data-photo-controls] button:focus-visible {
+    outline: 2px solid #25462d;
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 40rem) {
+    .outreach-photo-list { grid-auto-columns: 46%; }
+  }
+
+  @media (min-width: 64rem) {
+    .outreach-photo-list { grid-auto-columns: 39%; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-home-outreach-photos]").forEach((strip) => {
+    const list = strip.querySelector<HTMLElement>("[data-photo-list]");
+    const controls = strip.querySelector<HTMLElement>("[data-photo-controls]");
+    const previous = strip.querySelector<HTMLButtonElement>("[data-photo-previous]");
+    const next = strip.querySelector<HTMLButtonElement>("[data-photo-next]");
+    if (!list || !controls || !previous || !next) return;
+    const cards = Array.from(list.children) as HTMLElement[];
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const tolerance = 2;
+    const maxOffset = () => Math.max(0, list.scrollWidth - list.clientWidth);
+    const update = () => {
+      const max = maxOffset();
+      controls.hidden = max <= tolerance;
+      previous.setAttribute("aria-disabled", String(list.scrollLeft <= tolerance));
+      next.setAttribute("aria-disabled", String(list.scrollLeft >= max - tolerance));
+    };
+
+    const stops = () => {
+      const max = maxOffset();
+      const first = cards[0]?.offsetLeft ?? 0;
+      return [...new Set([0, ...cards.map((card) => Math.min(max, card.offsetLeft - first)), max])];
+    };
+    const moveTo = (left: number) => {
+      list.scrollTo({ left, behavior: motion.matches ? "instant" : "smooth" });
+    };
+    const move = (direction: -1 | 1) => {
+      const here = list.scrollLeft;
+      const offsets = stops();
+      const target = direction === 1
+        ? offsets.find((offset) => offset > here + tolerance)
+        : offsets.reverse().find((offset) => offset < here - tolerance);
+      if (target !== undefined) moveTo(target);
+    };
+
+    previous.addEventListener("click", () => move(-1));
+    next.addEventListener("click", () => move(1));
+    list.addEventListener("scroll", update, { passive: true });
+    list.addEventListener("keydown", (event) => {
+      if (event.target !== list || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      if (event.key === "ArrowLeft") move(-1);
+      else if (event.key === "ArrowRight") move(1);
+      else if (event.key === "Home") moveTo(0);
+      else if (event.key === "End") moveTo(maxOffset());
+      else return;
+      event.preventDefault();
+    });
+
+    const observer = new ResizeObserver(update);
+    observer.observe(list);
+    update();
+  });
+</script>

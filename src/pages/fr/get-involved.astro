@@ -19,24 +19,6 @@ const fallbackRoles = [
     desc: "Diriger l'engagement communautaire et la mise en œuvre des programmes.",
   },
   {
-    title: "Mentor Éducatif",
-    time: "5-10 h/semaine",
-    location: "Sur place",
-    desc: "Encadrer et accompagner les enfants orphelins dans notre programme éducatif.",
-  },
-  {
-    title: "Formateur Professionnel",
-    time: "8-12 h/semaine",
-    location: "Sur place",
-    desc: "Enseigner des compétences professionnelles aux jeunes femmes.",
-  },
-  {
-    title: "Bénévole Santé",
-    time: "5-8 h/semaine",
-    location: "Sur place",
-    desc: "Aider aux visites hospitalières et aux campagnes de sensibilisation.",
-  },
-  {
     title: "Médias & Communication",
     time: "5-10 h/semaine",
     location: "À distance",
@@ -50,9 +32,14 @@ const fallbackRoles = [
   },
 ];
 
+// These legacy seeded entries presented unverified service programs as open roles.
+const unverifiedSeedRoleIds = new Set(["role-mentor", "role-trainer", "role-health"]);
+
 let volunteerRoles = fallbackRoles;
 try {
-  const roles = await getVolunteerRoles("fr");
+  const roles = (await getVolunteerRoles("fr")).filter(
+    (role) => !unverifiedSeedRoleIds.has(role._id),
+  );
   if (roles?.length)
     volunteerRoles = roles.map((r: SanityVolunteerRole) => ({
       title: r.title,
@@ -177,8 +164,9 @@ const ways = [
   <Section id="benevole" background="gray" padding="lg">
     <div class="max-w-3xl">
       <h2 class="text-3xl font-heading font-bold text-gray-900 tracking-tight">
-        Opportunités de Bénévolat
+        Possibilités de bénévolat
       </h2>
+      <p class="mt-4 text-gray-600">Dites-nous comment vous aimeriez aider. Nous confirmons les rôles disponibles et les responsabilités avant le début du bénévolat.</p>
     </div>
     <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">
       {

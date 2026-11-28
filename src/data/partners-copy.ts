@@ -152,21 +152,12 @@ const en: PartnersCopy = {
     cta: "Sponsor a Program",
   },
   priorities: {
-    title: "2026 Funding Priorities",
-    fundingGoalLabel: "2026 Funding Goal",
+    title: "Our outreach focus",
+    fundingGoalLabel: "Completed outreach",
     items: [
-      {
-        emoji: "",
-        title: "Orphan Education",
-        desc: "School scholarships for 300 orphans",
-        amount: "$35,000",
-      },
-      {
-        emoji: "",
-        title: "Health & Nutrition",
-        desc: "Mobile clinic and nutrition program",
-        amount: "$62,000",
-      },
+      { emoji: "", title: "Widows’ Support", desc: "Food, household essentials, and home visits shaped by local needs.", amount: "Muea · 2022" },
+      { emoji: "", title: "Girls’ Dignity", desc: "All 20 adolescent girls who attended received menstrual health supplies.", amount: "Bamenda · 2026" },
+      { emoji: "", title: "Support for Mothers", desc: "Practical supplies for about 15 mothers and their newborns.", amount: "Muea · 2025" },
     ],
   },
   partnerTypes: {
@@ -188,7 +179,7 @@ const en: PartnersCopy = {
       {
         title: "Companies & CSR Teams",
         fit: "Businesses looking for practical, accountable social impact in Cameroon.",
-        ask: "Fund a program cycle, match employee gifts, sponsor skills training, or contribute in-kind expertise.",
+        ask: "Discuss funding a documented outreach, matching employee gifts, or contributing relevant expertise.",
         proof:
           "Receive brand recognition options, quarterly impact reporting, budgets, and beneficiary stories.",
       },
@@ -226,7 +217,7 @@ const en: PartnersCopy = {
       {
         icon: "",
         title: "Measurable Results",
-        desc: "Logical framework with clear indicators, baselines, and targets. We track outcomes (income generated) not just outputs (people trained).",
+        desc: "For a new project, agree on what we aim to change and how we will measure it. Published reports distinguish what was delivered from outcomes we can verify.",
       },
       {
         icon: "",
@@ -241,14 +232,14 @@ const en: PartnersCopy = {
       {
         icon: "",
         title: "Bilingual Capacity",
-        desc: "Full reporting in English and French. Quarterly updates, annual reports, and M&E data on schedule.",
+        desc: "Reports are available in English and French where published. Agree on any additional updates and measures at the start of a partnership.",
       },
     ],
   },
   gender: {
     title: "Gender Equality: At the Core of Everything We Do",
     intro:
-      "ADA's programs are designed through a gender lens, directly advancing women's economic empowerment and girls' access to education.",
+      "Our work focuses on women and adolescent girls in Cameroon, especially widows and mothers. We agree on specific goals with our local teams and report what we can verify.",
     stats: [],
     benefitsTitle: "How our programs specifically benefit women and girls:",
     benefits: [
@@ -257,12 +248,12 @@ const en: PartnersCopy = {
         text: "Connects widows with practical relief and community support.",
       },
       {
-        label: "Skills Training:",
-        text: "Exclusively targets young women with vocational training + microfinance for business launch",
+        label: "Girls’ Dignity:",
+        text: "Provides menstrual health information and supplies, as documented in the Bamenda outreach.",
       },
       {
-        label: "Education:",
-        text: "Prioritizes girls who are first to be pulled from school when families face financial pressure",
+        label: "Support for Mothers:",
+        text: "Our Muea outreach provided practical essentials for mothers and newborns, not clinical care.",
       },
     ],
   },
@@ -397,7 +388,7 @@ const en: PartnersCopy = {
           },
           {
             label: "FCDO Alignment:",
-            text: "Our programs align with UK Foreign, Commonwealth & Development Office priorities: women's empowerment, education, humanitarian response, and climate.",
+            text: "Check each Foreign, Commonwealth & Development Office call’s priorities and eligibility before considering an application.",
           },
           {
             label: "Crisis Response:",
@@ -560,27 +551,12 @@ const fr: PartnersCopy = {
     cta: "Sponsoriser un Programme",
   },
   priorities: {
-    title: "Priorités de Financement 2026",
-    fundingGoalLabel: "Objectif de Financement 2026",
+    title: "Nos domaines d’action",
+    fundingGoalLabel: "Action menée",
     items: [
-      {
-        emoji: "",
-        title: "Émancipation des Veuves",
-        desc: "Former et équiper 500 veuves supplémentaires",
-        amount: "48 000 $",
-      },
-      {
-        emoji: "",
-        title: "Éducation pour les Orphelins",
-        desc: "Bourses scolaires pour 300 orphelins",
-        amount: "35 000 $",
-      },
-      {
-        emoji: "",
-        title: "Santé et Nutrition",
-        desc: "Clinique mobile et programme de nutrition",
-        amount: "62 000 $",
-      },
+      { emoji: "", title: "Soutien aux veuves", desc: "Aide alimentaire, articles essentiels et visites à domicile selon les besoins locaux.", amount: "Muea · 2022" },
+      { emoji: "", title: "Dignité des adolescentes", desc: "Les 20 adolescentes présentes ont toutes reçu des produits d’hygiène menstruelle.", amount: "Bamenda · 2026" },
+      { emoji: "", title: "Soutien aux mères", desc: "Articles essentiels pour environ 15 mères et leurs nouveau-nés.", amount: "Muea · 2025" },
     ],
   },
   partnerTypes: {
@@ -602,7 +578,7 @@ const fr: PartnersCopy = {
       {
         title: "Entreprises et Équipes RSE",
         fit: "Entreprises cherchant un impact social concret et responsable au Cameroun.",
-        ask: "Financer un cycle de programme, abonder les dons des employés, sponsoriser une formation professionnelle ou contribuer une expertise en nature.",
+        ask: "Échangez avec nous sur le financement d’une action documentée, l’abondement des dons du personnel ou un apport de compétences.",
         proof:
           "Recevoir des options de reconnaissance de marque, des rapports d'impact trimestriels, des budgets et des histoires de bénéficiaires.",
       },
@@ -640,7 +616,7 @@ const fr: PartnersCopy = {
       {
         icon: "",
         title: "Résultats Mesurables",
-        desc: "Cadre logique avec des indicateurs clairs, des références et des cibles. Nous suivons les résultats (revenus générés) et pas seulement les extrants (personnes formées).",
+        desc: "Pour chaque nouvelle action, définissons ensemble ce que nous cherchons à changer et comment l’évaluer. Nos rapports distinguent l’aide apportée des effets que nous pouvons vérifier.",
       },
       {
         icon: "",
@@ -655,14 +631,14 @@ const fr: PartnersCopy = {
       {
         icon: "",
         title: "Capacité Bilingue",
-        desc: "Rapports complets en anglais et en français. Mises à jour trimestrielles, rapports annuels et données de S&E dans les délais.",
+        desc: "Des rapports sont disponibles en français et en anglais lorsqu’ils sont publiés. Convenons dès le départ des mises à jour et des mesures à prévoir.",
       },
     ],
   },
   gender: {
     title: "Égalité des Genres : Au Cœur de Tout Ce Que Nous Faisons",
     intro:
-      "Les programmes d'ADA sont conçus à travers un prisme de genre, faisant directement progresser l'autonomisation économique des femmes et l'accès des filles à l'éducation.",
+      "Nos actions se concentrent sur les femmes et les adolescentes au Cameroun, en particulier les veuves et les mères. Nous définissons les objectifs avec nos équipes locales et rendons compte des résultats que nous pouvons vérifier.",
     stats: [],
     benefitsTitle:
       "Comment nos programmes bénéficient spécifiquement aux femmes et aux filles :",
@@ -672,12 +648,12 @@ const fr: PartnersCopy = {
         text: "Relie les veuves à une aide pratique et à un soutien communautaire.",
       },
       {
-        label: "Formation Professionnelle :",
-        text: "Cible exclusivement les jeunes femmes avec formation professionnelle + microfinance pour le lancement d'entreprise",
+        label: "Dignité des adolescentes :",
+        text: "Apporte des informations et des produits d’hygiène menstruelle, comme lors de notre action à Bamenda.",
       },
       {
-        label: "Éducation :",
-        text: "Priorise les filles qui sont les premières retirées de l'école lorsque les familles font face à des pressions financières",
+        label: "Soutien aux mères :",
+        text: "Notre action à Muea a fourni des articles essentiels aux mères et aux nouveau-nés, sans prestation de soins médicaux.",
       },
     ],
   },
@@ -812,7 +788,7 @@ const fr: PartnersCopy = {
           },
           {
             label: "Alignement FCDO :",
-            text: "Nos programmes s'alignent sur les priorités du Foreign, Commonwealth & Development Office du Royaume-Uni : autonomisation des femmes, éducation, réponse humanitaire et climat.",
+            text: "Vérifiez les priorités et les critères de chaque appel du Foreign, Commonwealth & Development Office avant d’envisager une candidature.",
           },
           {
             label: "Réponse aux Crises :",

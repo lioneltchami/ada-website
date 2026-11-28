@@ -48,18 +48,28 @@ describe("About page program routes", () => {
     }
   });
 
-  it("keeps both Community Clean-Up fallback cards on the general projects page", () => {
-    const english = readFileSync(resolve("src/pages/about.astro"), "utf8");
-    const french = readFileSync(resolve("src/pages/fr/about.astro"), "utf8");
-    const englishFallback = english.match(/title: 'Community Clean-Up'[^}]*}/)?.[0];
-    const frenchFallback = french.match(/title: 'Nettoyage Communautaire'[^}]*}/)?.[0];
+  it("features the same three published outreach records in each language", () => {
+    const expected = [
+      "widow-support-food-cash-mar-2022",
+      "girls-dignity-menstrual-health-bamenda-jun-2026",
+      "prenatal-care-support-program",
+    ];
+    const pages = [
+      ["src/pages/about.astro", "/projects/archive"],
+      ["src/pages/fr/about.astro", "/fr/projects/archive"],
+    ] as const;
+    for (const [path, base] of pages) {
+      const source = readFileSync(resolve(path), "utf8");
+      const programs = source.match(/const programs = \[([\s\S]*?)\];/)?.[1] ?? "";
+      const slugs = [...programs.matchAll(/slug:\s*"([^"]+)"/g)].map((match) => match[1]);
+      expect(slugs).toEqual(expected);
+      expect(source).toContain(`const archivePath = "${base}";`);
+      expect(source).toContain("href={`${archivePath}/${program.slug}/`}");
+      expect(source).not.toMatch(/getAboutPage|Bamenda office opened|Bureau de Bamenda ouvert/);
+    }
+  });
 
-    expect(englishFallback).toBeDefined();
-    expect(frenchFallback).toBeDefined();
-    expect(englishFallback).not.toMatch(/slug\s*:/);
-    expect(frenchFallback).not.toMatch(/slug\s*:/);
-    expect(getAboutProgramHref(undefined, available, "en")).toBe("/projects");
-    expect(getAboutProgramHref(undefined, available, "fr")).toBe("/fr/projects");
+  it("keeps the generic fallback for unverified Community Clean-Up CMS descriptions", () => {
     const known = new Set([...available, "community-cleanup"]);
     expect(
       getAboutProgramHref(
@@ -85,6 +95,14 @@ describe("About page program routes", () => {
         "Community Clean-Up",
       ),
     ).toBe("/projects/community-cleanup");
+  });
+
+  it("presents a verified founder and never reads seeded team profiles into the public roster", () => {
+    for (const path of ["src/pages/team.astro", "src/pages/fr/team.astro"]) {
+      const source = readFileSync(resolve(path), "utf8");
+      expect(source).toContain("Lionel Tchami Nfada");
+      expect(source).not.toMatch(/getTeamMembers|Pastor Emmanuel|Pasteur Emmanuel/);
+    }
   });
 
   it("rejects traversal and withdrawn slugs even if they appear in the available set", () => {

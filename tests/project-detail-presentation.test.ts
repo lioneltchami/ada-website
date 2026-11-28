@@ -5,9 +5,24 @@ import {
   getArchiveRecordStatusText,
   getProjectReportLabel,
   getProjectStatusText,
+  isLegacyCampaignListing,
 } from "../src/lib/project-detail-presentation";
 
 describe("project detail presentation", () => {
+  it("treats only the generic campaigns as earlier listings, never dated announcements or archive records", () => {
+    for (const slug of ["widow-support", "emergency-relief", "education-drive", "christmas-giving"]) {
+      expect(isLegacyCampaignListing(slug), slug).toBe(true);
+    }
+    for (const slug of [
+      "christmas-giving-bamenda-dec-2026",
+      "christmas-giving-buea-dec-2026",
+      "christmas-giving-dec-2024",
+      "widow-support-food-cash-mar-2022",
+    ]) {
+      expect(isLegacyCampaignListing(slug), slug).toBe(false);
+    }
+  });
+
   it("formats project amounts with an explicit USD currency in both locales", () => {
     expect(formatUsdAmount(2500, "en")).toBe("$2,500");
     expect(formatUsdAmount(2500, "fr")).toContain("2 500");
