@@ -3,6 +3,12 @@ import type { ProjectStatus } from "./project-lifecycle";
 export type ProjectPresentationLocale = "en" | "fr";
 export type ArchiveRecordStatus = "completed" | "ongoing" | "planned";
 
+// These generic listings are retained as references, not evidence of a current
+// programme. This is presentation only; do not reuse it to alter payment routing.
+export function isLegacyCampaignListing(slug: string): boolean {
+  return ["widow-support", "emergency-relief", "education-drive", "christmas-giving"].includes(slug);
+}
+
 export function getPausedProjectMessage(
   locale: ProjectPresentationLocale,
 ): string {

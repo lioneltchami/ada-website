@@ -13,15 +13,15 @@ export default {
 		donateNow: "Faire un Don",
 	},
 	hero: {
-		badge: "Association Caritative Chrétienne · Cameroun",
+		badge: "Association chrétienne à but non lucratif · Cameroun",
 		headline:
-			"Aucune Veuve Ne Devrait Choisir Entre Nourrir Ses Enfants et Payer L'École",
+			"Un soutien concret aux femmes et aux adolescentes au Cameroun",
 		subtitle:
-			"Depuis 2021, ADA soutient des initiatives communautaires au Cameroun par des actions concrètes, l'éducation et des partenariats locaux.",
+			"Ancrées dans notre foi chrétienne, nos équipes locales soutiennent les veuves, accompagnent les mères et répondent aux besoins concrets des adolescentes.",
 		cta: "Faire un Don",
 		ctaSecondary: "Nos Projets",
 		socialProof:
-			"Rejoignez 47+ donateurs qui soutiennent les communautés au Cameroun",
+			"Aidez-nous à soutenir les femmes et les adolescentes au Cameroun",
 	},
 	stats: {
 		livesImpacted: "Vies Impactées",
@@ -30,9 +30,9 @@ export default {
 		yearsOfService: "Années de Service",
 	},
 	campaign: {
-		title: "Campagne Éducation 2026",
-		deadline: "Se termine le 1er Sept 2026",
-		description: "Aidez-nous à renvoyer 50 enfants à l'école en septembre.",
+		title: "Actualités des actions",
+		deadline: "Consulter les dates des projets",
+		description: "Découvrez les actions prévues et consultez les rapports des actions menées.",
 		raised: "collectés",
 		goal: "Objectif",
 		donors: "donateurs",
@@ -40,18 +40,13 @@ export default {
 	},
 	mission: {
 		heading: "Notre Mission",
-		body: "Fournir un soutien holistique aux communautés vulnérables du Cameroun à travers des programmes fondés sur la foi qui répondent aux besoins immédiats tout en construisant l'autonomie à long terme.",
+		body: "Ancrés dans notre foi chrétienne, nous apportons un soutien concret aux femmes et aux adolescentes au Cameroun, en accordant une attention particulière aux veuves et aux mères.",
 	},
 	testimonials: {
 		heading: "Histoires d'Impact",
 		subtitle: "Des histoires vraies des personnes que nous servons.",
 	},
-	founder: {
-		quote:
-			"En 2021, j'ai rencontré une veuve à Bamenda qui vendait ses marmites pour payer les frais de scolarité. Il lui en restait trois. Ce moment a tout changé — je savais que nous devions agir. Aujourd'hui, 80 centimes de chaque dollar que vous donnez vont directement aux familles comme la sienne.",
-		name: "Pasteur Emmanuel Tchami",
-		role: "Fondateur, Apoti Development Association",
-	},
+
 	cta: {
 		heading: "Soutenir nos actions au Cameroun",
 		body: "Un don à notre fonds général aide nos équipes locales à répondre aux besoins les plus urgents de nos programmes.",
@@ -70,31 +65,31 @@ export default {
 	},
 	footer: {
 		ctaHeading: "La foi devient soin pratique",
-		ctaSubtitle: "Soutenez les veuves, orphelins et jeunes femmes au Cameroun.",
+		ctaSubtitle: "Soutenez les femmes et les adolescentes au Cameroun.",
 		navigate: "Navigation",
 		programs: "Programmes",
 		contact: "Contact",
 		updates: "Recevez nos rapports d'impact mensuels",
-		trust: "80% aux programmes · Association enregistrée · Cameroun",
+		trust: "Association enregistrée · Cameroun",
 		privacy: "Confidentialité",
 		terms: "Conditions",
 	},
 	partners: {
 		prioritiesTitle: "Priorités de Financement 2026",
-		widowsTitle: "Émancipation des Veuves",
+		widowsTitle: "Soutien aux veuves",
 		widowsDesc: "Aide concrète et soutien communautaire aux veuves",
-		educationTitle: "Éducation pour les Orphelins",
-		educationDesc: "Bourses scolaires pour 300 orphelins",
-		healthTitle: "Santé et Nutrition",
-		healthDesc: "Clinique mobile et programme de nutrition",
+		educationTitle: "Dignité des adolescentes",
+		educationDesc: "Information sur la santé menstruelle et fournitures essentielles pour les adolescentes",
+		healthTitle: "Soutien aux mères",
+		healthDesc: "Produits de première nécessité pour les mères et les nouveau-nés",
 	},
 	donate: {
 		title: "Faites la Différence",
 		subtitle:
-			"Chaque contribution aide à atteindre plus de communautés vulnérables au Cameroun.",
+			"Aidez nos équipes locales à apporter un soutien concret aux femmes et aux adolescentes au Cameroun.",
 		badge: "Soutenez Notre Mission",
 		secure: "Sécurisé et Chiffré",
-		directAid: "80% en Aide Directe",
+		directAid: "Objectif : 80 % pour les programmes",
 		receipt: "Reçu Après Confirmation",
 		impact: "Votre Impact",
 		otherWays: "Autres Façons de Donner",

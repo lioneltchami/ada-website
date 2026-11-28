@@ -37,6 +37,33 @@ describe("archive and Resource Library integration", () => {
     expect(countOwnerMarkedCompletions(records)).toBe(0);
   });
 
+  it.each([
+    ["first-widow-home-visits-2021", "Buea", "Bamenda", "Bamenda"],
+    ["widow-support-food-cash-mar-2022", "Muea, Buea", "Bamenda", "Bamenda"],
+    ["christmas-giving-dec-2022", "Sima orphanage, Buea", "Bamenda & surrounding villages", "Bamenda et villages environnants"],
+  ])("does not replace the historic location of %s with its linked programme’s location in French", (slug, location, programmeLocation, programmeLocationFr) => {
+    const [record] = mergeArchiveSources(
+      [{ ...archive, slug: { current: slug }, sourceSlug: source.slug.current, location }],
+      [{ ...source, archiveRecord: undefined, location: programmeLocation, locationFr: programmeLocationFr }],
+      "2026-05-08",
+    );
+    expect(record.location).toBe(location);
+    expect(record.locationFr).toBeUndefined();
+  });
+
+  it("preserves a matching source translation or an explicit archive translation", () => {
+    const [matching] = mergeArchiveSources(
+      [{ ...archive, location: "Place" }], [source], "2026-05-08",
+    );
+    expect(matching.locationFr).toBe("Lieu");
+
+    const [explicit] = mergeArchiveSources(
+      [{ ...archive, location: "Buea orphanage", locationFr: "Orphelinat de Buea" }],
+      [source], "2026-05-08",
+    );
+    expect(explicit.locationFr).toBe("Orphelinat de Buea");
+  });
+
   it("honors the archive-side source linkage even without a reverse reference", () => {
     expect(mergeArchiveSources(
       [{ ...archive, sourceSlug: source.slug.current }],

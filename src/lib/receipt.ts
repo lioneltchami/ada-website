@@ -87,7 +87,7 @@ export function generateReceiptHtml(data: ReceiptData): string {
     </div>
 
     <div class="message">
-      Your donation makes a real difference. ADA's public allocation model targets 80% program delivery for work supporting widows, orphans, and young women in Cameroon. Thank you for being part of this mission.
+      Thank you for supporting our outreach in Cameroon. This receipt records the payment for your files.
     </div>
 
     <div class="tax-note">
@@ -256,7 +256,7 @@ export async function generateReceiptPdf(
   rect(48, 360, 499, 72, "0.94 0.99 0.96");
   text(72, 405, "Your gift matters", 13, "F2", "0.08 0.39 0.20");
   const message =
-    "ADA's public allocation model targets 80% program delivery for work supporting widows, orphans, and young women in Cameroon.";
+    "Thank you for supporting ADA's outreach in Cameroon.";
   let messageY = 385;
   for (const wrapped of wrapText(message, 78)) {
     text(72, messageY, wrapped, 10, "F1", "0.08 0.39 0.20");

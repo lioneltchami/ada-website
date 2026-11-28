@@ -7,10 +7,10 @@ const landing = readFileSync("src/components/sponsor/SponsorLanding.astro", "utf
 describe("Sponsor landing references available evidence", () => {
   it("links the verified project record and living diligence section, not withdrawn PDFs", () => {
     expect(landing).toContain("/resources#due-diligence");
-    expect(landing).toContain("/projects/archive/back-to-school-buea-2024");
+    expect(landing).toContain("/projects/archive/widow-support-food-cash-mar-2022");
     expect(landing).not.toMatch(/corporate-sponsor-one-pager|sponsor-readiness-packet/);
     expect(existsSync("public/docs/diligence/ada-registration-certificate.pdf")).toBe(true);
-    expect(existsSync("public/docs/projects/back-to-school-buea-2024/report.pdf")).toBe(true);
+    expect(existsSync("public/docs/projects/widow-support-food-cash-mar-2022/report.pdf")).toBe(true);
   });
 
   it("keeps suggested tiers separate from checkout", () => {

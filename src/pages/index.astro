@@ -3,84 +3,23 @@ import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
 import CurrentWork from "../components/home/CurrentWork.astro";
 import OutreachPhoto from "../components/media/OutreachPhoto.astro";
+import { getArchiveFeaturePhoto } from "../data/archive-feature-photos";
+import { getArchiveSupportingPhotos } from "../data/archive-supporting-photos";
 import HomeHero from "../components/home/HomeHero.astro";
-import PhotoMosaic from "../components/home/PhotoMosaic.astro";
+import HomepageOutreachPhotos from "../components/home/HomepageOutreachPhotos.astro";
 import WorkVideo from "../components/home/WorkVideo.astro";
 import StoryReviewNotice from "../components/home/StoryReviewNotice.astro";
 import {
-  getImpactMetrics,
-  getHomePage,
   getTestimonials,
   getProjects,
-  type SanityImpactMetric,
   type SanityProject,
 } from "../lib/sanity";
 import { REGISTRATION_NUMBER } from "../data/organization";
-import { homepageStatsFallback } from "../data/impact";
-import { loadSpotlightProjects } from "../lib/spotlight-projects";
 import { listUpcomingAnnouncements } from "../lib/upcoming-announcements";
-import { loadGalleryMosaic } from "../lib/gallery";
 
 let homepageProjects: SanityProject[] = [];
 try {
   homepageProjects = await getProjects();
-} catch {}
-
-let stats = homepageStatsFallback("en");
-
-try {
-  const metrics = await getImpactMetrics();
-  if (metrics?.length) {
-    stats = metrics.map((m: SanityImpactMetric) => ({
-      value: `${m.value}${m.suffix || ""}`,
-      label: m.label,
-    }));
-  }
-} catch {}
-
-// Fallback content
-let heroBadge = "Faith-Based Charity \u00b7 Cameroon";
-let heroHeadline =
-  "No Widow Should Have to Choose Between Food and School Fees";
-let heroSubtitle =
-  "Since 2021, ADA has worked with widows, orphans, and young women in Cameroon through community-based support.";
-let missionHeading = "Our Mission";
-let missionBody =
-  "To provide holistic support to vulnerable communities in Cameroon through faith-based programs that address immediate needs while building long-term self-sufficiency.";
-let missionCards = [
-  {
-    icon: "",
-    title: "Widow Support",
-    description:
-      "Food and financial support for widows and families rebuilding household stability.",
-  },
-  {
-    icon: "",
-    title: "Education",
-    description:
-      "School supplies, tuition support, and mentorship for orphaned children.",
-  },
-  {
-    icon: "",
-    title: "Empowerment",
-    description:
-      "Vocational training and microfinance for young women seeking independence.",
-  },
-];
-const ctaHeading = "Support our work in Cameroon";
-const ctaBody =
-  "A gift to our General Fund helps our local teams respond to the most urgent needs across our programs.";
-
-try {
-  const page = await getHomePage();
-  if (page) {
-    heroBadge = page.heroBadge || heroBadge;
-    heroHeadline = page.heroHeadline || heroHeadline;
-    heroSubtitle = page.heroSubtitle || heroSubtitle;
-    missionHeading = page.missionHeading || missionHeading;
-    missionBody = page.missionBody || missionBody;
-    if (page.missionCards?.length) missionCards = page.missionCards;
-  }
 } catch {}
 
 interface Testimonial {
@@ -103,35 +42,37 @@ try {
   }
 } catch {}
 
-const spotlightProjects = await loadSpotlightProjects("en", 4);
 const announcements = listUpcomingAnnouncements(homepageProjects, { locale: "en" });
-const mosaicPhotos = await loadGalleryMosaic(8);
 
 const programPillars = [
   {
-    title: "Widow Relief",
-    text: "Food support, cash assistance, and follow-up for widows rebuilding household stability.",
-    href: "/projects/widow-support",
+    title: "Widows’ Support",
+    photo: getArchiveSupportingPhotos("widow-support-food-cash-mar-2022", "en")[0],
+    text: "In Muea in 2022, we visited about 20 widows at home and brought food and household essentials.",
+    outreach: "/projects/archive/widow-support-food-cash-mar-2022/",
+    outreachLabel: "Widows’ outreach record",
+    report: "/docs/projects/widow-support-food-cash-mar-2022/report.pdf",
+    reportLabel: "Widows’ outreach report (PDF)",
   },
   {
-    title: "Girls’ Baking Skills",
-    text: "Practical baking instruction and startup supplies for displaced teenage girls.",
-    href: "/projects/archive/idp-girls-baking-training-jul-2022",
+    title: "Girls’ Dignity & Practical Skills",
+    photo: getArchiveSupportingPhotos("idp-girls-baking-training-jul-2022", "en")[0],
+    photoHref: "/projects/archive/idp-girls-baking-training-jul-2022/",
+    photoLabel: "Girls’ baking workshop (2022)",
+    text: "In Bamenda in 2026, all 20 girls who attended our menstrual health discussion received a kit.",
+    outreach: "/projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/",
+    outreachLabel: "Girls’ Dignity outreach record",
+    report: "/docs/projects/girls-dignity-menstrual-health-bamenda-jun-2026/report.pdf",
+    reportLabel: "Girls’ Dignity report (PDF)",
   },
   {
-    title: "Emergency Family Support",
-    text: "Rapid food, hygiene, and household relief for families facing crisis or displacement.",
-    href: "/projects/emergency-relief",
-  },
-  {
-    title: "Health and Maternal Care",
-    text: "Practical support for mothers through hospital outreach.",
-    href: "/projects/archive/prenatal-care-support-program/",
-  },
-  {
-    title: "Community Development",
-    text: "Environmental stewardship and locally led improvements for shared wellbeing.",
-    href: "/projects/archive",
+    title: "Support for Mothers",
+    photo: getArchiveFeaturePhoto("prenatal-care-support-program", "en"),
+    text: "In Muea in 2025, we brought essentials for about 15 mothers and their newborns during a hospital visit.",
+    outreach: "/projects/archive/prenatal-care-support-program/",
+    outreachLabel: "Mothers’ outreach record",
+    report: "/docs/projects/prenatal-care-support-program/report.pdf",
+    reportLabel: "Mothers’ outreach report (PDF)",
   },
 ];
 
@@ -142,10 +83,10 @@ const confidenceProofs = [
     value: "Locally delivered programs in Cameroon",
   },
   {
-    label: "School fees · Bamenda, 2026",
-    value: "We helped cover school fees for about 20 children.",
-    href: "/projects/archive/back-to-school-bamenda-aug-2026/",
-    link: "Read the project record",
+    label: "Documented outreach",
+    value: "Outreach records, financial reports, and annual reviews",
+    href: "/resources/",
+    link: "Explore the documents",
   },
   {
     label: "Clear donor status",
@@ -166,18 +107,18 @@ const journeyMilestones = [
   },
   {
     year: "2023",
-    title: "Education support deepened",
-    text: "School supplies, fees, and mentorship became a core path for children.",
+    title: "Support for students and adolescent girls",
+    text: "In Buea, we ran a Back to School Outreach and marked the International Day of the Girl.",
   },
   {
     year: "2024",
-    title: "Bamenda office opened",
-    text: "ADA added a Bamenda office and organized reports, TORs, and financial documents for partners.",
+    title: "Another outreach for girls in Buea",
+    text: "We held another outreach to mark the International Day of the Girl.",
   },
   {
     year: "2025",
-    title: "Community programs broadened",
-    text: "Clean-up, health, youth mentorship, and emergency support reached more communities.",
+    title: "Our work began in Bamenda",
+    text: "We began working in Bamenda in 2025. In Muea, our team brought essentials to mothers and their newborns.",
   },
   {
     year: "2026",
@@ -189,7 +130,7 @@ const journeyMilestones = [
 const actionPaths = [
   {
     title: "Give",
-    text: "Make a one-time or monthly gift to support urgent relief and long-term empowerment.",
+    text: "Make a one-time or monthly gift to support outreach in Cameroon.",
     href: "/donate",
     cta: "Donate now",
   },
@@ -201,7 +142,7 @@ const actionPaths = [
   },
   {
     title: "Partner",
-    text: "Sponsor a focused program with clear funding options, reporting, and due diligence.",
+    text: "Support a specific outreach and agree on budget and reporting with our team.",
     href: "/sponsor",
     cta: "Sponsor a program",
   },
@@ -216,83 +157,74 @@ const actionPaths = [
 
 <PageLayout
   title="Apoti Development Association | Hope, Dignity, Empowerment"
-  description="Supporting vulnerable communities through faith-based programmes that bring hope, uphold dignity and create opportunities for widows, orphans and young women."
+  description="Christian humanitarian nonprofit in Cameroon. Our local teams support widows, mothers and adolescent girls."
 >
   <HomeHero locale="en">
     <p
       class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-200 mb-4"
     >
-      {heroBadge}
+      Christian humanitarian nonprofit · Cameroon
     </p>
     <h1
       class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-heading font-bold leading-[1.1] tracking-tight"
     >
-      {heroHeadline}
+      Practical support for women and adolescent girls in Cameroon
     </h1>
     <p class="mt-5 text-base md:text-lg text-white/85 leading-relaxed max-w-xl">
-      {heroSubtitle}
+      Our Christian faith moves us to serve widows, mothers, and adolescent girls.
     </p>
-    <div class="mt-8 flex flex-wrap items-center gap-3">
-      <a
-        href="/donate"
-        class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
-        data-umami-event="hero-donate-cta"
-      >
-        Donate now
-      </a>
-      <a
-        href="/projects"
-        class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white border border-white/40 rounded-md hover:bg-white/10 transition-colors"
-      >
-        Our projects
-      </a>
-      <a
-        href="/transparency"
-        class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
-      >
-        Transparency
-      </a>
-    </div>
-    <p class="mt-6 text-sm text-white/75">
-      {
-        stats
-          .slice(0, 2)
-          .map((stat) => `${stat.value} ${stat.label.toLowerCase()}`)
-          .join(" · ")
-      }
-    </p>
+    <a
+      slot="partner"
+      href="/sponsor/"
+      class="mt-1 inline-flex min-h-11 items-center text-sm font-semibold text-white underline decoration-white/70 underline-offset-4 hover:decoration-current"
+    >
+      Partner with ADA
+    </a>
   </HomeHero>
 
-  <CurrentWork locale="en" projects={spotlightProjects} announcements={announcements} />
-  <PhotoMosaic locale="en" photos={mosaicPhotos} />
-  <WorkVideo locale="en" />
-
-  <!-- Impact stats — flat band -->
-  <Section background="white" padding="md">
-    <div
-      class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 border-y border-gray-200 py-8"
-    >
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        How we serve
+      </p>
+      <h2 id="home-our-work" class="scroll-mt-24 mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        Practical help shaped by local needs
+      </h2>
+      <p class="mt-4 text-gray-600 leading-relaxed">
+        Our faith motivates us to serve. Receiving support does not depend on taking part in prayer or other religious activities.
+      </p>
+    </div>
+    <ul class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
       {
-        stats.map((stat) => (
-          <div>
-            <p class="font-heading text-3xl md:text-4xl font-bold text-primary-700 tracking-tight">
-              {stat.value}
-            </p>
-            <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
-          </div>
+        programPillars.map((pillar) => (
+          <li class="flex flex-col overflow-hidden rounded-xl border border-primary-200 bg-[#f7f5f0]">
+            {pillar.photo && (
+              <a href={pillar.photoHref || pillar.outreach} aria-label={pillar.photoLabel || pillar.outreachLabel} class="group relative isolate block focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white">
+                <img src={pillar.photo.src} width={pillar.photo.width} height={pillar.photo.height} alt={pillar.photo.alt}
+                  loading="lazy" decoding="async" class="aspect-[3/2] w-full bg-primary-50 object-cover" />
+                <span class="absolute inset-x-0 bottom-0 bg-primary-950/90 px-4 py-3 font-heading text-base font-semibold text-white group-hover:underline sm:text-lg">{pillar.photoLabel || pillar.title} <span aria-hidden="true">→</span></span>
+              </a>
+            )}
+            <div class="flex flex-1 flex-col p-5 sm:p-6">
+              <h3 class="font-heading text-xl font-semibold text-gray-900">{pillar.title}</h3>
+              <p class="mt-2 flex-1 text-sm text-gray-700 leading-relaxed">{pillar.text}</p>
+              <a href={pillar.outreach} class="mt-4 w-fit text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-950">{pillar.outreachLabel}</a>
+              <a href={pillar.report} class="mt-2 w-fit text-sm text-primary-800 underline underline-offset-4 hover:text-primary-950">{pillar.reportLabel}</a>
+            </div>
+          </li>
         ))
       }
-    </div>
-    <p class="mt-6 text-sm text-gray-500">
-      5% administrative allocation target · Cameroon NGO
-      registration N&deg; 415/G.37/D14/VolI/SAAJP ·{" "}
-      <a href="/transparency" class="text-primary-700 underline underline-offset-2"
-        >Full transparency report</a
-      >
+    </ul>
+    <p class="mt-6 text-sm text-gray-700">
+      Our broader community work remains available in the{" "}
+      <a href="/projects/archive/" class="font-semibold text-primary-800 underline underline-offset-4">outreach archive</a>.
     </p>
   </Section>
 
-  <!-- Partner confidence — split, hairline proofs -->
+  <CurrentWork locale="en" projects={[]} announcements={announcements} />
+  <WorkVideo locale="en" />
+  <HomepageOutreachPhotos locale="en" />
+
   <Section background="gray" padding="md">
     <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
       <div>
@@ -304,8 +236,7 @@ const actionPaths = [
         <h2
           class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900 tracking-tight"
         >
-          Small enough to know families by name. Organized enough to show the
-          records.
+          Close to the communities we serve. Open about the work we do.
         </h2>
         <p class="mt-4 text-gray-600 leading-relaxed">
           ADA combines local community relationships in Cameroon with diaspora
@@ -333,53 +264,6 @@ const actionPaths = [
         }
       </dl>
     </div>
-  </Section>
-
-  <!-- Program pillars — typographic list, not numbered tiles -->
-  <Section background="white" padding="lg">
-    <div class="max-w-3xl">
-      <p
-        class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
-      >
-        How we serve
-      </p>
-      <h2
-        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
-      >
-        Practical paths for vulnerable families
-      </h2>
-      <p class="mt-4 text-gray-600 leading-relaxed">
-        Each program starts with immediate needs, then points toward dignity,
-        stability, and self-sufficiency.
-      </p>
-    </div>
-    <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200">
-      {
-        programPillars.map((pillar) => (
-          <li class="border-b border-gray-200">
-            <a
-              href={pillar.href}
-              class="group flex items-baseline justify-between gap-4 py-5"
-            >
-              <div>
-                <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
-                  {pillar.title}
-                </h3>
-                <p class="mt-1 text-sm text-gray-600 leading-relaxed">
-                  {pillar.text}
-                </p>
-              </div>
-              <span
-                class="font-heading text-sm font-semibold text-primary-700 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                aria-hidden="true"
-              >
-                →
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
   </Section>
 
   <!-- Leadership -->
@@ -411,9 +295,7 @@ const actionPaths = [
           Local relationships, visible accountability
         </h2>
         <p class="mt-4 text-gray-600 leading-relaxed">
-          Programs are coordinated with widows, caregivers, school leaders,
-          churches, volunteers, and community partners so support reaches
-          documented needs.
+          We listen to women and adolescent girls and work with churches, schools, volunteers, and local partners to meet practical needs.
         </p>
         <dl class="mt-6 grid grid-cols-3 gap-4 border-t border-gray-200 pt-6">
           <div>
@@ -501,34 +383,6 @@ const actionPaths = [
         ))
       }
     </ol>
-  </Section>
-
-  <!-- Mission — text, no emoji cards -->
-  <Section background="gray" padding="lg">
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 items-start">
-      <div>
-        <h2
-          class="text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
-        >
-          {missionHeading}
-        </h2>
-        <p class="mt-4 text-lg text-gray-600 leading-relaxed">{missionBody}</p>
-      </div>
-      <ul class="space-y-0 border-t border-gray-200">
-        {
-          missionCards.map((card) => (
-            <li class="border-b border-gray-200 py-5">
-              <h3 class="font-heading text-lg font-semibold text-gray-900">
-                {card.title}
-              </h3>
-              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
-                {card.description}
-              </p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
   </Section>
 
   <StoryReviewNotice locale="en" variant="featured" />
@@ -641,19 +495,19 @@ const actionPaths = [
     </ul>
   </Section>
 
-  <!-- Closing CTA — specific copy from Sanity -->
+  <!-- Closing support links -->
   <Section background="dark" padding="lg" class="!bg-[#121a14] !bg-none">
     <div class="max-w-2xl">
       <h2
         class="text-3xl md:text-4xl font-heading font-bold tracking-tight text-left"
       >
-        {ctaHeading}
+        Support our work in Cameroon
       </h2>
-      <p class="mt-4 text-lg text-white/80 text-left">{ctaBody}</p>
+      <p class="mt-4 text-lg text-white/80 text-left">A gift to our General Fund helps our local teams respond to priority needs across our approved outreach work.</p>
       <div class="mt-8 flex flex-wrap items-center gap-3">
         <a
           href="/donate"
-          class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+          class="font-heading inline-flex min-h-11 items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
           data-umami-event="cta-donate"
         >
           Donate now

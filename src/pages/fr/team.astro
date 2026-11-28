@@ -3,83 +3,27 @@ import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../../components/layout/PageHero.astro";
 import Section from "../../components/layout/Section.astro";
-import {
-  getTeamMembers,
-  getImpactMetrics,
-  sanityImageUrl,
-} from "../../lib/sanity";
 import { REGISTRATION_NUMBER } from "../../data/organization";
 
-
-let teamMembers: {
-  name: string;
-  role: string;
-  bio: string;
-  photoUrl: string;
-}[] = [];
-try {
-  const m = await getTeamMembers("fr");
-  if (m?.length)
-    teamMembers = m.map((m: any) => ({
-      name: m.name,
-      role: m.role,
-      bio: m.bio || "",
-      photoUrl: m.photo?.asset?._ref
-        ? sanityImageUrl(m.photo.asset._ref, 400)
-        : "",
-    }));
-} catch {}
-
-let teamStats = [
-  { value: "10", label: "Bénévoles Actifs" },
-  { value: "5", label: "Années de Service" },
-  { value: "5", label: "Communautés" },
-];
-try {
-  const metrics = await getImpactMetrics("fr");
-  if (metrics?.length) {
-    const communities = metrics.find(
-      (m) =>
-        m.label.includes("Communities") || m.label.includes("Communautés"),
-    );
-    const years = metrics.find(
-      (m) => m.label.includes("Years") || m.label.includes("Années"),
-    );
-    teamStats = [
-      { value: "10", label: "Bénévoles Actifs" },
-      {
-        value: years ? `${years.value}${years.suffix || ""}` : "5",
-        label: "Années de Service",
-      },
-      {
-        value: communities
-          ? `${communities.value}${communities.suffix || ""}`
-          : "5",
-        label: "Communautés",
-      },
-    ];
-  }
-} catch {}
-
-const governanceProfiles = [
+const leadershipProfiles = [
   {
     name: "Lionel Tchami Nfada",
     role: "Fondateur et président",
-    bio: "Assure la direction de la mission, les relations avec les sponsors et l'orientation stratégique afin de garder ADA concentrée sur l'aide pratique aux familles vulnérables.",
+    bio: "Assure la direction de la mission, les relations avec les sponsors et l'orientation stratégique pour que les actions d’ADA restent centrées sur les femmes et les adolescentes.",
   },
   {
     name: "Naomi Ndababonga",
     role: "Directrice pays",
-    bio: "Coordonne l'exécution au Cameroun, le suivi des bénéficiaires et la communication avec les partenaires locaux pour documenter le travail financé.",
+    bio: "Coordonne les actions au Cameroun, les échanges avec les partenaires locaux et le suivi des activités.",
   },
   {
     name: "Corrine Mbekenyui",
     role: "Coordinatrice régionale Nord-Ouest",
-    bio: "Appuie la planification régionale, la coordination communautaire et les rapports terrain pour les programmes auprès des veuves, élèves et familles déplacées.",
+    bio: "Appuie la planification, la mobilisation locale et les comptes rendus de terrain dans le Nord-Ouest.",
   },
   {
     name: "Conseil d'administration",
-    role: "Conseil de supervision de 12 membres",
+    role: "Conseil de surveillance",
     bio: "Assure la supervision de la direction, des budgets, des politiques et des dons restreints importants avant l'engagement des fonds.",
   },
 ];
@@ -102,12 +46,12 @@ const governanceSafeguards = [
 <!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
 
 <PageLayout
-  title="Notre Équipe"
-  description="Rencontrez l'équipe dévouée derrière Apoti Development Association."
+  title="Notre équipe"
+  description="Découvrez les personnes qui orientent et mettent en œuvre les actions d’ADA au Cameroun."
 >
   <PageHero
-    title="Notre Équipe"
-    subtitle="Des personnes dévouées travaillant ensemble pour servir les communautés vulnérables."
+    title="Notre équipe"
+    subtitle="Les personnes qui font vivre notre mission auprès des femmes et des adolescentes au Cameroun."
     compact
     photo={getEditorialHeroPhoto("team", "fr")}
   />
@@ -150,22 +94,24 @@ const governanceSafeguards = [
             </a>
           </div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {
-            governanceProfiles.map((profile) => (
-              <article class="rounded-md border border-gray-200 bg-gray-50 p-5">
-                <h3 class="text-base font-semibold text-gray-900">
-                  {profile.name}
-                </h3>
-                <p class="mt-1 text-sm font-semibold text-primary-700">
-                  {profile.role}
-                </p>
-                <p class="mt-3 text-sm text-gray-600 leading-relaxed">
-                  {profile.bio}
-                </p>
-              </article>
-            ))
-          }
+        <div class="space-y-6">
+          {[
+            { title: "Gouvernance", profiles: [leadershipProfiles[0], leadershipProfiles[3]] },
+            { title: "Actions de terrain", profiles: leadershipProfiles.slice(1, 3) },
+          ].map((group) => (
+            <div>
+              <h3 class="mb-3 font-heading text-lg font-semibold text-gray-900">{group.title}</h3>
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {group.profiles.map((profile) => (
+                  <article class="rounded-xl border border-gray-200 bg-gray-50 p-5">
+                    <h4 class="text-base font-semibold text-gray-900">{profile.name}</h4>
+                    <p class="mt-1 text-sm font-semibold text-primary-700">{profile.role}</p>
+                    <p class="mt-3 text-sm leading-relaxed text-gray-600">{profile.bio}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -200,63 +146,16 @@ const governanceSafeguards = [
   </Section>
 
   <Section background="white" padding="lg">
-    <div class="mb-8 max-w-3xl">
-      <h2 class="text-2xl md:text-3xl font-heading font-bold text-gray-900">
-        Équipe active et bénévoles
-      </h2>
-      <p class="mt-2 text-sm text-gray-600">
-        Les profils ci-dessous viennent du CMS d'ADA et peuvent être enrichis
-        avec photos et biographies approuvées.
-      </p>
-    </div>
-    {
-      teamMembers.length > 0 ? (
-        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {teamMembers.map((member) => (
-            <li class="border border-gray-200 p-6">
-              <h3 class="text-lg font-semibold text-gray-900">{member.name}</h3>
-              <p class="mt-1 text-sm font-semibold text-primary-700">{member.role}</p>
-              {member.bio ? (
-                <p class="mt-3 text-sm text-gray-600 leading-relaxed">{member.bio}</p>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div class="py-12 max-w-xl">
-          <h2 class="text-xl font-semibold text-gray-900">
-            Profils à Venir
-          </h2>
-          <p class="mt-2 text-gray-600">
-            Les profils de notre équipe seront bientôt disponibles.
-          </p>
-          <a
-            href="/fr/contact"
-            class="mt-6 inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4 hover:text-primary-800"
-          >
-            Nous contacter
-          </a>
-        </div>
-      )
-    }
-  </Section>
-  <Section background="gray" padding="md">
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
-      {
-        teamStats.map((stat) => (
-          <div>
-            <>
-              <p class="text-3xl font-bold text-primary-700">{stat.value}</p>
-              <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
-            </>
-          </div>
-        ))
-      }
+    <div class="max-w-3xl">
+      <h2 class="font-heading text-2xl font-bold text-gray-900 md:text-3xl">Bénévoles et partenaires locaux</h2>
+      <p class="mt-3 leading-relaxed text-gray-600">Selon l’action, des bénévoles contribuent à sa préparation et à son déroulement. Nous nous appuyons sur les acteurs locaux pour comprendre les besoins, organiser les activités et faire le point après chaque intervention.</p>
+      <a href="/fr/about/#where-we-work" class="mt-5 inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4">Voir où nous intervenons</a>
     </div>
   </Section>
+
   <Section background="dark" padding="md">
     <div class="max-w-3xl">
-      <h2 class="text-2xl font-heading font-bold">Rejoignez Notre Équipe</h2>
+      <h2 class="text-2xl font-heading font-bold">Rejoignez Notre équipe</h2>
       <p class="mt-2 text-white/80">
         Nous recherchons toujours des bénévoles passionnés.
       </p>

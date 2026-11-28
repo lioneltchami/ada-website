@@ -495,7 +495,13 @@ export function mergeArchiveSources(
         ? record.outreachCategory : inheritedCategory,
       titleFr: record.titleFr ?? project.titleFr,
       descriptionFr: record.descriptionFr ?? project.descriptionFr,
-      locationFr: record.locationFr ?? project.locationFr,
+      // A recurring programme may be based somewhere other than the recorded visit.
+      // Only inherit its translation when it describes the same location.
+      locationFr: record.locationFr ?? (
+        !record.location?.trim() || record.location.trim() === project.location?.trim()
+          ? project.locationFr
+          : undefined
+      ),
       photo: record.photo?.asset?._ref ? record.photo : project.mainImage ?? record.photo,
       torUrl: record.torUrl ?? linked?.torUrl ?? christmasPlanTor(project.slug.current, project.startDate),
       reportUrl: record.reportUrl ?? linked?.reportUrl,

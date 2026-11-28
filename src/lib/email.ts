@@ -240,7 +240,7 @@ const DONATION_EMAIL_COPY = {
     received: "Your donation has been received",
     amountDonated: "Amount donated",
     intro:
-      "Your generosity directly supports widows, orphans, and young women in Cameroon. ADA's public allocation model targets 80% program delivery for work that changes lives.",
+      "Thank you for supporting ADA’s outreach in Cameroon. Your donation details appear below.",
     receipt: "Receipt",
     date: "Date",
     next: "What happens next",
@@ -261,7 +261,7 @@ const DONATION_EMAIL_COPY = {
     received: "Votre don a bien été reçu",
     amountDonated: "Montant du don",
     intro:
-      "Votre générosité soutient directement les veuves, les orphelins et les jeunes femmes au Cameroun. Le modèle public d'ADA vise 80 % de livraison directe des programmes.",
+      "Merci de soutenir les actions d’ADA au Cameroun. Vous trouverez les détails de votre don ci-dessous.",
     receipt: "Reçu",
     date: "Date",
     next: "Ce qui se passe ensuite",

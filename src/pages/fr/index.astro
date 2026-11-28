@@ -3,48 +3,23 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import Section from "../../components/layout/Section.astro";
 import CurrentWork from "../../components/home/CurrentWork.astro";
 import OutreachPhoto from "../../components/media/OutreachPhoto.astro";
+import { getArchiveFeaturePhoto } from "../../data/archive-feature-photos";
+import { getArchiveSupportingPhotos } from "../../data/archive-supporting-photos";
 import HomeHero from "../../components/home/HomeHero.astro";
-import PhotoMosaic from "../../components/home/PhotoMosaic.astro";
+import HomepageOutreachPhotos from "../../components/home/HomepageOutreachPhotos.astro";
 import WorkVideo from "../../components/home/WorkVideo.astro";
 import StoryReviewNotice from "../../components/home/StoryReviewNotice.astro";
 import {
-  getImpactMetrics,
   getProjects,
   getTestimonials,
-  getHomePage,
-  type SanityImpactMetric,
   type SanityProject,
 } from "../../lib/sanity";
 import { REGISTRATION_NUMBER } from "../../data/organization";
-import { homepageStatsFallback } from "../../data/impact";
-import { loadSpotlightProjects } from "../../lib/spotlight-projects";
 import { listUpcomingAnnouncements } from "../../lib/upcoming-announcements";
-import { loadGalleryMosaic } from "../../lib/gallery";
-import { t } from "../../i18n";
-
-const i18n = t("fr");
 
 let homepageProjects: SanityProject[] = [];
 try {
   homepageProjects = await getProjects("fr");
-} catch {}
-
-let stats = homepageStatsFallback("fr");
-
-try {
-  const metrics = await getImpactMetrics("fr");
-  if (metrics?.length) {
-    const labelMap: Record<string, string> = {
-      "Lives Impacted": i18n.stats.livesImpacted,
-      "Communities Served": i18n.stats.communitiesServed,
-      "Widows Supported": i18n.stats.widowsSupported,
-      "Years of Service": i18n.stats.yearsOfService,
-    };
-    stats = metrics.map((m: SanityImpactMetric) => ({
-      value: `${m.value}${m.suffix || ""}`,
-      label: labelMap[m.label] || m.label,
-    }));
-  }
 } catch {}
 
 interface Testimonial {
@@ -67,66 +42,37 @@ try {
   }
 } catch {}
 
-let missionCards = [
-  {
-    icon: "",
-    title: "Soutien aux Veuves",
-    description:
-      "Soutien alimentaire et financier pour les veuves et les familles.",
-  },
-  {
-    icon: "",
-    title: "Éducation",
-    description:
-      "Fournitures scolaires, frais de scolarité, uniformes et mentorat pour les enfants orphelins et vulnérables.",
-  },
-  {
-    icon: "",
-    title: "Autonomisation",
-    description:
-      "Formation professionnelle, microfinance et appui au démarrage pour les jeunes femmes en quête d'indépendance.",
-  },
-];
-try {
-  const home = await getHomePage("fr");
-  if (home?.missionCards?.length) {
-    missionCards = home.missionCards.map((c) => ({
-      icon: c.icon || "",
-      title: c.title,
-      description: c.description,
-    }));
-  }
-} catch {}
-
-const spotlightProjects = await loadSpotlightProjects("fr", 4);
 const announcements = listUpcomingAnnouncements(homepageProjects, { locale: "fr" });
-const mosaicPhotos = await loadGalleryMosaic(8, "fr");
 
 const programPillars = [
   {
     title: "Soutien aux veuves",
-    text: "Aide alimentaire, soutien financier et suivi des familles qui reconstruisent leur stabilité.",
-    href: "/fr/projects/widow-support",
+    photo: getArchiveSupportingPhotos("widow-support-food-cash-mar-2022", "fr")[0],
+    text: "À Muea, en 2022, notre équipe a rendu visite à environ 20 veuves et leur a apporté des vivres et des articles de première nécessité.",
+    outreach: "/fr/projects/archive/widow-support-food-cash-mar-2022/",
+    outreachLabel: "Dossier des visites aux veuves",
+    report: "/docs/projects/widow-support-food-cash-mar-2022/report.pdf",
+    reportLabel: "Rapport des visites aux veuves (PDF)",
   },
   {
-    title: "Pâtisserie pour les jeunes filles",
-    text: "Initiation pratique à la pâtisserie et fournitures de démarrage pour les adolescentes déplacées.",
-    href: "/fr/projects/archive/idp-girls-baking-training-jul-2022",
+    title: "Dignité et apprentissage des adolescentes",
+    photo: getArchiveSupportingPhotos("idp-girls-baking-training-jul-2022", "fr")[0],
+    photoHref: "/fr/projects/archive/idp-girls-baking-training-jul-2022/",
+    photoLabel: "Atelier de pâtisserie pour les filles (2022)",
+    text: "À Bamenda, en 2026, les 20 adolescentes présentes à la rencontre sur la santé menstruelle ont chacune reçu un kit.",
+    outreach: "/fr/projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/",
+    outreachLabel: "Dossier de l’action pour les adolescentes",
+    report: "/docs/projects/girls-dignity-menstrual-health-bamenda-jun-2026/report.pdf",
+    reportLabel: "Rapport sur la dignité des adolescentes (PDF)",
   },
   {
-    title: "Urgence familiale",
-    text: "Nourriture, hygiène et soutien ménager rapide pour les familles en crise.",
-    href: "/fr/projects/emergency-relief",
-  },
-  {
-    title: "Santé et maternité",
-    text: "Un soutien pratique aux mères lors de nos actions à l’hôpital.",
-    href: "/fr/projects/archive/prenatal-care-support-program/",
-  },
-  {
-    title: "Développement communautaire",
-    text: "Protection de l’environnement et améliorations locales portées par les communautés.",
-    href: "/fr/projects/archive",
+    title: "Soutien aux mères",
+    photo: getArchiveFeaturePhoto("prenatal-care-support-program", "fr"),
+    text: "À Muea, en 2025, nous avons apporté des articles essentiels à environ 15 mères et à leurs nouveau-nés lors d’une visite à l’hôpital.",
+    outreach: "/fr/projects/archive/prenatal-care-support-program/",
+    outreachLabel: "Dossier de l’action auprès des mères",
+    report: "/docs/projects/prenatal-care-support-program/report.pdf",
+    reportLabel: "Rapport du soutien aux mères (PDF)",
   },
 ];
 
@@ -137,10 +83,10 @@ const confidenceProofs = [
     value: "Programmes menés localement au Cameroun",
   },
   {
-    label: "Frais de scolarité · Bamenda, 2026",
-    value: "Nous avons contribué aux frais de scolarité d’environ 20 enfants.",
-    href: "/fr/projects/archive/back-to-school-bamenda-aug-2026/",
-    link: "Lire le dossier du projet",
+    label: "Nos actions documentées",
+    value: "Comptes rendus, rapports financiers et bilans annuels",
+    href: "/fr/resources/",
+    link: "Consulter les documents",
   },
   {
     label: "Statut donateur clair",
@@ -161,18 +107,18 @@ const journeyMilestones = [
   },
   {
     year: "2023",
-    title: "Éducation renforcée",
-    text: "Les frais scolaires, fournitures et mentors deviennent une priorité centrale.",
+    title: "Soutien aux élèves et aux adolescentes",
+    text: "À Buea, nous avons organisé une action de rentrée scolaire et marqué la Journée internationale de la fille.",
   },
   {
     year: "2024",
-    title: "Bureau de Bamenda",
-    text: "ADA ouvre un bureau à Bamenda et structure rapports, TDR et documents financiers.",
+    title: "Une nouvelle action pour les adolescentes à Buea",
+    text: "Nous avons renouvelé notre action à l’occasion de la Journée internationale de la fille.",
   },
   {
     year: "2025",
-    title: "Programmes communautaires",
-    text: "Santé, mentorat, environnement et urgence atteignent plus de communautés.",
+    title: "Début de nos actions à Bamenda",
+    text: "Nous avons commencé à intervenir à Bamenda en 2025. À Muea, notre équipe a apporté des articles essentiels aux mères et à leurs nouveau-nés.",
   },
   {
     year: "2026",
@@ -184,7 +130,7 @@ const journeyMilestones = [
 const actionPaths = [
   {
     title: "Donner",
-    text: "Soutenir l'aide urgente et les programmes durables par un don unique ou mensuel.",
+    text: "Soutenir nos actions au Cameroun par un don unique ou mensuel.",
     href: "/fr/donate",
     cta: "Faire un don",
   },
@@ -196,7 +142,7 @@ const actionPaths = [
   },
   {
     title: "Partenariat",
-    text: "Sponsoriser un programme ciblé avec options claires, rapports et diligence raisonnable.",
+    text: "Soutenir une action précise et convenir avec nous du budget et du compte rendu.",
     href: "/fr/sponsor",
     cta: "Sponsoriser un programme",
   },
@@ -211,80 +157,73 @@ const actionPaths = [
 
 <PageLayout
   title="Apoti Development Association | Espoir, dignité, autonomisation"
-  description="Nous soutenons les communautés vulnérables grâce à des programmes fondés sur la foi qui apportent l’espoir, préservent la dignité et créent des opportunités pour les veuves, les orphelins et les jeunes femmes."
+  description="Organisation humanitaire chrétienne au Cameroun. Nos équipes locales soutiennent les veuves, les mères et les adolescentes."
 >
   <HomeHero locale="fr">
     <p
       class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-200 mb-4"
     >
-      {i18n.hero.badge}
+      Organisation humanitaire chrétienne · Cameroun
     </p>
     <h1
       class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-heading font-bold leading-[1.1] tracking-tight"
     >
-      {i18n.hero.headline}
+      Un soutien concret aux femmes et aux adolescentes au Cameroun
     </h1>
     <p class="mt-5 text-base md:text-lg text-white/85 leading-relaxed max-w-xl">
-      {i18n.hero.subtitle}
+      Notre foi chrétienne nous pousse à servir les veuves, les mères et les adolescentes.
     </p>
-    <div class="mt-8 flex flex-wrap items-center gap-3">
-      <a
-        href="/fr/donate"
-        class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
-      >
-        {i18n.hero.cta}
-      </a>
-      <a
-        href="/fr/projects"
-        class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white border border-white/40 rounded-md hover:bg-white/10 transition-colors"
-      >
-        {i18n.hero.ctaSecondary}
-      </a>
-      <a
-        href="/fr/transparency"
-        class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
-      >
-        Transparence
-      </a>
-    </div>
-    <p class="mt-6 text-sm text-white/75">
-      {
-        stats
-          .slice(0, 2)
-          .map((stat) => `${stat.value} ${stat.label}`)
-          .join(" · ")
-      }
-    </p>
+    <a
+      slot="partner"
+      href="/fr/sponsor/"
+      class="mt-1 inline-flex min-h-11 items-center text-sm font-semibold text-white underline decoration-white/70 underline-offset-4 hover:decoration-current"
+    >
+      Devenir partenaire
+    </a>
   </HomeHero>
 
-  <CurrentWork locale="fr" projects={spotlightProjects} announcements={announcements} />
-  <PhotoMosaic locale="fr" photos={mosaicPhotos} />
-  <WorkVideo locale="fr" />
-
-  <Section background="white" padding="md">
-    <div
-      class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 border-y border-gray-200 py-8"
-    >
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        Comment nous servons
+      </p>
+      <h2 id="home-our-work" class="scroll-mt-24 mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        Des actions ancrées dans les besoins du terrain
+      </h2>
+      <p class="mt-4 text-gray-600 leading-relaxed">
+        Notre foi motive notre engagement. Il n’est pas nécessaire de participer à une prière ou à une autre activité religieuse pour recevoir de l’aide.
+      </p>
+    </div>
+    <ul class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
       {
-        stats.map((stat) => (
-          <div>
-            <p class="font-heading text-3xl md:text-4xl font-bold text-primary-700 tracking-tight">
-              {stat.value}
-            </p>
-            <p class="mt-1 text-sm text-gray-600">{stat.label}</p>
-          </div>
+        programPillars.map((pillar) => (
+          <li class="flex flex-col overflow-hidden rounded-xl border border-primary-200 bg-[#f7f5f0]">
+            {pillar.photo && (
+              <a href={pillar.photoHref || pillar.outreach} aria-label={pillar.photoLabel || pillar.outreachLabel} class="group relative isolate block focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white">
+                <img src={pillar.photo.src} width={pillar.photo.width} height={pillar.photo.height} alt={pillar.photo.alt}
+                  loading="lazy" decoding="async" class="aspect-[3/2] w-full bg-primary-50 object-cover" />
+                <span class="absolute inset-x-0 bottom-0 bg-primary-950/90 px-4 py-3 font-heading text-base font-semibold text-white group-hover:underline sm:text-lg">{pillar.photoLabel || pillar.title} <span aria-hidden="true">→</span></span>
+              </a>
+            )}
+            <div class="flex flex-1 flex-col p-5 sm:p-6">
+              <h3 class="font-heading text-xl font-semibold text-gray-900">{pillar.title}</h3>
+              <p class="mt-2 flex-1 text-sm text-gray-700 leading-relaxed">{pillar.text}</p>
+              <a href={pillar.outreach} class="mt-4 w-fit text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-950">{pillar.outreachLabel}</a>
+              <a href={pillar.report} class="mt-2 w-fit text-sm text-primary-800 underline underline-offset-4 hover:text-primary-950">{pillar.reportLabel}</a>
+            </div>
+          </li>
         ))
       }
-    </div>
-    <p class="mt-6 text-sm text-gray-500">
-      Objectif de 5% pour les frais administratifs · Enregistrement ONG Cameroun {REGISTRATION_NUMBER} ·{" "}
-      <a
-        href="/fr/transparency"
-        class="text-primary-700 underline underline-offset-2"
-        >Rapport de transparence</a
-      >
+    </ul>
+    <p class="mt-6 text-sm text-gray-700">
+      Les actions menées auprès d’un public plus large restent accessibles dans les{" "}
+      <a href="/fr/projects/archive/" class="font-semibold text-primary-800 underline underline-offset-4">archives des actions</a>.
     </p>
   </Section>
+
+  <CurrentWork locale="fr" projects={[]} announcements={announcements} />
+  <WorkVideo locale="fr" />
+  <HomepageOutreachPhotos locale="fr" />
 
   <Section background="gray" padding="md">
     <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
@@ -297,8 +236,7 @@ const actionPaths = [
         <h2
           class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900 tracking-tight"
         >
-          Assez proche pour connaître les familles. Assez organisée pour montrer
-          les preuves.
+          Proches des communautés, transparents sur nos actions.
         </h2>
         <p class="mt-4 text-gray-600 leading-relaxed">
           ADA combine des relations locales au Cameroun avec une gouvernance
@@ -328,52 +266,6 @@ const actionPaths = [
     </div>
   </Section>
 
-  <Section background="white" padding="lg">
-    <div class="max-w-3xl">
-      <p
-        class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700"
-      >
-        Comment nous servons
-      </p>
-      <h2
-        class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
-      >
-        Des chemins concrets pour les familles vulnérables
-      </h2>
-      <p class="mt-4 text-gray-600 leading-relaxed">
-        Chaque programme commence par un besoin immédiat, puis avance vers la
-        dignité, la stabilité et l'autonomie.
-      </p>
-    </div>
-    <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200">
-      {
-        programPillars.map((pillar) => (
-          <li class="border-b border-gray-200">
-            <a
-              href={pillar.href}
-              class="group flex items-baseline justify-between gap-4 py-5"
-            >
-              <div>
-                <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
-                  {pillar.title}
-                </h3>
-                <p class="mt-1 text-sm text-gray-600 leading-relaxed">
-                  {pillar.text}
-                </p>
-              </div>
-              <span
-                class="font-heading text-sm font-semibold text-primary-700 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                aria-hidden="true"
-              >
-                →
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </Section>
-
   <Section background="gray" padding="lg">
     <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,1fr)]">
       <div>
@@ -400,9 +292,7 @@ const actionPaths = [
           Relations locales, responsabilité visible
         </h2>
         <p class="mt-4 text-gray-600 leading-relaxed">
-          Les programmes sont coordonnés avec les veuves, les familles, les
-          écoles, les églises, les bénévoles et les partenaires communautaires
-          pour répondre à des besoins documentés.
+          Nous écoutons les femmes et les adolescentes et travaillons avec les églises, les écoles, les bénévoles et les partenaires locaux pour répondre à des besoins concrets.
         </p>
         <dl class="mt-6 grid grid-cols-3 gap-4 border-t border-gray-200 pt-6">
           <div>
@@ -492,35 +382,6 @@ const actionPaths = [
     </ol>
   </Section>
 
-  <Section background="gray" padding="lg">
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 items-start">
-      <div>
-        <h2
-          class="text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
-        >
-          {i18n.mission.heading}
-        </h2>
-        <p class="mt-4 text-lg text-gray-600 leading-relaxed">
-          {i18n.mission.body}
-        </p>
-      </div>
-      <ul class="space-y-0 border-t border-gray-200">
-        {
-          missionCards.map((card) => (
-            <li class="border-b border-gray-200 py-5">
-              <h3 class="font-heading text-lg font-semibold text-gray-900">
-                {card.title}
-              </h3>
-              <p class="mt-1 text-sm text-gray-600 leading-relaxed">
-                {card.description}
-              </p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </Section>
-
   <StoryReviewNotice locale="fr" variant="featured" />
 
   {testimonials.length > 0 && (
@@ -533,7 +394,7 @@ const actionPaths = [
     <h2
       class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight"
     >
-      {i18n.testimonials.heading}
+      Histoires du terrain
     </h2>
     {
       testimonials[0] && (
@@ -634,21 +495,21 @@ const actionPaths = [
       <h2
         class="text-3xl md:text-4xl font-heading font-bold tracking-tight text-left"
       >
-        {i18n.cta.heading}
+        Soutenir nos actions au Cameroun
       </h2>
-      <p class="mt-4 text-lg text-white/80 text-left">{i18n.cta.body}</p>
+      <p class="mt-4 text-lg text-white/80 text-left">Votre don au fonds général aide nos équipes locales à répondre aux besoins prioritaires de nos actions approuvées.</p>
       <div class="mt-8 flex flex-wrap items-center gap-3">
         <a
           href="/fr/donate"
-          class="font-heading inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
+          class="font-heading inline-flex min-h-11 items-center px-5 py-2.5 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
         >
-          {i18n.cta.donate}
+          Faire un don
         </a>
         <a
           href="/fr/get-involved"
           class="font-heading text-sm font-semibold text-white/90 underline decoration-white/40 underline-offset-4 hover:text-white"
         >
-          {i18n.cta.volunteer}
+          Devenir bénévole
         </a>
       </div>
     </div>

@@ -38,10 +38,10 @@ const trustIndicators = [
   },
 ];
 
-const currentCampaignNeeds = [
-  "Nourriture d'urgence et essentiels pour veuves et enfants",
-  "Soutien scolaire, uniformes et fournitures pour élèves vulnérables",
-  "Transport et suivi sur le terrain pour que l'aide atteigne les familles directement",
+const givingExamples = [
+  "Aide alimentaire et articles de première nécessité pour les veuves",
+  "Produits d’hygiène menstruelle pour les adolescentes",
+  "Articles essentiels pour les mères et les nouveau-nés",
 ];
 
 const otherWaysToGive = [
@@ -98,7 +98,7 @@ const faqPageSchema = buildFaqPage(
 
 <PageLayout
   title="Faire un Don"
-  description="Soutenez les programmes d'Apoti Development Association auprès des communautés vulnérables au Cameroun. Don ponctuel ou mensuel par paiement sécurisé."
+  description="Soutenez les actions d’Apoti Development Association auprès des femmes et des adolescentes au Cameroun. Don ponctuel ou mensuel par paiement sécurisé."
   jsonLdExtra={[faqPageSchema]}
 >
   <!-- Hallmark · genre: editorial · macrostructure: Split Studio · design-system: design.md · designed-as-app -->
@@ -196,7 +196,7 @@ const faqPageSchema = buildFaqPage(
     </div>
   </Section>
 
-  <!-- Current Campaign -->
+  <!-- Priorités et affectation des dons -->
   <Section background="gray" padding="md">
     <div
       class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-5 items-stretch"
@@ -205,22 +205,21 @@ const faqPageSchema = buildFaqPage(
         <p
           class="text-xs font-semibold uppercase tracking-wider text-primary-700"
         >
-          Campagne en cours
+          Ce que votre soutien rend possible
         </p>
         <h2
           class="mt-3 text-2xl md:text-3xl font-heading font-bold text-gray-900"
         >
-          Soutien aux veuves et familles au Cameroun
+          Un soutien concret au Cameroun
         </h2>
         <p class="mt-3 text-sm md:text-base text-gray-600 leading-relaxed">
-          Cette saison, les dons non restreints sont priorisés pour un
-          soulagement pratique qui stabilise les ménages vulnérables :
-          nourriture, soutien scolaire, fournitures essentielles et visites sur
-          le terrain pour les familles que ADA sert déjà.
+          Ces exemples sont tirés de nos actions déjà menées. Un don à notre fonds
+          général nous aide à répondre aux besoins du moment. Pour soutenir une
+          action précise ouverte aux dons, sélectionnez-la dans le formulaire.
         </p>
         <ul class="mt-4 space-y-2">
           {
-            currentCampaignNeeds.map((need) => (
+            givingExamples.map((need) => (
               <li class="flex gap-3 text-sm text-gray-700">
                 <span
                   class="mt-1 h-2 w-2 rounded-full bg-primary-500 flex-shrink-0"
@@ -235,12 +234,12 @@ const faqPageSchema = buildFaqPage(
           <a
             href="#donation-form"
             class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-secondary-500 rounded-md hover:bg-secondary-600 transition-colors"
-            >Donner à cette campagne</a
+            >Accéder au formulaire de don</a
           >
           <a
-            href="/fr/projects/widow-support"
+            href="/fr/projects/archive/"
             class="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
-            >Voir le projet</a
+            >Consulter les comptes rendus</a
           >
         </div>
       </div>
@@ -254,9 +253,9 @@ const faqPageSchema = buildFaqPage(
             Comment les dons sont affectés
           </p>
           <p class="mt-3 text-base text-white/90 leading-relaxed">
-            Si cette campagne est entièrement financée ou si les besoins
-            changent, les dons sont affectés à des besoins de programme connexes
-            sauf demande contraire du donateur.
+            Pour convenir d’un don affecté à un usage précis ou savoir ce qu’il
+            adviendra de votre don si les besoins changent, contactez-nous avant
+            de donner.
           </p>
         </div>
       </div>

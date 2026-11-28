@@ -1,101 +1,43 @@
 ---
 import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
-import PageLayout from '../../layouts/PageLayout.astro';
-import PageHero from '../../components/layout/PageHero.astro';
-import Section from '../../components/layout/Section.astro';
+import { REGISTRATION_NUMBER } from "../../data/organization";
+import PageLayout from "../../layouts/PageLayout.astro";
+import PageHero from "../../components/layout/PageHero.astro";
+import Section from "../../components/layout/Section.astro";
 import CalledToServe from "../../components/about/CalledToServe.astro";
-import { getAboutPage, getProjects } from '../../lib/sanity';
-import { projects as fallbackProjects } from '../../data/projects';
-import { isWithdrawnProjectRecord } from '../../lib/withdrawn-project-content';
-import { getAboutProgramHref } from '../../lib/about-program-routes';
-import { getAboutTimelineEvent } from '../../lib/about-timeline';
 
-let missionStatement = "Faire briller la lumière de Jésus-Christ en autonomisant les veuves, orphelins et jeunes femmes du Cameroun à travers la distribution alimentaire, l'éducation, la formation professionnelle et les soins de santé — restaurant la dignité et construisant l'autonomie.";
-const defaultMissionStatement = missionStatement;
-let storyParagraphs = [
-  "Fondée en 2021, Apoti Development Association est née d'une conviction profonde que la foi doit s'exprimer par l'action. Au cœur du Cameroun, où les veuves, les orphelins et les jeunes femmes font face à des défis quotidiens de pauvreté et de marginalisation, nous avons vu une opportunité de faire une différence tangible.",
-  "En novembre 2021, notre équipe a apporté des denrées à des veuves de Buea et a pris le temps de les écouter et de prier avec elles.",
-  "Ce qui a commencé comme un simple acte de compassion est devenu une organisation communautaire au service de communautés à travers le Cameroun. Ses programmes sont conçus non seulement pour apporter un soutien immédiat, mais aussi pour renforcer l'autonomie.",
+const locale = "fr";
+const archivePath = "/fr/projects/archive";
+const missionStatement = "Ancrés dans la foi chrétienne, nous apportons un soutien concret aux femmes et aux adolescentes au Cameroun, en particulier aux veuves et aux mères. Nous accueillons les personnes de toutes convictions, religieuses ou non. La participation à la prière n’est jamais une condition pour recevoir de l’aide.";
+const storyParagraphs = [
+  "Lionel Tchami Nfada a fondé Apoti Development Association en 2021. En novembre de la même année, notre équipe a apporté des denrées à des veuves de Buea et a pris le temps de les écouter et de prier avec celles qui le souhaitaient.",
+  "Depuis, nous travaillons avec des équipes locales pour répondre à des besoins concrets. Aujourd’hui, nous accordons la priorité aux femmes et aux adolescentes. Nos archives gardent aussi la trace de nos actions communautaires antérieures.",
 ];
-const defaultStoryParagraphs = storyParagraphs;
-let coreValues = [
-  { icon: '', title: 'Foi et Amour', desc: 'Enracinés dans la foi chrétienne, nous servons avec un amour inconditionnel.' },
-  { icon: '', title: 'Dignité et Respect', desc: "Chaque personne est traitée avec la dignité qu'elle mérite." },
-  { icon: '', title: 'Autonomisation', desc: 'Nous équipons les gens de compétences pour construire leur propre avenir.' },
-  { icon: '', title: 'Transparence', desc: 'Nous sommes responsables envers nos donateurs et communautés.' },
-  { icon: '', title: 'Partenariat Communautaire', desc: 'Nous travaillons aux côtés des leaders locaux.' },
-  { icon: '', title: 'Impact Durable', desc: 'Nos programmes créent un changement à long terme, pas un soulagement temporaire.' },
+const coreValues = [
+  { title: "Foi et compassion", desc: "Notre foi chrétienne nous inspire à servir avec attention et humilité." },
+  { title: "Dignité et respect", desc: "Nous écoutons les femmes et les adolescentes, respectons leurs choix et protégeons leur vie privée." },
+  { title: "Partenariats locaux", desc: "Nous collaborons avec des personnes et des organisations qui connaissent bien leurs communautés." },
+  { title: "Transparence", desc: "Nous rendons compte de nos actions, de l’utilisation des fonds et des résultats que nous pouvons vérifier." },
 ];
-type AboutProgram = { icon: string; title: string; desc: string; slug?: string };
-let programs: AboutProgram[] = [
-  { icon: '', title: 'Distribution Alimentaire', desc: 'Colis alimentaires réguliers pour les veuves et familles.', slug: 'widow-support' },
-  { icon: '', title: 'Visites Hospitalières', desc: 'Soutien médical et visites aux membres de la communauté.', slug: 'emergency-relief' },
-  { icon: '', title: 'Soutien Scolaire', desc: 'Fournitures, uniformes et frais de scolarité pour les orphelins.', slug: 'education-drive' },
-  { icon: '', title: 'Nettoyage Communautaire', desc: "Gestion environnementale à travers des campagnes de nettoyage et plantation d'arbres." },
+const programs = [
+  { title: "Soutien aux veuves", desc: "Une aide alimentaire et pratique qui tient compte des besoins exprimés par les veuves.", slug: "widow-support-food-cash-mar-2022" },
+  { title: "Dignité des adolescentes", desc: "Une sensibilisation à la santé menstruelle et des fournitures utiles pour les adolescentes.", slug: "girls-dignity-menstrual-health-bamenda-jun-2026" },
+  { title: "Soutien aux mères", desc: "Une action achevée à Muea a permis de remettre aux mères des articles essentiels pour elles et leurs nouveau-nés.", slug: "prenatal-care-support-program" },
 ];
-const availableProjectSlugs = new Set(
-  fallbackProjects
-    .filter((project) => !isWithdrawnProjectRecord(project))
-    .map((project) => project.slug),
-);
-try {
-  const currentProjects = await getProjects("fr");
-  for (const project of currentProjects) {
-    if (project.slug?.current) availableProjectSlugs.add(project.slug.current);
-  }
-} catch {}
-let timeline = [
-  { year: '2021', event: 'Fondée à Buea — premiers colis alimentaires livrés aux veuves en difficulté' },
-  { year: '2023', event: "Fournitures scolaires à Buea" },
-  { year: '2024', event: 'Bureau de Bamenda ouvert — expansion régionale et documentation partenaires' },
-  { year: '2025', event: 'Activités de nettoyage communautaire' },
-  { year: '2026', event: 'Partenariats institutionnels canadiens et préparation d’un centre de formation' },
+const timeline = [
+  { year: "2021", event: "Lionel Tchami Nfada fonde ADA. L’équipe effectue ses premières visites à domicile auprès de veuves à Buea." },
+  { year: "2023", event: "Fournitures scolaires à Buea." },
+  { year: "2025", event: "Début de nos actions à Bamenda." },
+  { year: "2026", event: "Action pour la dignité et la santé menstruelle des filles à Bamenda." },
 ];
-
-try {
-  const page = await getAboutPage("fr");
-  if (page) {
-    missionStatement = page.missionStatement || missionStatement;
-    if (page.storyParagraphs?.length && typeof page.storyParagraphs[0] === 'string') storyParagraphs = page.storyParagraphs;
-    if (page.coreValues?.length) {
-      coreValues = page.coreValues.map((v) => ({
-        icon: v.icon || "",
-        title: v.title,
-        desc: v.description,
-      }));
-    }
-    if (page.programs?.length) {
-      programs = page.programs.map((p) => ({
-        icon: p.icon || "",
-        title: p.title,
-        desc: p.description,
-        slug: typeof p.slug === "string" ? p.slug : undefined,
-      }));
-    }
-    if (page.timeline?.length) timeline = page.timeline;
-  }
-} catch {}
-
-const wellReference = /clean water|water well|borehole|water access|puits|forage|eau potable/i;
-if (wellReference.test(missionStatement)) missionStatement = defaultMissionStatement;
-storyParagraphs = storyParagraphs
-  .filter((paragraph) => !wellReference.test(paragraph))
-  // Preserve the reviewed location if legacy CMS copy still names Bamenda.
-  .map((paragraph) => (/premiers colis alimentaires/i.test(paragraph) && /Bamenda/i.test(paragraph)) ? defaultStoryParagraphs[1] : paragraph);
-if (storyParagraphs.length === 0) storyParagraphs = defaultStoryParagraphs;
-programs = programs.filter((program) => !wellReference.test(`${program.title} ${program.desc}`) && program.slug !== "women-empowerment" && program.slug !== "young-women-skills-training-program");
-timeline = timeline
-  .filter((item) => !wellReference.test(item.event))
-  .map((item) => ({ ...item, event: getAboutTimelineEvent(item.year, item.event, "fr") }));
-
 ---
 
 <!-- Hallmark · genre: editorial · macrostructure: Long Document · design-system: design.md · designed-as-app -->
-<PageLayout title="À Propos" description="Découvrez la mission d'Apoti Development Association pour autonomiser les communautés vulnérables au Cameroun.">
+<PageLayout title="À propos" description="Découvrez Apoti Development Association, une association chrétienne qui soutient les femmes et les adolescentes au Cameroun, notamment les veuves et les mères.">
   <PageHero
-    title="À Propos de Nous"
-    subtitle="Association caritative chrétienne autonomisant les communautés vulnérables du Cameroun depuis 2021."
-    photo={getEditorialHeroPhoto("about", "fr")}
+    title="À propos"
+    subtitle="Un soutien concret aux femmes et aux adolescentes au Cameroun."
+    photo={getEditorialHeroPhoto("about", locale)}
   />
 
   <!-- Mission -->
@@ -105,78 +47,19 @@ timeline = timeline
         Notre mission
       </p>
       <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
-        Faire briller la lumière de Jésus-Christ par des soins concrets
+        Faire briller la lumière de Jésus-Christ par une aide concrète
       </h2>
       <p class="mt-6 text-lg text-gray-600 leading-relaxed">{missionStatement}</p>
     </div>
-    <div class="mt-10 grid grid-cols-2 gap-8 border-y border-gray-200 py-8 max-w-3xl">
-      <div>
-        <p class="font-heading text-3xl font-bold text-primary-700 tracking-tight">5</p>
-        <p class="mt-1 text-sm text-gray-600">Communautés</p>
-      </div>
-      <div>
-        <p class="font-heading text-3xl font-bold text-primary-700 tracking-tight">80%</p>
-        <p class="mt-1 text-sm text-gray-600">Aux Programmes</p>
-      </div>
-    </div>
-    <p class="mt-6 text-sm text-gray-500 max-w-3xl">
-      ONG enregistrée au Cameroun · N&deg; 415/G.37/D14/VolI/SAAJP
+    <p class="mt-6 text-sm text-gray-600 max-w-3xl">
+      Association sans but lucratif enregistrée au Cameroun · {REGISTRATION_NUMBER}
     </p>
   </Section>
 
-  <CalledToServe locale="fr">
-    {storyParagraphs.map(p => <p>{p}</p>)}
-    <div class="mt-6 rounded-md border border-gray-200 bg-white p-5">
-      <p class="text-xs font-semibold uppercase tracking-wide text-primary-700">Crédibilité du fondateur</p>
-      <h3 class="mt-2 text-lg font-semibold text-gray-900">Le Pasteur Emmanuel Tchami dirige ADA à travers des partenariats avec l'église locale et la communauté.</h3>
-      <p class="mt-2 text-sm text-gray-600 leading-relaxed">Son équipe travaille directement avec les veuves, les tuteurs d'orphelins, les responsables scolaires et les bénévoles au Cameroun pour que le soutien atteigne des programmes nommés et des besoins communautaires documentés.</p>
-      <dl class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-        <div>
-          <dt class="font-semibold text-gray-900">Fondée</dt>
-          <dd class="text-gray-500">2021 à Buea</dd>
-        </div>
-        <div>
-          <dt class="font-semibold text-gray-900">Responsabilité</dt>
-          <dd class="text-gray-500">ONG enregistrée</dd>
-        </div>
-        <div>
-          <dt class="font-semibold text-gray-900">Modèle</dt>
-          <dd class="text-gray-500">Partenaires locaux d'abord</dd>
-        </div>
-      </dl>
-    </div>
+  <CalledToServe locale={locale}>
+    {storyParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <a href="/fr/team/" class="inline-flex mt-2 font-semibold text-primary-700 underline underline-offset-4">Rencontrer notre équipe</a>
   </CalledToServe>
-
-  <!-- Vidéo d'Impact -->
-  <Section background="white" padding="lg">
-    <div class="max-w-4xl">
-      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
-        Images de terrain
-      </p>
-      <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
-        Voyez Notre Impact
-      </h2>
-      <p class="mt-4 text-lg text-gray-600 leading-relaxed">
-        Découvrez comment votre soutien transforme des vies dans nos communautés.
-      </p>
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="rounded-md overflow-hidden border border-gray-200">
-          <video controls preload="metadata" class="w-full aspect-video bg-gray-900" aria-label="Vidéo du programme Rentrée Scolaire ADA">
-            <source src="https://cdn.sanity.io/files/rj2m21gk/production/6d43bdec66014a0bddb4702538982688a8ec4412.mp4" type="video/mp4" />
-            Votre navigateur ne supporte pas la balise vidéo.
-          </video>
-          <p class="p-3 text-sm text-gray-600 bg-gray-50 border-t border-gray-200">Programme Rentrée Scolaire 2022</p>
-        </div>
-        <div class="rounded-md overflow-hidden border border-gray-200">
-          <video controls preload="metadata" class="w-full aspect-video bg-gray-900" aria-label="Vidéo d'action communautaire ADA">
-            <source src="https://cdn.sanity.io/files/rj2m21gk/production/02cbff013caef81d8c01e96e68f95cb364ce3a01.mp4" type="video/mp4" />
-            Votre navigateur ne supporte pas la balise vidéo.
-          </video>
-          <p class="p-3 text-sm text-gray-600 bg-gray-50 border-t border-gray-200">Action Communautaire</p>
-        </div>
-      </div>
-    </div>
-  </Section>
 
   <!-- Valeurs -->
   <Section background="gray" padding="lg">
@@ -208,24 +91,44 @@ timeline = timeline
         Nos Programmes
       </h2>
       <p class="mt-4 text-lg text-gray-600 leading-relaxed">
-        Des programmes ciblés répondent aux besoins les plus pressants de nos communautés.
+        Découvrez nos actions à travers les comptes rendus. Chaque exemple présente une action que nous avons menée.
       </p>
     </div>
     <ul class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-gray-200 max-w-4xl">
       {programs.map((program) => (
         <li class="border-b border-gray-200">
-          <a href={getAboutProgramHref(program.slug, availableProjectSlugs, "fr", program.title)} class="group flex items-baseline justify-between gap-4 py-5">
+          <a href={`${archivePath}/${program.slug}/`} class="group flex items-baseline justify-between gap-4 py-5">
             <div>
               <h3 class="font-heading text-lg font-semibold text-gray-900 group-hover:text-primary-700 transition-colors">
                 {program.title}
               </h3>
               <p class="mt-1 text-sm text-gray-600 leading-relaxed">{program.desc}</p>
+              <span class="mt-2 inline-block text-sm font-semibold text-primary-700 underline underline-offset-4">Consulter la fiche de l’action</span>
             </div>
             <span class="font-heading text-sm font-semibold text-primary-700 shrink-0" aria-hidden="true">→</span>
           </a>
         </li>
       ))}
     </ul>
+  </Section>
+
+  <Section background="gray" padding="lg">
+    <div id="where-we-work" class="max-w-5xl scroll-mt-28">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">Nos lieux d’intervention</p>
+      <h2 class="mt-3 font-heading text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">Où nous intervenons</h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-2">
+        <article class="border border-gray-200 bg-white p-6">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-700">Activités en cours</p>
+          <h3 class="mt-2 font-heading text-lg font-bold text-gray-900">Cameroun</h3>
+          <p class="mt-2 text-sm leading-relaxed text-gray-700">Nous sommes enregistrés au Cameroun et travaillons avec des équipes locales à Buea et à Bamenda. Nos actions à Bamenda ont commencé en 2025.</p>
+        </article>
+        <article class="border border-gray-200 bg-white p-6">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-700">En préparation</p>
+          <h3 class="mt-2 font-heading text-lg font-bold text-gray-900">Canada</h3>
+          <p class="mt-2 text-sm leading-relaxed text-gray-700">Nous préparons la création d’un organisme sans but lucratif au Canada et étudions les possibilités d’y mener des actions. Nous n’y avons lancé aucun programme et ne délivrons pas de reçus officiels de dons aux fins de l’impôt canadien.</p>
+        </article>
+      </div>
+    </div>
   </Section>
 
   <!-- Chronologie -->
@@ -235,7 +138,7 @@ timeline = timeline
         Notre parcours
       </p>
       <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
-        Des premiers colis alimentaires à un impact grandissant
+        Les étapes de notre parcours
       </h2>
     </div>
     <ol class="mt-10 max-w-3xl space-y-0 list-none border-l border-gray-200 ml-1">
@@ -250,6 +153,38 @@ timeline = timeline
         </li>
       ))}
     </ol>
+    <a href={`${archivePath}/`} class="mt-6 inline-flex text-sm font-semibold text-primary-700 underline underline-offset-4">Consulter toutes les fiches d’action</a>
+  </Section>
+
+  <!-- Vidéo d'Impact -->
+  <Section background="white" padding="lg">
+    <div class="max-w-4xl">
+      <p class="font-heading text-xs font-semibold uppercase tracking-wider text-primary-700">
+        Images de terrain
+      </p>
+      <h2 class="mt-3 text-3xl md:text-4xl font-heading font-bold text-gray-900 tracking-tight">
+        Actions antérieures
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 leading-relaxed">
+        Ces vidéos retracent une partie de notre histoire et illustrent également des actions communautaires plus larges. Retrouvez les comptes rendus dans nos archives.
+      </p>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="rounded-md overflow-hidden border border-gray-200">
+          <video controls preload="metadata" class="w-full aspect-video bg-gray-900" aria-label="Vidéo du programme Rentrée Scolaire ADA">
+            <source src="https://cdn.sanity.io/files/rj2m21gk/production/6d43bdec66014a0bddb4702538982688a8ec4412.mp4" type="video/mp4" />
+            Votre navigateur ne supporte pas la balise vidéo.
+          </video>
+          <p class="p-3 text-sm text-gray-600 bg-gray-50 border-t border-gray-200">Programme Rentrée Scolaire 2022</p>
+        </div>
+        <div class="rounded-md overflow-hidden border border-gray-200">
+          <video controls preload="metadata" class="w-full aspect-video bg-gray-900" aria-label="Vidéo d'action communautaire ADA">
+            <source src="https://cdn.sanity.io/files/rj2m21gk/production/02cbff013caef81d8c01e96e68f95cb364ce3a01.mp4" type="video/mp4" />
+            Votre navigateur ne supporte pas la balise vidéo.
+          </video>
+          <p class="p-3 text-sm text-gray-600 bg-gray-50 border-t border-gray-200">Action Communautaire</p>
+        </div>
+      </div>
+    </div>
   </Section>
 
   <!-- CTA -->
@@ -259,7 +194,7 @@ timeline = timeline
         Rejoignez Notre Mission
       </h2>
       <p class="mt-4 text-lg text-white/80 text-left">
-        Que ce soit par un don, le bénévolat ou la prière, vous pouvez faire la différence dans la vie des veuves, orphelins et jeunes femmes au Cameroun.
+        Par un don, le bénévolat ou la prière, vous pouvez soutenir nos actions auprès des femmes et des adolescentes au Cameroun.
       </p>
       <div class="mt-8 flex flex-wrap items-center gap-3">
         <a

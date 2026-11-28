@@ -334,7 +334,7 @@ const en: TransparencyCopy = {
   },
   theoryOfChange: {
     title: "How Our Outreach Works",
-    intro: "From identifying a local need to sharing a record of the work.",
+    intro: "Our focus is practical support for women and adolescent girls in Cameroon, including widows and mothers. Here is how we go from identifying a local need to sharing a record of the work.",
     steps: [
       { step: "1", title: "Listen", desc: "Identify a need with community members and local partners." },
       { step: "2", title: "Plan", desc: "Define what support is practical and what the outreach will cover." },
@@ -650,7 +650,7 @@ const fr: TransparencyCopy = {
   },
   theoryOfChange: {
     title: "Comment se déroulent nos actions",
-    intro: "Du besoin identifié avec la communauté au compte rendu de l’action.",
+    intro: "Notre priorité est d’apporter un soutien concret aux femmes et aux adolescentes au Cameroun, notamment aux veuves et aux mères. Voici comment nous passons du besoin identifié avec la communauté au compte rendu de l’action.",
     steps: [
       { step: "1", title: "Écouter", desc: "Identifier un besoin avec les membres de la communauté et les partenaires locaux." },
       { step: "2", title: "Préparer", desc: "Définir l’aide possible et le périmètre de l’action." },

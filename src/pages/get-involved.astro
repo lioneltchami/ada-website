@@ -79,24 +79,6 @@ const fallbackRoles = [
     desc: "Lead community engagement and program delivery.",
   },
   {
-    title: "Education Mentor",
-    time: "5-10 hrs/week",
-    location: "On-site",
-    desc: "Tutor and mentor orphaned children in our education program.",
-  },
-  {
-    title: "Skills Training Facilitator",
-    time: "8-12 hrs/week",
-    location: "On-site",
-    desc: "Teach vocational skills to young women.",
-  },
-  {
-    title: "Healthcare Support Volunteer",
-    time: "5-8 hrs/week",
-    location: "On-site",
-    desc: "Assist with hospital visits and health awareness campaigns.",
-  },
-  {
     title: "Digital Media & Communications",
     time: "5-10 hrs/week",
     location: "Remote",
@@ -110,9 +92,14 @@ const fallbackRoles = [
   },
 ];
 
+// These legacy seeded entries presented unverified service programs as open roles.
+const unverifiedSeedRoleIds = new Set(["role-mentor", "role-trainer", "role-health"]);
+
 let volunteerRoles = fallbackRoles;
 try {
-  const roles = await getVolunteerRoles();
+  const roles = (await getVolunteerRoles()).filter(
+    (role) => !unverifiedSeedRoleIds.has(role._id),
+  );
   if (roles?.length) {
     volunteerRoles = roles.map((r: SanityVolunteerRole) => ({
       title: r.title,
@@ -209,7 +196,7 @@ const ways = [
         Volunteer Opportunities
       </h2>
       <p class="mt-4 text-gray-600">
-        We have roles for every skill set and availability.
+        Tell us how you’d like to help. We confirm available roles and their responsibilities with volunteers before they start.
       </p>
     </div>
     <ul class="mt-10 divide-y divide-gray-200 border-y border-gray-200 max-w-3xl">

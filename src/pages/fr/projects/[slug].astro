@@ -1,6 +1,7 @@
 ---
 import { outreachDisplayTitle } from "../../../lib/outreach-display-title";
 import ProjectAnnouncement from "../../../components/projects/ProjectAnnouncement.astro";
+import LegacyCampaignNotice from "../../../components/projects/LegacyCampaignNotice.astro";
 import PageLayout from "../../../layouts/PageLayout.astro";
 import { reviewed2026Release } from "../../../lib/reviewed-project-summaries-2026";
 import Section from "../../../components/layout/Section.astro";
@@ -16,6 +17,7 @@ import {
 } from "../../../lib/project-fallbacks";
 import {
   getPausedProjectMessage,
+  isLegacyCampaignListing,
   getProjectStatusText,
 } from "../../../lib/project-detail-presentation";
 
@@ -118,6 +120,8 @@ const displayTitle = outreachDisplayTitle(project, "fr");
 
 {project.announcementOnly ? (
   <ProjectAnnouncement project={project} locale="fr" />
+) : isLegacyCampaignListing(project.slug) ? (
+  <LegacyCampaignNotice locale="fr" title={displayTitle} />
 ) : (
 <PageLayout
   title={displayTitle}

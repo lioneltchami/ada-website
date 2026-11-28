@@ -1,0 +1,43 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Section from "../layout/Section.astro";
+
+interface Props {
+  locale: "en" | "fr";
+  title: string;
+}
+
+const { locale, title } = Astro.props;
+const fr = locale === "fr";
+const projects = fr ? "/fr/projects/" : "/projects/";
+const copy = fr
+  ? {
+      label: "Ancienne page de campagne",
+      notice: "Cette page est conservée à titre de référence. Elle ne présente ni un appel aux dons en cours ni un service actuellement proposé.",
+      next: "Pour connaître nos priorités actuelles, voir nos actions à venir ou consulter les rapports des actions réalisées, suivez les liens ci-dessous.",
+      current: "Voir nos priorités et les actions à venir",
+      history: "Consulter les archives des actions",
+    }
+  : {
+      label: "Earlier campaign listing",
+      notice: "We keep this page for reference. It is not an announcement of a current fundraising appeal or available service.",
+      next: "Use the links below to see our current priorities, upcoming outreaches, or reports from completed work.",
+      current: "See priorities and upcoming outreaches",
+      history: "Browse the outreach archive",
+    };
+---
+
+<PageLayout title={title} description={copy.notice}>
+  <Section background="white" padding="lg">
+    <div class="max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-wide text-primary-700">{copy.label}</p>
+      <h1 class="mt-3 text-3xl font-heading font-bold tracking-tight text-gray-900 md:text-5xl">{title}</h1>
+      <p class="mt-5 text-lg leading-relaxed text-gray-700">{copy.notice}</p>
+      <p class="mt-4 leading-relaxed text-gray-700">{copy.next}</p>
+      <ul class="mt-6 space-y-3">
+        <li><a class="font-semibold text-primary-800 underline underline-offset-4" href={projects}>{copy.current}</a></li>
+        <li><a class="font-semibold text-primary-800 underline underline-offset-4" href={`${projects}archive/`}>{copy.history}</a></li>
+      </ul>
+    </div>
+  </Section>
+</PageLayout>
