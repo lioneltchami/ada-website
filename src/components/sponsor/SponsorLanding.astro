@@ -1,6 +1,7 @@
 ---
 import { featuredWomenOutreach } from "../../data/featured-women-outreach";
 import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
+import { outreachEditorialStill } from "../../data/outreach-editorial-stills";
 import OutreachPhoto from "../media/OutreachPhoto.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
@@ -151,7 +152,7 @@ const linkClass = `inline-flex min-h-11 items-center rounded-sm text-sm font-sem
             <p class="mt-2 max-w-prose text-sm leading-relaxed text-gray-700">{featuredCase.evidence[locale]}</p>
             <a href={reportHref} class={`mt-2 ${linkClass}`}>{copy.caseLink}</a>
           </div>
-          <OutreachPhoto record={featuredCase.slug} locale={locale} size="natural" />
+          <OutreachPhoto record={featuredCase.slug} locale={locale} photoOverride={outreachEditorialStill("widowsBags", locale)} size="natural" />
         </div>
       </article>
       <div class="rounded-lg border border-gray-200 bg-[#faf8f4] p-5 sm:p-6">

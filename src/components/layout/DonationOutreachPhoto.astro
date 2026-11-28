@@ -1,0 +1,37 @@
+---
+import { getArchiveSupportingPhotos } from "../../data/archive-supporting-photos";
+import { localePath, type Locale } from "../../i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const slug = "christmas-giving-dec-2022";
+const [photo] = getArchiveSupportingPhotos(slug, locale);
+const caption = locale === "fr"
+  ? "Repas servi lors de notre action de Noël en 2022."
+  : "Serving food at our 2022 Christmas Outreach.";
+const href = localePath(`/projects/archive/${slug}/`, locale);
+---
+
+{photo && (
+  <figure class="overflow-hidden border-b border-white/25" data-donate-outreach-photo>
+    <div class="aspect-[16/9] overflow-hidden md:aspect-[2/1]">
+      <img
+        src={photo.src}
+        width={photo.width}
+        height={photo.height}
+        alt={photo.alt}
+        loading="lazy"
+        decoding="async"
+        class="h-full w-full object-cover object-[center_54%]"
+      />
+    </div>
+    <figcaption class="px-5 pt-3 pb-4 text-sm text-white md:px-6">
+      <a href={href} class="underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4">
+        {caption}
+      </a>
+    </figcaption>
+  </figure>
+)}

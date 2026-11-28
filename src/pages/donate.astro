@@ -3,6 +3,7 @@ import HeroBackdrop from "../components/layout/HeroBackdrop.astro";
 import { getEditorialHeroPhoto } from "../data/editorial-hero-photos";
 import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
+import DonationOutreachPhoto from "../components/layout/DonationOutreachPhoto.astro";
 import DonationForm from "../components/islands/DonationForm";
 import {
   getProjects,
@@ -246,9 +247,10 @@ const faqPageSchema = buildFaqPage(
         </div>
       </div>
       <div
-        class="bg-primary-700 rounded-md p-5 md:p-6 text-white flex flex-col justify-between"
+        class="overflow-hidden rounded-md bg-primary-700 text-white"
       >
-        <div>
+        <DonationOutreachPhoto locale="en" />
+        <div class="p-5 md:p-6">
           <p
             class="text-sm font-semibold uppercase tracking-wider text-white/70"
           >

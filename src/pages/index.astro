@@ -3,8 +3,6 @@ import PageLayout from "../layouts/PageLayout.astro";
 import Section from "../components/layout/Section.astro";
 import CurrentWork from "../components/home/CurrentWork.astro";
 import OutreachPhoto from "../components/media/OutreachPhoto.astro";
-import { getArchiveFeaturePhoto } from "../data/archive-feature-photos";
-import { getArchiveSupportingPhotos } from "../data/archive-supporting-photos";
 import HomeHero from "../components/home/HomeHero.astro";
 import HomepageOutreachPhotos from "../components/home/HomepageOutreachPhotos.astro";
 import WorkVideo from "../components/home/WorkVideo.astro";
@@ -47,7 +45,6 @@ const announcements = listUpcomingAnnouncements(homepageProjects, { locale: "en"
 const programPillars = [
   {
     title: "Widows’ Support",
-    photo: getArchiveSupportingPhotos("widow-support-food-cash-mar-2022", "en")[0],
     text: "In Muea in 2022, we visited about 20 widows at home and brought food and household essentials.",
     outreach: "/projects/archive/widow-support-food-cash-mar-2022/",
     outreachLabel: "Widows’ outreach record",
@@ -56,9 +53,6 @@ const programPillars = [
   },
   {
     title: "Girls’ Dignity & Practical Skills",
-    photo: getArchiveSupportingPhotos("idp-girls-baking-training-jul-2022", "en")[0],
-    photoHref: "/projects/archive/idp-girls-baking-training-jul-2022/",
-    photoLabel: "Girls’ baking workshop (2022)",
     text: "In Bamenda in 2026, all 20 girls who attended our menstrual health discussion received a kit.",
     outreach: "/projects/archive/girls-dignity-menstrual-health-bamenda-jun-2026/",
     outreachLabel: "Girls’ Dignity outreach record",
@@ -67,7 +61,6 @@ const programPillars = [
   },
   {
     title: "Support for Mothers",
-    photo: getArchiveFeaturePhoto("prenatal-care-support-program", "en"),
     text: "In Muea in 2025, we brought essentials for about 15 mothers and their newborns during a hospital visit.",
     outreach: "/projects/archive/prenatal-care-support-program/",
     outreachLabel: "Mothers’ outreach record",
@@ -198,13 +191,6 @@ const actionPaths = [
       {
         programPillars.map((pillar) => (
           <li class="flex flex-col overflow-hidden rounded-xl border border-primary-200 bg-[#f7f5f0]">
-            {pillar.photo && (
-              <a href={pillar.photoHref || pillar.outreach} aria-label={pillar.photoLabel || pillar.outreachLabel} class="group relative isolate block focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white">
-                <img src={pillar.photo.src} width={pillar.photo.width} height={pillar.photo.height} alt={pillar.photo.alt}
-                  loading="lazy" decoding="async" class="aspect-[3/2] w-full bg-primary-50 object-cover" />
-                <span class="absolute inset-x-0 bottom-0 bg-primary-950/90 px-4 py-3 font-heading text-base font-semibold text-white group-hover:underline sm:text-lg">{pillar.photoLabel || pillar.title} <span aria-hidden="true">→</span></span>
-              </a>
-            )}
             <div class="flex flex-1 flex-col p-5 sm:p-6">
               <h3 class="font-heading text-xl font-semibold text-gray-900">{pillar.title}</h3>
               <p class="mt-2 flex-1 text-sm text-gray-700 leading-relaxed">{pillar.text}</p>

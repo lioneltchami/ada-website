@@ -16,7 +16,15 @@ type ApprovedAlbumAsset = {
   alt: MediaText;
   caption: MediaText;
 };
-const releasedSupportingMedia: readonly ApprovedAlbumAsset[] = [];
+const releasedSupportingMedia: readonly ApprovedAlbumAsset[] = [
+  {
+    archiveSlug: "back-to-school-sep-2022",
+    kind: "photo",
+    src: "/images/projects/aug-2022-classroom-rear.webp",
+    alt: { en: "Pupils seen from behind at wooden desks.", fr: "Des élèves vus de dos, assis à des pupitres en bois." },
+    caption: { en: "A classroom during the August 2022 Back to School Outreach in Buea.", fr: "Une salle de classe lors de notre action de rentrée scolaire à Buea en août 2022." },
+  },
+];
 
 export type GalleryAlbumItem =
   | { kind: "photo"; src: string; alt: string; caption: string; width?: number; height?: number; srcset?: string; date?: string }

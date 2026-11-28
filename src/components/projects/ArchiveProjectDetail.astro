@@ -6,6 +6,7 @@ import PageLayout from "../../layouts/PageLayout.astro";
 import { outreachTitleLocation } from "../../lib/outreach-display-title";
 import { archiveProjectDisplayTitle } from "../../lib/archive-project-display-title";
 import { getEligibleArchiveFeaturePhoto } from "../../lib/archive-eligible-feature-photo";
+import { getArchiveGalleryAlbumHref } from "../../lib/gallery-album-links";
 import type { ProjectArchiveEntry } from "../../lib/project-archive";
 import { hasReleased2023ProjectDocumentSet, reviewedProjectRecords } from "../../lib/reviewed-project-records";
 import { hasReleased2024ProjectDocumentSet } from "../../lib/reviewed-project-summaries-2024-25";
@@ -42,6 +43,7 @@ const sections = editorial?.sections ?? (fr
       { title: "What we can report", text: "The available record details are shown alongside this account. We do not have detailed results to share here." },
     ]);
 const featurePhoto = getEligibleArchiveFeaturePhoto(record, locale);
+const galleryAlbumHref = getArchiveGalleryAlbumHref(record, locale);
 const supportingPhotos = getArchiveSupportingPhotos(slug, locale)
   .filter(photo => photo.src !== featurePhoto?.src)
   .slice(0, 2);
@@ -119,6 +121,11 @@ const formatXaf = (amount: number) => formatArchiveFcfa(amount, locale);
           <img src={featurePhoto.src} alt={featurePhoto.alt} width={featurePhoto.width} height={featurePhoto.height} class="block h-auto w-full rounded-xl" loading="lazy" decoding="async" />
           <figcaption class="mt-2 text-sm leading-relaxed text-slate-600">{featurePhoto.caption}</figcaption>
         </figure>
+      )}
+      {galleryAlbumHref && (
+        <a data-archive-gallery-album={slug} href={galleryAlbumHref} class="mt-2 inline-flex min-h-11 items-center gap-2 rounded text-sm font-semibold text-primary-800 underline underline-offset-4 hover:text-primary-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700">
+          {fr ? "Voir cette action dans la galerie" : "See this outreach in the gallery"} <span aria-hidden="true">→</span>
+        </a>
       )}
       <div class="mt-7 space-y-6">
         {sections.map(({title:heading,text}) => {

@@ -32,6 +32,6 @@ it("groups media under the exact same bilingual outreach", () => {
     expect(album.thumbnail).not.toBe(album.items[0].src);
     expect(album.items.map(({ src }) => src)).toEqual(fr[index].items.map(({ src }) => src));
   }
-  expect(en.reduce((total, album) => total + album.items.length, 0)).toBe(15);
+  expect(en.reduce((total, album) => total + album.items.length, 0)).toBe(16);
   expect(en.filter(({ items }) => items.length > 1)).toHaveLength(5);
 });

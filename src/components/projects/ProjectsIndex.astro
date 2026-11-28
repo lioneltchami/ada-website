@@ -1,6 +1,8 @@
 ---
 import { outreachDisplayTitle, outreachTitleLocation } from "../../lib/outreach-display-title";
 import { featuredWomenOutreach, featuredWomenReportHref } from "../../data/featured-women-outreach";
+import { outreachEditorialStill } from "../../data/outreach-editorial-stills";
+import { getArchiveFeaturePhoto } from "../../data/archive-feature-photos";
 import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
@@ -41,6 +43,16 @@ const { locale = "en" } = Astro.props;
 const isFr = locale === "fr";
 const link = (path: string) => localePath(path, locale);
 const archiveHref = link("/projects/archive");
+const heroPhoto = getEditorialHeroPhoto("projects", locale);
+const featuredOutreaches = featuredWomenOutreach.map((outreach) => ({
+  ...outreach,
+  // Never substitute a photo from another outreach into an image-free card.
+  photo: outreach.slug === "prenatal-care-support-program"
+    ? outreachEditorialStill("mueaKitsRow", locale)
+    : getArchiveFeaturePhoto(outreach.slug, locale),
+}));
+const featuredPhotoSources = new Set(featuredOutreaches.flatMap(({ photo }) => photo ? [photo.src] : []));
+if (heroPhoto) featuredPhotoSources.add(heroPhoto.src);
 
 function fromSanity(p: SanityProject): ProjectCard {
   const lifecycle = getProjectLifecycleState(p, { locale });
@@ -104,6 +116,7 @@ const copy = isFr
       archiveReady: "Dossier d’archive disponible",
       details: "Voir le projet",
       viewRecord: "Voir le dossier",
+      featuredRecord: "Voir la fiche de l’action",
       donate: "Donner",
       stats: "Aperçu des projets",
       statUpcoming: "Actions à venir",
@@ -127,6 +140,7 @@ const copy = isFr
       archiveReady: "Archive record available",
       details: "View project",
       viewRecord: "View record",
+      featuredRecord: "View outreach record",
       donate: "Donate",
       stats: "Projects at a glance",
       statUpcoming: "Upcoming outreaches",
@@ -159,7 +173,7 @@ const groups = [
   <PageHero
     title={copy.title}
     subtitle={copy.intro}
-    photo={getEditorialHeroPhoto("projects", locale)}
+    photo={heroPhoto}
     compact
   >
     <a
@@ -187,13 +201,29 @@ const groups = [
     <h2 class="font-heading text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">{copy.featured}</h2>
     <p class="mt-3 max-w-prose text-sm leading-relaxed text-gray-700">{copy.featuredIntro}</p>
     <div class="mt-6 grid gap-5 md:grid-cols-3">
-      {featuredWomenOutreach.map((outreach) => (
-        <article class="flex min-w-0 flex-col rounded-lg border border-primary-100 bg-[#faf8f4] p-5 sm:p-6">
-          <p class="text-sm font-semibold text-primary-800">{outreach.context[locale]}</p>
-          <h3 class="mt-2 font-heading text-xl font-bold text-gray-900">{outreach.title[locale]}</h3>
-          <p class="mt-3 text-sm leading-relaxed text-gray-700">{outreach.evidence[locale]}</p>
-          <div class="mt-auto pt-4">
-            <a href={featuredWomenReportHref(outreach.slug)} class={secondaryLink}>{outreach.link[locale]}</a>
+      {featuredOutreaches.map((outreach) => (
+        <article data-featured-outreach={outreach.slug} class="flex min-w-0 flex-col overflow-hidden rounded-lg border border-primary-100 bg-[#faf8f4]">
+          {outreach.photo && (
+            <img
+              src={outreach.photo.src}
+              width={outreach.photo.width}
+              height={outreach.photo.height}
+              alt={outreach.photo.alt}
+              class="aspect-[16/9] w-full bg-primary-50 object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <div class="flex flex-1 flex-col p-5 sm:p-6">
+            <p class="text-sm font-semibold text-primary-800">{outreach.context[locale]}</p>
+            <h3 class="mt-2 font-heading text-xl font-bold text-gray-900">{outreach.title[locale]}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-gray-700">{outreach.evidence[locale]}</p>
+            <div class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-4">
+              <a href={link(`/projects/archive/${outreach.slug}/`)} class={`inline-flex min-h-11 items-center text-sm font-semibold text-primary-800 underline underline-offset-4 ${focus}`}>
+                {copy.featuredRecord}<span class="sr-only">: {outreach.title[locale]}</span>
+              </a>
+              <a href={featuredWomenReportHref(outreach.slug)} class={secondaryLink}>{outreach.link[locale]}</a>
+            </div>
           </div>
         </article>
       ))}
@@ -217,9 +247,10 @@ const groups = [
               : archived && project.archiveReady ? copy.archiveReady
               : project.hasEnded && project.status === "active" ? copy.closed
               : projectStatusLabel(project.status, locale);
-            const image = id === "project-records" && archived && project.archiveReady && !project.isAutoArchived
+            const recordPhoto = id === "project-records" && archived && project.archiveReady && !project.isAutoArchived
               ? archivePhotosByHref.get(project.archiveHref.replace(/\/$/, ""))
               : undefined;
+            const image = recordPhoto && !featuredPhotoSources.has(recordPhoto.src) ? recordPhoto : undefined;
             const start = projectDate(project.startDate) ?? projectDate(project.endDate);
             const end = projectDate(project.endDate);
             return (

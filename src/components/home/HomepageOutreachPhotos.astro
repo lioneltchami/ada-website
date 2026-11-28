@@ -1,7 +1,6 @@
 ---
 import Section from "../layout/Section.astro";
 import { getArchiveFeaturePhoto } from "../../data/archive-feature-photos";
-import { getArchiveSupportingPhotos } from "../../data/archive-supporting-photos";
 import { localePath, type Locale } from "../../i18n";
 
 interface Props {
@@ -24,25 +23,22 @@ const copy = fr
       next: "Next photos",
     };
 
-// Use photos already cleared for these exact outreach records. The baking
-// workshop is archival and is not a photograph of the Girls’ Dignity outreach.
+// Keep this strip distinct from the hero's archive photos. A crop or a
+// thumbnail of a hero photo is not a different photo.
 const records = [
   {
-    slug: "widow-support-food-cash-mar-2022",
-    title: fr ? "Visites aux veuves · Muea, mars 2022" : "Widows’ home visits · Muea, March 2022",
-    photo: getArchiveSupportingPhotos("widow-support-food-cash-mar-2022", locale)[0],
+    slug: "school-supply-distribution-feb-2022",
+    title: fr ? "Visite scolaire · Buea, février 2022" : "School visit · Buea, February 2022",
   },
   {
-    slug: "prenatal-care-support-program",
-    title: fr ? "Soutien aux mères · Muea, juillet 2025" : "Support for mothers · Muea, July 2025",
-    photo: getArchiveFeaturePhoto("prenatal-care-support-program", locale),
+    slug: "back-to-school-buea-2024",
+    title: fr ? "Rentrée scolaire · Buea, août 2024" : "Back to School Outreach · Buea, August 2024",
   },
   {
-    slug: "idp-girls-baking-training-jul-2022",
-    title: fr ? "Atelier de pâtisserie pour les filles · Buea, juillet 2022" : "Girls’ baking workshop · Buea, July 2022",
-    photo: getArchiveFeaturePhoto("idp-girls-baking-training-jul-2022", locale),
+    slug: "christmas-giving-dec-2022",
+    title: fr ? "Action de Noël · Buea, décembre 2022" : "Christmas Giving Outreach · Buea, December 2022",
   },
-];
+].map((record) => ({ ...record, photo: getArchiveFeaturePhoto(record.slug, locale) }));
 ---
 
 <Section id="outreach-photos" background="gray" padding="md">
