@@ -1,5 +1,6 @@
 ---
 import { getArchiveGalleryAlbums, isKnownGalleryArchive } from "../../data/gallery-albums";
+import { getGalleryAlbumId } from "../../lib/gallery-album-links";
 import { getEditorialHeroPhoto } from "../../data/editorial-hero-photos";
 import PageLayout from "../../layouts/PageLayout.astro";
 import PageHero from "../layout/PageHero.astro";
@@ -100,8 +101,11 @@ function countText(photos: number, videos: number) {
             <h2 id={`gallery-year-${year}`} class="mb-4 font-heading text-2xl font-bold text-gray-900">{year}</h2>
             <div class="grid items-start gap-3 lg:grid-cols-2">
               {albums.filter((album) => album.year === year).map((album) => (
-                <details class="gallery-album rounded-lg border border-gray-200 bg-white" data-gallery-album={album.archiveSlug}>
-                  <summary class="flex min-h-20 cursor-pointer list-none items-center gap-3 rounded-lg p-3 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700 sm:gap-4">
+                <details
+                  class="gallery-album rounded-lg border border-gray-200 bg-white"
+                  data-gallery-album={album.archiveSlug}
+                >
+                  <summary id={getGalleryAlbumId(album.archiveSlug)} class="flex min-h-20 cursor-pointer scroll-mt-28 list-none items-center gap-3 rounded-lg p-3 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700 sm:gap-4">
                     <img src={album.thumbnail} alt="" width="92" height="60" loading="lazy" decoding="async"
                       class="h-14 w-20 shrink-0 rounded bg-[#efece4] object-cover sm:h-[60px] sm:w-[92px]" />
                     <span class="min-w-0 flex-1">
@@ -163,4 +167,19 @@ function countText(photos: number, videos: number) {
 <style>
   summary::-webkit-details-marker { display: none; }
   details[open] > summary .gallery-chevron { transform: rotate(180deg); }
+  .gallery-album:has(> summary:target) { border-color: var(--color-primary-600); }
 </style>
+
+<script>
+  function openLinkedAlbum() {
+    const id = location.hash.slice(1);
+    if (!id.startsWith("album-")) return;
+    const summary = document.getElementById(id);
+    const album = summary?.parentElement;
+    if (summary?.tagName !== "SUMMARY" || !(album instanceof HTMLDetailsElement) || !album.hasAttribute("data-gallery-album")) return;
+    album.open = true;
+  }
+
+  openLinkedAlbum();
+  window.addEventListener("hashchange", openLinkedAlbum);
+</script>

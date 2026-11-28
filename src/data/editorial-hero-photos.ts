@@ -1,87 +1,38 @@
 import { getArchiveFeaturePhoto } from "./archive-feature-photos";
+import { getArchiveSupportingPhotos } from "./archive-supporting-photos";
+import { outreachEditorialStill } from "./outreach-editorial-stills";
 import { localePath, type Locale } from "../i18n";
 
-// Each header points to an exact, already-published outreach photo. The caption
-// identifies the record; it does not represent a current campaign or promise.
 const sources = {
-  about: {
-    slug: "first-widow-home-visits-2021",
-    en: "Our team, pictured from behind. Explore our first home visits.",
-    fr: "Notre équipe, vue de dos. Découvrez nos premières visites à domicile.",
-  },
-  projects: {
-    slug: "back-to-school-sep-2022",
-    en: "School supplies from our Buea outreach, August 2022",
-    fr: "Fournitures de notre action de rentrée à Buea, août 2022",
-  },
-  archive: {
-    slug: "christmas-giving-dec-2022",
-    en: "Supplies from our Christmas outreach, December 2022",
-    fr: "Articles de notre action de Noël, décembre 2022",
-  },
-  sponsor: {
-    slug: "prenatal-care-support-program",
-    en: "Supplies for mothers and babies in Muea, July 2025",
-    fr: "Articles pour les mères et les bébés à Muea, juillet 2025",
-  },
-  volunteer: {
-    slug: "idp-girls-baking-training-jul-2022",
-    en: "Preparing dough at our baking workshop, July 2022",
-    fr: "Préparation de la pâte lors de notre atelier de pâtisserie, juillet 2022",
-  },
-  gallery: {
-    slug: "back-to-school-buea-2024",
-    en: "From the archive: school supplies in Buea, August 2024",
-    fr: "Dans nos archives : fournitures scolaires à Buea, août 2024",
-  },
-  team: {
-    slug: "first-widow-home-visits-2021",
-    en: "Our team, pictured from behind",
-    fr: "Notre équipe, vue de dos",
-  },
-  contact: {
-    slug: "city-cleanup-may-2023",
-    en: "Our volunteers at the Buea cleanup, May 2023",
-    fr: "Nos bénévoles lors du nettoyage à Buea, mai 2023",
-  },
-  monthly: {
-    slug: "widow-support-food-cash-mar-2022",
-    en: "Supplies for widows’ home visits in Muea, March 2022",
-    fr: "Articles destinés aux visites aux veuves à Muea, mars 2022",
-  },
-  donate: {
-    slug: "widow-support-food-cash-mar-2022",
-    en: "Supplies for widows’ home visits in Muea, March 2022",
-    fr: "Articles destinés aux visites aux veuves à Muea, mars 2022",
-  },
-  resources: {
-    slug: "school-supply-distribution-feb-2022",
-    en: "Photo from our February 2022 school visit in Buea.",
-    fr: "Photo de notre visite scolaire de février 2022 à Buea.",
-    linkLabel: { en: "View outreach record", fr: "Voir la fiche de l’action" },
-  },
-  transparency: {
-    slug: "back-to-school-sep-2022",
-    en: "From our project records: school supplies in Buea, August 2022",
-    fr: "Dans nos dossiers : les fournitures scolaires à Buea, août 2022",
-  },
-  partners: {
-    slug: "christmas-giving-dec-2022",
-    en: "Supplies from our Christmas outreach, December 2022",
-    fr: "Articles de notre action de Noël, décembre 2022",
-  },
+  about: { slug: "city-cleanup-may-2025", still: "cleanupTeam" },
+  projects: { slug: "back-to-school-sep-2022" },
+  sponsor: { slug: "prenatal-care-support-program", still: "mueaHandoff" },
+  volunteer: { slug: "idp-girls-baking-training-jul-2022", supporting: true },
+  gallery: { slug: "back-to-school-buea-2024", still: "schoolSession24" },
+  contact: { slug: "city-cleanup-may-2025", still: "cleanupWork" },
+  transparency: { slug: "back-to-school-sep-2022", still: "schoolBooks22" },
+  // Keep documents and high-intent forms focused, and don't repeat a photo
+  // just to fill a header. The archive already shows its own record covers.
+  archive: null,
+  team: null,
+  monthly: null,
+  donate: null,
+  resources: null,
+  partners: { slug: "back-to-school-sep-2022", supporting: true },
 } as const;
 
 export function getEditorialHeroPhoto(page: keyof typeof sources, locale: Locale) {
   const source = sources[page];
-  const photo = getArchiveFeaturePhoto(source.slug, locale);
+  if (!source) return undefined;
+  const { slug } = source;
+  const photo = "still" in source
+    ? outreachEditorialStill(source.still, locale)
+    : "supporting" in source
+      ? getArchiveSupportingPhotos(slug, locale)[0]
+      : getArchiveFeaturePhoto(slug, locale);
   if (!photo) return undefined;
   return {
     ...photo,
-    credit: {
-      text: source[locale],
-      linkLabel: "linkLabel" in source ? source.linkLabel[locale] : undefined,
-      href: localePath(`/projects/archive/${source.slug}/`, locale),
-    },
+    credit: { text: photo.caption, href: localePath(`/projects/archive/${slug}/`, locale) },
   };
 }

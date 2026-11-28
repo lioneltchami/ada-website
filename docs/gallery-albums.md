@@ -5,6 +5,15 @@ website is the public showcase. Do not embed private albums, use a shared URL
 as a storage origin, or transfer an entire original album; choose specific
 publishable exports. The gallery has no separate service or login.
 
+Use both approaches: show real photos in context on Home, Projects, Stories,
+About/Team, and Sponsor, and keep the Gallery for browsing full outreach
+albums. Start with photos of people preparing, delivering, or taking part in
+the work. Use distinct photos across prominent marketing placements; a crop
+of the same frame is not a different photo. Matching archive and Gallery
+covers are an intentional exception so visitors can recognize the outreach.
+Keep document pages focused on documents, never use photo placeholders, and
+leave a photo out rather than using an unrelated outreach image.
+
 1. Match a media item to an exact completed outreach and year. Confirm where
    and when it was taken. Confirm permission for public website publication
    when people are identifiable, especially children or sensitive settings.
@@ -31,5 +40,6 @@ publishable exports. The gallery has no separate service or login.
    constitute publication clearance.
 5. Check both `/gallery/` and `/fr/gallery/` at phone and desktop widths. The
    album should open by keyboard, display its caption, and link to the same
-   outreach in the selected language. Leave albums with no cleared cover off
+   outreach in the selected language. Test the matching album link on the
+   completed outreach record as well. Leave albums with no cleared cover off
    the gallery.

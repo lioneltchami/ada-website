@@ -6,11 +6,12 @@ interface Props {
   record: string;
   locale: Locale;
   class?: string;
+  photoOverride?: ReturnType<typeof getArchiveFeaturePhoto>;
   size?: "wide" | "natural";
 }
 
-const { record, locale, class: className, size = "wide" } = Astro.props;
-const photo = getArchiveFeaturePhoto(record, locale);
+const { record, locale, class: className, size = "wide", photoOverride } = Astro.props;
+const photo = photoOverride ?? getArchiveFeaturePhoto(record, locale);
 const href = localePath(`/projects/archive/${record}/`, locale);
 ---
 

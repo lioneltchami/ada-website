@@ -34,10 +34,20 @@ const server = process.argv[2] ? null : createServer(async (req, res) => {
 if (server) await new Promise((done) => server.listen(0, "127.0.0.1", done));
 const origin = process.argv[2] ?? `http://127.0.0.1:${server.address().port}`;
 const expectedSlugs = [
-  "widow-support-food-cash-mar-2022",
-  "prenatal-care-support-program",
-  "idp-girls-baking-training-jul-2022",
+  "school-supply-distribution-feb-2022",
+  "back-to-school-buea-2024",
+  "christmas-giving-dec-2022",
 ];
+const expectedOutreachPhotos = new Set([
+  "march-2022-widows-team-supplies.webp",
+  "widows-outreach-2021.jpg",
+  "prenatal-care-support-program-feature.webp",
+  "idp-girls-baking-training-jul-2022.webp",
+  "school-supply-distribution-feb-2022.webp",
+  "back-to-school-buea-2024-feature.webp",
+  "christmas-giving-dec-2022.webp",
+  "city-cleanup-may-2025-feature.webp",
+]);
 let browser;
 try {
   browser = await chromium.launch();
@@ -51,6 +61,11 @@ try {
       const prefix = locale === "fr" ? "/fr" : "";
       await page.goto(origin + prefix + "/", { waitUntil: "domcontentloaded" });
       assert.equal(await page.locator("html").getAttribute("lang"), locale);
+      const outreachPhotos = await page.locator('main img[src^="/images/projects/"]').evaluateAll(
+        (images) => images.map((photo) => photo.getAttribute("src").split("/").at(-1)),
+      );
+      assert.equal(outreachPhotos.length, new Set(outreachPhotos).size, "Do not repeat an outreach photo on the homepage.");
+      assert.deepEqual(new Set(outreachPhotos), expectedOutreachPhotos);
       const hero = page.locator("[data-home-hero]");
       const headline = await hero.locator("h1").textContent();
       assert.match(headline, locale === "fr" ? /femmes et aux adolescentes/ : /women and adolescent girls/);

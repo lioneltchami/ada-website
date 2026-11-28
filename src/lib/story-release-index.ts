@@ -1,7 +1,7 @@
 import type { STORY_RELEASE_ORDER, StoryReleaseLocale, StoryReleaseSlug } from "./story-release-copy";
 
 export const STORY_RELEASE_HERO_IMAGE =
-	"https://cdn.sanity.io/images/rj2m21gk/production/02bd09413bd429a7cb9677a9368392642774671e-800x600.jpg";
+	"/images/projects/buea-labour-day-cleanup-2023.jpg";
 
 export const ESTHER_PORTRAIT_IMAGE =
 	"https://cdn.sanity.io/images/rj2m21gk/production/255a7b15b034d55c285edda099d7d1555b5ab347-600x900.jpg?w=400&auto=format";

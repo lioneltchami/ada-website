@@ -3,8 +3,7 @@ import { expect, it } from "vitest";
 import { getEditorialHeroPhoto } from "../src/data/editorial-hero-photos";
 
 it("uses reviewed local archive photos with bilingual credits linking the exact record", () => {
-  const pages = ["about", "projects", "archive", "sponsor", "volunteer", "gallery", "team", "contact",
-    "monthly", "donate", "resources", "transparency", "partners"] as const;
+  const pages = ["about", "projects", "sponsor", "volunteer", "gallery", "contact", "transparency", "partners"] as const;
   const src = pages.map((page) => {
     const en = getEditorialHeroPhoto(page, "en");
     const fr = getEditorialHeroPhoto(page, "fr");
@@ -18,7 +17,11 @@ it("uses reviewed local archive photos with bilingual credits linking the exact 
     expect(fr?.alt).not.toEqual(en?.alt);
     return en?.src;
   });
-  expect(new Set(src).size).toBeGreaterThanOrEqual(8);
+  expect(new Set(src).size).toBe(src.length);
+  for (const page of ["archive", "team", "monthly", "donate", "resources"] as const) {
+    expect(getEditorialHeroPhoto(page, "en")).toBeUndefined();
+    expect(getEditorialHeroPhoto(page, "fr")).toBeUndefined();
+  }
   expect(getEditorialHeroPhoto("gallery", "en")?.credit.href).toBe("/projects/archive/back-to-school-buea-2024/");
   expect(getEditorialHeroPhoto("sponsor", "en")?.src).not.toEqual(getEditorialHeroPhoto("resources", "en")?.src);
   expect(getEditorialHeroPhoto("sponsor", "en")?.credit.href).toBe("/projects/archive/prenatal-care-support-program/");

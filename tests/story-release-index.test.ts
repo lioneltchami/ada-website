@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -7,6 +7,8 @@ import {
 	STORY_CATEGORY_LABELS,
 	getStoryPhoto,
 } from "../src/lib/story-release-index";
+import { getArchiveFeaturePhoto } from "../src/data/archive-feature-photos";
+import { isWithheldGalleryAsset } from "../src/lib/gallery-media-clearance";
 import { STORY_RELEASE_COPY, STORY_RELEASE_ORDER } from "../src/lib/story-release-copy";
 
 describe("safe Story categories and hero presentation", () => {
@@ -50,8 +52,11 @@ describe("safe Story categories and hero presentation", () => {
 
 	it("uses only the approved cleanup photograph as a decorative split Stories hero", () => {
 		expect(STORY_RELEASE_HERO_IMAGE).toBe(
-			"https://cdn.sanity.io/images/rj2m21gk/production/02bd09413bd429a7cb9677a9368392642774671e-800x600.jpg",
+			"/images/projects/buea-labour-day-cleanup-2023.jpg",
 		);
+		expect(STORY_RELEASE_HERO_IMAGE).toBe(getArchiveFeaturePhoto("city-cleanup-may-2023", "en")?.src);
+		expect(isWithheldGalleryAsset(STORY_RELEASE_HERO_IMAGE)).toBe(false);
+		expect(existsSync(resolve(`public${STORY_RELEASE_HERO_IMAGE}`))).toBe(true);
 		const pageHero = readFileSync(resolve("src/components/layout/PageHero.astro"), "utf8");
 		const backdrop = readFileSync(resolve("src/components/layout/HeroBackdrop.astro"), "utf8");
 		const englishIndex = readFileSync(resolve("src/pages/stories/index.astro"), "utf8");
@@ -64,9 +69,11 @@ describe("safe Story categories and hero presentation", () => {
 		expect(backdrop).toContain("lg:object-contain");
 		expect(englishIndex).toContain("imageDecorative imageLayout=\"side\" preserveFraming");
 		expect(frenchIndex).toContain("imageDecorative imageLayout=\"side\" preserveFraming");
+		expect(englishIndex).toContain('href: "/projects/archive/city-cleanup-may-2023/"');
+		expect(frenchIndex).toContain('href: "/fr/projects/archive/city-cleanup-may-2023/"');
 		expect(verifier).toContain("assertApprovedStoryHero");
 		expect(helper).toContain("exactly one approved hero image");
-		expect(helper).toContain("02bd09413bd429a7cb9677a9368392642774671e-800x600.jpg");
+		expect(helper).toContain("/images/projects/buea-labour-day-cleanup-2023.jpg");
 		expect(helper).toContain("255a7b15b034d55c285edda099d7d1555b5ab347-600x900.jpg");
 		expect(verifier).toContain("Story should remain noindex pending owner fact review");
 	});

@@ -1,5 +1,5 @@
 export const APPROVED_STORY_HERO =
-	"https://cdn.sanity.io/images/rj2m21gk/production/02bd09413bd429a7cb9677a9368392642774671e-800x600.jpg";
+	"/images/projects/buea-labour-day-cleanup-2023.jpg";
 export const APPROVED_ESTHER_PORTRAIT =
 	"https://cdn.sanity.io/images/rj2m21gk/production/255a7b15b034d55c285edda099d7d1555b5ab347-600x900.jpg?w=400&auto=format";
 

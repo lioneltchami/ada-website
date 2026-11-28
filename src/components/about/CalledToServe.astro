@@ -1,5 +1,6 @@
 ---
 import { type Locale } from "../../i18n";
+import { outreachEditorialStill } from "../../data/outreach-editorial-stills";
 import OutreachPhoto from "../media/OutreachPhoto.astro";
 import Section from "../layout/Section.astro";
 
@@ -25,7 +26,7 @@ const label = isFr ? "Notre histoire" : "Our story";
       <div class="space-y-4 leading-relaxed text-gray-600">
         <slot />
       </div>
-      <OutreachPhoto record="city-cleanup-may-2023" locale={locale} class="max-w-sm" />
+      <OutreachPhoto record="city-cleanup-may-2025" locale={locale} photoOverride={outreachEditorialStill("cleanupBin", locale)} class="max-w-sm" />
     </div>
   </div>
 </Section>
