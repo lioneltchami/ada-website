@@ -1,3 +1,4 @@
+import { getTeamRoster } from "./team-profiles";
 import type { Locale } from "../i18n";
 
 export type TransparencyCopy = {
@@ -143,42 +144,11 @@ const en: TransparencyCopy = {
     downloadCertificate: "Download Registration Certificate (PDF)",
   },
   governance: {
-    intro:
-      "ADA is governed by a 12-member board with clear separation of powers, financial oversight, and local leadership in Cameroon.",
-    roles: [
-      {
-        role: "Founder & President",
-        name: "Lionel Tchami Nfada, MSc",
-        note: "International (Diaspora Leadership)",
-      },
-      { role: "Vice President", name: "Yasmiratu Ba'am" },
-      {
-        role: "Country Director",
-        name: "Naomi Ndababonga",
-        note: "Buea, SW Region (HQ)",
-      },
-      {
-        role: "Regional Coordinator, NW",
-        name: "Corrine Mbekenyui",
-        note: "Bamenda, NW Region",
-      },
-      { role: "Secretary General", name: "Vera Mbuh" },
-      { role: "Treasurer", name: "Christy Nkongho" },
-      { role: "Financial Secretary", name: "Melanie Timbu" },
-      { role: "Communications Officer", name: "Brenda Itoe" },
-      {
-        role: "M&E Officer",
-        name: "Nicole Faith",
-        note: "Philippines (Remote)",
-      },
-      {
-        role: "Spiritual Advisors",
-        name: "Boris Beye, Florence Ngassam, Lucy Hastings",
-      },
-    ],
-    principlesLabel: "Governance Principles:",
-    principles:
-      "Clear separation of powers (President ≠ Treasurer ≠ Secretary). Dual financial oversight (Treasurer + Financial Secretary). Local decision-making through Country Director. All executive roles are volunteer — zero paid leadership.",
+    intro: "ADA’s executive committee oversees the work. Our Cameroon operations team coordinates outreach and keeps records.",
+    roles: getTeamRoster("en").groups.flatMap((group) =>
+      group.profiles.map(({ name, role }) => ({ name, role }))),
+    principlesLabel: "Governance principles:",
+    principles: "The President, Secretary and Treasurer have distinct responsibilities. Financial oversight is separate from day-to-day bookkeeping, and the Country Director coordinates local delivery.",
   },
   fundFlow: {
     badge: "Donor Assurance",
@@ -199,7 +169,7 @@ const en: TransparencyCopy = {
       {
         step: "3",
         title: "Funds reconciled",
-        desc: "The Treasurer and Financial Secretary compare donation records, payment processor records, and program allocations.",
+        desc: "Financial reconciliation compares donation records, payment processor records, and program allocations.",
       },
       {
         step: "4",
@@ -458,42 +428,11 @@ const fr: TransparencyCopy = {
     downloadCertificate: "Télécharger le Certificat d'Enregistrement (PDF)",
   },
   governance: {
-    intro:
-      "ADA est dirigée par un conseil de 12 membres avec une séparation claire des pouvoirs, une supervision financière et un leadership local au Cameroun.",
-    roles: [
-      {
-        role: "Fondateur et Président",
-        name: "Lionel Tchami Nfada, MSc",
-        note: "International (Leadership Diaspora)",
-      },
-      { role: "Vice-Présidente", name: "Yasmiratu Ba'am" },
-      {
-        role: "Directrice Pays",
-        name: "Naomi Ndababonga",
-        note: "Buea, Région du Sud-Ouest (Siège)",
-      },
-      {
-        role: "Coordinatrice Régionale, NO",
-        name: "Corrine Mbekenyui",
-        note: "Bamenda, Région du Nord-Ouest",
-      },
-      { role: "Secrétaire Générale", name: "Vera Mbuh" },
-      { role: "Trésorière", name: "Christy Nkongho" },
-      { role: "Secrétaire Financière", name: "Melanie Timbu" },
-      { role: "Chargée de Communication", name: "Brenda Itoe" },
-      {
-        role: "Chargée du Suivi-Évaluation",
-        name: "Nicole Faith",
-        note: "Philippines (À distance)",
-      },
-      {
-        role: "Conseillers Spirituels",
-        name: "Boris Beye, Florence Ngassam, Lucy Hastings",
-      },
-    ],
-    principlesLabel: "Principes de Gouvernance :",
-    principles:
-      "Séparation claire des pouvoirs (Président ≠ Trésorier ≠ Secrétaire). Double supervision financière (Trésorière + Secrétaire Financière). Prise de décision locale par la Directrice Pays. Tous les postes de direction sont bénévoles — zéro leadership rémunéré.",
+    intro: "Le comité exécutif supervise les activités d’ADA. L’équipe opérationnelle au Cameroun coordonne les actions et tient les dossiers.",
+    roles: getTeamRoster("fr").groups.flatMap((group) =>
+      group.profiles.map(({ name, role }) => ({ name, role }))),
+    principlesLabel: "Principes de gouvernance :",
+    principles: "La présidence, le secrétariat et la trésorerie ont des responsabilités distinctes. Le contrôle financier est séparé de la tenue courante des comptes. La directrice pays coordonne les actions sur le terrain.",
   },
   fundFlow: {
     badge: "Assurance aux Donateurs",
@@ -514,7 +453,7 @@ const fr: TransparencyCopy = {
       {
         step: "3",
         title: "Fonds rapprochés",
-        desc: "La Trésorière et la Secrétaire Financière comparent les registres de dons, les relevés du processeur de paiement et les allocations de programme.",
+        desc: "Le rapprochement financier compare les registres de dons, les relevés du prestataire de paiement et les affectations aux programmes.",
       },
       {
         step: "4",
