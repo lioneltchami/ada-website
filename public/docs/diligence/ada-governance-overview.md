@@ -2,27 +2,37 @@
 
 **Organization:** Apoti Development Association (ADA)  
 **Registration:** N° 415/G.37/D14/VolI/SAAJP  
-**Last updated:** May 2026
+**Roster updated:** November 2026
 
 ## Governance structure
 
 ADA is led by volunteer executive leadership with program delivery coordinated through Cameroon-based team members and local volunteers.
 
-Public reports identify:
+The roster below lists the executive committee and operational roles covered by this overview; it is not a list of all directors.
 
-- Founder and President: Lionel Tchami Nfada
-- Country Director: Naomi Ndababonga
-- Regional Coordinator NW: Corrine Mbekenyui
-- Board oversight: 12-member board referenced in the 2024 annual report
+## Executive committee
 
-## Public leadership roles
+| Name | Role |
+| --- | --- |
+| Lionel Tchami Nfada | Founder & President |
+| Naomi Ndibabonga | Vice-President |
+| Vera Buh | Secretary |
+| Christy Nkongho | Treasurer |
+| Caleb Ketu | Executive Committee Member |
 
-| Role                         | Public responsibility                                                                                      |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| Founder and President        | Mission leadership, sponsor relationships, strategic direction, and accountability for public commitments. |
-| Country Director             | Cameroon-based delivery coordination, beneficiary follow-up, and partner communication.                    |
-| Regional Coordinator NW      | Regional planning, community coordination, and field-level reporting support.                              |
-| 12-member Board of Directors | Oversight of organizational direction, budgets, policies, and significant restricted gifts.                |
+The Founder & President leads the mission, sponsor relationships, and strategic direction, and is accountable for ADA’s public commitments. The board oversees organizational direction, budgets, policies, and significant restricted gifts.
+
+## Operations
+
+| Name | Role |
+| --- | --- |
+| Naomi Ndibabonga | Country Director |
+| Corrine Mbekenyui | Northwest Regional Coordinator |
+| Ba’am Yasmiratu | PR & Communications Lead |
+| Brenda Itoe | Safeguarding Focal Person |
+| Ashley B. | Accountant |
+
+Naomi Ndibabonga holds both roles. The Country Director coordinates Cameroon-based delivery, beneficiary follow-up, and partner communication. The Northwest Regional Coordinator supports regional planning, community coordination, and field reporting.
 
 ## Oversight practices
 

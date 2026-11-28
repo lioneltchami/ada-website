@@ -63,7 +63,7 @@ const singletonFields: Record<string, Record<string, unknown>> = {
     timeline: [
       { _key: "tl1", year: "2021", event: "Lionel Tchami Nfada founded ADA. Our team made its first widows’ home visits in Buea.", eventFr: "Lionel Tchami Nfada fonde ADA. L’équipe effectue ses premières visites à domicile auprès de veuves à Buea." },
       { _key: "tl3", year: "2023", event: "Back-to-school supplies in Buea.", eventFr: "Fournitures scolaires à Buea." },
-      { _key: "tl4", year: "2025", event: "Our outreach work began in Bamenda.", eventFr: "Début de nos actions à Bamenda." },
+      { _key: "tl4", year: "2024", event: "Our first Back to School Outreach in Bamenda.", eventFr: "Notre première action de rentrée scolaire à Bamenda." },
       { _key: "tl6", year: "2026", event: "Girls’ Dignity and Menstrual Health Outreach in Bamenda.", eventFr: "Action pour la dignité et la santé menstruelle des filles à Bamenda." },
     ],
   },

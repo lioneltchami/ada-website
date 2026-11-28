@@ -11,7 +11,11 @@ describe("About: Where We Work", () => {
     const cards = locations.match(/<article\b[\s\S]*?<\/article>/g) ?? [];
     expect(cards).toHaveLength(3);
     expect(cards[0]).toContain(`>${cameroon}</h3>`);
-    expect(cards[0]).toMatch(/Buea.*Bamenda.*2025/);
+    expect(cards[0]).toMatch(/Buea.*Bamenda.*2024/);
+    expect(locations).toContain('/images/projects/bamenda-back-to-school-2024-blurred.webp');
+    const home = readFileSync(path.replace('about.astro', 'index.astro'), 'utf8');
+    expect(home).toMatch(/year: "2024",[\s\S]*?title: "[^"]*Bamenda"/);
+    expect(home).not.toMatch(/year: "2025",\s*title: "[^"]*Bamenda"/);
     expect(cards[1]).toContain(">Nigeria</h3>");
     expect(cards[1]).toContain(sister);
     expect(cards[1]).toContain("Beacon of Blessings Charity Initiative.");

@@ -100,9 +100,14 @@ describe("About page program routes", () => {
   it("presents a verified founder and never reads seeded team profiles into the public roster", () => {
     for (const path of ["src/pages/team.astro", "src/pages/fr/team.astro"]) {
       const source = readFileSync(resolve(path), "utf8");
-      expect(source).toContain("Lionel Tchami Nfada");
+      expect(source).toContain("<TeamRoster");
       expect(source).not.toMatch(/getTeamMembers|Pastor Emmanuel|Pasteur Emmanuel/);
     }
+    const component = readFileSync(resolve("src/components/layout/TeamRoster.astro"), "utf8");
+    const profiles = readFileSync(resolve("src/data/team-profiles.ts"), "utf8");
+    expect(component).toContain("getTeamRoster");
+    expect(profiles).toContain("Lionel Tchami Nfada");
+    expect(component + profiles).not.toMatch(/getTeamMembers|Pastor Emmanuel|Pasteur Emmanuel/);
   });
 
   it("rejects traversal and withdrawn slugs even if they appear in the available set", () => {
